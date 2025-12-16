@@ -1,6 +1,6 @@
-# Monorepo Template - Shared Scripts Tools
+# Shell Shock - Shared Scripts Tools
 
-A collection of tools for managing shared configuration files used in the Monorepo Template
+A collection of tools for managing shared configuration files used in the Shell Shock
 monorepo.
 
 This library was generated with [Nx](https://nx.dev).

@@ -82,9 +82,8 @@ pre-push:
       run: pnpm exec storm-lint codeowners
     readme:
       glob: "**/*"
-      run:
-        'pnpm exec storm-git readme --templates="tools/readme-templates"
-        --project="@monorepo-template/monorepo" '
+      run: 'pnpm exec storm-git readme --templates="tools/readme-templates"
+        --project="@shell-shock/monorepo" '
       stage_fixed: true
     format:
       glob: "**/*"

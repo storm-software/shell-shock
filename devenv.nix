@@ -1,6 +1,6 @@
 { pkgs, inputs, ... }:
 {
-  name = "storm-software/monorepo-template";
+  name = "storm-software/shell-shock";
 
   dotenv.enable = true;
   dotenv.filename = [
