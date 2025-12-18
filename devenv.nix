@@ -12,4 +12,8 @@
   # https://devenv.sh/basics/
   env.DEFAULT_LOCALE = "en_US";
   env.DEFAULT_TIMEZONE = "America/New_York";
+
+  packages = with pkgs; [
+    zig
+  ];
 }

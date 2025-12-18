@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@shell-shock/tsconfig/base.json",
+  "display": "Shell Shock - Recommended Configuration",
+  "compilerOptions": {
+    "composite": true,
+    "incremental": true,
+    "isolatedModules": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "@shell-shock-playground/minimal",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "A package containing shared TypeScript configuration files (tsconfig.json) used in Shell Shock projects.",
+  "private": true,
+  "dependencies": {
+    "@shell-shock/core": "workspace:*"
+  }
+}

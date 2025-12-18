@@ -2,7 +2,7 @@
   "name": "@shell-shock/monorepo",
   "version": "0.0.1",
   "type": "module",
-  "description": "⚡ A monorepo containing TypeScript utility packages with shared functionality common to many Storm Software applications.",
+  "description": "🪖  A framework built to support the rapid development of fully-featured command-line interface applications.",
   "repository": {
     "type": "github",
     "url": "https://github.com/storm-software/shell-shock.git"
@@ -23,16 +23,12 @@
   },
   "license": "Apache-2.0",
   "private": true,
-  "packageManager": "pnpm@10.24.0",
+  "packageManager": "pnpm@10.26.0",
   "engines": {
     "node": ">=22.14.0",
     "pnpm": ">=10.24.0"
   },
-  "keywords": [
-    "storm-software",
-    "storm",
-    "sullivanpj"
-  ],
+  "keywords": ["storm-software", "storm", "sullivanpj"],
   "scripts": {
     "adr": "pnpm log4brains adr new",
     "adr-preview": "pnpm log4brains preview",
@@ -54,6 +50,7 @@
     "push": "git push origin main:main",
     "release": "pnpm exec zx tools/scripts/src/release.mjs",
     "start": "nx serve",
+    "typecheck": "pnpm exec zx tools/scripts/src/typecheck.mjs",
     "update-storm": "pnpm exec zx tools/scripts/src/update-storm.mjs",
     "view-config": "pnpm exec storm-config"
   },
@@ -65,18 +62,19 @@
     "@nx/js": "catalog:",
     "@nx/plugin": "catalog:",
     "@nx/workspace": "catalog:",
+    "@powerlines/nx": "catalog:",
+    "@powerlines/tsconfig": "catalog:",
     "@storm-software/config": "catalog:",
     "@storm-software/config-tools": "catalog:",
     "@storm-software/cspell": "catalog:",
-    "@storm-software/esbuild": "catalog:",
     "@storm-software/eslint": "catalog:",
     "@storm-software/git-tools": "catalog:",
     "@storm-software/linting-tools": "catalog:",
     "@storm-software/markdownlint": "catalog:",
+    "@storm-software/pnpm-tools": "catalog:",
     "@storm-software/prettier": "catalog:",
     "@storm-software/testing-tools": "catalog:",
     "@storm-software/tsconfig": "catalog:",
-    "@storm-software/unbuild": "catalog:",
     "@storm-software/untyped": "catalog:",
     "@storm-software/workspace-tools": "catalog:",
     "@types/jest": "catalog:",
@@ -92,7 +90,7 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "ts-jest": "catalog:",
-    "typescript": "5.8.3",
+    "typescript": "catalog:",
     "verdaccio": "catalog:",
     "zx": "catalog:"
   },

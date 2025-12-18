@@ -1,0 +1,13 @@
+{
+  "name": "@shell-shock-playground/powerlines",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "A package containing shared TypeScript configuration files (tsconfig.json) used in Shell Shock projects.",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "nx": "catalog:",
+    "powerlines": "catalog:",
+    "@powerlines/nx": "catalog:"
+  }
+}

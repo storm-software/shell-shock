@@ -1,0 +1,12 @@
+{
+  "name": "@shell-shock-playground/nx",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "A package containing shared TypeScript configuration files (tsconfig.json) used in Shell Shock projects.",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "nx": "catalog:",
+    "@shell-shock/nx": "workspace:*"
+  }
+}

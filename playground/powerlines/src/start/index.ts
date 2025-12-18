@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-            ⚡ Storm Software - Shell Shock
+                  ⚡ Storm Software - Shell Shock
 
  This code was released as part of the Shell Shock project. Shell Shock
  is maintained by Storm Software under the Apache-2.0 license, and is
@@ -16,10 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./bootstrap.mjs";
-export * from "./build.mjs";
-export * from "./format.mjs";
-export * from "./lint.mjs";
-export * from "./nuke.mjs";
-export * from "./release.mjs";
-export * from "./update-storm.mjs";
+function start() {
+  console.log("Shell Shock NX Playground Started");
+}
+
+export default start;

@@ -1,0 +1,133 @@
+{
+  "name": "@shell-shock/nx",
+  "version": "0.0.1",
+  "description": "A Nx plugin to support Shell Shock development in Nx monorepos.",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/shell-shock.git",
+    "directory": "packages/nx"
+  },
+  "private": false,
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "exports": {
+    "./package.json": "./package.json",
+    "./docs/*": "./docs/*",
+    "./migrations.json": "./migrations.json",
+    "./executors.json": "./executors.json",
+    "./executors/*/schema.json": "./dist/src/executors/*/schema.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./index": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./plugin": {
+      "import": {
+        "types": "./dist/src/plugin/index.d.mts",
+        "default": "./dist/src/plugin/index.mjs"
+      },
+      "require": {
+        "types": "./dist/src/plugin/index.d.ts",
+        "default": "./dist/src/plugin/index.js"
+      },
+      "default": {
+        "types": "./dist/src/plugin/index.d.ts",
+        "default": "./dist/src/plugin/index.js"
+      }
+    },
+    "./executors": {
+      "import": {
+        "types": "./dist/executors.d.mts",
+        "default": "./dist/executors.mjs"
+      },
+      "require": {
+        "types": "./dist/executors.d.ts",
+        "default": "./dist/executors.js"
+      },
+      "default": {
+        "types": "./dist/executors.d.ts",
+        "default": "./dist/executors.js"
+      }
+    },
+    "./executors/*/untyped": {
+      "import": {
+        "types": "./dist/src/executors/*/untyped.d.mts",
+        "default": "./dist/src/executors/*/untyped.mjs"
+      },
+      "require": {
+        "types": "./dist/src/executors/*/untyped.d.ts",
+        "default": "./dist/src/executors/*/untyped.js"
+      },
+      "default": {
+        "types": "./dist/src/executors/*/untyped.d.ts",
+        "default": "./dist/src/executors/*/untyped.js"
+      }
+    },
+    "./executors/*/executor": {
+      "import": {
+        "types": "./dist/src/executors/*/executor.d.mts",
+        "default": "./dist/src/executors/*/executor.mjs"
+      },
+      "require": {
+        "types": "./dist/src/executors/*/executor.d.ts",
+        "default": "./dist/src/executors/*/executor.js"
+      },
+      "default": {
+        "types": "./dist/src/executors/*/executor.d.ts",
+        "default": "./dist/src/executors/*/executor.js"
+      }
+    },
+    "./executors/*/executor.js": "./dist/src/executors/*/executor.js",
+    "./executors/*/executor.mjs": "./dist/src/executors/*/executor.mjs"
+  },
+  "typings": "dist/index.d.ts",
+  "dependencies": {
+    "@nx/devkit": "catalog:",
+    "@powerlines/nx": "catalog:",
+    "@storm-software/config": "catalog:",
+    "@storm-software/config-tools": "catalog:",
+    "@storm-software/workspace-tools": "catalog:",
+    "@stryke/type-checks": "catalog:",
+    "defu": "catalog:",
+    "@shell-shock/core": "workspace:*",
+    "powerlines": "catalog:",
+    "untyped": "catalog:"
+  },
+  "devDependencies": {
+    "@nx/workspace": "catalog:",
+    "@powerlines/plugin-tsup": "catalog:",
+    "@powerlines/plugin-untyped": "catalog:",
+    "@storm-software/testing-tools": "catalog:",
+    "@types/node": "catalog:",
+    "eslint-flat-config-utils": "catalog:",
+    "jsonc-eslint-parser": "catalog:",
+    "powerlines": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "executors": "./executors.json"
+}

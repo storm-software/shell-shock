@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-            ⚡ Storm Software - Shell Shock
+                  ⚡ Storm Software - Shell Shock
 
  This code was released as part of the Shell Shock project. Shell Shock
  is maintained by Storm Software under the Apache-2.0 license, and is
@@ -22,5 +22,9 @@ Error.stackTraceLimit = Number.POSITIVE_INFINITY;
 
 /** @type {import('eslint').Linter.Config[]} */
 export default getStormConfig({
-  name: "shell-shock"
+  name: "shell-shock",
+  react: {},
+  nx: {
+    depsCheck: true
+  }
 });

@@ -1,0 +1,47 @@
+{
+  "name": "playground-powerlines",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "playground/powerlines/src",
+  "targets": {
+    "clean": {
+      "cache": false,
+      "executor": "@powerlines/nx:clean",
+      "options": {
+        "outputPath": "dist/playground/powerlines"
+      }
+    },
+    "prepare": {
+      "cache": true,
+      "inputs": ["typescript", "^production"],
+      "outputs": ["{projectRoot}/.storm"],
+      "executor": "@powerlines/nx:prepare",
+      "options": {
+        "entry": "{sourceRoot}/commands",
+        "mode": "development"
+      }
+    },
+    "build": {
+      "cache": true,
+      "inputs": ["typescript", "^production"],
+      "outputs": ["{options.outputPath}"],
+      "executor": "@powerlines/nx:build",
+      "dependsOn": ["prepare"],
+      "options": {
+        "entry": "{sourceRoot}/commands",
+        "outputPath": "dist/playground/powerlines",
+        "mode": "development"
+      }
+    },
+    "docs": {
+      "cache": true,
+      "inputs": ["typescript", "^production"],
+      "outputs": ["{projectRoot}/docs"],
+      "executor": "@powerlines/nx:docs",
+      "dependsOn": ["prepare", "build"],
+      "options": {
+        "entry": "{sourceRoot}/commands"
+      }
+    }
+  }
+}

@@ -4,10 +4,28 @@
   "extends": "./tsconfig.base.json",
   "references": [
     {
-      "path": "./tools/config"
+      "path": "./packages/core"
     },
     {
-      "path": "./tools/scripts"
+      "path": "./packages/tsconfig"
+    },
+    {
+      "path": "./packages/nx"
+    },
+    {
+      "path": "./packages/plugin-opentui"
+    },
+    {
+      "path": "./packages/plugin-style-dictionary"
+    },
+    {
+      "path": "./playground/nx"
+    },
+    {
+      "path": "./playground/minimal"
+    },
+    {
+      "path": "./playground/powerlines"
     }
   ],
   "files": []
