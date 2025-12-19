@@ -13,7 +13,6 @@
   "exports": {
     "./package.json": "./package.json",
     "./docs/*": "./docs/*",
-    "./migrations.json": "./migrations.json",
     "./executors.json": "./executors.json",
     "./executors/*/schema.json": "./dist/src/executors/*/schema.json",
     ".": {

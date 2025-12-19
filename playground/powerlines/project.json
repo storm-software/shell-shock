@@ -14,10 +14,11 @@
     "prepare": {
       "cache": true,
       "inputs": ["typescript", "^production"],
-      "outputs": ["{projectRoot}/.storm"],
+      "outputs": ["{projectRoot}/.powerlines"],
       "executor": "@powerlines/nx:prepare",
+      "dependsOn": ["^build"],
       "options": {
-        "entry": "{sourceRoot}/commands",
+        "entry": "{sourceRoot}",
         "mode": "development"
       }
     },
@@ -28,7 +29,7 @@
       "executor": "@powerlines/nx:build",
       "dependsOn": ["prepare"],
       "options": {
-        "entry": "{sourceRoot}/commands",
+        "entry": "{sourceRoot}",
         "outputPath": "dist/playground/powerlines",
         "mode": "development"
       }
@@ -40,7 +41,7 @@
       "executor": "@powerlines/nx:docs",
       "dependsOn": ["prepare", "build"],
       "options": {
-        "entry": "{sourceRoot}/commands"
+        "entry": "{sourceRoot}"
       }
     }
   }

@@ -29,7 +29,7 @@
       "plugin": "@powerlines/nx/plugin",
       "options": {
         "prepare": {
-          "dependsOn": ["^build", "typecheck"]
+          "dependsOn": ["^build"]
         },
         "build": {
           "dependsOn": ["prepare"]

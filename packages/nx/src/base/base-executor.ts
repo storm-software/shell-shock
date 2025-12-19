@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { ExecutorContext, PromiseExecutor } from "@nx/devkit";
-import { ShellShockAPI } from "@shell-shock/core/api";
+import { ShellShockAPI } from "@shell-shock/core";
 import { writeError } from "@storm-software/config-tools/logger";
 import type { StormWorkspaceConfig } from "@storm-software/config/types";
 import { withRunExecutor } from "@storm-software/workspace-tools/base/base-executor";

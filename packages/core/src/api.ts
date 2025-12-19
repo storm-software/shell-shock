@@ -26,7 +26,7 @@ import type {
   LintInlineConfig,
   PrepareInlineConfig
 } from "powerlines/types/config";
-import { plugin } from "./powerlines";
+import { shellShock as plugin } from "./powerlines";
 import type { UserConfig } from "./types/config";
 
 export class ShellShockAPI {

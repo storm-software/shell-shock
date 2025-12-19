@@ -9,14 +9,14 @@
       "inputs": ["typescript", "^production"],
       "outputs": ["{options.outputPath}"],
       "executor": "@powerlines/nx:build",
-      "dependsOn": ["prepare"]
+      "dependsOn": ["prepare", "^build"]
     },
     "build": {
       "cache": true,
       "inputs": ["typescript", "^production"],
       "outputs": ["{projectRoot}/dist", "{workspaceRoot}/dist/packages/nx"],
       "executor": "nx:run-commands",
-      "dependsOn": ["build-base", "typecheck"],
+      "dependsOn": ["build-base"],
       "options": {
         "commands": [
           "pnpm copyfiles LICENSE dist/packages/nx",

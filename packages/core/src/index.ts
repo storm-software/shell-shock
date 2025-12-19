@@ -18,5 +18,5 @@
 
 export * from "./api";
 export * from "./config";
-export { plugin } from "./powerlines";
+export { shellShock } from "./powerlines";
 export * from "./types";

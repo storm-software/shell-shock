@@ -27,7 +27,7 @@ import type { Options } from "./types/config";
 /**
  * The core Powerlines plugin to build Shell Shock projects.
  */
-export const plugin = <TContext extends BuildContext = BuildContext>(
+export const shellShock = <TContext extends BuildContext = BuildContext>(
   options: Options = {}
 ): Plugin<TContext> => {
   return {
@@ -54,4 +54,4 @@ export const plugin = <TContext extends BuildContext = BuildContext>(
   };
 };
 
-export default plugin;
+export default shellShock;

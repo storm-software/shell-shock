@@ -16,6 +16,7 @@
       "inputs": ["typescript", "^production"],
       "outputs": ["{projectRoot}/.shell-shock"],
       "executor": "@shell-shock/nx:prepare",
+      "dependsOn": ["^build"],
       "options": {
         "entry": "{sourceRoot}/commands",
         "mode": "development"
