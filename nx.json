@@ -16,6 +16,7 @@
     {
       "plugin": "@nx/js/typescript",
       "options": {
+        "compiler": "tsgo",
         "typecheck": true,
         "build": false,
         "verboseOutput": false

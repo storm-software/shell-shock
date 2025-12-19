@@ -79,6 +79,7 @@
     "@storm-software/workspace-tools": "catalog:",
     "@types/jest": "catalog:",
     "@types/node": "catalog:",
+    "@typescript/native-preview": "catalog:",
     "copyfiles": "catalog:",
     "eslint": "catalog:",
     "jest": "catalog:",
