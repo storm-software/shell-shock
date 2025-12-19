@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/plugin-opentui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "A package containing a Shell Shock plugin to generate source code given a list design tokens.",
   "repository": {
