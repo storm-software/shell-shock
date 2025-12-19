@@ -11,17 +11,15 @@
     }
   ],
   "include": [
-    "executors.ts",
-    "generators.ts",
-    "index.ts",
-    "**/*.json",
     "src/**/*.ts",
     "src/**/*.d.ts",
-    "powerlines.config.ts"
+    "powerlines.config.ts",
+    "**/*.json"
   ],
   "exclude": [
     "jest.config.ts",
     "src/generators/**/files/**/*",
+    "src/**/untyped.ts",
     "src/**/*.spec.ts",
     "src/**/*.test.ts"
   ]

@@ -14,35 +14,35 @@ catalog:
   '@nx/workspace': ^22.3.1
   '@opentui/core': ^0.1.61
   '@opentui/react': ^0.1.61
-  '@powerlines/nx': ^0.11.8
-  '@powerlines/plugin-deepkit': ^0.10.86
-  '@powerlines/plugin-env': ^0.13.83
-  '@powerlines/plugin-plugin': ^0.12.29
-  '@powerlines/plugin-react': ^0.1.77
-  '@powerlines/plugin-style-dictionary': ^0.1.83
-  '@powerlines/plugin-tsup': ^0.12.86
-  '@powerlines/plugin-untyped': ^0.2.29
-  '@powerlines/plugin-vite': ^0.14.77
-  '@powerlines/tsconfig': ^0.2.44
-  '@storm-software/build-tools': ^0.158.72
-  '@storm-software/config': ^1.134.72
-  '@storm-software/config-tools': ^1.188.72
-  '@storm-software/cspell': ^0.45.71
-  '@storm-software/esbuild': ^0.53.72
-  '@storm-software/eslint': ^0.169.73
-  '@storm-software/git-tools': ^2.124.55
-  '@storm-software/linting-tools': ^1.132.72
-  '@storm-software/markdownlint': ^0.30.71
-  '@storm-software/pnpm-tools': ^0.6.74
-  '@storm-software/prettier': ^0.57.71
-  '@storm-software/testing-tools': ^1.119.71
-  '@storm-software/tsconfig': ^0.47.71
-  '@storm-software/tsdoc': ^0.13.71
-  '@storm-software/unbuild': ^0.57.72
-  '@storm-software/untyped': ^0.24.53
-  '@storm-software/workspace-tools': ^1.294.18
+  '@powerlines/nx': ^0.11.9
+  '@powerlines/plugin-deepkit': ^0.10.87
+  '@powerlines/plugin-env': ^0.13.84
+  '@powerlines/plugin-plugin': ^0.12.30
+  '@powerlines/plugin-react': ^0.1.78
+  '@powerlines/plugin-style-dictionary': ^0.1.84
+  '@powerlines/plugin-tsup': ^0.12.87
+  '@powerlines/plugin-untyped': ^0.2.30
+  '@powerlines/plugin-vite': ^0.14.78
+  '@powerlines/tsconfig': ^0.2.45
+  '@storm-software/build-tools': ^0.158.73
+  '@storm-software/config': ^1.134.73
+  '@storm-software/config-tools': ^1.188.73
+  '@storm-software/cspell': ^0.45.72
+  '@storm-software/esbuild': ^0.53.73
+  '@storm-software/eslint': ^0.169.74
+  '@storm-software/git-tools': ^2.124.56
+  '@storm-software/linting-tools': ^1.132.73
+  '@storm-software/markdownlint': ^0.30.72
+  '@storm-software/pnpm-tools': ^0.6.75
+  '@storm-software/prettier': ^0.57.72
+  '@storm-software/testing-tools': ^1.119.72
+  '@storm-software/tsconfig': ^0.47.72
+  '@storm-software/tsdoc': ^0.13.72
+  '@storm-software/unbuild': ^0.57.73
+  '@storm-software/untyped': ^0.24.54
+  '@storm-software/workspace-tools': ^1.294.19
   '@stryke/convert': ^0.6.28
-  '@stryke/fs': ^0.33.24
+  '@stryke/fs': ^0.33.25
   '@stryke/string-format': ^0.12.28
   '@stryke/type-checks': ^0.5.13
   '@stryke/types': ^0.10.27
@@ -63,7 +63,7 @@ catalog:
   lefthook: ^1.13.6
   log4brains: ^1.1.0
   nx: ^22.3.1
-  powerlines: ^0.32.7
+  powerlines: ^0.32.8
   prettier: ^3.7.4
   react: ^19.2.3
   react-dom: ^19.2.3

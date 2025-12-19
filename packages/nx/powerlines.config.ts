@@ -23,16 +23,21 @@ import { defineConfig } from "powerlines";
 export default defineConfig({
   name: "nx",
   entry: [
-    "./index.ts",
-    "./executors.ts",
-    "./generators.ts",
+    "./src/index.ts",
     "./src/plugin/index.ts",
-    "./src/executors/*/executor.ts",
-    "./src/executors/*/untyped.ts",
-    "./src/generators/*/generator.ts",
-    "./src/generators/*/untyped.ts"
+    "./src/executors.ts",
+    "./src/executors/*/executor.ts"
   ],
+  output: {
+    buildPath: "./packages/nx/dist/src"
+  },
   plugins: [untyped(), tsup()],
-  clean: false,
-  skipNodeModulesBundle: true
+  build: {
+    clean: false,
+    platform: "node",
+    experimentalDts: true,
+    dts: false,
+    silent: true,
+    skipNodeModulesBundle: true
+  }
 });
