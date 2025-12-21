@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import type { PluginContext } from "powerlines/types/context";
+import type { TsdownPluginContext } from "@powerlines/plugin-tsdown";
 import type { ResolvedEntryTypeDefinition } from "powerlines/types/resolved";
 import type { ResolvedConfig } from "./config";
 
@@ -67,16 +67,20 @@ export type CommandArg = {
     }
 );
 
-export interface CommandTree {
+export interface CommandEntry {
   path: string[];
   name: string;
   title: string;
   description?: string;
+  isVirtual: boolean;
+  entry: ResolvedEntryTypeDefinition;
+}
+
+export type CommandTree = CommandEntry & {
   args: CommandArg[];
   parent: null | CommandTree;
   children: Record<string, CommandTree>;
-  entry?: ResolvedEntryTypeDefinition;
-}
+};
 
 export interface CommandRelations {
   parent: string | null;
@@ -85,8 +89,19 @@ export interface CommandRelations {
 
 export type BuildContext<
   TResolvedConfig extends ResolvedConfig = ResolvedConfig
-> = PluginContext<TResolvedConfig> & {
-  shellShock: {
-    commands: CommandTree;
-  };
+> = TsdownPluginContext<TResolvedConfig> & {
+  /**
+   * The root path where commands are located.
+   */
+  commandsRoot: string;
+
+  /**
+   * The list of commands discovered in the project.
+   */
+  commands: CommandEntry[];
+
+  /**
+   * The command hierarchy tree.
+   */
+  tree: CommandTree;
 };

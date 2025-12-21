@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { defu } from "defu";
+import type { PluginConfig } from "powerlines";
 import { createPowerlines } from "powerlines";
 import type { PowerlinesAPI } from "powerlines/api";
 import type {
@@ -27,15 +27,19 @@ import type {
   PrepareInlineConfig
 } from "powerlines/types/config";
 import { shellShock as plugin } from "./powerlines";
+import type { BuildContext } from "./types/build";
 import type { UserConfig } from "./types/config";
 
 export class ShellShockAPI {
   #powerlines: PowerlinesAPI;
 
   public static async from(config: UserConfig = {}): Promise<ShellShockAPI> {
-    const powerlines = await createPowerlines(
-      defu(config, { plugins: [plugin()] })
-    );
+    const powerlines = await createPowerlines({
+      ...config,
+      plugins: ((config.plugins ?? []) as PluginConfig<BuildContext>[]).concat(
+        plugin()
+      )
+    });
 
     return new ShellShockAPI(powerlines);
   }

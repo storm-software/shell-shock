@@ -8,6 +8,8 @@
   "devDependencies": {
     "nx": "catalog:",
     "powerlines": "catalog:",
-    "@powerlines/nx": "catalog:"
-  }
+    "@powerlines/nx": "catalog:",
+    "@shell-shock/core": "workspace:*"
+  },
+  "bin": { "playground-powerlines": "./bin/playground-powerlines.mjs" }
 }

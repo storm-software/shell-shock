@@ -111,7 +111,6 @@
     "@storm-software/workspace-tools": "catalog:",
     "@stryke/type-checks": "catalog:",
     "defu": "catalog:",
-    "@shell-shock/core": "workspace:*",
     "powerlines": "catalog:",
     "untyped": "catalog:"
   },

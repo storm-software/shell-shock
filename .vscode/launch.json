@@ -2,36 +2,18 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run Extension",
-      "type": "extensionHost",
-      "request": "launch",
-      "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}/node_modules/@acidic/language"
-      ]
-    },
-    {
-      "name": "Run CodeGen",
-      "type": "extensionHost",
-      "request": "launch",
-      "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}/node_modules/acidic"
-      ]
-    },
-    {
-      "name": "Attach",
-      "port": 9229,
-      "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "node"
-    },
-    {
-      "name": "Attach to Language Server",
+      "name": "Debug Playground - Powerlines Build",
       "type": "node",
-      "port": 6009,
-      "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
-      "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/node_modules/@acidic/language/**/*.js"]
+      "request": "launch",
+      "program": "/nix/store/kyfc6ga8ckzc0irgy69jc5slfgz1w3gk-pnpm-10.25.0/bin/pnpm",
+      "args": [
+        "nx",
+        "run",
+        "playground-powerlines:build:development",
+        "--outputStyle=dynamic-legacy"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
     }
   ]
 }

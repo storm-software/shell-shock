@@ -16,8 +16,10 @@
 
  ------------------------------------------------------------------- */
 
-import type { UserConfig as PowerlinesUserConfig } from "powerlines/types/config";
-import type { ResolvedConfig as PowerlinesResolvedConfig } from "powerlines/types/resolved";
+import type {
+  TsdownPluginResolvedConfig,
+  TsdownPluginUserConfig
+} from "@powerlines/plugin-tsdown";
 
 export interface Options {
   /**
@@ -57,13 +59,13 @@ export interface Options {
 
 export type UserConfig = Partial<
   Omit<
-    PowerlinesUserConfig,
+    TsdownPluginUserConfig,
     "type" | "framework" | "singleBuild" | "environments"
   >
 > &
   Options;
 
-export type ResolvedConfig = PowerlinesResolvedConfig &
+export type ResolvedConfig = TsdownPluginResolvedConfig &
   Required<
     Omit<Options, "bin"> & {
       bin: string[];

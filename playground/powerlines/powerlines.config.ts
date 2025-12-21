@@ -21,7 +21,7 @@ import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines";
 
 const config: UserConfig = defineConfig({
-  name: "shell-shock-playground-powerlines",
+  name: "playground-powerlines",
   skipCache: true,
   plugins: [plugin()]
 });

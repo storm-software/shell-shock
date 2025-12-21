@@ -6,10 +6,7 @@
   "targets": {
     "clean": {
       "cache": false,
-      "executor": "@powerlines/nx:clean",
-      "options": {
-        "outputPath": "dist/playground/powerlines"
-      }
+      "executor": "@powerlines/nx:clean"
     },
     "prepare": {
       "cache": true,
@@ -18,7 +15,6 @@
       "executor": "@powerlines/nx:prepare",
       "dependsOn": ["^build"],
       "options": {
-        "entry": "{sourceRoot}",
         "mode": "development"
       }
     },
@@ -29,8 +25,6 @@
       "executor": "@powerlines/nx:build",
       "dependsOn": ["prepare"],
       "options": {
-        "entry": "{sourceRoot}",
-        "outputPath": "dist/playground/powerlines",
         "mode": "development"
       }
     },
@@ -39,10 +33,7 @@
       "inputs": ["typescript", "^production"],
       "outputs": ["{projectRoot}/docs"],
       "executor": "@powerlines/nx:docs",
-      "dependsOn": ["prepare", "build"],
-      "options": {
-        "entry": "{sourceRoot}"
-      }
+      "dependsOn": ["prepare", "build"]
     }
   }
 }

@@ -7,6 +7,8 @@
   "dependencies": {},
   "devDependencies": {
     "nx": "catalog:",
-    "@shell-shock/nx": "workspace:*"
-  }
+    "@shell-shock/nx": "workspace:*",
+    "@shell-shock/core": "workspace:*"
+  },
+  "bin": { "playground-nx": "./bin/playground-nx.mjs" }
 }

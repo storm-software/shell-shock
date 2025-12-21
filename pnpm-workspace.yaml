@@ -6,24 +6,25 @@ packages:
 catalog:
   '@ls-lint/ls-lint': ^2.3.1
   '@microsoft/api-extractor': ^7.49.2
-  '@nx/devkit': ^22.3.1
-  '@nx/eslint-plugin': ^22.3.1
-  '@nx/jest': ^22.3.1
-  '@nx/js': ^22.3.1
-  '@nx/plugin': ^22.3.1
-  '@nx/workspace': ^22.3.1
-  '@opentui/core': ^0.1.61
-  '@opentui/react': ^0.1.61
-  '@powerlines/nx': ^0.11.9
-  '@powerlines/plugin-deepkit': ^0.10.87
-  '@powerlines/plugin-env': ^0.13.84
-  '@powerlines/plugin-plugin': ^0.12.30
-  '@powerlines/plugin-react': ^0.1.78
-  '@powerlines/plugin-style-dictionary': ^0.1.84
-  '@powerlines/plugin-tsup': ^0.12.87
-  '@powerlines/plugin-untyped': ^0.2.30
-  '@powerlines/plugin-vite': ^0.14.78
-  '@powerlines/tsconfig': ^0.2.45
+  '@nx/devkit': ^22.3.3
+  '@nx/eslint-plugin': ^22.3.3
+  '@nx/jest': ^22.3.3
+  '@nx/js': ^22.3.3
+  '@nx/plugin': ^22.3.3
+  '@nx/workspace': ^22.3.3
+  '@opentui/core': ^0.1.62
+  '@opentui/react': ^0.1.62
+  '@powerlines/nx': ^0.11.15
+  '@powerlines/plugin-deepkit': ^0.10.93
+  '@powerlines/plugin-env': ^0.13.90
+  '@powerlines/plugin-plugin': ^0.12.36
+  '@powerlines/plugin-react': ^0.1.84
+  '@powerlines/plugin-style-dictionary': ^0.1.90
+  '@powerlines/plugin-tsdown': ^0.1.36
+  '@powerlines/plugin-tsup': ^0.12.93
+  '@powerlines/plugin-untyped': ^0.2.36
+  '@powerlines/plugin-vite': ^0.14.84
+  '@powerlines/tsconfig': ^0.2.47
   '@storm-software/build-tools': ^0.158.73
   '@storm-software/config': ^1.134.73
   '@storm-software/config-tools': ^1.188.73
@@ -41,11 +42,14 @@ catalog:
   '@storm-software/unbuild': ^0.57.73
   '@storm-software/untyped': ^0.24.54
   '@storm-software/workspace-tools': ^1.294.19
-  '@stryke/convert': ^0.6.28
-  '@stryke/fs': ^0.33.25
-  '@stryke/string-format': ^0.12.28
-  '@stryke/type-checks': ^0.5.13
-  '@stryke/types': ^0.10.27
+  '@stryke/convert': ^0.6.29
+  '@stryke/fs': ^0.33.26
+  '@stryke/helpers': ^0.9.31
+  '@stryke/json': ^0.9.32
+  '@stryke/path': ^0.24.0
+  '@stryke/string-format': ^0.12.29
+  '@stryke/type-checks': ^0.5.14
+  '@stryke/types': ^0.10.28
   '@types/jest': ^29.5.14
   '@types/node': ^24.10.4
   '@types/react': ^19.2.7
@@ -63,8 +67,8 @@ catalog:
   jsonc-eslint-parser: ^2.4.2
   lefthook: ^1.13.6
   log4brains: ^1.1.0
-  nx: ^22.3.1
-  powerlines: ^0.32.8
+  nx: ^22.3.3
+  powerlines: ^0.34.2
   prettier: ^3.7.4
   react: ^19.2.3
   react-dom: ^19.2.3

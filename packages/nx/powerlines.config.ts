@@ -35,7 +35,6 @@ export default defineConfig({
   build: {
     clean: false,
     platform: "node",
-    experimentalDts: true,
     dts: false,
     silent: true,
     skipNodeModulesBundle: true

@@ -142,14 +142,25 @@
       }
     }
   },
-  "files": ["dist/**/*"],
-  "keywords": ["shell-shock", "powerlines", "storm-software"],
+  "files": [
+    "dist/**/*"
+  ],
+  "keywords": [
+    "shell-shock",
+    "powerlines",
+    "storm-software"
+  ],
   "dependencies": {
     "@powerlines/plugin-plugin": "catalog:",
-    "defu": "catalog:",
-    "powerlines": "catalog:",
+    "@powerlines/plugin-tsdown": "catalog:",
     "@stryke/convert": "catalog:",
-    "@stryke/string-format": "catalog:"
+    "@stryke/helpers": "catalog:",
+    "@stryke/json": "catalog:",
+    "@stryke/path": "catalog:",
+    "@stryke/string-format": "catalog:",
+    "@stryke/type-checks": "catalog:",
+    "defu": "catalog:",
+    "powerlines": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",

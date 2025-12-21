@@ -6,10 +6,7 @@
   "targets": {
     "clean": {
       "cache": false,
-      "executor": "@shell-shock/nx:clean",
-      "options": {
-        "outputPath": "dist/playground/nx"
-      }
+      "executor": "@shell-shock/nx:clean"
     },
     "prepare": {
       "cache": true,
@@ -18,7 +15,6 @@
       "executor": "@shell-shock/nx:prepare",
       "dependsOn": ["^build"],
       "options": {
-        "entry": "{sourceRoot}/commands",
         "mode": "development"
       }
     },
@@ -29,8 +25,6 @@
       "executor": "@shell-shock/nx:build",
       "dependsOn": ["prepare"],
       "options": {
-        "entry": "{sourceRoot}/commands",
-        "outputPath": "dist/playground/nx",
         "mode": "development"
       }
     },
@@ -39,10 +33,7 @@
       "inputs": ["typescript", "^production"],
       "outputs": ["{projectRoot}/docs"],
       "executor": "@shell-shock/nx:docs",
-      "dependsOn": ["prepare", "build"],
-      "options": {
-        "entry": "{sourceRoot}/commands"
-      }
+      "dependsOn": ["prepare", "build"]
     }
   }
 }

@@ -16,25 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import { defu } from "defu";
-import type { UserConfig as PowerlinesUserConfig } from "powerlines/types/config";
-import type { UserConfig } from "../types/config";
-
-export async function resolveConfig(
-  config: UserConfig
-): Promise<PowerlinesUserConfig & UserConfig> {
-  const resolvedConfig = defu({
-    build: {
-      variant: "tsdown"
-    },
-    interactive: true,
-    skipDefaultArgs: false,
-    ...config,
-    type: "application",
-    framework: "shell-shock",
-    singleBuild: true,
-    environments: {}
-  }) as PowerlinesUserConfig & UserConfig;
-
-  return resolvedConfig;
+function start() {
+  console.log("Shell Shock NX Playground Started");
 }
+
+export default start;

@@ -16,11 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import type { UserConfig } from "@shell-shock/core";
-import { defineConfig } from "@shell-shock/core";
+function start() {
+  console.log("Shell Shock NX Playground Started");
+}
 
-const config: UserConfig = defineConfig({
-  skipCache: true
-});
-
-export default config;
+export default start;
