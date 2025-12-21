@@ -2,6 +2,14 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.1.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.1.0) (12/21/2025)
+
+### Features
+
+- **core:** Added logic to update `commands` node on powerlines context during
+  build
+  ([dd5f1b2](https://github.com/storm-software/shell-shock/commit/dd5f1b2))
+
 ## [0.0.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.0.2) (12/19/2025)
 
 ### Bug Fixes
