@@ -26,6 +26,12 @@
     },
     {
       "path": "./playground/powerlines"
+    },
+    {
+      "path": "./packages/plugin-base"
+    },
+    {
+      "path": "./playground/complex"
     }
   ],
   "files": []
