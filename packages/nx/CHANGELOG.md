@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.5](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.5) (12/22/2025)
+
+### Miscellaneous
+
+- **nx:** Cleaned up usage of Shell Shock API in executors
+  ([8409336](https://github.com/storm-software/shell-shock/commit/8409336))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.2.0**
+
 ## [0.0.4](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.4) (12/21/2025)
 
 ### Updated Dependencies

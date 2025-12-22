@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.2.0) (12/22/2025)
+
+### Features
+
+- **core:** Added command reflection logic and persistence
+  ([2e31772](https://github.com/storm-software/shell-shock/commit/2e31772))
+
 ## [0.1.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.1.0) (12/21/2025)
 
 ### Features
