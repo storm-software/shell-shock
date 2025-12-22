@@ -1,7 +1,7 @@
 <!-- START header -->
 <!-- END header -->
 
-# Shell Shock - Style Dictionary Plugin
+# Shell Shock - Base Plugin
 
 **Shell Shock** is a framework built to support the rapid development of fully-featured command-line interface applications.
 

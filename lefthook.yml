@@ -67,7 +67,7 @@ pre-push:
   commands:
     nx-sync:
       glob: "**/*"
-      run: "pnpm nx sync"
+      run: pnpm nx sync
       stage_fixed: true
     build:
       glob: "**/*"
@@ -75,15 +75,14 @@ pre-push:
       stage_fixed: true
     validate:
       glob: "**/*"
-      run: "pnpm exec storm-pre-push {staged_files}"
+      run: pnpm exec storm-pre-push {staged_files}
       stage_fixed: true
     lint-codeowners:
       glob: "**/CODEOWNERS"
       run: pnpm exec storm-lint codeowners
     readme:
-      glob: "**/*"
-      run: 'pnpm exec storm-git readme --templates="tools/readme-templates"
-        --project="@shell-shock/monorepo" '
+      glob: "**/{README.md,README.*.md,readme/**/*,package.json,executors.json,generators.json}"
+      run: pnpm exec storm-git readme --templates="tools/readme-templates"
       stage_fixed: true
     format:
       glob: "**/*"
