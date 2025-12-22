@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - Plugin Base
 
+## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-base%400.1.1) (12/22/2025)
+
+### Continuous Integration
+
+- **monorepo:** Added `storm-git` README formatter to git-hooks
+  ([bb2855f](https://github.com/storm-software/shell-shock/commit/bb2855f))
+
 ## [0.1.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-base%400.1.0) (12/22/2025)
 
 ### Features
