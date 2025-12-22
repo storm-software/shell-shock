@@ -105,14 +105,20 @@
   "typings": "dist/src/index.d.ts",
   "dependencies": {
     "@nx/devkit": "catalog:",
-    "@powerlines/nx": "catalog:",
     "@storm-software/config": "catalog:",
     "@storm-software/config-tools": "catalog:",
     "@storm-software/workspace-tools": "catalog:",
     "@stryke/type-checks": "catalog:",
     "defu": "catalog:",
-    "powerlines": "catalog:",
-    "untyped": "catalog:"
+    "untyped": "catalog:",
+    "nx": "catalog:",
+    "@stryke/env": "catalog:",
+    "@stryke/fs": "catalog:",
+    "@stryke/hash": "catalog:",
+    "@stryke/path": "catalog:",
+    "@stryke/string-format": "catalog:",
+    "@stryke/types": "catalog:",
+    "jiti": "catalog:"
   },
   "devDependencies": {
     "@nx/workspace": "catalog:",

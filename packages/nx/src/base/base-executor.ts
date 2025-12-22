@@ -17,18 +17,15 @@
  ------------------------------------------------------------------- */
 
 import type { ExecutorContext, PromiseExecutor } from "@nx/devkit";
-import { ShellShockAPI } from "@shell-shock/core";
+import type { ShellShockAPI, UserConfig } from "@shell-shock/core";
+import { createShellShock } from "@shell-shock/core";
 import { writeError } from "@storm-software/config-tools/logger";
 import type { StormWorkspaceConfig } from "@storm-software/config/types";
 import { withRunExecutor } from "@storm-software/workspace-tools/base/base-executor";
 import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
 import { isError } from "@stryke/type-checks/is-error";
 import defu from "defu";
-import type {
-  InitialUserConfig,
-  InlineConfig,
-  PowerlinesCommand
-} from "powerlines/types/config";
+import type { InlineConfig, PowerlinesCommand } from "powerlines/types/config";
 import type { BaseExecutorSchema } from "./base-executor.schema";
 
 export type ShellShockExecutorContext<
@@ -93,11 +90,10 @@ export function withExecutor<
       const projectConfig =
         context.projectsConfigurations.projects[context.projectName]!;
 
-      const api = await ShellShockAPI.from(
+      const api = await createShellShock(
         defu(
           {
             root: projectConfig.root,
-            type: projectConfig.projectType,
             sourceRoot: projectConfig.sourceRoot,
             tsconfig: options.tsconfig,
             logLevel: options.logLevel,
@@ -110,7 +106,7 @@ export function withExecutor<
             }
           },
           options
-        ) as InitialUserConfig
+        ) as Partial<UserConfig>
       );
 
       try {
