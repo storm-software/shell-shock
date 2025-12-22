@@ -16,8 +16,27 @@
 
  ------------------------------------------------------------------- */
 
-function start() {
-  console.log("Shell Shock NX Playground Started");
+interface StartOptions {
+  /**
+   * The root directory of the project to start.
+   */
+  root: string;
+
+  /**
+   * Whether to enable verbose logging.
+   *
+   * @defaultValue false
+   */
+  verbose?: boolean;
+}
+
+/**
+ * Start the project.
+ */
+function start(options: StartOptions) {
+  console.log(
+    `Starting at ${options.root} with verbose=${options.verbose ?? false}`
+  );
 }
 
 export default start;
