@@ -16,27 +16,18 @@
 
  ------------------------------------------------------------------- */
 
-interface StartOptions {
+interface NewProjectOptions {
   /**
-   * The root directory of the project to start.
+   * The root directory of the project to create.
    */
   root: string;
-
-  /**
-   * Whether to enable verbose logging.
-   *
-   * @defaultValue false
-   */
-  verbose?: boolean;
 }
 
 /**
- * Start the project.
+ * Create a new project.
  */
-function start(options: StartOptions) {
-  console.log(
-    `Starting at ${options.root} with verbose=${options.verbose ?? false}`
-  );
+function newProject(options: NewProjectOptions, name: string) {
+  console.log("Creating new project:", name, "at", options.root);
 }
 
-export default start;
+export default newProject;

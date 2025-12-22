@@ -16,27 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-interface StartOptions {
+interface NewLibraryOptions {
   /**
-   * The root directory of the project to start.
+   * The root directory of the library to create.
    */
   root: string;
-
-  /**
-   * Whether to enable verbose logging.
-   *
-   * @defaultValue false
-   */
-  verbose?: boolean;
 }
 
 /**
- * Start the project.
+ * Create a new library.
+ *
+ * @param options - The library arguments.
+ * @param name - The name of the library.
  */
-function start(options: StartOptions) {
-  console.log(
-    `Starting at ${options.root} with verbose=${options.verbose ?? false}`
-  );
+function newLibrary(options: NewLibraryOptions, name: string) {
+  console.log("Creating new library:", name, "at", options.root);
 }
 
-export default start;
+export default newLibrary;

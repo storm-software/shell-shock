@@ -16,27 +16,22 @@
 
  ------------------------------------------------------------------- */
 
-interface StartOptions {
+interface CopyOptions {
   /**
-   * The root directory of the project to start.
+   * The root directory of the copy operation.
    */
   root: string;
-
-  /**
-   * Whether to enable verbose logging.
-   *
-   * @defaultValue false
-   */
-  verbose?: boolean;
 }
 
 /**
- * Start the project.
+ * Copy specified files from src to dest.
+ *
+ * @param options - The copy arguments.
+ * @param src - The source path.
+ * @param dest - The destination path.
  */
-function start(options: StartOptions) {
-  console.log(
-    `Starting at ${options.root} with verbose=${options.verbose ?? false}`
-  );
+function copyFiles(options: CopyOptions, src: string[], dest: string) {
+  console.log("Copying files from:", src, "to", dest, "at", options.root);
 }
 
-export default start;
+export default copyFiles;

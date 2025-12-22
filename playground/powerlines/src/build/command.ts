@@ -16,8 +16,39 @@
 
  ------------------------------------------------------------------- */
 
-function build() {
-  console.log("Shell Shock NX Playground Build Started");
+export const meta = {
+  name: "build",
+  description: "Build the project."
+};
+
+interface BuildOptions {
+  /**
+   * The root directory of the project to build.
+   */
+  root: string;
+
+  /**
+   * Whether to enable verbose logging.
+   *
+   * @defaultValue false
+   */
+  verbose?: boolean;
+
+  /**
+   * Specific build targets to build.
+   */
+  targets: string[];
+}
+
+/**
+ * Build the project.
+ */
+function build(options: BuildOptions) {
+  console.log(
+    `Building at ${options.root} with verbose=${
+      options.verbose ?? false
+    }, targets=${options.targets.join(", ")}`
+  );
 }
 
 export default build;
