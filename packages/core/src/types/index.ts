@@ -16,5 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./build";
+export * from "./command";
 export * from "./config";
+export * from "./context";
+export * from "./options";

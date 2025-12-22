@@ -16,18 +16,29 @@
 
  ------------------------------------------------------------------- */
 
-import plugin from "@powerlines/plugin-plugin";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines";
+import type { TsdownPluginContext } from "@powerlines/plugin-tsdown";
+import type { CommandInput, CommandOption, CommandTree } from "./command";
+import type { ResolvedConfig } from "./config";
 
-const config: UserConfig = defineConfig({
-  skipCache: true,
-  entry: ["./src/index.ts"],
-  plugins: [
-    plugin({
-      alloy: true
-    })
-  ]
-});
+export type Context<TResolvedConfig extends ResolvedConfig = ResolvedConfig> =
+  TsdownPluginContext<TResolvedConfig> & {
+    /**
+     * The root path where commands are located.
+     */
+    commandsPath: string;
 
-export default config;
+    /**
+     * The default command arguments to apply to all application commands.
+     */
+    options: CommandOption[];
+
+    /**
+     * The list of commands discovered in the project.
+     */
+    inputs: CommandInput[];
+
+    /**
+     * The command-line application structure.
+     */
+    commands: Record<string, CommandTree>;
+  };

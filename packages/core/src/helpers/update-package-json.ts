@@ -23,7 +23,7 @@ import { joinPaths } from "@stryke/path/join-paths";
 import { replaceExtension } from "@stryke/path/replace";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
-import type { BuildContext } from "../types";
+import type { Context } from "../types";
 
 function formatBinaryPath(
   name: string,
@@ -36,9 +36,7 @@ function formatBinaryPath(
   }`;
 }
 
-export async function updatePackageJsonBinary(
-  context: BuildContext
-): Promise<void> {
+export async function updatePackageJsonBinary(context: Context): Promise<void> {
   const packageJsonPath = joinPaths(
     context.workspaceConfig.workspaceRoot,
     context.config.projectRoot,

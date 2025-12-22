@@ -17,13 +17,38 @@
  ------------------------------------------------------------------- */
 
 import type {
+  CommandInput,
+  CommandOption
+} from "@shell-shock/core/types/command";
+import type { Options } from "@shell-shock/core/types/config";
+import type { Context } from "@shell-shock/core/types/context";
+import type {
   PluginContext as PowerlinesContext,
   EnvironmentConfig as PowerlinesEnvironmentConfig,
   ResolvedConfig as PowerlinesResolvedConfig,
   UserConfig as PowerlinesUserConfig
 } from "powerlines";
 
-export interface PluginOptions {}
+export interface PluginOptions extends Omit<Options, "defaultOptions"> {
+  /**
+   * A set of default command options to apply to each command.
+   *
+   * @remarks
+   * By default, Shell Shock adds the following set of default arguments to each command:
+   * - `--help` (`-h`, `-?`): Show help information.
+   * - `--version` (`-v`): Show the version of the application.
+   * - `--interactive` (`-i`, `--interact`): Enable interactive mode.
+   * - `--no-interactive`: Disable interactive mode.
+   * - `--no-banner`: Hide the banner displayed while running the CLI application.
+   * - `--verbose`: Enable verbose output.
+   *
+   * To disable the addition of these default options, set this property to `false`, or provide a custom set of options/a function that returns them.
+   */
+  defaultOptions?:
+    | CommandOption[]
+    | ((context: Context, input: CommandInput) => CommandOption[])
+    | false;
+}
 
 export type PluginEnvironmentConfig = PowerlinesEnvironmentConfig;
 

@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import tsdown from "@powerlines/plugin-tsdown";
 import type { PluginConfig } from "powerlines";
 import { createPowerlines } from "powerlines";
 import type { PowerlinesAPI } from "powerlines/api";
@@ -27,18 +28,26 @@ import type {
   PrepareInlineConfig
 } from "powerlines/types/config";
 import { shellShock as plugin } from "./powerlines";
-import type { BuildContext } from "./types/build";
 import type { UserConfig } from "./types/config";
+import type { Context } from "./types/context";
 
+/**
+ * The Shell Shock API class.
+ *
+ * @remarks
+ * This class provides methods to interact with the Shell Shock build system, including cleaning, preparing, linting, building, generating documentation, and finalizing projects.
+ */
 export class ShellShockAPI {
   #powerlines: PowerlinesAPI;
 
   public static async from(config: UserConfig = {}): Promise<ShellShockAPI> {
     const powerlines = await createPowerlines({
       ...config,
-      plugins: ((config.plugins ?? []) as PluginConfig<BuildContext>[]).concat(
-        plugin()
-      )
+      plugins: [
+        tsdown(),
+        plugin(),
+        ...(config.plugins ?? [])
+      ] as PluginConfig<Context>[]
     });
 
     return new ShellShockAPI(powerlines);

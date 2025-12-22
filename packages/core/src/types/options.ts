@@ -16,18 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import plugin from "@powerlines/plugin-plugin";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines";
-
-const config: UserConfig = defineConfig({
-  skipCache: true,
-  entry: ["./src/index.ts"],
-  plugins: [
-    plugin({
-      alloy: true
-    })
-  ]
-});
-
-export default config;
+export interface BaseCommandOptions {
+  help: boolean;
+  version: boolean;
+}

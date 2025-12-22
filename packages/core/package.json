@@ -2,7 +2,7 @@
   "name": "@shell-shock/core",
   "version": "0.1.1",
   "type": "module",
-  "description": "A package containing a Shell Shock plugin to generate source code given a list design tokens.",
+  "description": "A package containing the core Shell Shock functionality used to build and manage a command-line application.",
   "repository": {
     "type": "github",
     "url": "https://github.com/storm-software/shell-shock.git",
@@ -145,6 +145,7 @@
   "files": ["dist/**/*"],
   "keywords": ["shell-shock", "powerlines", "storm-software"],
   "dependencies": {
+    "@powerlines/deepkit": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
     "@stryke/convert": "catalog:",
@@ -154,7 +155,9 @@
     "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",
     "defu": "catalog:",
-    "powerlines": "catalog:"
+    "powerlines": "catalog:",
+    "@stryke/capnp": "catalog:",
+    "@stryke/fs": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",

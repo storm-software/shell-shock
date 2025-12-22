@@ -16,6 +16,7 @@
     "moduleDetection": "force",
     "noPropertyAccessFromIndexSignature": false,
     "types": ["node"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": false
   }
 }

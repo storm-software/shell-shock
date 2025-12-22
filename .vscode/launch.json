@@ -2,7 +2,21 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug Playground - Powerlines Build",
+      "name": "Playground - Complex",
+      "type": "node",
+      "request": "launch",
+      "program": "/nix/store/kyfc6ga8ckzc0irgy69jc5slfgz1w3gk-pnpm-10.25.0/bin/pnpm",
+      "args": [
+        "nx",
+        "run",
+        "playground-complex:build:development",
+        "--outputStyle=dynamic-legacy"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Playground - Powerlines",
       "type": "node",
       "request": "launch",
       "program": "/nix/store/kyfc6ga8ckzc0irgy69jc5slfgz1w3gk-pnpm-10.25.0/bin/pnpm",

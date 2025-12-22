@@ -16,8 +16,9 @@
 
  ------------------------------------------------------------------- */
 
+import { defu } from "defu";
 import type { Plugin } from "powerlines";
-import type { PluginContext } from "./types/plugin";
+import type { PluginContext, PluginOptions } from "./types/plugin";
 
 export * from "./types";
 
@@ -25,18 +26,18 @@ export * from "./types";
  * The Style Dictionary - Shell Shock plugin to use Style Dictionary tokens to select theme colors to Shell Shock projects.
  */
 export const plugin = <TContext extends PluginContext = PluginContext>(
-  options: any
-): Plugin<TContext> => {
-  return {
-    name: "base",
-    dependsOn: [],
-    config() {
-      this.trace(
-        "Providing default configuration for the Shell Shock `base` build plugin."
-      );
-      return {
-        build: {}
-      };
+  options: PluginOptions
+): Plugin<TContext>[] => {
+  return [
+    {
+      name: "shell-shock:base-plugin",
+      config() {
+        this.trace(
+          "Providing default configuration for the Shell Shock `base` build plugin."
+        );
+
+        return defu({}, options);
+      }
     }
-  };
+  ];
 };

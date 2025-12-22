@@ -70,6 +70,34 @@
         "types": "./dist/index.d.mts",
         "default": "./dist/index.mjs"
       }
+    },
+    "./types": {
+      "import": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/types/index.mjs"
+      },
+      "require": {
+        "types": "./dist/types/index.d.cts",
+        "default": "./dist/types/index.cjs"
+      },
+      "default": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/types/index.mjs"
+      }
+    },
+    "./types/*": {
+      "import": {
+        "types": "./dist/types/*.d.mts",
+        "default": "./dist/types/*.mjs"
+      },
+      "require": {
+        "types": "./dist/types/*.d.cts",
+        "default": "./dist/types/*.cjs"
+      },
+      "default": {
+        "types": "./dist/types/*.d.mts",
+        "default": "./dist/types/*.mjs"
+      }
     }
   },
   "files": ["dist/**/*"],
@@ -81,7 +109,8 @@
   ],
   "dependencies": {
     "@powerlines/plugin-plugin": "catalog:",
-    "powerlines": "catalog:"
+    "powerlines": "catalog:",
+    "@shell-shock/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:"

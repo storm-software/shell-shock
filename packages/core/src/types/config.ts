@@ -20,6 +20,8 @@ import type {
   TsdownPluginResolvedConfig,
   TsdownPluginUserConfig
 } from "@powerlines/plugin-tsdown";
+import type { CommandBase, CommandOption } from "./command";
+import type { Context } from "./context";
 
 export interface Options {
   /**
@@ -36,20 +38,19 @@ export interface Options {
   interactive?: boolean | "never";
 
   /**
-   * Whether to skip adding the default arguments to commands.
+   * A set of default command options to apply to each command.
    *
    * @remarks
    * By default, Shell Shock adds the following set of default arguments to each command:
    * - `--help` (`-h`, `-?`): Show help information.
    * - `--version` (`-v`): Show the version of the application.
-   * - `--interactive` (`-i`, `--interact`): Enable interactive mode.
-   * - `--no-interactive`: Disable interactive mode.
-   * - `--no-banner`: Hide the banner displayed while running the CLI application.
-   * - `--verbose`: Enable verbose output.
    *
-   * @defaultValue `false`
+   * To disable the addition of these default options, set this property to `false`, or provide a custom set of options/a function that returns them.
    */
-  skipDefaultArgs?: boolean;
+  defaultOptions?:
+    | CommandOption[]
+    | ((context: Context, input: CommandBase) => CommandOption[])
+    | false;
 
   /**
    * The name(s) of the binary that will be generated to run the CLI

@@ -2,9 +2,14 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
-    "outDir": "./out-tsc"
+    "outDir": "./out-tsc",
+    "jsx": "preserve"
   },
-  "references": [],
+  "references": [
+    {
+      "path": "../core/tsconfig.lib.json"
+    }
+  ],
   "include": ["src/**/*.ts", "src/**/*.tsx", "powerlines.config.ts"],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }
