@@ -16,9 +16,14 @@
 
  ------------------------------------------------------------------- */
 
-interface StartOptions {
+export const meta = {
+  name: "build",
+  description: "Build the project."
+};
+
+interface BuildOptions {
   /**
-   * The root directory of the project to start.
+   * The root directory of the project to build.
    */
   root: string;
 
@@ -28,15 +33,22 @@ interface StartOptions {
    * @defaultValue false
    */
   verbose?: boolean;
+
+  /**
+   * Specific build targets to build.
+   */
+  targets: string[];
 }
 
 /**
- * Start the project.
+ * Build the project.
  */
-function start(options: StartOptions) {
+function build(options: BuildOptions) {
   console.log(
-    `Starting at ${options.root} with verbose=${options.verbose ?? false}`
+    `Building at ${options.root} with verbose=${
+      options.verbose ?? false
+    }, targets=${options.targets.join(", ")}`
   );
 }
 
-export default start;
+export default build;

@@ -16,27 +16,12 @@
 
  ------------------------------------------------------------------- */
 
-interface StartOptions {
-  /**
-   * The root directory of the project to start.
-   */
-  root: string;
+import type { UserConfig } from "@shell-shock/core";
+import { defineConfig } from "@shell-shock/core";
 
-  /**
-   * Whether to enable verbose logging.
-   *
-   * @defaultValue false
-   */
-  verbose?: boolean;
-}
+const config: UserConfig = defineConfig({
+  name: "playground-complex",
+  skipCache: true
+});
 
-/**
- * Start the project.
- */
-function start(options: StartOptions) {
-  console.log(
-    `Starting at ${options.root} with verbose=${options.verbose ?? false}`
-  );
-}
-
-export default start;
+export default config;

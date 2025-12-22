@@ -16,27 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-interface StartOptions {
+interface NewApplicationOptions {
   /**
-   * The root directory of the project to start.
+   * The root directory of the application to create.
    */
   root: string;
-
-  /**
-   * Whether to enable verbose logging.
-   *
-   * @defaultValue false
-   */
-  verbose?: boolean;
 }
 
 /**
- * Start the project.
+ * Create a new application.
+ *
+ * @param options - The application arguments.
+ * @param name - The name of the application.
  */
-function start(options: StartOptions) {
-  console.log(
-    `Starting at ${options.root} with verbose=${options.verbose ?? false}`
-  );
+function newApplication(options: NewApplicationOptions, name: string) {
+  console.log("Creating new application:", name, "at", options.root);
 }
 
-export default start;
+export default newApplication;

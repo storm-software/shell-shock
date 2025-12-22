@@ -1,0 +1,39 @@
+{
+  "name": "playground-complex",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "playground/complex/src",
+  "targets": {
+    "clean": {
+      "cache": false,
+      "executor": "@shell-shock/nx:clean"
+    },
+    "prepare": {
+      "cache": true,
+      "inputs": ["typescript", "^production"],
+      "outputs": ["{projectRoot}/.shell-shock"],
+      "executor": "@shell-shock/nx:prepare",
+      "dependsOn": ["^build"],
+      "options": {
+        "mode": "development"
+      }
+    },
+    "build": {
+      "cache": true,
+      "inputs": ["typescript", "^production"],
+      "outputs": ["{options.outputPath}"],
+      "executor": "@shell-shock/nx:build",
+      "dependsOn": ["prepare"],
+      "options": {
+        "mode": "development"
+      }
+    },
+    "docs": {
+      "cache": true,
+      "inputs": ["typescript", "^production"],
+      "outputs": ["{projectRoot}/docs"],
+      "executor": "@shell-shock/nx:docs",
+      "dependsOn": ["prepare", "build"]
+    }
+  }
+}

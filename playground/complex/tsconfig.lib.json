@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
+    "jsx": "preserve",
+    "outDir": "./out-tsc"
+  },
+  "references": [
+    {
+      "path": "../../packages/core/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/nx/tsconfig.lib.json"
+    }
+  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "shell-shock.config.ts"],
+  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+}

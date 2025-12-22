@@ -1,0 +1,10 @@
+{
+  "name": "@shell-shock-playground/complex",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "A playground package containing a complex command-line application and project setup.",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": { "@shell-shock/nx": "workspace:*" },
+  "bin": { "playground-complex": "./bin/playground-complex.cjs" }
+}

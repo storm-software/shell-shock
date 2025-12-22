@@ -16,27 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-interface StartOptions {
+interface RemoveOptions {
   /**
-   * The root directory of the project to start.
+   * The root directory of the removal operation.
    */
   root: string;
-
-  /**
-   * Whether to enable verbose logging.
-   *
-   * @defaultValue false
-   */
-  verbose?: boolean;
 }
 
 /**
- * Start the project.
+ * Remove specified files.
+ *
+ * @param options - The removal arguments.
+ * @param files - The files to remove.
  */
-function start(options: StartOptions) {
-  console.log(
-    `Starting at ${options.root} with verbose=${options.verbose ?? false}`
-  );
+function removeFiles(options: RemoveOptions, files: string[]) {
+  console.log("Removing files:", files, "at", options.root);
 }
 
-export default start;
+export default removeFiles;

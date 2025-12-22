@@ -16,8 +16,22 @@
 
  ------------------------------------------------------------------- */
 
-function build() {
-  console.log("Shell Shock NX Playground Build Started");
+interface CopyOptions {
+  /**
+   * The root directory of the copy operation.
+   */
+  root: string;
 }
 
-export default build;
+/**
+ * Copy specified files from src to dest.
+ *
+ * @param options - The copy arguments.
+ * @param src - The source path.
+ * @param dest - The destination path.
+ */
+function copyFiles(options: CopyOptions, src: string[], dest: string) {
+  console.log("Copying files from:", src, "to", dest, "at", options.root);
+}
+
+export default copyFiles;
