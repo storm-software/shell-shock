@@ -22,6 +22,7 @@ import {
   ReflectionKind,
   stringifyType
 } from "@powerlines/deepkit/vendor/type";
+import { getUniqueBy } from "@stryke/helpers/get-unique";
 import { appendPath } from "@stryke/path/append";
 import { commonPath } from "@stryke/path/common";
 import { findFilePath, findFolderName } from "@stryke/path/file-path-fns";
@@ -29,6 +30,7 @@ import { stripStars } from "@stryke/path/normalize";
 import { replacePath } from "@stryke/path/replace";
 import { resolveParentPath } from "@stryke/path/resolve-parent-path";
 import { titleCase } from "@stryke/string-format/title-case";
+import { isFunction } from "@stryke/type-checks/is-function";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import type {
@@ -39,7 +41,6 @@ import type {
   StringCommandOption
 } from "../types/command";
 import type { Context } from "../types/context";
-import { getDefaultOptions } from "./get-default-options";
 
 export function resolveCommandPath(context: Context, file: string): string {
   return replacePath(findFilePath(file), context.commandsPath)
@@ -181,13 +182,29 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     title,
     description:
       command.description || `The ${title} ${parent ? "sub-" : ""}command.`,
-    options: Object.fromEntries(
-      getDefaultOptions(context, command).map(option => [option.name, option])
-    ),
+    options: {},
     params: [],
     parent: parent ?? null,
     children: {}
   } as CommandTree;
+
+  if (context.config.defaultOptions === false) {
+    commandTree.options = {};
+  } else if (Array.isArray(context.config.defaultOptions)) {
+    commandTree.options = Object.fromEntries(
+      getUniqueBy(
+        context.config.defaultOptions,
+        (item: CommandOption) => item.name
+      ).map(option => [option.name, option])
+    );
+  } else if (isFunction(context.config.defaultOptions)) {
+    commandTree.options = Object.fromEntries(
+      getUniqueBy(
+        context.config.defaultOptions(context, command),
+        (item: CommandOption) => item.name
+      ).map(option => [option.name, option])
+    );
+  }
 
   if (command.isVirtual) {
     context.trace(`Adding reflection for virtual command: ${command.id}`);

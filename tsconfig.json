@@ -13,10 +13,13 @@
       "path": "./packages/nx"
     },
     {
-      "path": "./packages/plugin-opentui"
+      "path": "./packages/plugin-theme"
     },
     {
-      "path": "./packages/plugin-style-dictionary"
+      "path": "./packages/preset-script"
+    },
+    {
+      "path": "./packages/preset-cli"
     },
     {
       "path": "./playground/nx"
@@ -28,10 +31,10 @@
       "path": "./playground/powerlines"
     },
     {
-      "path": "./packages/plugin-base"
+      "path": "./playground/complex"
     },
     {
-      "path": "./playground/complex"
+      "path": "./packages/plugin-completions"
     }
   ],
   "files": []

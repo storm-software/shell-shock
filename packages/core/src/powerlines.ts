@@ -16,7 +16,9 @@
 
  ------------------------------------------------------------------- */
 
+import tsdown from "@powerlines/plugin-tsdown";
 import { chmodX } from "@stryke/fs/chmod-x";
+import { getUniqueBy } from "@stryke/helpers/get-unique";
 import { appendPath } from "@stryke/path/append";
 import { findFileName, findFilePath } from "@stryke/path/file-path-fns";
 import { isParentPath } from "@stryke/path/is-parent-path";
@@ -24,11 +26,10 @@ import { joinPaths } from "@stryke/path/join-paths";
 import { replacePath } from "@stryke/path/replace";
 import { resolveParentPath } from "@stryke/path/resolve-parent-path";
 import { titleCase } from "@stryke/string-format/title-case";
+import { isFunction } from "@stryke/type-checks/is-function";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { defu } from "defu";
-import { existsSync } from "node:fs";
 import type { Plugin } from "powerlines";
-import { getDefaultOptions } from "./helpers/get-default-options";
 import {
   getCommandsPersistencePath,
   readCommandsPersistence,
@@ -46,6 +47,7 @@ import {
   getAppName,
   getAppTitle
 } from "./helpers/utilities";
+import type { CommandOption } from "./types/command";
 import type { Options } from "./types/config";
 import type { Context } from "./types/context";
 
@@ -56,8 +58,9 @@ const MAX_DEPTH = 50;
  */
 export const shellShock = <TContext extends Context = Context>(
   options: Options = {}
-): Plugin<TContext>[] => {
+) => {
   return [
+    tsdown(),
     {
       name: "shell-shock:config",
       async config() {
@@ -73,7 +76,6 @@ export const shellShock = <TContext extends Context = Context>(
             target: "node22",
             platform: "node"
           },
-          interactive: true,
           type: "application",
           framework: "shell-shock"
         });
@@ -88,14 +90,27 @@ export const shellShock = <TContext extends Context = Context>(
           this.config.name = getAppName(this);
           this.config.title = getAppTitle(this);
           this.config.description = getAppDescription(this);
-          this.options = getDefaultOptions(this, {
-            id: null,
-            name: this.config.name,
-            title: this.config.title,
-            description: this.config.description,
-            path: [],
-            isVirtual: false
-          });
+
+          if (this.config.defaultOptions === false) {
+            this.options = [];
+          } else if (Array.isArray(this.config.defaultOptions)) {
+            this.options = getUniqueBy(
+              this.config.defaultOptions,
+              (item: CommandOption) => item.name
+            );
+          } else if (isFunction(this.config.defaultOptions)) {
+            this.options = getUniqueBy(
+              this.config.defaultOptions(this, {
+                id: null,
+                name: this.config.name,
+                title: this.config.title,
+                description: this.config.description,
+                path: [],
+                isVirtual: false
+              }),
+              (item: CommandOption) => item.name
+            );
+          }
 
           this.inputs ??= [];
         }
@@ -250,6 +265,7 @@ export const shellShock = <TContext extends Context = Context>(
 
         if (
           this.config.command !== "prepare" &&
+          this.config.skipCache !== true &&
           this.persistedMeta?.checksum === this.meta.checksum &&
           this.fs.existsSync(getCommandsPersistencePath(this))
         ) {
@@ -283,7 +299,9 @@ export const shellShock = <TContext extends Context = Context>(
 
         for (const executablePath of Object.values(this.packageJson.bin)) {
           if (
-            existsSync(appendPath(executablePath, this.config.output.buildPath))
+            this.fs.existsSync(
+              appendPath(executablePath, this.config.output.buildPath)
+            )
           ) {
             await chmodX(
               appendPath(executablePath, this.config.output.buildPath)
@@ -292,7 +310,7 @@ export const shellShock = <TContext extends Context = Context>(
         }
       }
     }
-  ];
+  ] as Plugin<TContext>[];
 };
 
 export default shellShock;

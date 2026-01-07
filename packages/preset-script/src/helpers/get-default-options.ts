@@ -1,0 +1,75 @@
+/* -------------------------------------------------------------------
+
+                  ⚡ Storm Software - Shell Shock
+
+ This code was released as part of the Shell Shock project. Shell Shock
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/shell-shock.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/shell-shock
+ Documentation:            https://docs.stormsoftware.com/projects/shell-shock
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
+
+import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import type { CommandBase, CommandOption } from "@shell-shock/core";
+import type { ScriptPresetContext } from "../types";
+
+/**
+ * Get the default command options.
+ *
+ * @param context - The build context.
+ * @param command - The command input.
+ * @returns The default command options.
+ */
+export function getDefaultOptions(
+  context: ScriptPresetContext,
+  command: CommandBase
+): CommandOption[] {
+  return [
+    {
+      name: "help",
+      title: "Help",
+      description: "Show help information.",
+      alias: ["h", "?"],
+      kind: ReflectionKind.boolean,
+      optional: true,
+      default: false,
+      skipAddingNegative: true
+    },
+    {
+      name: "version",
+      title: "Version",
+      description: "Show the version of the application.",
+      alias: ["v"],
+      kind: ReflectionKind.boolean,
+      optional: true,
+      default: false,
+      skipAddingNegative: true
+    },
+    {
+      name: "no-banner",
+      title: "Hide Banner",
+      description:
+        "Hide the banner displayed while running the CLI application (will be set to true if running in a CI pipeline).",
+      kind: ReflectionKind.boolean,
+      optional: true,
+      default: false,
+      isNegativeOf: "banner"
+    },
+    !command.isVirtual && {
+      name: "verbose",
+      title: "Verbose",
+      description: "Enable verbose output.",
+      kind: ReflectionKind.boolean,
+      optional: true,
+      default: false,
+      skipAddingNegative: true
+    }
+  ].filter(Boolean) as CommandOption[];
+}

@@ -18,10 +18,16 @@
 
 import type { UserConfig } from "@shell-shock/core";
 import { defineConfig } from "@shell-shock/core";
+import script from "@shell-shock/preset-script";
 
 const config: UserConfig = defineConfig({
+  skipCache: true,
+  skipInstalls: true,
   name: "playground-complex",
-  skipCache: true
+  output: {
+    storage: "fs"
+  },
+  plugins: [script()]
 });
 
 export default config;

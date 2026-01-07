@@ -4,62 +4,68 @@ packages:
   - docs/*
 
 catalog:
-  '@ls-lint/ls-lint': ^2.3.1
-  '@microsoft/api-extractor': ^7.49.2
-  '@nx/devkit': ^22.3.3
-  '@nx/eslint-plugin': ^22.3.3
-  '@nx/jest': ^22.3.3
-  '@nx/js': ^22.3.3
-  '@nx/plugin': ^22.3.3
-  '@nx/workspace': ^22.3.3
-  '@opentui/core': ^0.1.63
-  '@opentui/react': ^0.1.63
-  '@powerlines/deepkit': ^0.5.10
-  '@powerlines/nx': ^0.11.26
-  '@powerlines/plugin-deepkit': ^0.10.106
-  '@powerlines/plugin-env': ^0.13.104
-  '@powerlines/plugin-plugin': ^0.12.47
-  '@powerlines/plugin-react': ^0.1.97
-  '@powerlines/plugin-style-dictionary': ^0.1.101
-  '@powerlines/plugin-tsdown': ^0.1.47
-  '@powerlines/plugin-tsup': ^0.12.104
-  '@powerlines/plugin-untyped': ^0.2.47
-  '@powerlines/plugin-vite': ^0.14.94
-  '@powerlines/tsconfig': ^0.2.53
-  '@shell-shock/core': 'workspac:'
-  '@storm-software/build-tools': ^0.158.73
-  '@storm-software/config': ^1.134.73
-  '@storm-software/config-tools': ^1.188.73
-  '@storm-software/cspell': ^0.45.72
-  '@storm-software/esbuild': ^0.53.73
-  '@storm-software/eslint': ^0.169.74
-  '@storm-software/git-tools': ^2.124.56
-  '@storm-software/linting-tools': ^1.132.73
-  '@storm-software/markdownlint': ^0.30.72
-  '@storm-software/pnpm-tools': ^0.6.75
-  '@storm-software/prettier': ^0.57.72
-  '@storm-software/testing-tools': ^1.119.72
-  '@storm-software/tsconfig': ^0.47.72
-  '@storm-software/tsdoc': ^0.13.72
-  '@storm-software/unbuild': ^0.57.73
-  '@storm-software/untyped': ^0.24.54
-  '@storm-software/workspace-tools': ^1.294.19
-  '@stryke/capnp': ^0.12.51
-  '@stryke/convert': ^0.6.29
-  '@stryke/env': ^0.20.43
-  '@stryke/fs': ^0.33.26
-  '@stryke/hash': ^0.12.32
-  '@stryke/helpers': ^0.9.31
-  '@stryke/json': ^0.9.32
-  '@stryke/path': ^0.24.0
-  '@stryke/string-format': ^0.12.29
-  '@stryke/type-checks': ^0.5.14
-  '@stryke/types': ^0.10.28
-  '@types/jest': ^29.5.14
-  '@types/node': ^24.10.4
-  '@types/react': ^19.2.7
-  '@types/react-dom': ^19.2.3
-  '@typescript/native-preview': 7.0.0-dev.20251218.3
+  "@alloy-js/core": ^0.22.0
+  "@alloy-js/typescript": ^0.22.0
+  "@babel/core": ^7.28.5
+  "@ls-lint/ls-lint": ^2.3.1
+  "@microsoft/api-extractor": ^7.49.2
+  "@nx/devkit": ^22.3.3
+  "@nx/eslint-plugin": ^22.3.3
+  "@nx/jest": ^22.3.3
+  "@nx/js": ^22.3.3
+  "@nx/plugin": ^22.3.3
+  "@nx/workspace": ^22.3.3
+  "@opentui/core": ^0.1.69
+  "@opentui/react": ^0.1.69
+  "@powerlines/deepkit": ^0.5.56
+  "@powerlines/nx": ^0.11.70
+  "@powerlines/plugin-alloy": ^0.18.24
+  "@powerlines/plugin-deepkit": ^0.11.17
+  "@powerlines/plugin-env": ^0.15.27
+  "@powerlines/plugin-nodejs": ^0.1.22
+  "@powerlines/plugin-plugin": ^0.12.92
+  "@powerlines/plugin-style-dictionary": ^0.3.41
+  "@powerlines/plugin-tsdown": ^0.1.93
+  "@powerlines/plugin-tsup": ^0.12.150
+  "@powerlines/plugin-untyped": ^0.2.93
+  "@powerlines/plugin-vite": ^0.14.141
+  "@powerlines/tsconfig": ^0.2.95
+  "@storm-software/build-tools": ^0.158.75
+  "@storm-software/config": ^1.134.75
+  "@storm-software/config-tools": ^1.188.75
+  "@storm-software/cspell": ^0.45.74
+  "@storm-software/esbuild": ^0.53.75
+  "@storm-software/eslint": ^0.169.76
+  "@storm-software/git-tools": ^2.124.58
+  "@storm-software/linting-tools": ^1.132.75
+  "@storm-software/markdownlint": ^0.30.74
+  "@storm-software/pnpm-tools": ^0.6.77
+  "@storm-software/prettier": ^0.57.74
+  "@storm-software/testing-tools": ^1.119.74
+  "@storm-software/tsconfig": ^0.47.74
+  "@storm-software/tsdoc": ^0.13.74
+  "@storm-software/unbuild": ^0.57.75
+  "@storm-software/untyped": ^0.24.56
+  "@storm-software/workspace-tools": ^1.294.21
+  "@stryke/capnp": ^0.12.52
+  "@stryke/convert": ^0.6.30
+  "@stryke/env": ^0.20.44
+  "@stryke/fs": ^0.33.27
+  "@stryke/hash": ^0.12.33
+  "@stryke/helpers": ^0.9.32
+  "@stryke/json": ^0.9.33
+  "@stryke/path": ^0.24.1
+  "@stryke/string-format": ^0.12.30
+  "@stryke/type-checks": ^0.5.15
+  "@stryke/types": ^0.10.29
+  "@swc-node/register": ^1.11.1
+  "@swc/core": ^1.15.8
+  "@swc/helpers": ^0.5.18
+  "@types/jest": ^29.5.14
+  "@types/node": ^22.19.3
+  "@types/react": ^19.2.7
+  "@types/react-dom": ^19.2.3
+  "@typescript/native-preview": 7.0.0-dev.20251218.3
   copyfiles: ^2.4.1
   defu: ^6.1.4
   esbuild: ^0.24.2
@@ -68,25 +74,24 @@ catalog:
   jest: ^30.2.0
   jest-environment-jsdom: ^30.2.0
   jest-environment-node: ^30.2.0
-  jiti: ^2.6.1
+  jiti: 2.6.1
   jsonc-eslint-parser: ^2.4.2
   lefthook: ^1.13.6
   log4brains: ^1.1.0
   nx: ^22.3.3
-  powerlines: ^0.36.0
+  powerlines: ^0.37.14
   prettier: ^3.7.4
   react: ^19.2.3
   react-dom: ^19.2.3
   rimraf: ^6.1.2
   sherif: ^1.0.0
-  style-dictionary: ^5.1.1
+  style-dictionary: ^5.1.3
   ts-jest: ^29.4.6
   tsup: ^8.3.5
-  types: 0.1.1
   typescript: ^5.9.3
   unbuild: ^3.3.1
-  untyped: 1.5.2
-  verdaccio: 6.0.5
+  untyped: ^1.5.2
+  verdaccio: ^6.2.4
   vite: ^7.3.0
   zx: ^8.8.5
 
@@ -96,13 +101,14 @@ configDependencies:
 fetchTimeout: 240000
 
 minimumReleaseAgeExclude:
-  - '@storm-software/*'
-  - '@stryke/*'
-  - '@powerlines/*'
+  - "@storm-software/*"
+  - "@stryke/*"
+  - "@powerlines/*"
   - powerlines
 
 onlyBuiltDependencies:
-  - '@swc/core'
+  - "@parcel/watcher"
+  - "@swc/core"
   - core-js
   - esbuild
   - lefthook
@@ -110,27 +116,28 @@ onlyBuiltDependencies:
   - unrs-resolver
 
 overrides:
-  '@shell-shock/core': workspace:*
-  '@shell-shock/nx': workspace:*
-  '@shell-shock/plugin-base': workspace:*
-  '@shell-shock/plugin-opentui': workspace:*
-  '@shell-shock/plugin-style-dictionary': workspace:*
-  '@shell-shock/tsconfig': workspace:*
-  cookie: '>=0.7.0'
-  debug: '>=4.4.0'
-  follow-redirects: '>=1.15.9'
-  got: '>=14.4.5'
-  ip: '>=2.0.1'
-  markdown-it: '>=14.1.0'
-  micromatch: '>=4.0.8'
-  node-fetch: '>=3.3.2'
-  nth-check: '>=2.1.1'
-  parse-path: '>=7.0.0'
-  parse-url: '>=9.2.0'
-  path-to-regexp: '>=0.1.12'
-  postcss: '>=8.5.1'
-  shell-quote: '>=1.8.2'
-  simple-git: '>=3.27.0'
+  "@shell-shock/core": workspace:*
+  "@shell-shock/nx": workspace:*
+  "@shell-shock/plugin-completions": workspace:*
+  "@shell-shock/plugin-theme": workspace:*
+  "@shell-shock/preset-cli": workspace:*
+  "@shell-shock/preset-script": workspace:*
+  "@shell-shock/tsconfig": workspace:*
+  cookie: ">=0.7.0"
+  debug: ">=4.4.0"
+  follow-redirects: ">=1.15.9"
+  got: ">=14.4.5"
+  ip: ">=2.0.1"
+  markdown-it: ">=14.1.0"
+  micromatch: ">=4.0.8"
+  node-fetch: ">=3.3.2"
+  nth-check: ">=2.1.1"
+  parse-path: ">=7.0.0"
+  parse-url: ">=9.2.0"
+  path-to-regexp: ">=0.1.12"
+  postcss: ">=8.5.1"
+  shell-quote: ">=1.8.2"
+  simple-git: ">=3.27.0"
 
 shamefullyHoist: true
 

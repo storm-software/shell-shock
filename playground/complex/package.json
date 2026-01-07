@@ -4,7 +4,12 @@
   "type": "module",
   "description": "A playground package containing a complex command-line application and project setup.",
   "private": true,
-  "dependencies": {},
-  "devDependencies": { "@shell-shock/nx": "workspace:*" },
-  "bin": { "playground-complex": "./bin/playground-complex.cjs" }
+  "devDependencies": {
+    "@shell-shock/nx": "workspace:*",
+    "@shell-shock/core": "workspace:*",
+    "@shell-shock/preset-script": "workspace:*"
+  },
+  "bin": {
+    "playground-complex": "./bin/playground-complex.cjs"
+  }
 }

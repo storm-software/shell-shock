@@ -20,9 +20,8 @@ import { ShellShockAPI } from "./api";
 import type { UserConfig } from "./types/config";
 
 export * from "./config";
-export * from "./helpers/get-default-options";
-export { shellShock } from "./powerlines";
 
+export { shellShock } from "./powerlines";
 export * from "./types";
 
 /**

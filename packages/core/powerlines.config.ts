@@ -16,18 +16,21 @@
 
  ------------------------------------------------------------------- */
 
+import alloy from "@powerlines/plugin-alloy";
 import plugin from "@powerlines/plugin-plugin";
 import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines";
 
 const config: UserConfig = defineConfig({
   skipCache: true,
-  entry: ["./src/*.ts", "./src/types/*.ts"],
-  plugins: [
-    plugin({
-      alloy: false
-    })
-  ]
+  entry: [
+    "./src/*.ts",
+    "./src/types/*.ts",
+    "./src/plugin-utils/*.ts",
+    "./src/components/**/*.ts",
+    "./src/components/**/*.tsx"
+  ],
+  plugins: [plugin(), alloy()]
 });
 
 export default config;

@@ -2,7 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
-    "outDir": "./out-tsc"
+    "outDir": "./out-tsc",
+    "jsx": "preserve",
+    "jsxImportSource": "@alloy-js/core"
   },
   "references": [
     {

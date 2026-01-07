@@ -17,34 +17,22 @@
  ------------------------------------------------------------------- */
 
 import type {
+  NodeJsPluginOptions,
+  NodeJsPluginResolvedConfig,
+  NodeJsPluginUserConfig
+} from "@powerlines/plugin-nodejs/types/plugin";
+import type {
   TsdownPluginResolvedConfig,
   TsdownPluginUserConfig
 } from "@powerlines/plugin-tsdown";
 import type { CommandBase, CommandOption } from "./command";
 import type { Context } from "./context";
 
-export interface Options {
-  /**
-   * The default interactive mode to apply to commands.
-   *
-   * @remarks
-   * The following modes are available:
-   * - `true`: Enable interactivity when a TTY is detected and no explicit interactive flag is set (default).
-   * - `false`: Disable interactivity unless an explicit interactive flag is set.
-   * - `"never"`: Always disable interactivity, regardless of TTY presence or flags.
-   *
-   * @defaultValue `true`
-   */
-  interactive?: boolean | "never";
-
+export interface Options extends NodeJsPluginOptions {
   /**
    * A set of default command options to apply to each command.
    *
    * @remarks
-   * By default, Shell Shock adds the following set of default arguments to each command:
-   * - `--help` (`-h`, `-?`): Show help information.
-   * - `--version` (`-v`): Show the version of the application.
-   *
    * To disable the addition of these default options, set this property to `false`, or provide a custom set of options/a function that returns them.
    */
   defaultOptions?:
@@ -64,11 +52,13 @@ export type UserConfig = Partial<
     "type" | "framework" | "singleBuild" | "environments"
   >
 > &
-  Options;
+  Partial<NodeJsPluginUserConfig> &
+  Omit<Options, "env">;
 
 export type ResolvedConfig = TsdownPluginResolvedConfig &
+  NodeJsPluginResolvedConfig &
   Required<
-    Omit<Options, "bin"> & {
+    Omit<Options, "bin" | "env"> & {
       bin: string[];
     }
   >;

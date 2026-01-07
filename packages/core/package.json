@@ -140,15 +140,75 @@
         "types": "./dist/types/*.d.mts",
         "default": "./dist/types/*.mjs"
       }
+    },
+    "./plugin-utils": {
+      "import": {
+        "types": "./dist/plugin-utils/index.d.mts",
+        "default": "./dist/plugin-utils/index.mjs"
+      },
+      "require": {
+        "types": "./dist/plugin-utils/index.d.cts",
+        "default": "./dist/plugin-utils/index.cjs"
+      },
+      "default": {
+        "types": "./dist/plugin-utils/index.d.mts",
+        "default": "./dist/plugin-utils/index.mjs"
+      }
+    },
+    "./plugin-utils/*": {
+      "import": {
+        "types": "./dist/plugin-utils/*.d.mts",
+        "default": "./dist/plugin-utils/*.mjs"
+      },
+      "require": {
+        "types": "./dist/plugin-utils/*.d.cts",
+        "default": "./dist/plugin-utils/*.cjs"
+      },
+      "default": {
+        "types": "./dist/plugin-utils/*.d.mts",
+        "default": "./dist/plugin-utils/*.mjs"
+      }
+    },
+    "./components": {
+      "import": {
+        "types": "./dist/components/index.d.mts",
+        "default": "./dist/components/index.mjs"
+      },
+      "require": {
+        "types": "./dist/components/index.d.cts",
+        "default": "./dist/components/index.cjs"
+      },
+      "default": {
+        "types": "./dist/components/index.d.mts",
+        "default": "./dist/components/index.mjs"
+      }
+    },
+    "./components/*": {
+      "import": {
+        "types": "./dist/components/*.d.mts",
+        "default": "./dist/components/*.mjs"
+      },
+      "require": {
+        "types": "./dist/components/*.d.cts",
+        "default": "./dist/components/*.cjs"
+      },
+      "default": {
+        "types": "./dist/components/*.d.mts",
+        "default": "./dist/components/*.mjs"
+      }
     }
   },
   "files": ["dist/**/*"],
   "keywords": ["shell-shock", "powerlines", "storm-software"],
   "dependencies": {
+    "@alloy-js/core": "catalog:",
+    "@alloy-js/typescript": "catalog:",
     "@powerlines/deepkit": "catalog:",
+    "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
     "@stryke/convert": "catalog:",
+    "@stryke/fs": "catalog:",
     "@stryke/helpers": "catalog:",
     "@stryke/json": "catalog:",
     "@stryke/path": "catalog:",
@@ -156,8 +216,8 @@
     "@stryke/type-checks": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:",
-    "@stryke/capnp": "catalog:",
-    "@stryke/fs": "catalog:"
+    "@powerlines/plugin-env": "catalog:",
+    "@powerlines/plugin-nodejs": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",

@@ -5,7 +5,7 @@
   "compilerOptions": {
     "target": "esnext",
     "declaration": true,
-    "declarationMap": false,
+    "declarationMap": true,
     "skipLibCheck": true,
     "allowJs": true,
     "jsx": "react-jsx",

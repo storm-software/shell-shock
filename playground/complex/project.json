@@ -9,7 +9,7 @@
       "executor": "@shell-shock/nx:clean"
     },
     "prepare": {
-      "cache": true,
+      "cache": false,
       "inputs": ["typescript", "^production"],
       "outputs": ["{projectRoot}/.shell-shock"],
       "executor": "@shell-shock/nx:prepare",
@@ -19,7 +19,7 @@
       }
     },
     "build": {
-      "cache": true,
+      "cache": false,
       "inputs": ["typescript", "^production"],
       "outputs": ["{options.outputPath}"],
       "executor": "@shell-shock/nx:build",
@@ -29,11 +29,12 @@
       }
     },
     "docs": {
-      "cache": true,
+      "cache": false,
       "inputs": ["typescript", "^production"],
       "outputs": ["{projectRoot}/docs"],
       "executor": "@shell-shock/nx:docs",
       "dependsOn": ["prepare", "build"]
     }
-  }
+  },
+  "implicitDependencies": ["nx"]
 }

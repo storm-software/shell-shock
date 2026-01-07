@@ -22,20 +22,6 @@ import { $, chalk, echo } from "zx";
 try {
   echo`${chalk.whiteBright("⚙️  Bootstrapping the monorepo...")}`;
 
-  //   await build({
-  //     entryPoints: ["tools/nx/src/plugins/plugin.ts"],
-  //     target: "node22",
-  //     outdir: "dist/plugins",
-  //     tsconfig: "tools/nx/tsconfig.json",
-  //     packages: "bundle",
-  //     external: ["nx", "@nx/*"],
-  //     logLevel: "info",
-  //     bundle: true,
-  //     minify: false,
-  //     format: "esm",
-  //     platform: "node"
-  //   });
-
   const proc = $`pnpm nx sync`.timeout(`${2 * 60}s`);
   proc.stdout.on("data", data => {
     echo`${data}`;

@@ -49,6 +49,45 @@ try {
   }
 
   proc =
+    $`pnpm nx run core:build:${configuration} --outputStyle=dynamic-legacy --parallel=5`.timeout(
+      `${3 * 60}s`
+    );
+  proc.stdout.on("data", data => {
+    echo`${data}`;
+  });
+  result = await proc;
+  if (!result.ok) {
+    throw new Error(
+      `An error occurred while building the core Shell Shock package in ${configuration} mode: \n\n${result.message}\n`
+    );
+  }
+
+  proc =
+    $`pnpm nx run nx:build:${configuration} --outputStyle=dynamic-legacy --parallel=5`.timeout(
+      `${5 * 60}s`
+    );
+  proc.stdout.on("data", data => {
+    echo`${data}`;
+  });
+  result = await proc;
+  if (!result.ok) {
+    throw new Error(
+      `An error occurred while building the Nx plugin package in ${configuration} mode: \n\n${result.message}\n`
+    );
+  }
+
+  proc = $`pnpm nx reset --onlyDaemon`.timeout(`${2 * 60}s`);
+  proc.stdout.on("data", data => {
+    echo`${data}`;
+  });
+  result = await proc;
+  if (!result.ok) {
+    throw new Error(
+      `An error occurred while resetting the Nx daemon process: \n\n${result.message}\n`
+    );
+  }
+
+  proc =
     $`pnpm nx run-many --target=build --exclude="@shell-shock/monorepo" --configuration=${
       configuration
     } --outputStyle=dynamic-legacy --parallel=5`.timeout(`${10 * 60}s`);

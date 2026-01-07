@@ -20,7 +20,8 @@ import type { UserConfig } from "@shell-shock/core";
 import { defineConfig } from "@shell-shock/core";
 
 const config: UserConfig = defineConfig({
-  skipCache: true
+  skipCache: true,
+  skipInstalls: true
 });
 
 export default config;

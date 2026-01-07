@@ -9,8 +9,9 @@
       "args": [
         "nx",
         "run",
-        "playground-complex:build:development",
-        "--outputStyle=dynamic-legacy"
+        "playground-complex:prepare:development",
+        "--outputStyle=dynamic-legacy",
+        "--skipNxCache"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"
@@ -24,7 +25,8 @@
         "nx",
         "run",
         "playground-powerlines:build:development",
-        "--outputStyle=dynamic-legacy"
+        "--outputStyle=dynamic-legacy",
+        "--skipNxCache"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"

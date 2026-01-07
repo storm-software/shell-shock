@@ -1,0 +1,185 @@
+{
+  "name": "@shell-shock/preset-script",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "A Shell Shock preset that generates a fully-featured script application.",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/shell-shock.git",
+    "directory": "packages/preset-script"
+  },
+  "homepage": "https://stormsoftware.com",
+  "bugs": {
+    "url": "https://stormsoftware.com/support",
+    "email": "support@stormsoftware.com"
+  },
+  "author": {
+    "name": "Storm Software",
+    "email": "contact@stormsoftware.com",
+    "url": "https://stormsoftware.com"
+  },
+  "maintainers": [
+    {
+      "name": "Storm Software",
+      "email": "contact@stormsoftware.com",
+      "url": "https://stormsoftware.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Storm Software",
+      "email": "contact@stormsoftware.com",
+      "url": "https://stormsoftware.com"
+    }
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
+  "private": false,
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "typings": "dist/index.d.mts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "default": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./index": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "default": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./types": {
+      "import": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/types/index.mjs"
+      },
+      "require": {
+        "types": "./dist/types/index.d.cts",
+        "default": "./dist/types/index.cjs"
+      },
+      "default": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/types/index.mjs"
+      }
+    },
+    "./types/*": {
+      "import": {
+        "types": "./dist/types/*.d.mts",
+        "default": "./dist/types/*.mjs"
+      },
+      "require": {
+        "types": "./dist/types/*.d.cts",
+        "default": "./dist/types/*.cjs"
+      },
+      "default": {
+        "types": "./dist/types/*.d.mts",
+        "default": "./dist/types/*.mjs"
+      }
+    },
+    "./components": {
+      "import": {
+        "types": "./dist/components/index.d.mts",
+        "default": "./dist/components/index.mjs"
+      },
+      "require": {
+        "types": "./dist/components/index.d.cts",
+        "default": "./dist/components/index.cjs"
+      },
+      "default": {
+        "types": "./dist/components/index.d.mts",
+        "default": "./dist/components/index.mjs"
+      }
+    },
+    "./components/*": {
+      "import": {
+        "types": "./dist/components/*.d.mts",
+        "default": "./dist/components/*.mjs"
+      },
+      "require": {
+        "types": "./dist/components/*.d.cts",
+        "default": "./dist/components/*.cjs"
+      },
+      "default": {
+        "types": "./dist/components/*.d.mts",
+        "default": "./dist/components/*.mjs"
+      }
+    },
+    "./components/entry": {
+      "import": {
+        "types": "./dist/components/entry/index.d.mts",
+        "default": "./dist/components/entry/index.mjs"
+      },
+      "require": {
+        "types": "./dist/components/entry/index.d.cts",
+        "default": "./dist/components/entry/index.cjs"
+      },
+      "default": {
+        "types": "./dist/components/entry/index.d.mts",
+        "default": "./dist/components/entry/index.mjs"
+      }
+    },
+    "./components/entry/*": {
+      "import": {
+        "types": "./dist/components/entry/*.d.mts",
+        "default": "./dist/components/entry/*.mjs"
+      },
+      "require": {
+        "types": "./dist/components/entry/*.d.cts",
+        "default": "./dist/components/entry/*.cjs"
+      },
+      "default": {
+        "types": "./dist/components/entry/*.d.mts",
+        "default": "./dist/components/entry/*.mjs"
+      }
+    }
+  },
+  "files": ["dist/**/*"],
+  "keywords": [
+    "shell-shock",
+    "shell-shock-plugin",
+    "powerlines",
+    "storm-software"
+  ],
+  "dependencies": {
+    "@alloy-js/core": "catalog:",
+    "@alloy-js/typescript": "catalog:",
+    "@powerlines/deepkit": "catalog:",
+    "@powerlines/plugin-alloy": "catalog:",
+    "@powerlines/plugin-plugin": "catalog:",
+    "@shell-shock/core": "workspace:*",
+    "@shell-shock/plugin-theme": "workspace:*",
+    "@stryke/string-format": "catalog:",
+    "powerlines": "catalog:",
+    "@powerlines/plugin-nodejs": "catalog:"
+  },
+  "devDependencies": {
+    "@babel/core": "catalog:",
+    "@types/node": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

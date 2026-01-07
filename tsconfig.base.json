@@ -5,6 +5,7 @@
   "compilerOptions": {
     "incremental": true,
     "composite": true,
+    "sourceMap": true,
     "isolatedModules": true,
     "verbatimModuleSyntax": true
   }

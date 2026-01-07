@@ -16,7 +16,6 @@
 
  ------------------------------------------------------------------- */
 
-import tsdown from "@powerlines/plugin-tsdown";
 import type { PluginConfig } from "powerlines";
 import { createPowerlines } from "powerlines";
 import type { PowerlinesAPI } from "powerlines/api";
@@ -42,12 +41,9 @@ export class ShellShockAPI {
 
   public static async from(config: UserConfig = {}): Promise<ShellShockAPI> {
     const powerlines = await createPowerlines({
+      framework: "shell-shock",
       ...config,
-      plugins: [
-        tsdown(),
-        plugin(),
-        ...(config.plugins ?? [])
-      ] as PluginConfig<Context>[]
+      plugins: [...(config.plugins ?? []), plugin()] as PluginConfig<Context>[]
     });
 
     return new ShellShockAPI(powerlines);

@@ -16,29 +16,31 @@
 
  ------------------------------------------------------------------- */
 
+import type { EnvPluginContext } from "@powerlines/plugin-env/types/plugin";
 import type { TsdownPluginContext } from "@powerlines/plugin-tsdown";
 import type { CommandInput, CommandOption, CommandTree } from "./command";
 import type { ResolvedConfig } from "./config";
 
 export type Context<TResolvedConfig extends ResolvedConfig = ResolvedConfig> =
-  TsdownPluginContext<TResolvedConfig> & {
-    /**
-     * The root path where commands are located.
-     */
-    commandsPath: string;
+  TsdownPluginContext<TResolvedConfig> &
+    EnvPluginContext<TResolvedConfig> & {
+      /**
+       * The root path where commands are located.
+       */
+      commandsPath: string;
 
-    /**
-     * The default command arguments to apply to all application commands.
-     */
-    options: CommandOption[];
+      /**
+       * The default command arguments to apply to all application commands.
+       */
+      options: CommandOption[];
 
-    /**
-     * The list of commands discovered in the project.
-     */
-    inputs: CommandInput[];
+      /**
+       * The list of commands discovered in the project.
+       */
+      inputs: CommandInput[];
 
-    /**
-     * The command-line application structure.
-     */
-    commands: Record<string, CommandTree>;
-  };
+      /**
+       * The command-line application structure.
+       */
+      commands: Record<string, CommandTree>;
+    };

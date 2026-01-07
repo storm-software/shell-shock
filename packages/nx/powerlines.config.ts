@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import tsup from "@powerlines/plugin-tsup";
+import tsdown from "@powerlines/plugin-tsdown";
 import untyped from "@powerlines/plugin-untyped";
 import { defineConfig } from "powerlines";
 
@@ -31,12 +31,9 @@ export default defineConfig({
   output: {
     buildPath: "./packages/nx/dist/src"
   },
-  plugins: [untyped(), tsup()],
+  plugins: [untyped(), tsdown()],
   build: {
     clean: false,
-    platform: "node",
-    dts: false,
-    silent: true,
-    skipNodeModulesBundle: true
+    silent: true
   }
 });
