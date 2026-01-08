@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.6](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.6) (01/07/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat repository source files
+  ([f4ad97f](https://github.com/storm-software/shell-shock/commit/f4ad97f))
+
+### Features
+
+- **monorepo:** Updates to repository packages organization
+  ([2944ef2](https://github.com/storm-software/shell-shock/commit/2944ef2))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.2.1**
+
 ## [0.0.5](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.5) (12/22/2025)
 
 ### Miscellaneous

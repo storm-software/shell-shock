@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.2.1) (01/07/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat repository source files
+  ([f4ad97f](https://github.com/storm-software/shell-shock/commit/f4ad97f))
+
+### Features
+
+- **monorepo:** Updates to repository packages organization
+  ([2944ef2](https://github.com/storm-software/shell-shock/commit/2944ef2))
+
 ## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.2.0) (12/22/2025)
 
 ### Features
