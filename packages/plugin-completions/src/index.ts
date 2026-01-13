@@ -59,7 +59,10 @@ export const plugin = <
           this.inputs.push({
             id: "completions",
             name: "completions",
-            path: ["completions"],
+            path: {
+              segments: ["completions"],
+              value: "completions"
+            },
             title: "CLI Completions",
             description: `Commands for generating shell completion scripts for the ${titleCase(this.config.name)}.`,
             entry: {
@@ -77,7 +80,10 @@ export const plugin = <
           this.inputs.push({
             id: "completions-bash",
             name: "bash",
-            path: ["completions", "bash"],
+            path: {
+              segments: ["completions", "bash"],
+              value: "completions/bash"
+            },
             title: "CLI Completions - Bash Shell",
             entry: {
               file: joinPaths(
@@ -99,7 +105,10 @@ export const plugin = <
           this.inputs.push({
             id: "completions-zsh",
             name: "zsh",
-            path: ["completions", "zsh"],
+            path: {
+              segments: ["completions", "zsh"],
+              value: "completions/zsh"
+            },
             title: "CLI Completions - Zsh Shell",
             entry: {
               file: joinPaths(

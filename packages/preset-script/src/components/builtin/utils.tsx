@@ -33,8 +33,10 @@ import {
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import defu from "defu";
 
-export interface UtilsBuiltinProps
-  extends Omit<BuiltinFileProps, "id" | "description"> {}
+export interface UtilsBuiltinProps extends Omit<
+  BuiltinFileProps,
+  "id" | "description"
+> {}
 
 /**
  * Generates utilities for detecting terminal color support.
@@ -114,10 +116,10 @@ export function ColorSupportUtilities() {
           {
             name: "options",
             type: "GetColorSupportLevelOptions",
-            default: "{}"
+            default: "{ ignoreFlags: false }"
           }
         ]}>
-        {code`const { ignoreFlags = false } = options;
+        {code`const { ignoreFlags } = options;
 
         let forceColor: number | undefined;
         if (env.FORCE_COLOR !== undefined) {
@@ -301,6 +303,8 @@ export function HyperlinkSupportUtilities() {
         patch: versionParts[2]
       }; `}
       </FunctionDeclaration>
+      <hbr />
+      <hbr />
       <TSDoc heading="Check if the current environment/terminal supports hyperlinks in the terminal.">
         <TSDocReturns>
           {"True if the current environment/terminal supports hyperlinks."}
@@ -383,6 +387,18 @@ export function HyperlinkSupportUtilities() {
 export function ArgsUtilities() {
   return (
     <>
+      <TSDoc heading="Retrieves the command line arguments from Deno or Node.js environments.">
+        <TSDocReturns>
+          {
+            "An array of command line arguments from Deno or Node.js environments."
+          }
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration export name="getArgs">
+        {code`return ((globalThis as { Deno?: { args: string[] } })?.Deno?.args ?? process.argv ?? []) as string[];`}
+      </FunctionDeclaration>
+      <hbr />
+      <hbr />
       <TSDoc heading="Checks if a specific flag is present in the command line arguments.">
         <TSDocLink>
           {"https://github.com/sindresorhus/has-flag/blob/main/index.js"}
@@ -409,8 +425,7 @@ export function ArgsUtilities() {
           {
             name: "argv",
             type: "string[]",
-            optional: true,
-            default: "globalThis.Deno ? globalThis.Deno.args : process.argv"
+            default: "getArgs()"
           }
         ]}>
         <VarDeclaration
@@ -418,7 +433,7 @@ export function ArgsUtilities() {
           name="position"
           type="number"
           initializer={code`(Array.isArray(flag) ? flag : [flag]).reduce((ret, f) => {
-            const pos = argv.findIndex(arg => (f.startsWith("-") ? "" : (f.length === 1 ? "-" : "--") + f)?.toLowerCase() === arg?.toLowerCase() || arg?.toLowerCase().startsWith((f.length === 1 ? "-" : "--") + f + "=")?.toLowerCase());
+            const pos = argv.findIndex(arg => (f.startsWith("-") ? "" : (f.length === 1 ? "-" : "--") + f)?.toLowerCase() === arg?.toLowerCase() || arg?.toLowerCase().startsWith((f.length === 1 ? "-" : "--") + f + "="));
             return pos !== -1 ? pos : ret;
           }, -1);`}
         />
@@ -441,8 +456,8 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
       description="A collection of helper utilities that ease command-line application development."
       {...rest}
       imports={defu(rest.imports ?? {}, {
-        "node:os": ["os"],
-        "node:process": ["process"]
+        "node:os": "os",
+        "node:process": "process"
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
         env: ["env", "isCI", "isTest", "isWindows"]

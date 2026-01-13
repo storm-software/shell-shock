@@ -173,7 +173,10 @@
     "@shell-shock/plugin-theme": "workspace:*",
     "@stryke/string-format": "catalog:",
     "powerlines": "catalog:",
-    "@powerlines/plugin-nodejs": "catalog:"
+    "@powerlines/plugin-nodejs": "catalog:",
+    "defu": "catalog:",
+    "@stryke/convert": "catalog:",
+    "@stryke/path": "catalog:"
   },
   "devDependencies": {
     "@babel/core": "catalog:",

@@ -36,6 +36,7 @@ export function ShutdownFunctionDeclaration() {
         initializer={code`false;`}
       />
       <hbr />
+      <hbr />
       <FunctionDeclaration
         name="shutdown"
         parameters={[
@@ -101,7 +102,7 @@ export function ShutdownFunctionUsage() {
         shutdown();
       } catch (err) {
         verbose("An exception occurred during processing");
-        shutdown(err);
+        shutdown(err as Error);
       }
       `}
       <hbr />

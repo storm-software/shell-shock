@@ -18,13 +18,13 @@
 
 import { For } from "@alloy-js/core/components";
 import nodejs from "@powerlines/plugin-nodejs";
-import { UtilsBuiltin } from "@shell-shock/core/components/utils-builtin";
 import { getCommandTree } from "@shell-shock/core/plugin-utils";
 import core from "@shell-shock/core/powerlines";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import theme from "@shell-shock/plugin-theme";
 import type { Plugin } from "powerlines/types/plugin";
 import { ConsoleBuiltin } from "./components/builtin/console";
+import { UtilsBuiltin } from "./components/builtin/utils";
 import { BinEntry } from "./components/entry/bin";
 import { CommandEntry } from "./components/entry/command";
 import {
@@ -57,6 +57,7 @@ export const plugin = <
 
         return {
           defaultOptions: getDefaultOptions,
+          isCaseSensitive: false,
           ...options
         };
       },
@@ -66,7 +67,7 @@ export const plugin = <
         );
 
         const commands = this.inputs
-          .map(input => getCommandTree(this, input.path))
+          .map(input => getCommandTree(this, input.path.segments))
           .filter(Boolean) as CommandTree[];
 
         return this.render<TContext>(

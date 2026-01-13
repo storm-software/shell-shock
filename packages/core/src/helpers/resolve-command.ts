@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { reflectType } from "@powerlines/deepkit/reflect-type";
+import type { TypeParameter } from "@powerlines/deepkit/vendor/type";
 import {
   ReflectionClass,
   ReflectionKind,
@@ -33,19 +34,41 @@ import { titleCase } from "@stryke/string-format/title-case";
 import { isFunction } from "@stryke/type-checks/is-function";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
+import {
+  getVariableCommandPathName,
+  isVariableCommandPath
+} from "../plugin-utils/context-helpers";
 import type {
   CommandInput,
   CommandOption,
+  CommandParam,
   CommandTree,
   NumberCommandOption,
   StringCommandOption
 } from "../types/command";
 import type { Context } from "../types/context";
 
+export function resolveCommandId(context: Context, file: string): string {
+  return replacePath(findFilePath(file), context.commandsPath)
+    .split("/")
+    .filter(p => Boolean(p) && !isVariableCommandPath(p))
+    .join("/")
+    .replaceAll(/^\/+/g, "")
+    .replaceAll(/\/+$/g, "")
+    .replaceAll("/", "-");
+}
+
 export function resolveCommandPath(context: Context, file: string): string {
   return replacePath(findFilePath(file), context.commandsPath)
     .replaceAll(/^\/+/g, "")
     .replaceAll(/\/+$/g, "");
+}
+
+export function resolveCommandParams(context: Context, file: string): string[] {
+  return replacePath(findFilePath(file), context.commandsPath)
+    .split("/")
+    .filter(p => Boolean(p) && isVariableCommandPath(p))
+    .map(p => p.replaceAll(/^\[+/g, "").replaceAll(/\]+$/g, ""));
 }
 
 export function findCommandsRoot(context: Context): string {
@@ -123,51 +146,37 @@ export function findCommandName(file: string) {
   let name = findFolderName(file);
   let count = 1;
 
-  while (name.startsWith("[") && name.endsWith("]")) {
+  while (isVariableCommandPath(name)) {
     name = findFolderName(resolveParentPath(file, count++));
   }
 
   return name;
 }
 
-interface CommandRelationships {
-  parent: string | null;
-  children: string[];
+/**
+ * Extracts command parameter information from a type parameter reflection.
+ *
+ * @param param - The type parameter reflection to extract information from.
+ * @returns The extracted command parameter information.
+ */
+export function extractCommandParameters(param: TypeParameter): CommandParam {
+  return {
+    name: param.name,
+    description: param.description,
+    optional: !!param.optional,
+    variadic: param.type.kind === ReflectionKind.array,
+    default: param.default
+  } as CommandParam;
 }
 
-export async function reflectRelationships(
-  context: Context,
-  command: CommandInput
-): Promise<Record<string, CommandRelationships>> {
-  const relationships = {} as Record<string, CommandRelationships>;
-  for (const input of context.inputs.filter(input => input.id !== command.id)) {
-    relationships[input.id] ??= {
-      parent: null,
-      children: []
-    } as CommandRelationships;
-
-    let path = input.path;
-    while (path.length > 1) {
-      path = path
-        .filter(part => !part.startsWith("[") && !part.endsWith("]"))
-        .slice(0, -1);
-
-      if (context.inputs.some(inputs => inputs.id === path.join("-"))) {
-        relationships[input.id] ??= {} as CommandRelationships;
-        relationships[input.id]!.parent = path.join("-");
-
-        relationships[path.join("-")] ??= {
-          parent: null,
-          children: []
-        } as CommandRelationships;
-        relationships[path.join("-")]!.children.push(input.name);
-      }
-    }
-  }
-
-  return relationships;
-}
-
+/**
+ * Reflects the command tree for a given command input.
+ *
+ * @param context - The context in which the command is being reflected.
+ * @param command - The command input to reflect.
+ * @param parent - The parent command tree, if any.
+ * @returns The reflected command tree.
+ */
 export async function reflectCommandTree<TContext extends Context = Context>(
   context: TContext,
   command: CommandInput,
@@ -177,11 +186,18 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     command.title ||
     `${parent?.title ? `${parent.title} - ` : ""}${titleCase(command.name)}`;
 
-  const commandTree = {
+  const tree = {
     ...command,
     title,
     description:
-      command.description || `The ${title} ${parent ? "sub-" : ""}command.`,
+      command.description ||
+      (command.isVirtual
+        ? `A collection of the available ${title} commands.`
+        : `The ${title} executable command-line interface.`),
+    path: {
+      ...command.path,
+      variables: {}
+    },
     options: {},
     params: [],
     parent: parent ?? null,
@@ -189,16 +205,16 @@ export async function reflectCommandTree<TContext extends Context = Context>(
   } as CommandTree;
 
   if (context.config.defaultOptions === false) {
-    commandTree.options = {};
+    tree.options = {};
   } else if (Array.isArray(context.config.defaultOptions)) {
-    commandTree.options = Object.fromEntries(
+    tree.options = Object.fromEntries(
       getUniqueBy(
         context.config.defaultOptions,
         (item: CommandOption) => item.name
       ).map(option => [option.name, option])
     );
   } else if (isFunction(context.config.defaultOptions)) {
-    commandTree.options = Object.fromEntries(
+    tree.options = Object.fromEntries(
       getUniqueBy(
         context.config.defaultOptions(context, command),
         (item: CommandOption) => item.name
@@ -243,7 +259,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
         for (const propertyReflection of optionsReflection.getProperties()) {
           const propertyType = propertyReflection.getType();
 
-          commandTree.options[propertyReflection.getNameAsString()] = {
+          tree.options[propertyReflection.getNameAsString()] = {
             name: propertyReflection.getNameAsString(),
             alias: propertyReflection.getTags().alias ?? [],
             title:
@@ -258,11 +274,10 @@ export async function reflectCommandTree<TContext extends Context = Context>(
             default: propertyReflection.getDefaultValue(),
             variadic: false
           };
-          commandTree.options[
-            propertyReflection.getNameAsString()
-          ]!.description ??= `The ${
-            commandTree.options[propertyReflection.getNameAsString()]!.title
-          } option.`;
+          tree.options[propertyReflection.getNameAsString()]!.description ??=
+            `The ${
+              tree.options[propertyReflection.getNameAsString()]!.title
+            } option.`;
 
           if (propertyType.kind === ReflectionKind.array) {
             if (
@@ -270,12 +285,12 @@ export async function reflectCommandTree<TContext extends Context = Context>(
               propertyType.type.kind === ReflectionKind.number
             ) {
               (
-                commandTree.options[propertyReflection.getNameAsString()] as
+                tree.options[propertyReflection.getNameAsString()] as
                   | StringCommandOption
                   | NumberCommandOption
               ).variadic = true;
               (
-                commandTree.options[propertyReflection.getNameAsString()] as
+                tree.options[propertyReflection.getNameAsString()] as
                   | StringCommandOption
                   | NumberCommandOption
               ).kind = propertyType.type.kind;
@@ -303,182 +318,57 @@ export async function reflectCommandTree<TContext extends Context = Context>(
           }
         }
       }
+
+      tree.path.variables = tree.path.segments
+        .filter(segment => isVariableCommandPath(segment))
+        .reduce(
+          (obj, segment, index) => {
+            if (
+              type.parameters.length < index + 2 ||
+              !type.parameters[index + 1]
+            ) {
+              return obj;
+            }
+
+            const paramName = getVariableCommandPathName(segment);
+            obj[paramName] = extractCommandParameters(
+              type.parameters[index + 1]!
+            );
+            obj[paramName].description =
+              obj[paramName].description ||
+              `The ${paramName} variable for the ${command.name} command.`;
+
+            return obj;
+          },
+          {} as Record<string, CommandParam>
+        );
+
+      if (type.parameters.length > 1) {
+        type.parameters
+          .slice(
+            tree.path.segments.filter(segment => isVariableCommandPath(segment))
+              .length + 1
+          )
+          .forEach(param => {
+            tree.params.push(extractCommandParameters(param));
+          });
+      }
     }
   }
 
   for (const input of context.inputs.filter(
     input =>
-      input.path.length === command.path.length + 1 &&
-      input.path
-        .slice(0, command.path.length)
-        .every((value, index) => value === command.path[index])
+      input.path.segments.filter(segment => !isVariableCommandPath(segment))
+        .length ===
+        command.path.segments.filter(segment => !isVariableCommandPath(segment))
+          .length +
+          1 &&
+      input.path.segments
+        .slice(0, command.path.segments.length)
+        .every((value, index) => value === command.path.segments[index])
   )) {
-    commandTree.children[input.name] = await reflectCommandTree(
-      context,
-      input,
-      commandTree
-    );
+    tree.children[input.name] = await reflectCommandTree(context, input, tree);
   }
 
-  return commandTree;
+  return tree;
 }
-
-// export async function reflectCommandTree(
-//   context: Context,
-//   input: CommandInput,
-//   tree?: CommandTree
-// ): Promise<Record<string, CommandTree>> {
-//   context.trace("Reflecting the CLI command tree schema");
-
-//   const relationsReflections = await reflectRelationships(context);
-
-//   const result = {} as Record<string, CommandTree>;
-
-//   if (input.isVirtual) {
-//     const requestBaseType = await reflectRequestBaseType(context);
-
-//     const commandReflection = new ReflectionFunction({
-//       kind: ReflectionKind.function,
-//       parameters: [],
-//       return: { kind: ReflectionKind.void },
-//       name,
-//       tags: {
-//         title,
-//         domain: "cli"
-//       }
-//     });
-
-//     const parameter = new ReflectionParameter(
-//       {
-//         kind: ReflectionKind.parameter,
-//         name: "options",
-//         parent: commandReflection.type,
-//         description: `The request data required by the ${
-//           title
-//         } command to execute.`
-//       },
-//       commandReflection
-//     );
-
-//     commandReflection.parameters.push(parameter);
-//   } else {
-//     // const command = await resolveType<Function>(context, entry.input, {
-//     //   outputPath: context.options.workspaceRoot,
-//     //   skipNodeModulesBundle: true,
-//     //   noExternal: context.options.noExternal,
-//     //   external: ["@storm-stack/core"],
-//     //   override: {
-//     //     treeShaking: false
-//     //   },
-//     //   compiler: {
-//     //     babel: {
-//     //       plugins: [ModuleResolverPlugin(context)]
-//     //     }
-//     //   }
-//     // });
-
-//     // eslint-disable-next-line ts/no-unsafe-function-type
-//     const command = await resolveType<Function>(context, entry.input, {
-//       skipNodeModulesBundle: true,
-//       noExternal: context.config.noExternal,
-//       external: ["@storm-stack/core"]
-//     });
-//     if (!command) {
-//       throw new Error(`Module not found: ${entry.input.file}`);
-//     }
-
-//     if (!command) {
-//       throw new Error(`Module not found: ${entry.input.file}`);
-//     }
-
-//     commandReflection = ReflectionFunction.from(command);
-//     if (!commandReflection) {
-//       throw new Error(`Reflection not found: ${entry.input.file}`);
-//     }
-//   }
-
-//   await Promise.all(
-//     context.entry
-//       .filter(entry => entry.input.file !== context.config.entry)
-//       .map(async entry => {
-//         if (!entry.output) {
-//           throw new Error(
-//             `The entry "${entry.input.file}" does not have an output defined. Please ensure the entry has a valid output path.`
-//           );
-//         }
-
-//         if (!relationsReflections[entry.output]) {
-//           throw new Error(
-//             `Unable to determine relation reflections for command "${entry.output}".`
-//           );
-//         }
-
-//         commands[entry.output] = await Command.from(
-//           context,
-//           entry,
-//           relationsReflections[entry.output]
-//         );
-//       })
-//   );
-
-//   const addCommand = (
-//     tree: CommandTree,
-//     command: Command
-//   ): CommandTreeBranch => {
-//     let commandTreeBranch = findCommandInTree(tree, command.path);
-
-//     if (!commandTreeBranch) {
-//       if (command.path.length === 1) {
-//         commandTreeBranch = {
-//           command,
-//           parent: tree,
-//           children: {},
-//           root: tree
-//         };
-//         tree.children[command.name] = commandTreeBranch;
-//       } else {
-//         let parent: CommandTreeBranch | CommandTree = tree;
-//         if (command.relations.parent) {
-//           const parentReflection = commands[command.relations.parent];
-//           if (!parentReflection) {
-//             throw new Error(
-//               `Reflection not found for "${
-//                 command.relations.parent
-//               }" in the ${command.id} command's parent tree.`
-//             );
-//           }
-
-//           parent = addCommand(tree, parentReflection);
-//         }
-
-//         if (parent.parent !== null) {
-//           command.title = `${parent.command.title} - ${command.title}`;
-//         }
-
-//         commandTreeBranch = {
-//           command,
-//           parent,
-//           children: {},
-//           root: tree
-//         };
-//         parent.children[commandTreeBranch.command.name] = commandTreeBranch;
-//       }
-//     }
-
-//     return commandTreeBranch;
-//   };
-
-//   for (const commandId of Object.keys(commands)
-//     .filter(commandId => commands[commandId])
-//     .sort((a, b) => b.localeCompare(a))) {
-//     addCommand(tree, commands[commandId]);
-//   }
-
-//   await writeEnvTypeReflection(
-//     context,
-//     context.reflections.env.types.env,
-//     "env"
-//   );
-
-//   return tree;
-// }

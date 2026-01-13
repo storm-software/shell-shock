@@ -18,6 +18,7 @@
 
 import type { CommandTree } from "../types/command";
 import type { Context } from "../types/context";
+import { isVariableCommandPath } from "./context-helpers";
 
 /**
  * Retrieves a specific command tree based on the provided path.
@@ -36,7 +37,9 @@ export function getCommandTree(
 
   let currentTree: CommandTree | null = context.commands[path[0]!] ?? null;
   if (path.length > 1) {
-    const segments = path.slice(1);
+    const segments = path
+      .slice(1)
+      .filter(segment => !isVariableCommandPath(segment));
     for (const segment of segments) {
       if (
         currentTree?.children &&

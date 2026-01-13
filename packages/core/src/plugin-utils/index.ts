@@ -17,3 +17,4 @@
  ------------------------------------------------------------------- */
 
 export * from "./get-command-tree";
+export * from "./traverse-command-tree";

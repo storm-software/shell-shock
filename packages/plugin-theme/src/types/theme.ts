@@ -16,6 +16,14 @@
 
  ------------------------------------------------------------------- */
 
+export type ThemeMessageVariant =
+  | "help"
+  | "success"
+  | "info"
+  | "warning"
+  | "danger"
+  | "error";
+
 export interface ThemeColorSubItem {
   primary: string;
   secondary: string;

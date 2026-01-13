@@ -47,7 +47,7 @@ try {
   }
 
   proc =
-    $`rm -rf ./playground/*/dist ./playground/*/out-tsc ./packages/*/dist ./packages/*/out-tsc ./tools/*/dist ./tools/*/out-tsc`.timeout(
+    $`rm -rf ./playground/*/dist ./playground/*/out-tsc ./playground/*/.shell-shock ./packages/*/dist ./packages/*/out-tsc ./tools/*/dist ./tools/*/out-tsc`.timeout(
       `${5 * 60}s`
     );
   proc.stdout.on("data", data => {

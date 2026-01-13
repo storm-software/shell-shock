@@ -16,75 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-import { kebabCase } from "@stryke/string-format/kebab-case";
-import { titleCase } from "@stryke/string-format/title-case";
-import { isSetString } from "@stryke/type-checks/is-set-string";
-import type { Context } from "../types";
+import type { TreeItem } from "@stryke/cli/utils/tree";
+import { formatTree } from "@stryke/cli/utils/tree";
+import type { CommandTree } from "../types/command";
+import type { Context } from "../types/context";
 
-/**
- * Sorts command argument aliases, placing single-character aliases first, followed by multi-character aliases, and then sorting them alphabetically.
- *
- * @param aliases - An array of argument aliases to sort.
- * @returns A new array of sorted aliases.
- */
-export function sortArgAliases(aliases: string[]): string[] {
-  if (aliases.length === 0) {
-    return [];
-  }
-
-  const result = aliases.filter(alias => alias.length === 1);
-  result.push(...aliases.filter(alias => alias.length > 1));
-
-  return result.sort((a, b) => a.localeCompare(b));
+function innerFormatCommandTree(command: CommandTree): TreeItem {
+  return {
+    name: `${command.name}${command.isVirtual ? " (virtual)" : ""}`,
+    children: Object.values(command.children ?? {}).map(innerFormatCommandTree)
+  };
 }
 
-/**
- * Retrieves the application name from the context and configuration.
- *
- * @param context - The build context containing workspace and package information.
- * @returns The application name in kebab-case format.
- * @throws An error if no valid application name is found.
- */
-export function getAppName(context: Context): string {
-  const result =
-    context.config.bin &&
-    (isSetString(context.config.bin) ||
-      (Array.isArray(context.config.bin) &&
-        context.config.bin.length > 0 &&
-        context.config.bin[0]))
-      ? isSetString(context.config.bin)
-        ? context.config.bin
-        : context.config.bin[0]
-      : context.config.name || context.packageJson?.name;
-  if (!isSetString(result)) {
-    throw new Error(
-      "No application name found. Please provide a 'bin' option in the configuration or ensure the package.json has a valid 'name' field."
-    );
-  }
-
-  return kebabCase(result);
-}
-
-/**
- * Retrieves the application title from the context and configuration.
- *
- * @param context - The build context containing workspace and package information.
- * @returns The application title in title-case format.
- */
-export function getAppTitle(context: Context): string {
-  return titleCase(context.config.name || getAppName(context));
-}
-
-/**
- * Retrieves the application description from the context and configuration.
- *
- * @param context - The build context containing workspace and package information.
- * @returns The application description.
- */
-export function getAppDescription(context: Context): string {
-  return (
-    context.config.description ||
-    context.packageJson?.description ||
-    `The ${getAppTitle(context)} command-line interface application.`
-  );
+export function formatCommandTree(context: Context): string {
+  return formatTree({
+    name: context.config.name,
+    children: Object.values(context.commands ?? {}).map(innerFormatCommandTree)
+  });
 }

@@ -201,12 +201,10 @@
   "files": ["dist/**/*"],
   "keywords": ["shell-shock", "powerlines", "storm-software"],
   "dependencies": {
-    "@alloy-js/core": "catalog:",
-    "@alloy-js/typescript": "catalog:",
     "@powerlines/deepkit": "catalog:",
-    "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
+    "@stryke/cli": "catalog:",
     "@stryke/convert": "catalog:",
     "@stryke/fs": "catalog:",
     "@stryke/helpers": "catalog:",
@@ -217,7 +215,8 @@
     "defu": "catalog:",
     "powerlines": "catalog:",
     "@powerlines/plugin-env": "catalog:",
-    "@powerlines/plugin-nodejs": "catalog:"
+    "@powerlines/plugin-nodejs": "catalog:",
+    "@stryke/types": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",

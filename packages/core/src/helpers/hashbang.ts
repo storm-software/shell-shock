@@ -16,4 +16,26 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./utils-builtin";
+import type { Context } from "../types/context";
+
+/**
+ * Writes a hashbang to the specified file path with the provided code.
+ *
+ * @param context - The execution context.
+ * @param path - The file path where the hashbang should be written.
+ * @returns A promise that resolves when the hashbang has been written.
+ */
+export async function writeHashbang(context: Context, path: string) {
+  const code = await context.fs.read(path);
+
+  return context.fs.write(
+    path,
+    `#!/usr/bin/env ${
+      context?.config.mode === "development"
+        ? "-S NODE_OPTIONS=--enable-source-maps"
+        : ""
+    } node
+
+${code}`
+  );
+}

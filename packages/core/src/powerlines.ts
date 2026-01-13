@@ -25,11 +25,13 @@ import { isParentPath } from "@stryke/path/is-parent-path";
 import { joinPaths } from "@stryke/path/join-paths";
 import { replacePath } from "@stryke/path/replace";
 import { resolveParentPath } from "@stryke/path/resolve-parent-path";
+import { camelCase } from "@stryke/string-format/camel-case";
 import { titleCase } from "@stryke/string-format/title-case";
 import { isFunction } from "@stryke/type-checks/is-function";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { defu } from "defu";
 import type { Plugin } from "powerlines";
+import { writeHashbang } from "./helpers/hashbang";
 import {
   getCommandsPersistencePath,
   readCommandsPersistence,
@@ -39,14 +41,19 @@ import {
   findCommandName,
   findCommandsRoot,
   reflectCommandTree,
+  resolveCommandId,
   resolveCommandPath
 } from "./helpers/resolve-command";
 import { updatePackageJsonBinary } from "./helpers/update-package-json";
+import { formatCommandTree } from "./helpers/utilities";
+import { validateCommand } from "./helpers/validations";
 import {
   getAppDescription,
   getAppName,
-  getAppTitle
-} from "./helpers/utilities";
+  getAppTitle,
+  isVariableCommandPath
+} from "./plugin-utils/context-helpers";
+import { traverseCommands } from "./plugin-utils/traverse-command-tree";
 import type { CommandOption } from "./types/command";
 import type { Options } from "./types/config";
 import type { Context } from "./types/context";
@@ -91,9 +98,8 @@ export const shellShock = <TContext extends Context = Context>(
           this.config.title = getAppTitle(this);
           this.config.description = getAppDescription(this);
 
-          if (this.config.defaultOptions === false) {
-            this.options = [];
-          } else if (Array.isArray(this.config.defaultOptions)) {
+          this.options = [];
+          if (Array.isArray(this.config.defaultOptions)) {
             this.options = getUniqueBy(
               this.config.defaultOptions,
               (item: CommandOption) => item.name
@@ -105,7 +111,10 @@ export const shellShock = <TContext extends Context = Context>(
                 name: this.config.name,
                 title: this.config.title,
                 description: this.config.description,
-                path: [],
+                path: {
+                  value: null,
+                  segments: []
+                },
                 isVirtual: false
               }),
               (item: CommandOption) => item.name
@@ -138,15 +147,17 @@ export const shellShock = <TContext extends Context = Context>(
               );
             }
 
-            const path = resolveCommandPath(this, file);
-            const id = path.replaceAll("/", "-");
-
+            const id = resolveCommandId(this, file);
             if (!ret.some(existing => existing.id === id)) {
+              const path = resolveCommandPath(this, file);
               const name = findCommandName(file);
 
               ret.push({
                 id,
-                path: path.split("/").filter(Boolean),
+                path: {
+                  value: path,
+                  segments: path.split("/").filter(Boolean)
+                },
                 name,
                 title: titleCase(name),
                 isVirtual: false,
@@ -176,7 +187,7 @@ export const shellShock = <TContext extends Context = Context>(
               "No commands were found in the project. Please ensure at least one command exists."
             );
           } else {
-            this.info(
+            this.debug(
               `Shell Shock will create an application with the following commands: \n${this.inputs
                 .filter(cmd => !cmd.isVirtual)
                 .map(
@@ -214,14 +225,17 @@ export const shellShock = <TContext extends Context = Context>(
                     )
                   ) {
                     const file = joinPaths(parentPath, "command.ts");
-                    const path = resolveCommandPath(this, file);
-                    const id = path.replaceAll("/", "-");
+                    const id = resolveCommandId(this, file);
                     if (!ret.some(existing => existing.id === id)) {
                       const name = findCommandName(file);
+                      const path = resolveCommandPath(this, file);
 
                       ret.push({
                         id,
-                        path: path.split("/").filter(Boolean),
+                        path: {
+                          value: path,
+                          segments: path.split("/").filter(Boolean)
+                        },
                         name,
                         title: titleCase(name),
                         isVirtual: true,
@@ -240,9 +254,9 @@ export const shellShock = <TContext extends Context = Context>(
 
                 return ret;
               }, this.inputs)
-              .sort((a, b) => a.path.length - b.path.length);
+              .sort((a, b) => a.path.segments.length - b.path.segments.length);
 
-            this.trace(
+            this.debug(
               `Final command input list: \n${this.inputs
                 .map(
                   command =>
@@ -276,13 +290,70 @@ export const shellShock = <TContext extends Context = Context>(
           await readCommandsPersistence(this);
         } else {
           for (const input of this.inputs.filter(
-            input => input.path.length === 1
+            input =>
+              input.path.segments.filter(
+                segment => !isVariableCommandPath(segment)
+              ).length === 1
           )) {
             this.commands[input.name] = await reflectCommandTree(this, input);
           }
 
+          this.trace("Post-processing commands to ensure proper reflection.");
+
+          this.options = this.options.map(
+            option =>
+              ({
+                ...option,
+                name: camelCase(option.name),
+                alias: option.alias ?? [],
+                optional: option.optional ?? false
+              }) as CommandOption
+          );
+
+          await traverseCommands(this, command => {
+            command.options = Object.fromEntries(
+              Object.entries(command.options).map(([name, option]) => [
+                camelCase(name),
+                {
+                  ...option,
+                  name: camelCase(name),
+                  alias: option.alias ?? [],
+                  optional: option.optional ?? false
+                } as CommandOption
+              ])
+            );
+          });
+
           await writeCommandsPersistence(this);
         }
+
+        this.debug("Validating the CLI applications command tree.");
+
+        let isValid = true;
+        await traverseCommands(this, command => {
+          const failures = validateCommand(command);
+          if (failures.length > 0) {
+            this.error(
+              `Found ${failures.length} issue${failures.length > 1 ? "s" : ""} with the ${
+                command.title
+              } command: \n${failures
+                .map(failure => ` - ${failure.code}: ${failure.details}`)
+                .join("\n")}\n`
+            );
+            isValid = false;
+          }
+        });
+        if (!isValid) {
+          throw new Error(
+            `One or more commands in the command tree are invalid. Please review the errors above and correct them before proceeding.`
+          );
+        }
+
+        this.info(
+          `\nCreating an application with the following command tree: \n${formatCommandTree(
+            this
+          )}\n`
+        );
       }
     },
     {
@@ -295,7 +366,7 @@ export const shellShock = <TContext extends Context = Context>(
           return;
         }
 
-        this.debug("Adding executable permissions to binaries.");
+        this.trace("Adding executable permissions to binaries.");
 
         for (const executablePath of Object.values(this.packageJson.bin)) {
           if (
@@ -303,6 +374,11 @@ export const shellShock = <TContext extends Context = Context>(
               appendPath(executablePath, this.config.output.buildPath)
             )
           ) {
+            await writeHashbang(
+              this,
+              appendPath(executablePath, this.config.output.buildPath)
+            );
+
             await chmodX(
               appendPath(executablePath, this.config.output.buildPath)
             );

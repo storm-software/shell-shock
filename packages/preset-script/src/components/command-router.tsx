@@ -16,44 +16,62 @@
 
  ------------------------------------------------------------------- */
 
+import type { Children } from "@alloy-js/core";
 import { code, computed, For, Show } from "@alloy-js/core";
 import {
   ElseIfClause,
   IfStatement,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { DynamicImportStatement } from "@powerlines/plugin-alloy/typescript/components/dynamic-import-statement";
+import { isVariableCommandPath } from "@shell-shock/core/plugin-utils/context-helpers";
+import type { CommandTree } from "@shell-shock/core/types/command";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import { CommandContext, useCommand } from "../contexts/command";
-import type { ScriptPresetContext } from "../types/plugin";
 
 export function CommandRouterRoute() {
   const command = useCommand();
 
   return (
-    <Show
-      when={!command.isVirtual}
-      fallback={code`return handle${pascalCase(command.name)}(args);`}>
-      <DynamicImportStatement
-        name={`handle${pascalCase(command.name)}`}
-        importPath={`./${command.entry.output}`}
-        exportName="handler"
-      />
+    <>
+      <Show when={!command.isVirtual}>
+        <DynamicImportStatement
+          name={`handle${pascalCase(command.name)}`}
+          importPath={`./${
+            command.path.segments.filter(
+              segment => !isVariableCommandPath(segment)
+            )[
+              command.path.segments.filter(
+                segment => !isVariableCommandPath(segment)
+              ).length - 1
+            ]
+          }`}
+          exportName="handler"
+        />
+      </Show>
       <hbr />
       {code`return handle${pascalCase(command.name)}(args);`}
-    </Show>
+    </>
   );
 }
 
-export function CommandRouter() {
-  const context = usePowerlines<ScriptPresetContext>();
+export interface CommandRouterProps {
+  path: string[];
+  commands?: Record<string, CommandTree>;
+  route?: Children;
+}
+
+/**
+ * The command router component.
+ */
+export function CommandRouter(props: CommandRouterProps) {
+  const { path, commands, route } = props;
 
   const command = useCommand();
-  const index = computed(() => 2 + (command?.path.length ?? 0));
+  const index = computed(() => 2 + (path.length ?? 0));
 
   return (
-    <>
+    <Show when={commands && Object.keys(commands).length > 0}>
       <VarDeclaration
         let
         name="command"
@@ -68,27 +86,35 @@ export function CommandRouter() {
         index.value
       }];`}</IfStatement>
       <hbr />
-      <For each={Object.values(command?.children ?? context?.commands ?? {})}>
+      <For each={Object.values(commands ?? {})}>
         {(subcommand, idx) => (
           <CommandContext.Provider value={subcommand}>
-            <Show
-              when={Boolean(idx)}
-              fallback={
-                <IfStatement
+            <Show when={subcommand.name !== command?.name}>
+              <Show
+                when={Boolean(idx)}
+                fallback={
+                  <IfStatement
+                    condition={code`command.toLowerCase() === "${subcommand.name.toLowerCase()}"`}>
+                    <Show
+                      when={Boolean(route)}
+                      fallback={<CommandRouterRoute />}>
+                      {route}
+                    </Show>
+                  </IfStatement>
+                }>
+                <ElseIfClause
                   condition={code`command.toLowerCase() === "${subcommand.name.toLowerCase()}"`}>
-                  <CommandRouterRoute />
-                </IfStatement>
-              }>
-              <ElseIfClause
-                condition={code`command.toLowerCase() === "${subcommand.name.toLowerCase()}"`}>
-                <CommandRouterRoute />
-              </ElseIfClause>
+                  <Show when={Boolean(route)} fallback={<CommandRouterRoute />}>
+                    {route}
+                  </Show>
+                </ElseIfClause>
+              </Show>
             </Show>
           </CommandContext.Provider>
         )}
       </For>
       <ElseIfClause
         condition={code`Boolean(command)`}>{code`error("Unknown command: " + command);`}</ElseIfClause>
-    </>
+    </Show>
   );
 }

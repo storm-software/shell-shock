@@ -29,8 +29,10 @@ import type {
   ScriptPresetUserConfig
 } from "@shell-shock/preset-script/types/plugin";
 
-export interface CLIPresetOptions
-  extends Omit<ScriptPresetOptions, "defaultOptions"> {
+export interface CLIPresetOptions extends Omit<
+  ScriptPresetOptions,
+  "defaultOptions"
+> {
   /**
    * The default interactive mode to apply to commands.
    *

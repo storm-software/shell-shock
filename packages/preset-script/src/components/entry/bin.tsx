@@ -25,14 +25,19 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
+import type { TypescriptFileImports } from "@powerlines/plugin-alloy/types/components";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { TSDoc } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+import { pascalCase } from "@stryke/string-format/pascal-case";
+import defu from "defu";
 import type { ScriptPresetContext } from "../../types/plugin";
 import { CommandRouter } from "../command-router";
 
-export interface BinEntryProps
-  extends Omit<EntryFileProps, "path" | "hashbang"> {
+export interface BinEntryProps extends Omit<
+  EntryFileProps,
+  "path" | "hashbang"
+> {
   prefix?: Children;
   postfix?: Children;
 }
@@ -41,7 +46,7 @@ export interface BinEntryProps
  * The binary entry point for the Shell Shock project.
  */
 export function BinEntry(props: BinEntryProps) {
-  const { prefix, postfix, builtinImports, ...rest } = props;
+  const { prefix, postfix, builtinImports, imports, ...rest } = props;
 
   const context = usePowerlines<ScriptPresetContext>();
 
@@ -49,28 +54,42 @@ export function BinEntry(props: BinEntryProps) {
     <EntryFile
       {...rest}
       path="bin"
-      builtinImports={{
+      imports={defu(
+        imports ?? {},
+        Object.entries(context.commands)
+          .filter(([, command]) => command.isVirtual)
+          .reduce((ret, [name, command]) => {
+            ret[`./${command.name}`] = [
+              { name: "handler", alias: `handle${pascalCase(name)}` }
+            ];
+
+            return ret;
+          }, {} as TypescriptFileImports)
+      )}
+      builtinImports={defu(builtinImports ?? {}, {
         console: ["danger", "error", "verbose"],
-        utils: ["hasFlag"],
-        ...(builtinImports ?? {})
-      }}>
-      <Show when={Boolean(prefix)}>{prefix}</Show>
-      <hbr />
+        utils: ["hasFlag", "getArgs"]
+      })}>
+      <Show when={Boolean(prefix)}>
+        {prefix}
+        <hbr />
+        <hbr />
+      </Show>
       <TSDoc
         heading={`Binary entry point for the ${context?.config.title ? `${context?.config.title} ` : ""}CLI application.`}></TSDoc>
-      <FunctionDeclaration async name="main">
+      <FunctionDeclaration async returnType="any" name="main">
         <VarDeclaration
           const
           name="args"
           type="string[]"
-          initializer={code`process.argv;`}
+          initializer={code`getArgs();`}
         />
         <hbr />
-        <IfStatement condition={code`hasFlag(["version", "v"], args)`}>
+        <IfStatement condition={code`hasFlag(["version", "v"])`}>
           {code`console.log(${context?.packageJson.version ? `"${context?.packageJson.version}"` : "0.0.1"});`}
         </IfStatement>
         <ElseClause>
-          <CommandRouter />
+          <CommandRouter path={[]} commands={context?.commands ?? {}} />
         </ElseClause>
       </FunctionDeclaration>
       <hbr />

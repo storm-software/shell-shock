@@ -30,15 +30,6 @@ export interface BaseCommandOption {
 
 export interface StringCommandOption extends BaseCommandOption {
   kind: ReflectionKind.string;
-  format?:
-    | "path"
-    | "url"
-    | "date"
-    | "time"
-    | "datetime"
-    | "json"
-    | "regex"
-    | string;
   default?: string;
   variadic: boolean;
 }
@@ -69,12 +60,17 @@ export interface CommandParam {
   variadic: boolean;
 }
 
+export interface CommandPath {
+  value: string | null;
+  segments: string[];
+}
+
 export interface CommandBase {
   id: string | null;
   name: string;
   title?: string;
   description?: string;
-  path: string[];
+  path: CommandPath;
   isVirtual: boolean;
 }
 
@@ -83,9 +79,14 @@ export interface CommandInput extends CommandBase {
   entry: ResolvedEntryTypeDefinition;
 }
 
+export interface CommandTreePath extends CommandPath {
+  variables: Record<string, CommandParam>;
+}
+
 export type CommandTree = CommandInput & {
   title: string;
   description: string;
+  path: CommandTreePath;
   options: Record<string, CommandOption>;
   params: CommandParam[];
   parent: null | CommandTree;

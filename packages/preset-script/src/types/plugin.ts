@@ -37,8 +37,7 @@ import type {
 } from "@shell-shock/plugin-theme/types/plugin";
 
 export interface ScriptPresetOptions
-  extends Omit<Options, "defaultOptions">,
-    Partial<ThemePluginOptions> {
+  extends Omit<Options, "defaultOptions">, Partial<ThemePluginOptions> {
   /**
    * A set of default command options to apply to each command.
    *
@@ -57,6 +56,13 @@ export interface ScriptPresetOptions
     | false;
 
   /**
+   * Determines whether commands' name and option names are treated as case-sensitive.
+   *
+   * @defaultValue `false`
+   */
+  isCaseSensitive?: boolean;
+
+  /**
    * Configuration options for the Alloy plugin.
    */
   alloy?: AlloyPluginOptions;
@@ -69,8 +75,8 @@ export type ScriptPresetResolvedConfig = ResolvedConfig &
   ThemePluginResolvedConfig;
 
 export type ScriptPresetContext<
-  TResolvedConfig extends
-    ScriptPresetResolvedConfig = ScriptPresetResolvedConfig
+  TResolvedConfig extends ScriptPresetResolvedConfig =
+    ScriptPresetResolvedConfig
 > = AlloyPluginContext<TResolvedConfig> &
   ThemePluginContext<TResolvedConfig> &
   Context<TResolvedConfig>;
