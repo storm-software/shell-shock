@@ -16,21 +16,39 @@
 
  ------------------------------------------------------------------- */
 
-interface NewApplicationOptions {
+export const meta = {
+  name: "build",
+  description: "Build the project."
+};
+
+interface BuildOptions {
   /**
-   * The root directory of the application to create.
+   * The root directory of the project to build.
    */
   root: string;
+
+  /**
+   * Whether to enable verbose logging.
+   *
+   * @defaultValue false
+   */
+  verbose?: boolean;
+
+  /**
+   * Specific build targets to build.
+   */
+  targets: string[];
 }
 
 /**
- * Create a new application.
- *
- * @param options - The application arguments.
- * @param name - The name of the application.
+ * Build the project.
  */
-function newApplication(options: NewApplicationOptions, name: string) {
-  console.log("Creating new application:", name, "at", options.root);
+function build(options: BuildOptions) {
+  console.log(
+    `Building at ${options.root} with verbose=${
+      options.verbose ?? false
+    }, targets=${options.targets.join(", ")}`
+  );
 }
 
-export default newApplication;
+export default build;

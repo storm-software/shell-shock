@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-interface RemoveOptions {
+interface RunTaskRemoteOptions {
   /**
    * The root directory of the removal operation.
    */
@@ -24,13 +24,13 @@ interface RemoveOptions {
 }
 
 /**
- * Remove specified files.
+ * Run specified task remotely.
  *
  * @param options - The removal arguments.
- * @param files - The files to remove.
+ * @param task - The task to run.
  */
-function removeFiles(options: RemoveOptions, files: string[]) {
-  console.log("Removing files:", files, "at", options.root);
+function runTaskRemote(options: RunTaskRemoteOptions, task: string) {
+  console.log("Running task remote:", task, "at", options.root);
 }
 
-export default removeFiles;
+export default runTaskRemote;

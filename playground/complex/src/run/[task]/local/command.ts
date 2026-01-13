@@ -16,22 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-interface CopyOptions {
+interface RunTaskLocalOptions {
   /**
-   * The root directory of the copy operation.
+   * The root directory of the local operation.
    */
   root: string;
 }
 
 /**
- * Copy specified files from src to dest.
+ * Run specified task locally.
  *
- * @param options - The copy arguments.
- * @param src - The source path.
- * @param dest - The destination path.
+ * @param options - The local arguments.
+ * @param task - The task to run.
  */
-function copyFiles(options: CopyOptions, src: string[], dest: string) {
-  console.log("Copying files from:", src, "to", dest, "at", options.root);
+function runTaskLocal(options: RunTaskLocalOptions, task: string) {
+  console.log("Running task local:", task, "at", options.root);
 }
 
-export default copyFiles;
+export default runTaskLocal;

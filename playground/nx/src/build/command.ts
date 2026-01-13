@@ -16,18 +16,39 @@
 
  ------------------------------------------------------------------- */
 
-interface NewProjectOptions {
+export const meta = {
+  name: "build",
+  description: "Build the project."
+};
+
+interface BuildOptions {
   /**
-   * The root directory of the project to create.
+   * The root directory of the project to build.
    */
   root: string;
+
+  /**
+   * Whether to enable verbose logging.
+   *
+   * @defaultValue false
+   */
+  verbose?: boolean;
+
+  /**
+   * Specific build targets to build.
+   */
+  targets: string[];
 }
 
 /**
- * Create a new project.
+ * Build the project.
  */
-function newProject(options: NewProjectOptions, name: string) {
-  console.log("Creating new project:", name, "at", options.root);
+function build(options: BuildOptions) {
+  console.log(
+    `Building at ${options.root} with verbose=${
+      options.verbose ?? false
+    }, targets=${options.targets.join(", ")}`
+  );
 }
 
-export default newProject;
+export default build;
