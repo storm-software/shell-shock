@@ -52,8 +52,10 @@ import type {
   StringCommandOption
 } from "@shell-shock/core/types/command";
 import { toArray } from "@stryke/convert/to-array";
+import { appendPath } from "@stryke/path/append";
 import { findFilePath, relativePath } from "@stryke/path/find";
 import { joinPaths } from "@stryke/path/join";
+import { replaceExtension } from "@stryke/path/replace";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
@@ -468,7 +470,7 @@ export function CommandInvocation(props: { command: CommandTree }) {
   return (
     <>
       <Show when={!command.isVirtual}>
-        {code`return handle${pascalCase(command.name)}(options${
+        {code`return Promise.resolve(handle${pascalCase(command.name)}(options${
           command.path.segments.filter(segment =>
             isVariableCommandPath(segment)
           ).length > 0
@@ -481,14 +483,17 @@ export function CommandInvocation(props: { command: CommandTree }) {
           command.params.length > 0
             ? `, ${command.params.map(param => camelCase(param.name)).join(", ")}`
             : ""
-        });`}
+        }));`}
         <hbr />
       </Show>
     </>
   );
 }
 
-export interface CommandEntryProps extends Omit<EntryFileProps, "path"> {
+export interface CommandEntryProps extends Omit<
+  EntryFileProps,
+  "path" | "typeDefinition"
+> {
   command: CommandTree;
 }
 
@@ -510,9 +515,14 @@ export function CommandEntry(props: CommandEntryProps) {
   const commandSourcePath = computed(() =>
     command.isVirtual
       ? ""
-      : relativePath(
-          joinPaths(context.entryPath, findFilePath(filePath.value)),
-          command.entry.input?.file || command.entry.file
+      : replaceExtension(
+          relativePath(
+            joinPaths(context.entryPath, findFilePath(filePath.value)),
+            appendPath(
+              command.entry.input?.file || command.entry.file,
+              context.config.projectRoot
+            )
+          )
         )
   );
 
@@ -520,6 +530,7 @@ export function CommandEntry(props: CommandEntryProps) {
     <>
       <EntryFile
         {...rest}
+        typeDefinition={command.entry}
         path={filePath.value}
         imports={defu(
           imports ?? {},
