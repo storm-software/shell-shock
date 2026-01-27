@@ -9,7 +9,7 @@
       "executor": "@powerlines/nx:clean"
     },
     "prepare": {
-      "cache": true,
+      "cache": false,
       "inputs": ["typescript", "^production"],
       "outputs": ["{projectRoot}/.powerlines"],
       "executor": "@powerlines/nx:prepare",
@@ -19,21 +19,21 @@
       }
     },
     "build": {
-      "cache": true,
+      "cache": false,
       "inputs": ["typescript", "^production"],
       "outputs": ["{options.outputPath}"],
       "executor": "@powerlines/nx:build",
-      "dependsOn": ["prepare"],
+      "dependsOn": ["^build"],
       "options": {
         "mode": "development"
       }
     },
     "docs": {
-      "cache": true,
+      "cache": false,
       "inputs": ["typescript", "^production"],
       "outputs": ["{projectRoot}/docs"],
       "executor": "@powerlines/nx:docs",
-      "dependsOn": ["prepare", "build"]
+      "dependsOn": ["build"]
     }
   }
 }

@@ -8,8 +8,6 @@
     "declarationMap": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "@opentui/react",
     "lib": ["ESNext", "DOM", "DOM.Iterable", "DOM.AsyncIterable"],
     "module": "ESNext",
     "moduleResolution": "Bundler",

@@ -16,27 +16,13 @@
 
  ------------------------------------------------------------------- */
 
-import { ShellShockAPI } from "./api";
-import type { UserConfig } from "./types/config";
+import { ShellShockAPI, createShellShock } from "./api";
 
 export * from "./config";
 
-export { shellShock } from "./powerlines";
+export { plugin, shellShock } from "./plugin";
 export * from "./types";
 
-/**
- * Creates a new {@link ShellShockAPI} instance.
- *
- * @param options - The user configuration options.
- * @returns A promise that resolves to a {@link ShellShockAPI} instance.
- */
-export async function createShellShock(
-  options: Partial<UserConfig> = {}
-): Promise<ShellShockAPI> {
-  options.root ??= process.cwd();
-
-  return ShellShockAPI.from(options);
-}
-
-export { ShellShockAPI };
+// eslint-disable-next-line perfectionist/sort-named-exports
+export { ShellShockAPI, createShellShock };
 export default ShellShockAPI;

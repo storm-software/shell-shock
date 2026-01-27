@@ -38,117 +38,74 @@
   },
   "license": "Apache-2.0",
   "private": false,
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "typings": "dist/index.d.mts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "exports": {
-    "./package.json": "./package.json",
     ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
       "require": {
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
       },
-      "default": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      }
-    },
-    "./index": {
       "import": {
         "types": "./dist/index.d.mts",
         "default": "./dist/index.mjs"
       },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      },
       "default": {
         "types": "./dist/index.d.mts",
         "default": "./dist/index.mjs"
-      }
-    },
-    "./config": {
-      "import": {
-        "types": "./dist/config.d.mts",
-        "default": "./dist/config.mjs"
-      },
-      "require": {
-        "types": "./dist/config.d.cts",
-        "default": "./dist/config.cjs"
-      },
-      "default": {
-        "types": "./dist/config.d.mts",
-        "default": "./dist/config.mjs"
       }
     },
     "./api": {
-      "import": {
-        "types": "./dist/api.d.mts",
-        "default": "./dist/api.mjs"
-      },
       "require": {
         "types": "./dist/api.d.cts",
         "default": "./dist/api.cjs"
       },
+      "import": {
+        "types": "./dist/api.d.mts",
+        "default": "./dist/api.mjs"
+      },
       "default": {
         "types": "./dist/api.d.mts",
         "default": "./dist/api.mjs"
       }
     },
-    "./powerlines": {
-      "import": {
-        "types": "./dist/powerlines.d.mts",
-        "default": "./dist/powerlines.mjs"
-      },
+    "./config": {
       "require": {
-        "types": "./dist/powerlines.d.cts",
-        "default": "./dist/powerlines.cjs"
+        "types": "./dist/config.d.cts",
+        "default": "./dist/config.cjs"
+      },
+      "import": {
+        "types": "./dist/config.d.mts",
+        "default": "./dist/config.mjs"
       },
       "default": {
-        "types": "./dist/powerlines.d.mts",
-        "default": "./dist/powerlines.mjs"
+        "types": "./dist/config.d.mts",
+        "default": "./dist/config.mjs"
       }
     },
-    "./types": {
-      "import": {
-        "types": "./dist/types/index.d.mts",
-        "default": "./dist/types/index.mjs"
-      },
+    "./package.json": "./package.json",
+    "./plugin": {
       "require": {
-        "types": "./dist/types/index.d.cts",
-        "default": "./dist/types/index.cjs"
+        "types": "./dist/plugin.d.cts",
+        "default": "./dist/plugin.cjs"
+      },
+      "import": {
+        "types": "./dist/plugin.d.mts",
+        "default": "./dist/plugin.mjs"
       },
       "default": {
-        "types": "./dist/types/index.d.mts",
-        "default": "./dist/types/index.mjs"
-      }
-    },
-    "./types/*": {
-      "import": {
-        "types": "./dist/types/*.d.mts",
-        "default": "./dist/types/*.mjs"
-      },
-      "require": {
-        "types": "./dist/types/*.d.cts",
-        "default": "./dist/types/*.cjs"
-      },
-      "default": {
-        "types": "./dist/types/*.d.mts",
-        "default": "./dist/types/*.mjs"
+        "types": "./dist/plugin.d.mts",
+        "default": "./dist/plugin.mjs"
       }
     },
     "./plugin-utils": {
-      "import": {
-        "types": "./dist/plugin-utils/index.d.mts",
-        "default": "./dist/plugin-utils/index.mjs"
-      },
       "require": {
         "types": "./dist/plugin-utils/index.d.cts",
         "default": "./dist/plugin-utils/index.cjs"
+      },
+      "import": {
+        "types": "./dist/plugin-utils/index.d.mts",
+        "default": "./dist/plugin-utils/index.mjs"
       },
       "default": {
         "types": "./dist/plugin-utils/index.d.mts",
@@ -156,52 +113,187 @@
       }
     },
     "./plugin-utils/*": {
-      "import": {
-        "types": "./dist/plugin-utils/*.d.mts",
-        "default": "./dist/plugin-utils/*.mjs"
-      },
       "require": {
         "types": "./dist/plugin-utils/*.d.cts",
         "default": "./dist/plugin-utils/*.cjs"
       },
+      "import": {
+        "types": "./dist/plugin-utils/*.d.mts",
+        "default": "./dist/plugin-utils/*.mjs"
+      },
       "default": {
         "types": "./dist/plugin-utils/*.d.mts",
         "default": "./dist/plugin-utils/*.mjs"
       }
     },
-    "./components": {
-      "import": {
-        "types": "./dist/components/index.d.mts",
-        "default": "./dist/components/index.mjs"
-      },
+    "./plugin-utils/context-helpers": {
       "require": {
-        "types": "./dist/components/index.d.cts",
-        "default": "./dist/components/index.cjs"
+        "types": "./dist/plugin-utils/context-helpers.d.cts",
+        "default": "./dist/plugin-utils/context-helpers.cjs"
+      },
+      "import": {
+        "types": "./dist/plugin-utils/context-helpers.d.mts",
+        "default": "./dist/plugin-utils/context-helpers.mjs"
       },
       "default": {
-        "types": "./dist/components/index.d.mts",
-        "default": "./dist/components/index.mjs"
+        "types": "./dist/plugin-utils/context-helpers.d.mts",
+        "default": "./dist/plugin-utils/context-helpers.mjs"
       }
     },
-    "./components/*": {
-      "import": {
-        "types": "./dist/components/*.d.mts",
-        "default": "./dist/components/*.mjs"
-      },
+    "./plugin-utils/get-command-tree": {
       "require": {
-        "types": "./dist/components/*.d.cts",
-        "default": "./dist/components/*.cjs"
+        "types": "./dist/plugin-utils/get-command-tree.d.cts",
+        "default": "./dist/plugin-utils/get-command-tree.cjs"
+      },
+      "import": {
+        "types": "./dist/plugin-utils/get-command-tree.d.mts",
+        "default": "./dist/plugin-utils/get-command-tree.mjs"
       },
       "default": {
-        "types": "./dist/components/*.d.mts",
-        "default": "./dist/components/*.mjs"
+        "types": "./dist/plugin-utils/get-command-tree.d.mts",
+        "default": "./dist/plugin-utils/get-command-tree.mjs"
+      }
+    },
+    "./plugin-utils/reflect": {
+      "require": {
+        "types": "./dist/plugin-utils/reflect.d.cts",
+        "default": "./dist/plugin-utils/reflect.cjs"
+      },
+      "import": {
+        "types": "./dist/plugin-utils/reflect.d.mts",
+        "default": "./dist/plugin-utils/reflect.mjs"
+      },
+      "default": {
+        "types": "./dist/plugin-utils/reflect.d.mts",
+        "default": "./dist/plugin-utils/reflect.mjs"
+      }
+    },
+    "./plugin-utils/traverse-command-tree": {
+      "require": {
+        "types": "./dist/plugin-utils/traverse-command-tree.d.cts",
+        "default": "./dist/plugin-utils/traverse-command-tree.cjs"
+      },
+      "import": {
+        "types": "./dist/plugin-utils/traverse-command-tree.d.mts",
+        "default": "./dist/plugin-utils/traverse-command-tree.mjs"
+      },
+      "default": {
+        "types": "./dist/plugin-utils/traverse-command-tree.d.mts",
+        "default": "./dist/plugin-utils/traverse-command-tree.mjs"
+      }
+    },
+    "./types": {
+      "require": {
+        "types": "./dist/types/index.d.cts",
+        "default": "./dist/types/index.cjs"
+      },
+      "import": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/types/index.mjs"
+      },
+      "default": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/types/index.mjs"
+      }
+    },
+    "./types/*": {
+      "require": {
+        "types": "./dist/types/*.d.cts",
+        "default": "./dist/types/*.cjs"
+      },
+      "import": {
+        "types": "./dist/types/*.d.mts",
+        "default": "./dist/types/*.mjs"
+      },
+      "default": {
+        "types": "./dist/types/*.d.mts",
+        "default": "./dist/types/*.mjs"
+      }
+    },
+    "./types/command": {
+      "require": {
+        "types": "./dist/types/command.d.cts",
+        "default": "./dist/types/command.cjs"
+      },
+      "import": {
+        "types": "./dist/types/command.d.mts",
+        "default": "./dist/types/command.mjs"
+      },
+      "default": {
+        "types": "./dist/types/command.d.mts",
+        "default": "./dist/types/command.mjs"
+      }
+    },
+    "./types/config": {
+      "require": {
+        "types": "./dist/types/config.d.cts",
+        "default": "./dist/types/config.cjs"
+      },
+      "import": {
+        "types": "./dist/types/config.d.mts",
+        "default": "./dist/types/config.mjs"
+      },
+      "default": {
+        "types": "./dist/types/config.d.mts",
+        "default": "./dist/types/config.mjs"
+      }
+    },
+    "./types/context": {
+      "require": {
+        "types": "./dist/types/context.d.cts",
+        "default": "./dist/types/context.cjs"
+      },
+      "import": {
+        "types": "./dist/types/context.d.mts",
+        "default": "./dist/types/context.mjs"
+      },
+      "default": {
+        "types": "./dist/types/context.d.mts",
+        "default": "./dist/types/context.mjs"
+      }
+    },
+    "./types/internal": {
+      "require": {
+        "types": "./dist/types/internal.d.cts",
+        "default": "./dist/types/internal.cjs"
+      },
+      "import": {
+        "types": "./dist/types/internal.d.mts",
+        "default": "./dist/types/internal.mjs"
+      },
+      "default": {
+        "types": "./dist/types/internal.d.mts",
+        "default": "./dist/types/internal.mjs"
+      }
+    },
+    "./types/options": {
+      "require": {
+        "types": "./dist/types/options.d.cts",
+        "default": "./dist/types/options.cjs"
+      },
+      "import": {
+        "types": "./dist/types/options.d.mts",
+        "default": "./dist/types/options.mjs"
+      },
+      "default": {
+        "types": "./dist/types/options.d.mts",
+        "default": "./dist/types/options.mjs"
       }
     }
   },
-  "files": ["dist/**/*"],
-  "keywords": ["shell-shock", "powerlines", "storm-software"],
+  "types": "./dist/index.d.cts",
+  "typings": "dist/index.d.mts",
+  "files": [
+    "dist/**/*"
+  ],
+  "keywords": [
+    "shell-shock",
+    "powerlines",
+    "storm-software"
+  ],
   "dependencies": {
     "@powerlines/deepkit": "catalog:",
+    "@powerlines/plugin-nodejs": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
     "@stryke/cli": "catalog:",
@@ -212,17 +304,80 @@
     "@stryke/path": "catalog:",
     "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",
+    "@stryke/types": "catalog:",
+    "automd": "catalog:",
     "defu": "catalog:",
-    "powerlines": "catalog:",
-    "@powerlines/plugin-env": "catalog:",
-    "@powerlines/plugin-nodejs": "catalog:",
-    "@stryke/types": "catalog:"
+    "powerlines": "catalog:"
   },
   "devDependencies": {
+    "@powerlines/plugin-alloy": "catalog:",
     "@types/node": "catalog:",
     "typescript": "catalog:"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "exports": {
+      ".": {
+        "require": "./dist/index.cjs",
+        "import": "./dist/index.mjs"
+      },
+      "./api": {
+        "require": "./dist/api.cjs",
+        "import": "./dist/api.mjs"
+      },
+      "./config": {
+        "require": "./dist/config.cjs",
+        "import": "./dist/config.mjs"
+      },
+      "./plugin": {
+        "require": "./dist/plugin.cjs",
+        "import": "./dist/plugin.mjs"
+      },
+      "./plugin-utils": {
+        "require": "./dist/plugin-utils/index.cjs",
+        "import": "./dist/plugin-utils/index.mjs"
+      },
+      "./plugin-utils/context-helpers": {
+        "require": "./dist/plugin-utils/context-helpers.cjs",
+        "import": "./dist/plugin-utils/context-helpers.mjs"
+      },
+      "./plugin-utils/get-command-tree": {
+        "require": "./dist/plugin-utils/get-command-tree.cjs",
+        "import": "./dist/plugin-utils/get-command-tree.mjs"
+      },
+      "./plugin-utils/reflect": {
+        "require": "./dist/plugin-utils/reflect.cjs",
+        "import": "./dist/plugin-utils/reflect.mjs"
+      },
+      "./plugin-utils/traverse-command-tree": {
+        "require": "./dist/plugin-utils/traverse-command-tree.cjs",
+        "import": "./dist/plugin-utils/traverse-command-tree.mjs"
+      },
+      "./types": {
+        "require": "./dist/types/index.cjs",
+        "import": "./dist/types/index.mjs"
+      },
+      "./types/command": {
+        "require": "./dist/types/command.cjs",
+        "import": "./dist/types/command.mjs"
+      },
+      "./types/config": {
+        "require": "./dist/types/config.cjs",
+        "import": "./dist/types/config.mjs"
+      },
+      "./types/context": {
+        "require": "./dist/types/context.cjs",
+        "import": "./dist/types/context.mjs"
+      },
+      "./types/internal": {
+        "require": "./dist/types/internal.cjs",
+        "import": "./dist/types/internal.mjs"
+      },
+      "./types/options": {
+        "require": "./dist/types/options.cjs",
+        "import": "./dist/types/options.mjs"
+      },
+      "./package.json": "./package.json"
+    }
   }
 }

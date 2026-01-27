@@ -18,14 +18,13 @@
 
 import type { ExecutorContext, PromiseExecutor } from "@nx/devkit";
 import type { ShellShockAPI, UserConfig } from "@shell-shock/core";
-import { createShellShock } from "@shell-shock/core";
 import { writeError } from "@storm-software/config-tools/logger";
 import type { StormWorkspaceConfig } from "@storm-software/config/types";
 import { withRunExecutor } from "@storm-software/workspace-tools/base/base-executor";
 import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
 import { isError } from "@stryke/type-checks/is-error";
 import defu from "defu";
-// import { createJiti } from "jiti";
+import { createJiti } from "jiti";
 import type { InlineConfig, PowerlinesCommand } from "powerlines/types/config";
 import type { BaseExecutorSchema } from "./base-executor.schema";
 
@@ -91,11 +90,10 @@ export function withExecutor<
       const projectConfig =
         context.projectsConfigurations.projects[context.projectName]!;
 
-      // const jiti = createJiti(context.root, { cache: true });
-
-      // const { createShellShock } = await jiti.import<{
-      //   createShellShock: typeof import("@shell-shock/core").createShellShock;
-      // }>("@shell-shock/core");
+      const jiti = createJiti(context.root, { cache: false });
+      const { createShellShock } = await jiti.import<{
+        createShellShock: typeof import("@shell-shock/core/api").createShellShock;
+      }>("@shell-shock/core/api");
 
       const api = await createShellShock(
         defu(
@@ -106,6 +104,7 @@ export function withExecutor<
             logLevel: options.logLevel,
             mode: options.mode,
             skipCache: options.skipCache,
+            autoInstall: options.autoInstall,
             output: {
               outputPath:
                 options.outputPath ??
@@ -157,10 +156,6 @@ ${error.stack}`
       skipReadingConfig: false,
       hooks: {
         applyDefaultOptions: (options: Partial<TExecutorSchema>) => {
-          if (options.mode !== "development" && options.mode !== "test") {
-            options.mode = "production";
-          }
-
           options.outputPath ??= "dist/{projectRoot}";
           options.configFile ??= "{projectRoot}/shell-shock.config.ts";
 

@@ -17,21 +17,14 @@
  ------------------------------------------------------------------- */
 
 import { defineUntypedSchema } from "untyped";
-import PrepareExecutorSchema from "../prepare/untyped";
+import prepareExecutorSchema from "../prepare/untyped";
 
 export default defineUntypedSchema({
-  ...PrepareExecutorSchema,
+  ...prepareExecutorSchema,
   $schema: {
     id: "BuildExecutorSchema",
     title: "Build Executor",
     description: "A type definition for the Powerlines - Build executor schema",
     required: []
-  },
-  entry: {
-    $schema: {
-      title: "Entry Path(s)",
-      description: "The entry path(s) for the package",
-      oneOf: [{ type: "string" }, { type: "array", items: { type: "string" } }]
-    }
   }
 });

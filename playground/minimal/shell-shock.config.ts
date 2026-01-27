@@ -18,10 +18,12 @@
 
 import type { UserConfig } from "@shell-shock/core";
 import { defineConfig } from "@shell-shock/core";
+import shellShock from "@shell-shock/core/plugin";
 
 const config: UserConfig = defineConfig({
   name: "playground-minimal",
-  skipCache: true
+  skipCache: true,
+  plugins: [shellShock()]
 });
 
 export default config;

@@ -23,8 +23,9 @@ export interface BaseCommandOption {
   name: string;
   kind: ReflectionKind;
   title: string;
-  description?: string;
+  description: string;
   alias: string[];
+  env: string | false;
   optional: boolean;
 }
 

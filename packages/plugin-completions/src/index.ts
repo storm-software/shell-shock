@@ -39,7 +39,7 @@ export const plugin = <
     {
       name: "shell-shock:completions",
       config() {
-        this.trace(
+        this.debug(
           "Providing default configuration for the Shell Shock `completions` plugin."
         );
 
@@ -48,7 +48,7 @@ export const plugin = <
         };
       },
       configResolved() {
-        this.trace("Adding the CLI completion commands to the entry points.");
+        this.debug("Adding the CLI completion commands to the entry points.");
 
         this.inputs ??= [];
         if (this.inputs.some(input => input.id === "completions")) {

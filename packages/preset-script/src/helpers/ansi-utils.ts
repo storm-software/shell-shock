@@ -297,6 +297,10 @@ function buildThemeAnsiStyles(
             open: wrapFn()(convertFn(theme.text.message.description.info)),
             close: wrapAnsi16()(39)
           },
+          debug: {
+            open: wrapFn()(convertFn(theme.text.message.description.debug)),
+            close: wrapAnsi16()(39)
+          },
           warning: {
             open: wrapFn()(convertFn(theme.text.message.description.warning)),
             close: wrapAnsi16()(39)
@@ -321,6 +325,10 @@ function buildThemeAnsiStyles(
           },
           info: {
             open: wrapFn()(convertFn(theme.text.message.link.info)),
+            close: wrapAnsi16()(39)
+          },
+          debug: {
+            open: wrapFn()(convertFn(theme.text.message.link.debug)),
             close: wrapAnsi16()(39)
           },
           warning: {
@@ -349,6 +357,10 @@ function buildThemeAnsiStyles(
             open: wrapFn()(convertFn(theme.text.message.header.info)),
             close: wrapAnsi16()(39)
           },
+          debug: {
+            open: wrapFn()(convertFn(theme.text.message.header.debug)),
+            close: wrapAnsi16()(39)
+          },
           warning: {
             open: wrapFn()(convertFn(theme.text.message.header.warning)),
             close: wrapAnsi16()(39)
@@ -373,6 +385,10 @@ function buildThemeAnsiStyles(
           },
           info: {
             open: wrapFn()(convertFn(theme.text.message.footer.info)),
+            close: wrapAnsi16()(39)
+          },
+          debug: {
+            open: wrapFn()(convertFn(theme.text.message.footer.debug)),
             close: wrapAnsi16()(39)
           },
           warning: {
@@ -462,17 +478,17 @@ function buildThemeAnsiStyles(
             close: wrapAnsi16()(39)
           }
         },
-        outline: {
+        table: {
           primary: {
-            open: wrapFn()(convertFn(theme.border.app.outline.primary)),
+            open: wrapFn()(convertFn(theme.border.app.table.primary)),
             close: wrapAnsi16()(39)
           },
           secondary: {
-            open: wrapFn()(convertFn(theme.border.app.outline.secondary)),
+            open: wrapFn()(convertFn(theme.border.app.table.secondary)),
             close: wrapAnsi16()(39)
           },
           tertiary: {
-            open: wrapFn()(convertFn(theme.border.app.outline.tertiary)),
+            open: wrapFn()(convertFn(theme.border.app.table.tertiary)),
             close: wrapAnsi16()(39)
           }
         }
@@ -489,6 +505,10 @@ function buildThemeAnsiStyles(
           },
           info: {
             open: wrapFn()(convertFn(theme.border.message.divider.info)),
+            close: wrapAnsi16()(39)
+          },
+          debug: {
+            open: wrapFn()(convertFn(theme.border.message.divider.debug)),
             close: wrapAnsi16()(39)
           },
           warning: {
@@ -515,6 +535,10 @@ function buildThemeAnsiStyles(
           },
           info: {
             open: wrapFn()(convertFn(theme.border.message.outline.info)),
+            close: wrapAnsi16()(39)
+          },
+          debug: {
+            open: wrapFn()(convertFn(theme.border.message.outline.debug)),
             close: wrapAnsi16()(39)
           },
           warning: {

@@ -16,7 +16,11 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./builtin";
+export * from "./args-parser-logic";
+export * from "./bin-entry";
+export * from "./command-entry";
 export * from "./command-router";
-export * from "./entry";
-export * from "./shutdown";
+export * from "./console-builtin";
+export * from "./help";
+export * from "./utils-builtin";
+export * from "./virtual-command-entry";

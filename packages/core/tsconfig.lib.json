@@ -2,9 +2,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
-    "outDir": "./out-tsc"
+    "jsx": "preserve",
+    "jsxImportSource": "@alloy-js/core",
+    "outDir": "./out-tsc",
+    "sourceMap": true
   },
   "references": [],
-  "include": ["src/**/*.ts", "powerlines.config.ts"],
+  "include": ["src/**/*.ts", "powerlines.config.ts", "powerlines.d.ts"],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

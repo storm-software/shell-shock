@@ -16,5 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+export * from "./context-helpers";
 export * from "./get-command-tree";
+export * from "./reflect";
 export * from "./traverse-command-tree";

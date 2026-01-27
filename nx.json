@@ -25,17 +25,7 @@
     "@storm-software/workspace-tools/plugins/typescript",
     "@storm-software/workspace-tools/plugins/typescript/untyped",
     "@storm-software/workspace-tools/plugins/typescript/tsup",
-    {
-      "plugin": "@powerlines/nx/plugin",
-      "options": {
-        "prepare": {
-          "dependsOn": ["^build"]
-        },
-        "build": {
-          "dependsOn": ["prepare"]
-        }
-      }
-    }
+    "@powerlines/nx/plugin"
   ],
   "sync": {
     "applyChanges": true,

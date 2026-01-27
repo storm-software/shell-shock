@@ -38,47 +38,32 @@
   },
   "license": "Apache-2.0",
   "private": false,
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "typings": "dist/index.d.mts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "exports": {
-    "./package.json": "./package.json",
     ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
       "require": {
         "types": "./dist/index.d.cts",
         "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
       },
       "default": {
         "types": "./dist/index.d.mts",
         "default": "./dist/index.mjs"
       }
     },
-    "./index": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      },
-      "default": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      }
-    },
+    "./package.json": "./package.json",
     "./types": {
-      "import": {
-        "types": "./dist/types/index.d.mts",
-        "default": "./dist/types/index.mjs"
-      },
       "require": {
         "types": "./dist/types/index.d.cts",
         "default": "./dist/types/index.cjs"
+      },
+      "import": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/types/index.mjs"
       },
       "default": {
         "types": "./dist/types/index.d.mts",
@@ -86,21 +71,52 @@
       }
     },
     "./types/*": {
-      "import": {
-        "types": "./dist/types/*.d.mts",
-        "default": "./dist/types/*.mjs"
-      },
       "require": {
         "types": "./dist/types/*.d.cts",
         "default": "./dist/types/*.cjs"
+      },
+      "import": {
+        "types": "./dist/types/*.d.mts",
+        "default": "./dist/types/*.mjs"
       },
       "default": {
         "types": "./dist/types/*.d.mts",
         "default": "./dist/types/*.mjs"
       }
+    },
+    "./types/plugin": {
+      "require": {
+        "types": "./dist/types/plugin.d.cts",
+        "default": "./dist/types/plugin.cjs"
+      },
+      "import": {
+        "types": "./dist/types/plugin.d.mts",
+        "default": "./dist/types/plugin.mjs"
+      },
+      "default": {
+        "types": "./dist/types/plugin.d.mts",
+        "default": "./dist/types/plugin.mjs"
+      }
+    },
+    "./types/theme": {
+      "require": {
+        "types": "./dist/types/theme.d.cts",
+        "default": "./dist/types/theme.cjs"
+      },
+      "import": {
+        "types": "./dist/types/theme.d.mts",
+        "default": "./dist/types/theme.mjs"
+      },
+      "default": {
+        "types": "./dist/types/theme.d.mts",
+        "default": "./dist/types/theme.mjs"
+      }
     }
   },
-  "files": ["dist/**/*"],
+  "typings": "dist/index.d.mts",
+  "files": [
+    "dist/**/*"
+  ],
   "keywords": [
     "style-dictionary",
     "shell-shock",
@@ -112,17 +128,36 @@
     "@powerlines/plugin-plugin": "catalog:",
     "@powerlines/plugin-style-dictionary": "catalog:",
     "@stryke/helpers": "catalog:",
+    "@stryke/type-checks": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:",
-    "style-dictionary": "catalog:",
-    "@stryke/type-checks": "catalog:"
+    "style-dictionary": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-deepkit": "catalog:",
-    "@types/node": "catalog:",
-    "style-dictionary": "catalog:"
+    "@types/node": "catalog:"
   },
   "publishConfig": {
-    "access": "public"
-  }
+    "access": "public",
+    "exports": {
+      ".": {
+        "require": "./dist/index.cjs",
+        "import": "./dist/index.mjs"
+      },
+      "./types": {
+        "require": "./dist/types/index.cjs",
+        "import": "./dist/types/index.mjs"
+      },
+      "./types/plugin": {
+        "require": "./dist/types/plugin.cjs",
+        "import": "./dist/types/plugin.mjs"
+      },
+      "./types/theme": {
+        "require": "./dist/types/theme.cjs",
+        "import": "./dist/types/theme.mjs"
+      },
+      "./package.json": "./package.json"
+    }
+  },
+  "types": "./dist/index.d.cts"
 }

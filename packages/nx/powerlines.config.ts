@@ -34,6 +34,9 @@ export default defineConfig({
   plugins: [untyped(), tsdown()],
   build: {
     clean: false,
-    silent: true
+    silent: true,
+    minify: false,
+    sourcemap: true,
+    shimMissingExports: true
   }
 });

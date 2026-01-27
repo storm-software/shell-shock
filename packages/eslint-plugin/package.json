@@ -1,0 +1,115 @@
+{
+  "name": "@shell-shock/eslint-plugin",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "An ESLint Plugin with linting rules that ensure a Shell Shock project is following the best practices.",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/shell-shock.git",
+    "directory": "packages/eslint-plugin"
+  },
+  "homepage": "https://stormsoftware.com",
+  "bugs": {
+    "url": "https://stormsoftware.com/support",
+    "email": "support@stormsoftware.com"
+  },
+  "author": {
+    "name": "Storm Software",
+    "email": "contact@stormsoftware.com",
+    "url": "https://stormsoftware.com"
+  },
+  "maintainers": [
+    {
+      "name": "Storm Software",
+      "email": "contact@stormsoftware.com",
+      "url": "https://stormsoftware.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Storm Software",
+      "email": "contact@stormsoftware.com",
+      "url": "https://stormsoftware.com"
+    }
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
+  "private": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": "./src/index.ts",
+    "./configs": "./src/configs/index.ts",
+    "./configs/base": "./src/configs/base.ts",
+    "./plugin": "./src/plugin.ts",
+    "./rules/invalid-command-path": "./src/rules/invalid-command-path.ts",
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.cts",
+  "typings": "dist/index.d.mts",
+  "files": [
+    "dist/**/*"
+  ],
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "shell-shock",
+    "storm-software"
+  ],
+  "peerDependencies": {
+    "@powerlines/plugin-tsdown": "0.1.184",
+    "eslint": "catalog:",
+    "powerlines": "0.37.102"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": false
+    }
+  },
+  "dependencies": {
+    "@typescript-eslint/utils": "catalog:",
+    "defu": "catalog:"
+  },
+  "devDependencies": {
+    "@eslint/config-inspector": "catalog:",
+    "@storm-software/eslint": "catalog:",
+    "@types/eslint": "catalog:",
+    "@types/eslint__js": "catalog:",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "eslint-doc-generator": "catalog:",
+    "eslint-plugin-eslint-plugin": "catalog:",
+    "eslint-plugin-i18n-text": "catalog:",
+    "eslint-rule-documentation": "catalog:",
+    "eslint-typegen": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "require": "./dist/index.cjs",
+        "import": "./dist/index.mjs"
+      },
+      "./configs": {
+        "require": "./dist/configs/index.cjs",
+        "import": "./dist/configs/index.mjs"
+      },
+      "./configs/base": {
+        "require": "./dist/configs/base.cjs",
+        "import": "./dist/configs/base.mjs"
+      },
+      "./plugin": {
+        "require": "./dist/plugin.cjs",
+        "import": "./dist/plugin.mjs"
+      },
+      "./rules/invalid-command-path": {
+        "require": "./dist/rules/invalid-command-path.cjs",
+        "import": "./dist/rules/invalid-command-path.mjs"
+      },
+      "./package.json": "./package.json"
+    }
+  }
+}

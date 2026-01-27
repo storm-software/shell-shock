@@ -17,10 +17,10 @@
  ------------------------------------------------------------------- */
 
 import { defineUntypedSchema } from "untyped";
-import baseExecutorSchema from "../../base/base-executor.untyped";
+import prepareExecutorSchema from "../prepare/untyped";
 
 export default defineUntypedSchema({
-  ...baseExecutorSchema,
+  ...prepareExecutorSchema,
   $schema: {
     id: "CleanExecutorSchema",
     title: "Clean Executor",

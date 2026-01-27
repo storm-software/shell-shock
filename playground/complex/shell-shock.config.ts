@@ -22,7 +22,6 @@ import script from "@shell-shock/preset-script";
 
 const config: UserConfig = defineConfig({
   skipCache: true,
-  skipInstalls: true,
   name: "playground-complex",
   output: {
     storage: "fs"

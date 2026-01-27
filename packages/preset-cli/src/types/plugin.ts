@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import type { Children } from "@alloy-js/core";
 import type {
   CommandBase,
   CommandOption
@@ -64,6 +65,11 @@ export interface CLIPresetOptions extends Omit<
     | CommandOption[]
     | ((context: Context, input: CommandBase) => CommandOption[])
     | false;
+
+  /**
+   * An alloy-js component to render the banner that is displayed when the application starts.
+   */
+  banner?: Children;
 }
 
 export type CLIPresetUserConfig = ScriptPresetUserConfig & CLIPresetOptions;

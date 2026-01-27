@@ -23,7 +23,10 @@ import { defineConfig } from "powerlines";
 const config: UserConfig = defineConfig({
   skipCache: true,
   entry: ["./src/*.ts", "./src/types/*.ts", "./src/plugin-utils/*.ts"],
-  plugins: [plugin()]
+  plugins: [plugin()],
+  build: {
+    sourcemap: true
+  }
 });
 
 export default config;

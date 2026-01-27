@@ -17,25 +17,20 @@
  ------------------------------------------------------------------- */
 
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
-import type { CommandBase, CommandOption } from "@shell-shock/core";
-import type { ScriptPresetContext } from "../types";
+import type { CommandOption } from "@shell-shock/core";
 
 /**
  * Get the default command options.
  *
- * @param context - The build context.
- * @param command - The command input.
  * @returns The default command options.
  */
-export function getDefaultOptions(
-  context: ScriptPresetContext,
-  command: CommandBase
-): CommandOption[] {
+export function getDefaultOptions(): CommandOption[] {
   return [
     {
       name: "help",
       title: "Help",
       description: "Show help information.",
+      env: false,
       alias: ["h", "?"],
       kind: ReflectionKind.boolean,
       optional: true,
@@ -46,6 +41,7 @@ export function getDefaultOptions(
       name: "version",
       title: "Version",
       description: "Show the version of the application.",
+      env: false,
       alias: ["v"],
       kind: ReflectionKind.boolean,
       optional: true,
@@ -53,23 +49,15 @@ export function getDefaultOptions(
       skipAddingNegative: true
     },
     {
-      name: "no-banner",
-      title: "Hide Banner",
-      description:
-        "Hide the banner displayed while running the CLI application (will be set to true if running in a CI pipeline).",
-      kind: ReflectionKind.boolean,
-      optional: true,
-      default: false,
-      isNegativeOf: "banner"
-    },
-    !command.isVirtual && {
       name: "verbose",
       title: "Verbose",
       description: "Enable verbose output.",
+      env: "VERBOSE",
+      alias: ["V"],
       kind: ReflectionKind.boolean,
       optional: true,
       default: false,
       skipAddingNegative: true
     }
-  ].filter(Boolean) as CommandOption[];
+  ];
 }

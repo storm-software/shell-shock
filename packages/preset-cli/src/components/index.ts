@@ -16,5 +16,4 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./console";
-export * from "./utils";
+export * from "./banner";

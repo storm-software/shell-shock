@@ -16,6 +16,8 @@
 
  ------------------------------------------------------------------- */
 
+import { info, table } from "shell-shock:console";
+
 export const meta = {
   name: "build",
   description: "Build the project."
@@ -44,11 +46,13 @@ interface BuildOptions {
  * Build the project.
  */
 function build(options: BuildOptions) {
-  console.log(
+  info(
     `Building at ${options.root} with verbose=${
       options.verbose ?? false
     }, targets=${options.targets.join(", ")}`
   );
+
+  table(["Root", "Verbose", "Targets"]);
 }
 
 export default build;

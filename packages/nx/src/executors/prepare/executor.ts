@@ -33,8 +33,16 @@ export async function executorFn(
     defu(
       {
         command: "prepare",
+        entry: context.options.entry,
         skipCache: context.options.skipCache,
-        skipInstalls: context.options.skipInstalls
+        autoInstall: context.options.autoInstall,
+        mode: context.options.mode,
+        tsconfig: context.options.tsconfig,
+        configFile: context.options.configFile,
+        logLevel: context.options.logLevel,
+        output: {
+          outputPath: context.options.outputPath
+        }
       },
       context.inlineConfig
     ) as PrepareInlineConfig

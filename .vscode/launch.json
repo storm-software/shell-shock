@@ -2,14 +2,29 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Playground - Complex",
+      "name": "Preset Script",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/kyfc6ga8ckzc0irgy69jc5slfgz1w3gk-pnpm-10.25.0/bin/pnpm",
+      "program": "/nix/store/rsqvnapfwyal6iw70p5nrk3vng3qdprw-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",
-        "playground-complex:prepare:development",
+        "preset-script:build:development",
+        "--outputStyle=dynamic-legacy",
+        "--skipNxCache"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Playground - Complex",
+      "type": "node",
+      "request": "launch",
+      "program": "/nix/store/rsqvnapfwyal6iw70p5nrk3vng3qdprw-pnpm-10.28.0/bin/pnpm",
+      "args": [
+        "nx",
+        "run",
+        "playground-complex:build:development",
         "--outputStyle=dynamic-legacy",
         "--skipNxCache"
       ],
@@ -20,7 +35,7 @@
       "name": "Playground - Powerlines",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/kyfc6ga8ckzc0irgy69jc5slfgz1w3gk-pnpm-10.25.0/bin/pnpm",
+      "program": "/nix/store/rsqvnapfwyal6iw70p5nrk3vng3qdprw-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",

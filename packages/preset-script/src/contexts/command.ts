@@ -24,7 +24,7 @@ import type { CommandTree } from "@shell-shock/core/types/command";
  * The reflection parameter context used in template rendering.
  */
 export const CommandContext: ComponentContext<CommandTree | undefined> =
-  createNamedContext<CommandTree | undefined>("command");
+  createNamedContext<CommandTree | undefined>("Command");
 
 /**
  * Hook to access the Command context.

@@ -16,7 +16,6 @@
 
  ------------------------------------------------------------------- */
 
-import type { PluginConfig } from "powerlines";
 import { createPowerlines } from "powerlines";
 import type { PowerlinesAPI } from "powerlines/api";
 import type {
@@ -24,9 +23,10 @@ import type {
   CleanInlineConfig,
   DocsInlineConfig,
   LintInlineConfig,
+  PluginConfig,
   PrepareInlineConfig
 } from "powerlines/types/config";
-import { shellShock as plugin } from "./powerlines";
+import { plugin } from "./plugin";
 import type { UserConfig } from "./types/config";
 import type { Context } from "./types/context";
 
@@ -43,7 +43,7 @@ export class ShellShockAPI {
     const powerlines = await createPowerlines({
       framework: "shell-shock",
       ...config,
-      plugins: [...(config.plugins ?? []), plugin()] as PluginConfig<Context>[]
+      plugins: [plugin(), ...(config.plugins ?? [])] as PluginConfig<Context>[]
     });
 
     return new ShellShockAPI(powerlines);
@@ -76,4 +76,18 @@ export class ShellShockAPI {
   public async finalize(): Promise<void> {
     return this.#powerlines.finalize();
   }
+}
+
+/**
+ * Creates a new {@link ShellShockAPI} instance.
+ *
+ * @param options - The user configuration options.
+ * @returns A promise that resolves to a {@link ShellShockAPI} instance.
+ */
+export async function createShellShock(
+  options: Partial<UserConfig> = {}
+): Promise<ShellShockAPI> {
+  options.root ??= process.cwd();
+
+  return ShellShockAPI.from(options);
 }

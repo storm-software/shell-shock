@@ -24,12 +24,12 @@ import type { CLIPresetContext } from "../types";
  * Get the default command options.
  *
  * @param context - The build context.
- * @param command - The command input.
+ * @param _ - The command input.
  * @returns The default command options.
  */
 export function getDefaultOptions(
   context: CLIPresetContext,
-  command: CommandBase
+  _: CommandBase
 ): CommandOption[] {
   return [
     {
@@ -85,7 +85,7 @@ export function getDefaultOptions(
       default: false,
       isNegativeOf: "banner"
     },
-    !command.isVirtual && {
+    {
       name: "verbose",
       title: "Verbose",
       description: "Enable verbose output.",

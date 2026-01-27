@@ -38,11 +38,11 @@
       ],
       "id": "#mode"
     },
-    "skipInstalls": {
-      "title": "Skip Installs",
+    "autoInstall": {
+      "title": "Auto Install",
       "type": "boolean",
-      "description": "Skip installing dependencies before building",
-      "id": "#skipInstalls"
+      "description": "Automatically install dependencies before building",
+      "id": "#autoInstall"
     },
     "skipCache": {
       "title": "Skip Cache",
@@ -65,11 +65,30 @@
         "silent"
       ],
       "id": "#logLevel"
+    },
+    "entry": {
+      "title": "Entry Path(s)",
+      "description": "The entry path(s) for the package",
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ],
+      "id": "#entry",
+      "type": "any",
+      "default": {}
     }
   },
   "type": "object",
   "default": {
     "outputPath": "dist/{projectRoot}",
-    "configFile": "{projectRoot}/shell-shock.config.ts"
+    "configFile": "{projectRoot}/shell-shock.config.ts",
+    "entry": {}
   }
 }

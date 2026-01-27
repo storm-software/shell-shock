@@ -16,4 +16,26 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./console";
+import tsdown from "@powerlines/plugin-tsdown";
+import type { UserConfig } from "powerlines";
+import { defineConfig } from "powerlines";
+
+const config: UserConfig = defineConfig({
+  skipCache: true,
+  entry: [
+    "./src/index.ts",
+    "./src/plugin.ts",
+    "./src/configs/*.ts",
+    "./src/rules/*.ts"
+  ],
+  plugins: [tsdown()],
+  build: {
+    platform: "node",
+    unbundle: true,
+    target: "es2022",
+    module: "esnext",
+    exports: true
+  }
+});
+
+export default config;

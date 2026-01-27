@@ -16,11 +16,10 @@
 
  ------------------------------------------------------------------- */
 
-import { code, computed, For, Show } from "@alloy-js/core";
+import { code, For, Show } from "@alloy-js/core";
 import {
   ElseClause,
   ElseIfClause,
-  FunctionDeclaration,
   IfStatement,
   InterfaceDeclaration,
   InterfaceMember,
@@ -28,16 +27,7 @@ import {
 } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import type { TypescriptFileImports } from "@powerlines/plugin-alloy/types/components";
-import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
-import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
-import {
-  TSDoc,
-  TSDocExample,
-  TSDocParam,
-  TSDocRemarks,
-  TSDocTitle
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+
 import {
   getVariableCommandPathName,
   isVariableCommandPath
@@ -51,18 +41,13 @@ import type {
   NumberCommandOption,
   StringCommandOption
 } from "@shell-shock/core/types/command";
-import { toArray } from "@stryke/convert/to-array";
-import { appendPath } from "@stryke/path/append";
-import { findFilePath, relativePath } from "@stryke/path/find";
-import { joinPaths } from "@stryke/path/join";
-import { replaceExtension } from "@stryke/path/replace";
 import { camelCase } from "@stryke/string-format/camel-case";
+import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
-import defu from "defu";
-import type { ScriptPresetContext } from "../../types/plugin";
-import { CommandRouter } from "../command-router";
+import { isSetString } from "@stryke/type-checks/is-set-string";
+import type { ScriptPresetContext } from "../types/plugin";
 
-export function CommandVariablePathsParser(props: { path: CommandTreePath }) {
+export function VariablePathsParserLogic(props: { path: CommandTreePath }) {
   const { path } = props;
 
   return (
@@ -73,34 +58,38 @@ export function CommandVariablePathsParser(props: { path: CommandTreePath }) {
             let
             name={camelCase(getVariableCommandPathName(segment))}
             type="string | undefined"
+            initializer={
+              <Show
+                when={isSetString(
+                  path.variables[getVariableCommandPathName(segment)]?.default
+                )}
+                fallback={code`undefined;`}>
+                {code` ?? "${
+                  path.variables[getVariableCommandPathName(segment)]?.default
+                }";`}
+              </Show>
+            }
           />
           <hbr />
           <IfStatement
             condition={code`args.length > ${2 + index} && args[${2 + index}]`}>
             {code`${camelCase(getVariableCommandPathName(segment))} = args[${2 + index}];`}
           </IfStatement>
+          <hbr />
+          <hbr />
           <Show
             when={
               !path.variables[getVariableCommandPathName(segment)]?.optional
             }>
-            <Show
-              when={
-                !path.variables[getVariableCommandPathName(segment)]?.default
-              }
-              fallback={
-                <ElseClause>
-                  {code`${camelCase(getVariableCommandPathName(segment))} = "${
-                    path.variables[getVariableCommandPathName(segment)]?.default
-                  }";`}
-                </ElseClause>
-              }>
-              <ElseClause>
-                {code`error(\`Missing required command path variable: "${getVariableCommandPathName(
-                  segment
-                )}".\`);`}
-                {code`return;`}
-              </ElseClause>
-            </Show>
+            <IfStatement
+              condition={code`!${camelCase(
+                getVariableCommandPathName(segment)
+              )}`}>
+              {code`error(\`Missing required command path variable: "${getVariableCommandPathName(
+                segment
+              )}".\`);`}
+              {code`return;`}
+            </IfStatement>
           </Show>
           <hbr />
         </Show>
@@ -109,11 +98,41 @@ export function CommandVariablePathsParser(props: { path: CommandTreePath }) {
   );
 }
 
-export function CommandParamsParser(props: { params: CommandParam[] }) {
+/**
+ * The command parameter parser logic.
+ */
+export function ParamsParserLogic(props: { params: CommandParam[] }) {
   const { params } = props;
+
+  const context = usePowerlines<ScriptPresetContext>();
 
   return (
     <Show when={params && params.length > 0}>
+      <For each={params ?? []} hardline>
+        {param => (
+          <VarDeclaration
+            let
+            name={camelCase(param.name)}
+            type={param.variadic ? "string[]" : "string | undefined"}
+            initializer={
+              param.variadic ? (
+                code`[]`
+              ) : (
+                <>
+                  {code`env.${
+                    context.config.envPrefix
+                  }_${constantCase(param.name)}  ?? `}
+                  <Show when={isSetString(param.default)}>
+                    {code`"${param.default}"`}
+                  </Show>
+                  {code`undefined;`}
+                </>
+              )
+            }
+          />
+        )}
+      </For>
+      <hbr />
       <VarDeclaration
         const
         name={"argsDiv"}
@@ -122,22 +141,16 @@ export function CommandParamsParser(props: { params: CommandParam[] }) {
       />
       <hbr />
       <IfStatement condition={code`argsDiv !== -1`}>
-        <For each={params ?? []}>
+        <For each={params ?? []} hardline>
           {(param, index) => (
             <>
-              <VarDeclaration
-                let
-                name={camelCase(param.name)}
-                type={param.variadic ? "string[]" : "string | undefined"}
-                initializer={param.variadic ? code` [];` : undefined}
-              />
-              <hbr />
               <IfStatement
                 condition={code`args.length > argsDiv + ${index + 1} && args[argsDiv + ${index + 1}]`}>
                 <Show
                   when={param.variadic}
                   fallback={code`${camelCase(param.name)} = args[argsDiv + ${index + 1}];`}>{code`${camelCase(param.name)}.push(args[argsDiv + ${index + 1}]);`}</Show>
               </IfStatement>
+              <hbr />
               <Show when={!param.optional}>
                 <Show
                   when={!param.default}
@@ -164,7 +177,7 @@ export function CommandParamsParser(props: { params: CommandParam[] }) {
 /**
  * The command option interface property.
  */
-export function CommandOptionsMember({
+export function OptionsMember({
   name,
   option
 }: {
@@ -216,12 +229,15 @@ export function CommandOptionsMember({
         <hbr />
         <For each={option.alias ?? []} hardline>
           {alias => (
-            <CommandOptionsMember
+            <OptionsMember
               name={alias}
               option={{
                 ...option,
                 alias: [],
-                description: `${doc}. This property is an alias for ${name}.`
+                description: `${doc.replace(
+                  /\.+$/,
+                  "."
+                )}. This property is an alias for ${name}.`
               }}
             />
           )}
@@ -234,7 +250,7 @@ export function CommandOptionsMember({
 /**
  * The command option property parser logic.
  */
-export function CommandOptionsMemberParser({
+export function OptionsMemberParserLogic({
   name,
   option
 }: {
@@ -244,12 +260,16 @@ export function CommandOptionsMemberParser({
   const context = usePowerlines<ScriptPresetContext>();
 
   const equalsRegex = `/^--?(${
-    context?.config.isCaseSensitive ? name : name.toLowerCase()
+    context?.config.isCaseSensitive && name.length > 1
+      ? name
+      : name.toLowerCase()
   }${option.alias && option.alias.length > 0 ? "|" : ""}${option.alias
     ?.map(a =>
-      (context?.config.isCaseSensitive ? a : a.toLowerCase()) === "?"
+      (context?.config.isCaseSensitive && name.length > 1
+        ? a
+        : a.toLowerCase()) === "?"
         ? "\\?"
-        : context?.config.isCaseSensitive
+        : context?.config.isCaseSensitive && name.length > 1
           ? a
           : a.toLowerCase()
     )
@@ -358,7 +378,7 @@ export function CommandOptionsMemberParser({
   );
 }
 
-export function CommandOptionsMemberParserCondition(props: {
+function OptionsMemberParserCondition(props: {
   name: string;
   alias?: string[];
 }) {
@@ -372,11 +392,7 @@ export function CommandOptionsMemberParserCondition(props: {
         context?.config.isCaseSensitive ? name : name.toLowerCase()
       }=") || arg === "--${
         context?.config.isCaseSensitive ? name : name.toLowerCase()
-      }" || arg.startsWith("-${
-        context?.config.isCaseSensitive ? name : name.toLowerCase()
-      }=") || arg === "--${
-        context?.config.isCaseSensitive ? name : name.toLowerCase()
-      }"`}
+      }" || arg.startsWith("-${name}=") || arg === "-${name}"`}
       <Show when={alias && alias.length > 0}>
         <For each={alias ?? []}>
           {a =>
@@ -384,11 +400,7 @@ export function CommandOptionsMemberParserCondition(props: {
               context?.config.isCaseSensitive ? a : a.toLowerCase()
             }=") || arg === "--${
               context?.config.isCaseSensitive ? a : a.toLowerCase()
-            }" || arg.startsWith("-${
-              context?.config.isCaseSensitive ? a : a.toLowerCase()
-            }=") || arg === "-${
-              context?.config.isCaseSensitive ? a : a.toLowerCase()
-            }"`
+            }" || arg.startsWith("-${a}=") || arg === "-${a}"`
           }
         </For>
       </Show>
@@ -396,7 +408,22 @@ export function CommandOptionsMemberParserCondition(props: {
   );
 }
 
-export function CommandOptionsParser(props: { command: CommandTree }) {
+export function OptionsInterfaceDeclaration(props: { command: CommandTree }) {
+  const { command } = props;
+
+  return (
+    <InterfaceDeclaration export name={`${pascalCase(command.name)}Options`}>
+      <For each={Object.entries(command.options)}>
+        {([name, option]) => <OptionsMember name={name} option={option} />}
+      </For>
+    </InterfaceDeclaration>
+  );
+}
+
+/**
+ * The command options parser logic.
+ */
+export function OptionsParserLogic(props: { command: CommandTree }) {
   const { command } = props;
 
   const context = usePowerlines<ScriptPresetContext>();
@@ -406,9 +433,59 @@ export function CommandOptionsParser(props: { command: CommandTree }) {
       <VarDeclaration
         const
         name="options"
-        type={`${pascalCase(command.name)}Options`}
-        initializer={code` {} as ${pascalCase(command.name)}Options;`}
+        initializer={code` {
+          ${Object.entries(command.options)
+            .map(([name, option]) => {
+              if (option.kind === ReflectionKind.string) {
+                return ` ${name.includes("?") || name.includes("-") ? `"${name}"` : `${name}`}: ${
+                  option.env
+                    ? `env.${context.config.envPrefix}_${option.env}`
+                    : ""
+                }${
+                  option.variadic
+                    ? option.default !== undefined
+                      ? `${
+                          option.env ? " ?? " : ""
+                        }${JSON.stringify(option.default)}`
+                      : option.env
+                        ? " ?? []"
+                        : ""
+                    : option.default !== undefined
+                      ? `${option.env ? " ?? " : ""}"${option.default}"`
+                      : ""
+                }, `;
+              } else if (option.kind === ReflectionKind.number) {
+                return ` ${name.includes("?") || name.includes("-") ? `"${name}"` : `${name}`}: ${
+                  option.env
+                    ? `env.${context.config.envPrefix}_${option.env}`
+                    : ""
+                }${
+                  option.variadic
+                    ? option.default !== undefined
+                      ? `${
+                          option.env ? " ?? " : ""
+                        }${JSON.stringify(option.default)}`
+                      : option.env
+                        ? " ?? []"
+                        : ""
+                    : option.default !== undefined
+                      ? `${option.env ? " ?? " : ""}${option.default}`
+                      : ""
+                }, `;
+              } else if (option.kind === ReflectionKind.boolean) {
+                return ` ${name.includes("?") || name.includes("-") ? `"${name}"` : `${name}`}: ${
+                  option.env
+                    ? `env.${context.config.envPrefix}_${option.env} ?? `
+                    : ""
+                }${option.default ? "true" : "false"},`;
+              }
+
+              return "";
+            })
+            .join("")}
+          } as ${pascalCase(command.name)}Options;`}
       />
+      <hbr />
       <hbr />
       {code`for (let i = 0; i < args.slice(${
         command.path.segments.filter(segment => isVariableCommandPath(segment))
@@ -424,9 +501,7 @@ export function CommandOptionsParser(props: { command: CommandTree }) {
             context?.config.isCaseSensitive ? "" : ".toLowerCase()"
           }}\`
           : args[i].length > 2 && args[i].startsWith("-")
-            ? \`-\${args[i].slice(1).replaceAll("-", "")${
-              context?.config.isCaseSensitive ? "" : ".toLowerCase()"
-            }}\`
+            ? \`-\${args[i].slice(1).replaceAll("-", "")}\`
           : args[i]; `}
       />
       <hbr />
@@ -437,22 +512,22 @@ export function CommandOptionsParser(props: { command: CommandTree }) {
             fallback={
               <ElseIfClause
                 condition={
-                  <CommandOptionsMemberParserCondition
+                  <OptionsMemberParserCondition
                     name={name}
                     alias={option.alias}
                   />
                 }>
-                <CommandOptionsMemberParser name={name} option={option} />
+                <OptionsMemberParserLogic name={name} option={option} />
               </ElseIfClause>
             }>
             <IfStatement
               condition={
-                <CommandOptionsMemberParserCondition
+                <OptionsMemberParserCondition
                   name={name}
                   alias={option.alias}
                 />
               }>
-              <CommandOptionsMemberParser name={name} option={option} />
+              <OptionsMemberParserLogic name={name} option={option} />
             </IfStatement>
           </Show>
         )}
@@ -460,196 +535,6 @@ export function CommandOptionsParser(props: { command: CommandTree }) {
       <hbr />
       {code` } `}
       <hbr />
-    </>
-  );
-}
-
-export function CommandInvocation(props: { command: CommandTree }) {
-  const { command } = props;
-
-  return (
-    <>
-      <Show when={!command.isVirtual}>
-        {code`return Promise.resolve(handle${pascalCase(command.name)}(options${
-          command.path.segments.filter(segment =>
-            isVariableCommandPath(segment)
-          ).length > 0
-            ? `, ${command.path.segments
-                .filter(segment => isVariableCommandPath(segment))
-                .map(segment => camelCase(getVariableCommandPathName(segment)))
-                .join(", ")}`
-            : ""
-        }${
-          command.params.length > 0
-            ? `, ${command.params.map(param => camelCase(param.name)).join(", ")}`
-            : ""
-        }));`}
-        <hbr />
-      </Show>
-    </>
-  );
-}
-
-export interface CommandEntryProps extends Omit<
-  EntryFileProps,
-  "path" | "typeDefinition"
-> {
-  command: CommandTree;
-}
-
-/**
- * The command entry point for the Shell Shock project.
- */
-export function CommandEntry(props: CommandEntryProps) {
-  const { command, imports, builtinImports, ...rest } = props;
-
-  const context = usePowerlines<ScriptPresetContext>();
-  const filePath = computed(() =>
-    joinPaths(
-      command.path.segments
-        .filter(segment => !isVariableCommandPath(segment))
-        .join("/"),
-      "index.ts"
-    )
-  );
-  const commandSourcePath = computed(() =>
-    command.isVirtual
-      ? ""
-      : replaceExtension(
-          relativePath(
-            joinPaths(context.entryPath, findFilePath(filePath.value)),
-            appendPath(
-              command.entry.input?.file || command.entry.file,
-              context.config.projectRoot
-            )
-          )
-        )
-  );
-
-  return (
-    <>
-      <EntryFile
-        {...rest}
-        typeDefinition={command.entry}
-        path={filePath.value}
-        imports={defu(
-          imports ?? {},
-          command.isVirtual
-            ? Object.entries(command.children)
-                .filter(([, command]) => command.isVirtual)
-                .reduce((ret, [name, command]) => {
-                  ret[`./${command.name}`] = [
-                    { name: "handler", alias: `handle${pascalCase(name)}` }
-                  ];
-
-                  return ret;
-                }, {} as TypescriptFileImports)
-            : {
-                [commandSourcePath.value]: `handle${pascalCase(command.name)}`
-              }
-        )}
-        builtinImports={defu(builtinImports ?? {}, {
-          console: ["warn", "error"],
-          utils: ["getArgs"]
-        })}>
-        <InterfaceDeclaration
-          export
-          name={`${pascalCase(command.name)}Options`}>
-          <For each={Object.entries(command.options)}>
-            {([name, option]) => (
-              <CommandOptionsMember name={name} option={option} />
-            )}
-          </For>
-        </InterfaceDeclaration>
-        <hbr />
-        <hbr />
-        <TSDoc
-          heading={`The ${command.title} (${command.path.segments.join(" ")})${command.isVirtual ? " virtual" : ""} command.`}>
-          <TSDocRemarks>{command.description}</TSDocRemarks>
-          <hbr />
-          <TSDocTitle>{command.title}</TSDocTitle>
-          <For each={toArray(context.config.bin)} doubleHardline>
-            {bin => (
-              <>
-                <TSDocExample language="bash">{code`npx ${
-                  bin
-                } ${command.path.segments
-                  .map(segment =>
-                    isVariableCommandPath(segment)
-                      ? `example-${getVariableCommandPathName(segment)}`
-                      : segment
-                  )
-                  .join(" ")}`}</TSDocExample>
-                <hbr />
-                <hbr />
-                <TSDocExample language="bash">{code`yarn exec ${
-                  bin
-                } ${command.path.segments
-                  .map(segment =>
-                    isVariableCommandPath(segment)
-                      ? `example-${getVariableCommandPathName(segment)}`
-                      : segment
-                  )
-                  .join(" ")}`}</TSDocExample>
-                <hbr />
-                <hbr />
-                <TSDocExample language="bash">{code`pnpm exec ${
-                  bin
-                } ${command.path.segments
-                  .map(segment =>
-                    isVariableCommandPath(segment)
-                      ? `example-${getVariableCommandPathName(segment)}`
-                      : segment
-                  )
-                  .join(" ")}`}</TSDocExample>
-                <hbr />
-                <hbr />
-                <TSDocExample language="bash">{code`bun x ${
-                  bin
-                } ${command.path.segments
-                  .map(segment =>
-                    isVariableCommandPath(segment)
-                      ? `example-${getVariableCommandPathName(segment)}`
-                      : segment
-                  )
-                  .join(" ")}`}</TSDocExample>
-              </>
-            )}
-          </For>
-          <hbr />
-          <TSDocParam name="args">{`The command-line arguments passed to the command.`}</TSDocParam>
-        </TSDoc>
-        <FunctionDeclaration
-          export
-          async
-          name="handler"
-          parameters={[
-            { name: "args", type: "string[]", default: "getArgs()" }
-          ]}>
-          <Show
-            when={!command.isVirtual}
-            fallback={
-              <CommandRouter
-                path={command.path.segments}
-                commands={command.children}
-              />
-            }>
-            <CommandVariablePathsParser path={command.path} />
-            <hbr />
-            <hbr />
-            <CommandOptionsParser command={command} />
-            <hbr />
-            <hbr />
-            <CommandParamsParser params={command.params} />
-            <hbr />
-            <hbr />
-            <CommandInvocation command={command} />
-          </Show>
-        </FunctionDeclaration>
-      </EntryFile>
-      <For each={Object.values(command.children)}>
-        {child => <CommandEntry command={child} />}
-      </For>
     </>
   );
 }

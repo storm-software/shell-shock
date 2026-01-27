@@ -9,7 +9,7 @@
       "inputs": ["typescript", "^production"],
       "outputs": ["{options.outputPath}"],
       "executor": "@powerlines/nx:build",
-      "dependsOn": ["prepare", "^build"]
+      "dependsOn": ["^build"]
     },
     "build": {
       "cache": true,

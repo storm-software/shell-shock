@@ -46,12 +46,12 @@ export interface PrepareExecutorSchema {
  mode?: string,
 
  /**
-  * Skip Installs
+  * Auto Install
   * 
-  * Skip installing dependencies before building
+  * Automatically install dependencies before building
   * 
  */
- skipInstalls?: boolean,
+ autoInstall?: boolean,
 
  /**
   * Skip Cache
@@ -70,5 +70,15 @@ export interface PrepareExecutorSchema {
   * @enum fatal,error,warn,success,info,debug,trace,silent
  */
  logLevel?: string,
+
+ /**
+  * Entry Path(s)
+  * 
+  * The entry path(s) for the package
+  * 
+  * 
+  * @oneOf [object Object],[object Object]
+ */
+ entry?: any,
 }
 

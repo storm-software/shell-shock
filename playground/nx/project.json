@@ -23,7 +23,7 @@
       "inputs": ["typescript", "^production"],
       "outputs": ["{options.outputPath}"],
       "executor": "@shell-shock/nx:build",
-      "dependsOn": ["prepare"],
+      "dependsOn": ["^build"],
       "options": {
         "mode": "development"
       }
@@ -33,7 +33,7 @@
       "inputs": ["typescript", "^production"],
       "outputs": ["{projectRoot}/docs"],
       "executor": "@shell-shock/nx:docs",
-      "dependsOn": ["prepare", "build"]
+      "dependsOn": ["build"]
     }
   },
   "implicitDependencies": ["nx"]

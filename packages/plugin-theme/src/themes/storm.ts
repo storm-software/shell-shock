@@ -61,6 +61,7 @@ export const theme: ThemeUserConfig = {
         help: "#818cf8",
         success: "#45b27e",
         info: "#38bdf8",
+        debug: "#8afafc",
         warning: "#f3d371",
         danger: "#d8314a"
       }
@@ -74,21 +75,23 @@ export const theme: ThemeUserConfig = {
   padding: {
     app: 4,
     banner: 14,
-    message: 8
+    message: 8,
+    table: 2
   },
   icons: {
     message: {
       header: {
         help: "✱",
         success: "✔",
-        info: "ℹ",
-        warning: "⚠",
-        danger: "⚠",
+        info: "🛈",
+        debug: "🛠",
+        warning: "🛆",
+        danger: "🛇",
         error: "✘"
       }
     },
     banner: {
-      header: "⏺"
+      header: "⏺" // 🗲 🗱 ⬤
     }
   },
   labels: {
@@ -97,6 +100,7 @@ export const theme: ThemeUserConfig = {
         help: "Useful Tip",
         success: "Success",
         info: "Info",
+        debug: "Info",
         warning: "Warning",
         danger: "Danger",
         error: "Error"

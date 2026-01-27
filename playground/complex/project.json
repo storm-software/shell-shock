@@ -12,8 +12,8 @@
       "cache": false,
       "inputs": ["typescript", "^production"],
       "outputs": ["{projectRoot}/.shell-shock"],
-      "executor": "@shell-shock/nx:prepare",
       "dependsOn": ["^build"],
+      "executor": "@shell-shock/nx:prepare",
       "options": {
         "mode": "development"
       }
@@ -22,8 +22,8 @@
       "cache": false,
       "inputs": ["typescript", "^production"],
       "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
       "executor": "@shell-shock/nx:build",
-      "dependsOn": ["prepare"],
       "options": {
         "mode": "development"
       }
@@ -32,8 +32,8 @@
       "cache": false,
       "inputs": ["typescript", "^production"],
       "outputs": ["{projectRoot}/docs"],
-      "executor": "@shell-shock/nx:docs",
-      "dependsOn": ["prepare", "build"]
+      "dependsOn": ["build"],
+      "executor": "@shell-shock/nx:docs"
     }
   },
   "implicitDependencies": ["nx"]

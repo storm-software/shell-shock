@@ -5,7 +5,7 @@
   "namespace": "shell-shock",
   "repository": "https://github.com/storm-software/shell-shock",
   "packageManager": "pnpm",
-  "logLevel": "trace",
+  "logLevel": "debug",
   "docs": "https://docs.stormsoftware.com/projects/shell-shock",
   "release": {
     "banner": {

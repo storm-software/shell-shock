@@ -16,21 +16,24 @@
 
  ------------------------------------------------------------------- */
 
-import { For } from "@alloy-js/core/components";
+import { code, For, Show } from "@alloy-js/core";
+import { VarDeclaration } from "@alloy-js/typescript";
 import nodejs from "@powerlines/plugin-nodejs";
 import { getCommandTree } from "@shell-shock/core/plugin-utils";
-import core from "@shell-shock/core/powerlines";
+import {
+  getAppDescription,
+  getAppTitle
+} from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import theme from "@shell-shock/plugin-theme";
 import type { Plugin } from "powerlines/types/plugin";
-import { ConsoleBuiltin } from "./components/builtin/console";
-import { UtilsBuiltin } from "./components/builtin/utils";
-import { BinEntry } from "./components/entry/bin";
-import { CommandEntry } from "./components/entry/command";
-import {
-  ShutdownFunctionDeclaration,
-  ShutdownFunctionUsage
-} from "./components/shutdown";
+import { BinEntry } from "./components/bin-entry";
+import { CommandEntry } from "./components/command-entry";
+import { CommandRouter } from "./components/command-router";
+import { ConsoleBuiltin } from "./components/console-builtin";
+import { Help } from "./components/help";
+import { UtilsBuiltin } from "./components/utils-builtin";
+import { VirtualCommandEntry } from "./components/virtual-command-entry";
 import { getDefaultOptions } from "./helpers/get-default-options";
 import type { ScriptPresetContext, ScriptPresetOptions } from "./types/plugin";
 
@@ -43,15 +46,15 @@ export const plugin = <
   options: ScriptPresetOptions = {}
 ) => {
   return [
-    ...core(options),
-    nodejs(options),
+    // ...core<TContext>(options),
+    ...nodejs<TContext>(),
     theme({
       theme: options.theme
     }),
     {
       name: "shell-shock:script-preset",
       config() {
-        this.trace(
+        this.debug(
           "Providing default configuration for the Shell Shock `script` preset."
         );
 
@@ -62,27 +65,107 @@ export const plugin = <
         };
       },
       async prepare() {
-        this.trace(
-          "Rendering source code with the Shell Shock `script` preset."
+        this.debug(
+          "Rendering built-in modules for the Shell Shock `script` preset."
         );
 
-        const commands = this.inputs
-          .map(input => getCommandTree(this, input.path.segments))
-          .filter(Boolean) as CommandTree[];
-
-        return this.render<TContext>(
+        return this.render(
           <>
-            <BinEntry
-              prefix={<ShutdownFunctionDeclaration />}
-              postfix={<ShutdownFunctionUsage />}
-            />
-            <For each={commands}>
-              {command => <CommandEntry command={command} />}
-            </For>
             <UtilsBuiltin />
             <ConsoleBuiltin />
           </>
         );
+      }
+    },
+    {
+      name: "shell-shock:script-preset:generate-entrypoint",
+      prepare: {
+        order: "post",
+        async handler() {
+          this.debug(
+            "Rendering entrypoint modules for the Shell Shock `script` preset."
+          );
+
+          const commands = this.inputs
+            .map(input => getCommandTree(this, input.path.segments))
+            .filter(Boolean) as CommandTree[];
+
+          return this.render(
+            <>
+              <BinEntry
+                builtinImports={{
+                  console: ["divider", "writeLine", "colors"],
+                  utils: ["getArgs"]
+                }}>
+                <Show
+                  when={this.commands && Object.keys(this.commands).length > 0}>
+                  <VarDeclaration
+                    const
+                    name="args"
+                    type="string[]"
+                    initializer={code`getArgs();`}
+                  />
+                  <hbr />
+                  <CommandRouter path={[]} commands={this.commands ?? {}} />
+                  <hbr />
+                  <hbr />
+                  {code`
+                writeLine("");
+                writeLine(colors.text.heading.primary("${
+                  /(?:cli|command-line|command line)\s+(?:application|app)?$/.test(
+                    getAppTitle(this).toLowerCase()
+                  )
+                    ? getAppTitle(this)
+                    : `${getAppTitle(this)} Command-Line Application`
+                } v${this.packageJson.version}"));
+                writeLine("");
+                writeLine(colors.text.body.primary("${getAppDescription(
+                  this
+                )}"));
+                writeLine("");
+                divider({ style: "primary" });
+                writeLine("");
+                writeLine("");`}
+                  <hbr />
+                  <hbr />
+                  <For
+                    each={Object.values(commands)}
+                    doubleHardline
+                    joiner={code`
+                writeLine("");
+                divider({ style: "secondary" });
+                writeLine("");
+                writeLine("");
+                `}>
+                    {child => (
+                      <>
+                        {code`
+                writeLine("");
+                writeLine(colors.text.heading.secondary("${child.title}"));
+                writeLine("");
+                writeLine(colors.text.body.secondary("${child.description}"));
+                writeLine("");
+                writeLine("");
+                `}
+                        <hbr />
+                        <Help command={child} indent={2} />
+                      </>
+                    )}
+                  </For>
+                </Show>
+              </BinEntry>
+              <For each={Object.values(commands)} doubleHardline>
+                {child => (
+                  <Show
+                    when={child.isVirtual}
+                    fallback={<CommandEntry command={child} />}>
+                    <VirtualCommandEntry command={child} />
+                  </Show>
+                )}
+              </For>
+            </>
+          );
+        }
       }
     }
   ] as Plugin<TContext>[];

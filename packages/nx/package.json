@@ -112,6 +112,7 @@
     "@storm-software/workspace-tools": "catalog:",
     "@stryke/type-checks": "catalog:",
     "defu": "catalog:",
+    "jiti": "catalog:",
     "powerlines": "catalog:",
     "untyped": "catalog:"
   },

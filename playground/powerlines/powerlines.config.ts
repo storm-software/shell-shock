@@ -16,15 +16,15 @@
 
  ------------------------------------------------------------------- */
 
+import core from "@shell-shock/core/plugin";
 import script from "@shell-shock/preset-script";
 import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines";
 
 const config: UserConfig = defineConfig({
   name: "playground-powerlines",
-  skipInstalls: true,
   skipCache: true,
-  plugins: [script()]
+  plugins: [core(), script()]
 });
 
 export default config;

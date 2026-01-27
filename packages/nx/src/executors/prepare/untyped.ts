@@ -28,6 +28,13 @@ export default defineUntypedSchema({
       "A type definition for the Powerlines - Prepare executor schema",
     required: []
   },
+  entry: {
+    $schema: {
+      title: "Entry Path(s)",
+      description: "The entry path(s) for the package",
+      oneOf: [{ type: "string" }, { type: "array", items: { type: "string" } }]
+    }
+  },
   skipCache: {
     $schema: {
       title: "Skip Cache",
@@ -35,11 +42,11 @@ export default defineUntypedSchema({
       description: "Skip the cache when building"
     }
   },
-  skipInstalls: {
+  autoInstall: {
     $schema: {
-      title: "Skip Installs",
+      title: "Auto Install",
       type: "boolean",
-      description: "Skip installing dependencies before building"
+      description: "Automatically install dependencies before building"
     }
   }
 });

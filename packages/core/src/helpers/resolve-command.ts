@@ -17,36 +17,80 @@
  ------------------------------------------------------------------- */
 
 import { reflectType } from "@powerlines/deepkit/reflect-type";
-import type { TypeParameter } from "@powerlines/deepkit/vendor/type";
+import type {
+  ReflectionProperty,
+  TypeParameter
+} from "@powerlines/deepkit/vendor/type";
 import {
   ReflectionClass,
   ReflectionKind,
+  ReflectionVisibility,
   stringifyType
 } from "@powerlines/deepkit/vendor/type";
-import { getUniqueBy } from "@stryke/helpers/get-unique";
 import { appendPath } from "@stryke/path/append";
 import { commonPath } from "@stryke/path/common";
 import { findFilePath, findFolderName } from "@stryke/path/file-path-fns";
 import { stripStars } from "@stryke/path/normalize";
 import { replacePath } from "@stryke/path/replace";
 import { resolveParentPath } from "@stryke/path/resolve-parent-path";
+import { constantCase } from "@stryke/string-format/constant-case";
 import { titleCase } from "@stryke/string-format/title-case";
-import { isFunction } from "@stryke/type-checks/is-function";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import {
+  getAppTitle,
   getVariableCommandPathName,
   isVariableCommandPath
 } from "../plugin-utils/context-helpers";
 import type {
   CommandInput,
-  CommandOption,
   CommandParam,
   CommandTree,
   NumberCommandOption,
   StringCommandOption
 } from "../types/command";
 import type { Context } from "../types/context";
+import { getDefaultOptions } from "./utilities";
+
+/**
+ * Resolves the description for a command option based on its reflection.
+ *
+ * @param propertyReflection - The reflection property of the command option.
+ * @returns The resolved description for the command option.
+ */
+export function resolveCommandDescription(
+  propertyReflection: ReflectionProperty
+): string {
+  return (
+    propertyReflection.getDescription()?.trim() ||
+    `A${
+      propertyReflection.isOptional() && !propertyReflection.getDefaultValue()
+        ? "n optional"
+        : ""
+    } ${
+      propertyReflection.getType().kind === ReflectionKind.boolean
+        ? "flag provided via the command-line"
+        : "command-line option"
+    } that allows the user to ${
+      propertyReflection.getType().kind === ReflectionKind.boolean
+        ? "set the"
+        : propertyReflection.getType().kind === ReflectionKind.array
+          ? "specify custom"
+          : "specify a custom"
+    } ${
+      propertyReflection.getTags().title?.trim() ||
+      titleCase(propertyReflection.getNameAsString())
+    } ${
+      propertyReflection.getType().kind === ReflectionKind.boolean
+        ? "indicator"
+        : `${propertyReflection.getType().kind === ReflectionKind.number ? "numeric" : "string"} value${
+            propertyReflection.getType().kind === ReflectionKind.array
+              ? "s"
+              : ""
+          }`
+    } that will be used in the application.`
+  );
+}
 
 export function resolveCommandId(context: Context, file: string): string {
   return replacePath(findFilePath(file), context.commandsPath)
@@ -111,31 +155,6 @@ export function findCommandsRoot(context: Context): string {
   );
 }
 
-export function sortOptions(options: CommandOption[]): CommandOption[] {
-  if (!options || options.length === 0) {
-    return [];
-  }
-
-  return options
-    .filter(arg => arg.kind !== ReflectionKind.boolean || !arg.isNegativeOf)
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .reduce((ret, arg) => {
-      ret.push(arg);
-
-      if (arg.kind === ReflectionKind.boolean) {
-        // Add the negative argument if it exists
-        const negativeArg = options.find(
-          a => a.kind === ReflectionKind.boolean && a.isNegativeOf === arg.name
-        );
-        if (negativeArg) {
-          ret.push(negativeArg);
-        }
-      }
-
-      return ret;
-    }, [] as CommandOption[]);
-}
-
 /**
  * Finds the command name from the given file path.
  *
@@ -184,7 +203,9 @@ export async function reflectCommandTree<TContext extends Context = Context>(
 ): Promise<CommandTree> {
   const title =
     command.title ||
-    `${parent?.title ? `${parent.title} - ` : ""}${titleCase(command.name)}`;
+    `${parent?.title ? `${parent.title} - ` : ""}${titleCase(command.name)}${
+      command.isVirtual ? " Commands" : ""
+    }`;
 
   const tree = {
     ...command,
@@ -192,39 +213,21 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     description:
       command.description ||
       (command.isVirtual
-        ? `A collection of the available ${title} commands.`
+        ? `A collection of available ${command.title || titleCase(command.name)} commands that are included in the ${getAppTitle(
+            context
+          )} command-line application.`
         : `The ${title} executable command-line interface.`),
     path: {
       ...command.path,
       variables: {}
     },
-    options: {},
+    options: getDefaultOptions(context, command),
     params: [],
     parent: parent ?? null,
     children: {}
   } as CommandTree;
 
-  if (context.config.defaultOptions === false) {
-    tree.options = {};
-  } else if (Array.isArray(context.config.defaultOptions)) {
-    tree.options = Object.fromEntries(
-      getUniqueBy(
-        context.config.defaultOptions,
-        (item: CommandOption) => item.name
-      ).map(option => [option.name, option])
-    );
-  } else if (isFunction(context.config.defaultOptions)) {
-    tree.options = Object.fromEntries(
-      getUniqueBy(
-        context.config.defaultOptions(context, command),
-        (item: CommandOption) => item.name
-      ).map(option => [option.name, option])
-    );
-  }
-
-  if (command.isVirtual) {
-    context.trace(`Adding reflection for virtual command: ${command.id}`);
-  } else {
+  if (!command.isVirtual) {
     if (
       !command.entry.input?.file ||
       !context.fs.existsSync(command.entry.input.file)
@@ -236,7 +239,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
       );
     }
 
-    context.trace(
+    context.debug(
       `Adding reflection for user-defined command: ${command.id} (file: ${
         command.entry.input.file
       })`
@@ -263,9 +266,10 @@ export async function reflectCommandTree<TContext extends Context = Context>(
             name: propertyReflection.getNameAsString(),
             alias: propertyReflection.getTags().alias ?? [],
             title:
-              propertyReflection.getTags().title ||
+              propertyReflection.getTags().title?.trim() ||
               titleCase(propertyReflection.getNameAsString()),
-            description: propertyReflection.getDescription(),
+            description: resolveCommandDescription(propertyReflection),
+            env: constantCase(propertyReflection.getNameAsString()),
             kind: propertyType.kind as
               | ReflectionKind.string
               | ReflectionKind.number
@@ -274,11 +278,6 @@ export async function reflectCommandTree<TContext extends Context = Context>(
             default: propertyReflection.getDefaultValue(),
             variadic: false
           };
-          tree.options[propertyReflection.getNameAsString()]!.description ??=
-            `The ${
-              tree.options[propertyReflection.getNameAsString()]!.title
-            } option.`;
-
           if (propertyType.kind === ReflectionKind.array) {
             if (
               propertyType.type.kind === ReflectionKind.string ||
@@ -354,6 +353,55 @@ export async function reflectCommandTree<TContext extends Context = Context>(
           });
       }
     }
+  }
+
+  if (isSetObject(tree.options)) {
+    Object.values(tree.options)
+      .filter(option => option.env !== false)
+      .forEach(option => {
+        context.env.types.env.addProperty({
+          name: option.env as string,
+          optional: option.optional ? true : undefined,
+          description: option.description,
+          visibility: ReflectionVisibility.public,
+          type:
+            option.kind === ReflectionKind.string ||
+            option.kind === ReflectionKind.number
+              ? option.variadic
+                ? { kind: ReflectionKind.array, type: { kind: option.kind } }
+                : { kind: option.kind }
+              : { kind: ReflectionKind.boolean },
+          default: option.default,
+          tags: {
+            title: option.title,
+            alias: option.alias
+              .filter(alias => alias.length > 0)
+              .map(alias => constantCase(alias)),
+            domain: "cli"
+          }
+        });
+      });
+  }
+
+  if (tree.params) {
+    tree.params.forEach(param => {
+      context.env.types.env.addProperty({
+        name: constantCase(param.name),
+        optional: param.optional ? true : undefined,
+        description: param.description,
+        visibility: ReflectionVisibility.public,
+        type: param.variadic
+          ? {
+              kind: ReflectionKind.array,
+              type: { kind: ReflectionKind.string }
+            }
+          : { kind: ReflectionKind.string },
+        default: param.default,
+        tags: {
+          domain: "cli"
+        }
+      });
+    });
   }
 
   for (const input of context.inputs.filter(

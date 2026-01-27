@@ -42,13 +42,13 @@ The path to the Shell Shock configuration file
 The build mode
 
 
-## `skipInstalls`
+## `autoInstall`
 - **Type**: `boolean`
 
-> Skip Installs
+> Auto Install
 
 
-Skip installing dependencies before building
+Automatically install dependencies before building
 
 
 ## `skipCache`
@@ -67,5 +67,15 @@ Skip the cache when building
 
 
 The log level to use for the build process
+
+
+## `entry`
+- **Type**: `any`
+- **Default**: `{}`
+
+> Entry Path(s)
+
+
+The entry path(s) for the package
 
 

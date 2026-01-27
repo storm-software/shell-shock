@@ -16,5 +16,9 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./bin";
-export * from "./command";
+import type { Linter } from "eslint";
+import base from "./base";
+
+export const configs: Record<string, Linter.Config> = {
+  base
+};

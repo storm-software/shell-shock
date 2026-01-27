@@ -38,12 +38,12 @@ import {
   TSDocRemarks,
   TSDocReturns
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
-import type { ThemeMessageVariant } from "@shell-shock/plugin-theme/types/theme";
-import { useColors, useTheme } from "../../contexts/theme";
 import type {
-  AnsiWrappers,
-  BaseAnsiStylesKeys
-} from "../../helpers/ansi-utils";
+  ThemeMessageVariant,
+  ThemeResolvedConfig
+} from "@shell-shock/plugin-theme/types/theme";
+import { useColors, useTheme } from "../contexts/theme";
+import type { AnsiWrappers, BaseAnsiStylesKeys } from "../helpers/ansi-utils";
 
 /**
  * A component to generate a console message function in a Shell Shock project.
@@ -81,7 +81,10 @@ export function ColorsDeclaration() {
 
   return (
     <>
-      <TypeDeclaration export name="AnsiColor">
+      <TypeDeclaration
+        export
+        name="AnsiColor"
+        doc="The available ANSI colors for console text.">
         <For
           each={Object.keys(colors.ansi16).filter(color => color !== "theme")}>
           {(color, idx) => `${idx > 0 ? " | " : ""}"${color}"`}
@@ -89,10 +92,21 @@ export function ColorsDeclaration() {
       </TypeDeclaration>
       <hbr />
       <hbr />
-      {code`export type ThemeColors<T> = T extends object ? { [K in keyof T]: ThemeColors<T[K]>; } : ((text: string) => string); `}
+      <hbr />
+      {code`
+      /**
+      * A recursive type that defines theme colors for console text.
+      *
+      * @remarks
+      * This type allows for nested theme color definitions, enabling complex theming structures for console applications.
+      */
+     export type ThemeColors<T> = T extends object ? { [K in keyof T]: ThemeColors<T[K]>; } : ((text: string) => string); `}
       <hbr />
       <hbr />
-      <TypeDeclaration export name="Colors">
+      <TypeDeclaration
+        export
+        name="Colors"
+        doc="An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link AnsiColor} for available colors.">
         {code`Record<AnsiColor, (text: string) => string> & ThemeColors<ThemeColorsResolvedConfig>`}
       </TypeDeclaration>
       <hbr />
@@ -255,6 +269,17 @@ export function ColorsDeclaration() {
                             }
                           />
                         )},
+                        debug: ${(
+                          <ColorFunction
+                            ansi16={colors.ansi16.theme.text.message.link.debug}
+                            ansi256={
+                              colors.ansi256.theme.text.message.link.debug
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.message.link.debug
+                            }
+                          />
+                        )},
                         warning: ${(
                           <ColorFunction
                             ansi16={
@@ -330,6 +355,19 @@ export function ColorsDeclaration() {
                             }
                             ansi16m={
                               colors.ansi16m.theme.text.message.header.info
+                            }
+                          />
+                        )},
+                        debug: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.message.header.debug
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.message.header.debug
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.message.header.debug
                             }
                           />
                         )},
@@ -413,6 +451,19 @@ export function ColorsDeclaration() {
                             }
                           />
                         )},
+                        debug: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.message.footer.debug
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.message.footer.debug
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.message.footer.debug
+                            }
+                          />
+                        )},
                         warning: ${(
                           <ColorFunction
                             ansi16={
@@ -493,6 +544,21 @@ export function ColorsDeclaration() {
                             }
                             ansi16m={
                               colors.ansi16m.theme.text.message.description.info
+                            }
+                          />
+                        )},
+                        debug: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.message.description.debug
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.message.description
+                                .debug
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.message.description
+                                .debug
                             }
                           />
                         )},
@@ -686,43 +752,39 @@ export function ColorsDeclaration() {
                       }
                   },
                   app: {
-                    outline: {
+                    table: {
                       primary: ${(
                         <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.app.outline.primary
-                          }
+                          ansi16={colors.ansi16.theme.border.app.table.primary}
                           ansi256={
-                            colors.ansi256.theme.border.app.outline.primary
+                            colors.ansi256.theme.border.app.table.primary
                           }
                           ansi16m={
-                            colors.ansi16m.theme.border.app.outline.primary
+                            colors.ansi16m.theme.border.app.table.primary
                           }
                         />
                       )},
                       secondary: ${(
                         <ColorFunction
                           ansi16={
-                            colors.ansi16.theme.border.app.outline.secondary
+                            colors.ansi16.theme.border.app.table.secondary
                           }
                           ansi256={
-                            colors.ansi256.theme.border.app.outline.secondary
+                            colors.ansi256.theme.border.app.table.secondary
                           }
                           ansi16m={
-                            colors.ansi16m.theme.border.app.outline.secondary
+                            colors.ansi16m.theme.border.app.table.secondary
                           }
                         />
                       )},
                       tertiary: ${(
                         <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.app.outline.tertiary
-                          }
+                          ansi16={colors.ansi16.theme.border.app.table.tertiary}
                           ansi256={
-                            colors.ansi256.theme.border.app.outline.tertiary
+                            colors.ansi256.theme.border.app.table.tertiary
                           }
                           ansi16m={
-                            colors.ansi16m.theme.border.app.outline.tertiary
+                            colors.ansi16m.theme.border.app.table.tertiary
                           }
                         />
                       )}
@@ -810,6 +872,19 @@ export function ColorsDeclaration() {
                           }
                         />
                       )},
+                      debug: ${(
+                        <ColorFunction
+                          ansi16={
+                            colors.ansi16.theme.border.message.outline.debug
+                          }
+                          ansi256={
+                            colors.ansi256.theme.border.message.outline.debug
+                          }
+                          ansi16m={
+                            colors.ansi16m.theme.border.message.outline.debug
+                          }
+                        />
+                      )},
                       warning: ${(
                         <ColorFunction
                           ansi16={
@@ -890,6 +965,19 @@ export function ColorsDeclaration() {
                           }
                         />
                       )},
+                      debug: ${(
+                        <ColorFunction
+                          ansi16={
+                            colors.ansi16.theme.border.message.divider.debug
+                          }
+                          ansi256={
+                            colors.ansi256.theme.border.message.divider.debug
+                          }
+                          ansi16m={
+                            colors.ansi16m.theme.border.message.divider.debug
+                          }
+                        />
+                      )},
                       warning: ${(
                         <ColorFunction
                           ansi16={
@@ -944,7 +1032,7 @@ export function ColorsDeclaration() {
 /**
  * A component to generate the `writeLine` function in the `shell-shock:console` builtin module.
  */
-export function WriteLineFunction() {
+export function WriteLineFunctionDeclaration() {
   const theme = useTheme();
 
   return (
@@ -1013,7 +1101,10 @@ export function WriteLineFunction() {
       </FunctionDeclaration>
       <hbr />
       <hbr />
-      <InterfaceDeclaration export name="WriteLineOptions">
+      <InterfaceDeclaration
+        export
+        name="WriteLineOptions"
+        doc="Options for writing a line to the console.">
         <TSDoc heading="Padding to apply to the line">
           <TSDocRemarks>
             {`The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.`}
@@ -1036,6 +1127,18 @@ export function WriteLineFunction() {
           optional
           type="(text: string) => void"
         />
+        <hbr />
+        <TSDoc heading="Color of the line text">
+          <TSDocRemarks>
+            {`The color to apply to the line text when writing to the console. This can be one of the predefined color themes: "primary", "secondary", or "tertiary". If not specified, no specific coloring will be applied to the text (the default/system terminal text color will likely be used).`}
+          </TSDocRemarks>
+          <hbr />
+        </TSDoc>
+        <InterfaceMember
+          name="color"
+          optional
+          type='"primary" | "secondary" | "tertiary"'
+        />
       </InterfaceDeclaration>
       <hbr />
       <hbr />
@@ -1047,10 +1150,11 @@ export function WriteLineFunction() {
         <TSDocParam name="text">
           {`The line text to write to the console.`}
         </TSDocParam>
-        <TSDocParam name="padding">{`Padding to apply to the line`}</TSDocParam>
+        <TSDocParam name="options">{`The options to apply when writing the line to the console.`}</TSDocParam>
       </TSDoc>
       <FunctionDeclaration
-        name={"writeLine"}
+        export
+        name="writeLine"
         parameters={[
           {
             name: "text",
@@ -1064,22 +1168,33 @@ export function WriteLineFunction() {
           }
         ]}>
         {code`const consoleFn = options.consoleFn ?? console.log;
+        const color = options.color;
 if (text === undefined || text === null || text === "") {
   consoleFn("");
   return;
 }
 
-consoleFn(\`\${" ".repeat(Math.max(options.padding ?? ${theme.padding.app}, 0))}\${String(text)}\`);
+consoleFn(\`\${" ".repeat(Math.max(options.padding ?? ${
+          theme.padding.app
+        }, 0))}\${color ? colors.text.body[color](String(text)) : String(text)}\`);
 `}
       </FunctionDeclaration>
     </>
   );
 }
 
-export type MessageFunctionProps = Partial<
+export type MessageFunctionDeclarationProps = Partial<
   Pick<FunctionDeclarationProps, "parameters">
 > & {
-  type: "success" | "help" | "info" | "verbose" | "warn" | "danger" | "error";
+  type:
+    | "success"
+    | "help"
+    | "info"
+    | "debug"
+    | "verbose"
+    | "warn"
+    | "danger"
+    | "error";
   variant: ThemeMessageVariant;
   consoleFnName: "log" | "info" | "warn" | "error" | "debug";
   description: string;
@@ -1089,7 +1204,9 @@ export type MessageFunctionProps = Partial<
 /**
  * A component to generate the message functions in the `shell-shock:console` builtin module.
  */
-export function MessageFunction(props: MessageFunctionProps) {
+export function MessageFunctionDeclaration(
+  props: MessageFunctionDeclarationProps
+) {
   const { type, variant, consoleFnName, description, prefix, parameters } =
     props;
 
@@ -1145,8 +1262,7 @@ export function MessageFunction(props: MessageFunctionProps) {
           theme.borderStyles.message.outline[variant].top.length ?? 1
         })) + colors.border.message.outline.${variant}("${
           theme.borderStyles.message.outline[variant].topRight
-        }"), { consoleFn: console.${consoleFnName}
-        });
+        }"), { consoleFn: console.${consoleFnName} });
         splitText(
           message,
           Math.max(process.stdout.columns - ${
@@ -1179,8 +1295,7 @@ export function MessageFunction(props: MessageFunctionProps) {
           theme.borderStyles.message.outline[variant].bottom.length ?? 1
         })) + colors.border.message.outline.${variant}("${
           theme.borderStyles.message.outline[variant].bottomRight
-        }"), { consoleFn: console.${consoleFnName}
-        });
+        }"), { consoleFn: console.${consoleFnName} });
 `}
       </FunctionDeclaration>
     </>
@@ -1266,7 +1381,7 @@ export function WrapAnsiFunction() {
 /**
  * A component to generate the `stripAnsi` function in the `shell-shock:console` builtin module.
  */
-export function StripAnsiFunction() {
+export function StripAnsiFunctionDeclaration() {
   return (
     <>
       <TSDoc heading="Removes ANSI escape codes from a string.">
@@ -1299,9 +1414,93 @@ export function StripAnsiFunction() {
 }
 
 /**
+ * A component to generate the `stripAnsi` function in the `shell-shock:console` builtin module.
+ */
+export function DividerFunctionDeclaration() {
+  const theme = useTheme();
+
+  return (
+    <>
+      <InterfaceDeclaration
+        export
+        name="DividerOptions"
+        doc="Options for formatting the divider line written to console.">
+        <InterfaceMember
+          name="width"
+          optional
+          type="number"
+          doc="The width of the divider line. If not specified, the divider will span the full width of the console, minus the padding."
+        />
+        <TSDoc heading="The border of the divider line. Can be 'primary', 'secondary', 'tertiary', or 'none'. If not specified, the default border style will be used.">
+          <TSDocRemarks>
+            {`The value provided will determine the border style and color based on the current theme configuration.`}
+          </TSDocRemarks>
+          <TSDocDefaultValue
+            type={ReflectionKind.string}
+            defaultValue='"primary"'
+          />
+        </TSDoc>
+        <InterfaceMember
+          name="border"
+          optional
+          type='"primary" | "secondary" | "tertiary"'
+          doc="The border style/color of the divider line. Can be 'primary', 'secondary', 'tertiary', or 'none'. If not specified, the default border style will be used."
+        />
+        <TSDoc heading="Padding to apply to the line">
+          <TSDocRemarks>
+            {`The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.`}
+          </TSDocRemarks>
+          <TSDocDefaultValue
+            type={ReflectionKind.number}
+            defaultValue={theme.padding.app * 4}
+          />
+        </TSDoc>
+        <InterfaceMember name="padding" optional type="number" />
+      </InterfaceDeclaration>
+      <hbr />
+      <hbr />
+      <TSDoc heading="Write a divider line to the console.">
+        <TSDocExample>
+          {`divider({ width: 50, border: "primary" }); // Writes a divider line of width 50 with primary border.`}
+        </TSDocExample>
+
+        <TSDocParam name="options">
+          {`Options for formatting the divider line.`}
+        </TSDocParam>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        name="divider"
+        parameters={[
+          {
+            name: "options",
+            type: "DividerOptions",
+            optional: false
+          }
+        ]}>
+        {code`const padding = options.padding ?? ${theme.padding.app * 4};
+        const width = options.width ?? (process.stdout.columns - (Math.max(padding, 0) * 2));
+        const border = options.border === "tertiary" ? colors.border.app.divider.tertiary("${
+          theme.borderStyles.app.divider.tertiary.top
+        }") : options.border === "secondary" ? colors.border.app.divider.secondary("${
+          theme.borderStyles.app.divider.secondary.top
+        }") : colors.border.app.divider.primary("${
+          theme.borderStyles.app.divider.primary.top
+        }");
+
+        writeLine(" ".repeat(padding) + border.repeat(Math.max(width / ${
+          theme.borderStyles.app.divider.primary.top.length ?? 1
+        }, 0)));
+        `}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
  * A component to generate the `link` function in the `shell-shock:console` builtin module.
  */
-export function LinkFunction() {
+export function LinkFunctionDeclaration() {
   return (
     <>
       <TSDoc heading="Render a hyperlink in the console.">
@@ -1338,6 +1537,521 @@ export function LinkFunction() {
   );
 }
 
+function extractBorderOptionsObject(
+  direction:
+    | "top"
+    | "right"
+    | "bottom"
+    | "left"
+    | "topLeft"
+    | "topRight"
+    | "bottomLeft"
+    | "bottomRight",
+  theme: ThemeResolvedConfig
+): string {
+  return `borderOptions.${
+    direction
+  } === "primary" ? colors.border.app.table.primary("${
+    theme.borderStyles.app.table.primary[direction]
+  }") : borderOptions.${
+    direction
+  } === "secondary" ? colors.border.app.table.secondary("${
+    theme.borderStyles.app.table.secondary[direction]
+  }") : borderOptions.${
+    direction
+  } === "tertiary" ? colors.border.app.table.tertiary("${
+    theme.borderStyles.app.table.tertiary[direction]
+  }") : !borderOptions.${direction} || borderOptions.${
+    direction
+  } === "none" ? "" : borderOptions.${direction}`;
+}
+
+function extractBorderOptionsString(
+  direction:
+    | "top"
+    | "right"
+    | "bottom"
+    | "left"
+    | "topLeft"
+    | "topRight"
+    | "bottomLeft"
+    | "bottomRight",
+  theme: ThemeResolvedConfig
+): string {
+  return `borderOptions === "primary" ? colors.border.app.table.primary("${
+    theme.borderStyles.app.table.primary[direction]
+  }") : borderOptions === "secondary" ? colors.border.app.table.secondary("${
+    theme.borderStyles.app.table.secondary[direction]
+  }") : borderOptions === "tertiary" ? colors.border.app.table.tertiary("${
+    theme.borderStyles.app.table.tertiary[direction]
+  }") : !borderOptions || borderOptions === "none" ? "" : borderOptions`;
+}
+
+/**
+ * Props for the TableFunctionDeclaration component.
+ */
+export type TableFunctionDeclarationProps = Omit<
+  FunctionDeclarationProps,
+  "parameters" | "name"
+>;
+
+/**
+ * A component to generate the table functions in the `shell-shock:console` builtin module.
+ */
+export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
+  const theme = useTheme();
+
+  return (
+    <>
+      <TypeDeclaration
+        export
+        name="BorderOption"
+        doc="The border options applied to table cells.">
+        {code`"primary" | "secondary" | "tertiary" | "none" | string; `}
+      </TypeDeclaration>
+      <hbr />
+      <hbr />
+      <InterfaceDeclaration
+        export
+        name="TableOutputOptions"
+        doc="Options to customize the output of the {@link table} function.">
+        <TSDoc heading="Border variant for the table cell.">
+          <TSDocRemarks>
+            {`The border variant to use for the table cell. This determines the color and style of the border around the cell.`}
+          </TSDocRemarks>
+          <hbr />
+          <TSDocDefaultValue
+            type={ReflectionKind.property}
+            defaultValue='"primary"'
+          />
+        </TSDoc>
+        <InterfaceMember
+          name="border"
+          optional
+          type="BorderOption | { top?: BorderOption; right?: BorderOption; bottom?: BorderOption; left?: BorderOption; topLeft?: BorderOption; topRight?: BorderOption; bottomLeft?: BorderOption; bottomRight?: BorderOption; }"
+        />
+        <hbr />
+        <TSDoc heading="Padding for the table cell.">
+          <TSDocRemarks>
+            {`The amount of padding (in spaces) to apply to the table cell. This value is applied to both the left and right sides of the cell. If not specified, the default table padding defined in the current theme configuration will be used.`}
+          </TSDocRemarks>
+          <hbr />
+          <TSDocDefaultValue
+            type={ReflectionKind.property}
+            defaultValue={`\`${theme.padding.table}\``}
+          />
+        </TSDoc>
+        <InterfaceMember name="padding" optional type="number" />
+        <hbr />
+        <TSDoc heading="Alignment for the table cell.">
+          <TSDocRemarks>
+            {`The alignment for the table cell. This determines how the text within the cell is aligned. If not specified, the default alignment is "left".`}
+          </TSDocRemarks>
+          <hbr />
+          <TSDocDefaultValue
+            type={ReflectionKind.property}
+            defaultValue='"left"'
+          />
+        </TSDoc>
+        <InterfaceMember
+          name="align"
+          optional
+          type='"left" | "right" | "center"'
+        />
+        <hbr />
+      </InterfaceDeclaration>
+      <hbr />
+      <hbr />
+      <InterfaceDeclaration
+        export
+        name="TableCellOptions"
+        extends="TableOutputOptions"
+        doc="Options for a specific table cell provided to the {@link table} function.">
+        <InterfaceMember
+          name="value"
+          optional
+          type="string"
+          doc="The actual string value of the table cell."
+        />
+        <hbr />
+      </InterfaceDeclaration>
+      <hbr />
+      <hbr />
+      <InterfaceDeclaration
+        export
+        name="TableRowOptions"
+        extends="TableOutputOptions"
+        doc="Options for a specific table row provided to the {@link table} function.">
+        <InterfaceMember
+          name="values"
+          optional
+          type="(string | TableCellOptions)[]"
+          doc="The actual string values of the table row's cells."
+        />
+        <hbr />
+      </InterfaceDeclaration>
+      <hbr />
+      <hbr />
+      <InterfaceDeclaration
+        export
+        name="TableOptions"
+        extends="TableOutputOptions"
+        doc="Options for a specific table cell provided to the {@link table} function.">
+        <InterfaceMember
+          name="values"
+          optional
+          type="(string | TableCellOptions)[][]"
+          doc="The actual string values of the table's rows' cells."
+        />
+        <hbr />
+      </InterfaceDeclaration>
+      <hbr />
+      <hbr />
+      <InterfaceDeclaration
+        name="Dimensions"
+        doc="The height and width for a specific table/cell used internally in the {@link table} function.">
+        <InterfaceMember
+          name="height"
+          type="number"
+          doc="The height of the row/cell (where 1 is a single line in the terminal)."
+        />
+        <hbr />
+        <InterfaceMember
+          name="width"
+          type="number"
+          doc="The width of the row/cell (where 1 is a single character in the terminal)."
+        />
+        <hbr />
+      </InterfaceDeclaration>
+      <hbr />
+      <hbr />
+      <InterfaceDeclaration
+        name="TableCellBorder"
+        doc="The resolved complete border styles for a table cell.">
+        <InterfaceMember
+          name="top"
+          type="string"
+          doc="The top border style of the table cell."
+        />
+        <hbr />
+        <InterfaceMember
+          name="bottom"
+          type="string"
+          doc="The bottom border style of the table cell."
+        />
+        <hbr />
+        <InterfaceMember
+          name="right"
+          type="string"
+          doc="The right border style of the table cell."
+        />
+        <hbr />
+        <InterfaceMember
+          name="left"
+          type="string"
+          doc="The left border style of the table cell."
+        />
+        <hbr />
+        <InterfaceMember
+          name="topLeft"
+          type="string"
+          doc="The top-left border style of the table cell."
+        />
+        <hbr />
+        <InterfaceMember
+          name="topRight"
+          type="string"
+          doc="The top-right border style of the table cell."
+        />
+        <hbr />
+        <InterfaceMember
+          name="bottomLeft"
+          type="string"
+          doc="The bottom-left border style of the table cell."
+        />
+        <hbr />
+        <InterfaceMember
+          name="bottomRight"
+          type="string"
+          doc="The bottom-right border style of the table cell."
+        />
+        <hbr />
+      </InterfaceDeclaration>
+      <hbr />
+      <hbr />
+      <TypeDeclaration
+        name="TableCell"
+        doc="The internal state of a formatted table cell in the {@link table} function.">
+        {code`Required<Omit<TableCellOptions, "border">> & Dimensions & {
+          border: TableCellBorder;
+        };
+        `}
+      </TypeDeclaration>
+      <hbr />
+      <hbr />
+      <TSDoc heading="Write a table to the console.">
+        <TSDocRemarks>
+          {`This function writes a table to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.`}
+        </TSDocRemarks>
+        <hbr />
+        <TSDocParam name="options">
+          {`Options to customize the table output.`}
+        </TSDocParam>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        {...props}
+        name="table"
+        parameters={[
+          {
+            name: "options",
+            type: "TableOptions | TableRowOptions[] | TableCellOptions[][] | string[] | string[][]",
+            optional: false
+          }
+        ]}>
+        <IfStatement
+          condition={code`!options ||
+            (!Array.isArray(options) && (typeof options !== "object" || !options.values || !Array.isArray(options.values) || options.values.length === 0)) ||
+            (Array.isArray(options) && !options.every(item => typeof item === "object" || typeof item === "string" || Array.isArray(item))) `}>
+          {code`return;`}
+        </IfStatement>
+        <hbr />
+        <hbr />
+        <VarDeclaration
+          let
+          name="cells"
+          type={`TableCell[][]`}
+          initializer={code`[];`}
+        />
+        <hbr />
+        {code`
+        const extractTableCell = (cell: string | TableCellOptions, opts?: TableOutputOptions): TableCell => {
+          if (typeof cell === "string") {
+            const borderOptions = opts?.border || "primary";
+
+            let border = {} as TableCellBorder;
+            if (typeof borderOptions === "object") {
+              border = {
+                top: ${extractBorderOptionsObject("top", theme)},
+                bottom: ${extractBorderOptionsObject("bottom", theme)},
+                left: ${extractBorderOptionsObject("left", theme)},
+                right: ${extractBorderOptionsObject("right", theme)},
+                topLeft: ${extractBorderOptionsObject("topLeft", theme)},
+                topRight: ${extractBorderOptionsObject("topRight", theme)},
+                bottomLeft: ${extractBorderOptionsObject("bottomLeft", theme)},
+                bottomRight: ${extractBorderOptionsObject("bottomRight", theme)},
+              };
+            } else {
+              border.top = ${extractBorderOptionsString("top", theme)};
+              border.bottom = ${extractBorderOptionsString("bottom", theme)};
+              border.left = ${extractBorderOptionsString("left", theme)};
+              border.right = ${extractBorderOptionsString("right", theme)};
+              border.topLeft = ${extractBorderOptionsString("topLeft", theme)};
+              border.topRight = ${extractBorderOptionsString("topRight", theme)};
+              border.bottomLeft = ${extractBorderOptionsString("bottomLeft", theme)};
+              border.bottomRight = ${extractBorderOptionsString("bottomRight", theme)};
+            }
+
+            const padding = Math.max(0, opts?.padding ?? ${theme.padding.table});
+            const value = cell ?? "";
+            const width = stripAnsi(value).length + padding * 2;
+
+            return {
+              value,
+              height: 1,
+              width,
+              border,
+              padding,
+              align: opts?.align || "left",
+            };
+          } else {
+            const borderOptions = cell.border || opts?.border || "primary";
+
+            let border = {} as TableCellBorder;
+            if (typeof borderOptions === "object") {
+              border = {
+                top: ${extractBorderOptionsObject("top", theme)},
+                bottom: ${extractBorderOptionsObject("bottom", theme)},
+                left: ${extractBorderOptionsObject("left", theme)},
+                right: ${extractBorderOptionsObject("right", theme)},
+                topLeft: ${extractBorderOptionsObject("topLeft", theme)},
+                topRight: ${extractBorderOptionsObject("topRight", theme)},
+                bottomLeft: ${extractBorderOptionsObject("bottomLeft", theme)},
+                bottomRight: ${extractBorderOptionsObject("bottomRight", theme)},
+              };
+            } else {
+              border.top = ${extractBorderOptionsString("top", theme)};
+              border.bottom = ${extractBorderOptionsString("bottom", theme)};
+              border.left = ${extractBorderOptionsString("left", theme)};
+              border.right = ${extractBorderOptionsString("right", theme)};
+              border.topLeft = ${extractBorderOptionsString("topLeft", theme)};
+              border.topRight = ${extractBorderOptionsString("topRight", theme)};
+              border.bottomLeft = ${extractBorderOptionsString("bottomLeft", theme)};
+              border.bottomRight = ${extractBorderOptionsString("bottomRight", theme)};
+            }
+
+            const padding = Math.max(0, cell.padding ?? opts?.padding ?? ${
+              theme.padding.table
+            });
+            const value = cell.value ?? "";
+            const width = stripAnsi(value).length + padding * 2;
+
+            return {
+              value,
+              height: 1,
+              width,
+              border,
+              padding,
+              align: cell.align || opts?.align || "left",
+            };
+          }
+        };
+    `}
+        <hbr />
+        <IfStatement condition={code`Array.isArray(options)`}>
+          <IfStatement
+            condition={code`options.every(row => typeof row === "string" || (typeof row === "object" && !Array.isArray(row) && !("values" in row)))`}>
+            {code`cells.push(options.map(cell => extractTableCell(cell as string | TableCellOptions)));`}
+          </IfStatement>
+          <ElseClause>
+            {code`
+          cells.push(
+            ...options.map(row => Array.isArray(row)
+              ? row.reduce((cellRow, cell) => {
+                cellRow.push(extractTableCell(cell));
+                return cellRow;
+              }, [] as TableCell[])
+              : (row as TableRowOptions).values?.reduce((cellRow, cell) => {
+                cellRow.push(extractTableCell(cell, row as TableRowOptions));
+                return cellRow;
+              }, [] as TableCell[]) ?? []
+            )
+          );
+            `}
+          </ElseClause>
+        </IfStatement>
+        <ElseClause>
+          {code`
+        cells.push(
+          ...options.values!.map(row => Array.isArray(row)
+            ? row.reduce((cellRow, cell) => {
+              cellRow.push(extractTableCell(cell));
+              return cellRow;
+            }, [] as TableCell[])
+            : (row as TableRowOptions).values?.reduce((cellRow, cell) => {
+              cellRow.push(extractTableCell(cell, options));
+              return cellRow;
+            }, [] as TableCell[]) ?? []
+          )
+        );
+
+          `}
+        </ElseClause>
+        <hbr />
+        {code`
+cells = cells.filter(row => row.length > 0);
+if (cells.length === 0) {
+  return;
+}
+
+// Calculate table dimensions
+let colWidths = [] as number[];
+let rowDims = [] as Dimensions[];
+
+const calculateRowDimensions = () => {
+  return cells.reduce((dims, row) => {
+    dims.push(row.reduce((dim, cell) => {
+      if (cell.width > dim.width) {
+        dim.width = cell.width;
+      }
+      if (cell.height > dim.height) {
+        dim.height = cell.height;
+      }
+      return dim;
+    }, { width: 0, height: 0 } as Dimensions));
+
+    return dims;
+  }, [] as Dimensions[]);
+}
+
+const maxWidth = Math.max(process.stdout.columns - ${Math.max(theme.padding.app, 0) * 2}, 0);
+rowDims = calculateRowDimensions();
+
+let recalculate!: boolean;
+do {
+  recalculate = false;
+  rowDims.map((row, rowIndex) => {
+    if (row.width > maxWidth) {
+      const cell = cells[rowIndex]!.reduce((largestCell, cell) => {
+        if (cell.width > largestCell.width) {
+          return cell;
+        }
+        return largestCell;
+      }, cells[rowIndex]![0]!);
+
+      const lines = splitText(
+        cell.value,
+        maxWidth - row.width - cell.width
+      );
+
+      cell.value = lines.join("\\n");
+      cell.height = lines.length;
+      cell.width = Math.max(...lines.map(line => stripAnsi(line).length)) + cell.padding * 2;
+
+      recalculate = true;
+    }
+  });
+
+  if (recalculate) {
+    rowDims = calculateRowDimensions();
+  }
+} while (recalculate);
+
+rowDims.map((row, rowIndex) => {
+  cells[rowIndex]!.forEach(cell => {
+    cell.height = row.height;
+  });
+});
+
+// Render table
+cells.forEach(row => {
+  let line = "";
+  row.forEach((cell, colIndex) => {
+    const cellContent = cell.value;
+    let paddedContent = "";
+    const totalPadding = cell.padding * 2;
+    const contentLength = stripAnsi(cellContent).length;
+    const totalWidth = colWidths[colIndex] ?? contentLength + totalPadding;
+
+    switch (cell.align) {
+      case "right":
+        paddedContent = " ".repeat(totalWidth - contentLength - totalPadding) + cellContent + " ".repeat(totalPadding);
+        break;
+      case "center":
+        const leftPadding = Math.floor((totalWidth - contentLength - totalPadding) / 2);
+        const rightPadding = totalWidth - contentLength - totalPadding - leftPadding;
+        paddedContent = " ".repeat(leftPadding) + cellContent + " ".repeat(rightPadding + totalPadding);
+        break;
+      case "left":
+      default:
+        paddedContent = " ".repeat(totalPadding) + cellContent + " ".repeat(totalWidth - contentLength - totalPadding);
+        break;
+    }
+
+    line += cell.border.left + paddedContent;
+    if (colIndex === row.length - 1) {
+      line +=  paddedContent + cell.border.right;
+    }
+  });
+
+  writeLine(line);
+});
+`}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
 /**
  * A built-in console utilities module for Shell Shock.
  */
@@ -1347,7 +2061,9 @@ export function ConsoleBuiltin() {
       id="console"
       description="A collection of helper utilities to assist in generating content meant for display in the console."
       imports={{
-        "@shell-shock/plugin-theme/types/theme": ["ThemeColorsResolvedConfig"]
+        "@shell-shock/plugin-theme/types/theme": [
+          { name: "ThemeColorsResolvedConfig", type: true }
+        ]
       }}
       builtinImports={{
         utils: [
@@ -1358,7 +2074,7 @@ export function ConsoleBuiltin() {
         ],
         env: ["env", "isDevelopment", "isDebug"]
       }}>
-      <StripAnsiFunction />
+      <StripAnsiFunctionDeclaration />
       <hbr />
       <hbr />
       <WrapAnsiFunction />
@@ -1367,13 +2083,16 @@ export function ConsoleBuiltin() {
       <ColorsDeclaration />
       <hbr />
       <hbr />
-      <WriteLineFunction />
+      <WriteLineFunctionDeclaration />
       <hbr />
       <hbr />
-      <LinkFunction />
+      <LinkFunctionDeclaration />
       <hbr />
       <hbr />
-      <MessageFunction
+      <DividerFunctionDeclaration />
+      <hbr />
+      <hbr />
+      <MessageFunctionDeclaration
         type="help"
         variant="help"
         consoleFnName="log"
@@ -1381,7 +2100,7 @@ export function ConsoleBuiltin() {
       />
       <hbr />
       <hbr />
-      <MessageFunction
+      <MessageFunctionDeclaration
         type="success"
         variant="success"
         consoleFnName="info"
@@ -1389,7 +2108,7 @@ export function ConsoleBuiltin() {
       />
       <hbr />
       <hbr />
-      <MessageFunction
+      <MessageFunctionDeclaration
         type="info"
         variant="info"
         consoleFnName="info"
@@ -1397,19 +2116,31 @@ export function ConsoleBuiltin() {
       />
       <hbr />
       <hbr />
-      <MessageFunction
-        type="verbose"
-        variant="info"
+      <MessageFunctionDeclaration
+        type="debug"
+        variant="debug"
         consoleFnName="debug"
-        description="verbose/debug"
+        description="debug"
         prefix={
           <IfStatement
-            condition={code`!(isDevelopment || isDebug || env.LOG_LEVEL === "debug" || hasFlag(["verbose", "verbose=true", "verbose=always", "debug"]))`}>{code`return; `}</IfStatement>
+            condition={code`!isDevelopment && !isDebug && env.LOG_LEVEL !== "debug"`}>{code`return; `}</IfStatement>
         }
       />
       <hbr />
       <hbr />
-      <MessageFunction
+      <MessageFunctionDeclaration
+        type="verbose"
+        variant="debug"
+        consoleFnName="debug"
+        description="verbose"
+        prefix={
+          <IfStatement
+            condition={code`!(isDevelopment || isDebug || env.LOG_LEVEL === "debug" || hasFlag(["verbose", "verbose=true", "verbose=always", "debug", "debug=true", "debug=always"]))`}>{code`return; `}</IfStatement>
+        }
+      />
+      <hbr />
+      <hbr />
+      <MessageFunctionDeclaration
         type="warn"
         variant="warning"
         consoleFnName="warn"
@@ -1417,7 +2148,7 @@ export function ConsoleBuiltin() {
       />
       <hbr />
       <hbr />
-      <MessageFunction
+      <MessageFunctionDeclaration
         type="danger"
         variant="danger"
         consoleFnName="error"
@@ -1425,7 +2156,7 @@ export function ConsoleBuiltin() {
       />
       <hbr />
       <hbr />
-      <MessageFunction
+      <MessageFunctionDeclaration
         type="error"
         variant="error"
         consoleFnName="error"
@@ -1442,12 +2173,20 @@ export function ConsoleBuiltin() {
             <VarDeclaration let name="message" type="string | undefined" />
             <hbr />
             <hbr />
-            <IfStatement
-              condition={code`(err as Error)?.message`}>{code`message = (err as Error)?.message;`}</IfStatement>
+            <IfStatement condition={code`(err as Error)?.message`}>
+              {code`message = (err as Error).message;`}
+              <IfStatement
+                condition={code`env.STACKTRACE && (err as Error)?.stack`}>
+                {code`message += " \\n\\n" + (err as Error).stack;`}
+              </IfStatement>
+            </IfStatement>
             <ElseClause>{code`message = String(err);`}</ElseClause>
           </>
         }
       />
+      <hbr />
+      <hbr />
+      <TableFunctionDeclaration />
       <hbr />
       <hbr />
     </BuiltinFile>

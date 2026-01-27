@@ -19,7 +19,7 @@
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { titleCase } from "@stryke/string-format/title-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import type { Context } from "../types";
+import type { Context, UnresolvedContext } from "../types";
 
 /**
  * Sorts command argument aliases, placing single-character aliases first, followed by multi-character aliases, and then sorting them alphabetically.
@@ -45,17 +45,17 @@ export function sortArgAliases(aliases: string[]): string[] {
  * @returns The application name in kebab-case format.
  * @throws An error if no valid application name is found.
  */
-export function getAppName(context: Context): string {
+export function getAppName(context: UnresolvedContext | Context): string {
   const result =
-    context.config.bin &&
+    context.config.name ||
     (isSetString(context.config.bin) ||
-      (Array.isArray(context.config.bin) &&
-        context.config.bin.length > 0 &&
-        context.config.bin[0]))
+    (Array.isArray(context.config.bin) &&
+      context.config.bin.length > 0 &&
+      isSetString(context.config.bin[0]))
       ? isSetString(context.config.bin)
         ? context.config.bin
         : context.config.bin[0]
-      : context.config.name || context.packageJson?.name;
+      : context.packageJson?.name);
   if (!isSetString(result)) {
     throw new Error(
       "No application name found. Please provide a 'bin' option in the configuration or ensure the package.json has a valid 'name' field."
@@ -71,7 +71,7 @@ export function getAppName(context: Context): string {
  * @param context - The build context containing workspace and package information.
  * @returns The application title in title-case format.
  */
-export function getAppTitle(context: Context): string {
+export function getAppTitle(context: UnresolvedContext | Context): string {
   return titleCase(context.config.name || getAppName(context));
 }
 
@@ -81,7 +81,9 @@ export function getAppTitle(context: Context): string {
  * @param context - The build context containing workspace and package information.
  * @returns The application description.
  */
-export function getAppDescription(context: Context): string {
+export function getAppDescription(
+  context: UnresolvedContext | Context
+): string {
   return (
     context.config.description ||
     context.packageJson?.description ||

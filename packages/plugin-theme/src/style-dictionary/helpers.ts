@@ -97,6 +97,28 @@ export function resolveBorderStyle(
         left: "|",
         right: "|"
       };
+    case "diagonal":
+      return {
+        topLeft: "╱╱",
+        topRight: "╱╱",
+        bottomLeft: "╱╱",
+        bottomRight: "╱╱",
+        top: "╱",
+        bottom: "╱",
+        left: "╱╱",
+        right: "╱╱"
+      };
+    case "diagonal-thick":
+      return {
+        topLeft: "🙼🙼",
+        topRight: "🙼🙼",
+        bottomLeft: "🙼🙼",
+        bottomRight: "🙼🙼",
+        top: "🙼",
+        bottom: "🙼",
+        left: "🙼🙼",
+        right: "🙼🙼"
+      };
     case "pointer":
       return {
         topLeft: "▶",

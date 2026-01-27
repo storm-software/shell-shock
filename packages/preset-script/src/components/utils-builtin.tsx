@@ -23,6 +23,7 @@ import {
   InterfaceMember,
   VarDeclaration
 } from "@alloy-js/typescript";
+import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import {
@@ -31,7 +32,9 @@ import {
   TSDocParam,
   TSDocReturns
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+import { getAppTitle } from "@shell-shock/core/plugin-utils/context-helpers";
 import defu from "defu";
+import type { ScriptPresetContext } from "../types/plugin";
 
 export interface UtilsBuiltinProps extends Omit<
   BuiltinFileProps,
@@ -445,6 +448,144 @@ export function ArgsUtilities() {
 }
 
 /**
+ * The `exit` handler function declaration code for the Shell Shock project.
+ */
+export function ExitFunctionDeclaration() {
+  const context = usePowerlines<ScriptPresetContext>();
+
+  return (
+    <>
+      <InterfaceDeclaration
+        export
+        name="ExitOptions"
+        doc="Options for the exit handler function.">
+        <InterfaceMember
+          name="exception"
+          optional
+          type="string | Error"
+          doc="An optional exception that caused the exit. This can be a string message or an Error object."
+        />
+        <hbr />
+        <InterfaceMember
+          name="skipProcessExit"
+          optional
+          type="boolean"
+          doc="Indicates whether the exit function should manually exit the process or not. If set to true, the exit function will not call process.exit() and will allow the application to continue running. If set to false or not specified, the exit function will call process.exit() to terminate the application."
+        />
+        <hbr />
+        <InterfaceMember
+          name="isSynchronous"
+          optional
+          type="boolean"
+          doc="Indicates whether the exit function should perform synchronous operations only. If set to true, the exit function will avoid any asynchronous operations during exit. If set to false or not specified, the exit function may perform asynchronous operations as needed."
+        />
+        <hbr />
+        <InterfaceMember
+          name="signal"
+          optional
+          type="number"
+          doc="The signal number that triggered the exit. This is typically used when the shutdown is initiated by a system signal (e.g., SIGINT, SIGTERM)."
+        />
+      </InterfaceDeclaration>
+      <hbr />
+      <hbr />
+      <VarDeclaration
+        let
+        name="isExiting"
+        type="boolean"
+        initializer={code`false;`}
+      />
+      <VarDeclaration
+        const
+        name="callbackAsyncQueue"
+        type="Array<[(code: number | string) => Promise<void> | void, number]>"
+        initializer={code`[];`}
+      />
+      <VarDeclaration
+        const
+        name="callbackSyncQueue"
+        type="Array<(code: number | string) => void>"
+        initializer={code`[];`}
+      />
+      <hbr />
+      <hbr />
+      <FunctionDeclaration
+        export
+        async
+        name="exit"
+        parameters={[
+          {
+            name: "options",
+            type: "ExitOptions",
+            default: "{}"
+          }
+        ]}>
+        {code`
+          try {
+            if (isExiting) {
+              return;
+            }
+
+            isExiting = true;
+
+            let exitCode: number | string = 0;
+            if ((options.signal !== undefined && options.signal > 0) || options.exception) {
+              exitCode = 128 + (options.signal ?? 1);
+            } else if (typeof process.exitCode === "number" || typeof process.exitCode === "string") {
+              exitCode = process.exitCode;
+            }
+
+            if (options.exception) {
+              error(\`A fatal error occured while running the application - please contact the ${getAppTitle(
+                context
+              )} support team: \\n\${typeof options.exception === "string" ? options.exception : options.exception.message}\`);
+            }
+
+            const terminate = (force = false) => {
+              verbose(\`The ${getAppTitle(
+                context
+              )} application exited \${options.exception ? \`early due to an exception\` : "successfully"}...\`);
+              if (!options.skipProcessExit) {
+                process.exit(exitCode);
+              }
+            };
+
+            for (const callbackSync of callbackSyncQueue) {
+              callbackSync(exitCode);
+            }
+
+            if (!options.isSynchronous) {
+              const promises = [];
+              let forceAfter = 0;
+              for (const [callbackAsync, wait] of callbackAsyncQueue) {
+                forceAfter = Math.max(forceAfter, wait);
+                promises.push(Promise.resolve(callbackAsync(exitCode)));
+              }
+
+              const asyncTimer = setTimeout(() => {
+                terminate(true);
+              }, forceAfter);
+              await Promise.all(promises);
+              clearTimeout(asyncTimer);
+            }
+
+            terminate();
+          } catch (err) {
+            error(\`The exit process failed to complete\${(err as Error).message ? \` - (err as Error).message\` : ""}. Please contact the ${getAppTitle(
+              context
+            )} support team.\`);
+
+            if (!options.skipProcessExit) {
+              process.exit(1);
+            }
+          }
+        `}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
  * A built-in utilities module for Shell Shock.
  */
 export function UtilsBuiltin(props: UtilsBuiltinProps) {
@@ -460,6 +601,7 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
         "node:process": "process"
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
+        console: ["error", "verbose"],
         env: ["env", "isCI", "isTest", "isWindows"]
       })}>
       <hbr />
@@ -474,6 +616,9 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
       <hbr />
       <hbr />
       <ColorSupportUtilities />
+      <hbr />
+      <hbr />
+      <ExitFunctionDeclaration />
       <hbr />
       <hbr />
       <Show when={Boolean(children)}>{children}</Show>

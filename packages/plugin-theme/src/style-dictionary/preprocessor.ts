@@ -27,6 +27,7 @@ import type {
 } from "style-dictionary/types";
 import type { ThemePluginContext } from "../types/plugin";
 import type {
+  ThemeBorderStyleAppSubItemUserConfig,
   ThemeBorderStyleMessageStateUserConfig,
   ThemeBorderStyleSectionTypesUserConfig,
   ThemeBorderStylesResolvedConfig,
@@ -86,7 +87,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
       },
       border: {
         banner: { outline: {}, divider: {} },
-        app: { outline: {}, divider: {} },
+        app: { table: {}, divider: {} },
         message: { outline: {}, divider: {} }
       }
     } as ThemeColorsResolvedConfig;
@@ -118,6 +119,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: colors,
               success: colors,
               info: colors,
+              debug: colors,
               warning: colors,
               danger: colors,
               error: colors
@@ -126,6 +128,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: colors,
               success: colors,
               info: colors,
+              debug: colors,
               warning: colors,
               danger: colors,
               error: colors
@@ -134,6 +137,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: colors,
               success: colors,
               info: colors,
+              debug: colors,
               warning: colors,
               danger: colors,
               error: colors
@@ -142,6 +146,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: colors,
               success: colors,
               info: colors,
+              debug: colors,
               warning: colors,
               danger: colors,
               error: colors
@@ -170,7 +175,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             }
           },
           app: {
-            outline: {
+            table: {
               primary: colors,
               secondary: colors,
               tertiary: colors
@@ -186,6 +191,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: colors,
               success: colors,
               info: colors,
+              debug: colors,
               warning: colors,
               danger: colors,
               error: colors
@@ -194,6 +200,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: colors,
               success: colors,
               info: colors,
+              debug: colors,
               warning: colors,
               danger: colors,
               error: colors
@@ -235,6 +242,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: text,
               success: text,
               info: text,
+              debug: text,
               warning: text,
               danger: text,
               error: text
@@ -243,6 +251,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: text,
               success: text,
               info: text,
+              debug: text,
               warning: text,
               danger: text,
               error: text
@@ -251,6 +260,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: text,
               success: text,
               info: text,
+              debug: text,
               warning: text,
               danger: text,
               error: text
@@ -259,6 +269,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: text,
               success: text,
               info: text,
+              debug: text,
               warning: text,
               danger: text,
               error: text
@@ -400,6 +411,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: message,
               success: message,
               info: message,
+              debug: message,
               warning: message,
               danger: message,
               error: message
@@ -408,6 +420,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: message,
               success: message,
               info: message,
+              debug: message,
               warning: message,
               danger: message,
               error: message
@@ -416,6 +429,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: message,
               success: message,
               info: message,
+              debug: message,
               warning: message,
               danger: message,
               error: message
@@ -424,6 +438,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: message,
               success: message,
               info: message,
+              debug: message,
               warning: message,
               danger: message,
               error: message
@@ -439,6 +454,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: link,
               success: link,
               info: link,
+              debug: link,
               warning: link,
               danger: link,
               error: link
@@ -452,6 +468,9 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             }
             if (isSetString(link.info)) {
               resolvedConfig.colors.text.message.link.info = link.info;
+            }
+            if (isSetString(link.debug)) {
+              resolvedConfig.colors.text.message.link.debug = link.debug;
             }
             if (isSetString(link.warning)) {
               resolvedConfig.colors.text.message.link.warning = link.warning;
@@ -473,6 +492,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: description,
               success: description,
               info: description,
+              debug: description,
               warning: description,
               danger: description,
               error: description
@@ -489,6 +509,10 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             if (isSetString(description.info)) {
               resolvedConfig.colors.text.message.description.info =
                 description.info;
+            }
+            if (isSetString(description.debug)) {
+              resolvedConfig.colors.text.message.description.debug =
+                description.debug;
             }
             if (isSetString(description.warning)) {
               resolvedConfig.colors.text.message.description.warning =
@@ -513,6 +537,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: header,
               success: header,
               info: header,
+              debug: header,
               warning: header,
               danger: header,
               error: header
@@ -527,6 +552,9 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             }
             if (isSetString(header.info)) {
               resolvedConfig.colors.text.message.header.info = header.info;
+            }
+            if (isSetString(header.debug)) {
+              resolvedConfig.colors.text.message.header.debug = header.debug;
             }
             if (isSetString(header.warning)) {
               resolvedConfig.colors.text.message.header.warning =
@@ -549,6 +577,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: footer,
               success: footer,
               info: footer,
+              debug: footer,
               warning: footer,
               danger: footer,
               error: footer
@@ -563,6 +592,9 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             }
             if (isSetString(footer.info)) {
               resolvedConfig.colors.text.message.footer.info = footer.info;
+            }
+            if (isSetString(footer.debug)) {
+              resolvedConfig.colors.text.message.footer.debug = footer.debug;
             }
             if (isSetString(footer.warning)) {
               resolvedConfig.colors.text.message.footer.warning =
@@ -580,7 +612,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
 
       resolvedConfig.colors.border ??= {
         banner: { outline: {}, divider: {} },
-        app: { outline: {}, divider: {} },
+        app: { table: {}, divider: {} },
         message: { outline: {}, divider: {} }
       } as ThemeColorBorderItemsResolvedConfig;
       const border = colors.border as ThemeColorBorderItemsUserConfig;
@@ -600,7 +632,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             }
           },
           app: {
-            outline: {
+            table: {
               primary: border,
               secondary: border,
               tertiary: border
@@ -616,6 +648,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: border,
               success: border,
               info: border,
+              debug: border,
               warning: border,
               danger: border,
               error: border
@@ -624,6 +657,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: border,
               success: border,
               info: border,
+              debug: border,
               warning: border,
               danger: border,
               error: border
@@ -731,14 +765,14 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
         }
 
         resolvedConfig.colors.border.app ??= {
-          outline: {},
+          table: {},
           divider: {}
         } as ThemeColorBorderItemsResolvedConfig["app"];
         const app = border.app;
 
         if (isSetString(app)) {
           resolvedConfig.colors.border.app = {
-            outline: {
+            table: {
               primary: app,
               secondary: app,
               tertiary: app
@@ -753,29 +787,27 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
           resolvedConfig.colors.border.app ??=
             {} as ThemeColorBorderItemsResolvedConfig["app"];
 
-          if ("outline" in app || "divider" in app) {
-            if (isSetString(app.outline)) {
-              resolvedConfig.colors.border.app.outline = {
-                primary: app.outline,
-                secondary: app.outline,
-                tertiary: app.outline
+          if ("table" in app || "divider" in app) {
+            if (isSetString(app.table)) {
+              resolvedConfig.colors.border.app.table = {
+                primary: app.table,
+                secondary: app.table,
+                tertiary: app.table
               };
-            } else if (isSetObject(app.outline)) {
-              resolvedConfig.colors.border.app.outline =
-                {} as ThemeColorSubItem;
-              const outline = app.outline as ThemeColorSubItem;
+            } else if (isSetObject(app.table)) {
+              resolvedConfig.colors.border.app.table = {} as ThemeColorSubItem;
+              const table = app.table as ThemeColorSubItem;
 
-              if (isSetString(outline.primary)) {
-                resolvedConfig.colors.border.app.outline.primary =
-                  outline.primary;
+              if (isSetString(table.primary)) {
+                resolvedConfig.colors.border.app.table.primary = table.primary;
               }
-              if (isSetString(outline.secondary)) {
-                resolvedConfig.colors.border.app.outline.secondary =
-                  outline.secondary;
+              if (isSetString(table.secondary)) {
+                resolvedConfig.colors.border.app.table.secondary =
+                  table.secondary;
               }
-              if (isSetString(outline.tertiary)) {
-                resolvedConfig.colors.border.app.outline.tertiary =
-                  outline.tertiary;
+              if (isSetString(table.tertiary)) {
+                resolvedConfig.colors.border.app.table.tertiary =
+                  table.tertiary;
               }
             }
 
@@ -804,24 +836,22 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               }
             }
           } else {
-            resolvedConfig.colors.border.app.outline ??=
-              {} as ThemeColorSubItem;
+            resolvedConfig.colors.border.app.table ??= {} as ThemeColorSubItem;
             resolvedConfig.colors.border.app.divider ??=
               {} as ThemeColorSubItem;
             const app = border.app as ThemeColorSubItem;
 
             if (isSetString(app.primary)) {
-              resolvedConfig.colors.border.app.outline.primary = app.primary;
+              resolvedConfig.colors.border.app.table.primary = app.primary;
               resolvedConfig.colors.border.app.divider.primary = app.primary;
             }
             if (isSetString(app.secondary)) {
-              resolvedConfig.colors.border.app.outline.secondary =
-                app.secondary;
+              resolvedConfig.colors.border.app.table.secondary = app.secondary;
               resolvedConfig.colors.border.app.divider.secondary =
                 app.secondary;
             }
             if (isSetString(app.tertiary)) {
-              resolvedConfig.colors.border.app.outline.tertiary = app.tertiary;
+              resolvedConfig.colors.border.app.table.tertiary = app.tertiary;
               resolvedConfig.colors.border.app.divider.tertiary = app.tertiary;
             }
           }
@@ -839,6 +869,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: message,
               success: message,
               info: message,
+              debug: message,
               warning: message,
               danger: message,
               error: message
@@ -847,6 +878,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: message,
               success: message,
               info: message,
+              debug: message,
               warning: message,
               danger: message,
               error: message
@@ -862,6 +894,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
                 help: message.outline,
                 success: message.outline,
                 info: message.outline,
+                debug: message.outline,
                 warning: message.outline,
                 danger: message.outline,
                 error: message.outline
@@ -883,6 +916,10 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
                 resolvedConfig.colors.border.message.outline.info =
                   outline.info;
               }
+              if (isSetString(outline.debug)) {
+                resolvedConfig.colors.border.message.outline.debug =
+                  outline.debug;
+              }
               if (isSetString(outline.warning)) {
                 resolvedConfig.colors.border.message.outline.warning =
                   outline.warning;
@@ -902,6 +939,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
                 help: message.divider,
                 success: message.divider,
                 info: message.divider,
+                debug: message.divider,
                 warning: message.divider,
                 danger: message.divider,
                 error: message.divider
@@ -922,6 +960,10 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               if (isSetString(divider.info)) {
                 resolvedConfig.colors.border.message.divider.info =
                   divider.info;
+              }
+              if (isSetString(divider.debug)) {
+                resolvedConfig.colors.border.message.divider.debug =
+                  divider.debug;
               }
               if (isSetString(divider.warning)) {
                 resolvedConfig.colors.border.message.divider.warning =
@@ -957,6 +999,12 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               resolvedConfig.colors.border.message.outline.info = message.info;
               resolvedConfig.colors.border.message.divider.info = message.info;
             }
+            if (isSetString(message.debug)) {
+              resolvedConfig.colors.border.message.outline.debug =
+                message.debug;
+              resolvedConfig.colors.border.message.divider.debug =
+                message.debug;
+            }
             if (isSetString(message.warning)) {
               resolvedConfig.colors.border.message.outline.warning =
                 message.warning;
@@ -987,7 +1035,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
     resolvedConfig.borderStyles ??= {
       banner: { outline: {}, divider: {} },
       message: { outline: {}, divider: {} },
-      app: { outline: {}, divider: {} }
+      app: { table: {}, divider: {} }
     } as ThemeBorderStylesResolvedConfig;
     const borderStyles = dictionary.borderStyles as ThemeBorderStylesUserConfig;
 
@@ -1014,6 +1062,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             help: borderStyle,
             success: borderStyle,
             info: borderStyle,
+            debug: borderStyle,
             warning: borderStyle,
             danger: borderStyle,
             error: borderStyle
@@ -1022,13 +1071,14 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             help: borderStyle,
             success: borderStyle,
             info: borderStyle,
+            debug: borderStyle,
             warning: borderStyle,
             danger: borderStyle,
             error: borderStyle
           }
         },
         app: {
-          outline: {
+          table: {
             primary: borderStyle,
             secondary: borderStyle,
             tertiary: borderStyle
@@ -1169,7 +1219,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
       }
 
       resolvedConfig.borderStyles.app ??= {
-        outline: {},
+        table: {},
         divider: {}
       } as ThemeBorderStylesResolvedConfig["app"];
       const app = borderStyles.app;
@@ -1178,7 +1228,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
         const borderStyle = resolveBorderStyle(app);
 
         resolvedConfig.borderStyles.app = {
-          outline: {
+          table: {
             primary: borderStyle,
             secondary: borderStyle,
             tertiary: borderStyle
@@ -1193,59 +1243,57 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
         resolvedConfig.borderStyles.app ??=
           {} as ThemeBorderStylesResolvedConfig["app"];
 
-        const outline = (
-          app as ThemeBorderStyleSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
-        ).outline;
+        const table = (
+          app as ThemeBorderStyleAppSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
+        ).table;
 
-        if (isSetString(outline)) {
-          const borderStyle = resolveBorderStyle(outline);
+        if (isSetString(table)) {
+          const borderStyle = resolveBorderStyle(table);
 
-          resolvedConfig.borderStyles.app.outline = {
+          resolvedConfig.borderStyles.app.table = {
             primary: borderStyle,
             secondary: borderStyle,
             tertiary: borderStyle
           };
-        } else if (isSetObject(outline)) {
-          resolvedConfig.borderStyles.app.outline =
-            {} as ThemeBorderStylesResolvedConfig["app"]["outline"];
+        } else if (isSetObject(table)) {
+          resolvedConfig.borderStyles.app.table =
+            {} as ThemeBorderStylesResolvedConfig["app"]["table"];
 
           if (
             isSetString(
-              (outline as ThemeBorderStyleSectionTypesUserConfig).primary
+              (table as ThemeBorderStyleSectionTypesUserConfig).primary
             )
           ) {
-            resolvedConfig.borderStyles.app.outline.primary =
-              resolveBorderStyle(
-                (outline as ThemeBorderStyleSectionTypesUserConfig)
-                  .primary as ThemeStyleBorderIdentifiers
-              );
+            resolvedConfig.borderStyles.app.table.primary = resolveBorderStyle(
+              (table as ThemeBorderStyleSectionTypesUserConfig)
+                .primary as ThemeStyleBorderIdentifiers
+            );
           }
           if (
             isSetString(
-              (outline as ThemeBorderStyleSectionTypesUserConfig).secondary
+              (table as ThemeBorderStyleSectionTypesUserConfig).secondary
             )
           ) {
-            resolvedConfig.borderStyles.app.outline.secondary =
+            resolvedConfig.borderStyles.app.table.secondary =
               resolveBorderStyle(
-                (outline as ThemeBorderStyleSectionTypesUserConfig)
+                (table as ThemeBorderStyleSectionTypesUserConfig)
                   .secondary as ThemeStyleBorderIdentifiers
               );
           }
           if (
             isSetString(
-              (outline as ThemeBorderStyleSectionTypesUserConfig).tertiary
+              (table as ThemeBorderStyleSectionTypesUserConfig).tertiary
             )
           ) {
-            resolvedConfig.borderStyles.app.outline.tertiary =
-              resolveBorderStyle(
-                (outline as ThemeBorderStyleSectionTypesUserConfig)
-                  .tertiary as ThemeStyleBorderIdentifiers
-              );
+            resolvedConfig.borderStyles.app.table.tertiary = resolveBorderStyle(
+              (table as ThemeBorderStyleSectionTypesUserConfig)
+                .tertiary as ThemeStyleBorderIdentifiers
+            );
           }
         }
 
         const divider = (
-          app as ThemeBorderStyleSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
+          app as ThemeBorderStyleAppSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
         ).divider;
 
         if (isSetString(divider)) {
@@ -1308,6 +1356,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             help: borderStyle,
             success: borderStyle,
             info: borderStyle,
+            debug: borderStyle,
             warning: borderStyle,
             danger: borderStyle,
             error: borderStyle
@@ -1316,6 +1365,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             help: borderStyle,
             success: borderStyle,
             info: borderStyle,
+            debug: borderStyle,
             warning: borderStyle,
             danger: borderStyle,
             error: borderStyle
@@ -1333,6 +1383,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             help: borderStyle,
             success: borderStyle,
             info: borderStyle,
+            debug: borderStyle,
             warning: borderStyle,
             danger: borderStyle,
             error: borderStyle
@@ -1372,6 +1423,17 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               resolveBorderStyle(
                 (outline as ThemeBorderStyleMessageStateUserConfig)
                   .info as ThemeStyleBorderIdentifiers
+              );
+          }
+          if (
+            isSetString(
+              (outline as ThemeBorderStyleMessageStateUserConfig).debug
+            )
+          ) {
+            resolvedConfig.borderStyles.message.outline.debug =
+              resolveBorderStyle(
+                (outline as ThemeBorderStyleMessageStateUserConfig)
+                  .debug as ThemeStyleBorderIdentifiers
               );
           }
           if (
@@ -1422,6 +1484,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             help: borderStyle,
             success: borderStyle,
             info: borderStyle,
+            debug: borderStyle,
             warning: borderStyle,
             danger: borderStyle,
             error: borderStyle
@@ -1458,6 +1521,17 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               resolveBorderStyle(
                 (divider as ThemeBorderStyleMessageStateUserConfig)
                   .info as ThemeStyleBorderIdentifiers
+              );
+          }
+          if (
+            isSetString(
+              (divider as ThemeBorderStyleMessageStateUserConfig).debug
+            )
+          ) {
+            resolvedConfig.borderStyles.message.divider.debug =
+              resolveBorderStyle(
+                (divider as ThemeBorderStyleMessageStateUserConfig)
+                  .debug as ThemeStyleBorderIdentifiers
               );
           }
           if (
@@ -1508,7 +1582,8 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
       resolvedConfig.padding = {
         banner: padding,
         message: padding,
-        app: padding
+        app: padding,
+        table: padding
       };
     } else if (isSetObject(padding)) {
       if (isNumber(padding.banner)) {
@@ -1519,6 +1594,9 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
       }
       if (isNumber(padding.app)) {
         resolvedConfig.padding.app = padding.app;
+      }
+      if (isNumber(padding.table)) {
+        resolvedConfig.padding.table = padding.table;
       }
     }
 
@@ -1539,6 +1617,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             help: icons,
             success: icons,
             info: icons,
+            debug: icons,
             warning: icons,
             danger: icons,
             error: icons
@@ -1563,6 +1642,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             help: message,
             success: message,
             info: message,
+            debug: message,
             warning: message,
             danger: message,
             error: message
@@ -1579,6 +1659,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: header,
               success: header,
               info: header,
+              debug: header,
               warning: header,
               danger: header,
               error: header
@@ -1593,6 +1674,9 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
           }
           if (isSetString(header.info)) {
             resolvedConfig.icons.message.header.info = header.info;
+          }
+          if (isSetString(header.debug)) {
+            resolvedConfig.icons.message.header.debug = header.debug;
           }
           if (isSetString(header.warning)) {
             resolvedConfig.icons.message.header.warning = header.warning;
@@ -1661,6 +1745,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             help: labels,
             success: labels,
             info: labels,
+            debug: labels,
             warning: labels,
             danger: labels,
             error: labels
@@ -1678,6 +1763,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
               help: message,
               success: message,
               info: message,
+              debug: message,
               warning: message,
               danger: message,
               error: message
@@ -1696,6 +1782,7 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
                 help: header,
                 success: header,
                 info: header,
+                debug: header,
                 warning: header,
                 danger: header,
                 error: header
@@ -1711,6 +1798,9 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
           }
           if (isSetString(header.info)) {
             resolvedConfig.labels.message.header.info = header.info;
+          }
+          if (isSetString(header.debug)) {
+            resolvedConfig.labels.message.header.debug = header.debug;
           }
           if (isSetString(header.warning)) {
             resolvedConfig.labels.message.header.warning = header.warning;
@@ -1927,31 +2017,60 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
     }
 
     if (
-      !resolvedConfig.colors.border?.app?.outline?.primary &&
-      (resolvedConfig.colors.border?.app?.outline?.secondary ||
-        resolvedConfig.colors.border?.app?.outline?.tertiary)
+      !resolvedConfig.colors.border?.app?.table?.primary &&
+      (resolvedConfig.colors.border?.app?.table?.secondary ||
+        resolvedConfig.colors.border?.app?.table?.tertiary)
     ) {
-      resolvedConfig.colors.border.app.outline.primary =
-        resolvedConfig.colors.border.app.outline.secondary ||
-        resolvedConfig.colors.border.app.outline.tertiary;
+      resolvedConfig.colors.border.app.table.primary =
+        resolvedConfig.colors.border.app.table.secondary ||
+        resolvedConfig.colors.border.app.table.tertiary;
     }
     if (
-      !resolvedConfig.colors.border?.app?.outline?.secondary &&
-      (resolvedConfig.colors.border?.app?.outline?.primary ||
-        resolvedConfig.colors.border?.app?.outline?.tertiary)
+      !resolvedConfig.colors.border?.app?.table?.secondary &&
+      (resolvedConfig.colors.border?.app?.table?.primary ||
+        resolvedConfig.colors.border?.app?.table?.tertiary)
     ) {
-      resolvedConfig.colors.border.app.outline.secondary =
-        resolvedConfig.colors.border.app.outline.primary ||
-        resolvedConfig.colors.border.app.outline.tertiary;
+      resolvedConfig.colors.border.app.table.secondary =
+        resolvedConfig.colors.border.app.table.primary ||
+        resolvedConfig.colors.border.app.table.tertiary;
     }
     if (
-      !resolvedConfig.colors.border?.app?.outline?.tertiary &&
-      (resolvedConfig.colors.border?.app?.outline?.primary ||
-        resolvedConfig.colors.border?.app?.outline?.secondary)
+      !resolvedConfig.colors.border?.app?.table?.tertiary &&
+      (resolvedConfig.colors.border?.app?.table?.primary ||
+        resolvedConfig.colors.border?.app?.table?.secondary)
     ) {
-      resolvedConfig.colors.border.app.outline.tertiary =
-        resolvedConfig.colors.border.app.outline.primary ||
-        resolvedConfig.colors.border.app.outline.secondary;
+      resolvedConfig.colors.border.app.table.tertiary =
+        resolvedConfig.colors.border.app.table.primary ||
+        resolvedConfig.colors.border.app.table.secondary;
+    }
+
+    if (
+      !resolvedConfig.colors.border?.message?.divider?.info &&
+      resolvedConfig.colors.border?.message?.divider?.debug
+    ) {
+      resolvedConfig.colors.border.message.divider.info =
+        resolvedConfig.colors.border.message.divider.debug;
+    }
+    if (
+      !resolvedConfig.colors.border?.message?.divider?.debug &&
+      resolvedConfig.colors.border?.message?.divider?.info
+    ) {
+      resolvedConfig.colors.border.message.divider.debug =
+        resolvedConfig.colors.border.message.divider.info;
+    }
+    if (
+      !resolvedConfig.colors.border?.message?.outline?.info &&
+      resolvedConfig.colors.border?.message?.outline?.debug
+    ) {
+      resolvedConfig.colors.border.message.outline.info =
+        resolvedConfig.colors.border.message.outline.debug;
+    }
+    if (
+      !resolvedConfig.colors.border?.message?.outline?.debug &&
+      resolvedConfig.colors.border?.message?.outline?.info
+    ) {
+      resolvedConfig.colors.border.message.outline.debug =
+        resolvedConfig.colors.border.message.outline.info;
     }
 
     if (
@@ -2003,6 +2122,13 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
     ) {
       resolvedConfig.colors.border.message.divider.info =
         resolvedConfig.colors.border.message.outline.info;
+    }
+    if (
+      !resolvedConfig.colors.border?.message?.divider?.debug &&
+      resolvedConfig.colors.border?.message?.outline?.debug
+    ) {
+      resolvedConfig.colors.border.message.divider.debug =
+        resolvedConfig.colors.border.message.outline.debug;
     }
     if (
       !resolvedConfig.colors.border?.message?.divider?.warning &&
@@ -2072,6 +2198,36 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
     }
 
     if (
+      !resolvedConfig.colors.text.message?.header?.debug &&
+      resolvedConfig.colors.text.message?.header?.info
+    ) {
+      resolvedConfig.colors.text.message.header.debug =
+        resolvedConfig.colors.text.message.header.info;
+    }
+    if (
+      !resolvedConfig.colors.text.message?.footer?.debug &&
+      resolvedConfig.colors.text.message?.footer?.info
+    ) {
+      resolvedConfig.colors.text.message.footer.debug =
+        resolvedConfig.colors.text.message.footer.info;
+    }
+
+    if (
+      !resolvedConfig.colors.text.message?.header?.debug &&
+      resolvedConfig.colors.border?.message?.outline?.debug
+    ) {
+      resolvedConfig.colors.text.message.header.debug =
+        resolvedConfig.colors.border.message.outline.debug;
+    }
+    if (
+      !resolvedConfig.colors.text.message?.footer?.debug &&
+      resolvedConfig.colors.border?.message?.outline?.debug
+    ) {
+      resolvedConfig.colors.text.message.footer.debug =
+        resolvedConfig.colors.border.message.outline.debug;
+    }
+
+    if (
       !resolvedConfig.colors.text.message?.header?.warning &&
       resolvedConfig.colors.border?.message?.outline?.warning
     ) {
@@ -2135,6 +2291,13 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
       resolvedConfig.colors.text?.body?.link
     ) {
       resolvedConfig.colors.text.message.link.info =
+        resolvedConfig.colors.text.body.link;
+    }
+    if (
+      !resolvedConfig.colors.text.message?.link?.debug &&
+      resolvedConfig.colors.text?.body?.link
+    ) {
+      resolvedConfig.colors.text.message.link.debug =
         resolvedConfig.colors.text.body.link;
     }
     if (

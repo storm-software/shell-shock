@@ -41,7 +41,7 @@ export const plugin = <
     {
       name: "shell-shock:theme",
       config() {
-        this.trace(
+        this.debug(
           "Providing default configuration for the Shell Shock `theme` plugin."
         );
 
@@ -57,7 +57,7 @@ export const plugin = <
       configResolved: {
         order: "pre",
         async handler() {
-          this.trace("Shell Shock `theme` plugin configuration resolved.");
+          this.debug("Shell Shock `theme` plugin configuration resolved.");
 
           this.config.styleDictionary = defu(this.config.styleDictionary, {
             tokens: isSetObject(this.config.theme) ? this.config.theme : {},

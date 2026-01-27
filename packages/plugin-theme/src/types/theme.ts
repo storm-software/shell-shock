@@ -20,6 +20,7 @@ export type ThemeMessageVariant =
   | "help"
   | "success"
   | "info"
+  | "debug"
   | "warning"
   | "danger"
   | "error";
@@ -46,6 +47,7 @@ export interface ThemeColorMessageState {
   help: string;
   success: string;
   info: string;
+  debug: string;
   warning: string;
   danger: string;
   error: string;
@@ -95,14 +97,26 @@ export interface ThemeColorBorderSubItemUserConfig<TState extends object> {
   divider: Partial<TState> | string;
 }
 
+export interface ThemeColorBorderAppSubItemUserConfig<TState extends object> {
+  table: Partial<TState> | string;
+  divider: Partial<TState> | string;
+}
+
 export interface ThemeColorBorderSubItemResolvedConfig<TState extends object> {
   outline: TState;
   divider: TState;
 }
 
+export interface ThemeColorBorderAppSubItemResolvedConfig<
+  TState extends object
+> {
+  table: TState;
+  divider: TState;
+}
+
 export interface ThemeColorBorderItemsUserConfig {
   app:
-    | Partial<ThemeColorBorderSubItemUserConfig<ThemeColorSubItem>>
+    | Partial<ThemeColorBorderAppSubItemUserConfig<ThemeColorSubItem>>
     | Partial<ThemeColorSubItem>
     | string;
   banner:
@@ -116,7 +130,7 @@ export interface ThemeColorBorderItemsUserConfig {
 }
 
 export interface ThemeColorBorderItemsResolvedConfig {
-  app: ThemeColorBorderSubItemResolvedConfig<ThemeColorSubItem>;
+  app: ThemeColorBorderAppSubItemResolvedConfig<ThemeColorSubItem>;
   banner: ThemeColorBorderSubItemResolvedConfig<ThemeColorSubItem>;
   message: ThemeColorBorderSubItemResolvedConfig<ThemeColorMessageState>;
 }
@@ -151,6 +165,8 @@ export interface ThemeStyleBorderTypeConfig {
  * - `"double"`: Double line border
  * - `"bold"`: Bold line border
  * - `"round"`: Rounded corner border
+ * - `"diagonal"`: Diagonal line border
+ * - `"diagonal-thick"`: Thick diagonal line border
  * - `"single-double"`: Single line on top and bottom, double line on sides
  * - `"double-single"`: Double line on top and bottom, single line on sides
  * - `"classic"`: Classic ASCII style border
@@ -173,6 +189,8 @@ export type ThemeStyleBorderIdentifiers =
   | "single-double"
   | "double-single"
   | "classic"
+  | "diagonal"
+  | "diagonal-thick"
   | "pointer"
   | "arrow"
   | "outward-arrow"
@@ -190,6 +208,7 @@ export interface ThemeBorderStyleMessageStateUserConfig {
   help: ThemeStyleBorderType;
   success: ThemeStyleBorderType;
   info: ThemeStyleBorderType;
+  debug: ThemeStyleBorderType;
   warning: ThemeStyleBorderType;
   danger: ThemeStyleBorderType;
   error: ThemeStyleBorderType;
@@ -199,6 +218,7 @@ export interface ThemeBorderStyleMessageStateResolvedConfig {
   help: ThemeStyleBorderTypeConfig;
   success: ThemeStyleBorderTypeConfig;
   info: ThemeStyleBorderTypeConfig;
+  debug: ThemeStyleBorderTypeConfig;
   warning: ThemeStyleBorderTypeConfig;
   danger: ThemeStyleBorderTypeConfig;
   error: ThemeStyleBorderTypeConfig;
@@ -209,8 +229,20 @@ export interface ThemeBorderStyleSubItemUserConfig<TState extends object> {
   divider: Partial<TState> | ThemeStyleBorderType;
 }
 
+export interface ThemeBorderStyleAppSubItemUserConfig<TState extends object> {
+  table: Partial<TState> | ThemeStyleBorderType;
+  divider: Partial<TState> | ThemeStyleBorderType;
+}
+
 export interface ThemeBorderStyleSubItemResolvedConfig<TState extends object> {
   outline: TState;
+  divider: TState;
+}
+
+export interface ThemeBorderStyleAppSubItemResolvedConfig<
+  TState extends object
+> {
+  table: TState;
   divider: TState;
 }
 
@@ -228,7 +260,7 @@ export interface ThemeBorderStyleSectionTypesResolvedConfig {
 
 export interface ThemeBorderStylesUserConfig {
   app:
-    | ThemeBorderStyleSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
+    | ThemeBorderStyleAppSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
     | ThemeStyleBorderType;
   banner:
     | ThemeBorderStyleSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
@@ -241,25 +273,28 @@ export interface ThemeBorderStylesUserConfig {
 export interface ThemeBorderStylesResolvedConfig {
   banner: ThemeBorderStyleSubItemResolvedConfig<ThemeBorderStyleSectionTypesResolvedConfig>;
   message: ThemeBorderStyleSubItemResolvedConfig<ThemeBorderStyleMessageStateResolvedConfig>;
-  app: ThemeBorderStyleSubItemResolvedConfig<ThemeBorderStyleSectionTypesResolvedConfig>;
+  app: ThemeBorderStyleAppSubItemResolvedConfig<ThemeBorderStyleSectionTypesResolvedConfig>;
 }
 
 export interface ThemePaddingUserConfig {
   app: number;
   banner: number;
   message: number;
+  table: number;
 }
 
 export interface ThemePaddingResolvedConfig {
   app: number;
   banner: number;
   message: number;
+  table: number;
 }
 
 export interface ThemeIconMessageStateConfig {
   help: string;
   success: string;
   info: string;
+  debug: string;
   warning: string;
   danger: string;
   error: string;
@@ -293,6 +328,7 @@ export interface ThemeLabelMessageStateConfig {
   help: string;
   success: string;
   info: string;
+  debug: string;
   warning: string;
   danger: string;
   error: string;

@@ -16,14 +16,15 @@
 
  ------------------------------------------------------------------- */
 
-import type { EnvPluginContext } from "@powerlines/plugin-env/types/plugin";
-import type { TsdownPluginContext } from "@powerlines/plugin-tsdown";
+import type { NodeJsPluginContext } from "@powerlines/plugin-nodejs/types/plugin";
+import type { TsdownPluginContext } from "@powerlines/plugin-tsdown/types/plugin";
+import type { UnresolvedContext as PowerlinesUnresolvedContext } from "powerlines/types/context";
 import type { CommandInput, CommandOption, CommandTree } from "./command";
 import type { ResolvedConfig } from "./config";
 
 export type Context<TResolvedConfig extends ResolvedConfig = ResolvedConfig> =
   TsdownPluginContext<TResolvedConfig> &
-    EnvPluginContext<TResolvedConfig> & {
+    NodeJsPluginContext<TResolvedConfig> & {
       /**
        * The root path where commands are located.
        */
@@ -44,3 +45,7 @@ export type Context<TResolvedConfig extends ResolvedConfig = ResolvedConfig> =
        */
       commands: Record<string, CommandTree>;
     };
+
+export type UnresolvedContext<
+  TResolvedConfig extends ResolvedConfig = ResolvedConfig
+> = PowerlinesUnresolvedContext<TResolvedConfig>;

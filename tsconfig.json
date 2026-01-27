@@ -10,10 +10,16 @@
       "path": "./packages/tsconfig"
     },
     {
+      "path": "./packages/eslint-plugin"
+    },
+    {
       "path": "./packages/nx"
     },
     {
       "path": "./packages/plugin-theme"
+    },
+    {
+      "path": "./packages/plugin-completions"
     },
     {
       "path": "./packages/preset-script"
@@ -32,9 +38,6 @@
     },
     {
       "path": "./playground/complex"
-    },
-    {
-      "path": "./packages/plugin-completions"
     }
   ],
   "files": []

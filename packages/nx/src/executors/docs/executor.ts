@@ -19,6 +19,7 @@
 import type { PromiseExecutor } from "@nx/devkit";
 import type { ShellShockAPI } from "@shell-shock/core/api";
 import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
+import defu from "defu";
 import type { DocsInlineConfig } from "powerlines/types/config";
 import type { ShellShockExecutorContext } from "../../base/base-executor";
 import { withExecutor } from "../../base/base-executor";
@@ -28,7 +29,24 @@ export async function executorFn(
   context: ShellShockExecutorContext<"docs", DocsExecutorSchema>,
   api: ShellShockAPI
 ): Promise<BaseExecutorResult> {
-  await api.docs(context.inlineConfig as DocsInlineConfig);
+  await api.docs(
+    defu(
+      {
+        command: "docs",
+        entry: context.options.entry,
+        skipCache: context.options.skipCache,
+        autoInstall: context.options.autoInstall,
+        mode: context.options.mode,
+        tsconfig: context.options.tsconfig,
+        configFile: context.options.configFile,
+        logLevel: context.options.logLevel,
+        output: {
+          outputPath: context.options.outputPath
+        }
+      },
+      context.inlineConfig
+    ) as DocsInlineConfig
+  );
 
   return {
     success: true

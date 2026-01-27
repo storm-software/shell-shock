@@ -46,17 +46,17 @@ export interface CleanExecutorSchema {
  mode?: string,
 
  /**
-  * Skip Installs
+  * Auto Install
   * 
-  * Skip installing dependencies during prepare stage
+  * Automatically install dependencies before building
   * 
  */
- skipInstalls?: boolean,
+ autoInstall?: boolean,
 
  /**
   * Skip Cache
   * 
-  * Skip the caching mechanism during the build process (if required)
+  * Skip the cache when building
   * 
  */
  skipCache?: boolean,
@@ -70,5 +70,15 @@ export interface CleanExecutorSchema {
   * @enum fatal,error,warn,success,info,debug,trace,silent
  */
  logLevel?: string,
+
+ /**
+  * Entry Path(s)
+  * 
+  * The entry path(s) for the package
+  * 
+  * 
+  * @oneOf [object Object],[object Object]
+ */
+ entry?: any,
 }
 

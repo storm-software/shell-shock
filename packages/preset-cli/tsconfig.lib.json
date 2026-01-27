@@ -5,20 +5,19 @@
     "jsx": "preserve",
     "jsxImportSource": "@alloy-js/core",
     "lib": ["esnext", "DOM"],
-    "types": ["node", "@alloy-js/core/testing/matchers"],
+    "types": ["node"],
     "outDir": "./out-tsc"
   },
   "references": [
-    {
-      "path": "../plugin-theme/tsconfig.lib.json"
-    },
-    {
-      "path": "../preset-script/tsconfig.lib.json"
-    },
-    {
-      "path": "../core/tsconfig.lib.json"
-    }
+    { "path": "../plugin-theme/tsconfig.lib.json" },
+    { "path": "../preset-script/tsconfig.lib.json" },
+    { "path": "../core/tsconfig.lib.json" }
   ],
-  "include": ["src/**/*.ts", "src/**/*.tsx", "powerlines.config.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "powerlines.config.ts",
+    "powerlines.d.ts"
+  ],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

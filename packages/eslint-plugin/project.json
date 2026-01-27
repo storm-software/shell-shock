@@ -1,0 +1,40 @@
+{
+  "name": "eslint-plugin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/eslint-plugin/src",
+  "targets": {
+    "build": {
+      "executor": "@powerlines/nx:build",
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
+      "options": {
+        "defaultConfiguration": "production"
+      },
+      "configurations": {
+        "production": {
+          "mode": "production"
+        },
+        "test": {
+          "mode": "test"
+        },
+        "development": {
+          "mode": "development"
+        }
+      }
+    },
+    "docs": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/docs"],
+      "dependsOn": ["build"],
+      "options": {
+        "cwd": "{projectRoot}",
+        "command": "pnpm exec eslint-doc-generator"
+      }
+    },
+    "nx-release-publish": {
+      "executor": "@storm-software/workspace-tools:npm-publish"
+    }
+  },
+  "tags": ["platform:node"]
+}

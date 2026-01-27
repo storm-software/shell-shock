@@ -20,23 +20,20 @@ import { toArray } from "@stryke/convert/to-array";
 import { getUnique } from "@stryke/helpers/get-unique";
 import { StormJSON } from "@stryke/json/storm-json";
 import { joinPaths } from "@stryke/path/join-paths";
-import { replaceExtension } from "@stryke/path/replace";
-import { kebabCase } from "@stryke/string-format/kebab-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
-import type { Context } from "../types";
+import type { UnresolvedContext } from "../types/context";
 
-function formatBinaryPath(
-  name: string,
-  format: string | string[] | undefined
-): string {
-  return `./bin/${kebabCase(replaceExtension(name))}.${
+function formatBinaryPath(format: string | string[] | undefined): string {
+  return `./dist/bin.${
     format === "cjs" || (Array.isArray(format) && format.includes("cjs"))
       ? "cjs"
       : "mjs"
   }`;
 }
 
-export async function updatePackageJsonBinary(context: Context): Promise<void> {
+export async function updatePackageJsonBinary(
+  context: UnresolvedContext
+): Promise<void> {
   const packageJsonPath = joinPaths(
     context.workspaceConfig.workspaceRoot,
     context.config.projectRoot,
@@ -50,7 +47,7 @@ export async function updatePackageJsonBinary(context: Context): Promise<void> {
     context.packageJson.bin = Object.fromEntries(
       getUnique(toArray(context.config.bin)).map(bin => [
         bin,
-        formatBinaryPath(bin, context.config.output.format)
+        formatBinaryPath(context.config.output.format)
       ])
     );
 
@@ -62,12 +59,33 @@ export async function updatePackageJsonBinary(context: Context): Promise<void> {
     !isSetObject(context.packageJson.bin) &&
     (context.config.name || context.packageJson.name)
   ) {
-    context.packageJson.bin = {
-      [(context.config.name || context.packageJson.name)!]: formatBinaryPath(
-        (context.config.name || context.packageJson.name)!,
-        context.config.output.format
-      )
-    };
+    if (
+      Array.isArray(context.config.output.format) &&
+      context.config.output.format.length > 1
+    ) {
+      context.packageJson.bin = {
+        [(context.config.name || context.packageJson.name)!]: formatBinaryPath(
+          toArray(context.config.output.format)[0]
+        )
+      };
+      context.packageJson.bin = toArray(context.config.output.format).reduce(
+        (ret, format) => {
+          ret[
+            `${(context.config.name || context.packageJson.name)!}-${format}`
+          ] = formatBinaryPath(format);
+
+          return ret;
+        },
+        context.packageJson.bin
+      );
+    } else {
+      context.packageJson.bin = {
+        [(context.config.name || context.packageJson.name)!]: formatBinaryPath(
+          context.config.output.format
+        )
+      };
+    }
+
     await context.fs.write(
       packageJsonPath,
       StormJSON.stringify(context.packageJson)

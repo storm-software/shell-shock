@@ -32,9 +32,17 @@ export async function executorFn(
   await api.build(
     defu(
       {
+        command: "build",
         entry: context.options.entry,
         skipCache: context.options.skipCache,
-        mode: context.options.mode
+        autoInstall: context.options.autoInstall,
+        mode: context.options.mode,
+        tsconfig: context.options.tsconfig,
+        configFile: context.options.configFile,
+        logLevel: context.options.logLevel,
+        output: {
+          outputPath: context.options.outputPath
+        }
       },
       context.inlineConfig
     ) as BuildInlineConfig

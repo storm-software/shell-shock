@@ -45,7 +45,6 @@ export interface ScriptPresetOptions
    * By default, Shell Shock adds the following set of default arguments to each command:
    * - `--help` (`-h`, `-?`): Show help information.
    * - `--version` (`-v`): Show the version of the application.
-   * - `--no-banner`: Hide the banner displayed while running the CLI application.
    * - `--verbose`: Enable verbose output.
    *
    * To disable the addition of these default options, set this property to `false`, or provide a custom set of options/a function that returns them.
