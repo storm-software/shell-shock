@@ -29,12 +29,12 @@ import {
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { TypescriptFile } from "@powerlines/plugin-alloy/typescript/components/typescript-file";
 import {
+  getAppBin,
   getAppTitle,
   getVariableCommandPathName,
   isVariableCommandPath
 } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
-import { toArray } from "@stryke/convert/to-array";
 import { joinPaths } from "@stryke/path/join";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
@@ -57,17 +57,16 @@ export function VirtualCommandHandlerDeclaration(props: {
   return (
     <>
       <TSDoc
-        heading={`The ${command.title} (${toArray(context.config.bin)?.[0]} ${command.path.segments
+        heading={`The ${command.title} (${getAppBin(context)} ${command.path.segments
           .map(segment =>
             isVariableCommandPath(segment)
               ? `[${constantCase(getVariableCommandPathName(segment))}]`
               : segment
           )
           .join(" ")}) virtual command.`}>
-        <TSDocRemarks>{command.description}</TSDocRemarks>
+        <TSDocRemarks>{`${command.description.replace(/\.+$/, "")}.`}</TSDocRemarks>
         <hbr />
         <TSDocTitle>{command.title}</TSDocTitle>
-        <hbr />
         <TSDocParam name="args">{`The command-line arguments passed to the command.`}</TSDocParam>
       </TSDoc>
       <FunctionDeclaration
@@ -87,7 +86,7 @@ export function VirtualCommandHandlerDeclaration(props: {
           command.title
         }"));
         writeLine("");
-        writeLine(colors.text.body.primary("${command.description}"));
+        writeLine(colors.text.body.primary("${command.description.replace(/\.+$/, "")}."));
         writeLine("");`}
         <hbr />
         <Help command={command} />
@@ -124,9 +123,6 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
     <>
       <TypescriptFile
         {...rest}
-        meta={{
-          typeDefinition: command.entry
-        }}
         path={filePath.value}
         imports={defu(
           imports ?? {},

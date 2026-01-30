@@ -20,10 +20,14 @@ import { toArray } from "@stryke/convert/to-array";
 import { getUnique } from "@stryke/helpers/get-unique";
 import { StormJSON } from "@stryke/json/storm-json";
 import { joinPaths } from "@stryke/path/join-paths";
+import { kebabCase } from "@stryke/string-format/kebab-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
+import { getAppName } from "../plugin-utils/context-helpers";
 import type { UnresolvedContext } from "../types/context";
 
-function formatBinaryPath(format: string | string[] | undefined): string {
+export function formatBinaryPath(
+  format: string | string[] | undefined
+): string {
   return `./dist/bin.${
     format === "cjs" || (Array.isArray(format) && format.includes("cjs"))
       ? "cjs"
@@ -55,24 +59,20 @@ export async function updatePackageJsonBinary(
       packageJsonPath,
       StormJSON.stringify(context.packageJson)
     );
-  } else if (
-    !isSetObject(context.packageJson.bin) &&
-    (context.config.name || context.packageJson.name)
-  ) {
+  } else {
     if (
       Array.isArray(context.config.output.format) &&
       context.config.output.format.length > 1
     ) {
       context.packageJson.bin = {
-        [(context.config.name || context.packageJson.name)!]: formatBinaryPath(
+        [kebabCase(getAppName(context))]: formatBinaryPath(
           toArray(context.config.output.format)[0]
         )
       };
       context.packageJson.bin = toArray(context.config.output.format).reduce(
         (ret, format) => {
-          ret[
-            `${(context.config.name || context.packageJson.name)!}-${format}`
-          ] = formatBinaryPath(format);
+          ret[`${kebabCase(getAppName(context))}-${format}`] =
+            formatBinaryPath(format);
 
           return ret;
         },
@@ -80,7 +80,7 @@ export async function updatePackageJsonBinary(
       );
     } else {
       context.packageJson.bin = {
-        [(context.config.name || context.packageJson.name)!]: formatBinaryPath(
+        [kebabCase(getAppName(context))]: formatBinaryPath(
           context.config.output.format
         )
       };

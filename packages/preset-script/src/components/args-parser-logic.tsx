@@ -236,7 +236,7 @@ export function OptionsMember({
                 alias: [],
                 description: `${doc.replace(
                   /\.+$/,
-                  "."
+                  ""
                 )}. This property is an alias for ${name}.`
               }}
             />
@@ -284,10 +284,18 @@ export function OptionsMemberParserLogic({
         }>
         <Show
           when={(option as StringCommandOption | NumberCommandOption).variadic}>
-          {code`options["${name}"] ??= []; `}
+          <Show
+            when={name.includes("?") || name.includes("-")}
+            fallback={code`options.${name} ??= []; `}>
+            {code`options["${name}"] ??= []; `}
+          </Show>
           <hbr />
           <IfStatement condition={`${equalsRegex}.test(arg)`}>
-            {code`options["${name}"].push(`}
+            <Show
+              when={name.includes("?") || name.includes("-")}
+              fallback={code`options.${name}.push(`}>
+              {code`options["${name}"].push(`}
+            </Show>
             <Show when={option.kind === ReflectionKind.string}>
               {code`...arg.replace(${equalsRegex}, "").split(",").map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean) `}
             </Show>
@@ -297,7 +305,11 @@ export function OptionsMemberParserLogic({
             {code`); `}
           </IfStatement>
           <ElseIfClause condition={`args.length > i + 1`}>
-            {code`options["${name}"].push(`}
+            <Show
+              when={name.includes("?") || name.includes("-")}
+              fallback={code`options.${name}.push(`}>
+              {code`options["${name}"].push(`}
+            </Show>
             <Show when={option.kind === ReflectionKind.string}>
               {code`...args[++i].split(",").map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean) `}
             </Show>
@@ -313,7 +325,12 @@ export function OptionsMemberParserLogic({
           }>
           <IfStatement condition={`${equalsRegex}.test(arg)`}>
             <Show when={option.kind === ReflectionKind.string}>
-              {code`options["${name}"] = arg.replace(${equalsRegex}, "").trim().replace(/^("|')/, "").replace(/("|')$/, ""); `}
+              <Show
+                when={name.includes("?") || name.includes("-")}
+                fallback={code`options.${name}`}>
+                {code`options["${name}"]`}
+              </Show>
+              {code` = arg.replace(${equalsRegex}, "").trim().replace(/^("|')/, "").replace(/("|')$/, ""); `}
             </Show>
             <Show when={option.kind === ReflectionKind.number}>
               <VarDeclaration
@@ -323,7 +340,12 @@ export function OptionsMemberParserLogic({
               />
               <hbr />
               <IfStatement condition={`!Number.isNaN(value)`}>
-                {code`options["${name}"] = value; `}
+                <Show
+                  when={name.includes("?") || name.includes("-")}
+                  fallback={code`options.${name}`}>
+                  {code`options["${name}"]`}
+                </Show>
+                {code` = value; `}
               </IfStatement>
               <ElseClause>
                 {code`warn(\`Invalid value provided for the ${option.title} option: "\${value}" is not a valid number.\`); `}
@@ -332,7 +354,12 @@ export function OptionsMemberParserLogic({
           </IfStatement>
           <ElseIfClause condition={`args.length > i + 1`}>
             <Show when={option.kind === ReflectionKind.string}>
-              {code`options["${name}"] = args[++i].trim().replace(/^("|')/, "").replace(/("|')$/, ""); `}
+              <Show
+                when={name.includes("?") || name.includes("-")}
+                fallback={code`options.${name}`}>
+                {code`options["${name}"]`}
+              </Show>
+              {code` = args[++i].trim().replace(/^("|')/, "").replace(/("|')$/, ""); `}
             </Show>
             <Show when={option.kind === ReflectionKind.number}>
               <VarDeclaration
@@ -342,7 +369,12 @@ export function OptionsMemberParserLogic({
               />
               <hbr />
               <IfStatement condition={`!Number.isNaN(value)`}>
-                {code`options["${name}"] = value; `}
+                <Show
+                  when={name.includes("?") || name.includes("-")}
+                  fallback={code`options.${name}`}>
+                  {code`options["${name}"]`}
+                </Show>
+                {code` = value; `}
               </IfStatement>
               <ElseClause>
                 {code`warn(\`Invalid value provided for the ${option.title} option: "\${value}" is not a valid number.\`); `}
@@ -360,18 +392,49 @@ export function OptionsMemberParserLogic({
             initializer={code` arg.replace(${equalsRegex}, "").trim().replace(/^("|')/, "").replace(/("|')$/, "").toLowerCase(); `}
           />
           <hbr />
-          {code`options["${name}"] = value !== "false" && value !== "f" && value !== "no" && value !== "n" && value !== "0"; `}
+          <Show
+            when={name.includes("?") || name.includes("-")}
+            fallback={code`options.${name}`}>
+            {code`options["${name}"]`}
+          </Show>
+          {code` = value !== "false" && value !== "f" && value !== "no" && value !== "n" && value !== "0"; `}
         </IfStatement>
-        <ElseClause>{code`options["${name}"] = true; `}</ElseClause>
+        <ElseClause>
+          <Show
+            when={name.includes("?") || name.includes("-")}
+            fallback={code`options.${name} = true; `}>
+            {code`options["${name}"] = true; `}
+          </Show>
+        </ElseClause>
         <Show when={Boolean((option as BooleanCommandOption).isNegativeOf)}>
           <hbr />
-          {code`options["${(option as BooleanCommandOption).isNegativeOf}"] = false; `}
+          <Show
+            when={
+              (option as BooleanCommandOption).isNegativeOf!.includes("?") ||
+              (option as BooleanCommandOption).isNegativeOf!.includes("-")
+            }
+            fallback={code`options.${(option as BooleanCommandOption).isNegativeOf} = false; `}>
+            {code`options["${(option as BooleanCommandOption).isNegativeOf}"] = false; `}
+          </Show>
         </Show>
       </Show>
       <Show when={option.alias && option.alias.length > 0}>
         <hbr />
         <For each={option.alias ?? []} hardline>
-          {alias => code`options["${alias}"] = options["${name}"]; `}
+          {alias => (
+            <>
+              <Show
+                when={alias.includes("?") || alias.includes("-")}
+                fallback={code`options.${alias} `}>
+                {code`options["${alias}"] `}
+              </Show>
+              <Show
+                when={name.includes("?") || name.includes("-")}
+                fallback={code` = options.${name}; `}>
+                {code` = options["${name}"]; `}
+              </Show>
+            </>
+          )}
         </For>
       </Show>
     </>

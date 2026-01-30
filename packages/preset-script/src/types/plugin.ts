@@ -16,10 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import type {
-  AlloyPluginContext,
-  AlloyPluginOptions
-} from "@powerlines/plugin-alloy/types/plugin";
+import type { AlloyPluginContext } from "@powerlines/plugin-alloy/types/plugin";
 import type {
   CommandBase,
   CommandOption
@@ -53,11 +50,6 @@ export interface ScriptPresetOptions
     | CommandOption[]
     | ((context: Context, input: CommandBase) => CommandOption[])
     | false;
-
-  /**
-   * Configuration options for the Alloy plugin.
-   */
-  alloy?: AlloyPluginOptions;
 }
 
 export type ScriptPresetUserConfig = UserConfig & ScriptPresetOptions;

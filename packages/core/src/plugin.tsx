@@ -16,6 +16,8 @@
 
  ------------------------------------------------------------------- */
 
+import { For, Show } from "@alloy-js/core/components";
+import { render } from "@powerlines/plugin-alloy/render";
 import nodejs from "@powerlines/plugin-nodejs";
 import tsdown from "@powerlines/plugin-tsdown";
 import { toArray } from "@stryke/convert/to-array";
@@ -28,11 +30,15 @@ import { replacePath } from "@stryke/path/replace";
 import { resolveParentPath } from "@stryke/path/resolve-parent-path";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { constantCase } from "@stryke/string-format/constant-case";
+import { kebabCase } from "@stryke/string-format/kebab-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
+import { isSetString } from "@stryke/type-checks/is-set-string";
 import { defu } from "defu";
 import type { Plugin } from "powerlines";
 import { resolveEntries } from "powerlines/lib/entry";
-import { writeHashbang } from "./helpers/hashbang";
+import type { RenderedChunk } from "rolldown";
+import type { OutputOptions } from "tsdown";
+import { CommandDocsFile } from "./components/docs";
 import {
   getCommandsPersistencePath,
   readCommandsPersistence,
@@ -45,7 +51,10 @@ import {
   resolveCommandName,
   resolveCommandPath
 } from "./helpers/resolve-command";
-import { updatePackageJsonBinary } from "./helpers/update-package-json";
+import {
+  formatBinaryPath,
+  updatePackageJsonBinary
+} from "./helpers/update-package-json";
 import { formatCommandTree, getDefaultOptions } from "./helpers/utilities";
 import { validateCommand } from "./helpers/validations";
 import {
@@ -54,8 +63,9 @@ import {
   getAppTitle,
   isVariableCommandPath
 } from "./plugin-utils/context-helpers";
+import { getCommandTree } from "./plugin-utils/get-command-tree";
 import { traverseCommands } from "./plugin-utils/traverse-command-tree";
-import type { CommandOption } from "./types/command";
+import type { CommandOption, CommandTree } from "./types/command";
 import type { Options } from "./types/config";
 import type { Context } from "./types/context";
 
@@ -76,38 +86,48 @@ export const plugin = <TContext extends Context = Context>(
 
         await updatePackageJsonBinary(this);
 
-        const result = defu(options, {
-          name: getAppName(this),
-          title: getAppTitle(this),
-          description: getAppDescription(this),
-          envPrefix: constantCase(getAppName(this)),
-          env: {
-            prefix: [] as string[]
+        const result = defu(
+          {
+            output: {
+              buildPath: joinPaths(this.config.projectRoot, "dist")
+            }
           },
-          automd: {
-            generators: {}
-          },
-          isCaseSensitive: false,
-          output: {
-            dts: true,
-            format: "esm"
-          },
-          entry:
-            !this.config.entry ||
-            (Array.isArray(this.config.entry) && this.config.entry.length === 0)
-              ? [
-                  joinPaths(this.config.sourceRoot, "**/*.ts"),
-                  joinPaths(this.config.sourceRoot, "**/*.tsx")
-                ]
-              : undefined,
-          build: {
-            platform: "node",
-            nodeProtocol: true,
-            unbundle: false
-          },
-          type: "application",
-          framework: "shell-shock"
-        });
+          options,
+          {
+            name: getAppName(this),
+            title: getAppTitle(this),
+            description: getAppDescription(this),
+            envPrefix: constantCase(getAppName(this)),
+            env: {
+              prefix: [] as string[]
+            },
+            automd: {
+              generators: {}
+            },
+            isCaseSensitive: false,
+            output: {
+              format: "esm",
+              dts: true
+            },
+            entry:
+              !this.config.entry ||
+              (Array.isArray(this.config.entry) &&
+                this.config.entry.length === 0)
+                ? [
+                    joinPaths(this.config.sourceRoot, "**/*.ts"),
+                    joinPaths(this.config.sourceRoot, "**/*.tsx")
+                  ]
+                : undefined,
+            build: {
+              dts: false,
+              platform: "node",
+              nodeProtocol: true,
+              unbundle: false
+            },
+            type: "application",
+            framework: "shell-shock"
+          }
+        );
         if (!result.env.prefix.includes(result.envPrefix)) {
           result.env.prefix.push(result.envPrefix);
         }
@@ -118,6 +138,14 @@ export const plugin = <TContext extends Context = Context>(
         order: "pre",
         async handler() {
           this.debug("Shell Shock configuration has been resolved.");
+
+          this.config.bin = (isSetString(this.packageJson.bin)
+            ? { [kebabCase(this.config.name)]: this.packageJson.bin }
+            : this.packageJson.bin) ?? {
+            [kebabCase(this.config.name)]: formatBinaryPath(
+              this.config.output.format
+            )
+          };
 
           this.inputs ??= [];
           this.options = Object.values(
@@ -390,45 +418,82 @@ export const plugin = <TContext extends Context = Context>(
     },
     {
       name: "shell-shock:chmod+x",
+      configResolved() {
+        this.config.build.outputOptions ??= {} as OutputOptions;
+        (this.config.build.outputOptions as OutputOptions).banner = (
+          chunk: RenderedChunk
+        ) => {
+          if (
+            chunk.isEntry &&
+            joinPaths(this.entryPath, "bin.ts") === chunk.facadeModuleId
+          ) {
+            this.debug(
+              `Adding hashbang to binary executable output file: ${chunk.fileName}`
+            );
+
+            return `#!/usr/bin/env ${
+              this.config.mode === "development"
+                ? "-S NODE_OPTIONS=--enable-source-maps"
+                : ""
+            } node\n`;
+          }
+          return "";
+        };
+      },
       async buildEnd() {
-        if (!isSetObject(this.packageJson.bin)) {
+        if (!isSetObject(this.config.bin)) {
           this.warn(
-            "No binaries were found in package.json. Please ensure the binaries are correctly configured."
+            `No binaries were found for the ${
+              this.config.name
+            } application. Please ensure the binaries are correctly configured in your Shell Shock configuration or package.json.`
           );
-          return;
+        } else {
+          await Promise.all(
+            Object.values(this.config.bin).map(async bin => {
+              const path = appendPath(
+                bin,
+                joinPaths(
+                  this.workspaceConfig.workspaceRoot,
+                  this.config.projectRoot
+                )
+              );
+
+              if (this.fs.existsSync(path)) {
+                this.debug(
+                  `Adding executable permissions (chmod+x) to binary executable output file: ${path}`
+                );
+
+                await chmodX(path);
+              } else {
+                this.warn(
+                  `Unable to locate the binary executable output file: ${path}. This may indicate either a misconfiguration in the package.json file or an issue with the build process.`
+                );
+              }
+            })
+          );
         }
+      }
+    },
+    {
+      name: "shell-shock:docs",
+      async docs() {
+        this.debug(
+          "Rendering entrypoint modules for the Shell Shock `script` preset."
+        );
 
-        await Promise.all(
-          Object.values(this.packageJson.bin).map(async executablePath => {
-            if (
-              this.fs.existsSync(
-                appendPath(executablePath, this.config.output.buildPath)
-              )
-            ) {
-              this.debug(
-                `Adding hashbang and executable permissions to binary output file: ${appendPath(
-                  executablePath,
-                  this.config.output.buildPath
-                )}`
-              );
+        const commands = this.inputs
+          .map(input => getCommandTree(this, input.path.segments))
+          .filter(Boolean) as CommandTree[];
 
-              await writeHashbang(
-                this,
-                appendPath(executablePath, this.config.output.buildPath)
-              );
-
-              await chmodX(
-                appendPath(executablePath, this.config.output.buildPath)
-              );
-            } else {
-              this.warn(
-                `Unable to locate the binary output file: ${appendPath(
-                  executablePath,
-                  this.config.output.buildPath
-                )}. This may indicate either a misconfiguration in the package.json file or an issue with the build process.`
-              );
-            }
-          })
+        return render(
+          this,
+          <For each={Object.values(commands)} doubleHardline>
+            {child => (
+              <Show when={!child.isVirtual}>
+                <CommandDocsFile command={child} />
+              </Show>
+            )}
+          </For>
         );
       }
     }

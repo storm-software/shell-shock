@@ -25,6 +25,7 @@ const config: UserConfig = defineConfig({
   skipCache: true,
   entry: [
     "./src/*.ts",
+    "./src/*.tsx",
     "./src/types/*.ts",
     "./src/components/*.{ts,tsx}",
     "./src/contexts/*.{ts,tsx}",

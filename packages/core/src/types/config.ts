@@ -92,7 +92,7 @@ export type Options = Partial<BaseConfig> & {
  */
 export type OutputConfig = Pick<
   PowerlinesOutputConfig,
-  "outputPath" | "buildPath" | "assets" | "storage"
+  "outputPath" | "assets" | "storage"
 > & {
   /**
    * An indicator specifying whether to generate TypeScript declaration files (.d.ts) during the build process.
@@ -115,11 +115,19 @@ export type UserConfig = Options & {
  */
 export type ResolvedConfig = TsdownPluginResolvedConfig &
   NodeJsPluginResolvedConfig &
-  Required<
-    Omit<Options, "bin"> & {
-      bin: string[];
-    }
-  > & {
+  Required<Omit<Options, "bin">> & {
+    /**
+     * The name of the binary (the {@link https://docs.npmjs.com/cli/v11/configuring-npm/package-json#bin | "bin" field} in package.json) that will be used to run the application through NodeJs package managers (e.g., npm, yarn, pnpm).
+     *
+     * @remarks
+     * If an array is provided, each binary will be linked to the same compiled output file. If not provided, the {@link Options.name | name} option will be used.
+     *
+     * @see https://docs.npmjs.com/cli/v11/configuring-npm/package-json#bin
+     * @see https://yarnpkg.com/cli/bin
+     * @see https://pnpm.io/package_json#bin
+     */
+    bin: Record<string, string>;
+
     /**
      * The user configuration for the Shell Shock process.
      */

@@ -18,6 +18,7 @@
 
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { titleCase } from "@stryke/string-format/title-case";
+import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import type { Context, UnresolvedContext } from "../types";
 
@@ -89,6 +90,18 @@ export function getAppDescription(
     context.packageJson?.description ||
     `The ${getAppTitle(context)} command-line interface application.`
   );
+}
+
+/**
+ * Retrieves the primary binary name for the application.
+ *
+ * @param context - The build context containing workspace and package information.
+ * @returns The primary binary name as a string.
+ */
+export function getAppBin(context: Context): string {
+  return isSetObject(context.config.bin)
+    ? Object.keys(context.config.bin)[0]!
+    : kebabCase(getAppName(context));
 }
 
 /**

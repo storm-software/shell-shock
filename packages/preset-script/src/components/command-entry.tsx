@@ -32,12 +32,12 @@ import {
   TSDocTitle
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import {
+  getAppBin,
   getAppTitle,
   getVariableCommandPathName,
   isVariableCommandPath
 } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
-import { toArray } from "@stryke/convert/to-array";
 import { findFilePath, relativePath } from "@stryke/path/find";
 import { joinPaths } from "@stryke/path/join";
 import { replaceExtension } from "@stryke/path/replace";
@@ -89,19 +89,18 @@ export function CommandHandlerDeclaration(props: { command: CommandTree }) {
   return (
     <>
       <TSDoc
-        heading={`The ${command.title} (${
-          toArray(context.config.bin)?.[0]
-        } ${command.path.segments
+        heading={`The ${command.title} (${getAppBin(
+          context
+        )} ${command.path.segments
           .map(segment =>
             isVariableCommandPath(segment)
               ? `[${constantCase(getVariableCommandPathName(segment))}]`
               : segment
           )
           .join(" ")}) command.`}>
-        <TSDocRemarks>{command.description}</TSDocRemarks>
+        <TSDocRemarks>{`${command.description.replace(/\.+$/, "")}.`}</TSDocRemarks>
         <hbr />
         <TSDocTitle>{command.title}</TSDocTitle>
-        <hbr />
         <TSDocParam name="args">{`The command-line arguments passed to the command.`}</TSDocParam>
       </TSDoc>
       <FunctionDeclaration
@@ -125,7 +124,10 @@ export function CommandHandlerDeclaration(props: { command: CommandTree }) {
           command.title
         }"));
         writeLine("");
-        writeLine(colors.text.body.primary("${command.description}"));
+        writeLine(colors.text.body.primary("${command.description.replace(
+          /\.+$/,
+          ""
+        )}."));
         writeLine("");`}
           <hbr />
           <Help command={command} />
@@ -169,13 +171,17 @@ export function CommandEntry(props: CommandEntryProps) {
       )
     )
   );
+  const typeDefinition = computed(() => ({
+    ...command.entry,
+    output: command.id
+  }));
 
   return (
     <>
       <EntryFile
         {...rest}
-        typeDefinition={command.entry}
         path={filePath.value}
+        typeDefinition={typeDefinition.value}
         imports={defu(imports ?? {}, {
           [commandSourcePath.value]: `handle${pascalCase(command.name)}`
         })}

@@ -256,12 +256,12 @@
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@shell-shock/plugin-theme": "workspace:*",
-    "@stryke/convert": "catalog:",
     "@stryke/path": "catalog:",
     "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",
     "defu": "catalog:",
-    "powerlines": "catalog:"
+    "powerlines": "catalog:",
+    "@stryke/helpers": "catalog:"
   },
   "devDependencies": {
     "@babel/core": "catalog:",

@@ -18,7 +18,7 @@
 
 import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
-import core from "@shell-shock/core/plugin";
+import { render } from "@powerlines/plugin-alloy/render";
 import { getCommandTree } from "@shell-shock/core/plugin-utils";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import theme from "@shell-shock/plugin-theme";
@@ -31,7 +31,6 @@ import { VirtualCommandEntry } from "@shell-shock/preset-script/components/virtu
 import type { Plugin } from "powerlines/types/plugin";
 import { getDefaultOptions } from "./helpers/get-default-options";
 import type { CLIPresetContext, CLIPresetOptions } from "./types/plugin";
-import { Output } from "@powerlines/plugin-alloy/core/components/output";
 
 /**
  * The Shell Shock base plugin.
@@ -40,7 +39,6 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
   options: CLIPresetOptions = {}
 ) => {
   return [
-    ...core<TContext>(options),
     theme({
       theme: options.theme
     }),
@@ -64,8 +62,9 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           .map(input => getCommandTree(this, input.path.segments))
           .filter(Boolean) as CommandTree[];
 
-        return this.render(
-          <Output context={this}>
+        return render(
+          this,
+          <>
             <BinEntry>
               <Show
                 when={this.commands && Object.keys(this.commands).length > 0}>
@@ -90,7 +89,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
             </For>
             <UtilsBuiltin />
             <ConsoleBuiltin />
-          </Output>
+          </>
         );
       }
     }

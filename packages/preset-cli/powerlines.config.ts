@@ -29,10 +29,7 @@ const config: UserConfig = defineConfig({
     "./src/components/**/*.ts",
     "./src/components/**/*.tsx"
   ],
-  plugins: [plugin(), alloy()],
-  build: {
-    noExternal: ["@powerlines/plugin-alloy"]
-  }
+  plugins: [plugin(), alloy()]
 });
 
 export default config;

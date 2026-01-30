@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { Children } from "@alloy-js/core";
-import { code, Show } from "@alloy-js/core";
+import { code, computed, For, Show } from "@alloy-js/core";
 import { FunctionDeclaration, IfStatement } from "@alloy-js/typescript";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { TypescriptFileImports } from "@powerlines/plugin-alloy/types/components";
@@ -25,7 +25,9 @@ import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/compone
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { TSDoc } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { getAppTitle } from "@shell-shock/core/plugin-utils/context-helpers";
-import { joinPaths } from "@stryke/path/join-paths";
+import { getUnique } from "@stryke/helpers/get-unique";
+import { findFileName } from "@stryke/path/file-path-fns";
+import { replaceExtension } from "@stryke/path/replace";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
@@ -114,54 +116,60 @@ export function BinEntry(props: BinEntryProps) {
   const { prefix, postfix, builtinImports, imports, children, ...rest } = props;
 
   const context = usePowerlines<ScriptPresetContext>();
+  const bins = computed(() => getUnique(Object.values(context.config.bin)));
 
   return (
-    <EntryFile
-      {...rest}
-      path="bin"
-      typeDefinition={{
-        file: joinPaths(context.entryPath, "bin.ts")
-      }}
-      imports={defu(
-        imports ?? {},
-        Object.entries(context.commands)
-          .filter(([, command]) => command.isVirtual)
-          .reduce((ret, [name, command]) => {
-            ret[`./${command.name}`] = [
-              { name: "handler", alias: `handle${pascalCase(name)}` }
-            ];
+    <For each={bins.value}>
+      {bin => (
+        <EntryFile
+          {...rest}
+          path={findFileName(replaceExtension(bin))}
+          typeDefinition={{
+            file: bin,
+            output: "bin"
+          }}
+          imports={defu(
+            imports ?? {},
+            Object.entries(context.commands)
+              .filter(([, command]) => command.isVirtual)
+              .reduce((ret, [name, command]) => {
+                ret[`./${command.name}`] = [
+                  { name: "handler", alias: `handle${pascalCase(name)}` }
+                ];
 
-            return ret;
-          }, {} as TypescriptFileImports)
-      )}
-      builtinImports={defu(builtinImports ?? {}, {
-        console: ["error", "verbose", "table"],
-        utils: ["hasFlag", "exit"]
-      })}>
-      <Show when={Boolean(prefix)}>
-        {prefix}
-        <hbr />
-        <hbr />
-      </Show>
-      <TSDoc
-        heading={`Binary entry point for the ${getAppTitle(context)} CLI application.`}></TSDoc>
-      <FunctionDeclaration async returnType="any" name="main">
-        <IfStatement condition={code`hasFlag(["version", "v"])`}>
-          {code`console.log(${context?.packageJson.version ? `"${context?.packageJson.version}"` : "0.0.1"});
+                return ret;
+              }, {} as TypescriptFileImports)
+          )}
+          builtinImports={defu(builtinImports ?? {}, {
+            console: ["error", "verbose", "table"],
+            utils: ["hasFlag", "exit"]
+          })}>
+          <Show when={Boolean(prefix)}>
+            {prefix}
+            <hbr />
+            <hbr />
+          </Show>
+          <TSDoc
+            heading={`Binary entry point for the ${getAppTitle(context)} CLI application.`}></TSDoc>
+          <FunctionDeclaration async returnType="any" name="main">
+            <IfStatement condition={code`hasFlag(["version", "v"])`}>
+              {code`console.log(${context?.packageJson.version ? `"${context?.packageJson.version}"` : "0.0.1"});
           return;`}
-        </IfStatement>
-        <hbr />
-        <hbr />
-        {children}
-        <hbr />
-      </FunctionDeclaration>
-      <hbr />
-      <hbr />
-      <hbr />
-      <Show when={Boolean(postfix)} fallback={<ExitFunctionUsage />}>
-        {postfix}
-      </Show>
-      <hbr />
-    </EntryFile>
+            </IfStatement>
+            <hbr />
+            <hbr />
+            {children}
+            <hbr />
+          </FunctionDeclaration>
+          <hbr />
+          <hbr />
+          <hbr />
+          <Show when={Boolean(postfix)} fallback={<ExitFunctionUsage />}>
+            {postfix}
+          </Show>
+          <hbr />
+        </EntryFile>
+      )}
+    </For>
   );
 }

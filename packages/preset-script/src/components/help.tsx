@@ -25,7 +25,6 @@ import {
 } from "@shell-shock/core/plugin-utils/context-helpers";
 import { sortOptions } from "@shell-shock/core/plugin-utils/reflect";
 import type { CommandTree } from "@shell-shock/core/types/command";
-import { toArray } from "@stryke/convert/to-array";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { snakeCase } from "@stryke/string-format/snake-case";
 import { useTheme } from "../contexts";
@@ -58,7 +57,7 @@ export function HelpUsage(props: HelpUsageProps) {
   const theme = useTheme();
 
   return (
-    <For each={toArray(context.config.bin)} hardline>
+    <For each={Object.keys(context.config.bin)} hardline>
       {bin =>
         code`
       writeLine(
@@ -123,7 +122,7 @@ export function HelpOptions(props: { command: CommandTree }) {
                 ? ` <${snakeCase(option.name)}>${option.variadic ? "..." : ""}`
                 : ""
           }")}\`, align: "right" }, { value: colors.text.body.tertiary("${option.description.replace(
-            /.+$/,
+            /\.+$/,
             ""
           )} ${
             option.env || option.default !== undefined
@@ -166,7 +165,7 @@ export function HelpCommands(props: { command: CommandTree }) {
           }")} \${colors.text.body.secondary("(${
             child.name
           })")}\`, align: "right" }, { value: colors.text.body.tertiary("${child.description.replace(
-            /.+$/,
+            /\.+$/,
             ""
           )}"), align: "left" }], `
         }

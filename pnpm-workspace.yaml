@@ -21,19 +21,19 @@ catalog:
   '@nx/workspace': 22.4.1
   '@opentui/core': ^0.1.69
   '@opentui/react': ^0.1.69
-  '@powerlines/deepkit': ^0.6.33
-  '@powerlines/nx': ^0.11.180
-  '@powerlines/plugin-alloy': 0.19.33
-  '@powerlines/plugin-deepkit': ^0.11.132
-  '@powerlines/plugin-env': ^0.15.161
-  '@powerlines/plugin-nodejs': ^0.1.156
-  '@powerlines/plugin-plugin': ^0.12.204
-  '@powerlines/plugin-style-dictionary': ^0.3.154
-  '@powerlines/plugin-tsdown': ^0.1.206
-  '@powerlines/plugin-tsup': ^0.12.263
-  '@powerlines/plugin-untyped': ^0.2.206
-  '@powerlines/plugin-vite': ^0.14.254
-  '@powerlines/tsconfig': ^0.2.176
+  '@powerlines/deepkit': ^0.6.36
+  '@powerlines/nx': ^0.11.183
+  '@powerlines/plugin-alloy': ^0.19.36
+  '@powerlines/plugin-deepkit': ^0.11.135
+  '@powerlines/plugin-env': ^0.15.164
+  '@powerlines/plugin-nodejs': ^0.1.159
+  '@powerlines/plugin-plugin': ^0.12.207
+  '@powerlines/plugin-style-dictionary': ^0.3.157
+  '@powerlines/plugin-tsdown': ^0.1.209
+  '@powerlines/plugin-tsup': ^0.12.266
+  '@powerlines/plugin-untyped': ^0.2.209
+  '@powerlines/plugin-vite': ^0.14.257
+  '@powerlines/tsconfig': ^0.2.178
   '@storm-software/build-tools': ^0.158.81
   '@storm-software/config': ^1.135.1
   '@storm-software/config-tools': ^1.189.0
@@ -57,7 +57,7 @@ catalog:
   '@stryke/env': ^0.20.57
   '@stryke/fs': ^0.33.40
   '@stryke/hash': ^0.12.46
-  '@stryke/helpers': ^0.9.40
+  '@stryke/helpers': 0.9.40
   '@stryke/json': ^0.9.41
   '@stryke/path': ^0.26.4
   '@stryke/string-format': ^0.13.7
@@ -96,7 +96,7 @@ catalog:
   lefthook: ^1.13.6
   log4brains: ^1.1.0
   nx: 22.4.1
-  powerlines: ^0.38.20
+  powerlines: ^0.38.23
   prettier: ^3.8.1
   react: ^19.2.3
   react-dom: ^19.2.3

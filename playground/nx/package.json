@@ -10,5 +10,5 @@
     "@shell-shock/nx": "workspace:*",
     "@shell-shock/core": "workspace:*"
   },
-  "bin": { "playground-nx": "./bin/playground-nx.mjs" }
+  "bin": { "playground-nx": "./dist/bin.mjs" }
 }
