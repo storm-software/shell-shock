@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.7](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.7) (01/30/2026)
+
+### Features
+
+- **core:** Reorganize repository projects and implemented core ([ffa2d39](https://github.com/storm-software/shell-shock/commit/ffa2d39))
+
 ## [0.0.6](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.6) (01/07/2026)
 
 ### Miscellaneous

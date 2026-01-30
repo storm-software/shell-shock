@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.3.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.3.0) (01/30/2026)
+
+### Miscellaneous
+
+- **core:** Resolve issues writing builtin modules ([dda5285](https://github.com/storm-software/shell-shock/commit/dda5285))
+
+### Bug Fixes
+
+- **core:** Resolve issue with built file output and prepending hashbang to executable ([cd35753](https://github.com/storm-software/shell-shock/commit/cd35753))
+
+### Features
+
+- **core:** Added the `CommandDocs` component ([21a2f30](https://github.com/storm-software/shell-shock/commit/21a2f30))
+- **core:** Reorganize repository projects and implemented core ([ffa2d39](https://github.com/storm-software/shell-shock/commit/ffa2d39))
+- **core:** Implemented command variable paths and parameters ([0629e12](https://github.com/storm-software/shell-shock/commit/0629e12))
+
 ## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.2.1) (01/07/2026)
 
 ### Miscellaneous

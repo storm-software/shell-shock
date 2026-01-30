@@ -2,6 +2,26 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.1.2](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.1.2) (01/30/2026)
+
+### Miscellaneous
+
+- **core:** Resolve issues writing builtin modules ([dda5285](https://github.com/storm-software/shell-shock/commit/dda5285))
+
+### Bug Fixes
+
+- **core:** Resolve issue with built file output and prepending hashbang to executable ([cd35753](https://github.com/storm-software/shell-shock/commit/cd35753))
+
+### Features
+
+- **core:** Reorganize repository projects and implemented core ([ffa2d39](https://github.com/storm-software/shell-shock/commit/ffa2d39))
+- **core:** Implemented command variable paths and parameters ([0629e12](https://github.com/storm-software/shell-shock/commit/0629e12))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.7**
+- Updated **core** to **v0.3.0**
+
 ## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.1.1) (01/07/2026)
 
 ### Miscellaneous
