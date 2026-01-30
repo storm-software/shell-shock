@@ -69,20 +69,6 @@
         "default": "./dist/components/index.mjs"
       }
     },
-    "./components/*": {
-      "require": {
-        "types": "./dist/components/*.d.cts",
-        "default": "./dist/components/*.cjs"
-      },
-      "import": {
-        "types": "./dist/components/*.d.mts",
-        "default": "./dist/components/*.mjs"
-      },
-      "default": {
-        "types": "./dist/components/*.d.mts",
-        "default": "./dist/components/*.mjs"
-      }
-    },
     "./components/banner": {
       "require": {
         "types": "./dist/components/banner.d.cts",
@@ -112,20 +98,6 @@
         "default": "./dist/types/index.mjs"
       }
     },
-    "./types/*": {
-      "require": {
-        "types": "./dist/types/*.d.cts",
-        "default": "./dist/types/*.cjs"
-      },
-      "import": {
-        "types": "./dist/types/*.d.mts",
-        "default": "./dist/types/*.mjs"
-      },
-      "default": {
-        "types": "./dist/types/*.d.mts",
-        "default": "./dist/types/*.mjs"
-      }
-    },
     "./types/plugin": {
       "require": {
         "types": "./dist/types/plugin.d.cts",
@@ -142,9 +114,7 @@
     }
   },
   "typings": "dist/index.d.mts",
-  "files": [
-    "dist/**/*"
-  ],
+  "files": ["dist/**/*"],
   "keywords": [
     "shell-shock",
     "shell-shock-plugin",

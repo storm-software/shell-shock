@@ -26,7 +26,7 @@ try {
   await echo`${chalk.whiteBright("Checking for storm-software, stryke, and powerlines updates...")}`;
   let proc =
     $`pnpm exec storm-pnpm update @storm-software/ @stryke/ @powerlines/ powerlines --install`.timeout(
-      `${8 * 60}s`
+      `${30 * 60}s`
     );
   proc.stdout.on("data", data => echo`${data}`);
   let result = await proc;
@@ -37,7 +37,7 @@ try {
   }
 
   // 2) Dedupe all workspace dependencies
-  proc = $`pnpm dedupe`.timeout(`${8 * 60}s`);
+  proc = $`pnpm dedupe`.timeout(`${30 * 60}s`);
   proc.stdout.on("data", data => echo`${data}`);
   result = await proc;
   if (result.exitCode !== 0) {
@@ -47,7 +47,7 @@ try {
   }
 
   // 3) Ensure workspace:* links are up to date
-  proc = $`pnpm update --recursive --workspace`.timeout(`${8 * 60}s`);
+  proc = $`pnpm update --recursive --workspace`.timeout(`${30 * 60}s`);
   proc.stdout.on("data", data => echo`${data}`);
   result = await proc;
   if (result.exitCode !== 0) {
@@ -60,7 +60,7 @@ try {
 } catch (error) {
   echo`${chalk.red(
     error?.message ??
-      "A failure occurred while updating Stryke/Storm dependency packages"
+      "A failure occurred while updating Storm Software dependency packages"
   )}`;
   process.exit(1);
 }

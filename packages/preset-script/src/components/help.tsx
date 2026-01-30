@@ -125,13 +125,21 @@ export function HelpOptions(props: { command: CommandTree }) {
           }")}\`, align: "right" }, { value: colors.text.body.tertiary("${option.description.replace(
             /.+$/,
             ""
-          )} (${
-            option.env ? `env: ${context.config.envPrefix}_${option.env}` : ""
-          }${
-            option.default !== undefined
-              ? `, default: ${JSON.stringify(option.default)}`
+          )} ${
+            option.env || option.default !== undefined
+              ? `(${
+                  option.env
+                    ? `env: ${context.config.envPrefix}_${option.env}${
+                        option.default !== undefined ? ", " : ""
+                      }`
+                    : ""
+                }${
+                  option.default !== undefined
+                    ? `default: ${JSON.stringify(option.default)}`
+                    : ""
+                })`
               : ""
-          })."), align: "left" }], `;
+          }."), align: "left" }], `;
         }}
       </For>
       <hbr />

@@ -55,13 +55,6 @@ export interface ScriptPresetOptions
     | false;
 
   /**
-   * Determines whether commands' name and option names are treated as case-sensitive.
-   *
-   * @defaultValue `false`
-   */
-  isCaseSensitive?: boolean;
-
-  /**
    * Configuration options for the Alloy plugin.
    */
   alloy?: AlloyPluginOptions;

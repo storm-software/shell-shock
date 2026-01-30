@@ -24,10 +24,10 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { DynamicImportStatement } from "@powerlines/plugin-alloy/typescript/components/dynamic-import-statement";
+import { CommandContext, useCommand } from "@shell-shock/core/contexts/command";
 import { isVariableCommandPath } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { pascalCase } from "@stryke/string-format/pascal-case";
-import { CommandContext, useCommand } from "../contexts/command";
 
 export function CommandRouterRoute() {
   const command = useCommand();

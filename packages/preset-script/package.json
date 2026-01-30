@@ -69,20 +69,6 @@
         "default": "./dist/components/index.mjs"
       }
     },
-    "./components/*": {
-      "require": {
-        "types": "./dist/components/*.d.cts",
-        "default": "./dist/components/*.cjs"
-      },
-      "import": {
-        "types": "./dist/components/*.d.mts",
-        "default": "./dist/components/*.mjs"
-      },
-      "default": {
-        "types": "./dist/components/*.d.mts",
-        "default": "./dist/components/*.mjs"
-      }
-    },
     "./components/args-parser-logic": {
       "require": {
         "types": "./dist/components/args-parser-logic.d.cts",
@@ -209,34 +195,6 @@
         "default": "./dist/contexts/index.mjs"
       }
     },
-    "./contexts/*": {
-      "require": {
-        "types": "./dist/contexts/*.d.cts",
-        "default": "./dist/contexts/*.cjs"
-      },
-      "import": {
-        "types": "./dist/contexts/*.d.mts",
-        "default": "./dist/contexts/*.mjs"
-      },
-      "default": {
-        "types": "./dist/contexts/*.d.mts",
-        "default": "./dist/contexts/*.mjs"
-      }
-    },
-    "./contexts/command": {
-      "require": {
-        "types": "./dist/contexts/command.d.cts",
-        "default": "./dist/contexts/command.cjs"
-      },
-      "import": {
-        "types": "./dist/contexts/command.d.mts",
-        "default": "./dist/contexts/command.mjs"
-      },
-      "default": {
-        "types": "./dist/contexts/command.d.mts",
-        "default": "./dist/contexts/command.mjs"
-      }
-    },
     "./contexts/theme": {
       "require": {
         "types": "./dist/contexts/theme.d.cts",
@@ -266,20 +224,6 @@
         "default": "./dist/types/index.mjs"
       }
     },
-    "./types/*": {
-      "require": {
-        "types": "./dist/types/*.d.cts",
-        "default": "./dist/types/*.cjs"
-      },
-      "import": {
-        "types": "./dist/types/*.d.mts",
-        "default": "./dist/types/*.mjs"
-      },
-      "default": {
-        "types": "./dist/types/*.d.mts",
-        "default": "./dist/types/*.mjs"
-      }
-    },
     "./types/plugin": {
       "require": {
         "types": "./dist/types/plugin.d.cts",
@@ -295,10 +239,9 @@
       }
     }
   },
+  "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
-  "files": [
-    "dist/**/*"
-  ],
+  "files": ["dist/**/*"],
   "keywords": [
     "shell-shock",
     "shell-shock-plugin",
@@ -326,70 +269,6 @@
     "@types/node": "catalog:"
   },
   "publishConfig": {
-    "access": "public",
-    "exports": {
-      ".": {
-        "require": "./dist/index.cjs",
-        "import": "./dist/index.mjs"
-      },
-      "./components": {
-        "require": "./dist/components/index.cjs",
-        "import": "./dist/components/index.mjs"
-      },
-      "./components/args-parser-logic": {
-        "require": "./dist/components/args-parser-logic.cjs",
-        "import": "./dist/components/args-parser-logic.mjs"
-      },
-      "./components/bin-entry": {
-        "require": "./dist/components/bin-entry.cjs",
-        "import": "./dist/components/bin-entry.mjs"
-      },
-      "./components/command-entry": {
-        "require": "./dist/components/command-entry.cjs",
-        "import": "./dist/components/command-entry.mjs"
-      },
-      "./components/command-router": {
-        "require": "./dist/components/command-router.cjs",
-        "import": "./dist/components/command-router.mjs"
-      },
-      "./components/console-builtin": {
-        "require": "./dist/components/console-builtin.cjs",
-        "import": "./dist/components/console-builtin.mjs"
-      },
-      "./components/help": {
-        "require": "./dist/components/help.cjs",
-        "import": "./dist/components/help.mjs"
-      },
-      "./components/utils-builtin": {
-        "require": "./dist/components/utils-builtin.cjs",
-        "import": "./dist/components/utils-builtin.mjs"
-      },
-      "./components/virtual-command-entry": {
-        "require": "./dist/components/virtual-command-entry.cjs",
-        "import": "./dist/components/virtual-command-entry.mjs"
-      },
-      "./contexts": {
-        "require": "./dist/contexts/index.cjs",
-        "import": "./dist/contexts/index.mjs"
-      },
-      "./contexts/command": {
-        "require": "./dist/contexts/command.cjs",
-        "import": "./dist/contexts/command.mjs"
-      },
-      "./contexts/theme": {
-        "require": "./dist/contexts/theme.cjs",
-        "import": "./dist/contexts/theme.mjs"
-      },
-      "./types": {
-        "require": "./dist/types/index.cjs",
-        "import": "./dist/types/index.mjs"
-      },
-      "./types/plugin": {
-        "require": "./dist/types/plugin.cjs",
-        "import": "./dist/types/plugin.mjs"
-      },
-      "./package.json": "./package.json"
-    }
-  },
-  "types": "./dist/index.d.cts"
+    "access": "public"
+  }
 }

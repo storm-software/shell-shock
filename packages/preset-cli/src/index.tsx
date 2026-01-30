@@ -31,6 +31,7 @@ import { VirtualCommandEntry } from "@shell-shock/preset-script/components/virtu
 import type { Plugin } from "powerlines/types/plugin";
 import { getDefaultOptions } from "./helpers/get-default-options";
 import type { CLIPresetContext, CLIPresetOptions } from "./types/plugin";
+import { Output } from "@powerlines/plugin-alloy/core/components/output";
 
 /**
  * The Shell Shock base plugin.
@@ -64,7 +65,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           .filter(Boolean) as CommandTree[];
 
         return this.render(
-          <>
+          <Output context={this}>
             <BinEntry>
               <Show
                 when={this.commands && Object.keys(this.commands).length > 0}>
@@ -89,7 +90,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
             </For>
             <UtilsBuiltin />
             <ConsoleBuiltin />
-          </>
+          </Output>
         );
       }
     }

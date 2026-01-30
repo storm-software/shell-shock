@@ -57,6 +57,13 @@ export type Options = Partial<BaseConfig> & {
     | false;
 
   /**
+   * Determines whether commands' name and option names are treated as case-sensitive.
+   *
+   * @defaultValue `false`
+   */
+  isCaseSensitive?: boolean;
+
+  /**
    * The name of the binary (the {@link https://docs.npmjs.com/cli/v11/configuring-npm/package-json#bin | "bin" field} in package.json) that will be used to run the application through NodeJs package managers (e.g., npm, yarn, pnpm).
    *
    * @remarks

@@ -7,13 +7,14 @@
     "jsxImportSource": "@alloy-js/core"
   },
   "references": [
-    {
-      "path": "../../packages/core/tsconfig.lib.json"
-    },
-    {
-      "path": "../../packages/nx/tsconfig.lib.json"
-    }
+    { "path": "../../packages/core/tsconfig.lib.json" },
+    { "path": "../../packages/nx/tsconfig.lib.json" }
   ],
-  "include": ["src/**/*.ts", "src/**/*.tsx", "shell-shock.config.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "shell-shock.config.ts",
+    "shell-shock.d.ts"
+  ],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

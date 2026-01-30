@@ -720,16 +720,15 @@ declare module "shell-shock:env" {
       | Key
       | `NEXT_${Key}`
       | `ONE_${Key}`
-      | `PLAYGROUND_COMPLEX_${Key}`
+      | `PLAYGROUND_POWERLINES_${Key}`
       | `POWERLINES_${Key}`
-      | `SHELL_SHOCK_${Key}`
       | `STORM_STACK_${Key}`
       | `STORM_${Key}`
       | `VERCEL_${Key}`
       | `VITE_${Key}`]: EnvBase[Key];
   };
   /**
-   * The initial environment configuration state for the Playground Complex project.
+   * The initial environment configuration state for the Playground Powerlines project.
    *
    * @title Object
    *

@@ -98,10 +98,13 @@ export function withExecutor<
       const api = await createShellShock(
         defu(
           {
+            name: projectConfig.name,
             root: projectConfig.root,
             sourceRoot: projectConfig.sourceRoot,
             tsconfig: options.tsconfig,
             logLevel: options.logLevel,
+            description: projectConfig.metadata?.description,
+            type: projectConfig.projectType,
             mode: options.mode,
             skipCache: options.skipCache,
             autoInstall: options.autoInstall,

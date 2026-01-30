@@ -18,7 +18,7 @@
 
 import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
-import nodejs from "@powerlines/plugin-nodejs";
+import { render } from "@powerlines/plugin-alloy/render";
 import { getCommandTree } from "@shell-shock/core/plugin-utils";
 import {
   getAppDescription,
@@ -46,8 +46,6 @@ export const plugin = <
   options: ScriptPresetOptions = {}
 ) => {
   return [
-    // ...core<TContext>(options),
-    ...nodejs<TContext>(),
     theme({
       theme: options.theme
     }),
@@ -69,7 +67,8 @@ export const plugin = <
           "Rendering built-in modules for the Shell Shock `script` preset."
         );
 
-        return this.render(
+        return render(
+          this,
           <>
             <UtilsBuiltin />
             <ConsoleBuiltin />
@@ -90,7 +89,8 @@ export const plugin = <
             .map(input => getCommandTree(this, input.path.segments))
             .filter(Boolean) as CommandTree[];
 
-          return this.render(
+          return render(
+            this,
             <>
               <BinEntry
                 builtinImports={{

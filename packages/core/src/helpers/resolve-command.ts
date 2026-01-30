@@ -102,6 +102,28 @@ export function resolveCommandId(context: Context, file: string): string {
     .replaceAll("/", "-");
 }
 
+/**
+ * Finds the command name from the given file path.
+ *
+ * @param file - The file path to extract the command name from.
+ * @returns The command name.
+ */
+export function resolveCommandName(file: string) {
+  let path = findFilePath(file);
+  let name = findFolderName(file, {
+    requireExtension: true
+  });
+
+  while (isVariableCommandPath(name)) {
+    path = resolveParentPath(path);
+    name = findFolderName(path, {
+      requireExtension: true
+    });
+  }
+
+  return name;
+}
+
 export function resolveCommandPath(context: Context, file: string): string {
   return replacePath(findFilePath(file), context.commandsPath)
     .replaceAll(/^\/+/g, "")
@@ -153,23 +175,6 @@ export function findCommandsRoot(context: Context): string {
     context.config.sourceRoot || context.config.projectRoot,
     context.workspaceConfig.workspaceRoot
   );
-}
-
-/**
- * Finds the command name from the given file path.
- *
- * @param file - The file path to extract the command name from.
- * @returns The command name.
- */
-export function findCommandName(file: string) {
-  let name = findFolderName(file);
-  let count = 1;
-
-  while (isVariableCommandPath(name)) {
-    name = findFolderName(resolveParentPath(file, count++));
-  }
-
-  return name;
 }
 
 /**
@@ -355,53 +360,55 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     }
   }
 
-  if (isSetObject(tree.options)) {
-    Object.values(tree.options)
-      .filter(option => option.env !== false)
-      .forEach(option => {
+  if (context.env) {
+    if (isSetObject(tree.options)) {
+      Object.values(tree.options)
+        .filter(option => option.env !== false)
+        .forEach(option => {
+          context.env.types.env.addProperty({
+            name: option.env as string,
+            optional: option.optional ? true : undefined,
+            description: option.description,
+            visibility: ReflectionVisibility.public,
+            type:
+              option.kind === ReflectionKind.string ||
+              option.kind === ReflectionKind.number
+                ? option.variadic
+                  ? { kind: ReflectionKind.array, type: { kind: option.kind } }
+                  : { kind: option.kind }
+                : { kind: ReflectionKind.boolean },
+            default: option.default,
+            tags: {
+              title: option.title,
+              alias: option.alias
+                .filter(alias => alias.length > 0)
+                .map(alias => constantCase(alias)),
+              domain: "cli"
+            }
+          });
+        });
+    }
+
+    if (tree.params) {
+      tree.params.forEach(param => {
         context.env.types.env.addProperty({
-          name: option.env as string,
-          optional: option.optional ? true : undefined,
-          description: option.description,
+          name: constantCase(param.name),
+          optional: param.optional ? true : undefined,
+          description: param.description,
           visibility: ReflectionVisibility.public,
-          type:
-            option.kind === ReflectionKind.string ||
-            option.kind === ReflectionKind.number
-              ? option.variadic
-                ? { kind: ReflectionKind.array, type: { kind: option.kind } }
-                : { kind: option.kind }
-              : { kind: ReflectionKind.boolean },
-          default: option.default,
+          type: param.variadic
+            ? {
+                kind: ReflectionKind.array,
+                type: { kind: ReflectionKind.string }
+              }
+            : { kind: ReflectionKind.string },
+          default: param.default,
           tags: {
-            title: option.title,
-            alias: option.alias
-              .filter(alias => alias.length > 0)
-              .map(alias => constantCase(alias)),
             domain: "cli"
           }
         });
       });
-  }
-
-  if (tree.params) {
-    tree.params.forEach(param => {
-      context.env.types.env.addProperty({
-        name: constantCase(param.name),
-        optional: param.optional ? true : undefined,
-        description: param.description,
-        visibility: ReflectionVisibility.public,
-        type: param.variadic
-          ? {
-              kind: ReflectionKind.array,
-              type: { kind: ReflectionKind.string }
-            }
-          : { kind: ReflectionKind.string },
-        default: param.default,
-        tags: {
-          domain: "cli"
-        }
-      });
-    });
+    }
   }
 
   for (const input of context.inputs.filter(
