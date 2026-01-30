@@ -69,6 +69,34 @@
         "default": "./dist/api.mjs"
       }
     },
+    "./components": {
+      "require": {
+        "types": "./dist/components/index.d.cts",
+        "default": "./dist/components/index.cjs"
+      },
+      "import": {
+        "types": "./dist/components/index.d.mts",
+        "default": "./dist/components/index.mjs"
+      },
+      "default": {
+        "types": "./dist/components/index.d.mts",
+        "default": "./dist/components/index.mjs"
+      }
+    },
+    "./components/docs": {
+      "require": {
+        "types": "./dist/components/docs.d.cts",
+        "default": "./dist/components/docs.cjs"
+      },
+      "import": {
+        "types": "./dist/components/docs.d.mts",
+        "default": "./dist/components/docs.mjs"
+      },
+      "default": {
+        "types": "./dist/components/docs.d.mts",
+        "default": "./dist/components/docs.mjs"
+      }
+    },
     "./config": {
       "require": {
         "types": "./dist/config.d.cts",
@@ -81,6 +109,34 @@
       "default": {
         "types": "./dist/config.d.mts",
         "default": "./dist/config.mjs"
+      }
+    },
+    "./contexts": {
+      "require": {
+        "types": "./dist/contexts/index.d.cts",
+        "default": "./dist/contexts/index.cjs"
+      },
+      "import": {
+        "types": "./dist/contexts/index.d.mts",
+        "default": "./dist/contexts/index.mjs"
+      },
+      "default": {
+        "types": "./dist/contexts/index.d.mts",
+        "default": "./dist/contexts/index.mjs"
+      }
+    },
+    "./contexts/command": {
+      "require": {
+        "types": "./dist/contexts/command.d.cts",
+        "default": "./dist/contexts/command.cjs"
+      },
+      "import": {
+        "types": "./dist/contexts/command.d.mts",
+        "default": "./dist/contexts/command.mjs"
+      },
+      "default": {
+        "types": "./dist/contexts/command.d.mts",
+        "default": "./dist/contexts/command.mjs"
       }
     },
     "./package.json": "./package.json",
@@ -110,20 +166,6 @@
       "default": {
         "types": "./dist/plugin-utils/index.d.mts",
         "default": "./dist/plugin-utils/index.mjs"
-      }
-    },
-    "./plugin-utils/*": {
-      "require": {
-        "types": "./dist/plugin-utils/*.d.cts",
-        "default": "./dist/plugin-utils/*.cjs"
-      },
-      "import": {
-        "types": "./dist/plugin-utils/*.d.mts",
-        "default": "./dist/plugin-utils/*.mjs"
-      },
-      "default": {
-        "types": "./dist/plugin-utils/*.d.mts",
-        "default": "./dist/plugin-utils/*.mjs"
       }
     },
     "./plugin-utils/context-helpers": {
@@ -194,20 +236,6 @@
       "default": {
         "types": "./dist/types/index.d.mts",
         "default": "./dist/types/index.mjs"
-      }
-    },
-    "./types/*": {
-      "require": {
-        "types": "./dist/types/*.d.cts",
-        "default": "./dist/types/*.cjs"
-      },
-      "import": {
-        "types": "./dist/types/*.d.mts",
-        "default": "./dist/types/*.mjs"
-      },
-      "default": {
-        "types": "./dist/types/*.d.mts",
-        "default": "./dist/types/*.mjs"
       }
     },
     "./types/command": {
@@ -283,14 +311,8 @@
   },
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
-  "files": [
-    "dist/**/*"
-  ],
-  "keywords": [
-    "shell-shock",
-    "powerlines",
-    "storm-software"
-  ],
+  "files": ["dist/**/*"],
+  "keywords": ["shell-shock", "powerlines", "storm-software"],
   "dependencies": {
     "@powerlines/deepkit": "catalog:",
     "@powerlines/plugin-nodejs": "catalog:",
@@ -307,77 +329,16 @@
     "@stryke/types": "catalog:",
     "automd": "catalog:",
     "defu": "catalog:",
-    "powerlines": "catalog:"
+    "powerlines": "catalog:",
+    "@alloy-js/core": "catalog:",
+    "@alloy-js/markdown": "catalog:",
+    "@powerlines/plugin-alloy": "catalog:"
   },
   "devDependencies": {
-    "@powerlines/plugin-alloy": "catalog:",
     "@types/node": "catalog:",
     "typescript": "catalog:"
   },
   "publishConfig": {
-    "access": "public",
-    "exports": {
-      ".": {
-        "require": "./dist/index.cjs",
-        "import": "./dist/index.mjs"
-      },
-      "./api": {
-        "require": "./dist/api.cjs",
-        "import": "./dist/api.mjs"
-      },
-      "./config": {
-        "require": "./dist/config.cjs",
-        "import": "./dist/config.mjs"
-      },
-      "./plugin": {
-        "require": "./dist/plugin.cjs",
-        "import": "./dist/plugin.mjs"
-      },
-      "./plugin-utils": {
-        "require": "./dist/plugin-utils/index.cjs",
-        "import": "./dist/plugin-utils/index.mjs"
-      },
-      "./plugin-utils/context-helpers": {
-        "require": "./dist/plugin-utils/context-helpers.cjs",
-        "import": "./dist/plugin-utils/context-helpers.mjs"
-      },
-      "./plugin-utils/get-command-tree": {
-        "require": "./dist/plugin-utils/get-command-tree.cjs",
-        "import": "./dist/plugin-utils/get-command-tree.mjs"
-      },
-      "./plugin-utils/reflect": {
-        "require": "./dist/plugin-utils/reflect.cjs",
-        "import": "./dist/plugin-utils/reflect.mjs"
-      },
-      "./plugin-utils/traverse-command-tree": {
-        "require": "./dist/plugin-utils/traverse-command-tree.cjs",
-        "import": "./dist/plugin-utils/traverse-command-tree.mjs"
-      },
-      "./types": {
-        "require": "./dist/types/index.cjs",
-        "import": "./dist/types/index.mjs"
-      },
-      "./types/command": {
-        "require": "./dist/types/command.cjs",
-        "import": "./dist/types/command.mjs"
-      },
-      "./types/config": {
-        "require": "./dist/types/config.cjs",
-        "import": "./dist/types/config.mjs"
-      },
-      "./types/context": {
-        "require": "./dist/types/context.cjs",
-        "import": "./dist/types/context.mjs"
-      },
-      "./types/internal": {
-        "require": "./dist/types/internal.cjs",
-        "import": "./dist/types/internal.mjs"
-      },
-      "./types/options": {
-        "require": "./dist/types/options.cjs",
-        "import": "./dist/types/options.mjs"
-      },
-      "./package.json": "./package.json"
-    }
+    "access": "public"
   }
 }

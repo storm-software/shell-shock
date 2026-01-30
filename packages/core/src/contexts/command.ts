@@ -16,24 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-import alloy from "@powerlines/plugin-alloy";
-import plugin from "@powerlines/plugin-plugin";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines";
+import type { ComponentContext } from "@alloy-js/core";
+import { createNamedContext, useContext } from "@alloy-js/core";
+import type { CommandTree } from "../types/command";
 
-const config: UserConfig = defineConfig({
-  skipCache: true,
-  entry: [
-    "./src/*.ts",
-    "./src/types/*.ts",
-    "./src/components/*.{ts,tsx}",
-    "./src/contexts/*.{ts,tsx}",
-    "./src/plugin-utils/*.ts"
-  ],
-  plugins: [plugin(), alloy()],
-  build: {
-    sourcemap: true
-  }
-});
+/**
+ * The reflection parameter context used in template rendering.
+ */
+export const CommandContext: ComponentContext<CommandTree | undefined> =
+  createNamedContext<CommandTree | undefined>("Command");
 
-export default config;
+/**
+ * Hook to access the Command context.
+ *
+ * @returns A reactive version of the current reflection.
+ */
+export function useCommand() {
+  return useContext<CommandTree | undefined>(CommandContext)!;
+}

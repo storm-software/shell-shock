@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import nodejs from "@powerlines/plugin-nodejs";
 import tsdown from "@powerlines/plugin-tsdown";
 import { toArray } from "@stryke/convert/to-array";
 import { chmodX } from "@stryke/fs/chmod-x";
@@ -38,10 +39,10 @@ import {
   writeCommandsPersistence
 } from "./helpers/persistence";
 import {
-  findCommandName,
   findCommandsRoot,
   reflectCommandTree,
   resolveCommandId,
+  resolveCommandName,
   resolveCommandPath
 } from "./helpers/resolve-command";
 import { updatePackageJsonBinary } from "./helpers/update-package-json";
@@ -135,6 +136,7 @@ export const plugin = <TContext extends Context = Context>(
         }
       }
     },
+    ...nodejs<TContext>(),
     {
       name: "shell-shock:inputs",
       async configResolved() {
@@ -147,7 +149,9 @@ export const plugin = <TContext extends Context = Context>(
           toArray(this.config.entry || [])
         );
         this.debug(
-          `Found ${entries.length} entry points specified in the configuration options.`
+          `Found ${
+            entries.length
+          } entry points specified in the configuration options.`
         );
 
         this.inputs = entries.reduce((ret, entry) => {
@@ -164,7 +168,7 @@ export const plugin = <TContext extends Context = Context>(
           const id = resolveCommandId(this, entry.file);
           if (!ret.some(existing => existing.id === id)) {
             const path = resolveCommandPath(this, entry.file);
-            const name = findCommandName(entry.file);
+            const name = resolveCommandName(entry.file);
 
             ret.push({
               id,
@@ -256,7 +260,7 @@ export const plugin = <TContext extends Context = Context>(
                     const file = joinPaths(parentPath, "command.ts");
                     const id = resolveCommandId(this, file);
                     if (!ret.some(existing => existing.id === id)) {
-                      const name = findCommandName(file);
+                      const name = resolveCommandName(file);
                       const path = resolveCommandPath(this, file);
 
                       ret.push({

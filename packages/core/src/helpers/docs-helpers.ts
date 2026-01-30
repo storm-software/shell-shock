@@ -16,24 +16,15 @@
 
  ------------------------------------------------------------------- */
 
-import alloy from "@powerlines/plugin-alloy";
-import plugin from "@powerlines/plugin-plugin";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines";
+import { joinPaths } from "@stryke/path/join";
+import type { Context } from "../types/context";
 
-const config: UserConfig = defineConfig({
-  skipCache: true,
-  entry: [
-    "./src/*.ts",
-    "./src/types/*.ts",
-    "./src/components/*.{ts,tsx}",
-    "./src/contexts/*.{ts,tsx}",
-    "./src/plugin-utils/*.ts"
-  ],
-  plugins: [plugin(), alloy()],
-  build: {
-    sourcemap: true
-  }
-});
-
-export default config;
+/**
+ * Gets the output path for the generated documentation.
+ *
+ * @param context - The Shell Shock context.
+ * @returns The output path for the generated documentation.
+ */
+export function getDocsOutputPath(context: Context): string {
+  return joinPaths(context.config.projectRoot, "docs", "generated");
+}
