@@ -28,7 +28,6 @@ import type {
 } from "powerlines/types/config";
 import { plugin } from "./plugin";
 import type { UserConfig } from "./types/config";
-import type { Context } from "./types/context";
 
 /**
  * The Shell Shock API class.
@@ -43,7 +42,7 @@ export class ShellShockAPI {
     const powerlines = await createPowerlines({
       framework: "shell-shock",
       ...config,
-      plugins: [plugin(), ...(config.plugins ?? [])] as PluginConfig<Context>[]
+      plugins: [plugin(), ...(config.plugins ?? [])] as PluginConfig<any>[]
     });
 
     return new ShellShockAPI(powerlines);

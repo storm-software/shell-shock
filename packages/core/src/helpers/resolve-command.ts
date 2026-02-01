@@ -208,7 +208,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
 ): Promise<CommandTree> {
   const title =
     command.title ||
-    `${parent?.title ? `${parent.title} - ` : ""}${titleCase(command.name)}${
+    `${parent?.title ? `${parent.isVirtual ? parent.title.replace(/ Commands$/, "") : parent.title} - ` : ""}${titleCase(command.name)}${
       command.isVirtual ? " Commands" : ""
     }`;
 

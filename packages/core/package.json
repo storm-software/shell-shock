@@ -307,6 +307,20 @@
         "types": "./dist/types/options.d.mts",
         "default": "./dist/types/options.mjs"
       }
+    },
+    "./types/runtime": {
+      "require": {
+        "types": "./dist/types/runtime.d.cts",
+        "default": "./dist/types/runtime.cjs"
+      },
+      "import": {
+        "types": "./dist/types/runtime.d.mts",
+        "default": "./dist/types/runtime.mjs"
+      },
+      "default": {
+        "types": "./dist/types/runtime.d.mts",
+        "default": "./dist/types/runtime.mjs"
+      }
     }
   },
   "types": "./dist/index.d.cts",
@@ -314,7 +328,12 @@
   "files": ["dist/**/*"],
   "keywords": ["shell-shock", "powerlines", "storm-software"],
   "dependencies": {
+    "@alloy-js/core": "catalog:",
+    "@alloy-js/markdown": "catalog:",
     "@powerlines/deepkit": "catalog:",
+    "@powerlines/plugin-alloy": "catalog:",
+    "@powerlines/plugin-automd": "catalog:",
+    "@powerlines/plugin-deepkit": "catalog:",
     "@powerlines/plugin-nodejs": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
@@ -330,9 +349,7 @@
     "automd": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:",
-    "@alloy-js/core": "catalog:",
-    "@alloy-js/markdown": "catalog:",
-    "@powerlines/plugin-alloy": "catalog:"
+    "rolldown": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",

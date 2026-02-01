@@ -71,6 +71,7 @@ export interface CommandBase {
   name: string;
   title?: string;
   description?: string;
+  alias: string[];
   path: CommandPath;
   isVirtual: boolean;
 }

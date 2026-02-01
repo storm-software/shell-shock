@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import type { AutoMDPluginResolvedConfig } from "@powerlines/plugin-automd/types/plugin";
 import type { NodeJsPluginResolvedConfig } from "@powerlines/plugin-nodejs/types/plugin";
 import type {
   TsdownPluginResolvedConfig,
@@ -57,7 +58,7 @@ export type Options = Partial<BaseConfig> & {
     | false;
 
   /**
-   * Determines whether commands' name and option names are treated as case-sensitive.
+   * Determines whether commands and option names are treated as case-sensitive.
    *
    * @defaultValue `false`
    */
@@ -115,6 +116,7 @@ export type UserConfig = Options & {
  */
 export type ResolvedConfig = TsdownPluginResolvedConfig &
   NodeJsPluginResolvedConfig &
+  AutoMDPluginResolvedConfig &
   Required<Omit<Options, "bin">> & {
     /**
      * The name of the binary (the {@link https://docs.npmjs.com/cli/v11/configuring-npm/package-json#bin | "bin" field} in package.json) that will be used to run the application through NodeJs package managers (e.g., npm, yarn, pnpm).

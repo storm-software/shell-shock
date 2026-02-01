@@ -18,6 +18,8 @@
 
 import { For, Show } from "@alloy-js/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
+import automd from "@powerlines/plugin-automd";
+import deepkit from "@powerlines/plugin-deepkit";
 import nodejs from "@powerlines/plugin-nodejs";
 import tsdown from "@powerlines/plugin-tsdown";
 import { toArray } from "@stryke/convert/to-array";
@@ -36,9 +38,9 @@ import { isSetString } from "@stryke/type-checks/is-set-string";
 import { defu } from "defu";
 import type { Plugin } from "powerlines";
 import { resolveEntries } from "powerlines/lib/entry";
-import type { RenderedChunk } from "rolldown";
-import type { OutputOptions } from "tsdown";
+import type { OutputOptions, RenderedChunk } from "rolldown";
 import { CommandDocsFile } from "./components/docs";
+import { commands } from "./helpers/automd";
 import {
   getCommandsPersistencePath,
   readCommandsPersistence,
@@ -79,6 +81,8 @@ export const plugin = <TContext extends Context = Context>(
 ) => {
   return [
     tsdown(),
+    deepkit(),
+    automd(),
     {
       name: "shell-shock:config",
       async config() {
@@ -101,9 +105,6 @@ export const plugin = <TContext extends Context = Context>(
             env: {
               prefix: [] as string[]
             },
-            automd: {
-              generators: {}
-            },
             isCaseSensitive: false,
             output: {
               format: "esm",
@@ -122,7 +123,8 @@ export const plugin = <TContext extends Context = Context>(
               dts: false,
               platform: "node",
               nodeProtocol: true,
-              unbundle: false
+              unbundle: false,
+              noExternal: ["@powerlines/deepkit"]
             },
             type: "application",
             framework: "shell-shock"
@@ -154,6 +156,7 @@ export const plugin = <TContext extends Context = Context>(
               name: this.config.name,
               title: this.config.title,
               description: this.config.description,
+              alias: [],
               path: {
                 value: null,
                 segments: []
@@ -205,6 +208,7 @@ export const plugin = <TContext extends Context = Context>(
                 segments: path.split("/").filter(Boolean)
               },
               name,
+              alias: [],
               isVirtual: false,
               entry: {
                 ...entry,
@@ -298,6 +302,7 @@ export const plugin = <TContext extends Context = Context>(
                           segments: path.split("/").filter(Boolean)
                         },
                         name,
+                        alias: [],
                         isVirtual: true,
                         entry: {
                           file
@@ -476,6 +481,13 @@ export const plugin = <TContext extends Context = Context>(
     },
     {
       name: "shell-shock:docs",
+      configResolved() {
+        this.config.automd ??= {};
+        this.config.automd.generators = {
+          ...(this.config.automd.generators ?? {}),
+          commands: commands(this)
+        };
+      },
       async docs() {
         this.debug(
           "Rendering entrypoint modules for the Shell Shock `script` preset."

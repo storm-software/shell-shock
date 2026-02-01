@@ -8,7 +8,7 @@ catalog:
   '@alloy-js/core': 0.22.0
   '@alloy-js/markdown': 0.22.0
   '@alloy-js/typescript': ^0.22.0
-  '@babel/core': ^7.28.6
+  '@babel/core': ^7.29.0
   '@eslint/compat': ^2.0.1
   '@eslint/config-inspector': ^1.4.2
   '@ls-lint/ls-lint': ^2.3.1
@@ -21,19 +21,20 @@ catalog:
   '@nx/workspace': 22.4.1
   '@opentui/core': ^0.1.69
   '@opentui/react': ^0.1.69
-  '@powerlines/deepkit': ^0.6.36
-  '@powerlines/nx': ^0.11.183
-  '@powerlines/plugin-alloy': ^0.19.36
-  '@powerlines/plugin-deepkit': ^0.11.135
-  '@powerlines/plugin-env': ^0.15.164
-  '@powerlines/plugin-nodejs': ^0.1.159
-  '@powerlines/plugin-plugin': ^0.12.207
-  '@powerlines/plugin-style-dictionary': ^0.3.157
-  '@powerlines/plugin-tsdown': ^0.1.209
-  '@powerlines/plugin-tsup': ^0.12.266
-  '@powerlines/plugin-untyped': ^0.2.209
-  '@powerlines/plugin-vite': ^0.14.257
-  '@powerlines/tsconfig': ^0.2.178
+  '@powerlines/deepkit': ^0.6.43
+  '@powerlines/nx': ^0.11.190
+  '@powerlines/plugin-alloy': ^0.20.6
+  '@powerlines/plugin-automd': ^0.1.263
+  '@powerlines/plugin-deepkit': ^0.11.142
+  '@powerlines/plugin-env': ^0.15.172
+  '@powerlines/plugin-nodejs': ^0.1.167
+  '@powerlines/plugin-plugin': ^0.12.214
+  '@powerlines/plugin-style-dictionary': ^0.3.164
+  '@powerlines/plugin-tsdown': ^0.1.216
+  '@powerlines/plugin-tsup': ^0.12.273
+  '@powerlines/plugin-untyped': ^0.2.216
+  '@powerlines/plugin-vite': ^0.14.264
+  '@powerlines/tsconfig': ^0.2.185
   '@storm-software/build-tools': ^0.158.81
   '@storm-software/config': ^1.135.1
   '@storm-software/config-tools': ^1.189.0
@@ -96,11 +97,12 @@ catalog:
   lefthook: ^1.13.6
   log4brains: ^1.1.0
   nx: 22.4.1
-  powerlines: ^0.38.23
+  powerlines: ^0.38.30
   prettier: ^3.8.1
   react: ^19.2.3
   react-dom: ^19.2.3
   rimraf: ^6.1.2
+  rolldown: 1.0.0-beta.52
   sherif: ^1.0.0
   style-dictionary: ^5.2.0
   ts-jest: ^29.4.6
@@ -108,7 +110,7 @@ catalog:
   typescript: ^5.9.3
   unbuild: ^3.3.1
   untyped: ^1.5.2
-  verdaccio: ^6.2.4
+  verdaccio: ^6.2.5
   vite: ^7.3.0
   zx: ^8.8.5
 

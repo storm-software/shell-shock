@@ -32,6 +32,29 @@
       "console": "integratedTerminal"
     },
     {
+      "name": "Playground - Complex Binary",
+      "type": "node",
+      "request": "launch",
+      "program": "./playground/complex/dist/bin.mjs",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Playground - Complex Docs",
+      "type": "node",
+      "request": "launch",
+      "program": "/nix/store/rsqvnapfwyal6iw70p5nrk3vng3qdprw-pnpm-10.28.0/bin/pnpm",
+      "args": [
+        "nx",
+        "run",
+        "playground-complex:docs:development",
+        "--outputStyle=dynamic-legacy",
+        "--skipNxCache"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
       "name": "Playground - Powerlines",
       "type": "node",
       "request": "launch",

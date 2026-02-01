@@ -16,12 +16,19 @@
 
  ------------------------------------------------------------------- */
 
-import { joinPaths } from "@stryke/path/join-paths";
+import { code } from "@alloy-js/core";
+import { For, Show } from "@alloy-js/core/components";
+import { Heading } from "@alloy-js/markdown";
+import { renderString } from "@powerlines/plugin-alloy/render";
 import { defineGenerator } from "automd";
+import { CommandDocs } from "../components/docs";
+import { getAppTitle } from "../plugin-utils";
 import type { Context } from "../types/context";
 
 /**
  * AutoMD generator to generate CLI command documentation
+ *
+ * @see https://automd.unjs.io/
  *
  * @param context - The generator context.
  * @returns The generated documentation content.
@@ -30,37 +37,29 @@ export const commands = (context: Context) =>
   defineGenerator({
     name: "commands",
     async generate() {
-      const basePath = joinPaths(
-        context.config.projectRoot,
-        "docs",
-        "generated",
-        "commands"
-      );
-
-      if (!context.fs.existsSync(basePath)) {
-        return {
-          contents: ""
-        };
-      }
-
-      const contents = (
-        await Promise.all(
-          (await context.fs.list(basePath)).sort().map(async filePath => {
-            const content = await context.fs.read(filePath);
-
-            // const commandFile = replacePath(filePath, basePath);
-            // getCommandTree(
-            //   context,
-            //   commandFile.replace(/\.mdx?$/, "").split("/")
-            // );
-
-            return content;
-          })
-        )
-      ).filter(Boolean);
-
       return {
-        contents: contents.join("\n\n") || ""
+        contents: renderString(
+          context,
+          <>
+            <Heading level={2}>Commands</Heading>
+            <hbr />
+            <hbr />
+            {code`The following commands are available in the ${getAppTitle(
+              context
+            )} CLI application:`}
+            <hbr />
+            <hbr />
+            <For each={Object.values(context.commands)} doubleHardline>
+              {child => (
+                <Show when={!child.isVirtual}>
+                  <CommandDocs command={child} levelOffset={2} />
+                </Show>
+              )}
+            </For>
+            <hbr />
+            <hbr />
+          </>
+        )
       };
     }
   });
