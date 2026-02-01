@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.4.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.4.0) (02/01/2026)
+
+### Features
+
+- **core:** Added support for `automd` document generation ([a21664c](https://github.com/storm-software/shell-shock/commit/a21664c))
+
 ## [0.3.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.3.0) (01/30/2026)
 
 ### Miscellaneous

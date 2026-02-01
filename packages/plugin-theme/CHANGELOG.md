@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.0.8](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.8) (02/01/2026)
+
+### Features
+
+- **core:** Added support for `automd` document generation ([a21664c](https://github.com/storm-software/shell-shock/commit/a21664c))
+
 ## [0.0.7](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.7) (01/30/2026)
 
 ### Miscellaneous

@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.2.0) (02/01/2026)
+
+### Features
+
+- **preset-script:** Added `didyoumean2` to provide suggestions to the user ([f8e31aa](https://github.com/storm-software/shell-shock/commit/f8e31aa))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.8**
+- Updated **core** to **v0.4.0**
+
 ## [0.1.2](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.1.2) (01/30/2026)
 
 ### Miscellaneous
