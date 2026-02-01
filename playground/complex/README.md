@@ -53,6 +53,78 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A playground package containing a complex command-line application and project setup.
 
+<!-- shell-shock:commands -->
+
+## Commands
+
+The following commands are available in the `Playground Complex` CLI application:
+
+### Start
+
+The Start executable command-line interface.
+
+#### Usage
+
+The Start command can be executed using the following syntax:
+
+```bash
+npx playground-complex start [options]
+```
+
+#### Options
+
+The following options are available for the Start command:
+
+### Copy
+
+The Copy executable command-line interface.
+
+#### Usage
+
+The Copy command can be executed using the following syntax:
+
+```bash
+npx playground-complex copy [options]
+```
+
+#### Options
+
+The following options are available for the Copy command:
+
+### Build
+
+The Build executable command-line interface.
+
+#### Usage
+
+The Build command can be executed using the following syntax:
+
+```bash
+npx playground-complex build [options]
+```
+
+#### Options
+
+The following options are available for the Build command:
+
+### Remove
+
+The Remove executable command-line interface.
+
+#### Usage
+
+The Remove command can be executed using the following syntax:
+
+```bash
+npx playground-complex remove [options]
+```
+
+#### Options
+
+The following options are available for the Remove command:
+
+<!-- /shell-shock -->
+
 <!-- START footer -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->

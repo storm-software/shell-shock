@@ -17,5 +17,7 @@
     "powerlines.d.ts",
     "shell-shock.d.ts"
   ],
-  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
+  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
+  "reflection": "default",
+  "reflectionLevel": "minimal"
 }

@@ -1431,13 +1431,14 @@ export function DividerFunctionDeclaration() {
           type="number"
           doc="The width of the divider line. If not specified, the divider will span the full width of the console, minus the padding."
         />
+        <hbr />
         <TSDoc heading="The border of the divider line. Can be 'primary', 'secondary', 'tertiary', or 'none'. If not specified, the default border style will be used.">
           <TSDocRemarks>
             {`The value provided will determine the border style and color based on the current theme configuration.`}
           </TSDocRemarks>
           <TSDocDefaultValue
             type={ReflectionKind.string}
-            defaultValue='"primary"'
+            defaultValue="primary"
           />
         </TSDoc>
         <InterfaceMember
@@ -1446,6 +1447,7 @@ export function DividerFunctionDeclaration() {
           type='"primary" | "secondary" | "tertiary"'
           doc="The border style/color of the divider line. Can be 'primary', 'secondary', 'tertiary', or 'none'. If not specified, the default border style will be used."
         />
+        <hbr />
         <TSDoc heading="Padding to apply to the line">
           <TSDocRemarks>
             {`The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.`}
@@ -1622,7 +1624,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
           <hbr />
           <TSDocDefaultValue
             type={ReflectionKind.property}
-            defaultValue='"primary"'
+            defaultValue="primary"
           />
         </TSDoc>
         <InterfaceMember
@@ -1650,7 +1652,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
           <hbr />
           <TSDocDefaultValue
             type={ReflectionKind.property}
-            defaultValue='"left"'
+            defaultValue="left"
           />
         </TSDoc>
         <InterfaceMember
@@ -1974,14 +1976,14 @@ const calculateRowDimensions = () => {
   }, [] as Dimensions[]);
 }
 
-const maxWidth = Math.max(process.stdout.columns - ${Math.max(theme.padding.app, 0) * 2}, 0);
 rowDims = calculateRowDimensions();
 
+/*
 let recalculate!: boolean;
 do {
   recalculate = false;
   rowDims.map((row, rowIndex) => {
-    if (row.width > maxWidth) {
+    if (row.width > Math.max(process.stdout.columns - ${Math.max(theme.padding.app, 0) * 2}, 0)) {
       const cell = cells[rowIndex]!.reduce((largestCell, cell) => {
         if (cell.width > largestCell.width) {
           return cell;
@@ -1991,7 +1993,7 @@ do {
 
       const lines = splitText(
         cell.value,
-        maxWidth - row.width - cell.width
+        Math.max(process.stdout.columns - ${Math.max(theme.padding.app, 0) * 2}, 0) - row.width - cell.width
       );
 
       cell.value = lines.join("\\n");
@@ -2006,6 +2008,7 @@ do {
     rowDims = calculateRowDimensions();
   }
 } while (recalculate);
+*/
 
 rowDims.map((row, rowIndex) => {
   cells[rowIndex]!.forEach(cell => {

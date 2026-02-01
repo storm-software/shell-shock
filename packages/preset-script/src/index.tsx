@@ -62,6 +62,9 @@ export const plugin = <
           ...options
         };
       },
+      configResolved() {
+        this.dependencies.didyoumean2 = "^7.0.4";
+      },
       async prepare() {
         this.debug(
           "Rendering built-in modules for the Shell Shock `script` preset."

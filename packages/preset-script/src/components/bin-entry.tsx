@@ -33,13 +33,15 @@ import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
 
 /**
- * The `exit` handler function usage code for the Shell Shock project.
+ * Runs the application main logic with proper exit handling.
  */
-export function ExitFunctionUsage() {
+export function RunApplication() {
   return (
     <>
       <hbr />
-      {code`(async () => {
+      <hbr />
+      {code`// Run the application main logic inside an asynchronous IIFE
+      (async () => {
         try {
           process.on("exit", () => exit({
             skipExit: true,
@@ -129,6 +131,13 @@ export function BinEntry(props: BinEntryProps) {
             output: "bin"
           }}
           imports={defu(
+            {
+              didyoumean2: [
+                { name: "didYouMean", default: true },
+                { name: "ReturnTypeEnums" },
+                { name: "ThresholdTypeEnums" }
+              ]
+            },
             imports ?? {},
             Object.entries(context.commands)
               .filter(([, command]) => command.isVirtual)
@@ -164,7 +173,7 @@ export function BinEntry(props: BinEntryProps) {
           <hbr />
           <hbr />
           <hbr />
-          <Show when={Boolean(postfix)} fallback={<ExitFunctionUsage />}>
+          <Show when={Boolean(postfix)} fallback={<RunApplication />}>
             {postfix}
           </Show>
           <hbr />

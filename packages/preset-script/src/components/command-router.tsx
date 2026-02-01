@@ -23,11 +23,13 @@ import {
   IfStatement,
   VarDeclaration
 } from "@alloy-js/typescript";
+import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { DynamicImportStatement } from "@powerlines/plugin-alloy/typescript/components/dynamic-import-statement";
 import { CommandContext, useCommand } from "@shell-shock/core/contexts/command";
 import { isVariableCommandPath } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { pascalCase } from "@stryke/string-format/pascal-case";
+import type { ScriptPresetContext } from "../types/plugin";
 
 export function CommandRouterRoute() {
   const command = useCommand();
@@ -67,7 +69,7 @@ export interface CommandRouterProps {
 export function CommandRouter(props: CommandRouterProps) {
   const { path, commands, route } = props;
 
-  const command = useCommand();
+  const context = usePowerlines<ScriptPresetContext>();
   const index = computed(() => 2 + (path.length ?? 0));
 
   return (
@@ -89,32 +91,77 @@ export function CommandRouter(props: CommandRouterProps) {
       <For each={Object.values(commands ?? {})}>
         {(subcommand, idx) => (
           <CommandContext.Provider value={subcommand}>
-            <Show when={subcommand.name !== command?.name}>
-              <Show
-                when={Boolean(idx)}
-                fallback={
-                  <IfStatement
-                    condition={code`command.toLowerCase() === "${subcommand.name.toLowerCase()}"`}>
-                    <Show
-                      when={Boolean(route)}
-                      fallback={<CommandRouterRoute />}>
-                      {route}
-                    </Show>
-                  </IfStatement>
-                }>
+            <Show
+              when={Boolean(idx)}
+              fallback={
+                <IfStatement
+                  condition={code`${
+                    context.config.isCaseSensitive
+                      ? "command"
+                      : 'command.toLowerCase().replaceAll(/-/g, "")'
+                  } === "${
+                    context.config.isCaseSensitive
+                      ? subcommand.name
+                      : subcommand.name.toLowerCase().replaceAll(/-/g, "")
+                  }"`}>
+                  <Show when={Boolean(route)} fallback={<CommandRouterRoute />}>
+                    {route}
+                  </Show>
+                </IfStatement>
+              }>
+              <ElseIfClause
+                condition={code`${
+                  context.config.isCaseSensitive
+                    ? "command"
+                    : 'command.toLowerCase().replaceAll(/-/g, "")'
+                } === "${
+                  context.config.isCaseSensitive
+                    ? subcommand.name
+                    : subcommand.name.toLowerCase().replaceAll(/-/g, "")
+                }"`}>
+                <Show when={Boolean(route)} fallback={<CommandRouterRoute />}>
+                  {route}
+                </Show>
+              </ElseIfClause>
+            </Show>
+            <For each={subcommand.alias} doubleHardline>
+              {alias => (
                 <ElseIfClause
-                  condition={code`command.toLowerCase() === "${subcommand.name.toLowerCase()}"`}>
+                  condition={code`${
+                    context.config.isCaseSensitive
+                      ? "command"
+                      : 'command.toLowerCase().replaceAll(/-/g, "")'
+                  } === "${
+                    context.config.isCaseSensitive
+                      ? alias
+                      : alias.toLowerCase().replaceAll(/-/g, "")
+                  }"`}>
                   <Show when={Boolean(route)} fallback={<CommandRouterRoute />}>
                     {route}
                   </Show>
                 </ElseIfClause>
-              </Show>
-            </Show>
+              )}
+            </For>
           </CommandContext.Provider>
         )}
       </For>
       <ElseIfClause
-        condition={code`Boolean(command)`}>{code`error("Unknown command: " + command);`}</ElseIfClause>
+        condition={code`Boolean(command)`}>{code`const suggestions = didYouMean(command, [${Object.values(
+        commands ?? {}
+      )
+        .map(
+          cmd =>
+            `"${cmd.name}"${cmd.alias.map(alias => `", "${alias}"`).join("")}`
+        )
+        .join(", ")}], {
+          caseSensitive: false,
+          deburr: true,
+          trimSpaces: true,
+          returnType: ReturnTypeEnums.ALL_CLOSE_MATCHES,
+          thresholdType: ThresholdTypeEnums.RELATIVE_DISTANCE,
+          threshold: 0.75
+        });
+        error(\`Unknown command: "\${command}"\${suggestions && suggestions.length > 0 ? \`, did you mean: \${suggestions.length === 1 ? \`"\${suggestions[0]}"\` : suggestions.map((suggestion, i) => i < suggestions.length - 1 ? \`"\${suggestion}", \` : \`or "\${suggestion}"\`)}?\` : ""} \`);`}</ElseIfClause>
     </Show>
   );
 }

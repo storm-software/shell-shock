@@ -1159,23 +1159,25 @@ declare module "shell-shock:console" {
     /**
      * The width of the divider line. If not specified, the divider will span the full width of the console, minus the padding.
      */
-    width?: number; /**
+    width?: number;
+    /**
      * The border of the divider line. Can be 'primary', 'secondary', 'tertiary', or 'none'. If not specified, the default border style will be used.
      *
      * @remarks
      * The value provided will determine the border style and color based on the current theme configuration.
-     * @defaultValue "\"primary\""
+     * @defaultValue "primary"
      *
      */
     /**
      * The border style/color of the divider line. Can be 'primary', 'secondary', 'tertiary', or 'none'. If not specified, the default border style will be used.
      */
-    border?: "primary" | "secondary" | "tertiary"; /**
+    border?: "primary" | "secondary" | "tertiary";
+    /**
      * Padding to apply to the line
      *
      * @remarks
      * The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.
-     * @defaultValue 16
+     * @defaultValue 4
      *
      */
     padding?: number;
@@ -1281,7 +1283,7 @@ declare module "shell-shock:console" {
      * @remarks
      * The border variant to use for the table cell. This determines the color and style of the border around the cell.
      *
-     * @defaultValue "\"primary\""
+     * @defaultValue primary
      *
      */
     border?:
@@ -1312,7 +1314,7 @@ declare module "shell-shock:console" {
      * @remarks
      * The alignment for the table cell. This determines how the text within the cell is aligned. If not specified, the default alignment is "left".
      *
-     * @defaultValue "\"left\""
+     * @defaultValue left
      *
      */
     align?: "left" | "right" | "center";
