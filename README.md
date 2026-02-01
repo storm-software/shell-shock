@@ -57,7 +57,7 @@
   - [Running End-to-End Tests](#running-end-to-end-tests)
   - [Understand your workspace](#understand-your-workspace)
 - [☁ Nx Cloud](#-nx-cloud)
-  - [Distributed Computation Caching & Distributed Task Execution](#distributed-computation-caching--distributed-task-execution)
+  - [Distributed Computation Caching \& Distributed Task Execution](#distributed-computation-caching--distributed-task-execution)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [Support](#support)
@@ -377,7 +377,7 @@ channel!
 
 <br />
 
-<div align="center"><a href="https://stormsoftware.com" target="_blank"><img src="https://public.storm-cdn.com/icon-fill.png" alt="Storm Software" width="200px"/></a></div>
+<div align="center"><a href="https://stormsoftware.com" target="_blank"><img src="https://public.storm-cdn.com/storm-software/icon-circle-fill-dark.png" alt="Storm Software" width="200px"/></a></div>
 <br />
 <div align="center"><a href="https://stormsoftware.com" target="_blank"><img src="https://public.storm-cdn.com/visit-us-text.svg" alt="Visit us at stormsoftware.com" height="90px"/></a></div>
 
