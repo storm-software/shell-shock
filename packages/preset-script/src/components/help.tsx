@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { code, For, Show } from "@alloy-js/core";
+import { code, computed, For, Show } from "@alloy-js/core";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import {
@@ -24,7 +24,10 @@ import {
   isVariableCommandPath
 } from "@shell-shock/core/plugin-utils/context-helpers";
 import { sortOptions } from "@shell-shock/core/plugin-utils/reflect";
-import type { CommandTree } from "@shell-shock/core/types/command";
+import type {
+  CommandOption,
+  CommandTree
+} from "@shell-shock/core/types/command";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { snakeCase } from "@stryke/string-format/snake-case";
 import { useTheme } from "../contexts";
@@ -58,11 +61,12 @@ export function HelpUsage(props: HelpUsageProps) {
 
   return (
     <For each={Object.keys(context.config.bin)} hardline>
-      {bin =>
-        code`
+      {bin => (
+        <>
+          {code`
       writeLine(
         colors.text.body.primary(
-          "$ ${bin} ${command.path.segments
+          "$ npx ${bin} ${command.path.segments
             .map(segment =>
               isVariableCommandPath(segment)
                 ? `<${command.path.variables[segment]?.variadic ? "..." : ""}${kebabCase(
@@ -70,28 +74,38 @@ export function HelpUsage(props: HelpUsageProps) {
                   )}>`
                 : segment
             )
-            .join(" ")} [options]"
+            .join(" ")}${
+            Object.values(command.children).length > 0 ? " [commands]" : ""
+          } [options]"
         ), { padding: ${theme.padding.app * indent} }
-      );`
-      }
+      );`}
+          <hbr />
+        </>
+      )}
     </For>
   );
+}
+
+export interface HelpOptionsProps {
+  /**
+   * The options to display help for.
+   */
+  options: CommandOption[];
 }
 
 /**
  * A component that generates the options table display for a command.
  */
-export function HelpOptions(props: { command: CommandTree }) {
-  const { command } = props;
+export function HelpOptions(props: HelpOptionsProps) {
+  const { options } = props;
 
   const context = usePowerlines<ScriptPresetContext>();
 
   return (
     <>
-      {code`table([
-      [{ value: colors.text.heading.tertiary("Name"), align: "right", border: { bottom: "secondary" } }, { value: colors.text.heading.tertiary("Description"), align: "left", border: { bottom: "secondary" } }], `}
+      {code`table([ `}
       <hbr />
-      <For each={sortOptions(Object.values(command.options))} hardline>
+      <For each={sortOptions(options)} hardline>
         {option => {
           const flags = [] as string[];
           const names = [] as string[];
@@ -109,19 +123,17 @@ export function HelpOptions(props: { command: CommandTree }) {
             }
           });
 
-          return code`[{ value: \`\${colors.text.body.primary("${
-            option.title
-          }")} \${colors.text.body.secondary("${
+          return code`[{ value: colors.text.body.primary("${
             flags.length > 0
               ? `${flags.sort().join(", ")}${names.length > 0 ? ", " : ""}`
               : ""
           }${names.length > 0 ? names.sort().join(", ") : ""}${
             option.kind === ReflectionKind.string
-              ? ` <${snakeCase(option.name)}>${option.variadic ? "..." : ""}`
+              ? ` <${snakeCase(option.name)}${option.variadic ? "..." : ""}>`
               : option.kind === ReflectionKind.number
-                ? ` <${snakeCase(option.name)}>${option.variadic ? "..." : ""}`
+                ? ` <${snakeCase(option.name)}${option.variadic ? "..." : ""}>`
                 : ""
-          }")}\`, align: "right" }, { value: colors.text.body.tertiary("${option.description.replace(
+          }"), align: "right", border: "none" }, { value: colors.text.body.tertiary("${option.description.replace(
             /\.+$/,
             ""
           )} ${
@@ -138,7 +150,7 @@ export function HelpOptions(props: { command: CommandTree }) {
                     : ""
                 })`
               : ""
-          }."), align: "left" }], `;
+          }."), align: "left", border: "none" }], `;
         }}
       </For>
       <hbr />
@@ -147,27 +159,31 @@ export function HelpOptions(props: { command: CommandTree }) {
   );
 }
 
+export interface HelpCommandsProps {
+  /**
+   * A mapping of command names to their command definitions.
+   */
+  commands: Record<string, CommandTree>;
+}
+
 /**
  * A component that generates the commands table display for a command.
  */
-export function HelpCommands(props: { command: CommandTree }) {
-  const { command } = props;
+export function HelpCommands(props: HelpCommandsProps) {
+  const { commands } = props;
 
   return (
     <>
-      {code`table([
-        [{ value: colors.text.heading.tertiary("Name"), align: "right", border: { bottom: "secondary" } }, { value: colors.text.heading.tertiary("Description"), align: "left", border: { bottom: "secondary" } }], `}
+      {code`table([ `}
       <hbr />
-      <For each={Object.values(command.children)} hardline>
+      <For each={Object.values(commands)} hardline>
         {child =>
-          code`[{ value: \`\${colors.text.body.primary("${
-            child.title
-          }")} \${colors.text.body.secondary("(${
+          code`[{ value: colors.text.body.primary("${
             child.name
-          })")}\`, align: "right" }, { value: colors.text.body.tertiary("${child.description.replace(
+          }"), align: "right", border: "none" }, { value: colors.text.body.tertiary("${child.description.replace(
             /\.+$/,
             ""
-          )}"), align: "left" }], `
+          )}"), align: "left", border: "none" }], `
         }
       </For>
       <hbr />
@@ -200,32 +216,48 @@ export function Help(props: HelpProps) {
   const { command, indent = 1 } = props;
 
   const theme = useTheme();
+  const context = usePowerlines<ScriptPresetContext>();
+
+  const options = computed(
+    () =>
+      Object.values(command.options).filter(
+        option =>
+          !context.options.some(
+            globalOption =>
+              globalOption.name === option.name ||
+              option.alias.includes(globalOption.name) ||
+              globalOption.alias.includes(option.name) ||
+              globalOption.alias.some(alias => option.alias.includes(alias))
+          )
+      ) ?? []
+  );
 
   return (
     <>
-      {code`writeLine("");
-      writeLine(colors.text.heading.secondary("USAGE:")${
+      {code`writeLine(colors.text.heading.secondary("USAGE:")${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
       <hbr />
       <HelpUsage command={command} indent={indent} />
       <hbr />
       <hbr />
-      {code`writeLine("");
+      <Show when={options.value.length > 0}>
+        {code`writeLine("");
       writeLine(colors.text.heading.secondary("OPTIONS:")${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
-      <hbr />
-      <HelpOptions command={command} />
-      <hbr />
-      <hbr />
+        <hbr />
+        <HelpOptions options={options.value} />
+        <hbr />
+        <hbr />
+      </Show>
       <Show when={Object.keys(command.children).length > 0}>
         {code`writeLine("");
       writeLine(colors.text.heading.secondary("COMMANDS:")${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
         <hbr />
-        <HelpCommands command={command} />
+        <HelpCommands commands={command.children} />
         <hbr />
         <hbr />
       </Show>

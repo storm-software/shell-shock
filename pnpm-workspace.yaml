@@ -21,20 +21,20 @@ catalog:
   '@nx/workspace': 22.4.1
   '@opentui/core': ^0.1.69
   '@opentui/react': ^0.1.69
-  '@powerlines/deepkit': ^0.6.43
-  '@powerlines/nx': ^0.11.190
-  '@powerlines/plugin-alloy': ^0.20.6
-  '@powerlines/plugin-automd': ^0.1.263
-  '@powerlines/plugin-deepkit': ^0.11.142
+  '@powerlines/deepkit': ^0.6.44
+  '@powerlines/nx': ^0.11.191
+  '@powerlines/plugin-alloy': ^0.20.7
+  '@powerlines/plugin-automd': ^0.1.264
+  '@powerlines/plugin-deepkit': ^0.11.143
   '@powerlines/plugin-env': ^0.15.172
-  '@powerlines/plugin-nodejs': ^0.1.167
-  '@powerlines/plugin-plugin': ^0.12.214
-  '@powerlines/plugin-style-dictionary': ^0.3.164
-  '@powerlines/plugin-tsdown': ^0.1.216
+  '@powerlines/plugin-nodejs': ^0.1.168
+  '@powerlines/plugin-plugin': ^0.12.215
+  '@powerlines/plugin-style-dictionary': ^0.3.165
+  '@powerlines/plugin-tsdown': ^0.1.217
   '@powerlines/plugin-tsup': ^0.12.273
-  '@powerlines/plugin-untyped': ^0.2.216
+  '@powerlines/plugin-untyped': ^0.2.217
   '@powerlines/plugin-vite': ^0.14.264
-  '@powerlines/tsconfig': ^0.2.185
+  '@powerlines/tsconfig': ^0.2.186
   '@storm-software/build-tools': ^0.158.81
   '@storm-software/config': ^1.135.1
   '@storm-software/config-tools': ^1.189.0
@@ -97,7 +97,7 @@ catalog:
   lefthook: ^1.13.6
   log4brains: ^1.1.0
   nx: 22.4.1
-  powerlines: ^0.38.30
+  powerlines: ^0.38.31
   prettier: ^3.8.1
   react: ^19.2.3
   react-dom: ^19.2.3

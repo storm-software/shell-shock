@@ -19,19 +19,17 @@
 import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { render } from "@powerlines/plugin-alloy/render";
-import { getCommandTree } from "@shell-shock/core/plugin-utils";
 import {
   getAppDescription,
   getAppTitle
 } from "@shell-shock/core/plugin-utils/context-helpers";
-import type { CommandTree } from "@shell-shock/core/types/command";
 import theme from "@shell-shock/plugin-theme";
 import type { Plugin } from "powerlines/types/plugin";
 import { BinEntry } from "./components/bin-entry";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
 import { ConsoleBuiltin } from "./components/console-builtin";
-import { Help } from "./components/help";
+import { Help, HelpOptions } from "./components/help";
 import { UtilsBuiltin } from "./components/utils-builtin";
 import { VirtualCommandEntry } from "./components/virtual-command-entry";
 import { getDefaultOptions } from "./helpers/get-default-options";
@@ -88,10 +86,6 @@ export const plugin = <
             "Rendering entrypoint modules for the Shell Shock `script` preset."
           );
 
-          const commands = this.inputs
-            .map(input => getCommandTree(this, input.path.segments))
-            .filter(Boolean) as CommandTree[];
-
           return render(
             this,
             <>
@@ -100,8 +94,7 @@ export const plugin = <
                   console: ["divider", "writeLine", "colors"],
                   utils: ["getArgs"]
                 }}>
-                <Show
-                  when={this.commands && Object.keys(this.commands).length > 0}>
+                <Show when={Object.keys(this.commands).length > 0}>
                   <VarDeclaration
                     const
                     name="args"
@@ -111,8 +104,9 @@ export const plugin = <
                   <hbr />
                   <CommandRouter path={[]} commands={this.commands ?? {}} />
                   <hbr />
-                  <hbr />
-                  {code`
+                </Show>
+                <hbr />
+                {code`
                 writeLine("");
                 writeLine(colors.text.heading.primary("${
                   /(?:cli|command-line|command line)\s+(?:application|app)?$/.test(
@@ -125,47 +119,52 @@ export const plugin = <
                 writeLine(colors.text.body.primary("${getAppDescription(
                   this
                 )}"));
-                writeLine("");
-                divider({ style: "primary" });
-                writeLine("");
-                writeLine("");`}
+                writeLine(""); `}
+                <hbr />
+                <hbr />
+                {code`writeLine(colors.text.heading.secondary("GLOBAL OPTIONS:"));`}
+                <hbr />
+                <HelpOptions options={this.options} />
+                {code`writeLine(""); `}
+                <hbr />
+                <hbr />
+                <Show when={Object.keys(this.commands).length > 0}>
+                  {code`writeLine(colors.text.body.secondary("The following commands are available:"));
+                  writeLine(""); `}
                   <hbr />
                   <hbr />
                   <For
-                    each={Object.values(commands)}
+                    each={Object.values(this.commands)}
                     doubleHardline
-                    joiner={code`
-                writeLine("");
-                divider({ style: "secondary" });
-                writeLine("");
-                writeLine("");
-                `}>
+                    joiner={code`writeLine(""); `}
+                    ender={code`writeLine(""); `}>
                     {child => (
                       <>
                         {code`
-                writeLine("");
-                writeLine(colors.text.heading.secondary("${child.title}"));
+                writeLine(colors.text.heading.primary("${child.title} ${child.isVirtual ? "" : "Command"}"));
                 writeLine("");
                 writeLine(colors.text.body.secondary("${child.description}"));
-                writeLine("");
                 writeLine("");
                 `}
                         <hbr />
                         <Help command={child} indent={2} />
+                        <hbr />
                       </>
                     )}
                   </For>
                 </Show>
               </BinEntry>
-              <For each={Object.values(commands)} doubleHardline>
-                {child => (
-                  <Show
-                    when={child.isVirtual}
-                    fallback={<CommandEntry command={child} />}>
-                    <VirtualCommandEntry command={child} />
-                  </Show>
-                )}
-              </For>
+              <Show when={Object.values(this.commands).length > 0}>
+                <For each={Object.values(this.commands)} doubleHardline>
+                  {child => (
+                    <Show
+                      when={child.isVirtual}
+                      fallback={<CommandEntry command={child} />}>
+                      <VirtualCommandEntry command={child} />
+                    </Show>
+                  )}
+                </For>
+              </Show>
             </>
           );
         }

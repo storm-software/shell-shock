@@ -73,7 +73,7 @@ export const theme: ThemeUserConfig = {
     message: "round"
   },
   padding: {
-    app: 1,
+    app: 0,
     banner: 14,
     message: 8,
     table: 2

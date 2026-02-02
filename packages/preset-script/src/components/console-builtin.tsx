@@ -1050,7 +1050,7 @@ export function WriteLineFunctionDeclaration() {
         </TSDocParam>
       </TSDoc>
       <FunctionDeclaration
-        name={"splitText"}
+        name="splitText"
         parameters={[
           {
             name: "text",
@@ -1072,7 +1072,7 @@ export function WriteLineFunctionDeclaration() {
     } else {
       const index = [" ", "/", "\\\\", ".", ",", "-", ":", "|", "@", "+"].reduce((ret, split) => {
         let current = ret;
-        while (stripAnsi(line).indexOf(split, current + 1) !== -1 && stripAnsi(line).indexOf(split, current + 1) <= maxLength) {
+        while (stripAnsi(line).indexOf(split, current + 1) !== -1 && stripAnsi(line).indexOf(split, current + 1) <= maxLength && (!/.*\\([^)]*$/.test(stripAnsi(line).slice(0, line.indexOf(split, current + 1))) || !/^[^(]*\\).*/.test(stripAnsi(line).slice(line.indexOf(split, current + 1) + 1)) || stripAnsi(line).slice(line.indexOf(split, current + 1) + 1).replace(/^.*\\)/, "").indexOf(split) !== -1)) {
           current = line.indexOf(split, current + 1);
         }
 
@@ -1480,7 +1480,7 @@ export function DividerFunctionDeclaration() {
             optional: false
           }
         ]}>
-        {code`const padding = options.padding ?? ${theme.padding.app * 4};
+        {code`const padding = options.padding ?? ${Math.max(theme.padding.app, 1) * 4};
         const width = options.width ?? (process.stdout.columns - (Math.max(padding, 0) * 2));
         const border = options.border === "tertiary" ? colors.border.app.divider.tertiary("${
           theme.borderStyles.app.divider.tertiary.top
@@ -1490,7 +1490,7 @@ export function DividerFunctionDeclaration() {
           theme.borderStyles.app.divider.primary.top
         }");
 
-        writeLine(" ".repeat(padding) + border.repeat(Math.max(width / ${
+        writeLine(" ".repeat(Math.max(padding - ${theme.padding.app}, 0)) + border.repeat(Math.max(width / ${
           theme.borderStyles.app.divider.primary.top.length ?? 1
         }, 0)));
         `}
@@ -1961,14 +1961,17 @@ let colWidths = [] as number[];
 let rowDims = [] as Dimensions[];
 
 const calculateRowDimensions = () => {
+  colWidths = [];
   return cells.reduce((dims, row) => {
-    dims.push(row.reduce((dim, cell) => {
-      if (cell.width > dim.width) {
-        dim.width = cell.width;
-      }
+    dims.push(row.reduce((dim, cell, index) => {
+      dim.width += cell.width;
       if (cell.height > dim.height) {
         dim.height = cell.height;
       }
+      if (!colWidths[index] || cell.width > colWidths[index]!) {
+        colWidths[index] = cell.width;
+      }
+
       return dim;
     }, { width: 0, height: 0 } as Dimensions));
 
@@ -1976,14 +1979,15 @@ const calculateRowDimensions = () => {
   }, [] as Dimensions[]);
 }
 
-rowDims = calculateRowDimensions();
-
-/*
 let recalculate!: boolean;
 do {
   recalculate = false;
-  rowDims.map((row, rowIndex) => {
-    if (row.width > Math.max(process.stdout.columns - ${Math.max(theme.padding.app, 0) * 2}, 0)) {
+  rowDims = calculateRowDimensions();
+
+  rowDims.forEach((row, rowIndex) => {
+    if (!recalculate && row.width > Math.max(process.stdout.columns - ${
+      Math.max(theme.padding.app, 0) * 2
+    }, 0)) {
       const cell = cells[rowIndex]!.reduce((largestCell, cell) => {
         if (cell.width > largestCell.width) {
           return cell;
@@ -1993,7 +1997,9 @@ do {
 
       const lines = splitText(
         cell.value,
-        Math.max(process.stdout.columns - ${Math.max(theme.padding.app, 0) * 2}, 0) - row.width - cell.width
+        Math.max(process.stdout.columns - ${
+          Math.max(theme.padding.app, 0) * 2
+        } - (row.width - (cell.width - cell.padding * 2)), 0)
       );
 
       cell.value = lines.join("\\n");
@@ -2004,50 +2010,72 @@ do {
     }
   });
 
-  if (recalculate) {
-    rowDims = calculateRowDimensions();
+  if (!recalculate && colWidths.reduce((a, b) => a + b, 0) > Math.max(process.stdout.columns - ${
+    Math.max(theme.padding.app, 0) * 2
+  }, 0)) {
+    let colIndex = 0;
+    const cell = cells.reduce((ret, row) => {
+      return row.reduce((largest, current, i) => {
+        if (largest.width < current.width) {
+          colIndex = i;
+          return current;
+        }
+        return largest;
+      }, ret);
+    }, cells[0]![0]!);
+
+    const lines = splitText(
+      cell.value,
+      Math.max(process.stdout.columns - ${
+        Math.max(theme.padding.app, 0) * 2
+      } - (colWidths.filter((_, i) => i !== colIndex).reduce((a, b) => a + b, 0)) - cell.padding * 2), 0)
+    );
+
+    cell.value = lines.join("\\n");
+    cell.height = lines.length;
+    cell.width = Math.max(...lines.map(line => stripAnsi(line).length)) + cell.padding * 2;
+
+    recalculate = true;
   }
 } while (recalculate);
-*/
-
-rowDims.map((row, rowIndex) => {
-  cells[rowIndex]!.forEach(cell => {
-    cell.height = row.height;
-  });
-});
 
 // Render table
-cells.forEach(row => {
-  let line = "";
+cells.forEach((row, rowIndex) => {
+  const outputs = [] as string[][];
   row.forEach((cell, colIndex) => {
-    const cellContent = cell.value;
-    let paddedContent = "";
-    const totalPadding = cell.padding * 2;
-    const contentLength = stripAnsi(cellContent).length;
-    const totalWidth = colWidths[colIndex] ?? contentLength + totalPadding;
-
-    switch (cell.align) {
-      case "right":
-        paddedContent = " ".repeat(totalWidth - contentLength - totalPadding) + cellContent + " ".repeat(totalPadding);
-        break;
-      case "center":
-        const leftPadding = Math.floor((totalWidth - contentLength - totalPadding) / 2);
-        const rightPadding = totalWidth - contentLength - totalPadding - leftPadding;
-        paddedContent = " ".repeat(leftPadding) + cellContent + " ".repeat(rightPadding + totalPadding);
-        break;
-      case "left":
-      default:
-        paddedContent = " ".repeat(totalPadding) + cellContent + " ".repeat(totalWidth - contentLength - totalPadding);
-        break;
+    const lines = cell.value.split("\\n");
+    while (lines.length < rowDims[rowIndex]!.height) {
+      lines.push("");
     }
 
-    line += cell.border.left + paddedContent;
-    if (colIndex === row.length - 1) {
-      line +=  paddedContent + cell.border.right;
-    }
+    outputs.push(lines.map(line => {
+      let paddedContent = "";
+      switch (cell.align) {
+        case "right":
+          paddedContent = " ".repeat(Math.max(colWidths[colIndex] - stripAnsi(line).length - cell.padding, 0)) + line + " ".repeat(cell.padding);
+          break;
+        case "center":
+          const leftPadding = Math.floor((colWidths[colIndex] - stripAnsi(line).length - cell.padding) / 2);
+          const rightPadding = colWidths[colIndex] - stripAnsi(line).length - leftPadding;
+          paddedContent = " ".repeat(leftPadding) + line + " ".repeat(rightPadding);
+          break;
+        case "left":
+        default:
+          paddedContent = " ".repeat(cell.padding) + line + " ".repeat(Math.max(colWidths[colIndex] - stripAnsi(line).length - cell.padding, 0));
+          break;
+      }
+
+      if (colIndex === row.length - 1) {
+        return cell.border.left + paddedContent + cell.border.right;
+      } else {
+        return cell.border.left + paddedContent;
+      }
+    }));
   });
 
-  writeLine(line);
+  for (let index = 0; index < rowDims[rowIndex]!.height; index++) {
+    writeLine(outputs.map(output => output[index] ?? "").join(""));
+  }
 });
 `}
       </FunctionDeclaration>
@@ -2138,7 +2166,7 @@ export function ConsoleBuiltin() {
         description="verbose"
         prefix={
           <IfStatement
-            condition={code`!(isDevelopment || isDebug || env.LOG_LEVEL === "debug" || hasFlag(["verbose", "verbose=true", "verbose=always", "debug", "debug=true", "debug=always"]))`}>{code`return; `}</IfStatement>
+            condition={code`!(isDevelopment || isDebug || env.LOG_LEVEL === "debug" || hasFlag(["verbose", "verbose=true", "verbose=always"]))`}>{code`return; `}</IfStatement>
         }
       />
       <hbr />

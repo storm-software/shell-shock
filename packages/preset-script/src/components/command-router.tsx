@@ -154,11 +154,9 @@ export function CommandRouter(props: CommandRouterProps) {
             `"${cmd.name}"${cmd.alias.map(alias => `", "${alias}"`).join("")}`
         )
         .join(", ")}], {
-          caseSensitive: false,
-          deburr: true,
-          trimSpaces: true,
-          returnType: ReturnTypeEnums.ALL_CLOSE_MATCHES,
-          thresholdType: ThresholdTypeEnums.RELATIVE_DISTANCE,
+          caseSensitive: ${JSON.stringify(context.config.isCaseSensitive)},
+          returnType: ReturnTypeEnums.ALL_CLOSEST_MATCHES,
+          thresholdType: ThresholdTypeEnums.SIMILARITY,
           threshold: 0.75
         });
         error(\`Unknown command: "\${command}"\${suggestions && suggestions.length > 0 ? \`, did you mean: \${suggestions.length === 1 ? \`"\${suggestions[0]}"\` : suggestions.map((suggestion, i) => i < suggestions.length - 1 ? \`"\${suggestion}", \` : \`or "\${suggestion}"\`)}?\` : ""} \`);`}</ElseIfClause>

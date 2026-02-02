@@ -1177,7 +1177,7 @@ declare module "shell-shock:console" {
      *
      * @remarks
      * The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.
-     * @defaultValue 4
+     * @defaultValue 0
      *
      */
     padding?: number;
