@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.4.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.4.1) (02/02/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update markdown `README.md` files ([2ba98db](https://github.com/storm-software/shell-shock/commit/2ba98db))
+
 ## [0.4.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.4.0) (02/01/2026)
 
 ### Features

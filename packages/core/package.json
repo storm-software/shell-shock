@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/core",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "type": "module",
   "description": "A package containing the core Shell Shock functionality used to build and manage a command-line application.",
   "repository": {

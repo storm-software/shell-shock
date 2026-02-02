@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.9](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.9) (02/02/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update markdown `README.md` files ([2ba98db](https://github.com/storm-software/shell-shock/commit/2ba98db))
+
 ## [0.0.7](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.7) (01/30/2026)
 
 ### Features

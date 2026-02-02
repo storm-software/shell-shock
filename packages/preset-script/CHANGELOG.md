@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.2.1) (02/02/2026)
+
+### Miscellaneous
+
+- **preset-script:** Clean up alignment in `table` formatting ([d4a44fb](https://github.com/storm-software/shell-shock/commit/d4a44fb))
+- **monorepo:** Update markdown `README.md` files ([2ba98db](https://github.com/storm-software/shell-shock/commit/2ba98db))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.9**
+- Updated **core** to **v0.4.1**
+
 ## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.2.0) (02/01/2026)
 
 ### Features

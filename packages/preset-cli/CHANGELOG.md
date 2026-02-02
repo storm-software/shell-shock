@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.0.5](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.0.5) (02/02/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update markdown `README.md` files ([2ba98db](https://github.com/storm-software/shell-shock/commit/2ba98db))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.2.1**
+- Updated **plugin-theme** to **v0.0.9**
+- Updated **core** to **v0.4.1**
+
 ## [0.0.4](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.0.4) (02/01/2026)
 
 ### Updated Dependencies

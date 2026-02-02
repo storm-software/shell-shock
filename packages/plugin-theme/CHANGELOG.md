@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.0.9](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.9) (02/02/2026)
+
+### Miscellaneous
+
+- **preset-script:** Clean up alignment in `table` formatting ([d4a44fb](https://github.com/storm-software/shell-shock/commit/d4a44fb))
+- **monorepo:** Update markdown `README.md` files ([2ba98db](https://github.com/storm-software/shell-shock/commit/2ba98db))
+
 ## [0.0.8](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.8) (02/01/2026)
 
 ### Features

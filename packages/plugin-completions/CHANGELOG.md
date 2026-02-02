@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.0.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.5) (02/02/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update markdown `README.md` files ([2ba98db](https://github.com/storm-software/shell-shock/commit/2ba98db))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.4.1**
+
 ## [0.0.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.4) (02/01/2026)
 
 ### Updated Dependencies

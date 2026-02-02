@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.4](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.4) (02/02/2026)
+
+### Miscellaneous
+
+- **preset-script:** Clean up alignment in `table` formatting ([d4a44fb](https://github.com/storm-software/shell-shock/commit/d4a44fb))
+- **monorepo:** Update markdown `README.md` files ([2ba98db](https://github.com/storm-software/shell-shock/commit/2ba98db))
+
 ## [0.0.3](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.3) (02/01/2026)
 
 ### Features
