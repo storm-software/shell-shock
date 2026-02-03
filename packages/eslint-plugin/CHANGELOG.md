@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.5](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.5) (02/03/2026)
+
+### Miscellaneous
+
+- **monorepo:** Rerun formatters on package files ([9d1da37](https://github.com/storm-software/shell-shock/commit/9d1da37))
+
 ## [0.0.4](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.4) (02/02/2026)
 
 ### Miscellaneous

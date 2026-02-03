@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.0.6](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.6) (02/03/2026)
+
+### Miscellaneous
+
+- **monorepo:** Rerun formatters on package files ([9d1da37](https://github.com/storm-software/shell-shock/commit/9d1da37))
+
+### Features
+
+- **preset-script:** Added `banner` function and resolved issue with message function output ([a5739ea](https://github.com/storm-software/shell-shock/commit/a5739ea))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.4.2**
+
 ## [0.0.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.5) (02/02/2026)
 
 ### Miscellaneous

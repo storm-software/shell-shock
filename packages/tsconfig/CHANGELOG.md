@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.10](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.10) (02/03/2026)
+
+### Miscellaneous
+
+- **monorepo:** Rerun formatters on package files ([9d1da37](https://github.com/storm-software/shell-shock/commit/9d1da37))
+
 ## [0.0.9](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.9) (02/02/2026)
 
 ### Miscellaneous

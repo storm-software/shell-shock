@@ -2,6 +2,21 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.3.0](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.3.0) (02/03/2026)
+
+### Miscellaneous
+
+- **monorepo:** Rerun formatters on package files ([9d1da37](https://github.com/storm-software/shell-shock/commit/9d1da37))
+
+### Features
+
+- **preset-script:** Added `banner` function and resolved issue with message function output ([a5739ea](https://github.com/storm-software/shell-shock/commit/a5739ea))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.10**
+- Updated **core** to **v0.4.2**
+
 ## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.2.1) (02/02/2026)
 
 ### Miscellaneous

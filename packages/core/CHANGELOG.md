@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.4.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.4.2) (02/03/2026)
+
+### Miscellaneous
+
+- **monorepo:** Rerun formatters on package files ([9d1da37](https://github.com/storm-software/shell-shock/commit/9d1da37))
+
+### Features
+
+- **preset-script:** Added `banner` function and resolved issue with message function output ([a5739ea](https://github.com/storm-software/shell-shock/commit/a5739ea))
+
 ## [0.4.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.4.1) (02/02/2026)
 
 ### Miscellaneous
