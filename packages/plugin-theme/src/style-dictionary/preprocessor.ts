@@ -33,7 +33,7 @@ import type {
   ThemeBorderStylesResolvedConfig,
   ThemeBorderStyleSubItemUserConfig,
   ThemeBorderStylesUserConfig,
-  ThemeColorBannerSubItem,
+  ThemeColorBannerSubItemResolvedConfig,
   ThemeColorBodySubItem,
   ThemeColorBorderItemsResolvedConfig,
   ThemeColorBorderItemsUserConfig,
@@ -49,9 +49,12 @@ import type {
   ThemeIconSubItemConfig,
   ThemeIconsUserConfig,
   ThemeIconTypeResolvedConfig,
+  ThemeLabelBannerSubItemConfig,
+  ThemeLabelMessageStateConfig,
   ThemeLabelsResolvedConfig,
   ThemeLabelsUserConfig,
   ThemeLabelTypeResolvedConfig,
+  ThemeLabelTypeUserConfig,
   ThemePaddingResolvedConfig,
   ThemeResolvedConfig,
   ThemeStyleBorderIdentifiers
@@ -97,11 +100,36 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
       resolvedConfig.colors = {
         text: {
           banner: {
-            title: colors,
-            header: colors,
-            footer: colors,
-            command: colors,
-            description: colors
+            title: {
+              primary: colors,
+              secondary: colors,
+              tertiary: colors
+            },
+            header: {
+              primary: colors,
+              secondary: colors,
+              tertiary: colors
+            },
+            footer: {
+              primary: colors,
+              secondary: colors,
+              tertiary: colors
+            },
+            command: {
+              primary: colors,
+              secondary: colors,
+              tertiary: colors
+            },
+            description: {
+              primary: colors,
+              secondary: colors,
+              tertiary: colors
+            },
+            link: {
+              primary: colors,
+              secondary: colors,
+              tertiary: colors
+            }
           },
           heading: {
             primary: colors,
@@ -220,11 +248,36 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
       if (isSetString(text)) {
         resolvedConfig.colors.text = {
           banner: {
-            title: text,
-            header: text,
-            footer: text,
-            command: text,
-            description: text
+            title: {
+              primary: text,
+              secondary: text,
+              tertiary: text
+            },
+            header: {
+              primary: text,
+              secondary: text,
+              tertiary: text
+            },
+            footer: {
+              primary: text,
+              secondary: text,
+              tertiary: text
+            },
+            command: {
+              primary: text,
+              secondary: text,
+              tertiary: text
+            },
+            description: {
+              primary: text,
+              secondary: text,
+              tertiary: text
+            },
+            link: {
+              primary: text,
+              secondary: text,
+              tertiary: text
+            }
           },
           heading: {
             primary: text,
@@ -285,33 +338,180 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
           }
         };
       } else if (isSetObject(text)) {
-        resolvedConfig.colors.text.banner ??= {} as ThemeColorBannerSubItem;
+        resolvedConfig.colors.text.banner ??=
+          {} as ThemeColorBannerSubItemResolvedConfig;
         const banner = text.banner;
 
         if (isSetString(banner)) {
           resolvedConfig.colors.text.banner = {
-            title: banner,
-            header: banner,
-            footer: banner,
-            command: banner,
-            description: banner
+            title: {
+              primary: banner,
+              secondary: banner,
+              tertiary: banner
+            },
+            header: {
+              primary: banner,
+              secondary: banner,
+              tertiary: banner
+            },
+            footer: {
+              primary: banner,
+              secondary: banner,
+              tertiary: banner
+            },
+            command: {
+              primary: banner,
+              secondary: banner,
+              tertiary: banner
+            },
+            description: {
+              primary: banner,
+              secondary: banner,
+              tertiary: banner
+            },
+            link: {
+              primary: banner,
+              secondary: banner,
+              tertiary: banner
+            }
           };
         } else if (isSetObject(text.banner)) {
+          resolvedConfig.colors.text.banner.title ??= {} as ThemeColorSubItem;
+          const title = text.banner.title;
+
           if (isSetString(text.banner.title)) {
-            resolvedConfig.colors.text.banner.title = text.banner.title;
+            resolvedConfig.colors.text.banner.title = {
+              primary: text.banner.title,
+              secondary: text.banner.title,
+              tertiary: text.banner.title
+            };
+          } else if (isSetObject(title)) {
+            if (isSetString(title.primary)) {
+              resolvedConfig.colors.text.banner.title.primary = title.primary;
+            }
+            if (isSetString(title.secondary)) {
+              resolvedConfig.colors.text.banner.title.secondary =
+                title.secondary;
+            }
+            if (isSetString(title.tertiary)) {
+              resolvedConfig.colors.text.banner.title.tertiary = title.tertiary;
+            }
           }
+
+          resolvedConfig.colors.text.banner.header ??= {} as ThemeColorSubItem;
+          const header = text.banner.header;
+
           if (isSetString(text.banner.header)) {
-            resolvedConfig.colors.text.banner.header = text.banner.header;
+            resolvedConfig.colors.text.banner.header = {
+              primary: text.banner.header,
+              secondary: text.banner.header,
+              tertiary: text.banner.header
+            };
+          } else if (isSetObject(header)) {
+            if (isSetString(header.primary)) {
+              resolvedConfig.colors.text.banner.header.primary = header.primary;
+            }
+            if (isSetString(header.secondary)) {
+              resolvedConfig.colors.text.banner.header.secondary =
+                header.secondary;
+            }
+            if (isSetString(header.tertiary)) {
+              resolvedConfig.colors.text.banner.header.tertiary =
+                header.tertiary;
+            }
           }
+
+          resolvedConfig.colors.text.banner.footer ??= {} as ThemeColorSubItem;
+          const footer = text.banner.footer;
+
           if (isSetString(text.banner.footer)) {
-            resolvedConfig.colors.text.banner.footer = text.banner.footer;
+            resolvedConfig.colors.text.banner.footer = {
+              primary: text.banner.footer,
+              secondary: text.banner.footer,
+              tertiary: text.banner.footer
+            };
+          } else if (isSetObject(footer)) {
+            if (isSetString(footer.primary)) {
+              resolvedConfig.colors.text.banner.footer.primary = footer.primary;
+            }
+            if (isSetString(footer.secondary)) {
+              resolvedConfig.colors.text.banner.footer.secondary =
+                footer.secondary;
+            }
+            if (isSetString(footer.tertiary)) {
+              resolvedConfig.colors.text.banner.footer.tertiary =
+                footer.tertiary;
+            }
           }
+
+          resolvedConfig.colors.text.banner.command ??= {} as ThemeColorSubItem;
+          const command = text.banner.command;
+
           if (isSetString(text.banner.command)) {
-            resolvedConfig.colors.text.banner.command = text.banner.command;
+            resolvedConfig.colors.text.banner.command = {
+              primary: text.banner.command,
+              secondary: text.banner.command,
+              tertiary: text.banner.command
+            };
+          } else if (isSetObject(command)) {
+            if (isSetString(command.primary)) {
+              resolvedConfig.colors.text.banner.command.primary =
+                command.primary;
+            }
+            if (isSetString(command.secondary)) {
+              resolvedConfig.colors.text.banner.command.secondary =
+                command.secondary;
+            }
+            if (isSetString(command.tertiary)) {
+              resolvedConfig.colors.text.banner.command.tertiary =
+                command.tertiary;
+            }
           }
+
+          resolvedConfig.colors.text.banner.description ??=
+            {} as ThemeColorSubItem;
+          const description = text.banner.description;
+
           if (isSetString(text.banner.description)) {
-            resolvedConfig.colors.text.banner.description =
-              text.banner.description;
+            resolvedConfig.colors.text.banner.description = {
+              primary: text.banner.description,
+              secondary: text.banner.description,
+              tertiary: text.banner.description
+            };
+          } else if (isSetObject(description)) {
+            if (isSetString(description.primary)) {
+              resolvedConfig.colors.text.banner.description.primary =
+                description.primary;
+            }
+            if (isSetString(description.secondary)) {
+              resolvedConfig.colors.text.banner.description.secondary =
+                description.secondary;
+            }
+            if (isSetString(description.tertiary)) {
+              resolvedConfig.colors.text.banner.description.tertiary =
+                description.tertiary;
+            }
+          }
+
+          resolvedConfig.colors.text.banner.link ??= {} as ThemeColorSubItem;
+          const link = text.banner.link;
+
+          if (isSetString(text.banner.link)) {
+            resolvedConfig.colors.text.banner.link = {
+              primary: text.banner.link,
+              secondary: text.banner.link,
+              tertiary: text.banner.link
+            };
+          } else if (isSetObject(link)) {
+            if (isSetString(link.primary)) {
+              resolvedConfig.colors.text.banner.link.primary = link.primary;
+            }
+            if (isSetString(link.secondary)) {
+              resolvedConfig.colors.text.banner.link.secondary = link.secondary;
+            }
+            if (isSetString(link.tertiary)) {
+              resolvedConfig.colors.text.banner.link.tertiary = link.tertiary;
+            }
           }
         }
 
@@ -1734,7 +1934,8 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
     // #region Labels
 
     resolvedConfig.labels ??= {
-      message: { header: {} }
+      message: { header: {}, footer: {} },
+      banner: { header: {}, footer: {} }
     } as ThemeLabelsResolvedConfig;
     const labels = dictionary.labels as ThemeLabelsUserConfig;
 
@@ -1749,45 +1950,54 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             warning: labels,
             danger: labels,
             error: labels
-          }
+          },
+          footer: {}
+        },
+        banner: {
+          header: {
+            primary: labels,
+            secondary: labels,
+            tertiary: labels
+          },
+          footer: {}
         }
       };
     } else if (isSetObject(labels)) {
-      resolvedConfig.labels.message ??= {} as ThemeLabelTypeResolvedConfig;
-      const message = labels.message;
+      resolvedConfig.labels.message ??=
+        {} as ThemeLabelTypeResolvedConfig<ThemeLabelMessageStateConfig>;
+      const message =
+        labels?.message as ThemeLabelTypeUserConfig<ThemeLabelMessageStateConfig>;
 
       if (isSetString(message)) {
-        resolvedConfig.labels = {
-          message: {
-            header: {
-              help: message,
-              success: message,
-              info: message,
-              debug: message,
-              warning: message,
-              danger: message,
-              error: message
-            }
-          }
+        resolvedConfig.labels.message = {
+          header: {
+            help: message,
+            success: message,
+            info: message,
+            debug: message,
+            warning: message,
+            danger: message,
+            error: message
+          },
+          footer: {}
         };
       } else if (isSetObject(message)) {
         resolvedConfig.labels.message.header =
-          {} as ThemeIconMessageStateConfig;
-        const header = message.header as ThemeIconMessageStateConfig;
+          {} as ThemeLabelMessageStateConfig;
+        resolvedConfig.labels.message.footer =
+          {} as ThemeLabelMessageStateConfig;
+        const header = message.header;
+        const footer = message.footer;
 
         if (isSetString(header)) {
-          resolvedConfig.labels = {
-            message: {
-              header: {
-                help: header,
-                success: header,
-                info: header,
-                debug: header,
-                warning: header,
-                danger: header,
-                error: header
-              }
-            }
+          resolvedConfig.labels.message.header = {
+            help: header,
+            success: header,
+            info: header,
+            debug: header,
+            warning: header,
+            danger: header,
+            error: header
           };
         } else if (isSetObject(header)) {
           if (isSetString(header.help)) {
@@ -1810,6 +2020,99 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
           }
           if (isSetString(header.error)) {
             resolvedConfig.labels.message.header.error = header.error;
+          }
+        }
+
+        if (isSetString(footer)) {
+          resolvedConfig.labels.message.footer = {
+            help: footer,
+            success: footer,
+            info: footer,
+            debug: footer,
+            warning: footer,
+            danger: footer,
+            error: footer
+          };
+        } else if (isSetObject(footer)) {
+          if (isSetString(footer.help)) {
+            resolvedConfig.labels.message.footer.help = footer.help;
+          }
+          if (isSetString(footer.success)) {
+            resolvedConfig.labels.message.footer.success = footer.success;
+          }
+          if (isSetString(footer.info)) {
+            resolvedConfig.labels.message.footer.info = footer.info;
+          }
+          if (isSetString(footer.debug)) {
+            resolvedConfig.labels.message.footer.debug = footer.debug;
+          }
+          if (isSetString(footer.warning)) {
+            resolvedConfig.labels.message.footer.warning = footer.warning;
+          }
+          if (isSetString(footer.danger)) {
+            resolvedConfig.labels.message.footer.danger = footer.danger;
+          }
+          if (isSetString(footer.error)) {
+            resolvedConfig.labels.message.footer.error = footer.error;
+          }
+        }
+
+        resolvedConfig.labels.banner ??=
+          {} as ThemeLabelTypeResolvedConfig<ThemeLabelBannerSubItemConfig>;
+        const banner =
+          labels?.banner as ThemeLabelTypeUserConfig<ThemeLabelBannerSubItemConfig>;
+
+        if (isSetString(banner)) {
+          resolvedConfig.labels.banner = {
+            header: {
+              primary: banner,
+              secondary: banner,
+              tertiary: banner
+            },
+            footer: {}
+          };
+        } else if (isSetObject(banner)) {
+          resolvedConfig.labels.banner.header =
+            {} as ThemeLabelBannerSubItemConfig;
+          resolvedConfig.labels.banner.footer =
+            {} as ThemeLabelBannerSubItemConfig;
+          const header = banner.header;
+          const footer = banner.footer;
+
+          if (isSetString(header)) {
+            resolvedConfig.labels.banner.header = {
+              primary: header,
+              secondary: header,
+              tertiary: header
+            };
+          } else if (isSetObject(header)) {
+            if (isSetString(header.primary)) {
+              resolvedConfig.labels.banner.header.primary = header.primary;
+            }
+            if (isSetString(header.secondary)) {
+              resolvedConfig.labels.banner.header.secondary = header.secondary;
+            }
+            if (isSetString(header.tertiary)) {
+              resolvedConfig.labels.banner.header.tertiary = header.tertiary;
+            }
+          }
+
+          if (isSetString(footer)) {
+            resolvedConfig.labels.banner.footer = {
+              primary: footer,
+              secondary: footer,
+              tertiary: footer
+            };
+          } else if (isSetObject(footer)) {
+            if (isSetString(footer.primary)) {
+              resolvedConfig.labels.banner.footer.primary = footer.primary;
+            }
+            if (isSetString(footer.secondary)) {
+              resolvedConfig.labels.banner.footer.secondary = footer.secondary;
+            }
+            if (isSetString(footer.tertiary)) {
+              resolvedConfig.labels.banner.footer.tertiary = footer.tertiary;
+            }
           }
         }
       }
@@ -1853,10 +2156,10 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
 
     if (
       !resolvedConfig.colors.text?.heading?.primary &&
-      resolvedConfig.colors.text?.banner?.title
+      resolvedConfig.colors.text?.banner?.title?.primary
     ) {
       resolvedConfig.colors.text.heading.primary =
-        resolvedConfig.colors.text.banner.title;
+        resolvedConfig.colors.text.banner.title.primary;
     }
     if (
       !resolvedConfig.colors.text?.heading?.tertiary &&
@@ -1917,28 +2220,106 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
     }
 
     if (
-      !resolvedConfig.colors.text?.banner?.title &&
+      !resolvedConfig.colors.text?.banner?.title?.primary &&
       resolvedConfig.colors.text?.heading?.primary
     ) {
-      resolvedConfig.colors.text.banner.title =
+      resolvedConfig.colors.text.banner.title ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.title.primary =
         resolvedConfig.colors.text.heading.primary;
     }
     if (
-      !resolvedConfig.colors.text?.banner?.command &&
+      !resolvedConfig.colors.text?.banner?.command?.primary &&
       (resolvedConfig.colors.text?.heading?.secondary ||
         resolvedConfig.colors.text?.heading?.primary)
     ) {
-      resolvedConfig.colors.text.banner.command =
+      resolvedConfig.colors.text.banner.command ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.command.primary =
         resolvedConfig.colors.text.heading.secondary ||
         resolvedConfig.colors.text.heading.primary;
     }
     if (
-      !resolvedConfig.colors.text?.banner?.description &&
+      !resolvedConfig.colors.text?.banner?.description?.primary &&
       resolvedConfig.colors.text?.body?.primary
     ) {
-      resolvedConfig.colors.text.banner.description =
+      resolvedConfig.colors.text.banner.description ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.description.primary =
         resolvedConfig.colors.text.body.primary;
     }
+    if (
+      !resolvedConfig.colors.text?.banner?.link?.primary &&
+      resolvedConfig.colors.text?.body?.link
+    ) {
+      resolvedConfig.colors.text.banner.link ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.link.primary =
+        resolvedConfig.colors.text.body.link;
+    }
+
+    if (
+      !resolvedConfig.colors.text?.banner?.title?.secondary &&
+      resolvedConfig.colors.text?.banner?.title?.primary
+    ) {
+      resolvedConfig.colors.text.banner.title ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.title.secondary =
+        resolvedConfig.colors.text.banner.title.primary;
+    }
+    if (
+      !resolvedConfig.colors.text?.banner?.command?.secondary &&
+      resolvedConfig.colors.text?.banner?.command?.primary
+    ) {
+      resolvedConfig.colors.text.banner.command ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.command.secondary =
+        resolvedConfig.colors.text.banner.command.primary;
+    }
+    if (
+      !resolvedConfig.colors.text?.banner?.description?.secondary &&
+      resolvedConfig.colors.text?.banner?.description?.primary
+    ) {
+      resolvedConfig.colors.text.banner.description ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.description.secondary =
+        resolvedConfig.colors.text.banner.description.primary;
+    }
+    if (
+      !resolvedConfig.colors.text?.banner?.link?.secondary &&
+      resolvedConfig.colors.text?.banner?.link?.primary
+    ) {
+      resolvedConfig.colors.text.banner.link ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.link.secondary =
+        resolvedConfig.colors.text.banner.link.primary;
+    }
+
+    if (
+      !resolvedConfig.colors.text?.banner?.title?.tertiary &&
+      resolvedConfig.colors.text?.banner?.title?.secondary
+    ) {
+      resolvedConfig.colors.text.banner.title ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.title.tertiary =
+        resolvedConfig.colors.text.banner.title.secondary;
+    }
+    if (
+      !resolvedConfig.colors.text?.banner?.command?.tertiary &&
+      resolvedConfig.colors.text?.banner?.command?.secondary
+    ) {
+      resolvedConfig.colors.text.banner.command ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.command.tertiary =
+        resolvedConfig.colors.text.banner.command.secondary;
+    }
+    if (
+      !resolvedConfig.colors.text?.banner?.description?.tertiary &&
+      resolvedConfig.colors.text?.banner?.description?.secondary
+    ) {
+      resolvedConfig.colors.text.banner.description ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.description.tertiary =
+        resolvedConfig.colors.text.banner.description.secondary;
+    }
+    if (
+      !resolvedConfig.colors.text?.banner?.link?.tertiary &&
+      resolvedConfig.colors.text?.banner?.link?.secondary
+    ) {
+      resolvedConfig.colors.text.banner.link ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.link.tertiary =
+        resolvedConfig.colors.text.banner.link.secondary;
+    }
+
     if (
       !resolvedConfig.colors.border?.banner?.outline?.primary &&
       (resolvedConfig.colors.border?.banner?.outline?.secondary ||
@@ -1966,26 +2347,64 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
         resolvedConfig.colors.border.banner.outline.primary ||
         resolvedConfig.colors.border.banner.outline.secondary;
     }
+
     if (
-      !resolvedConfig.colors.text?.banner?.header &&
+      !resolvedConfig.colors.text?.banner?.header?.primary &&
       resolvedConfig.colors.border?.banner?.outline?.primary
     ) {
-      resolvedConfig.colors.text.banner.header =
+      resolvedConfig.colors.text.banner.header ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.header.primary =
         resolvedConfig.colors.border.banner.outline.primary;
     }
     if (
-      !resolvedConfig.colors.text?.banner?.footer &&
+      !resolvedConfig.colors.text?.banner?.footer?.primary &&
       resolvedConfig.colors.border?.banner?.outline?.primary
     ) {
-      resolvedConfig.colors.text.banner.footer =
+      resolvedConfig.colors.text.banner.footer ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.footer.primary =
         resolvedConfig.colors.border.banner.outline.primary;
     }
+
+    if (
+      !resolvedConfig.colors.text?.banner?.header?.secondary &&
+      resolvedConfig.colors.border?.banner?.outline?.secondary
+    ) {
+      resolvedConfig.colors.text.banner.header ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.header.secondary =
+        resolvedConfig.colors.border.banner.outline.secondary;
+    }
+    if (
+      !resolvedConfig.colors.text?.banner?.footer?.secondary &&
+      resolvedConfig.colors.border?.banner?.outline?.secondary
+    ) {
+      resolvedConfig.colors.text.banner.footer ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.footer.secondary =
+        resolvedConfig.colors.border.banner.outline.secondary;
+    }
+
+    if (
+      !resolvedConfig.colors.text?.banner?.header?.tertiary &&
+      resolvedConfig.colors.border?.banner?.outline?.tertiary
+    ) {
+      resolvedConfig.colors.text.banner.header ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.header.tertiary =
+        resolvedConfig.colors.border.banner.outline.tertiary;
+    }
+    if (
+      !resolvedConfig.colors.text?.banner?.footer?.tertiary &&
+      resolvedConfig.colors.border?.banner?.outline?.tertiary
+    ) {
+      resolvedConfig.colors.text.banner.footer ??= {} as ThemeColorSubItem;
+      resolvedConfig.colors.text.banner.footer.tertiary =
+        resolvedConfig.colors.border.banner.outline.tertiary;
+    }
+
     if (
       !resolvedConfig.colors.border?.banner?.outline?.primary &&
-      resolvedConfig.colors.text?.banner?.title
+      resolvedConfig.colors.text?.banner?.title?.primary
     ) {
       resolvedConfig.colors.border.banner.outline.primary =
-        resolvedConfig.colors.text.banner.title;
+        resolvedConfig.colors.text.banner.title.primary;
     }
 
     if (
@@ -2199,21 +2618,6 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
 
     if (
       !resolvedConfig.colors.text.message?.header?.debug &&
-      resolvedConfig.colors.text.message?.header?.info
-    ) {
-      resolvedConfig.colors.text.message.header.debug =
-        resolvedConfig.colors.text.message.header.info;
-    }
-    if (
-      !resolvedConfig.colors.text.message?.footer?.debug &&
-      resolvedConfig.colors.text.message?.footer?.info
-    ) {
-      resolvedConfig.colors.text.message.footer.debug =
-        resolvedConfig.colors.text.message.footer.info;
-    }
-
-    if (
-      !resolvedConfig.colors.text.message?.header?.debug &&
       resolvedConfig.colors.border?.message?.outline?.debug
     ) {
       resolvedConfig.colors.text.message.header.debug =
@@ -2270,6 +2674,21 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
     ) {
       resolvedConfig.colors.text.message.footer.error =
         resolvedConfig.colors.border.message.outline.error;
+    }
+
+    if (
+      !resolvedConfig.colors.text.message?.header?.debug &&
+      resolvedConfig.colors.text.message?.header?.info
+    ) {
+      resolvedConfig.colors.text.message.header.debug =
+        resolvedConfig.colors.text.message.header.info;
+    }
+    if (
+      !resolvedConfig.colors.text.message?.footer?.debug &&
+      resolvedConfig.colors.text.message?.footer?.info
+    ) {
+      resolvedConfig.colors.text.message.footer.debug =
+        resolvedConfig.colors.text.message.footer.info;
     }
 
     if (

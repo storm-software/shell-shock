@@ -26,7 +26,20 @@ const config: UserConfig = defineConfig({
   output: {
     storage: "fs"
   },
-  plugins: [script()]
+  plugins: [
+    script({
+      theme: {
+        banner: {
+          header: {
+            primary: "Shell Shock Playground"
+          },
+          footer: {
+            primary: "https://stormsoftware.com"
+          }
+        }
+      }
+    })
+  ]
 });
 
 export default config;

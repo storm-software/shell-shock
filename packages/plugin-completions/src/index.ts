@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
+import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path/join";
-import { titleCase } from "@stryke/string-format/title-case";
 import type { Plugin } from "powerlines";
 import type {
   CompletionsPluginContext,
@@ -59,12 +59,15 @@ export const plugin = <
           this.inputs.push({
             id: "completions",
             name: "completions",
+            alias: ["completion"],
             path: {
               segments: ["completions"],
               value: "completions"
             },
             title: "CLI Completions",
-            description: `Commands for generating shell completion scripts for the ${titleCase(this.config.name)}.`,
+            description: `Commands for generating shell completion scripts for the ${getAppTitle(
+              this
+            )}.`,
             entry: {
               file: joinPaths(this.entryPath, "completions", "command.ts")
             },
@@ -80,6 +83,7 @@ export const plugin = <
           this.inputs.push({
             id: "completions-bash",
             name: "bash",
+            alias: [],
             path: {
               segments: ["completions", "bash"],
               value: "completions/bash"
@@ -105,6 +109,7 @@ export const plugin = <
           this.inputs.push({
             id: "completions-zsh",
             name: "zsh",
+            alias: [],
             path: {
               segments: ["completions", "zsh"],
               value: "completions/zsh"

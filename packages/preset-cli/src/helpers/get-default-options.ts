@@ -82,8 +82,7 @@ export function getDefaultOptions(
         "Hide the banner displayed while running the CLI application (will be set to true if running in a CI pipeline).",
       kind: ReflectionKind.boolean,
       optional: true,
-      default: false,
-      isNegativeOf: "banner"
+      default: false
     },
     {
       name: "verbose",

@@ -25,6 +25,8 @@ export type ThemeMessageVariant =
   | "danger"
   | "error";
 
+export type ThemeColorVariant = "primary" | "secondary" | "tertiary";
+
 export interface ThemeColorSubItem {
   primary: string;
   secondary: string;
@@ -53,6 +55,24 @@ export interface ThemeColorMessageState {
   error: string;
 }
 
+export interface ThemeColorBannerSubItemUserConfig {
+  title: Partial<ThemeColorSubItem> | string;
+  link: Partial<ThemeColorSubItem> | string;
+  header: Partial<ThemeColorSubItem> | string;
+  footer: Partial<ThemeColorSubItem> | string;
+  command: Partial<ThemeColorSubItem> | string;
+  description: Partial<ThemeColorSubItem> | string;
+}
+
+export interface ThemeColorBannerSubItemResolvedConfig {
+  title: ThemeColorSubItem;
+  link: ThemeColorSubItem;
+  header: ThemeColorSubItem;
+  footer: ThemeColorSubItem;
+  command: ThemeColorSubItem;
+  description: ThemeColorSubItem;
+}
+
 export interface ThemeColorMessageSubItemUserConfig {
   link: Partial<ThemeColorMessageState> | string;
   header: Partial<ThemeColorMessageState> | string;
@@ -77,7 +97,7 @@ export interface ThemeColorUsageSubItem {
 }
 
 export interface ThemeColorTextItemsUserConfig {
-  banner: Partial<ThemeColorBannerSubItem> | string;
+  banner: Partial<ThemeColorBannerSubItemUserConfig> | string;
   heading: Partial<ThemeColorSubItem> | string;
   body: Partial<ThemeColorBodySubItem> | string;
   message: Partial<ThemeColorMessageSubItemUserConfig> | string;
@@ -85,7 +105,7 @@ export interface ThemeColorTextItemsUserConfig {
 }
 
 export interface ThemeColorTextItemsResolvedConfig {
-  banner: ThemeColorBannerSubItem;
+  banner: ThemeColorBannerSubItemResolvedConfig;
   heading: ThemeColorSubItem;
   body: ThemeColorBodySubItem;
   message: ThemeColorMessageSubItemResolvedConfig;
@@ -334,20 +354,30 @@ export interface ThemeLabelMessageStateConfig {
   error: string;
 }
 
-export interface ThemeLabelTypeUserConfig {
-  header: Partial<ThemeLabelMessageStateConfig> | string;
+export interface ThemeLabelBannerSubItemConfig {
+  primary: string;
+  secondary: string;
+  tertiary: string;
 }
 
-export interface ThemeLabelTypeResolvedConfig {
-  header: ThemeLabelMessageStateConfig;
+export interface ThemeLabelTypeUserConfig<TState extends object> {
+  header: Partial<TState> | string;
+  footer?: Partial<TState> | string;
+}
+
+export interface ThemeLabelTypeResolvedConfig<TState extends object> {
+  header: TState;
+  footer: Partial<TState>;
 }
 
 export interface ThemeLabelsUserConfig {
-  message: ThemeLabelTypeUserConfig | string;
+  message: ThemeLabelTypeUserConfig<ThemeLabelMessageStateConfig> | string;
+  banner: ThemeLabelTypeUserConfig<ThemeLabelBannerSubItemConfig> | string;
 }
 
 export interface ThemeLabelsResolvedConfig {
-  message: ThemeLabelTypeResolvedConfig;
+  message: ThemeLabelTypeResolvedConfig<ThemeLabelMessageStateConfig>;
+  banner: ThemeLabelTypeResolvedConfig<ThemeLabelBannerSubItemConfig>;
 }
 
 export interface ThemeUserConfig {
@@ -366,4 +396,5 @@ export interface ThemeResolvedConfig {
   padding: ThemePaddingResolvedConfig;
   icons: ThemeIconsResolvedConfig;
   labels: ThemeLabelsResolvedConfig;
+  [key: string]: unknown;
 }

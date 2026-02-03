@@ -174,11 +174,11 @@ export const plugin = <TContext extends Context = Context>(
         this.debug("Finding command entry point files.");
 
         this.commandsPath = findCommandsRoot(this);
-
         const entries = await resolveEntries(
           this,
           toArray(this.config.entry || [])
         );
+
         this.debug(
           `Found ${
             entries.length
@@ -339,8 +339,8 @@ export const plugin = <TContext extends Context = Context>(
         order: "post",
         async handler() {
           this.debug("Initializing the CLI application's command tree.");
-          this.commands = {};
 
+          this.commands = {};
           if (
             this.config.command !== "prepare" &&
             this.config.skipCache !== true &&

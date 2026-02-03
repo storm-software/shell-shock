@@ -43,38 +43,38 @@ catalogs:
       specifier: 22.4.1
       version: 22.4.1
     '@powerlines/deepkit':
-      specifier: ^0.6.44
-      version: 0.6.44
+      specifier: ^0.6.45
+      version: 0.6.45
     '@powerlines/nx':
-      specifier: ^0.11.191
-      version: 0.11.191
+      specifier: ^0.11.192
+      version: 0.11.192
     '@powerlines/plugin-alloy':
-      specifier: ^0.20.7
-      version: 0.20.7
+      specifier: ^0.20.8
+      version: 0.20.8
     '@powerlines/plugin-automd':
-      specifier: ^0.1.264
-      version: 0.1.264
+      specifier: ^0.1.265
+      version: 0.1.265
     '@powerlines/plugin-deepkit':
-      specifier: ^0.11.143
-      version: 0.11.143
+      specifier: ^0.11.144
+      version: 0.11.144
     '@powerlines/plugin-nodejs':
-      specifier: ^0.1.168
-      version: 0.1.168
+      specifier: ^0.1.169
+      version: 0.1.169
     '@powerlines/plugin-plugin':
-      specifier: ^0.12.215
-      version: 0.12.215
+      specifier: ^0.12.216
+      version: 0.12.216
     '@powerlines/plugin-style-dictionary':
-      specifier: ^0.3.165
-      version: 0.3.165
+      specifier: ^0.3.166
+      version: 0.3.166
     '@powerlines/plugin-tsdown':
-      specifier: ^0.1.217
-      version: 0.1.217
+      specifier: ^0.1.218
+      version: 0.1.218
     '@powerlines/plugin-untyped':
-      specifier: ^0.2.217
-      version: 0.2.217
+      specifier: ^0.2.218
+      version: 0.2.218
     '@powerlines/tsconfig':
-      specifier: ^0.2.186
-      version: 0.2.186
+      specifier: ^0.2.187
+      version: 0.2.187
     '@storm-software/config':
       specifier: ^1.135.1
       version: 1.135.1
@@ -232,8 +232,8 @@ catalogs:
       specifier: 22.4.1
       version: 22.4.1
     powerlines:
-      specifier: ^0.38.31
-      version: 0.38.31
+      specifier: ^0.38.32
+      version: 0.38.32
     prettier:
       specifier: ^3.8.1
       version: 3.8.1
@@ -316,10 +316,10 @@ importers:
         version: 22.4.1(@swc-node/register@1.11.1(@swc/core@1.15.11(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.11(@swc/helpers@0.5.18))
       '@powerlines/nx':
         specifier: 'catalog:'
-        version: 0.11.191(522555b134e9237e983f8e1acc9c28de)
+        version: 0.11.192(522555b134e9237e983f8e1acc9c28de)
       '@powerlines/tsconfig':
         specifier: 'catalog:'
-        version: 0.2.186(@storm-software/tsconfig@0.47.75)
+        version: 0.2.187(@storm-software/tsconfig@0.47.75)
       '@storm-software/config':
         specifier: 'catalog:'
         version: 1.135.1
@@ -430,25 +430,25 @@ importers:
         version: 0.22.0
       '@powerlines/deepkit':
         specifier: 'catalog:'
-        version: 0.6.44(b14041670b9ce4661d51bbff4193aa46)
+        version: 0.6.45(b14041670b9ce4661d51bbff4193aa46)
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.20.7(e1f435c3ecdb911c10daa93d4868b25a)
+        version: 0.20.8(e1f435c3ecdb911c10daa93d4868b25a)
       '@powerlines/plugin-automd':
         specifier: 'catalog:'
-        version: 0.1.264(b1306f332f27a4e49c3cedc7b225c92a)
+        version: 0.1.265(b1306f332f27a4e49c3cedc7b225c92a)
       '@powerlines/plugin-deepkit':
         specifier: 'catalog:'
-        version: 0.11.143(b14041670b9ce4661d51bbff4193aa46)
+        version: 0.11.144(b14041670b9ce4661d51bbff4193aa46)
       '@powerlines/plugin-nodejs':
         specifier: 'catalog:'
-        version: 0.1.168(9160c7abb21549a125718ba434fbe6c1)
+        version: 0.1.169(9160c7abb21549a125718ba434fbe6c1)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
-        version: 0.12.215(d88eec7f1176692d98814593b9749435)
+        version: 0.12.216(d88eec7f1176692d98814593b9749435)
       '@powerlines/plugin-tsdown':
         specifier: 'catalog:'
-        version: 0.1.217(d88eec7f1176692d98814593b9749435)
+        version: 0.1.218(d88eec7f1176692d98814593b9749435)
       '@stryke/cli':
         specifier: 'catalog:'
         version: 0.13.12
@@ -484,7 +484,7 @@ importers:
         version: 6.1.4
       powerlines:
         specifier: 'catalog:'
-        version: 0.38.31(b1306f332f27a4e49c3cedc7b225c92a)
+        version: 0.38.32(b1306f332f27a4e49c3cedc7b225c92a)
       rolldown:
         specifier: 'catalog:'
         version: 1.0.0-beta.52
@@ -552,7 +552,7 @@ importers:
         version: 22.4.1(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))
       '@powerlines/nx':
         specifier: 'catalog:'
-        version: 0.11.191(1ab8132ad61242b2eb6324ff7b5c0b74)
+        version: 0.11.192(1ab8132ad61242b2eb6324ff7b5c0b74)
       '@shell-shock/core':
         specifier: workspace:*
         version: link:../core
@@ -576,17 +576,17 @@ importers:
         version: 2.6.1
       powerlines:
         specifier: 'catalog:'
-        version: 0.38.31(479cf24e0627c5cfa300936682272850)
+        version: 0.38.32(479cf24e0627c5cfa300936682272850)
       untyped:
         specifier: 'catalog:'
         version: 1.5.2
     devDependencies:
       '@powerlines/plugin-tsdown':
         specifier: 'catalog:'
-        version: 0.1.217(3cea8ffb4c598e62cf0a5a52cae3f97a)
+        version: 0.1.218(3cea8ffb4c598e62cf0a5a52cae3f97a)
       '@powerlines/plugin-untyped':
         specifier: 'catalog:'
-        version: 0.2.217(479cf24e0627c5cfa300936682272850)
+        version: 0.2.218(479cf24e0627c5cfa300936682272850)
       '@storm-software/testing-tools':
         specifier: 'catalog:'
         version: 1.119.75(@nx/jest@22.4.1(@babel/traverse@7.29.0)(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18))(@types/babel-plugin-macros@3.1.3)(@types/node-notifier@8.0.5)(@types/node@22.19.7)(babel-plugin-macros@3.1.0)(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))(typescript@5.9.3)(verdaccio@6.2.5(typanion@3.14.0)))(jest@30.2.0(@types/babel-plugin-macros@3.1.3)(@types/node-notifier@8.0.5)(@types/node@22.19.7)(babel-plugin-macros@3.1.0))
@@ -610,10 +610,10 @@ importers:
         version: 0.22.0
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.20.7(7a44fd0f796b0970edb786d63b6aa6a0)
+        version: 0.20.8(7a44fd0f796b0970edb786d63b6aa6a0)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
-        version: 0.12.215(3cea8ffb4c598e62cf0a5a52cae3f97a)
+        version: 0.12.216(3cea8ffb4c598e62cf0a5a52cae3f97a)
       '@shell-shock/core':
         specifier: workspace:*
         version: link:../core
@@ -625,11 +625,11 @@ importers:
         version: 0.13.7
       powerlines:
         specifier: 'catalog:'
-        version: 0.38.31(479cf24e0627c5cfa300936682272850)
+        version: 0.38.32(479cf24e0627c5cfa300936682272850)
     devDependencies:
       '@powerlines/plugin-deepkit':
         specifier: 'catalog:'
-        version: 0.11.143(c3bc251de0acda7d910721ebd4cc9f7e)
+        version: 0.11.144(c3bc251de0acda7d910721ebd4cc9f7e)
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.7
@@ -638,10 +638,10 @@ importers:
     dependencies:
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
-        version: 0.12.215(3cea8ffb4c598e62cf0a5a52cae3f97a)
+        version: 0.12.216(3cea8ffb4c598e62cf0a5a52cae3f97a)
       '@powerlines/plugin-style-dictionary':
         specifier: 'catalog:'
-        version: 0.3.165(828dc119633da29d217a53420fb66fbb)
+        version: 0.3.166(828dc119633da29d217a53420fb66fbb)
       '@stryke/helpers':
         specifier: 'catalog:'
         version: 0.9.40
@@ -653,14 +653,14 @@ importers:
         version: 6.1.4
       powerlines:
         specifier: 'catalog:'
-        version: 0.38.31(479cf24e0627c5cfa300936682272850)
+        version: 0.38.32(479cf24e0627c5cfa300936682272850)
       style-dictionary:
         specifier: 'catalog:'
         version: 5.2.0(tslib@2.8.1)
     devDependencies:
       '@powerlines/plugin-deepkit':
         specifier: 'catalog:'
-        version: 0.11.143(c3bc251de0acda7d910721ebd4cc9f7e)
+        version: 0.11.144(c3bc251de0acda7d910721ebd4cc9f7e)
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.7
@@ -675,13 +675,13 @@ importers:
         version: 0.22.0
       '@powerlines/deepkit':
         specifier: 'catalog:'
-        version: 0.6.44(c3bc251de0acda7d910721ebd4cc9f7e)
+        version: 0.6.45(c3bc251de0acda7d910721ebd4cc9f7e)
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.20.7(7a44fd0f796b0970edb786d63b6aa6a0)
+        version: 0.20.8(7a44fd0f796b0970edb786d63b6aa6a0)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
-        version: 0.12.215(3cea8ffb4c598e62cf0a5a52cae3f97a)
+        version: 0.12.216(3cea8ffb4c598e62cf0a5a52cae3f97a)
       '@shell-shock/core':
         specifier: workspace:*
         version: link:../core
@@ -699,7 +699,7 @@ importers:
         version: 3.3.1
       powerlines:
         specifier: 'catalog:'
-        version: 0.38.31(479cf24e0627c5cfa300936682272850)
+        version: 0.38.32(479cf24e0627c5cfa300936682272850)
     devDependencies:
       '@babel/core':
         specifier: 'catalog:'
@@ -721,13 +721,13 @@ importers:
         version: 0.22.0
       '@powerlines/deepkit':
         specifier: 'catalog:'
-        version: 0.6.44(c3bc251de0acda7d910721ebd4cc9f7e)
+        version: 0.6.45(c3bc251de0acda7d910721ebd4cc9f7e)
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.20.7(7a44fd0f796b0970edb786d63b6aa6a0)
+        version: 0.20.8(7a44fd0f796b0970edb786d63b6aa6a0)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
-        version: 0.12.215(3cea8ffb4c598e62cf0a5a52cae3f97a)
+        version: 0.12.216(3cea8ffb4c598e62cf0a5a52cae3f97a)
       '@shell-shock/core':
         specifier: workspace:*
         version: link:../core
@@ -751,7 +751,7 @@ importers:
         version: 6.1.4
       powerlines:
         specifier: 'catalog:'
-        version: 0.38.31(479cf24e0627c5cfa300936682272850)
+        version: 0.38.32(479cf24e0627c5cfa300936682272850)
     devDependencies:
       '@babel/core':
         specifier: 'catalog:'
@@ -764,7 +764,7 @@ importers:
     devDependencies:
       '@powerlines/tsconfig':
         specifier: 'catalog:'
-        version: 0.2.186(@storm-software/tsconfig@0.47.75)
+        version: 0.2.187(@storm-software/tsconfig@0.47.75)
 
   playground/complex:
     devDependencies:
@@ -800,7 +800,7 @@ importers:
     devDependencies:
       '@powerlines/nx':
         specifier: 'catalog:'
-        version: 0.11.191(1ab8132ad61242b2eb6324ff7b5c0b74)
+        version: 0.11.192(1ab8132ad61242b2eb6324ff7b5c0b74)
       '@shell-shock/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -812,7 +812,7 @@ importers:
         version: 22.19.7
       powerlines:
         specifier: 'catalog:'
-        version: 0.38.31(479cf24e0627c5cfa300936682272850)
+        version: 0.38.32(479cf24e0627c5cfa300936682272850)
 
   tools/config: {}
 
@@ -3793,8 +3793,8 @@ packages:
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
 
-  '@powerlines/deepkit@0.6.44':
-    resolution: {integrity: sha512-FWo5ZcIXXhKsdAQ9+tbvscNHA/VncHZ05yskKWIFQZlCwML6wQRaz883xEpZSFG7m22LR1mWj1vpMGf3d0OzBg==}
+  '@powerlines/deepkit@0.6.45':
+    resolution: {integrity: sha512-8iLNKTjjCP8k+IqsE8WOsR5eXpzUJw2syjkky4evmu9AyLy6J9oS/dG+MXnza3Z/BM6U0hfvIaKrNeSuE0Ox5A==}
     hasBin: true
     peerDependencies:
       esbuild: '*'
@@ -3805,49 +3805,49 @@ packages:
       rolldown:
         optional: true
 
-  '@powerlines/nx@0.11.191':
-    resolution: {integrity: sha512-XemKitpTZ6nl43KrgB9rNq4niDBzL3R+u8ZS96Ky2lhvmEVNEza0/E22SpR9ihnJqON+aLMVHv4817jgNVjaIg==}
+  '@powerlines/nx@0.11.192':
+    resolution: {integrity: sha512-vDVdrhM69J1AH+VNnY0iq3eVTdz7wdLzek3O2uAYUx6ig4kabfDZ2kx/MThFdqaiUzmucqySTCknCWBop1g0Zg==}
 
-  '@powerlines/plugin-alloy@0.20.7':
-    resolution: {integrity: sha512-f7ZNC0yKCRvxwigjwIt9pxto1OIAJqXPOclIELqRavlfjtg/TDxtZ/RQuP3SdVr82Yyit9yVsHeMPn7fPbzfDQ==}
+  '@powerlines/plugin-alloy@0.20.8':
+    resolution: {integrity: sha512-6kzYam6MJ8xfnV9IueCoNayLqXSXJPzbWbyUotjd2hJCrLafQwEJkWpuGJ0+t8v6kpMuaiaia4zYV5bLBAwsqQ==}
 
-  '@powerlines/plugin-automd@0.1.264':
-    resolution: {integrity: sha512-r5wSSaaTRgd65FdOUYCTM5Q7mRe9331kxTTVALbNl9L02dD7bUVd2rXaFjfsNG5IcwvbmhStXBSmmGsrZzELnQ==}
+  '@powerlines/plugin-automd@0.1.265':
+    resolution: {integrity: sha512-eSFKiL9DFRyAQWZu2GjFCM+Pl/Cg7HXrngaPNW4k1JgtYvBs14fo46DbHd1+Syp9vMwwcKKzKO5tK8lfiGASYA==}
 
-  '@powerlines/plugin-babel@0.12.273':
-    resolution: {integrity: sha512-UwieXeHgqYkyY131RgiYwVZJhaOszAh8tGIO2cZc0v/jbRB4gI8lycDXjewksIlcdJg5ukKv1qNLloKZcjFuiA==}
+  '@powerlines/plugin-babel@0.12.274':
+    resolution: {integrity: sha512-XXx1+mM9G2x8W9WYSs0gjgMSEmA4NVweMNZ93AVB3wkyurKj21XX5sY4VQKr41dLZPv0P8LTe+H1C1kiVgR1ZA==}
     peerDependencies:
       '@babel/plugin-syntax-typescript': ^7.27.1
 
-  '@powerlines/plugin-deepkit@0.11.143':
-    resolution: {integrity: sha512-mei20/wWvzG8AudfIt5fkLLG+3e49fxVNKKbd2PSLfcOe11wI5N+4UzPZMXxn3PM7vfq/ZHhNKKMswE17Aqumw==}
+  '@powerlines/plugin-deepkit@0.11.144':
+    resolution: {integrity: sha512-j189Mq4cJhi4hzJE2lsJYsrZIkLxverZFc3bWeEF2UBu5mqBWRNoS9KFTFv5OZNrD2GTU0R8LbLy37Ro5jWYxw==}
 
-  '@powerlines/plugin-env@0.15.173':
-    resolution: {integrity: sha512-wUN44WXFm1s3PxYdoidFPl2UKSJrcAEvJod1ABvG7bnMwQLzsHvl4HlBGaO7U8bvCux29uj0oh3M37UzqJPZrQ==}
+  '@powerlines/plugin-env@0.15.174':
+    resolution: {integrity: sha512-rwvuRgb52664lDNhV/UlI7QSB0+6BmKC6cJ5fhJkBJtBM2b7x4HkWeQ7VIjbcHzU/cIIcNEadlL91m85FAm4fQ==}
 
-  '@powerlines/plugin-nodejs@0.1.168':
-    resolution: {integrity: sha512-s0T54Rl1O3/uFCDUoGEI9Z4dty/3otmTojoXA+nKJb20UqR1gFoOL8PW8HglY7WM5FfXgZO4wv+G9ixrJ7LVVw==}
+  '@powerlines/plugin-nodejs@0.1.169':
+    resolution: {integrity: sha512-fGFD4DnMn3lAEQap/tw2/BlkYD91HyYqAHB9D1vX6ign6BUBe2BAkv4V121s7xppw27fTQ7HxZY3nfEBGkYXYA==}
 
-  '@powerlines/plugin-plugin@0.12.215':
-    resolution: {integrity: sha512-8VnS3tO3NmU66CU+u4g/V6u/XW+00zI0D5iOhqtYz76sh8JVTT145+v2RpcP5yX9Lk1QiPV/GF9tRhDFISVgdA==}
+  '@powerlines/plugin-plugin@0.12.216':
+    resolution: {integrity: sha512-vCzdPt9jW0Rgj2GUjb77KJ2TdQb2sSHowVzTLLAhSddPSkjudOc8bvQQ/CEcy09s5ksjfvR9Hxv2fA5lTLZfuw==}
 
-  '@powerlines/plugin-style-dictionary@0.3.165':
-    resolution: {integrity: sha512-6Oob9DX+fh8gb3wqVhbAZ3JNjAGusGvVTWC+pS+FOqjNMo4LqQ8sRPLvQvbArtraH7q+6CZ0URrg9XtkjpOIbA==}
+  '@powerlines/plugin-style-dictionary@0.3.166':
+    resolution: {integrity: sha512-YYAcaWIkzBTvxh3FnieNbmr8WgSo00mISuLr8BP8JjI6djlV18A2hqrQlWjEkc6FRWscg+YFvtWMI5c8729yPA==}
 
-  '@powerlines/plugin-tsc@0.2.272':
-    resolution: {integrity: sha512-c6iPeUw19pGwwnjWfBi4fBqAIYoJoZx+Z8NHm7zkEJrRDtpOeLOvjR/v7fyGbR4bOgG/oQEBGl/zR2Zk7Dvg1Q==}
+  '@powerlines/plugin-tsc@0.2.273':
+    resolution: {integrity: sha512-lX9oZA224v6YoqH7ScZsfZjgum07JSbbKWStEWeJvDffqe11FmrhIES51ixl6LPqEH1xw4I5gHD+nKgVEe3prQ==}
 
   '@powerlines/plugin-tsdown@0.1.184':
     resolution: {integrity: sha512-mSdusqTb2B4krmNlxWPtDSp/2vUcl1VM50R+X9fo+2GvXEXUcp9qnks1RP1xqR1e2+sMEpS2cxgBdvShpTNSBQ==}
 
-  '@powerlines/plugin-tsdown@0.1.217':
-    resolution: {integrity: sha512-2Rxyi48HCXR7812ry6jeJgZFbbVDdRrGL+ZFK8KwMCYo16wzPMi7HJLhTHgic9MfGou4qqqceETtMoH3MyOs9g==}
+  '@powerlines/plugin-tsdown@0.1.218':
+    resolution: {integrity: sha512-v4noKlV3YybD83dPktpyETOcZNp7sTVxRO1U9vfQKtwJyT5OVs2eZ0V8SPolWFUv9Vg3Fd/68fVLx2j7cM2b9A==}
 
-  '@powerlines/plugin-untyped@0.2.217':
-    resolution: {integrity: sha512-EGcLOpQo0JOTXIZjtOcz0OmF+MLPzVfOWD8fZwk1pH8Tbd9ewRzrAIk8S3ikj3pBlRKqpDwlSXEtuqBEswRP7Q==}
+  '@powerlines/plugin-untyped@0.2.218':
+    resolution: {integrity: sha512-gQF+ejc3UEdSJyP7bBiAkn1xf6KSYVUMISh3SiSEc56W0+r1QmoToFL+uGnf+ebmLLAL8oLwM+EyUWzx3LXD/g==}
 
-  '@powerlines/tsconfig@0.2.186':
-    resolution: {integrity: sha512-avYD5SJD9oX9pcip4HpDy8c5qUV6/qbHvsA3TKn/T552Xw95gTU1KiPG4tGGqjgSd76BtkxcFofgcrx/eZxViw==}
+  '@powerlines/tsconfig@0.2.187':
+    resolution: {integrity: sha512-/kVKWw4SzkgxO5kRY793cy6R74CcyTG3qm4zSB8RFGM1bPA09/8k17cvh0yHrErYCmv/pJrPbZ3JlKrsR+Y0Xw==}
     peerDependencies:
       '@storm-software/tsconfig': '*'
 
@@ -6373,8 +6373,8 @@ packages:
   caniuse-api@3.0.0:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
 
-  caniuse-lite@1.0.30001766:
-    resolution: {integrity: sha512-4C0lfJ0/YPjJQHagaE9x2Elb69CIqEPZeG0anQt9SIvIoOH4a4uaRl73IavyO+0qZh6MDLH//DrXThEYKHkmYA==}
+  caniuse-lite@1.0.30001767:
+    resolution: {integrity: sha512-34+zUAMhSH+r+9eKmYG+k2Rpt8XttfE4yXAjoZvkAPs15xcYQhyBYdalJ65BzivAvGRMViEjy6oKr/S91loekQ==}
 
   caseless@0.12.0:
     resolution: {integrity: sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==}
@@ -10959,8 +10959,8 @@ packages:
       webpack-cli:
         optional: true
 
-  powerlines@0.38.31:
-    resolution: {integrity: sha512-6KBKbV5g+W8BR4EEkCn9ry4STwxy5J5KMFi3vk0bukkO60bm6RxHwCbZClYYxlZJmxBXEU8Ui4qcchqJ/8KfYA==}
+  powerlines@0.38.32:
+    resolution: {integrity: sha512-O4+z3wH2JTeGu4cID6Zbz9ciVPp1wjo5hpXL/IZ0YJWScafGcVpUJVr2WI5kmwAC4r6vOFuo8ZFIcjf/Cmsm0Q==}
     peerDependencies:
       '@farmfe/cli': ^1.0.5
       '@farmfe/core': ^1.7.11
@@ -16700,7 +16700,7 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@powerlines/deepkit@0.6.44(b14041670b9ce4661d51bbff4193aa46)':
+  '@powerlines/deepkit@0.6.45(b14041670b9ce4661d51bbff4193aa46)':
     dependencies:
       '@storm-software/config-tools': 1.189.0
       '@stryke/capnp': 0.12.65(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))(typescript@5.9.3)
@@ -16710,7 +16710,7 @@ snapshots:
       '@stryke/types': 0.10.37
       defu: 6.1.4
       jiti: 2.6.1
-      powerlines: 0.38.31(b1306f332f27a4e49c3cedc7b225c92a)
+      powerlines: 0.38.32(b1306f332f27a4e49c3cedc7b225c92a)
       typescript: 5.9.3
     optionalDependencies:
       esbuild: 0.27.2
@@ -16752,7 +16752,7 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/deepkit@0.6.44(c3bc251de0acda7d910721ebd4cc9f7e)':
+  '@powerlines/deepkit@0.6.45(c3bc251de0acda7d910721ebd4cc9f7e)':
     dependencies:
       '@storm-software/config-tools': 1.189.0
       '@stryke/capnp': 0.12.65(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))(typescript@5.9.3)
@@ -16762,7 +16762,7 @@ snapshots:
       '@stryke/types': 0.10.37
       defu: 6.1.4
       jiti: 2.6.1
-      powerlines: 0.38.31(479cf24e0627c5cfa300936682272850)
+      powerlines: 0.38.32(479cf24e0627c5cfa300936682272850)
       typescript: 5.9.3
     optionalDependencies:
       esbuild: 0.27.2
@@ -16804,7 +16804,7 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/nx@0.11.191(1ab8132ad61242b2eb6324ff7b5c0b74)':
+  '@powerlines/nx@0.11.192(1ab8132ad61242b2eb6324ff7b5c0b74)':
     dependencies:
       '@nx/devkit': 22.3.3(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))
       '@storm-software/build-tools': 0.158.81(@nx/devkit@22.3.3(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18))))(@nx/js@22.4.1(@babel/traverse@7.29.0)(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18))(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))(verdaccio@6.2.5(typanion@3.14.0)))(@swc/helpers@0.5.18)(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))(typescript@5.9.3)
@@ -16821,7 +16821,7 @@ snapshots:
       defu: 6.1.4
       jiti: 2.6.1
       nx: 22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18))
-      powerlines: 0.38.31(03be18d9b752f458344ff3ab04390de0)
+      powerlines: 0.38.32(03be18d9b752f458344ff3ab04390de0)
     transitivePeerDependencies:
       - '@babel/runtime'
       - '@babel/traverse'
@@ -16878,7 +16878,7 @@ snapshots:
       - webpack-cli
       - yaml
 
-  '@powerlines/nx@0.11.191(522555b134e9237e983f8e1acc9c28de)':
+  '@powerlines/nx@0.11.192(522555b134e9237e983f8e1acc9c28de)':
     dependencies:
       '@nx/devkit': 22.3.3(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.15.11(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.11(@swc/helpers@0.5.18)))
       '@storm-software/build-tools': 0.158.81(@nx/devkit@22.3.3(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.15.11(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.11(@swc/helpers@0.5.18))))(@nx/js@22.4.1(@babel/traverse@7.29.0)(@swc-node/register@1.11.1(@swc/core@1.15.11(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.11(@swc/helpers@0.5.18))(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.15.11(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.11(@swc/helpers@0.5.18)))(verdaccio@6.2.5(typanion@3.14.0)))(@swc/helpers@0.5.18)(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.15.11(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.11(@swc/helpers@0.5.18)))(typescript@5.9.3)
@@ -16895,7 +16895,7 @@ snapshots:
       defu: 6.1.4
       jiti: 2.6.1
       nx: 22.4.1(@swc-node/register@1.11.1(@swc/core@1.15.11(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.11(@swc/helpers@0.5.18))
-      powerlines: 0.38.31(806eeee57a76e28a2c5ab06784297a79)
+      powerlines: 0.38.32(806eeee57a76e28a2c5ab06784297a79)
     transitivePeerDependencies:
       - '@babel/runtime'
       - '@babel/traverse'
@@ -16952,7 +16952,7 @@ snapshots:
       - webpack-cli
       - yaml
 
-  '@powerlines/plugin-alloy@0.20.7(7a44fd0f796b0970edb786d63b6aa6a0)':
+  '@powerlines/plugin-alloy@0.20.8(7a44fd0f796b0970edb786d63b6aa6a0)':
     dependencies:
       '@alloy-js/babel-preset': 0.2.1(@babel/core@7.29.0)
       '@alloy-js/core': 0.22.0
@@ -16960,8 +16960,8 @@ snapshots:
       '@alloy-js/markdown': 0.22.0
       '@alloy-js/rollup-plugin': 0.1.0(@babel/core@7.29.0)(@types/babel__core@7.20.5)(rollup@4.57.1)
       '@alloy-js/typescript': 0.22.0
-      '@powerlines/deepkit': 0.6.44(c3bc251de0acda7d910721ebd4cc9f7e)
-      '@powerlines/plugin-babel': 0.12.273(9e38a6c88446e9bbc307a53be19df92c)
+      '@powerlines/deepkit': 0.6.45(c3bc251de0acda7d910721ebd4cc9f7e)
+      '@powerlines/plugin-babel': 0.12.274(9e38a6c88446e9bbc307a53be19df92c)
       '@storm-software/config-tools': 1.189.0
       '@stryke/capnp': 0.12.65(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))(typescript@5.9.3)
       '@stryke/convert': 0.6.38
@@ -16974,7 +16974,7 @@ snapshots:
       '@stryke/types': 0.10.37
       '@stryke/unique-id': 0.3.51
       defu: 6.1.4
-      powerlines: 0.38.31(479cf24e0627c5cfa300936682272850)
+      powerlines: 0.38.32(479cf24e0627c5cfa300936682272850)
       prettier: 3.8.1
       unctx: 2.5.0
     transitivePeerDependencies:
@@ -17019,7 +17019,7 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-alloy@0.20.7(e1f435c3ecdb911c10daa93d4868b25a)':
+  '@powerlines/plugin-alloy@0.20.8(e1f435c3ecdb911c10daa93d4868b25a)':
     dependencies:
       '@alloy-js/babel-preset': 0.2.1(@babel/core@7.29.0)
       '@alloy-js/core': 0.22.0
@@ -17027,8 +17027,8 @@ snapshots:
       '@alloy-js/markdown': 0.22.0
       '@alloy-js/rollup-plugin': 0.1.0(@babel/core@7.29.0)(@types/babel__core@7.20.5)(rollup@4.57.1)
       '@alloy-js/typescript': 0.22.0
-      '@powerlines/deepkit': 0.6.44(b14041670b9ce4661d51bbff4193aa46)
-      '@powerlines/plugin-babel': 0.12.273(d09787f0e392204b84a04ac7003d874b)
+      '@powerlines/deepkit': 0.6.45(b14041670b9ce4661d51bbff4193aa46)
+      '@powerlines/plugin-babel': 0.12.274(d09787f0e392204b84a04ac7003d874b)
       '@storm-software/config-tools': 1.189.0
       '@stryke/capnp': 0.12.65(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))(typescript@5.9.3)
       '@stryke/convert': 0.6.38
@@ -17041,7 +17041,7 @@ snapshots:
       '@stryke/types': 0.10.37
       '@stryke/unique-id': 0.3.51
       defu: 6.1.4
-      powerlines: 0.38.31(b1306f332f27a4e49c3cedc7b225c92a)
+      powerlines: 0.38.32(b1306f332f27a4e49c3cedc7b225c92a)
       prettier: 3.8.1
       unctx: 2.5.0
     transitivePeerDependencies:
@@ -17086,7 +17086,7 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-automd@0.1.264(b1306f332f27a4e49c3cedc7b225c92a)':
+  '@powerlines/plugin-automd@0.1.265(b1306f332f27a4e49c3cedc7b225c92a)':
     dependencies:
       '@stryke/convert': 0.6.38
       '@stryke/fs': 0.33.40(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))
@@ -17096,7 +17096,7 @@ snapshots:
       c12: 3.3.3
       defu: 6.1.4
       markdown-toc: 1.2.0
-      powerlines: 0.38.31(b1306f332f27a4e49c3cedc7b225c92a)
+      powerlines: 0.38.32(b1306f332f27a4e49c3cedc7b225c92a)
     transitivePeerDependencies:
       - '@farmfe/cli'
       - '@farmfe/core'
@@ -17137,7 +17137,7 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-babel@0.12.273(9e38a6c88446e9bbc307a53be19df92c)':
+  '@powerlines/plugin-babel@0.12.274(9e38a6c88446e9bbc307a53be19df92c)':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/generator': 7.29.0
@@ -17153,7 +17153,7 @@ snapshots:
       chalk: 5.6.2
       defu: 6.1.4
       jiti: 2.6.1
-      powerlines: 0.38.31(479cf24e0627c5cfa300936682272850)
+      powerlines: 0.38.32(479cf24e0627c5cfa300936682272850)
     transitivePeerDependencies:
       - '@farmfe/cli'
       - '@farmfe/core'
@@ -17194,7 +17194,7 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-babel@0.12.273(d09787f0e392204b84a04ac7003d874b)':
+  '@powerlines/plugin-babel@0.12.274(d09787f0e392204b84a04ac7003d874b)':
     dependencies:
       '@babel/core': 7.29.0
       '@babel/generator': 7.29.0
@@ -17210,7 +17210,7 @@ snapshots:
       chalk: 5.6.2
       defu: 6.1.4
       jiti: 2.6.1
-      powerlines: 0.38.31(b1306f332f27a4e49c3cedc7b225c92a)
+      powerlines: 0.38.32(b1306f332f27a4e49c3cedc7b225c92a)
     transitivePeerDependencies:
       - '@farmfe/cli'
       - '@farmfe/core'
@@ -17251,12 +17251,12 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-deepkit@0.11.143(b14041670b9ce4661d51bbff4193aa46)':
+  '@powerlines/plugin-deepkit@0.11.144(b14041670b9ce4661d51bbff4193aa46)':
     dependencies:
-      '@powerlines/deepkit': 0.6.44(b14041670b9ce4661d51bbff4193aa46)
-      '@powerlines/plugin-tsc': 0.2.272(b14041670b9ce4661d51bbff4193aa46)
+      '@powerlines/deepkit': 0.6.45(b14041670b9ce4661d51bbff4193aa46)
+      '@powerlines/plugin-tsc': 0.2.273(b14041670b9ce4661d51bbff4193aa46)
       '@stryke/json': 0.9.41
-      powerlines: 0.38.31(b1306f332f27a4e49c3cedc7b225c92a)
+      powerlines: 0.38.32(b1306f332f27a4e49c3cedc7b225c92a)
       typescript: 5.9.3
     transitivePeerDependencies:
       - '@farmfe/cli'
@@ -17297,12 +17297,12 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-deepkit@0.11.143(c3bc251de0acda7d910721ebd4cc9f7e)':
+  '@powerlines/plugin-deepkit@0.11.144(c3bc251de0acda7d910721ebd4cc9f7e)':
     dependencies:
-      '@powerlines/deepkit': 0.6.44(c3bc251de0acda7d910721ebd4cc9f7e)
-      '@powerlines/plugin-tsc': 0.2.272(c3bc251de0acda7d910721ebd4cc9f7e)
+      '@powerlines/deepkit': 0.6.45(c3bc251de0acda7d910721ebd4cc9f7e)
+      '@powerlines/plugin-tsc': 0.2.273(c3bc251de0acda7d910721ebd4cc9f7e)
       '@stryke/json': 0.9.41
-      powerlines: 0.38.31(479cf24e0627c5cfa300936682272850)
+      powerlines: 0.38.32(479cf24e0627c5cfa300936682272850)
       typescript: 5.9.3
     transitivePeerDependencies:
       - '@farmfe/cli'
@@ -17343,7 +17343,7 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-env@0.15.173(e767856cfbfd2af0636a74b6024f6eac)':
+  '@powerlines/plugin-env@0.15.174(e767856cfbfd2af0636a74b6024f6eac)':
     dependencies:
       '@alloy-js/core': 0.22.0
       '@alloy-js/json': 0.22.0
@@ -17351,10 +17351,10 @@ snapshots:
       '@alloy-js/typescript': 0.22.0
       '@babel/core': 7.29.0
       '@babel/types': 7.29.0
-      '@powerlines/plugin-alloy': 0.20.7(e1f435c3ecdb911c10daa93d4868b25a)
-      '@powerlines/plugin-automd': 0.1.264(b1306f332f27a4e49c3cedc7b225c92a)
-      '@powerlines/plugin-babel': 0.12.273(d09787f0e392204b84a04ac7003d874b)
-      '@powerlines/plugin-plugin': 0.12.215(d88eec7f1176692d98814593b9749435)
+      '@powerlines/plugin-alloy': 0.20.8(e1f435c3ecdb911c10daa93d4868b25a)
+      '@powerlines/plugin-automd': 0.1.265(b1306f332f27a4e49c3cedc7b225c92a)
+      '@powerlines/plugin-babel': 0.12.274(d09787f0e392204b84a04ac7003d874b)
+      '@powerlines/plugin-plugin': 0.12.216(d88eec7f1176692d98814593b9749435)
       '@storm-software/config-tools': 1.189.0
       '@stryke/capnp': 0.12.65(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))(typescript@5.9.3)
       '@stryke/env': 0.20.57(@types/picomatch@4.0.2)(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))
@@ -17364,7 +17364,7 @@ snapshots:
       '@stryke/type-checks': 0.5.23
       '@stryke/types': 0.10.37
       automd: 0.4.3
-      powerlines: 0.38.31(b1306f332f27a4e49c3cedc7b225c92a)
+      powerlines: 0.38.32(b1306f332f27a4e49c3cedc7b225c92a)
     transitivePeerDependencies:
       - '@arethetypeswrong/core'
       - '@babel/plugin-syntax-typescript'
@@ -17415,18 +17415,18 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-nodejs@0.1.168(9160c7abb21549a125718ba434fbe6c1)':
+  '@powerlines/plugin-nodejs@0.1.169(9160c7abb21549a125718ba434fbe6c1)':
     dependencies:
       '@alloy-js/core': 0.22.0
       '@alloy-js/typescript': 0.22.0
-      '@powerlines/plugin-alloy': 0.20.7(e1f435c3ecdb911c10daa93d4868b25a)
-      '@powerlines/plugin-babel': 0.12.273(d09787f0e392204b84a04ac7003d874b)
-      '@powerlines/plugin-env': 0.15.173(e767856cfbfd2af0636a74b6024f6eac)
-      '@powerlines/plugin-plugin': 0.12.215(d88eec7f1176692d98814593b9749435)
+      '@powerlines/plugin-alloy': 0.20.8(e1f435c3ecdb911c10daa93d4868b25a)
+      '@powerlines/plugin-babel': 0.12.274(d09787f0e392204b84a04ac7003d874b)
+      '@powerlines/plugin-env': 0.15.174(e767856cfbfd2af0636a74b6024f6eac)
+      '@powerlines/plugin-plugin': 0.12.216(d88eec7f1176692d98814593b9749435)
       '@storm-software/config-tools': 1.189.0
       '@stryke/string-format': 0.13.7
       defu: 6.1.4
-      powerlines: 0.38.31(b1306f332f27a4e49c3cedc7b225c92a)
+      powerlines: 0.38.32(b1306f332f27a4e49c3cedc7b225c92a)
     transitivePeerDependencies:
       - '@arethetypeswrong/core'
       - '@babel/core'
@@ -17478,7 +17478,7 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-plugin@0.12.215(3cea8ffb4c598e62cf0a5a52cae3f97a)':
+  '@powerlines/plugin-plugin@0.12.216(3cea8ffb4c598e62cf0a5a52cae3f97a)':
     dependencies:
       '@stryke/convert': 0.6.38
       '@stryke/fs': 0.33.40(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))
@@ -17489,7 +17489,7 @@ snapshots:
       '@stryke/types': 0.10.37
       defu: 6.1.4
       jiti: 2.6.1
-      powerlines: 0.38.31(479cf24e0627c5cfa300936682272850)
+      powerlines: 0.38.32(479cf24e0627c5cfa300936682272850)
       tsdown: 0.17.0-beta.5(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.17.0)(synckit@0.11.12)(typescript@5.9.3)
       unplugin: 3.0.0-beta.3
     transitivePeerDependencies:
@@ -17540,7 +17540,7 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-plugin@0.12.215(d88eec7f1176692d98814593b9749435)':
+  '@powerlines/plugin-plugin@0.12.216(d88eec7f1176692d98814593b9749435)':
     dependencies:
       '@stryke/convert': 0.6.38
       '@stryke/fs': 0.33.40(nx@22.4.1(@swc-node/register@1.11.1(@swc/core@1.7.26(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.7.26(@swc/helpers@0.5.18)))
@@ -17551,7 +17551,7 @@ snapshots:
       '@stryke/types': 0.10.37
       defu: 6.1.4
       jiti: 2.6.1
-      powerlines: 0.38.31(b1306f332f27a4e49c3cedc7b225c92a)
+      powerlines: 0.38.32(b1306f332f27a4e49c3cedc7b225c92a)
       tsdown: 0.17.0-beta.5(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.17.0)(synckit@0.11.12)(typescript@5.9.3)
       unplugin: 3.0.0-beta.3
     transitivePeerDependencies:
@@ -17602,14 +17602,14 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-style-dictionary@0.3.165(828dc119633da29d217a53420fb66fbb)':
+  '@powerlines/plugin-style-dictionary@0.3.166(828dc119633da29d217a53420fb66fbb)':
     dependencies:
       '@stryke/path': 0.26.4
       '@stryke/type-checks': 0.5.23
       '@stryke/types': 0.10.37
       defu: 6.1.4
       jiti: 2.6.1
-      powerlines: 0.38.31(479cf24e0627c5cfa300936682272850)
+      powerlines: 0.38.32(479cf24e0627c5cfa300936682272850)
       style-dictionary: 5.2.0(tslib@2.8.1)
     transitivePeerDependencies:
       - '@farmfe/cli'
@@ -17652,11 +17652,11 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-tsc@0.2.272(b14041670b9ce4661d51bbff4193aa46)':
+  '@powerlines/plugin-tsc@0.2.273(b14041670b9ce4661d51bbff4193aa46)':
     dependencies:
       '@stryke/path': 0.26.4
       defu: 6.1.4
-      powerlines: 0.38.31(b1306f332f27a4e49c3cedc7b225c92a)
+      powerlines: 0.38.32(b1306f332f27a4e49c3cedc7b225c92a)
       typescript: 5.9.3
     transitivePeerDependencies:
       - '@farmfe/cli'
@@ -17697,11 +17697,11 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-tsc@0.2.272(c3bc251de0acda7d910721ebd4cc9f7e)':
+  '@powerlines/plugin-tsc@0.2.273(c3bc251de0acda7d910721ebd4cc9f7e)':
     dependencies:
       '@stryke/path': 0.26.4
       defu: 6.1.4
-      powerlines: 0.38.31(479cf24e0627c5cfa300936682272850)
+      powerlines: 0.38.32(479cf24e0627c5cfa300936682272850)
       typescript: 5.9.3
     transitivePeerDependencies:
       - '@farmfe/cli'
@@ -17796,10 +17796,10 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-tsdown@0.1.217(3cea8ffb4c598e62cf0a5a52cae3f97a)':
+  '@powerlines/plugin-tsdown@0.1.218(3cea8ffb4c598e62cf0a5a52cae3f97a)':
     dependencies:
       defu: 6.1.4
-      powerlines: 0.38.31(479cf24e0627c5cfa300936682272850)
+      powerlines: 0.38.32(479cf24e0627c5cfa300936682272850)
       tsdown: 0.17.0-beta.5(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.17.0)(synckit@0.11.12)(typescript@5.9.3)
       unplugin: 3.0.0-beta.3
     transitivePeerDependencies:
@@ -17850,10 +17850,10 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-tsdown@0.1.217(d88eec7f1176692d98814593b9749435)':
+  '@powerlines/plugin-tsdown@0.1.218(d88eec7f1176692d98814593b9749435)':
     dependencies:
       defu: 6.1.4
-      powerlines: 0.38.31(b1306f332f27a4e49c3cedc7b225c92a)
+      powerlines: 0.38.32(b1306f332f27a4e49c3cedc7b225c92a)
       tsdown: 0.17.0-beta.5(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.17.0)(synckit@0.11.12)(typescript@5.9.3)
       unplugin: 3.0.0-beta.3
     transitivePeerDependencies:
@@ -17904,11 +17904,11 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/plugin-untyped@0.2.217(479cf24e0627c5cfa300936682272850)':
+  '@powerlines/plugin-untyped@0.2.218(479cf24e0627c5cfa300936682272850)':
     dependencies:
       '@storm-software/untyped': 0.24.62
       '@stryke/convert': 0.6.38
-      powerlines: 0.38.31(479cf24e0627c5cfa300936682272850)
+      powerlines: 0.38.32(479cf24e0627c5cfa300936682272850)
     transitivePeerDependencies:
       - '@farmfe/cli'
       - '@farmfe/core'
@@ -17949,7 +17949,7 @@ snapshots:
       - webpack
       - webpack-cli
 
-  '@powerlines/tsconfig@0.2.186(@storm-software/tsconfig@0.47.75)':
+  '@powerlines/tsconfig@0.2.187(@storm-software/tsconfig@0.47.75)':
     dependencies:
       '@storm-software/tsconfig': 0.47.75
 
@@ -20948,7 +20948,7 @@ snapshots:
   autoprefixer@10.4.24(postcss@8.5.6):
     dependencies:
       browserslist: 4.28.1
-      caniuse-lite: 1.0.30001766
+      caniuse-lite: 1.0.30001767
       fraction.js: 5.3.4
       picocolors: 1.1.1
       postcss: 8.5.6
@@ -21253,7 +21253,7 @@ snapshots:
 
   browserslist@4.16.6:
     dependencies:
-      caniuse-lite: 1.0.30001766
+      caniuse-lite: 1.0.30001767
       colorette: 1.4.0
       electron-to-chromium: 1.5.283
       escalade: 3.2.0
@@ -21262,7 +21262,7 @@ snapshots:
   browserslist@4.28.1:
     dependencies:
       baseline-browser-mapping: 2.9.19
-      caniuse-lite: 1.0.30001766
+      caniuse-lite: 1.0.30001767
       electron-to-chromium: 1.5.283
       node-releases: 2.0.27
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
@@ -21411,11 +21411,11 @@ snapshots:
   caniuse-api@3.0.0:
     dependencies:
       browserslist: 4.28.1
-      caniuse-lite: 1.0.30001766
+      caniuse-lite: 1.0.30001767
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
-  caniuse-lite@1.0.30001766: {}
+  caniuse-lite@1.0.30001767: {}
 
   caseless@0.12.0: {}
 
@@ -22067,7 +22067,7 @@ snapshots:
 
   cssnano-preset-simple@2.0.0(postcss@8.5.6):
     dependencies:
-      caniuse-lite: 1.0.30001766
+      caniuse-lite: 1.0.30001767
       postcss: 8.5.6
 
   cssnano-simple@2.0.0(postcss@8.5.6):
@@ -27059,7 +27059,7 @@ snapshots:
       browserify-zlib: 0.2.0
       browserslist: 4.16.6
       buffer: 5.6.0
-      caniuse-lite: 1.0.30001766
+      caniuse-lite: 1.0.30001767
       chalk: 2.4.2
       chokidar: 3.5.1
       constants-browserify: 1.0.0
@@ -28068,7 +28068,7 @@ snapshots:
       - vue-sfc-transformer
       - vue-tsc
 
-  powerlines@0.38.31(03be18d9b752f458344ff3ab04390de0):
+  powerlines@0.38.32(03be18d9b752f458344ff3ab04390de0):
     dependencies:
       '@alloy-js/babel-plugin': 0.2.1(@babel/core@7.29.0)
       '@alloy-js/babel-plugin-jsx-dom-expressions': 0.39.1(@babel/core@7.29.0)
@@ -28170,7 +28170,7 @@ snapshots:
       - vue-sfc-transformer
       - vue-tsc
 
-  powerlines@0.38.31(479cf24e0627c5cfa300936682272850):
+  powerlines@0.38.32(479cf24e0627c5cfa300936682272850):
     dependencies:
       '@alloy-js/babel-plugin': 0.2.1(@babel/core@7.29.0)
       '@alloy-js/babel-plugin-jsx-dom-expressions': 0.39.1(@babel/core@7.29.0)
@@ -28272,7 +28272,7 @@ snapshots:
       - vue-sfc-transformer
       - vue-tsc
 
-  powerlines@0.38.31(806eeee57a76e28a2c5ab06784297a79):
+  powerlines@0.38.32(806eeee57a76e28a2c5ab06784297a79):
     dependencies:
       '@alloy-js/babel-plugin': 0.2.1(@babel/core@7.29.0)
       '@alloy-js/babel-plugin-jsx-dom-expressions': 0.39.1(@babel/core@7.29.0)
@@ -28374,7 +28374,7 @@ snapshots:
       - vue-sfc-transformer
       - vue-tsc
 
-  powerlines@0.38.31(b1306f332f27a4e49c3cedc7b225c92a):
+  powerlines@0.38.32(b1306f332f27a4e49c3cedc7b225c92a):
     dependencies:
       '@alloy-js/babel-plugin': 0.2.1(@babel/core@7.29.0)
       '@alloy-js/babel-plugin-jsx-dom-expressions': 0.39.1(@babel/core@7.29.0)

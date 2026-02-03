@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { Children } from "@alloy-js/core";
-import { code, For, Show } from "@alloy-js/core";
+import { code, computed, For, Show } from "@alloy-js/core";
 import type { FunctionDeclarationProps } from "@alloy-js/typescript";
 import {
   ElseClause,
@@ -29,6 +29,7 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import {
   TSDoc,
@@ -38,12 +39,20 @@ import {
   TSDocRemarks,
   TSDocReturns
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+import { useCommand } from "@shell-shock/core/contexts/command";
+import {
+  getAppDescription,
+  getAppTitle
+} from "@shell-shock/core/plugin-utils/context-helpers";
 import type {
+  ThemeColorVariant,
   ThemeMessageVariant,
   ThemeResolvedConfig
 } from "@shell-shock/plugin-theme/types/theme";
+import { getIndefiniteArticle } from "@stryke/string-format/vowels";
 import { useColors, useTheme } from "../contexts/theme";
 import type { AnsiWrappers, BaseAnsiStylesKeys } from "../helpers/ansi-utils";
+import type { ScriptPresetContext } from "../types/plugin";
 
 /**
  * A component to generate a console message function in a Shell Shock project.
@@ -143,41 +152,261 @@ export function ColorsDeclaration() {
             <hbr />
             {code`text: {
                     banner: {
-                      title: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.banner.title}
-                          ansi256={colors.ansi256.theme.text.banner.title}
-                          ansi16m={colors.ansi16m.theme.text.banner.title}
-                        />
-                      )},
-                      header: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.banner.header}
-                          ansi256={colors.ansi256.theme.text.banner.header}
-                          ansi16m={colors.ansi16m.theme.text.banner.header}
-                        />
-                      )},
-                      footer: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.banner.footer}
-                          ansi256={colors.ansi256.theme.text.banner.footer}
-                          ansi16m={colors.ansi16m.theme.text.banner.footer}
-                        />
-                      )},
-                      command: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.banner.command}
-                          ansi256={colors.ansi256.theme.text.banner.command}
-                          ansi16m={colors.ansi16m.theme.text.banner.command}
-                        />
-                      )},
-                      description: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.banner.description}
-                          ansi256={colors.ansi256.theme.text.banner.description}
-                          ansi16m={colors.ansi16m.theme.text.banner.description}
-                        />
-                      )}
+                      header: {
+                        primary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.header.primary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.header.primary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.header.primary
+                            }
+                          />
+                        )},
+                        secondary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.header.secondary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.header.secondary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.header.secondary
+                            }
+                          />
+                        )},
+                        tertiary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.header.tertiary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.header.tertiary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.header.tertiary
+                            }
+                          />
+                        )}
+                      },
+                      footer: {
+                        primary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.footer.primary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.footer.primary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.footer.primary
+                            }
+                          />
+                        )},
+                        secondary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.footer.secondary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.footer.secondary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.footer.secondary
+                            }
+                          />
+                        )},
+                        tertiary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.footer.tertiary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.footer.tertiary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.footer.tertiary
+                            }
+                          />
+                        )}
+                      },
+                      command: {
+                        primary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.command.primary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.command.primary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.command.primary
+                            }
+                          />
+                        )},
+                        secondary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.command.secondary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.command.secondary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.command.secondary
+                            }
+                          />
+                        )},
+                        tertiary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.command.tertiary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.command.tertiary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.command.tertiary
+                            }
+                          />
+                        )},
+                      },
+                      title: {
+                        primary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.title.primary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.title.primary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.title.primary
+                            }
+                          />
+                        )},
+                        secondary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.title.secondary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.title.secondary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.title.secondary
+                            }
+                          />
+                        )},
+                        tertiary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.title.tertiary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.title.tertiary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.title.tertiary
+                            }
+                          />
+                        )},
+                      },
+                      link: {
+                        primary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.link.primary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.link.primary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.link.primary
+                            }
+                          />
+                        )},
+                        secondary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.link.secondary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.link.secondary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.link.secondary
+                            }
+                          />
+                        )},
+                        tertiary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.link.tertiary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.link.tertiary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.link.tertiary
+                            }
+                          />
+                        )},
+                      },
+                      description: {
+                        primary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.description
+                                .primary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.description
+                                .primary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.description
+                                .primary
+                            }
+                          />
+                        )},
+                        secondary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.description
+                                .secondary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.description
+                                .secondary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.description
+                                .secondary
+                            }
+                          />
+                        )},
+                        tertiary: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.banner.description
+                                .tertiary
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.banner.description
+                                .tertiary
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.banner.description
+                                .tertiary
+                            }
+                          />
+                        )},
+                      }
                     },
                     heading: {
                       primary: ${(
@@ -200,7 +429,7 @@ export function ColorsDeclaration() {
                           ansi256={colors.ansi256.theme.text.heading.tertiary}
                           ansi16m={colors.ansi16m.theme.text.heading.tertiary}
                         />
-                      )}
+                      )},
                     },
                     body: {
                       primary: ${(
@@ -1199,6 +1428,7 @@ export type MessageFunctionDeclarationProps = Partial<
   consoleFnName: "log" | "info" | "warn" | "error" | "debug";
   description: string;
   prefix?: Children;
+  timestamp?: boolean;
 };
 
 /**
@@ -1207,17 +1437,24 @@ export type MessageFunctionDeclarationProps = Partial<
 export function MessageFunctionDeclaration(
   props: MessageFunctionDeclarationProps
 ) {
-  const { type, variant, consoleFnName, description, prefix, parameters } =
-    props;
+  const {
+    type,
+    variant,
+    consoleFnName,
+    description,
+    prefix,
+    parameters,
+    timestamp
+  } = props;
 
   const theme = useTheme();
 
   return (
     <>
       <TSDoc
-        heading={`Write ${
-          ["a", "e", "i", "o", "u"].includes(description.charAt(0)) ? "an" : "a"
-        } ${description} message to the console.`}>
+        heading={`Write ${getIndefiniteArticle(
+          description
+        )} ${description} message to the console.`}>
         <TSDocRemarks>
           {`This function initializes the Powerlines environment configuration object.`}
         </TSDocRemarks>
@@ -1248,19 +1485,58 @@ export function MessageFunctionDeclaration(
           return;
         }
 
+        ${
+          !theme.labels.message.footer[variant] && timestamp
+            ? `const timestamp = \`\${colors.text.message.footer.${
+                variant
+              }(new Date().toLocaleDateString())} \${colors.border.message.outline.${
+                variant
+              }("${
+                theme.borderStyles.message.outline[variant].bottom
+              }")} \${colors.text.message.footer.${
+                variant
+              }(new Date().toLocaleTimeString())}\`; `
+            : ""
+        }
         writeLine(colors.border.message.outline.${variant}("${
           theme.borderStyles.message.outline[variant].topLeft
-        }") + colors.border.message.outline.${variant}("${
-          theme.borderStyles.message.outline[variant].top
-        }".repeat(Math.max(process.stdout.columns - ${
-          (Math.max(theme.padding.app, 0) +
-            Math.max(theme.padding.message, 0)) *
-            2 +
-          theme.borderStyles.message.outline[variant].topLeft.length +
-          theme.borderStyles.message.outline[variant].topRight.length
-        }, 0) / ${
-          theme.borderStyles.message.outline[variant].top.length ?? 1
-        })) + colors.border.message.outline.${variant}("${
+        }") + ${
+          theme.labels.message.header[variant] ||
+          theme.icons.message.header[variant]
+            ? `colors.border.message.outline.${variant}("${
+                theme.borderStyles.message.outline[variant].top
+              }".repeat(4)) + " " + ${
+                theme.icons.message.header[variant]
+                  ? `colors.border.message.outline.${variant}("${
+                      theme.icons.message.header[variant]
+                    }") + " " +`
+                  : ""
+              } colors.text.message.header.${variant}("${
+                theme.labels.message.header[variant]
+              }") + " " + colors.border.message.outline.${variant}("${
+                theme.borderStyles.message.outline[variant].top
+              }".repeat(Math.max(process.stdout.columns - ${
+                Math.max(theme.padding.app, 0) * 2 +
+                4 +
+                (theme.icons.message.header[variant]
+                  ? theme.icons.message.header[variant].length +
+                    1 +
+                    (theme.labels.message.header[variant] ? 0 : 1)
+                  : 0) +
+                (theme.labels.message.header[variant]
+                  ? theme.labels.message.header[variant].length + 2
+                  : 0) +
+                theme.borderStyles.message.outline[variant].topLeft.length +
+                theme.borderStyles.message.outline[variant].topRight.length
+              }, 0)))`
+            : `colors.border.message.outline.${variant}("${
+                theme.borderStyles.message.outline[variant].top
+              }".repeat(Math.max(process.stdout.columns - ${
+                Math.max(theme.padding.app, 0) * 2 +
+                theme.borderStyles.message.outline[variant].topLeft.length +
+                theme.borderStyles.message.outline[variant].topRight.length
+              }, 0)))`
+        } + colors.border.message.outline.${variant}("${
           theme.borderStyles.message.outline[variant].topRight
         }"), { consoleFn: console.${consoleFnName} });
         splitText(
@@ -1276,25 +1552,241 @@ export function MessageFunctionDeclaration(
           writeLine(colors.border.message.outline.${variant}("${
             theme.borderStyles.message.outline[variant].left +
             " ".repeat(Math.max(theme.padding.message, 0))
-          }") + line + colors.border.message.outline.${variant}("${
-            " ".repeat(Math.max(theme.padding.message, 0)) +
+          }") + colors.text.message.description.${variant}(line) + " ".repeat(Math.max(process.stdout.columns - (stripAnsi(line).length + ${
+            Math.max(theme.padding.app, 0) * 2 +
+            Math.max(theme.padding.message, 0) +
+            theme.borderStyles.message.outline[variant].left.length +
+            theme.borderStyles.message.outline[variant].right.length
+          }), 0)) + colors.border.message.outline.${variant}("${
             theme.borderStyles.message.outline[variant].right
           }"), { consoleFn: console.${consoleFnName} });
         });
         writeLine(colors.border.message.outline.${variant}("${
           theme.borderStyles.message.outline[variant].bottomLeft
-        }") + colors.border.message.outline.${variant}("${
-          theme.borderStyles.message.outline[variant].bottom
-        }".repeat(Math.max(process.stdout.columns - ${
-          (Math.max(theme.padding.app, 0) +
-            Math.max(theme.padding.message, 0)) *
-            2 +
-          theme.borderStyles.message.outline[variant].bottomLeft.length +
-          theme.borderStyles.message.outline[variant].bottomRight.length
-        }, 0) / ${
-          theme.borderStyles.message.outline[variant].bottom.length ?? 1
-        })) + colors.border.message.outline.${variant}("${
+        }") + ${
+          theme.labels.message.footer[variant] || timestamp
+            ? `colors.border.message.outline.${variant}("${
+                theme.borderStyles.message.outline[variant].bottom
+              }".repeat(Math.max(process.stdout.columns - ${
+                Math.max(theme.padding.app, 0) * 2 +
+                4 +
+                (theme.labels.message.footer[variant]
+                  ? theme.labels.message.footer[variant].length + 2
+                  : 0) +
+                theme.borderStyles.message.outline[variant].bottomLeft.length +
+                theme.borderStyles.message.outline[variant].bottomRight.length
+              }${
+                !theme.labels.message.footer[variant] && timestamp
+                  ? " - (stripAnsi(timestamp).length + 2)"
+                  : ""
+              }, 0))) + " " + ${
+                theme.labels.message.footer[variant]
+                  ? `colors.text.message.footer.${variant}("${theme.labels.message.footer[variant]}")`
+                  : timestamp && "timestamp"
+              } + " " + colors.border.message.outline.${variant}("${
+                theme.borderStyles.message.outline[variant].bottom
+              }".repeat(4))`
+            : `colors.border.message.outline.${variant}("${
+                theme.borderStyles.message.outline[variant].bottom
+              }".repeat(Math.max(process.stdout.columns - ${
+                Math.max(theme.padding.app, 0) * 2 +
+                theme.borderStyles.message.outline[variant].bottomLeft.length +
+                theme.borderStyles.message.outline[variant].bottomRight.length
+              }, 0)))`
+        } + colors.border.message.outline.${variant}("${
           theme.borderStyles.message.outline[variant].bottomRight
+        }"), { consoleFn: console.${consoleFnName} });
+`}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+export interface BannerFunctionDeclarationProps {
+  variant?: ThemeColorVariant;
+  consoleFnName?: "log" | "info" | "warn" | "error" | "debug";
+  title?: string;
+}
+
+/**
+ * A component to generate the `banner` function in the `shell-shock:console` builtin module.
+ */
+export function BannerFunctionDeclaration(
+  props: BannerFunctionDeclarationProps
+) {
+  const {
+    consoleFnName = "log",
+    variant = "primary",
+    title: titleProp
+  } = props;
+
+  const theme = useTheme();
+
+  const context = usePowerlines<ScriptPresetContext>();
+  const command = useCommand();
+
+  const header = computed(
+    () =>
+      `${theme.labels.banner.header[variant] || getAppTitle(context)} v${context.packageJson.version || "1.0.0"}`
+  );
+  const description = computed(
+    () => command?.description || getAppDescription(context)
+  );
+  const footer = computed(() => theme.labels.banner.footer[variant]);
+
+  const title = computed(() =>
+    titleProp ||
+    /(?:cli|command-line|command line)\s+(?:application|app)?$/.test(
+      header.value.toLowerCase()
+    )
+      ? header.value
+          .replace(`v${context.packageJson.version || "1.0.0"}`, "")
+          .trim()
+      : `${header.value
+          .replace(`v${context.packageJson.version || "1.0.0"}`, "")
+          .trim()} Command-Line Application`
+  );
+
+  const bannerPadding = computed(
+    () =>
+      Math.max(theme.padding.app, 0) * 2 +
+      theme.borderStyles.banner.outline[variant].left.length +
+      theme.borderStyles.banner.outline[variant].right.length
+  );
+  const totalPadding = computed(
+    () => Math.max(theme.padding.banner, 0) * 2 + bannerPadding.value
+  );
+
+  return (
+    <>
+      <FunctionDeclaration
+        export
+        name="banner"
+        doc="Write the application banner to the console.">
+        {code`
+        if (hasFlag("no-banner") || hasFlag("hide-banner") || isCI || isMinimal) {
+          return;
+        }
+
+        writeLine(colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].topLeft
+        }") + ${
+          theme.icons.banner.header[variant]
+            ? `colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].top
+              }".repeat(4)) + " " + ${
+                theme.icons.banner.header[variant]
+                  ? `colors.border.banner.outline.${variant}("${
+                      theme.icons.banner.header[variant]
+                    }") + " " + colors.text.banner.header.${variant}("${
+                      theme.borderStyles.banner.outline[variant].top
+                    }") + " " +`
+                  : ""
+              } colors.text.banner.header.${variant}("${
+                header.value
+              }") + " " + colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].top
+              }".repeat(Math.max(process.stdout.columns - ${
+                4 +
+                (theme.icons.banner.header[variant]
+                  ? theme.icons.banner.header[variant].length + 3
+                  : 0) +
+                (header.value ? header.value.length + 2 : 0) +
+                bannerPadding.value
+              }, 0)))`
+            : `colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].top
+              }".repeat(Math.max(process.stdout.columns - ${
+                bannerPadding.value
+              }, 0)))`
+        } + colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].topRight
+        }"), { consoleFn: console.${consoleFnName} });
+
+        splitText(
+          colors.text.banner.title.${variant}("${title.value}"),
+          Math.max(process.stdout.columns - ${totalPadding.value}, 0)
+        ).forEach((line) => {
+          writeLine(colors.border.banner.outline.${variant}("${
+            theme.borderStyles.banner.outline[variant].left
+          }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
+            bannerPadding.value
+          })) / 2), 0)) + colors.text.banner.description.${
+            variant
+          }(line) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+            bannerPadding.value
+          })) / 2), 0)) + colors.border.banner.outline.${variant}("${
+            theme.borderStyles.banner.outline[variant].right
+          }"), { consoleFn: console.${consoleFnName} });
+        });
+
+        ${
+          command?.title
+            ? `writeLine(colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].bottomLeft
+              }") + " ".repeat(Math.max(process.stdout.columns - ${
+                bannerPadding.value
+              })) + colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].bottomRight
+              }"), { consoleFn: console.${consoleFnName} });
+
+            writeLine(colors.border.banner.outline.${variant}("${
+              theme.borderStyles.banner.outline[variant].left
+            }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
+              bannerPadding.value
+            })) / 2), 0)) + colors.text.banner.command.${
+              variant
+            }("${command.title}") + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+              bannerPadding.value
+            })) / 2), 0)) + colors.border.banner.outline.${variant}("${
+              theme.borderStyles.banner.outline[variant].right
+            }"), { consoleFn: console.${consoleFnName} }); `
+            : ""
+        }
+
+        splitText(
+          ${
+            command?.title
+              ? "colors.text.banner.description"
+              : "colors.text.banner.command"
+          }.${variant}("${description.value.replace(/"/g, '\\"')}"),
+          Math.max(process.stdout.columns - ${totalPadding.value}, 0)
+        ).forEach((line) => {
+          writeLine(colors.border.banner.outline.${variant}("${
+            theme.borderStyles.banner.outline[variant].left
+          }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
+            bannerPadding.value
+          })) / 2), 0)) + colors.text.banner.description.${variant}(line) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+            bannerPadding.value
+          })) / 2), 0)) + colors.border.banner.outline.${variant}("${
+            theme.borderStyles.banner.outline[variant].right
+          }"), { consoleFn: console.${consoleFnName} });
+        });
+
+        writeLine(colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].bottomLeft
+        }") + ${
+          footer.value
+            ? `colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].bottom
+              }".repeat(Math.max(process.stdout.columns - ${
+                4 +
+                (footer.value ? footer.value.length : 0) +
+                bannerPadding.value
+              }, 0))) + " " + ${
+                footer.value
+                  ? `colors.text.banner.footer.${variant}("${footer.value}")`
+                  : ""
+              } + " " + colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].bottom
+              }".repeat(4))`
+            : `colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].bottom
+              }".repeat(Math.max(process.stdout.columns - ${
+                bannerPadding.value
+              }, 0)))`
+        } + colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].bottomRight
         }"), { consoleFn: console.${consoleFnName} });
 `}
       </FunctionDeclaration>
@@ -2028,7 +2520,7 @@ do {
       cell.value,
       Math.max(process.stdout.columns - ${
         Math.max(theme.padding.app, 0) * 2
-      } - (colWidths.filter((_, i) => i !== colIndex).reduce((a, b) => a + b, 0)) - cell.padding * 2), 0)
+      } - (colWidths.filter((_, i) => i !== colIndex).reduce((a, b) => a + b, 0)) - cell.padding * 2, 0)
     );
 
     cell.value = lines.join("\\n");
@@ -2099,11 +2591,12 @@ export function ConsoleBuiltin() {
       builtinImports={{
         utils: [
           "hasFlag",
+          "isMinimal",
           "isColorSupported",
           "colorSupportLevels",
           "isHyperlinkSupported"
         ],
-        env: ["env", "isDevelopment", "isDebug"]
+        env: ["env", "isDevelopment", "isDebug", "isCI"]
       }}>
       <StripAnsiFunctionDeclaration />
       <hbr />
@@ -2121,6 +2614,9 @@ export function ConsoleBuiltin() {
       <hbr />
       <hbr />
       <DividerFunctionDeclaration />
+      <hbr />
+      <hbr />
+      <BannerFunctionDeclaration />
       <hbr />
       <hbr />
       <MessageFunctionDeclaration
@@ -2152,6 +2648,7 @@ export function ConsoleBuiltin() {
         variant="debug"
         consoleFnName="debug"
         description="debug"
+        timestamp
         prefix={
           <IfStatement
             condition={code`!isDevelopment && !isDebug && env.LOG_LEVEL !== "debug"`}>{code`return; `}</IfStatement>
@@ -2164,6 +2661,7 @@ export function ConsoleBuiltin() {
         variant="debug"
         consoleFnName="debug"
         description="verbose"
+        timestamp
         prefix={
           <IfStatement
             condition={code`!(isDevelopment || isDebug || env.LOG_LEVEL === "debug" || hasFlag(["verbose", "verbose=true", "verbose=always"]))`}>{code`return; `}</IfStatement>
@@ -2192,6 +2690,7 @@ export function ConsoleBuiltin() {
         variant="error"
         consoleFnName="error"
         description="error"
+        timestamp
         parameters={[
           {
             name: "err",

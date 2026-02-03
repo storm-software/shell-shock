@@ -1193,6 +1193,10 @@ declare module "shell-shock:console" {
    */
   export function divider(options: DividerOptions): void;
   /**
+   * Write the application banner to the console.
+   */
+  export function banner(): void;
+  /**
    * Write a help message to the console.
    *
    * @remarks

@@ -92,7 +92,6 @@ export function RunApplication() {
 
           exit();
         } catch (err) {
-          verbose("An exception occurred during processing");
           exit({ exception: err as Error });
         }
       })();

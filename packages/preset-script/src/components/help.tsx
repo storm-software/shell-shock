@@ -226,15 +226,15 @@ export function Help(props: HelpProps) {
             globalOption =>
               globalOption.name === option.name ||
               option.alias.includes(globalOption.name) ||
-              globalOption.alias.includes(option.name) ||
-              globalOption.alias.some(alias => option.alias.includes(alias))
+              globalOption.alias?.includes(option.name) ||
+              globalOption.alias?.some(alias => option.alias.includes(alias))
           )
       ) ?? []
   );
 
   return (
     <>
-      {code`writeLine(colors.text.heading.secondary("USAGE:")${
+      {code`writeLine(colors.text.heading.secondary("Usage:")${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
       <hbr />
@@ -243,7 +243,7 @@ export function Help(props: HelpProps) {
       <hbr />
       <Show when={options.value.length > 0}>
         {code`writeLine("");
-      writeLine(colors.text.heading.secondary("OPTIONS:")${
+      writeLine(colors.text.heading.secondary("Options:")${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
         <hbr />
@@ -253,7 +253,7 @@ export function Help(props: HelpProps) {
       </Show>
       <Show when={Object.keys(command.children).length > 0}>
         {code`writeLine("");
-      writeLine(colors.text.heading.secondary("COMMANDS:")${
+      writeLine(colors.text.heading.secondary("Commands:")${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
         <hbr />

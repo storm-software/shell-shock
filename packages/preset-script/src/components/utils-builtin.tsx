@@ -137,32 +137,34 @@ export function ColorSupportUtilities() {
         }
 
         if (ignoreFlags !== true && forceColor === undefined) {
-          forceColor = hasFlag("no-color") ||
+          if (
+            hasFlag("no-color") ||
             hasFlag("no-colors") ||
             hasFlag("color=false") ||
             hasFlag("color=never")
-          ? 0
-          : hasFlag("color") ||
-            hasFlag("colors") ||
-            hasFlag("color=true") ||
-            hasFlag("color=always")
-          ? 1
-          : 0;
-        }
+          ) {
+            return 0;
+          }
 
-        if (forceColor === 0) {
-          return 0;
-        }
-
-        if (ignoreFlags !== true) {
-          if (hasFlag("color=16m") ||
+          if (
+            hasFlag("color=16m") ||
             hasFlag("color=full") ||
-            hasFlag("color=truecolor")) {
+            hasFlag("color=truecolor")
+          ) {
             return 3;
           }
 
           if (hasFlag("color=256")) {
             return 2;
+          }
+
+          if (
+            hasFlag("color") ||
+            hasFlag("colors") ||
+            hasFlag("color=true") ||
+            hasFlag("color=always")
+          ) {
+            forceColor = 1;
           }
         }
 

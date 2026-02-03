@@ -23,7 +23,7 @@ import defu from "defu";
 import type { Plugin } from "powerlines";
 import type { Config } from "style-dictionary/types";
 import { preprocessor } from "./style-dictionary/preprocessor";
-import { theme } from "./themes/storm";
+import { theme as defaultTheme } from "./themes/storm";
 import type { ThemePluginContext, ThemePluginOptions } from "./types/plugin";
 
 export * from "./types";
@@ -37,7 +37,7 @@ export const plugin = <
   options: ThemePluginOptions = {}
 ): Plugin<TContext>[] => {
   return [
-    styleDictionary(omit(options, ["theme"])),
+    styleDictionary(defu({ skipBuild: false }, omit(options, ["theme"]))),
     {
       name: "shell-shock:theme",
       config() {
@@ -46,7 +46,7 @@ export const plugin = <
         );
 
         return {
-          theme: options.theme ?? theme,
+          theme: options.theme,
           styleDictionary: {
             customPreprocessors: (context: TContext) => ({
               "shell-shock/preprocessor": preprocessor(context)
@@ -60,7 +60,9 @@ export const plugin = <
           this.debug("Shell Shock `theme` plugin configuration resolved.");
 
           this.config.styleDictionary = defu(this.config.styleDictionary, {
-            tokens: isSetObject(this.config.theme) ? this.config.theme : {},
+            tokens: isSetObject(this.config.theme)
+              ? defu(this.config.theme, defaultTheme)
+              : defaultTheme,
             platforms: {
               js: {
                 preprocessors: ["shell-shock/preprocessor"],

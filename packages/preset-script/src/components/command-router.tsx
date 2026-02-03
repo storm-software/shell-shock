@@ -124,7 +124,7 @@ export function CommandRouter(props: CommandRouterProps) {
                 </Show>
               </ElseIfClause>
             </Show>
-            <For each={subcommand.alias} doubleHardline>
+            <For each={subcommand?.alias ?? []} doubleHardline>
               {alias => (
                 <ElseIfClause
                   condition={code`${
@@ -151,7 +151,7 @@ export function CommandRouter(props: CommandRouterProps) {
       )
         .map(
           cmd =>
-            `"${cmd.name}"${cmd.alias.map(alias => `", "${alias}"`).join("")}`
+            `"${cmd.name}"${(cmd.alias ?? []).map(alias => `", "${alias}"`).join("")}`
         )
         .join(", ")}], {
           caseSensitive: ${JSON.stringify(context.config.isCaseSensitive)},

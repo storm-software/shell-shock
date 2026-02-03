@@ -28,9 +28,9 @@ export const theme: ThemeUserConfig = {
         description: "#9ca3af"
       },
       heading: {
-        primary: "#ffffff",
-        secondary: "#cbd5e1",
-        tertiary: "#9ca3af"
+        primary: "#3be4be",
+        secondary: "#ffffff",
+        tertiary: "#cbd5e1"
       },
       body: {
         primary: "#cbd5e1",
@@ -84,7 +84,7 @@ export const theme: ThemeUserConfig = {
         help: "✱",
         success: "✔",
         info: "🛈",
-        debug: "🛠",
+        debug: "✱",
         warning: "🛆",
         danger: "🛇",
         error: "✘"
@@ -100,7 +100,7 @@ export const theme: ThemeUserConfig = {
         help: "Useful Tip",
         success: "Success",
         info: "Info",
-        debug: "Info",
+        debug: "Debug",
         warning: "Warning",
         danger: "Danger",
         error: "Error"

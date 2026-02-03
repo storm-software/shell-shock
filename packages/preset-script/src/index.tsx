@@ -19,10 +19,7 @@
 import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { render } from "@powerlines/plugin-alloy/render";
-import {
-  getAppDescription,
-  getAppTitle
-} from "@shell-shock/core/plugin-utils/context-helpers";
+import { getAppBin } from "@shell-shock/core/plugin-utils/context-helpers";
 import theme from "@shell-shock/plugin-theme";
 import type { Plugin } from "powerlines/types/plugin";
 import { BinEntry } from "./components/bin-entry";
@@ -91,7 +88,7 @@ export const plugin = <
             <>
               <BinEntry
                 builtinImports={{
-                  console: ["divider", "writeLine", "colors"],
+                  console: ["divider", "writeLine", "colors", "banner", "help"],
                   utils: ["getArgs"]
                 }}>
                 <Show when={Object.keys(this.commands).length > 0}>
@@ -108,21 +105,11 @@ export const plugin = <
                 <hbr />
                 {code`
                 writeLine("");
-                writeLine(colors.text.heading.primary("${
-                  /(?:cli|command-line|command line)\s+(?:application|app)?$/.test(
-                    getAppTitle(this).toLowerCase()
-                  )
-                    ? getAppTitle(this)
-                    : `${getAppTitle(this)} Command-Line Application`
-                } v${this.packageJson.version}"));
-                writeLine("");
-                writeLine(colors.text.body.primary("${getAppDescription(
-                  this
-                )}"));
+                banner();
                 writeLine(""); `}
                 <hbr />
                 <hbr />
-                {code`writeLine(colors.text.heading.secondary("GLOBAL OPTIONS:"));`}
+                {code`writeLine(colors.text.heading.secondary("Global Options:"));`}
                 <hbr />
                 <HelpOptions options={this.options} />
                 {code`writeLine(""); `}
@@ -152,6 +139,8 @@ export const plugin = <
                       </>
                     )}
                   </For>
+                  {code`help("Running a specific command with the help flag (via: '${getAppBin(this)} <specific command> --help') will provide additional information that is specific to that command.");
+                  writeLine("");`}
                 </Show>
               </BinEntry>
               <Show when={Object.values(this.commands).length > 0}>

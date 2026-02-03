@@ -58,6 +58,27 @@ export function getDefaultOptions(): CommandOption[] {
       optional: true,
       default: false,
       skipAddingNegative: true
+    },
+    {
+      name: "color",
+      title: "Color",
+      description: "Enable colored terminal output.",
+      env: "COLOR",
+      alias: ["colors"],
+      kind: ReflectionKind.boolean,
+      optional: true,
+      skipAddingNegative: false
+    },
+    {
+      name: "no-banner",
+      title: "Hide Banner",
+      description:
+        "Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.",
+      env: "NO_BANNER",
+      alias: ["hide-banner"],
+      kind: ReflectionKind.boolean,
+      optional: true,
+      default: false
     }
   ];
 }

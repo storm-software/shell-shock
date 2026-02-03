@@ -231,24 +231,88 @@ function buildThemeAnsiStyles(
     text: {
       banner: {
         title: {
-          open: wrapFn()(convertFn(theme.text.banner.title)),
-          close: wrapAnsi16()(39)
+          primary: {
+            open: wrapFn()(convertFn(theme.text.banner.title.primary)),
+            close: wrapAnsi16()(39)
+          },
+          secondary: {
+            open: wrapFn()(convertFn(theme.text.banner.title.secondary)),
+            close: wrapAnsi16()(39)
+          },
+          tertiary: {
+            open: wrapFn()(convertFn(theme.text.banner.title.tertiary)),
+            close: wrapAnsi16()(39)
+          }
         },
         command: {
-          open: wrapFn()(convertFn(theme.text.banner.command)),
-          close: wrapAnsi16()(39)
+          primary: {
+            open: wrapFn()(convertFn(theme.text.banner.command.primary)),
+            close: wrapAnsi16()(39)
+          },
+          secondary: {
+            open: wrapFn()(convertFn(theme.text.banner.command.secondary)),
+            close: wrapAnsi16()(39)
+          },
+          tertiary: {
+            open: wrapFn()(convertFn(theme.text.banner.command.tertiary)),
+            close: wrapAnsi16()(39)
+          }
         },
         description: {
-          open: wrapFn()(convertFn(theme.text.banner.description)),
-          close: wrapAnsi16()(39)
+          primary: {
+            open: wrapFn()(convertFn(theme.text.banner.description.primary)),
+            close: wrapAnsi16()(39)
+          },
+          secondary: {
+            open: wrapFn()(convertFn(theme.text.banner.description.secondary)),
+            close: wrapAnsi16()(39)
+          },
+          tertiary: {
+            open: wrapFn()(convertFn(theme.text.banner.description.tertiary)),
+            close: wrapAnsi16()(39)
+          }
         },
         header: {
-          open: wrapFn()(convertFn(theme.text.banner.header)),
-          close: wrapAnsi16()(39)
+          primary: {
+            open: wrapFn()(convertFn(theme.text.banner.header.primary)),
+            close: wrapAnsi16()(39)
+          },
+          secondary: {
+            open: wrapFn()(convertFn(theme.text.banner.header.secondary)),
+            close: wrapAnsi16()(39)
+          },
+          tertiary: {
+            open: wrapFn()(convertFn(theme.text.banner.header.tertiary)),
+            close: wrapAnsi16()(39)
+          }
         },
         footer: {
-          open: wrapFn()(convertFn(theme.text.banner.footer)),
-          close: wrapAnsi16()(39)
+          primary: {
+            open: wrapFn()(convertFn(theme.text.banner.footer.primary)),
+            close: wrapAnsi16()(39)
+          },
+          secondary: {
+            open: wrapFn()(convertFn(theme.text.banner.footer.secondary)),
+            close: wrapAnsi16()(39)
+          },
+          tertiary: {
+            open: wrapFn()(convertFn(theme.text.banner.footer.tertiary)),
+            close: wrapAnsi16()(39)
+          }
+        },
+        link: {
+          primary: {
+            open: wrapFn()(convertFn(theme.text.banner.link.primary)),
+            close: wrapAnsi16()(39)
+          },
+          secondary: {
+            open: wrapFn()(convertFn(theme.text.banner.link.secondary)),
+            close: wrapAnsi16()(39)
+          },
+          tertiary: {
+            open: wrapFn()(convertFn(theme.text.banner.link.tertiary)),
+            close: wrapAnsi16()(39)
+          }
         }
       },
       heading: {
