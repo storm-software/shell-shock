@@ -1294,10 +1294,12 @@ export function WriteLineFunctionDeclaration() {
   let line = text;
   let result = [] as string[];
 
-  while (stripAnsi(line).length > maxLength) {
-    if (line.indexOf("\\n") !== -1 && stripAnsi(line).indexOf("\\n") <= maxLength) {
-      result.push(line.slice(0, line.indexOf("\\n")));
-      line = line.slice(line.indexOf("\\n") + 1);
+  while (stripAnsi(line).length > maxLength || line.indexOf("\\n") !== -1) {
+    if (line.indexOf("\\n") !== -1) {
+      result.push(...splitText(line.slice(0, line.indexOf("\\n")).replace(/\\n/, ""), maxLength));
+      line = line.indexOf("\\n") + 1 < line.length
+        ? line.slice(line.indexOf("\\n") + 1)
+        : "";
     } else {
       const index = [" ", "/", "\\\\", ".", ",", "-", ":", "|", "@", "+"].reduce((ret, split) => {
         let current = ret;
@@ -1321,10 +1323,7 @@ export function WriteLineFunctionDeclaration() {
     line = line.slice(maxLength + 1);
   }
 
-  if (line.length > 0) {
-    result.push(line);
-  }
-
+  result.push(line);
   return result;
 `}
       </FunctionDeclaration>
@@ -1511,9 +1510,9 @@ export function MessageFunctionDeclaration(
                       theme.icons.message.header[variant]
                     }") + " " +`
                   : ""
-              } colors.text.message.header.${variant}("${
+              } colors.bold(colors.text.message.header.${variant}("${
                 theme.labels.message.header[variant]
-              }") + " " + colors.border.message.outline.${variant}("${
+              }")) + " " + colors.border.message.outline.${variant}("${
                 theme.borderStyles.message.outline[variant].top
               }".repeat(Math.max(process.stdout.columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
@@ -1579,11 +1578,11 @@ export function MessageFunctionDeclaration(
                 !theme.labels.message.footer[variant] && timestamp
                   ? " - (stripAnsi(timestamp).length + 2)"
                   : ""
-              }, 0))) + " " + ${
+              }, 0))) + " " + ${`colors.bold(colors.text.message.footer.${variant}(${
                 theme.labels.message.footer[variant]
-                  ? `colors.text.message.footer.${variant}("${theme.labels.message.footer[variant]}")`
+                  ? `"${theme.labels.message.footer[variant]}"`
                   : timestamp && "timestamp"
-              } + " " + colors.border.message.outline.${variant}("${
+              }))`} + " " + colors.border.message.outline.${variant}("${
                 theme.borderStyles.message.outline[variant].bottom
               }".repeat(4))`
             : `colors.border.message.outline.${variant}("${
@@ -1682,9 +1681,9 @@ export function BannerFunctionDeclaration(
                       theme.borderStyles.banner.outline[variant].top
                     }") + " " +`
                   : ""
-              } colors.text.banner.header.${variant}("${
+              } colors.bold(colors.text.banner.header.${variant}("${
                 header.value
-              }") + " " + colors.border.banner.outline.${variant}("${
+              }")) + " " + colors.border.banner.outline.${variant}("${
                 theme.borderStyles.banner.outline[variant].top
               }".repeat(Math.max(process.stdout.columns - ${
                 4 +
@@ -1704,7 +1703,7 @@ export function BannerFunctionDeclaration(
         }"), { consoleFn: console.${consoleFnName} });
 
         splitText(
-          colors.text.banner.title.${variant}("${title.value}"),
+          colors.bold(colors.text.banner.title.${variant}("${title.value}")),
           Math.max(process.stdout.columns - ${totalPadding.value}, 0)
         ).forEach((line) => {
           writeLine(colors.border.banner.outline.${variant}("${
@@ -1734,9 +1733,9 @@ export function BannerFunctionDeclaration(
               theme.borderStyles.banner.outline[variant].left
             }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
               bannerPadding.value
-            })) / 2), 0)) + colors.text.banner.command.${
+            })) / 2), 0)) + colors.bold(colors.text.banner.command.${
               variant
-            }("${command.title}") + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+            }("${command.title}")) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
               bannerPadding.value
             })) / 2), 0)) + colors.border.banner.outline.${variant}("${
               theme.borderStyles.banner.outline[variant].right
@@ -1745,11 +1744,11 @@ export function BannerFunctionDeclaration(
         }
 
         splitText(
-          ${
+          colors.bold(${
             command?.title
               ? "colors.text.banner.description"
               : "colors.text.banner.command"
-          }.${variant}("${description.value.replace(/"/g, '\\"')}"),
+          }.${variant}("${description.value.replace(/"/g, '\\"')}")),
           Math.max(process.stdout.columns - ${totalPadding.value}, 0)
         ).forEach((line) => {
           writeLine(colors.border.banner.outline.${variant}("${
@@ -1775,7 +1774,7 @@ export function BannerFunctionDeclaration(
                 bannerPadding.value
               }, 0))) + " " + ${
                 footer.value
-                  ? `colors.text.banner.footer.${variant}("${footer.value}")`
+                  ? `colors.bold(colors.text.banner.footer.${variant}("${footer.value}"))`
                   : ""
               } + " " + colors.border.banner.outline.${variant}("${
                 theme.borderStyles.banner.outline[variant].bottom
@@ -2575,10 +2574,22 @@ cells.forEach((row, rowIndex) => {
   );
 }
 
+export interface ConsoleBuiltinProps {
+  /**
+   * A component to add the `banner` function to the console builtin module.
+   *
+   * @remarks
+   * By default the {@link BannerFunctionDeclaration} component is used, but this prop allows you to provide a custom implementation if desired.
+   */
+  banner?: Children;
+}
+
 /**
  * A built-in console utilities module for Shell Shock.
  */
-export function ConsoleBuiltin() {
+export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
+  const { banner } = props;
+
   return (
     <BuiltinFile
       id="console"
@@ -2616,7 +2627,7 @@ export function ConsoleBuiltin() {
       <DividerFunctionDeclaration />
       <hbr />
       <hbr />
-      <BannerFunctionDeclaration />
+      {banner ?? <BannerFunctionDeclaration />}
       <hbr />
       <hbr />
       <MessageFunctionDeclaration

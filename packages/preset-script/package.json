@@ -209,6 +209,34 @@
         "default": "./dist/contexts/theme.mjs"
       }
     },
+    "./helpers/ansi-utils": {
+      "require": {
+        "types": "./dist/helpers/ansi-utils.d.cts",
+        "default": "./dist/helpers/ansi-utils.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/ansi-utils.d.mts",
+        "default": "./dist/helpers/ansi-utils.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/ansi-utils.d.mts",
+        "default": "./dist/helpers/ansi-utils.mjs"
+      }
+    },
+    "./helpers/get-default-options": {
+      "require": {
+        "types": "./dist/helpers/get-default-options.d.cts",
+        "default": "./dist/helpers/get-default-options.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/get-default-options.d.mts",
+        "default": "./dist/helpers/get-default-options.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/get-default-options.d.mts",
+        "default": "./dist/helpers/get-default-options.mjs"
+      }
+    },
     "./package.json": "./package.json",
     "./types": {
       "require": {

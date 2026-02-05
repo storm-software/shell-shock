@@ -139,7 +139,9 @@ export const plugin = <
                       </>
                     )}
                   </For>
-                  {code`help("Running a specific command with the help flag (via: '${getAppBin(this)} <specific command> --help') will provide additional information that is specific to that command.");
+                  {code`help("Running a specific command with the help flag (via: '${getAppBin(
+                    this
+                  )} <specific command> --help') will provide additional information that is specific to that command.");
                   writeLine("");`}
                 </Show>
               </BinEntry>

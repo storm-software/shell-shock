@@ -234,7 +234,7 @@ export function Help(props: HelpProps) {
 
   return (
     <>
-      {code`writeLine(colors.text.heading.secondary("Usage:")${
+      {code`writeLine(colors.bold(colors.text.heading.secondary("Usage:"))${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
       <hbr />
@@ -243,7 +243,7 @@ export function Help(props: HelpProps) {
       <hbr />
       <Show when={options.value.length > 0}>
         {code`writeLine("");
-      writeLine(colors.text.heading.secondary("Options:")${
+      writeLine(colors.bold(colors.text.heading.secondary("Options:"))${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
         <hbr />
@@ -253,7 +253,7 @@ export function Help(props: HelpProps) {
       </Show>
       <Show when={Object.keys(command.children).length > 0}>
         {code`writeLine("");
-      writeLine(colors.text.heading.secondary("Commands:")${
+      writeLine(colors.bold(colors.text.heading.secondary("Commands:"))${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
         <hbr />
