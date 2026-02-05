@@ -17,14 +17,22 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "Playground - Complex",
+      "name": "Playground - CLI Binary",
+      "type": "node",
+      "request": "launch",
+      "program": "./playground/cli/dist/bin.mjs",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Playground - Script",
       "type": "node",
       "request": "launch",
       "program": "/nix/store/rsqvnapfwyal6iw70p5nrk3vng3qdprw-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",
-        "playground-complex:build:development",
+        "playground-script:build:development",
         "--outputStyle=dynamic-legacy",
         "--skipNxCache"
       ],
@@ -32,22 +40,22 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "Playground - Complex Binary",
+      "name": "Playground - Script Binary",
       "type": "node",
       "request": "launch",
-      "program": "./playground/complex/dist/bin.mjs",
+      "program": "./playground/script/dist/bin.mjs",
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"
     },
     {
-      "name": "Playground - Complex Docs",
+      "name": "Playground - Script Docs",
       "type": "node",
       "request": "launch",
       "program": "/nix/store/rsqvnapfwyal6iw70p5nrk3vng3qdprw-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",
-        "playground-complex:docs:development",
+        "playground-script:docs:development",
         "--outputStyle=dynamic-legacy",
         "--skipNxCache"
       ],

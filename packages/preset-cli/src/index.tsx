@@ -19,16 +19,17 @@
 import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { render } from "@powerlines/plugin-alloy/render";
-import { getCommandTree } from "@shell-shock/core/plugin-utils";
-import type { CommandTree } from "@shell-shock/core/types/command";
+import { getAppBin } from "@shell-shock/core/plugin-utils/context-helpers";
 import theme from "@shell-shock/plugin-theme";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
 import { CommandEntry } from "@shell-shock/preset-script/components/command-entry";
 import { CommandRouter } from "@shell-shock/preset-script/components/command-router";
 import { ConsoleBuiltin } from "@shell-shock/preset-script/components/console-builtin";
+import { Help, HelpOptions } from "@shell-shock/preset-script/components/help";
 import { UtilsBuiltin } from "@shell-shock/preset-script/components/utils-builtin";
 import { VirtualCommandEntry } from "@shell-shock/preset-script/components/virtual-command-entry";
 import type { Plugin } from "powerlines/types/plugin";
+import { BannerFunctionDeclaration } from "./components";
 import { getDefaultOptions } from "./helpers/get-default-options";
 import type { CLIPresetContext, CLIPresetOptions } from "./types/plugin";
 
@@ -46,51 +47,117 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
       name: "shell-shock:cli-preset",
       config() {
         this.debug(
-          "Providing default configuration for the Shell Shock `cli` preset plugin."
+          "Providing default configuration for the Shell Shock `cli` preset."
         );
 
         return {
-          interactive: true,
           defaultOptions: getDefaultOptions,
+          isCaseSensitive: false,
           ...options
         };
       },
+      configResolved() {
+        this.dependencies.didyoumean2 = "^7.0.4";
+      },
       async prepare() {
-        this.debug("Rendering source code with the Shell Shock `cli` preset.");
-
-        const commands = this.inputs
-          .map(input => getCommandTree(this, input.path.segments))
-          .filter(Boolean) as CommandTree[];
+        this.debug(
+          "Rendering built-in modules for the Shell Shock `cli` preset."
+        );
 
         return render(
           this,
           <>
-            <BinEntry>
-              <Show
-                when={this.commands && Object.keys(this.commands).length > 0}>
-                <VarDeclaration
-                  const
-                  name="args"
-                  type="string[]"
-                  initializer={code`getArgs();`}
-                />
-                <hbr />
-                <CommandRouter path={[]} commands={this.commands ?? {}} />
-              </Show>
-            </BinEntry>
-            <For each={Object.values(commands)}>
-              {child => (
-                <Show
-                  when={child.isVirtual}
-                  fallback={<CommandEntry command={child} />}>
-                  <VirtualCommandEntry command={child} />
-                </Show>
-              )}
-            </For>
             <UtilsBuiltin />
-            <ConsoleBuiltin />
+            <ConsoleBuiltin banner={<BannerFunctionDeclaration />} />
           </>
         );
+      }
+    },
+    {
+      name: "shell-shock:cli-preset:generate-entrypoint",
+      prepare: {
+        order: "post",
+        async handler() {
+          this.debug(
+            "Rendering entrypoint modules for the Shell Shock `cli` preset."
+          );
+
+          return render(
+            this,
+            <>
+              <BinEntry
+                builtinImports={{
+                  console: ["divider", "writeLine", "colors", "banner", "help"],
+                  utils: ["getArgs"]
+                }}>
+                <Show when={Object.keys(this.commands).length > 0}>
+                  <VarDeclaration
+                    const
+                    name="args"
+                    type="string[]"
+                    initializer={code`getArgs();`}
+                  />
+                  <hbr />
+                  <CommandRouter path={[]} commands={this.commands ?? {}} />
+                  <hbr />
+                </Show>
+                <hbr />
+                {code`
+                writeLine("");
+                banner();
+                writeLine(""); `}
+                <hbr />
+                <hbr />
+                {code`writeLine(colors.text.heading.secondary("Global Options:"));`}
+                <hbr />
+                <HelpOptions options={this.options} />
+                {code`writeLine(""); `}
+                <hbr />
+                <hbr />
+                <Show when={Object.keys(this.commands).length > 0}>
+                  {code`writeLine(colors.text.body.secondary("The following commands are available:"));
+                  writeLine(""); `}
+                  <hbr />
+                  <hbr />
+                  <For
+                    each={Object.values(this.commands)}
+                    doubleHardline
+                    joiner={code`writeLine(""); `}
+                    ender={code`writeLine(""); `}>
+                    {child => (
+                      <>
+                        {code`
+                writeLine(colors.text.heading.primary("${child.title} ${child.isVirtual ? "" : "Command"}"));
+                writeLine("");
+                writeLine(colors.text.body.secondary("${child.description}"));
+                writeLine("");
+                `}
+                        <hbr />
+                        <Help command={child} indent={2} />
+                        <hbr />
+                      </>
+                    )}
+                  </For>
+                  {code`help("Running a specific command with the help flag (via: '${getAppBin(
+                    this
+                  )} <specific command> --help') will provide additional information that is specific to that command.");
+                  writeLine("");`}
+                </Show>
+              </BinEntry>
+              <Show when={Object.values(this.commands).length > 0}>
+                <For each={Object.values(this.commands)} doubleHardline>
+                  {child => (
+                    <Show
+                      when={child.isVirtual}
+                      fallback={<CommandEntry command={child} />}>
+                      <VirtualCommandEntry command={child} />
+                    </Show>
+                  )}
+                </For>
+              </Show>
+            </>
+          );
+        }
       }
     }
   ] as Plugin<TContext>[];

@@ -18,6 +18,7 @@
 
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import type { CommandBase, CommandOption } from "@shell-shock/core";
+import { getDefaultOptions as getDefaultOptionsBase } from "@shell-shock/preset-script/helpers/get-default-options";
 import type { CLIPresetContext } from "../types";
 
 /**
@@ -32,26 +33,7 @@ export function getDefaultOptions(
   _: CommandBase
 ): CommandOption[] {
   return [
-    {
-      name: "help",
-      title: "Help",
-      description: "Show help information.",
-      alias: ["h", "?"],
-      kind: ReflectionKind.boolean,
-      optional: true,
-      default: false,
-      skipAddingNegative: true
-    },
-    {
-      name: "version",
-      title: "Version",
-      description: "Show the version of the application.",
-      alias: ["v"],
-      kind: ReflectionKind.boolean,
-      optional: true,
-      default: false,
-      skipAddingNegative: true
-    },
+    ...getDefaultOptionsBase(),
     context.config.interactive !== "never" &&
       context.config.interactive !== true && {
         name: "interactive",
@@ -74,24 +56,6 @@ export function getDefaultOptions(
         optional: true,
         default: false,
         isNegativeOf: "interactive"
-      },
-    {
-      name: "no-banner",
-      title: "Hide Banner",
-      description:
-        "Hide the banner displayed while running the CLI application (will be set to true if running in a CI pipeline).",
-      kind: ReflectionKind.boolean,
-      optional: true,
-      default: false
-    },
-    {
-      name: "verbose",
-      title: "Verbose",
-      description: "Enable verbose output.",
-      kind: ReflectionKind.boolean,
-      optional: true,
-      default: false,
-      skipAddingNegative: true
-    }
+      }
   ].filter(Boolean) as CommandOption[];
 }

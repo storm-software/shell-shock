@@ -16,175 +16,238 @@
 
  ------------------------------------------------------------------- */
 
-import { code } from "@alloy-js/core";
+import { code, computed } from "@alloy-js/core";
 import { FunctionDeclaration } from "@alloy-js/typescript";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
+import { useCommand } from "@shell-shock/core/contexts/command";
 import {
-  TSDoc,
-  TSDocRemarks
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+  getAppDescription,
+  getAppTitle
+} from "@shell-shock/core/plugin-utils/context-helpers";
+import type { ThemeColorVariant } from "@shell-shock/plugin-theme/types/theme";
 import { useTheme } from "@shell-shock/preset-script/contexts/theme";
 import type { ScriptPresetContext } from "@shell-shock/preset-script/types/plugin";
-import { titleCase } from "@stryke/string-format/title-case";
 import { render } from "cfonts";
-// import {
-//   getOrganizationName,
-//   getWorkspaceName
-// } from "powerlines/plugin-utils/context-helpers";
 
 export interface BannerFunctionDeclarationProps {
-  /**
-   * The title to display in the banner.
-   *
-   * @remarks
-   * If not provided, the application title from the configuration will be used.
-   */
+  variant?: ThemeColorVariant;
+  consoleFnName?: "log" | "info" | "warn" | "error" | "debug";
   title?: string;
-
-  /**
-   * The sub-title text to display in the banner.
-   *
-   * @remarks
-   * This will be displayed in small text below the title.
-   */
-  subTitle?: string;
-
-  /**
-   * The description of the command/application to display in the banner.
-   *
-   * @remarks
-   * This text will be displayed in small text below the title.
-   */
-  description?: string;
-
-  /**
-   * An optional header to display above the banner. If not provided, the application's name and version will be displayed. If set to `false`, no header will be displayed.
-   *
-   * @remarks
-   * This can be used to provide additional context or information before the banner. It will be displayed in the border surrounding the banner.
-   */
-  header?: string | false;
-
-  /**
-   * An optional footer to display below the banner. If not provided, the organization name or workspace name will be used. If set to `false`, no footer will be displayed.
-   *
-   * @remarks
-   * This can be used to provide additional context or information after the banner. It will be displayed in the border surrounding the banner.
-   */
-  footer?: string | false;
 }
 
 /**
- * The `banner` handler function declaration code for the Shell Shock project.
+ * A component to generate the `banner` function in the `shell-shock:console` builtin module.
  */
 export function BannerFunctionDeclaration(
   props: BannerFunctionDeclarationProps
 ) {
-  const { title: propTitle, description: propDescription } = props;
+  const {
+    consoleFnName = "log",
+    variant = "primary",
+    title: titleProp
+  } = props;
 
-  const context = usePowerlines<ScriptPresetContext>();
   const theme = useTheme();
 
-  const title = propTitle || titleCase(context.config.title);
-  const description = propDescription || context.config.description;
-  // const header =
-  //   propHeader !== false
-  //     ? propHeader ||
-  //       `${title} ${context.packageJson?.version ? `v${context.packageJson.version}` : ""}`.trim()
-  //     : undefined;
-  // const footer =
-  //   propFooter !== false
-  //     ? propFooter ||
-  //       titleCase(getOrganizationName(context) || getWorkspaceName(context))
-  //     : undefined;
+  const context = usePowerlines<ScriptPresetContext>();
+  const command = useCommand();
 
-  const renderedTitle = render(title, {
-    font: "tiny",
-    align: "left",
-    colors: ["system"],
-    background: "transparent",
-    letterSpacing: 1,
-    lineHeight: 1,
-    gradient: false,
-    transitionGradient: false,
-    env: "node"
+  const header = computed(
+    () =>
+      `${theme.labels.banner.header[variant] || getAppTitle(context)} v${context.packageJson.version || "1.0.0"}`
+  );
+  const description = computed(
+    () => command?.description || getAppDescription(context)
+  );
+  const footer = computed(() => theme.labels.banner.footer[variant]);
+
+  const title = computed(() =>
+    titleProp ||
+    /(?:cli|command-line|command line)\s+(?:application|app)?$/.test(
+      header.value.toLowerCase()
+    )
+      ? header.value
+          .replace(`v${context.packageJson.version || "1.0.0"}`, "")
+          .trim()
+      : `${header.value
+          .replace(`v${context.packageJson.version || "1.0.0"}`, "")
+          .trim()} Command-Line Application`
+  );
+
+  const titleLines = computed(() => {
+    const result = render(getAppTitle(context), {
+      font: "tiny",
+      align: "left",
+      colors: ["system"],
+      background: "transparent",
+      letterSpacing: 1,
+      lineHeight: 1,
+      gradient: false,
+      transitionGradient: false,
+      env: "node"
+    });
+    if (!result) {
+      return [getAppTitle(context)];
+    }
+
+    return result.array;
   });
+
+  const bannerPadding = computed(
+    () =>
+      Math.max(theme.padding.app, 0) * 2 +
+      theme.borderStyles.banner.outline[variant].left.length +
+      theme.borderStyles.banner.outline[variant].right.length
+  );
+  const totalPadding = computed(
+    () => Math.max(theme.padding.banner, 0) * 2 + bannerPadding.value
+  );
 
   return (
     <>
-      <TSDoc heading={`Write the application banner display to the console.`}>
-        <TSDocRemarks>
-          {`This function should be run at the start of an application and should identify the current application/command to the user.`}
-        </TSDocRemarks>
-      </TSDoc>
-      <FunctionDeclaration name="banner">
+      <FunctionDeclaration
+        export
+        name="banner"
+        doc="Write the application banner to the console.">
         {code`
-        writeLine(colors.border.banner.outline.primary("${
-          theme.borderStyles.banner.outline.primary.topLeft
-        }") + colors.border.banner.outline.primary("${
-          theme.borderStyles.banner.outline.primary.top
-        }".repeat(Math.max(process.stdout.columns - ${
-          (Math.max(theme.padding.app, 0) + Math.max(theme.padding.banner, 0)) *
-            2 +
-          theme.borderStyles.banner.outline.primary.topLeft.length +
-          theme.borderStyles.banner.outline.primary.topRight.length
-        }, 0) / ${
-          theme.borderStyles.banner.outline.primary.top.length ?? 1
-        })) + colors.border.banner.outline.primary("${
-          theme.borderStyles.banner.outline.primary.topRight
-        }"), { consoleFn: console.info });
+        if (hasFlag("no-banner") || hasFlag("hide-banner") || isCI || isMinimal) {
+          return;
+        }
+
+        const titleLines = [${titleLines.value
+          .map(line => JSON.stringify(line))
+          .join(", ")}];
+        const title = Math.max(...titleLines.map(line => stripAnsi(line).trim().length)) > Math.max(process.stdout.columns - ${
+          totalPadding.value
+        }, 0)
+          ? ["${title.value}"]
+          : titleLines;
+
+        writeLine(colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].topLeft
+        }") + ${
+          theme.icons.banner.header[variant]
+            ? `colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].top
+              }".repeat(4)) + " " + ${
+                theme.icons.banner.header[variant]
+                  ? `colors.text.banner.header.${variant}("${
+                      theme.icons.banner.header[variant]
+                    }") + " " + colors.border.banner.outline.${variant}("${
+                      theme.borderStyles.banner.outline[variant].top
+                    }") + " " +`
+                  : ""
+              } colors.bold(colors.text.banner.header.${variant}("${
+                header.value
+              }")) + " " + colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].top
+              }".repeat(Math.max(process.stdout.columns - ${
+                4 +
+                (theme.icons.banner.header[variant]
+                  ? theme.icons.banner.header[variant].length + 3
+                  : 0) +
+                (header.value ? header.value.length + 2 : 0) +
+                bannerPadding.value
+              }, 0)))`
+            : `colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].top
+              }".repeat(Math.max(process.stdout.columns - ${
+                bannerPadding.value
+              }, 0)))`
+        } + colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].topRight
+        }"), { consoleFn: console.${consoleFnName} });
+
+        writeLine(colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].left
+        }") + " ".repeat(Math.max(process.stdout.columns - ${
+          bannerPadding.value
+        })) + colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].right
+        }"), { consoleFn: console.${consoleFnName} });
+
+        title.map(line => line.trim()).forEach((line) => {
+          writeLine(colors.border.banner.outline.${variant}("${
+            theme.borderStyles.banner.outline[variant].left
+          }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
+            bannerPadding.value
+          })) / 2), 0)) + colors.text.banner.title.${
+            variant
+          }(line) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+            bannerPadding.value
+          })) / 2), 0)) + colors.border.banner.outline.${variant}("${
+            theme.borderStyles.banner.outline[variant].right
+          }"), { consoleFn: console.${consoleFnName} });
+        });
+
+        writeLine(colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].left
+        }") + " ".repeat(Math.max(process.stdout.columns - ${
+          bannerPadding.value
+        })) + colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].right
+        }"), { consoleFn: console.${consoleFnName} });
 
         ${
-          renderedTitle
-            ? renderedTitle.array
-                .map(
-                  line =>
-                    `writeLine(colors.border.banner.outline.primary("${
-                      theme.borderStyles.banner.outline.primary.left
-                    }") +
-                    " ".repeat(Math.max(theme.padding.banner, 0)) +
-                    colors.text.banner.title("${line}") +
-                    " ".repeat(Math.max(theme.padding.banner, 0)) +
-                    colors.border.banner.outline.primary("${
-                      theme.borderStyles.banner.outline.primary.right
-                    }"), { consoleFn: console.info });`
-                )
-                .join(`\n`)
+          command?.title
+            ? `writeLine(colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].left
+              }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
+                bannerPadding.value
+              })) / 2), 0)) + colors.bold(colors.text.banner.command.${
+                variant
+              }("${command.title}")) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+                bannerPadding.value
+              })) / 2), 0)) + colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].right
+              }"), { consoleFn: console.${consoleFnName} }); `
             : ""
         }
 
         splitText(
-          ${description ? code`"${description.replace(/"/g, '\\"')}"` : "''"},
-          Math.max(process.stdout.columns - ${
-            (Math.max(theme.padding.app, 0) +
-              Math.max(theme.padding.banner, 0)) *
-              2 +
-            theme.borderStyles.banner.outline.primary.left.length +
-            theme.borderStyles.banner.outline.primary.right.length
-          }, 0)
+          ${
+            command?.title
+              ? "colors.text.banner.description"
+              : "colors.text.banner.command"
+          }.${variant}("${description.value.replace(/"/g, '\\"')}"),
+          Math.max(process.stdout.columns - ${totalPadding.value}, 0)
         ).forEach((line) => {
-          writeLine(colors.border.banner.outline.primary("${
-            theme.borderStyles.banner.outline.primary.left +
-            " ".repeat(Math.max(theme.padding.banner, 0))
-          }") + colors.text.banner.description(line) + colors.border.banner.outline.primary("${
-            " ".repeat(Math.max(theme.padding.banner, 0)) +
-            theme.borderStyles.banner.outline.primary.right
-          }"), { consoleFn: console.info });
+          writeLine(colors.border.banner.outline.${variant}("${
+            theme.borderStyles.banner.outline[variant].left
+          }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
+            bannerPadding.value
+          })) / 2), 0)) + colors.text.banner.description.${variant}(line) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+            bannerPadding.value
+          })) / 2), 0)) + colors.border.banner.outline.${variant}("${
+            theme.borderStyles.banner.outline[variant].right
+          }"), { consoleFn: console.${consoleFnName} });
         });
-        writeLine(colors.border.banner.outline.primary("${
-          theme.borderStyles.banner.outline.primary.bottomLeft
-        }") + colors.border.banner.outline.primary("$"{
-          theme.borderStyles.banner.outline.primary.bottom
-        }".repeat(Math.max(process.stdout.columns - ${
-          (Math.max(theme.padding.app, 0) + Math.max(theme.padding.banner, 0)) *
-            2 +
-          theme.borderStyles.banner.outline.primary.bottomLeft.length +
-          theme.borderStyles.banner.outline.primary.bottomRight.length
-        }, 0) / ${
-          theme.borderStyles.banner.outline.primary.bottom.length ?? 1
-        })) + colors.border.banner.outline.primary("${
-          theme.borderStyles.banner.outline.primary.bottomRight
-        }"), { consoleFn: console.info });
+
+        writeLine(colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].bottomLeft
+        }") + ${
+          footer.value
+            ? `colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].bottom
+              }".repeat(Math.max(process.stdout.columns - ${
+                6 +
+                (footer.value ? footer.value.length : 0) +
+                bannerPadding.value
+              }, 0))) + " " + ${
+                footer.value
+                  ? `colors.bold(colors.text.banner.footer.${variant}("${footer.value}"))`
+                  : ""
+              } + " " + colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].bottom
+              }".repeat(4))`
+            : `colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].bottom
+              }".repeat(Math.max(process.stdout.columns - ${
+                bannerPadding.value
+              }, 0)))`
+        } + colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].bottomRight
+        }"), { consoleFn: console.${consoleFnName} });
 `}
       </FunctionDeclaration>
     </>

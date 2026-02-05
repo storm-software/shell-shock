@@ -37,7 +37,10 @@
       "path": "./playground/powerlines"
     },
     {
-      "path": "./playground/complex"
+      "path": "./playground/script"
+    },
+    {
+      "path": "./playground/cli"
     }
   ],
   "files": []
