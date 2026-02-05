@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.3.1](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.3.1) (02/05/2026)
+
+### Bug Fixes
+
+- **preset-script:** Resolve issue with banner header and footer display ([c5be6f4](https://github.com/storm-software/shell-shock/commit/c5be6f4))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.11**
+- Updated **core** to **v0.4.3**
+
 ## [0.3.0](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.3.0) (02/03/2026)
 
 ### Miscellaneous

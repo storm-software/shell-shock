@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.0.7](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.7) (02/05/2026)
+
+### Bug Fixes
+
+- **preset-script:** Resolve issue with banner header and footer display ([c5be6f4](https://github.com/storm-software/shell-shock/commit/c5be6f4))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.4.3**
+
 ## [0.0.6](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.6) (02/03/2026)
 
 ### Miscellaneous

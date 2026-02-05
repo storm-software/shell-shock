@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.0.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.11) (02/05/2026)
+
+### Bug Fixes
+
+- **preset-script:** Resolve issue with banner header and footer display ([c5be6f4](https://github.com/storm-software/shell-shock/commit/c5be6f4))
+
 ## [0.0.10](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.10) (02/03/2026)
 
 ### Miscellaneous

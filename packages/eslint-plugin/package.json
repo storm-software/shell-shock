@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/eslint-plugin",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "description": "An ESLint Plugin with linting rules that ensure a Shell Shock project is following the best practices.",
   "repository": {
@@ -41,24 +41,32 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "exports": {
-    ".": "./src/index.ts",
-    "./configs": "./src/configs/index.ts",
-    "./configs/base": "./src/configs/base.ts",
-    "./plugin": "./src/plugin.ts",
-    "./rules/invalid-command-path": "./src/rules/invalid-command-path.ts",
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    },
+    "./configs": {
+      "require": "./dist/configs/index.cjs",
+      "import": "./dist/configs/index.mjs"
+    },
+    "./configs/base": {
+      "require": "./dist/configs/base.cjs",
+      "import": "./dist/configs/base.mjs"
+    },
+    "./plugin": {
+      "require": "./dist/plugin.cjs",
+      "import": "./dist/plugin.mjs"
+    },
+    "./rules/invalid-command-path": {
+      "require": "./dist/rules/invalid-command-path.cjs",
+      "import": "./dist/rules/invalid-command-path.mjs"
+    },
     "./package.json": "./package.json"
   },
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
-  "files": [
-    "dist/**/*"
-  ],
-  "keywords": [
-    "eslint",
-    "eslint-plugin",
-    "shell-shock",
-    "storm-software"
-  ],
+  "files": ["dist/**/*"],
+  "keywords": ["eslint", "eslint-plugin", "shell-shock", "storm-software"],
   "peerDependencies": {
     "eslint": "catalog:",
     "@powerlines/plugin-tsdown": "0.1.184",

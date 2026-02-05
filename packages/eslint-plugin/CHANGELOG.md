@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.6](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.6) (02/05/2026)
+
+### Bug Fixes
+
+- **preset-script:** Resolve issue with banner header and footer display ([c5be6f4](https://github.com/storm-software/shell-shock/commit/c5be6f4))
+
 ## [0.0.5](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.5) (02/03/2026)
 
 ### Miscellaneous
