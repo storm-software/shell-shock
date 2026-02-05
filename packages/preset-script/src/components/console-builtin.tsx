@@ -1676,9 +1676,9 @@ export function BannerFunctionDeclaration(
                 theme.borderStyles.banner.outline[variant].top
               }".repeat(4)) + " " + ${
                 theme.icons.banner.header[variant]
-                  ? `colors.border.banner.outline.${variant}("${
+                  ? `colors.text.banner.header.${variant}("${
                       theme.icons.banner.header[variant]
-                    }") + " " + colors.text.banner.header.${variant}("${
+                    }") + " " + colors.border.banner.outline.${variant}("${
                       theme.borderStyles.banner.outline[variant].top
                     }") + " " +`
                   : ""
@@ -1770,7 +1770,7 @@ export function BannerFunctionDeclaration(
             ? `colors.border.banner.outline.${variant}("${
                 theme.borderStyles.banner.outline[variant].bottom
               }".repeat(Math.max(process.stdout.columns - ${
-                4 +
+                6 +
                 (footer.value ? footer.value.length : 0) +
                 bannerPadding.value
               }, 0))) + " " + ${

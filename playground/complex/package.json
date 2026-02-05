@@ -4,7 +4,7 @@
   "type": "module",
   "description": "A playground package containing a complex command-line application and project setup.",
   "private": true,
-  "dependencies": { "didyoumean2": "^7.0.4" },
+  "dependencies": {},
   "devDependencies": {
     "@shell-shock/core": "workspace:*",
     "@shell-shock/nx": "workspace:*",

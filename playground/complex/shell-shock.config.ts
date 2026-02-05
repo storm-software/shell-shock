@@ -29,12 +29,14 @@ const config: UserConfig = defineConfig({
   plugins: [
     script({
       theme: {
-        banner: {
-          header: {
-            primary: "Shell Shock Playground"
-          },
-          footer: {
-            primary: "https://stormsoftware.com"
+        labels: {
+          banner: {
+            header: {
+              primary: "Shell Shock Playground"
+            },
+            footer: {
+              primary: "https://stormsoftware.com"
+            }
           }
         }
       }

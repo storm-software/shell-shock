@@ -102,7 +102,6 @@
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@stryke/path": "catalog:",
-    "@stryke/string-format": "catalog:",
     "powerlines": "catalog:"
   },
   "devDependencies": {

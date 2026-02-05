@@ -46,7 +46,7 @@ export const plugin = <
         );
 
         return {
-          theme: options.theme,
+          // theme: options.theme,
           styleDictionary: {
             customPreprocessors: (context: TContext) => ({
               "shell-shock/preprocessor": preprocessor(context)
