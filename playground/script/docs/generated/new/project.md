@@ -10,32 +10,32 @@ The New - Project executable command-line interface.
 
 ## Usage
 
-The New - Project command can be executed using the following syntax:
+The project command can be executed using the following syntax:
 
 
 ```bash
-npx playground-complex new project [options]
+npx playground-script new project [options]
 ```
 
 
 ```bash
-yarn exec playground-complex new project [options]
+yarn exec playground-script new project [options]
 ```
 
 
 ```bash
-pnpm exec playground-complex new project [options]
+pnpm exec playground-script new project [options]
 ```
 
 
 ```bash
-bun x playground-complex new project [options]
+bun x playground-script new project [options]
 ```
 
 
 ## Options
 
-The following options are available for the New - Project command:
+The following options are available for the project command:
 
 
 

@@ -57,55 +57,7 @@ A playground package containing a cli command-line application and project setup
 
 ## Commands
 
-The following commands are available in the `Playground CLI` CLI application:
-
-### Start
-
-The Start executable command-line interface.
-
-#### Usage
-
-The Start command can be executed using the following syntax:
-
-```bash
-npx playground-cli start [options]
-```
-
-#### Options
-
-The following options are available for the Start command:
-
-### Copy
-
-The Copy executable command-line interface.
-
-#### Usage
-
-The Copy command can be executed using the following syntax:
-
-```bash
-npx playground-cli copy [options]
-```
-
-#### Options
-
-The following options are available for the Copy command:
-
-### Build
-
-The Build executable command-line interface.
-
-#### Usage
-
-The Build command can be executed using the following syntax:
-
-```bash
-npx playground-cli build [options]
-```
-
-#### Options
-
-The following options are available for the Build command:
+The following commands are available in the Playground Command Line Interface CLI application:
 
 ### Remove
 
@@ -113,7 +65,7 @@ The Remove executable command-line interface.
 
 #### Usage
 
-The Remove command can be executed using the following syntax:
+The remove command can be executed using the following syntax:
 
 ```bash
 npx playground-cli remove [options]
@@ -121,7 +73,55 @@ npx playground-cli remove [options]
 
 #### Options
 
-The following options are available for the Remove command:
+The following options are available for the remove command:
+
+### Start
+
+The Start executable command-line interface.
+
+#### Usage
+
+The start command can be executed using the following syntax:
+
+```bash
+npx playground-cli start [options]
+```
+
+#### Options
+
+The following options are available for the start command:
+
+### Copy
+
+The Copy executable command-line interface.
+
+#### Usage
+
+The copy command can be executed using the following syntax:
+
+```bash
+npx playground-cli copy [options]
+```
+
+#### Options
+
+The following options are available for the copy command:
+
+### Build
+
+The Build executable command-line interface.
+
+#### Usage
+
+The build command can be executed using the following syntax:
+
+```bash
+npx playground-cli build [options]
+```
+
+#### Options
+
+The following options are available for the build command:
 
 <!-- /shell-shock -->
 

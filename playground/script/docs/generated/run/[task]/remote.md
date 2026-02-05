@@ -10,32 +10,32 @@ The Run - Remote executable command-line interface.
 
 ## Usage
 
-The Run - Remote command can be executed using the following syntax:
+The remote command can be executed using the following syntax:
 
 
 ```bash
-npx playground-complex run <task> remote [options]
+npx playground-script run <task> remote [options]
 ```
 
 
 ```bash
-yarn exec playground-complex run <task> remote [options]
+yarn exec playground-script run <task> remote [options]
 ```
 
 
 ```bash
-pnpm exec playground-complex run <task> remote [options]
+pnpm exec playground-script run <task> remote [options]
 ```
 
 
 ```bash
-bun x playground-complex run <task> remote [options]
+bun x playground-script run <task> remote [options]
 ```
 
 
 ## Options
 
-The following options are available for the Run - Remote command:
+The following options are available for the remote command:
 
 
 

@@ -10,32 +10,32 @@ The Copy executable command-line interface.
 
 ## Usage
 
-The Copy command can be executed using the following syntax:
+The copy command can be executed using the following syntax:
 
 
 ```bash
-npx playground-complex copy [options]
+npx playground-script copy [options]
 ```
 
 
 ```bash
-yarn exec playground-complex copy [options]
+yarn exec playground-script copy [options]
 ```
 
 
 ```bash
-pnpm exec playground-complex copy [options]
+pnpm exec playground-script copy [options]
 ```
 
 
 ```bash
-bun x playground-complex copy [options]
+bun x playground-script copy [options]
 ```
 
 
 ## Options
 
-The following options are available for the Copy command:
+The following options are available for the copy command:
 
 
 

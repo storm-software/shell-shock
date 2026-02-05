@@ -10,32 +10,32 @@ The Start executable command-line interface.
 
 ## Usage
 
-The Start command can be executed using the following syntax:
+The start command can be executed using the following syntax:
 
 
 ```bash
-npx playground-complex start [options]
+npx playground-cli start [options]
 ```
 
 
 ```bash
-yarn exec playground-complex start [options]
+yarn exec playground-cli start [options]
 ```
 
 
 ```bash
-pnpm exec playground-complex start [options]
+pnpm exec playground-cli start [options]
 ```
 
 
 ```bash
-bun x playground-complex start [options]
+bun x playground-cli start [options]
 ```
 
 
 ## Options
 
-The following options are available for the Start command:
+The following options are available for the start command:
 
 
 

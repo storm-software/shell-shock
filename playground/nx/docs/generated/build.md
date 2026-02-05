@@ -14,22 +14,22 @@ The build command can be executed using the following syntax:
 
 
 ```bash
-npx playground-script build [options]
+npx playground-nx build [options]
 ```
 
 
 ```bash
-yarn exec playground-script build [options]
+yarn exec playground-nx build [options]
 ```
 
 
 ```bash
-pnpm exec playground-script build [options]
+pnpm exec playground-nx build [options]
 ```
 
 
 ```bash
-bun x playground-script build [options]
+bun x playground-nx build [options]
 ```
 
 

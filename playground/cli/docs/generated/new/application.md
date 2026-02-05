@@ -10,32 +10,32 @@ The New - Application executable command-line interface.
 
 ## Usage
 
-The New - Application command can be executed using the following syntax:
+The application command can be executed using the following syntax:
 
 
 ```bash
-npx playground-complex new application [options]
+npx playground-cli new application [options]
 ```
 
 
 ```bash
-yarn exec playground-complex new application [options]
+yarn exec playground-cli new application [options]
 ```
 
 
 ```bash
-pnpm exec playground-complex new application [options]
+pnpm exec playground-cli new application [options]
 ```
 
 
 ```bash
-bun x playground-complex new application [options]
+bun x playground-cli new application [options]
 ```
 
 
 ## Options
 
-The following options are available for the New - Application command:
+The following options are available for the application command:
 
 
 

@@ -65,8 +65,15 @@
   },
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
-  "files": ["dist/**/*"],
-  "keywords": ["eslint", "eslint-plugin", "shell-shock", "storm-software"],
+  "files": [
+    "dist/**/*"
+  ],
+  "keywords": [
+    "eslint",
+    "eslint-plugin",
+    "shell-shock",
+    "storm-software"
+  ],
   "peerDependencies": {
     "eslint": "catalog:",
     "@powerlines/plugin-tsdown": "0.1.184",

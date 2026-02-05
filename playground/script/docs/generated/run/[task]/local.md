@@ -10,32 +10,32 @@ The Run - Local executable command-line interface.
 
 ## Usage
 
-The Run - Local command can be executed using the following syntax:
+The local command can be executed using the following syntax:
 
 
 ```bash
-npx playground-complex run <task> local [options]
+npx playground-script run <task> local [options]
 ```
 
 
 ```bash
-yarn exec playground-complex run <task> local [options]
+yarn exec playground-script run <task> local [options]
 ```
 
 
 ```bash
-pnpm exec playground-complex run <task> local [options]
+pnpm exec playground-script run <task> local [options]
 ```
 
 
 ```bash
-bun x playground-complex run <task> local [options]
+bun x playground-script run <task> local [options]
 ```
 
 
 ## Options
 
-The following options are available for the Run - Local command:
+The following options are available for the local command:
 
 
 

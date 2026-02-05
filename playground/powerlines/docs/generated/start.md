@@ -14,22 +14,22 @@ The start command can be executed using the following syntax:
 
 
 ```bash
-npx playground-script start [options]
+npx playground-powerlines start [options]
 ```
 
 
 ```bash
-yarn exec playground-script start [options]
+yarn exec playground-powerlines start [options]
 ```
 
 
 ```bash
-pnpm exec playground-script start [options]
+pnpm exec playground-powerlines start [options]
 ```
 
 
 ```bash
-bun x playground-script start [options]
+bun x playground-powerlines start [options]
 ```
 
 

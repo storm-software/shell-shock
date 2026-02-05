@@ -10,32 +10,32 @@ The Remove executable command-line interface.
 
 ## Usage
 
-The Remove command can be executed using the following syntax:
+The remove command can be executed using the following syntax:
 
 
 ```bash
-npx playground-complex remove [options]
+npx playground-script remove [options]
 ```
 
 
 ```bash
-yarn exec playground-complex remove [options]
+yarn exec playground-script remove [options]
 ```
 
 
 ```bash
-pnpm exec playground-complex remove [options]
+pnpm exec playground-script remove [options]
 ```
 
 
 ```bash
-bun x playground-complex remove [options]
+bun x playground-script remove [options]
 ```
 
 
 ## Options
 
-The following options are available for the Remove command:
+The following options are available for the remove command:
 
 
 

@@ -10,32 +10,32 @@ The New - Library executable command-line interface.
 
 ## Usage
 
-The New - Library command can be executed using the following syntax:
+The library command can be executed using the following syntax:
 
 
 ```bash
-npx playground-complex new library [options]
+npx playground-script new library [options]
 ```
 
 
 ```bash
-yarn exec playground-complex new library [options]
+yarn exec playground-script new library [options]
 ```
 
 
 ```bash
-pnpm exec playground-complex new library [options]
+pnpm exec playground-script new library [options]
 ```
 
 
 ```bash
-bun x playground-complex new library [options]
+bun x playground-script new library [options]
 ```
 
 
 ## Options
 
-The following options are available for the New - Library command:
+The following options are available for the library command:
 
 
 
