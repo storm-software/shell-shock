@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.3.2](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.3.2) (02/05/2026)
+
+### Bug Fixes
+
+- **preset-script:** Resolved issue with the `splitText` runtime function's wrapping logic ([1bdd72b](https://github.com/storm-software/shell-shock/commit/1bdd72b))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.12**
+- Updated **core** to **v0.4.4**
+
 ## [0.3.1](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.3.1) (02/05/2026)
 
 ### Bug Fixes

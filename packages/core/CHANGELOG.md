@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.4.4](https://github.com/storm-software/shell-shock/releases/tag/core%400.4.4) (02/05/2026)
+
+### Features
+
+- **preset-cli:** Added `banner` runtime function specific to the preset ([4775801](https://github.com/storm-software/shell-shock/commit/4775801))
+
 ## [0.4.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.4.2) (02/03/2026)
 
 ### Miscellaneous

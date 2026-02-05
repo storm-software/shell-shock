@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.12](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.12) (02/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Rerun `docs` task for monorepo projects ([9887918](https://github.com/storm-software/shell-shock/commit/9887918))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.4.4**
+
 ## [0.0.11](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.11) (02/05/2026)
 
 ### Bug Fixes

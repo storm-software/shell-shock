@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.0.8](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.8) (02/05/2026)
+
+### Features
+
+- **preset-cli:** Added `banner` runtime function specific to the preset ([4775801](https://github.com/storm-software/shell-shock/commit/4775801))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.4.4**
+
 ## [0.0.7](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.7) (02/05/2026)
 
 ### Bug Fixes

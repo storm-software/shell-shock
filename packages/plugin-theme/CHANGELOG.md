@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.0.12](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.12) (02/05/2026)
+
+### Features
+
+- **preset-cli:** Added `banner` runtime function specific to the preset ([4775801](https://github.com/storm-software/shell-shock/commit/4775801))
+
 ## [0.0.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.11) (02/05/2026)
 
 ### Bug Fixes

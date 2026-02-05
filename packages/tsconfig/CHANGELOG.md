@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.12](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.12) (02/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Rerun `docs` task for monorepo projects ([9887918](https://github.com/storm-software/shell-shock/commit/9887918))
+
+### Bug Fixes
+
+- **preset-script:** Resolved issue with the `splitText` runtime function's wrapping logic ([1bdd72b](https://github.com/storm-software/shell-shock/commit/1bdd72b))
+
 ## [0.0.10](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.10) (02/03/2026)
 
 ### Miscellaneous

@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.1.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.0) (02/05/2026)
+
+### Features
+
+- **preset-cli:** Added `banner` runtime function specific to the preset ([4775801](https://github.com/storm-software/shell-shock/commit/4775801))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.3.2**
+- Updated **plugin-theme** to **v0.0.12**
+- Updated **core** to **v0.4.4**
+
 ## [0.0.7](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.0.7) (02/05/2026)
 
 ### Updated Dependencies

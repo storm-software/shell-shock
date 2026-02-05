@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.7](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.7) (02/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Rerun `docs` task for monorepo projects ([9887918](https://github.com/storm-software/shell-shock/commit/9887918))
+
+### Features
+
+- **preset-cli:** Added `banner` runtime function specific to the preset ([4775801](https://github.com/storm-software/shell-shock/commit/4775801))
+
 ## [0.0.6](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.6) (02/05/2026)
 
 ### Bug Fixes
