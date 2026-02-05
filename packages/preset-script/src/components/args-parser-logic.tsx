@@ -397,7 +397,7 @@ export function OptionsMemberParserLogic({
             fallback={code`options.${name}`}>
             {code`options["${name}"]`}
           </Show>
-          {code` = value !== "false" && value !== "f" && value !== "no" && value !== "n" && value !== "0"; `}
+          {code` = value !== "false" && value !== "f" && value !== "no" && value !== "n" && value !== "0" && value !== "off" && value !== "disable" && value !== "disabled"; `}
         </IfStatement>
         <ElseClause>
           <Show
