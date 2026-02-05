@@ -16,32 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-import type { UserConfig } from "@shell-shock/core";
-import { defineConfig } from "@shell-shock/core";
-import script from "@shell-shock/preset-script";
+interface RunTaskLocalOptions {
+  /**
+   * The root directory of the local operation.
+   */
+  root: string;
+}
 
-const config: UserConfig = defineConfig({
-  skipCache: true,
-  name: "playground-complex",
-  output: {
-    storage: "fs"
-  },
-  plugins: [
-    script({
-      theme: {
-        labels: {
-          banner: {
-            header: {
-              primary: "Shell Shock Playground"
-            },
-            footer: {
-              primary: "https://stormsoftware.com"
-            }
-          }
-        }
-      }
-    })
-  ]
-});
+/**
+ * Run specified task locally.
+ *
+ * @param options - The local arguments.
+ * @param task - The task to run.
+ */
+function runTaskLocal(options: RunTaskLocalOptions, task: string) {
+  console.log("Running task local:", task, "at", options.root);
+}
 
-export default config;
+export default runTaskLocal;

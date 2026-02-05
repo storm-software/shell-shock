@@ -1,0 +1,40 @@
+{
+  "name": "playground-cli",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "playground/cli/src",
+  "targets": {
+    "clean": {
+      "cache": false,
+      "executor": "@shell-shock/nx:clean"
+    },
+    "prepare": {
+      "cache": false,
+      "inputs": ["typescript", "^production"],
+      "outputs": ["{projectRoot}/.shell-shock"],
+      "dependsOn": ["^build"],
+      "executor": "@shell-shock/nx:prepare",
+      "options": {
+        "mode": "development"
+      }
+    },
+    "build": {
+      "cache": false,
+      "inputs": ["typescript", "^production"],
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
+      "executor": "@shell-shock/nx:build",
+      "options": {
+        "mode": "development"
+      }
+    },
+    "docs": {
+      "cache": false,
+      "inputs": ["typescript", "^production"],
+      "outputs": ["{projectRoot}/docs"],
+      "dependsOn": ["build"],
+      "executor": "@shell-shock/nx:docs"
+    }
+  },
+  "implicitDependencies": ["nx"]
+}

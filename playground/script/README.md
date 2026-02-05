@@ -49,15 +49,15 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 <!-- END header -->
 
-# Shell Shock - Complex Playground
+# Shell Shock - Script Playground
 
-A playground package containing a complex command-line application and project setup.
+A playground package containing a script command-line application and project setup.
 
 <!-- shell-shock:commands -->
 
 ## Commands
 
-The following commands are available in the `Playground Complex` CLI application:
+The following commands are available in the `Playground Script` CLI application:
 
 ### Start
 
@@ -68,7 +68,7 @@ The Start executable command-line interface.
 The Start command can be executed using the following syntax:
 
 ```bash
-npx playground-complex start [options]
+npx playground-script start [options]
 ```
 
 #### Options
@@ -84,7 +84,7 @@ The Copy executable command-line interface.
 The Copy command can be executed using the following syntax:
 
 ```bash
-npx playground-complex copy [options]
+npx playground-script copy [options]
 ```
 
 #### Options
@@ -100,7 +100,7 @@ The Build executable command-line interface.
 The Build command can be executed using the following syntax:
 
 ```bash
-npx playground-complex build [options]
+npx playground-script build [options]
 ```
 
 #### Options
@@ -116,7 +116,7 @@ The Remove executable command-line interface.
 The Remove command can be executed using the following syntax:
 
 ```bash
-npx playground-complex remove [options]
+npx playground-script remove [options]
 ```
 
 #### Options

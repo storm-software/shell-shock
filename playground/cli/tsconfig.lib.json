@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
+    "jsx": "preserve",
+    "jsxImportSource": "@alloy-js/core",
+    "outDir": "./out-tsc"
+  },
+  "references": [
+    { "path": "../../packages/preset-cli/tsconfig.lib.json" },
+    { "path": "../../packages/nx/tsconfig.lib.json" },
+    { "path": "../../packages/core/tsconfig.lib.json" }
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "shell-shock.config.ts",
+    "shell-shock.d.ts"
+  ],
+  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
+  "reflection": "default",
+  "reflectionLevel": "minimal"
+}

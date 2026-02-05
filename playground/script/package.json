@@ -1,8 +1,8 @@
 {
-  "name": "@shell-shock-playground/complex",
+  "name": "@shell-shock-playground/script",
   "version": "0.0.1",
   "type": "module",
-  "description": "A playground package containing a complex command-line application and project setup.",
+  "description": "A playground package containing a script command-line application and project setup.",
   "private": true,
   "dependencies": {},
   "devDependencies": {
@@ -10,5 +10,5 @@
     "@shell-shock/nx": "workspace:*",
     "@shell-shock/preset-script": "workspace:*"
   },
-  "bin": { "playground-complex": "./dist/bin.mjs" }
+  "bin": { "playground-script": "./dist/bin.mjs" }
 }

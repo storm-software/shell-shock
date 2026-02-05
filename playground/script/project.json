@@ -1,8 +1,8 @@
 {
-  "name": "playground-complex",
+  "name": "playground-script",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "sourceRoot": "playground/complex/src",
+  "sourceRoot": "playground/script/src",
   "targets": {
     "clean": {
       "cache": false,
