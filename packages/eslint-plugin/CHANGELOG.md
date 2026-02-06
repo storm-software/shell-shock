@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.10](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.10) (02/06/2026)
+
+### Miscellaneous
+
+- **preset-script:** Added total processsing time logging to `exit` function ([7807c41](https://github.com/storm-software/shell-shock/commit/7807c41))
+- **monorepo:** Reformat workspace package files ([5be9940](https://github.com/storm-software/shell-shock/commit/5be9940))
+
 ## [0.0.9](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.9) (02/06/2026)
 
 ### Features

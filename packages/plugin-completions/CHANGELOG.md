@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.0.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.11) (02/06/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat workspace package files ([5be9940](https://github.com/storm-software/shell-shock/commit/5be9940))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.6.0**
+
 ## [0.0.10](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.10) (02/06/2026)
 
 ### Updated Dependencies

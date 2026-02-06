@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.15](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.15) (02/06/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat workspace package files ([5be9940](https://github.com/storm-software/shell-shock/commit/5be9940))
+
 ## [0.0.12](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.12) (02/05/2026)
 
 ### Miscellaneous

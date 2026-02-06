@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.15](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.15) (02/06/2026)
+
+### Miscellaneous
+
+- **preset-script:** Added total processsing time logging to `exit` function ([7807c41](https://github.com/storm-software/shell-shock/commit/7807c41))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.6.0**
+
 ## [0.0.14](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.14) (02/06/2026)
 
 ### Features

@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.6.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.6.0) (02/06/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat workspace package files ([5be9940](https://github.com/storm-software/shell-shock/commit/5be9940))
+
+### Features
+
+- **core:** Added command path segment groups ([cf085ea](https://github.com/storm-software/shell-shock/commit/cf085ea))
+- **core:** Added dynamic and catch-all command path segments ([cce9030](https://github.com/storm-software/shell-shock/commit/cce9030))
+
 ## [0.5.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.5.1) (02/06/2026)
 
 ### Features

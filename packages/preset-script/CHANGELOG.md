@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.4.1](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.4.1) (02/06/2026)
+
+### Miscellaneous
+
+- **preset-script:** Added total processsing time logging to `exit` function ([7807c41](https://github.com/storm-software/shell-shock/commit/7807c41))
+- **monorepo:** Reformat workspace package files ([5be9940](https://github.com/storm-software/shell-shock/commit/5be9940))
+
+### Features
+
+- **core:** Added dynamic and catch-all command path segments ([cce9030](https://github.com/storm-software/shell-shock/commit/cce9030))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.15**
+- Updated **core** to **v0.6.0**
+
 ## [0.4.0](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.4.0) (02/06/2026)
 
 ### Features

@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.1.3](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.3) (02/06/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat workspace package files ([5be9940](https://github.com/storm-software/shell-shock/commit/5be9940))
+
+### Features
+
+- **core:** Added dynamic and catch-all command path segments ([cce9030](https://github.com/storm-software/shell-shock/commit/cce9030))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.4.1**
+- Updated **plugin-theme** to **v0.0.15**
+- Updated **core** to **v0.6.0**
+
 ## [0.1.2](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.2) (02/06/2026)
 
 ### Features
