@@ -83,6 +83,34 @@
         "default": "./dist/components/banner-function-declaration.mjs"
       }
     },
+    "./components/command-entry": {
+      "require": {
+        "types": "./dist/components/command-entry.d.cts",
+        "default": "./dist/components/command-entry.cjs"
+      },
+      "import": {
+        "types": "./dist/components/command-entry.d.mts",
+        "default": "./dist/components/command-entry.mjs"
+      },
+      "default": {
+        "types": "./dist/components/command-entry.d.mts",
+        "default": "./dist/components/command-entry.mjs"
+      }
+    },
+    "./components/virtual-command-entry": {
+      "require": {
+        "types": "./dist/components/virtual-command-entry.d.cts",
+        "default": "./dist/components/virtual-command-entry.cjs"
+      },
+      "import": {
+        "types": "./dist/components/virtual-command-entry.d.mts",
+        "default": "./dist/components/virtual-command-entry.mjs"
+      },
+      "default": {
+        "types": "./dist/components/virtual-command-entry.d.mts",
+        "default": "./dist/components/virtual-command-entry.mjs"
+      }
+    },
     "./package.json": "./package.json",
     "./types": {
       "require": {
@@ -113,6 +141,7 @@
       }
     }
   },
+  "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
   "files": ["dist/**/*"],
   "keywords": [
@@ -130,7 +159,10 @@
     "@shell-shock/core": "workspace:*",
     "@shell-shock/plugin-theme": "workspace:*",
     "@shell-shock/preset-script": "workspace:*",
+    "@stryke/path": "catalog:",
+    "@stryke/string-format": "catalog:",
     "cfonts": "catalog:",
+    "defu": "catalog:",
     "powerlines": "catalog:"
   },
   "devDependencies": {
@@ -163,6 +195,5 @@
       },
       "./package.json": "./package.json"
     }
-  },
-  "types": "./dist/index.d.cts"
+  }
 }

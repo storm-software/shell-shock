@@ -17,3 +17,5 @@
  ------------------------------------------------------------------- */
 
 export * from "./banner-function-declaration";
+export * from "./command-entry";
+export * from "./virtual-command-entry";

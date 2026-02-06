@@ -21,14 +21,14 @@ import { VarDeclaration } from "@alloy-js/typescript";
 import { render } from "@powerlines/plugin-alloy/render";
 import theme from "@shell-shock/plugin-theme";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
-import { CommandEntry } from "@shell-shock/preset-script/components/command-entry";
 import { CommandRouter } from "@shell-shock/preset-script/components/command-router";
 import { ConsoleBuiltin } from "@shell-shock/preset-script/components/console-builtin";
-import { HelpInvoke } from "@shell-shock/preset-script/components/help";
+import { VirtualHelp } from "@shell-shock/preset-script/components/help";
 import { UtilsBuiltin } from "@shell-shock/preset-script/components/utils-builtin";
-import { VirtualCommandEntry } from "@shell-shock/preset-script/components/virtual-command-entry";
 import type { Plugin } from "powerlines/types/plugin";
-import { BannerFunctionDeclaration } from "./components";
+import { BannerFunctionDeclaration } from "./components/banner-function-declaration";
+import { CommandEntry } from "./components/command-entry";
+import { VirtualCommandEntry } from "./components/virtual-command-entry";
 import { getDefaultOptions } from "./helpers/get-default-options";
 import type { CLIPresetContext, CLIPresetOptions } from "./types/plugin";
 
@@ -116,7 +116,11 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                   <hbr />
                 </Show>
                 <hbr />
-                <HelpInvoke
+                {code`writeLine("");
+                banner();`}
+                <hbr />
+                <hbr />
+                <VirtualHelp
                   options={this.options}
                   commands={this.commands ?? {}}
                 />

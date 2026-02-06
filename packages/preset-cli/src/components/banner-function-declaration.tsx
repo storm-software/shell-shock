@@ -19,21 +19,15 @@
 import { code, computed } from "@alloy-js/core";
 import { FunctionDeclaration } from "@alloy-js/typescript";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import { useCommand } from "@shell-shock/core/contexts/command";
 import {
   getAppDescription,
   getAppTitle
 } from "@shell-shock/core/plugin-utils/context-helpers";
-import type { ThemeColorVariant } from "@shell-shock/plugin-theme/types/theme";
+import type { BannerFunctionDeclarationProps } from "@shell-shock/preset-script/components/banner-function-declaration";
+import { BannerFunctionBodyDeclaration } from "@shell-shock/preset-script/components/banner-function-declaration";
 import { useTheme } from "@shell-shock/preset-script/contexts/theme";
 import { render } from "cfonts";
 import type { CLIPresetContext } from "../types/plugin";
-
-export interface BannerFunctionDeclarationProps {
-  variant?: ThemeColorVariant;
-  consoleFnName?: "log" | "info" | "warn" | "error" | "debug";
-  title?: string;
-}
 
 /**
  * A component to generate the `banner` function in the `shell-shock:console` builtin module.
@@ -41,16 +35,11 @@ export interface BannerFunctionDeclarationProps {
 export function BannerFunctionDeclaration(
   props: BannerFunctionDeclarationProps
 ) {
-  const {
-    consoleFnName = "log",
-    variant = "primary",
-    title: titleProp
-  } = props;
+  const { consoleFnName = "log", variant = "primary", command } = props;
 
   const theme = useTheme();
 
   const context = usePowerlines<CLIPresetContext>();
-  const command = useCommand();
 
   const header = computed(
     () =>
@@ -62,7 +51,7 @@ export function BannerFunctionDeclaration(
   const footer = computed(() => theme.labels.banner.footer[variant]);
 
   const title = computed(() =>
-    titleProp ||
+    getAppTitle(context) ||
     /(?:cli|command-line|command line)\s+(?:application|app)?$/.test(
       header.value.toLowerCase()
     )
@@ -78,7 +67,6 @@ export function BannerFunctionDeclaration(
     const result = render(getAppTitle(context), {
       font: "tiny",
       align: "left",
-      colors: ["system"],
       background: "transparent",
       letterSpacing: 1,
       lineHeight: 1,
@@ -110,146 +98,20 @@ export function BannerFunctionDeclaration(
         doc={`Write the ${getAppTitle(context)} application banner ${
           command ? `for the ${command.title} command ` : ""
         }to the console.`}>
-        {code`
-        if (hasFlag("no-banner") || hasFlag("hide-banner") || isCI || isMinimal) {
-          return;
-        }
-
-        const titleLines = [${titleLines.value
-          .map(line => JSON.stringify(line))
-          .join(", ")}];
-        const title = Math.max(...titleLines.map(line => stripAnsi(line).trim().length)) > Math.max(process.stdout.columns - ${
+        <BannerFunctionBodyDeclaration
+          header={header.value}
+          description={description.value}
+          footer={footer.value}
+          variant={variant}
+          consoleFnName={consoleFnName}
+          command={command}>
+          {code`const titleLines = [${titleLines.value
+            .map(line => JSON.stringify(line.trim()))
+            .join(", ")}];
+        const title = Math.max(...titleLines.map(line => stripAnsi(line).length)) > Math.max(process.stdout.columns - ${
           totalPadding.value
-        }, 0)
-          ? ["${title.value}"]
-          : titleLines;
-
-        writeLine(colors.border.banner.outline.${variant}("${
-          theme.borderStyles.banner.outline[variant].topLeft
-        }") + ${
-          theme.icons.banner.header[variant]
-            ? `colors.border.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].top
-              }".repeat(4)) + " " + ${
-                theme.icons.banner.header[variant]
-                  ? `colors.text.banner.header.${variant}("${
-                      theme.icons.banner.header[variant]
-                    }") + " " + colors.border.banner.outline.${variant}("${
-                      theme.borderStyles.banner.outline[variant].top
-                    }") + " " +`
-                  : ""
-              } colors.bold(colors.text.banner.header.${variant}("${
-                header.value
-              }")) + " " + colors.border.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].top
-              }".repeat(Math.max(process.stdout.columns - ${
-                4 +
-                (theme.icons.banner.header[variant]
-                  ? theme.icons.banner.header[variant].length + 3
-                  : 0) +
-                (header.value ? header.value.length + 2 : 0) +
-                bannerPadding.value
-              }, 0)))`
-            : `colors.border.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].top
-              }".repeat(Math.max(process.stdout.columns - ${
-                bannerPadding.value
-              }, 0)))`
-        } + colors.border.banner.outline.${variant}("${
-          theme.borderStyles.banner.outline[variant].topRight
-        }"), { consoleFn: console.${consoleFnName} });
-
-        writeLine(colors.border.banner.outline.${variant}("${
-          theme.borderStyles.banner.outline[variant].left
-        }") + " ".repeat(Math.max(process.stdout.columns - ${
-          bannerPadding.value
-        })) + colors.border.banner.outline.${variant}("${
-          theme.borderStyles.banner.outline[variant].right
-        }"), { consoleFn: console.${consoleFnName} });
-
-        title.map(line => line.trim()).forEach((line) => {
-          writeLine(colors.border.banner.outline.${variant}("${
-            theme.borderStyles.banner.outline[variant].left
-          }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
-            bannerPadding.value
-          })) / 2), 0)) + colors.text.banner.title.${
-            variant
-          }(line) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
-            bannerPadding.value
-          })) / 2), 0)) + colors.border.banner.outline.${variant}("${
-            theme.borderStyles.banner.outline[variant].right
-          }"), { consoleFn: console.${consoleFnName} });
-        });
-
-        writeLine(colors.border.banner.outline.${variant}("${
-          theme.borderStyles.banner.outline[variant].left
-        }") + " ".repeat(Math.max(process.stdout.columns - ${
-          bannerPadding.value
-        })) + colors.border.banner.outline.${variant}("${
-          theme.borderStyles.banner.outline[variant].right
-        }"), { consoleFn: console.${consoleFnName} });
-
-        ${
-          command?.title
-            ? `writeLine(colors.border.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].left
-              }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
-                bannerPadding.value
-              })) / 2), 0)) + colors.bold(colors.text.banner.command.${
-                variant
-              }("${command.title}")) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
-                bannerPadding.value
-              })) / 2), 0)) + colors.border.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].right
-              }"), { consoleFn: console.${consoleFnName} }); `
-            : ""
-        }
-
-        splitText(
-          ${
-            command?.title
-              ? "colors.text.banner.description"
-              : "colors.text.banner.command"
-          }.${variant}("${description.value.replace(/"/g, '\\"')}"),
-          Math.max(process.stdout.columns - ${totalPadding.value}, 0)
-        ).forEach((line) => {
-          writeLine(colors.border.banner.outline.${variant}("${
-            theme.borderStyles.banner.outline[variant].left
-          }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
-            bannerPadding.value
-          })) / 2), 0)) + colors.text.banner.description.${variant}(line) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
-            bannerPadding.value
-          })) / 2), 0)) + colors.border.banner.outline.${variant}("${
-            theme.borderStyles.banner.outline[variant].right
-          }"), { consoleFn: console.${consoleFnName} });
-        });
-
-        writeLine(colors.border.banner.outline.${variant}("${
-          theme.borderStyles.banner.outline[variant].bottomLeft
-        }") + ${
-          footer.value
-            ? `colors.border.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].bottom
-              }".repeat(Math.max(process.stdout.columns - ${
-                6 +
-                (footer.value ? footer.value.length : 0) +
-                bannerPadding.value
-              }, 0))) + " " + ${
-                footer.value
-                  ? `colors.bold(colors.text.banner.footer.${variant}("${footer.value}"))`
-                  : ""
-              } + " " + colors.border.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].bottom
-              }".repeat(4))`
-            : `colors.border.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].bottom
-              }".repeat(Math.max(process.stdout.columns - ${
-                bannerPadding.value
-              }, 0)))`
-        } + colors.border.banner.outline.${variant}("${
-          theme.borderStyles.banner.outline[variant].bottomRight
-        }"), { consoleFn: console.${consoleFnName} });
-`}
+        }, 0) ? "${title.value}" : \`\\n\${titleLines.join("\\n")}\\n\`; `}
+        </BannerFunctionBodyDeclaration>
       </FunctionDeclaration>
     </>
   );

@@ -24,7 +24,8 @@ import { getAppBin } from "@shell-shock/core/plugin-utils/context-helpers";
 import { sortOptions } from "@shell-shock/core/plugin-utils/reflect";
 import type {
   CommandOption,
-  CommandTree
+  CommandTree,
+  CommandTreePath
 } from "@shell-shock/core/types/command";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { snakeCase } from "@stryke/string-format/snake-case";
@@ -180,11 +181,21 @@ export function HelpCommands(props: HelpCommandsProps) {
   );
 }
 
-export interface HelpProps {
+export interface BaseHelpProps {
   /**
    * The command to generate help for.
    */
   command: CommandTree;
+
+  /**
+   * Whether to filter out global options from the help display.
+   *
+   * @remarks
+   * When enabled, any options that are present in the global options context will be filtered out from the help display. This is useful for sub-commands to avoid displaying global options that are not relevant to the specific command.
+   *
+   * @defaultValue false
+   */
+  filterGlobalOptions?: boolean;
 
   /**
    * The padding scale to apply to the help display headings.
@@ -200,24 +211,25 @@ export interface HelpProps {
 /**
  * A component that generates the `help` function declaration for a command.
  */
-export function Help(props: HelpProps) {
-  const { command, indent = 1 } = props;
+export function BaseHelp(props: BaseHelpProps) {
+  const { command, indent = 1, filterGlobalOptions = false } = props;
 
   const theme = useTheme();
   const context = usePowerlines<ScriptPresetContext>();
 
-  const options = computed(
-    () =>
-      Object.values(command.options).filter(
-        option =>
-          !context.options.some(
-            globalOption =>
-              globalOption.name === option.name ||
-              option.alias.includes(globalOption.name) ||
-              globalOption.alias?.includes(option.name) ||
-              globalOption.alias?.some(alias => option.alias.includes(alias))
-          )
-      ) ?? []
+  const options = computed(() =>
+    filterGlobalOptions
+      ? Object.values(command.options).filter(
+          option =>
+            !context.options.some(
+              globalOption =>
+                globalOption.name === option.name ||
+                option.alias.includes(globalOption.name) ||
+                globalOption.alias?.includes(option.name) ||
+                globalOption.alias?.some(alias => option.alias.includes(alias))
+            )
+        )
+      : Object.values(command.options)
   );
 
   return (
@@ -253,7 +265,7 @@ export function Help(props: HelpProps) {
   );
 }
 
-export interface HelpInvokeProps {
+export interface VirtualHelpProps {
   /**
    * The options to display help for.
    */
@@ -263,21 +275,27 @@ export interface HelpInvokeProps {
    * A mapping of command names to their command definitions.
    */
   commands: Record<string, CommandTree>;
+
+  /**
+   * The command path to generate help for, used for generating the help invocation instructions.
+   *
+   * @remarks
+   * This is optional since the virtual command entry component can be used for both the global binary executable and virtual commands (there will be no command definition for the binary executable).
+   */
+  path?: CommandTreePath;
 }
 
 /**
  * A component that generates the invocation of the `help` function for a command.
  */
-export function HelpInvoke(props: HelpInvokeProps) {
-  const { options, commands } = props;
+export function VirtualHelp(props: VirtualHelpProps) {
+  const { options, path, commands } = props;
 
   const context = usePowerlines<ScriptPresetContext>();
 
   return (
     <>
       {code`
-      writeLine("");
-      banner();
       writeLine(""); `}
       <hbr />
       <hbr />
@@ -308,15 +326,78 @@ export function HelpInvoke(props: HelpInvokeProps) {
                 writeLine("");
                 `}
               <hbr />
-              <Help command={child} indent={2} />
+              <BaseHelp command={child} indent={2} filterGlobalOptions />
               <hbr />
             </>
           )}
         </For>
         {code`help("Running a specific command with the help flag (via: '${getAppBin(
           context
-        )} <specific command> --help') will provide additional information that is specific to that command.");
-                  writeLine("");`}
+        )}${
+          path?.segments && path.segments.length > 0
+            ? ` ${path.segments.join(" ")}`
+            : ""
+        } <specific command> --help') will provide additional information that is specific to that command.");
+        writeLine("");`}
+      </Show>
+    </>
+  );
+}
+
+export interface CommandHelpProps {
+  /**
+   * A mapping of command names to their command definitions.
+   */
+  command: CommandTree;
+}
+
+/**
+ * A component that generates the invocation of the `help` function for a command.
+ */
+export function CommandHelp(props: CommandHelpProps) {
+  const { command } = props;
+
+  const context = usePowerlines<ScriptPresetContext>();
+
+  return (
+    <>
+      {code`writeLine(""); `}
+      <hbr />
+      <hbr />
+      <BaseHelp command={command} filterGlobalOptions={false} />
+      {code`writeLine(""); `}
+      <hbr />
+      <hbr />
+      <Show when={Object.keys(command.children).length > 0}>
+        {code`writeLine(colors.text.body.secondary("The following sub-commands are available:"));
+        writeLine(""); `}
+        <hbr />
+        <hbr />
+        <For
+          each={Object.values(command.children)}
+          doubleHardline
+          joiner={code`writeLine(""); `}
+          ender={code`writeLine(""); `}>
+          {child => (
+            <>
+              {code`
+                writeLine(colors.text.heading.primary("${child.title} ${
+                  child.isVirtual ? "" : "Command"
+                }"));
+                writeLine("");
+                writeLine(colors.text.body.secondary("${child.description}"));
+                writeLine("");
+                `}
+              <hbr />
+              <BaseHelp command={child} indent={2} filterGlobalOptions />
+              <hbr />
+            </>
+          )}
+        </For>
+        {code`help("Running a specific command with the help flag (via: '${getAppBin(
+          context
+        )} ${command.path.segments.join(" ")} <specific command> --help') will provide additional information that is specific to that command.");
+        writeLine("");`}
       </Show>
     </>
   );

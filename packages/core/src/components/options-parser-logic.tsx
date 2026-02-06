@@ -375,9 +375,9 @@ export function OptionsMemberParserCondition(
         <For each={alias ?? []}>
           {a =>
             code` || arg${isCaseSensitive ? "" : ".toLowerCase()"}.startsWith("--${
-              isCaseSensitive ? a : a.toLowerCase()
+              isCaseSensitive || a.length === 1 ? a : a.toLowerCase()
             }=") || arg${isCaseSensitive ? "" : ".toLowerCase()"} === "--${
-              isCaseSensitive ? a : a.toLowerCase()
+              isCaseSensitive || a.length === 1 ? a : a.toLowerCase()
             }" || arg.startsWith("-${a}=") || arg === "-${a}"`
           }
         </For>

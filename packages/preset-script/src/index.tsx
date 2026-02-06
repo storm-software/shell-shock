@@ -21,7 +21,7 @@ import { VarDeclaration } from "@alloy-js/typescript";
 import { render } from "@powerlines/plugin-alloy/render";
 import theme from "@shell-shock/plugin-theme";
 import type { Plugin } from "powerlines/types/plugin";
-import { BannerFunctionDeclaration, HelpInvoke } from "./components";
+import { BannerFunctionDeclaration, VirtualHelp } from "./components";
 import { BinEntry } from "./components/bin-entry";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
@@ -117,7 +117,12 @@ export const plugin = <
                   <hbr />
                 </Show>
                 <hbr />
-                <HelpInvoke
+                <hbr />
+                {code`writeLine("");
+                banner();`}
+                <hbr />
+                <hbr />
+                <VirtualHelp
                   options={this.options}
                   commands={this.commands ?? {}}
                 />

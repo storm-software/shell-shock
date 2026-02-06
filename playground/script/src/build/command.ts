@@ -30,13 +30,6 @@ interface BuildOptions {
   root: string;
 
   /**
-   * Whether to enable verbose logging.
-   *
-   * @defaultValue false
-   */
-  verbose?: boolean;
-
-  /**
    * Specific build targets to build.
    */
   targets: string[];
@@ -47,12 +40,10 @@ interface BuildOptions {
  */
 function build(options: BuildOptions) {
   info(
-    `Building at ${options.root} with verbose=${
-      options.verbose ?? false
-    }, targets=${options.targets.join(", ")}`
+    `Building at ${options.root} with targets=${options.targets.join(", ")}`
   );
 
-  table(["Root", "Verbose", "Targets"]);
+  table(["Root", "Targets"]);
 }
 
 export default build;

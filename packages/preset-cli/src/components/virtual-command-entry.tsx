@@ -16,92 +16,20 @@
 
  ------------------------------------------------------------------- */
 
-import type { Children } from "@alloy-js/core";
-import { code, computed, For, Show } from "@alloy-js/core";
-import { FunctionDeclaration } from "@alloy-js/typescript";
+import { computed, For, Show } from "@alloy-js/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { TypescriptFileImports } from "@powerlines/plugin-alloy/types/components";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
-import {
-  TSDoc,
-  TSDocParam,
-  TSDocRemarks,
-  TSDocTitle
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { TypescriptFile } from "@powerlines/plugin-alloy/typescript/components/typescript-file";
-import {
-  getAppBin,
-  getPositionalCommandOptionName,
-  isPositionalCommandOption
-} from "@shell-shock/core/plugin-utils/context-helpers";
+import { isPositionalCommandOption } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
+import { VirtualCommandHandlerDeclaration } from "@shell-shock/preset-script/components/virtual-command-entry";
 import { joinPaths } from "@stryke/path/join";
-import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
-import type { ScriptPresetContext } from "../types/plugin";
+import type { CLIPresetContext } from "../types/plugin";
 import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { CommandEntry } from "./command-entry";
-import { CommandRouter } from "./command-router";
-import { VirtualHelp } from "./help";
-
-export interface VirtualCommandHandlerDeclarationProps {
-  command: CommandTree;
-  children?: Children;
-}
-
-/**
- * A component that generates the `handler` function declaration for a command.
- */
-export function VirtualCommandHandlerDeclaration(
-  props: VirtualCommandHandlerDeclarationProps
-) {
-  const { command, children } = props;
-
-  const context = usePowerlines<ScriptPresetContext>();
-
-  return (
-    <>
-      <TSDoc
-        heading={`The ${command.title} (${getAppBin(context)} ${command.path.segments
-          .map(segment =>
-            isPositionalCommandOption(segment)
-              ? `[${constantCase(getPositionalCommandOptionName(segment))}]`
-              : segment
-          )
-          .join(" ")}) virtual command.`}>
-        <TSDocRemarks>{`${command.description.replace(/\.+$/, "")}.`}</TSDocRemarks>
-        <hbr />
-        <TSDocTitle>{command.title}</TSDocTitle>
-        <TSDocParam name="args">{`The command-line arguments passed to the command.`}</TSDocParam>
-      </TSDoc>
-      <FunctionDeclaration
-        export
-        async
-        name="handler"
-        parameters={[{ name: "args", type: "string[]", default: "getArgs()" }]}>
-        <hbr />
-        <hbr />
-        {children}
-        <CommandRouter
-          path={command.path.segments}
-          commands={command.children}
-        />
-        <hbr />
-        <hbr />
-        {code`writeLine("");
-        banner();`}
-        <hbr />
-        <hbr />
-        <VirtualHelp
-          path={command.path}
-          options={Object.values(command.options)}
-          commands={command.children ?? {}}
-        />
-      </FunctionDeclaration>
-    </>
-  );
-}
 
 export interface VirtualCommandEntryProps extends Omit<
   EntryFileProps,
@@ -116,7 +44,7 @@ export interface VirtualCommandEntryProps extends Omit<
 export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
   const { command, imports, builtinImports, ...rest } = props;
 
-  const context = usePowerlines<ScriptPresetContext>();
+  const context = usePowerlines<CLIPresetContext>();
   const filePath = computed(() =>
     joinPaths(
       context.entryPath,

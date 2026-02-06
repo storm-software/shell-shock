@@ -4,11 +4,14 @@
   "type": "module",
   "description": "A playground package containing a cli command-line application and project setup.",
   "private": true,
-  "dependencies": {},
+  "bin": {
+    "playground-cli": "./dist/bin.mjs"
+  },
+  "dependencies": {
+    "@shell-shock/core": "workspace:*"
+  },
   "devDependencies": {
-    "@shell-shock/core": "workspace:*",
     "@shell-shock/nx": "workspace:*",
     "@shell-shock/preset-cli": "workspace:*"
-  },
-  "bin": { "playground-cli": "./dist/bin.mjs" }
+  }
 }

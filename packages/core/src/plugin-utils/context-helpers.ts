@@ -73,7 +73,10 @@ export function getAppName(context: UnresolvedContext | Context): string {
  * @returns The application title in title-case format.
  */
 export function getAppTitle(context: UnresolvedContext | Context): string {
-  return titleCase(context.config.name || getAppName(context));
+  return (
+    context.config.title ||
+    titleCase(context.config.name || getAppName(context))
+  );
 }
 
 /**

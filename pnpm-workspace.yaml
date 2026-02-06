@@ -53,15 +53,15 @@ catalog:
   '@storm-software/untyped': ^0.24.62
   '@storm-software/workspace-tools': ^1.294.32
   '@stryke/capnp': ^0.12.65
-  '@stryke/cli': ^0.13.12
+  '@stryke/cli': 0.13.12
   '@stryke/convert': ^0.6.38
   '@stryke/env': ^0.20.57
   '@stryke/fs': ^0.33.40
   '@stryke/hash': ^0.12.46
   '@stryke/helpers': ^0.9.40
   '@stryke/json': ^0.9.41
-  '@stryke/path': ^0.26.4
-  '@stryke/string-format': ^0.13.7
+  '@stryke/path': 0.26.4
+  '@stryke/string-format': 0.13.7
   '@stryke/type-checks': ^0.5.23
   '@stryke/types': ^0.10.37
   '@swc-node/register': ^1.11.1
@@ -79,7 +79,7 @@ catalog:
   automd: 0.4.2
   cfonts: ^3.3.1
   copyfiles: ^2.4.1
-  defu: ^6.1.4
+  defu: 6.1.4
   didyoumean2: ^7.0.4
   esbuild: ^0.24.2
   eslint: ^9.39.2

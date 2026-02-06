@@ -16,135 +16,22 @@
 
  ------------------------------------------------------------------- */
 
-import type { Children } from "@alloy-js/core";
-import { code, computed, For, Show } from "@alloy-js/core";
-import {
-  ElseClause,
-  FunctionDeclaration,
-  IfStatement
-} from "@alloy-js/typescript";
+import { computed, For, Show } from "@alloy-js/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
-import {
-  TSDoc,
-  TSDocParam,
-  TSDocRemarks,
-  TSDocTitle
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
-import {
-  OptionsInterfaceDeclaration,
-  OptionsParserLogic,
-  PositionalOptionsParserLogic
-} from "@shell-shock/core/components/options-parser-logic";
-import {
-  getAppBin,
-  getPositionalCommandOptionName,
-  isPositionalCommandOption
-} from "@shell-shock/core/plugin-utils/context-helpers";
+import { OptionsInterfaceDeclaration } from "@shell-shock/core/components/options-parser-logic";
+import { isPositionalCommandOption } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
+import { CommandHandlerDeclaration } from "@shell-shock/preset-script/components/command-entry";
 import { findFilePath, relativePath } from "@stryke/path/find";
 import { joinPaths } from "@stryke/path/join";
 import { replaceExtension } from "@stryke/path/replace";
-import { camelCase } from "@stryke/string-format/camel-case";
-import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
-import type { ScriptPresetContext } from "../types/plugin";
+import type { CLIPresetContext } from "../types/plugin";
 import { BannerFunctionDeclaration } from "./banner-function-declaration";
-import { CommandHelp } from "./help";
 import { VirtualCommandEntry } from "./virtual-command-entry";
-
-export function CommandInvocation(props: { command: CommandTree }) {
-  const { command } = props;
-
-  return (
-    <>
-      {code`return Promise.resolve(handle${pascalCase(command.name)}(options${
-        command.path.segments.filter(segment =>
-          isPositionalCommandOption(segment)
-        ).length > 0
-          ? `, ${command.path.segments
-              .filter(segment => isPositionalCommandOption(segment))
-              .map(segment =>
-                camelCase(getPositionalCommandOptionName(segment))
-              )
-              .join(", ")}`
-          : ""
-      }));`}
-      <hbr />
-    </>
-  );
-}
-
-export interface CommandHandlerDeclarationProps {
-  command: CommandTree;
-  children?: Children;
-}
-
-/**
- * A component that generates the `handler` function declaration for a command.
- */
-export function CommandHandlerDeclaration(
-  props: CommandHandlerDeclarationProps
-) {
-  const { command, children } = props;
-
-  const context = usePowerlines<ScriptPresetContext>();
-
-  return (
-    <>
-      <TSDoc
-        heading={`The ${command.title} (${getAppBin(
-          context
-        )} ${command.path.segments
-          .map(segment =>
-            isPositionalCommandOption(segment)
-              ? `[${constantCase(getPositionalCommandOptionName(segment))}]`
-              : segment
-          )
-          .join(" ")}) command.`}>
-        <TSDocRemarks>{`${command.description.replace(/\.+$/, "")}.`}</TSDocRemarks>
-        <hbr />
-        <TSDocTitle>{command.title}</TSDocTitle>
-        <TSDocParam name="args">{`The command-line arguments passed to the command.`}</TSDocParam>
-      </TSDoc>
-      <FunctionDeclaration
-        export
-        async
-        name="handler"
-        parameters={[{ name: "args", type: "string[]", default: "getArgs()" }]}>
-        <PositionalOptionsParserLogic
-          path={command.path}
-          envPrefix={context.config.envPrefix}
-        />
-        <hbr />
-        <hbr />
-        <OptionsParserLogic
-          command={command}
-          envPrefix={context.config.envPrefix}
-          isCaseSensitive={context.config.isCaseSensitive}
-        />
-        <hbr />
-        <hbr />
-        {code`writeLine("");
-        banner();`}
-        <hbr />
-        <hbr />
-        {children}
-        <hbr />
-        <hbr />
-        <IfStatement condition={code`options.help`}>
-          <CommandHelp command={command} />
-        </IfStatement>
-        <ElseClause>
-          <hbr />
-          <CommandInvocation command={command} />
-        </ElseClause>
-      </FunctionDeclaration>
-    </>
-  );
-}
 
 export interface CommandEntryProps extends Omit<
   EntryFileProps,
@@ -159,7 +46,7 @@ export interface CommandEntryProps extends Omit<
 export function CommandEntry(props: CommandEntryProps) {
   const { command, imports, builtinImports, ...rest } = props;
 
-  const context = usePowerlines<ScriptPresetContext>();
+  const context = usePowerlines<CLIPresetContext>();
   const filePath = computed(() =>
     joinPaths(
       command.path.segments
