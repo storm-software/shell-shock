@@ -17,8 +17,8 @@
  ------------------------------------------------------------------- */
 
 import {
-  getPositionalCommandOptionName,
-  isPositionalCommandOption
+  getDynamicPathSegmentName,
+  isDynamicPathSegment
 } from "../plugin-utils/context-helpers";
 import type { CommandTree } from "../types";
 
@@ -27,70 +27,69 @@ export interface ValidationFailure {
   details: string;
 }
 
-export function validateCommandPositionalOptions(
+export function validateDynamicPathSegments(
   command: CommandTree
 ): ValidationFailure[] {
   const failures: ValidationFailure[] = [];
   if (!command.isVirtual && command.path.segments.length > 0) {
-    const positionalOptionPathNames = new Set<string>();
-    for (const segment of command.path.segments.filter(
-      isPositionalCommandOption
-    ) ?? []) {
-      if (positionalOptionPathNames.has(segment)) {
+    const dynamicPathSegmentNames = new Set<string>();
+    for (const segment of command.path.segments.filter(isDynamicPathSegment) ??
+      []) {
+      if (dynamicPathSegmentNames.has(segment)) {
         failures.push({
-          code: "DUPLICATE_POSITIONAL_OPTION_PATH_NAME",
-          details: `Duplicate positional option path name "${getPositionalCommandOptionName(segment)}" found in command.`
+          code: "DUPLICATE_DYNAMIC_PATH_SEGMENT_NAME",
+          details: `Duplicate dynamic path segment name "${getDynamicPathSegmentName(segment)}" found in command.`
         });
       }
-      positionalOptionPathNames.add(getPositionalCommandOptionName(segment));
+      dynamicPathSegmentNames.add(getDynamicPathSegmentName(segment));
     }
 
     if (
-      command.path.segments.filter(isPositionalCommandOption).length !==
-      Object.keys(command.path.positional ?? {}).length
+      command.path.segments.filter(isDynamicPathSegment).length !==
+      Object.keys(command.path.dynamics ?? {}).length
     ) {
       failures.push({
-        code: "POSITIONAL_OPTION_PATH_MISMATCH",
-        details: `Mismatch between positional options path segments and defined path positional options in command (found ${
-          command.path.segments.filter(isPositionalCommandOption).length
-        } positional options in the command folder path "${command.path.segments.join("/")}", but ${
-          Object.keys(command.path.positional ?? {}).length
-        } potential positional option path(s) could be determined from the command's function signature).`
+        code: "DYNAMIC_PATH_SEGMENT_MISMATCH",
+        details: `Mismatch between dynamic path segments and defined dynamic path segments in command (found ${
+          command.path.segments.filter(isDynamicPathSegment).length
+        } dynamic path segments in the command folder path "${command.path.segments.join("/")}", but ${
+          Object.keys(command.path.dynamics ?? {}).length
+        } potential dynamic path segment(s) could be determined from the command's function signature).`
       });
     }
 
     const missing = command.path.segments
-      .filter(isPositionalCommandOption)
+      .filter(isDynamicPathSegment)
       .filter(
         segment =>
           Object.prototype.hasOwnProperty.call(
-            command.path.positional ?? {},
-            getPositionalCommandOptionName(segment)
+            command.path.dynamics ?? {},
+            getDynamicPathSegmentName(segment)
           ) === false
       );
     if (missing.length > 0) {
       failures.push({
-        code: "MISSING_POSITIONAL_OPTION_PATH",
-        details: `${missing.length} positional option path segment${missing.length > 1 ? "s" : ""} in the command folder path "${command.path.segments.join(
+        code: "MISSING_DYNAMIC_PATH_SEGMENT_DEFINITION",
+        details: `${missing.length} dynamic path segment${missing.length > 1 ? "s" : ""} in the command folder path "${command.path.segments.join(
           "/"
         )}" do${missing.length > 1 ? "" : "es"} not have corresponding entr${
           missing.length > 1 ? "ies" : "y"
-        } in the command's path positional options: \n- ${missing
-          .map(segment => `"${getPositionalCommandOptionName(segment)}"`)
+        } in the command's path dynamic segments: \n- ${missing
+          .map(segment => `"${getDynamicPathSegmentName(segment)}"`)
           .join("\n- ")}`
       });
     } else {
-      for (const varName of Object.keys(command.path.positional ?? {})) {
+      for (const varName of Object.keys(command.path.dynamics ?? {})) {
         if (
           !command.path.segments
-            .filter(isPositionalCommandOption)
-            .find(
-              segment => getPositionalCommandOptionName(segment) === varName
-            )
+            .filter(isDynamicPathSegment)
+            .find(segment => getDynamicPathSegmentName(segment) === varName)
         ) {
           failures.push({
-            code: "UNUSED_POSITIONAL_OPTION_PATH",
-            details: `The positional option path name "${varName}" defined in the command's path positional options is not used in the command folder path "${command.path.segments.join(
+            code: "UNUSED_DYNAMIC_PATH_SEGMENT",
+            details: `The dynamic path segment name "${
+              varName
+            }" defined in the command's path dynamic segments is not used in the command folder path "${command.path.segments.join(
               "/"
             )}".`
           });
@@ -99,24 +98,24 @@ export function validateCommandPositionalOptions(
 
       command.path.segments.forEach((segment, index) => {
         if (
-          isPositionalCommandOption(segment) &&
-          command.path.positional[getPositionalCommandOptionName(segment)]
-            ?.variadic === true &&
+          isDynamicPathSegment(segment) &&
+          command.path.dynamics[getDynamicPathSegmentName(segment)]
+            ?.catchAll === true &&
           index + 1 < command.path.segments.length &&
           command.path.segments[index + 1] &&
-          command.path.positional[
-            getPositionalCommandOptionName(command.path.segments[index + 1]!)
-          ]?.variadic === true
+          command.path.dynamics[
+            getDynamicPathSegmentName(command.path.segments[index + 1]!)
+          ]?.catchAll === true
         ) {
           failures.push({
-            code: "MULTIPLE_VARIADIC_POSITIONAL_OPTION_PATHS",
-            details: `The positional option path segment "${getPositionalCommandOptionName(
+            code: "MULTIPLE_CATCH_ALL_PATH_SEGMENTS",
+            details: `The catch-all path segment "${getDynamicPathSegmentName(
               segment
             )}" in the command at path "${command.path.segments.join(
               "/"
-            )}" is marked as variadic, and it is followed by another variadic positional option path segment "${getPositionalCommandOptionName(
+            )}" is marked as catch-all, and it is followed by another catch-all dynamic path segment "${getDynamicPathSegmentName(
               command.path.segments[index + 1]!
-            )}". Only one variadic positional option path segment is allowed per command, and it must be the final path segment.`
+            )}". Only one catch-all path segment is allowed per command, and it must be the final path segment.`
           });
         }
       });
@@ -160,7 +159,7 @@ export function validateCommandOptions(
 export function validateCommand(command: CommandTree): ValidationFailure[] {
   const results: ValidationFailure[] = [];
 
-  let failures = validateCommandPositionalOptions(command);
+  let failures = validateDynamicPathSegments(command);
   if (failures.length > 0) {
     results.push(...failures);
   }

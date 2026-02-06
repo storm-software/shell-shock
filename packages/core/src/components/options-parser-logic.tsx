@@ -27,13 +27,12 @@ import {
 } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { camelCase } from "@stryke/string-format/camel-case";
-import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { computedOptions } from "../contexts/options";
 import {
-  getPositionalCommandOptionName,
-  isPositionalCommandOption
+  getDynamicPathSegmentName,
+  isDynamicPathSegment
 } from "../plugin-utils/context-helpers";
 import type {
   BooleanCommandOption,
@@ -44,59 +43,45 @@ import type {
   StringCommandOption
 } from "../types/command";
 
-export interface PositionalOptionsParserLogicProps {
+export interface DynamicPathSegmentsParserLogicProps {
   /**
-   * The command path to generate the positional options parser logic for.
+   * The command path to generate the dynamic path segments parser logic for.
    */
   path: CommandTreePath;
-
-  /**
-   * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${envPrefix}_OPTION_NAME`).
-   */
-  envPrefix: string;
 }
 
-export function PositionalOptionsParserLogic(
-  props: PositionalOptionsParserLogicProps
+export function DynamicPathSegmentsParserLogic(
+  props: DynamicPathSegmentsParserLogicProps
 ) {
-  const { path, envPrefix } = props;
+  const { path } = props;
 
   return (
     <For each={path.segments ?? []}>
       {(segment, index) => (
-        <Show when={isPositionalCommandOption(segment)}>
+        <Show when={isDynamicPathSegment(segment)}>
           <VarDeclaration
             let
-            name={camelCase(getPositionalCommandOptionName(segment))}
-            type={
-              path.positional[getPositionalCommandOptionName(segment)]?.kind ===
-              ReflectionKind.number
-                ? path.positional[getPositionalCommandOptionName(segment)]
-                    ?.variadic
-                  ? "number[]"
-                  : "number | undefined"
-                : path.positional[getPositionalCommandOptionName(segment)]
-                      ?.variadic
-                  ? "string[]"
-                  : "string | undefined"
-            }
+            name={camelCase(getDynamicPathSegmentName(segment))}
+            type={`${
+              path.dynamics[getDynamicPathSegmentName(segment)]?.variadic
+                ? "string[]"
+                : "string"
+            }${
+              path.dynamics[getDynamicPathSegmentName(segment)]?.optional
+                ? " | undefined"
+                : ""
+            }`}
             initializer={
-              path.positional[getPositionalCommandOptionName(segment)]
-                ?.variadic ? (
+              path.dynamics[getDynamicPathSegmentName(segment)]?.variadic ? (
                 code`[]`
               ) : (
                 <>
-                  {code`env.${
-                    envPrefix
-                  }_${constantCase(path.positional[getPositionalCommandOptionName(segment)]?.name)}  ?? `}
                   <Show
                     when={isSetString(
-                      path.positional[getPositionalCommandOptionName(segment)]
-                        ?.default
+                      path.dynamics[getDynamicPathSegmentName(segment)]?.default
                     )}>
                     {code`"${
-                      path.positional[getPositionalCommandOptionName(segment)]
-                        ?.default
+                      path.dynamics[getDynamicPathSegmentName(segment)]?.default
                     }"`}
                   </Show>
                   {code`undefined;`}
@@ -107,7 +92,7 @@ export function PositionalOptionsParserLogic(
           <hbr />
           <IfStatement
             condition={code`args.length > ${2 + index} && args[${2 + index}]`}>
-            {code`${camelCase(getPositionalCommandOptionName(segment))} = args[${2 + index}];`}
+            {code`${camelCase(getDynamicPathSegmentName(segment))} = args[${2 + index}];`}
           </IfStatement>
           <hbr />
           <hbr />
@@ -481,9 +466,8 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
       <hbr />
       <hbr />
       {code`for (let i = 0; i < args.slice(${
-        command.path.segments.filter(segment =>
-          isPositionalCommandOption(segment)
-        ).length
+        command.path.segments.filter(segment => isDynamicPathSegment(segment))
+          .length
       }).length; i++) { `}
       <hbr />
       <VarDeclaration

@@ -42,14 +42,16 @@ import { isSetString } from "@stryke/type-checks/is-set-string";
 import { resolveModule } from "powerlines/lib/utilities/resolve";
 import {
   getAppTitle,
-  getPositionalCommandOptionName,
-  isPositionalCommandOption
+  getDynamicPathSegmentName,
+  isCatchAllPathSegment,
+  isDynamicPathSegment,
+  isOptionalCatchAllPathSegment
 } from "../plugin-utils/context-helpers";
 import type {
+  CommandDynamicSegment,
   CommandInput,
   CommandModule,
   CommandOption,
-  CommandPositionalOption,
   CommandTree,
   NumberCommandOption,
   StringCommandOption
@@ -96,7 +98,7 @@ export function resolveCommandOptionDescription(
 export function resolveCommandId(context: Context, file: string): string {
   return replacePath(findFilePath(file), context.commandsPath)
     .split("/")
-    .filter(p => Boolean(p) && !isPositionalCommandOption(p))
+    .filter(p => Boolean(p) && !isDynamicPathSegment(p))
     .join("/")
     .replaceAll(/^\/+/g, "")
     .replaceAll(/\/+$/g, "")
@@ -115,7 +117,7 @@ export function resolveCommandName(file: string) {
     requireExtension: true
   });
 
-  while (isPositionalCommandOption(name)) {
+  while (isDynamicPathSegment(name)) {
     path = resolveParentPath(path);
     name = findFolderName(path, {
       requireExtension: true
@@ -134,7 +136,7 @@ export function resolveCommandPath(context: Context, file: string): string {
 export function resolveCommandParams(context: Context, file: string): string[] {
   return replacePath(findFilePath(file), context.commandsPath)
     .split("/")
-    .filter(p => Boolean(p) && isPositionalCommandOption(p))
+    .filter(p => Boolean(p) && isDynamicPathSegment(p))
     .map(p => p.replaceAll(/^\[+/g, "").replaceAll(/\]+$/g, ""));
 }
 
@@ -257,24 +259,22 @@ export function extractCommandOption(
  * @param reflection - The type parameter reflection to extract information from.
  * @returns The extracted command option information.
  */
-export function extractCommandPositionalOption(
+export function extractCommandDynamicSegment(
   command: CommandInput,
   segment: string,
   reflection: TypeParameter
-): CommandPositionalOption {
+): CommandDynamicSegment {
   if (
     reflection.type.kind !== ReflectionKind.string &&
-    reflection.type.kind !== ReflectionKind.number &&
     !(
       reflection.type.kind === ReflectionKind.array &&
-      (reflection.type.type.kind === ReflectionKind.string ||
-        reflection.type.type.kind === ReflectionKind.number)
+      reflection.type.type.kind === ReflectionKind.string
     )
   ) {
     throw new Error(
-      `Unsupported type for positional option "${segment}" in command "${
+      `Unsupported type for dynamic path segment "${segment}" in command "${
         command.name
-      }". Only string and number types (or string[] and number[]) are supported, received ${stringifyType(
+      }". Only string types (or an array of strings) are supported, received ${stringifyType(
         reflection.type
       )
         .trim()
@@ -284,37 +284,62 @@ export function extractCommandPositionalOption(
 
   const option = {
     name: segment,
-    alias: [],
     title: titleCase(segment),
     description:
       reflection.description ||
       resolveCommandOptionDescription(
-        reflection.type.kind,
+        ReflectionKind.string,
         !!reflection.optional,
         segment,
         titleCase(segment),
         reflection.default
       ),
-    env: constantCase(segment),
-    kind: reflection.type.kind,
     optional: reflection.optional,
     default: reflection.default,
-    variadic: false
-  } as CommandPositionalOption;
+    catchAll: command.path.segments.some(
+      seg =>
+        getDynamicPathSegmentName(segment) === seg && isCatchAllPathSegment(seg)
+    )
+  } as CommandDynamicSegment;
 
   if (reflection.type.kind === ReflectionKind.array) {
-    if (
-      reflection.type.type.kind === ReflectionKind.string ||
-      reflection.type.type.kind === ReflectionKind.number
-    ) {
-      (option as StringCommandOption | NumberCommandOption).variadic = true;
-      (option as StringCommandOption | NumberCommandOption).kind =
-        reflection.type.type.kind;
-    } else {
+    if (!option.catchAll) {
       throw new Error(
-        `Unsupported array type for option "${segment}" in command "${
+        `Dynamic path segment "${segment}" in command "${
           command.name
-        }". Only string[] and number[] are supported.`
+        }" is an array type but is not defined as a catch-all segment. To use an array type for a dynamic path segment, it must be defined as a catch-all segment using the "[...segment]" syntax.`
+      );
+    }
+
+    option.variadic = true;
+  }
+
+  if (option.catchAll) {
+    if (
+      !option.optional &&
+      command.path.segments.some(
+        seg =>
+          getDynamicPathSegmentName(segment) === seg &&
+          isOptionalCatchAllPathSegment(seg)
+      )
+    ) {
+      throw new Error(
+        `Dynamic path segment "${segment}" in command "${
+          command.name
+        }" is defined as a catch-all segment but is not optional. To define an optional catch-all segment, use the "[[...segment]]" syntax.`
+      );
+    } else if (
+      option.optional &&
+      !command.path.segments.some(
+        seg =>
+          getDynamicPathSegmentName(segment) === seg &&
+          isOptionalCatchAllPathSegment(seg)
+      )
+    ) {
+      throw new Error(
+        `Dynamic path segment "${segment}" in command "${
+          command.name
+        }" is defined as an optional segment but is not defined as an optional catch-all segment. To define an optional catch-all segment, use the "[[...segment]]" syntax.`
       );
     }
   }
@@ -347,7 +372,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     title,
     path: {
       ...command.path,
-      positional: {}
+      dynamics: {}
     },
     options: getDefaultOptions(context, command),
     parent: parent ?? null,
@@ -426,8 +451,8 @@ export async function reflectCommandTree<TContext extends Context = Context>(
         }
       }
 
-      tree.path.positional = tree.path.segments
-        .filter(segment => isPositionalCommandOption(segment))
+      tree.path.dynamics = tree.path.segments
+        .filter(segment => isDynamicPathSegment(segment))
         .reduce(
           (obj, segment, index) => {
             if (
@@ -437,8 +462,8 @@ export async function reflectCommandTree<TContext extends Context = Context>(
               return obj;
             }
 
-            const paramName = getPositionalCommandOptionName(segment);
-            obj[paramName] = extractCommandPositionalOption(
+            const paramName = getDynamicPathSegmentName(segment);
+            obj[paramName] = extractCommandDynamicSegment(
               command,
               paramName,
               type.parameters[index + 1]!
@@ -446,11 +471,15 @@ export async function reflectCommandTree<TContext extends Context = Context>(
 
             obj[paramName].description =
               obj[paramName].description ||
-              `The ${paramName} positional option for the ${command.name} command.`;
+              `The ${paramName} ${
+                obj[paramName].catchAll
+                  ? `${obj[paramName].optional ? "optional " : ""}catch-all`
+                  : "dynamic "
+              } segment for the ${command.name} command.`;
 
             return obj;
           },
-          {} as Record<string, CommandPositionalOption>
+          {} as Record<string, CommandDynamicSegment>
         );
     }
   } else {
@@ -490,40 +519,39 @@ export async function reflectCommandTree<TContext extends Context = Context>(
         });
     }
 
-    if (
-      Object.values(tree.path.positional).filter(option => option.env !== false)
-        .length > 0
-    ) {
-      Object.values(tree.path.positional)
-        .filter(option => option.env !== false)
-        .forEach(option =>
-          context.env.types.env.addProperty({
-            name: constantCase(option.name),
-            optional: option.optional ? true : undefined,
-            description: option.description,
-            visibility: ReflectionVisibility.public,
-            type: option.variadic
-              ? {
-                  kind: ReflectionKind.array,
-                  type: { kind: ReflectionKind.string }
-                }
-              : { kind: ReflectionKind.string },
-            default: option.default,
-            tags: {
-              domain: "cli"
-            }
-          })
-        );
-    }
+    // if (
+    //   Object.values(tree.path.dynamics).filter(option => option.env !== false)
+    //     .length > 0
+    // ) {
+    //   Object.values(tree.path.dynamics)
+    //     .filter(option => option.env !== false)
+    //     .forEach(option =>
+    //       context.env.types.env.addProperty({
+    //         name: constantCase(option.name),
+    //         optional: option.optional ? true : undefined,
+    //         description: option.description,
+    //         visibility: ReflectionVisibility.public,
+    //         type: option.variadic
+    //           ? {
+    //               kind: ReflectionKind.array,
+    //               type: { kind: ReflectionKind.string }
+    //             }
+    //           : { kind: ReflectionKind.string },
+    //         default: option.default,
+    //         tags: {
+    //           domain: "cli"
+    //         }
+    //       })
+    //     );
+    // }
   }
 
   for (const input of context.inputs.filter(
     input =>
-      input.path.segments.filter(segment => !isPositionalCommandOption(segment))
+      input.path.segments.filter(segment => !isDynamicPathSegment(segment))
         .length ===
-        command.path.segments.filter(
-          segment => !isPositionalCommandOption(segment)
-        ).length +
+        command.path.segments.filter(segment => !isDynamicPathSegment(segment))
+          .length +
           1 &&
       input.path.segments
         .slice(0, command.path.segments.length)

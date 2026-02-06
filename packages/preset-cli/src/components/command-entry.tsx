@@ -21,7 +21,7 @@ import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { OptionsInterfaceDeclaration } from "@shell-shock/core/components/options-parser-logic";
-import { isPositionalCommandOption } from "@shell-shock/core/plugin-utils/context-helpers";
+import { isDynamicPathSegment } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { CommandHandlerDeclaration } from "@shell-shock/preset-script/components/command-entry";
 import { findFilePath, relativePath } from "@stryke/path/find";
@@ -50,7 +50,7 @@ export function CommandEntry(props: CommandEntryProps) {
   const filePath = computed(() =>
     joinPaths(
       command.path.segments
-        .filter(segment => !isPositionalCommandOption(segment))
+        .filter(segment => !isDynamicPathSegment(segment))
         .join("/"),
       "index.ts"
     )

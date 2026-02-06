@@ -31,8 +31,8 @@ import {
 import { TypescriptFile } from "@powerlines/plugin-alloy/typescript/components/typescript-file";
 import {
   getAppBin,
-  getPositionalCommandOptionName,
-  isPositionalCommandOption
+  getDynamicPathSegmentName,
+  isDynamicPathSegment
 } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { joinPaths } from "@stryke/path/join";
@@ -65,8 +65,8 @@ export function VirtualCommandHandlerDeclaration(
       <TSDoc
         heading={`The ${command.title} (${getAppBin(context)} ${command.path.segments
           .map(segment =>
-            isPositionalCommandOption(segment)
-              ? `[${constantCase(getPositionalCommandOptionName(segment))}]`
+            isDynamicPathSegment(segment)
+              ? `[${constantCase(getDynamicPathSegmentName(segment))}]`
               : segment
           )
           .join(" ")}) virtual command.`}>
@@ -121,7 +121,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
     joinPaths(
       context.entryPath,
       command.path.segments
-        .filter(segment => !isPositionalCommandOption(segment))
+        .filter(segment => !isDynamicPathSegment(segment))
         .join("/"),
       "index.ts"
     )

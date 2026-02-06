@@ -19,8 +19,8 @@
 import { code, Match, Switch } from "@alloy-js/core";
 import { snakeCase } from "@stryke/string-format/snake-case";
 import {
-  getPositionalCommandOptionName,
-  isPositionalCommandOption
+  getDynamicPathSegmentName,
+  isDynamicPathSegment
 } from "../plugin-utils/context-helpers";
 import type { CommandTree } from "../types/command";
 
@@ -63,11 +63,11 @@ export function Usage(props: UsageProps) {
       </Switch>
       {code`${bin} ${command.path.segments
         .map(segment =>
-          isPositionalCommandOption(segment)
+          isDynamicPathSegment(segment)
             ? `<${snakeCase(
-                command.path.positional[segment]?.name ||
-                  getPositionalCommandOptionName(segment)
-              )}${command.path.positional[segment]?.variadic ? "..." : ""}>`
+                command.path.dynamics[segment]?.name ||
+                  getDynamicPathSegmentName(segment)
+              )}${command.path.dynamics[segment]?.variadic ? "..." : ""}>`
             : segment
         )
         .join(" ")}${

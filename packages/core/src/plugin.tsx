@@ -63,7 +63,7 @@ import {
   getAppDescription,
   getAppName,
   getAppTitle,
-  isPositionalCommandOption
+  isDynamicPathSegment
 } from "./plugin-utils/context-helpers";
 import { getCommandTree } from "./plugin-utils/get-command-tree";
 import { traverseCommands } from "./plugin-utils/traverse-command-tree";
@@ -356,7 +356,7 @@ export const plugin = <TContext extends Context = Context>(
             for (const input of this.inputs.filter(
               input =>
                 input.path.segments.filter(
-                  segment => !isPositionalCommandOption(segment)
+                  segment => !isDynamicPathSegment(segment)
                 ).length === 1
             )) {
               this.commands[input.name] = await reflectCommandTree(this, input);

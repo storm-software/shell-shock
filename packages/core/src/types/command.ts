@@ -74,10 +74,31 @@ export interface CommandInput extends CommandBase {
   entry: ResolvedEntryTypeDefinition;
 }
 
-export type CommandPositionalOption = StringCommandOption | NumberCommandOption;
+export type CommandDynamicSegment = {
+  name: string;
+  title: string;
+  description: string;
+  optional: boolean;
+} & (
+  | {
+      default?: string;
+      catchAll: false;
+      variadic: false;
+    }
+  | {
+      default?: string;
+      catchAll: true;
+      variadic: false;
+    }
+  | {
+      default?: string[];
+      catchAll: true;
+      variadic: true;
+    }
+);
 
 export interface CommandTreePath extends CommandPath {
-  positional: Record<string, CommandPositionalOption>;
+  dynamics: Record<string, CommandDynamicSegment>;
 }
 
 export type CommandTree = CommandInput & {

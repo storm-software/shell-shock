@@ -21,7 +21,7 @@ import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { TypescriptFileImports } from "@powerlines/plugin-alloy/types/components";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { TypescriptFile } from "@powerlines/plugin-alloy/typescript/components/typescript-file";
-import { isPositionalCommandOption } from "@shell-shock/core/plugin-utils/context-helpers";
+import { isDynamicPathSegment } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { VirtualCommandHandlerDeclaration } from "@shell-shock/preset-script/components/virtual-command-entry";
 import { joinPaths } from "@stryke/path/join";
@@ -49,7 +49,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
     joinPaths(
       context.entryPath,
       command.path.segments
-        .filter(segment => !isPositionalCommandOption(segment))
+        .filter(segment => !isDynamicPathSegment(segment))
         .join("/"),
       "index.ts"
     )

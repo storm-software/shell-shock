@@ -110,19 +110,71 @@ export function getAppBin(context: Context): string {
 /**
  * Determines if a given command path segment is variable (enclosed in square brackets).
  *
+ * @example
+ * ```typescript
+ * isDynamicPathSegment("[user]"); // true
+ * isDynamicPathSegment("user"); // false
+ * isDynamicPathSegment("[[...user]]"); // true
+ * isDynamicPathSegment("[...user]"); // true
+ * ```
+ *
  * @param path - The command path segment to check.
  * @returns True if the path is variable, false otherwise.
  */
-export function isPositionalCommandOption(path: string): boolean {
+export function isDynamicPathSegment(path: string): boolean {
   return path.startsWith("[") && path.endsWith("]");
+}
+
+/**
+ * Determines if a given command path segment is an optional catch-all segment (enclosed in square brackets with a leading ellipsis).
+ *
+ * @example
+ * ```typescript
+ * isOptionalCatchAllPathSegment("[[...user]]"); // true
+ * isOptionalCatchAllPathSegment("[...user]"); // false
+ * isOptionalCatchAllPathSegment("[user]"); // false
+ * ```
+ *
+ * @param path - The command path segment to check.
+ * @returns True if the path is an optional catch-all segment, false otherwise.
+ */
+export function isOptionalCatchAllPathSegment(path: string): boolean {
+  return path.startsWith("[[...") && path.endsWith("]]");
+}
+
+/**
+ * Determines if a given command path segment is an optional catch-all segment (enclosed in square brackets with a leading ellipsis).
+ *
+ * @example
+ * ```typescript
+ * isCatchAllPathSegment("[[...user]]"); // true
+ * isCatchAllPathSegment("[...user]"); // true
+ * isCatchAllPathSegment("[user]"); // false
+ * ```
+ *
+ * @param path - The command path segment to check.
+ * @returns True if the path is a catch-all segment, false otherwise.
+ */
+export function isCatchAllPathSegment(path: string): boolean {
+  return (
+    (path.startsWith("[...") && path.endsWith("]")) ||
+    isOptionalCatchAllPathSegment(path)
+  );
 }
 
 /**
  * Extracts the variable name from a command path segment by removing enclosing square brackets.
  *
+ * @example
+ * ```typescript
+ * getDynamicPathSegmentName("[user]"); // "user"
+ * getDynamicPathSegmentName("[[...user]]"); // "user"
+ * getDynamicPathSegmentName("[...user]"); // "user"
+ * ```
+ *
  * @param path - The command path segment.
  * @returns The variable name without square brackets.
  */
-export function getPositionalCommandOptionName(path: string): string {
+export function getDynamicPathSegmentName(path: string): string {
   return path.replaceAll(/^\[+(?:\.\.\.)*/g, "").replaceAll(/\]+$/g, "");
 }

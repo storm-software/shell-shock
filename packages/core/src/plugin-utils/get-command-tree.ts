@@ -18,7 +18,7 @@
 
 import type { CommandTree } from "../types/command";
 import type { Context } from "../types/context";
-import { isPositionalCommandOption } from "./context-helpers";
+import { isDynamicPathSegment } from "./context-helpers";
 
 /**
  * Retrieves a specific command tree based on the provided path.
@@ -39,7 +39,7 @@ export function getCommandTree(
   if (path.length > 1) {
     const segments = path
       .slice(1)
-      .filter(segment => !isPositionalCommandOption(segment));
+      .filter(segment => !isDynamicPathSegment(segment));
     for (const segment of segments) {
       if (
         currentTree?.children &&

@@ -33,14 +33,14 @@ import {
   TSDocTitle
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import {
+  DynamicPathSegmentsParserLogic,
   OptionsInterfaceDeclaration,
-  OptionsParserLogic,
-  PositionalOptionsParserLogic
+  OptionsParserLogic
 } from "@shell-shock/core/components/options-parser-logic";
 import {
   getAppBin,
-  getPositionalCommandOptionName,
-  isPositionalCommandOption
+  getDynamicPathSegmentName,
+  isDynamicPathSegment
 } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { findFilePath, relativePath } from "@stryke/path/find";
@@ -61,14 +61,11 @@ export function CommandInvocation(props: { command: CommandTree }) {
   return (
     <>
       {code`return Promise.resolve(handle${pascalCase(command.name)}(options${
-        command.path.segments.filter(segment =>
-          isPositionalCommandOption(segment)
-        ).length > 0
+        command.path.segments.filter(segment => isDynamicPathSegment(segment))
+          .length > 0
           ? `, ${command.path.segments
-              .filter(segment => isPositionalCommandOption(segment))
-              .map(segment =>
-                camelCase(getPositionalCommandOptionName(segment))
-              )
+              .filter(segment => isDynamicPathSegment(segment))
+              .map(segment => camelCase(getDynamicPathSegmentName(segment)))
               .join(", ")}`
           : ""
       }));`}
@@ -99,8 +96,8 @@ export function CommandHandlerDeclaration(
           context
         )} ${command.path.segments
           .map(segment =>
-            isPositionalCommandOption(segment)
-              ? `[${constantCase(getPositionalCommandOptionName(segment))}]`
+            isDynamicPathSegment(segment)
+              ? `[${constantCase(getDynamicPathSegmentName(segment))}]`
               : segment
           )
           .join(" ")}) command.`}>
@@ -114,7 +111,7 @@ export function CommandHandlerDeclaration(
         async
         name="handler"
         parameters={[{ name: "args", type: "string[]", default: "getArgs()" }]}>
-        <PositionalOptionsParserLogic
+        <DynamicPathSegmentsParserLogic
           path={command.path}
           envPrefix={context.config.envPrefix}
         />
@@ -163,7 +160,7 @@ export function CommandEntry(props: CommandEntryProps) {
   const filePath = computed(() =>
     joinPaths(
       command.path.segments
-        .filter(segment => !isPositionalCommandOption(segment))
+        .filter(segment => !isDynamicPathSegment(segment))
         .join("/"),
       "index.ts"
     )
