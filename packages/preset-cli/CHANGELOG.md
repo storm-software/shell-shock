@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.1) (02/06/2026)
+
+### Features
+
+- **core:** Added support for reading `metadata` export from command modules ([19f4ce0](https://github.com/storm-software/shell-shock/commit/19f4ce0))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.3.3**
+- Updated **plugin-theme** to **v0.0.13**
+- Updated **core** to **v0.5.0**
+
 ## [0.1.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.0) (02/05/2026)
 
 ### Features

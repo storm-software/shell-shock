@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.3.3](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.3.3) (02/06/2026)
+
+### Features
+
+- **core:** Added support for reading `metadata` export from command modules ([19f4ce0](https://github.com/storm-software/shell-shock/commit/19f4ce0))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.13**
+- Updated **core** to **v0.5.0**
+
 ## [0.3.2](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.3.2) (02/05/2026)
 
 ### Bug Fixes

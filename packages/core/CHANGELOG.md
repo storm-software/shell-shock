@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.5.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.5.0) (02/06/2026)
+
+### Features
+
+- **core:** Added support for reading `metadata` export from command modules ([19f4ce0](https://github.com/storm-software/shell-shock/commit/19f4ce0))
+
 ## [0.4.4](https://github.com/storm-software/shell-shock/releases/tag/core%400.4.4) (02/05/2026)
 
 ### Features

@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/eslint-plugin",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "type": "module",
   "description": "An ESLint Plugin with linting rules that ensure a Shell Shock project is following the best practices.",
   "repository": {
@@ -65,15 +65,8 @@
   },
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
-  "files": [
-    "dist/**/*"
-  ],
-  "keywords": [
-    "eslint",
-    "eslint-plugin",
-    "shell-shock",
-    "storm-software"
-  ],
+  "files": ["dist/**/*"],
+  "keywords": ["eslint", "eslint-plugin", "shell-shock", "storm-software"],
   "peerDependencies": {
     "eslint": "catalog:",
     "@powerlines/plugin-tsdown": "0.1.184",

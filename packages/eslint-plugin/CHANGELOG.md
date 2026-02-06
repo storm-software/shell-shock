@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.8](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.8) (02/06/2026)
+
+### Miscellaneous
+
+- **monorepo:** Resolve issue with playground modules ([0d7cb5e](https://github.com/storm-software/shell-shock/commit/0d7cb5e))
+
+### Features
+
+- **core:** Added support for reading `metadata` export from command modules ([19f4ce0](https://github.com/storm-software/shell-shock/commit/19f4ce0))
+
 ## [0.0.7](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.7) (02/05/2026)
 
 ### Miscellaneous

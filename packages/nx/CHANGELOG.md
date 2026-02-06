@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.13](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.13) (02/06/2026)
+
+### Features
+
+- **core:** Added support for reading `metadata` export from command modules ([19f4ce0](https://github.com/storm-software/shell-shock/commit/19f4ce0))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.5.0**
+
 ## [0.0.12](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.12) (02/05/2026)
 
 ### Miscellaneous
