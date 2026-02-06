@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.1.2](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.2) (02/06/2026)
+
+### Features
+
+- **preset-script:** Added help display for individual and virtual commands ([dd63f5e](https://github.com/storm-software/shell-shock/commit/dd63f5e))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.4.0**
+- Updated **plugin-theme** to **v0.0.14**
+- Updated **core** to **v0.5.1**
+
 ## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.1) (02/06/2026)
 
 ### Features

@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.5.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.5.1) (02/06/2026)
+
+### Features
+
+- **preset-script:** Added help display for individual and virtual commands ([dd63f5e](https://github.com/storm-software/shell-shock/commit/dd63f5e))
+
 ## [0.5.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.5.0) (02/06/2026)
 
 ### Features

@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.4.0](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.4.0) (02/06/2026)
+
+### Features
+
+- **preset-script:** Added help display for individual and virtual commands ([dd63f5e](https://github.com/storm-software/shell-shock/commit/dd63f5e))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.14**
+- Updated **core** to **v0.5.1**
+
 ## [0.3.3](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.3.3) (02/06/2026)
 
 ### Features

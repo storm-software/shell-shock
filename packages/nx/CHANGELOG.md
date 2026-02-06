@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.14](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.14) (02/06/2026)
+
+### Features
+
+- **preset-script:** Added help display for individual and virtual commands ([dd63f5e](https://github.com/storm-software/shell-shock/commit/dd63f5e))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.5.1**
+
 ## [0.0.13](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.13) (02/06/2026)
 
 ### Features

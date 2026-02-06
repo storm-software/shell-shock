@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.9](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.9) (02/06/2026)
+
+### Features
+
+- **preset-script:** Added help display for individual and virtual commands ([dd63f5e](https://github.com/storm-software/shell-shock/commit/dd63f5e))
+
 ## [0.0.8](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.8) (02/06/2026)
 
 ### Miscellaneous
