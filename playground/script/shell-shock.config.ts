@@ -23,6 +23,9 @@ import script from "@shell-shock/preset-script";
 const config: UserConfig = defineConfig({
   skipCache: true,
   name: "playground-script",
+  output: {
+    storage: "fs"
+  },
   plugins: [
     script({
       theme: {
