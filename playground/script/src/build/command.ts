@@ -16,10 +16,10 @@
 
  ------------------------------------------------------------------- */
 
+import type { Metadata } from "@shell-shock/core";
 import { info, table } from "shell-shock:console";
 
-export const meta = {
-  name: "build",
+export const metadata: Metadata = {
   description: "Build the project."
 };
 

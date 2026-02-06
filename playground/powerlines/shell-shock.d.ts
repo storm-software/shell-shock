@@ -1099,6 +1099,16 @@ declare module "shell-shock:console" {
    */
   export const colors: Colors;
   /**
+   * Split text into multiple lines based on a maximum length.
+   *
+   * @remarks
+   * This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.
+   *
+   * @param text - The text to split into multiple lines.
+   * @param maxLength - The maximum length of each line.
+   */
+  export function splitText(text: string, maxLength: number): string[];
+  /**
    * Options for writing a line to the console.
    */
   export interface WriteLineOptions {
@@ -1191,10 +1201,6 @@ declare module "shell-shock:console" {
    * @param options - Options for formatting the divider line.
    */
   export function divider(options: DividerOptions): void;
-  /**
-   * Write the application banner to the console.
-   */
-  export function banner(): void;
   /**
    * Write a help message to the console.
    *

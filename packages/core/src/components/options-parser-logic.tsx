@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { code, For, Show } from "@alloy-js/core";
+import { code, computed, For, Show } from "@alloy-js/core";
 import {
   ElseClause,
   ElseIfClause,
@@ -26,71 +26,90 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-
-import {
-  getVariableCommandPathName,
-  isVariableCommandPath
-} from "@shell-shock/core/plugin-utils/context-helpers";
-import type {
-  BooleanCommandOption,
-  CommandOption,
-  CommandParam,
-  CommandTree,
-  CommandTreePath,
-  NumberCommandOption,
-  StringCommandOption
-} from "@shell-shock/core/types/command";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import type { ScriptPresetContext } from "../types/plugin";
+import { computedOptions } from "../contexts/options";
+import {
+  getPositionalCommandOptionName,
+  isPositionalCommandOption
+} from "../plugin-utils/context-helpers";
+import type {
+  BooleanCommandOption,
+  CommandOption,
+  CommandTree,
+  CommandTreePath,
+  NumberCommandOption,
+  StringCommandOption
+} from "../types/command";
 
-export function VariablePathsParserLogic(props: { path: CommandTreePath }) {
-  const { path } = props;
+export interface PositionalOptionsParserLogicProps {
+  /**
+   * The command path to generate the positional options parser logic for.
+   */
+  path: CommandTreePath;
+
+  /**
+   * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${envPrefix}_OPTION_NAME`).
+   */
+  envPrefix: string;
+}
+
+export function PositionalOptionsParserLogic(
+  props: PositionalOptionsParserLogicProps
+) {
+  const { path, envPrefix } = props;
 
   return (
     <For each={path.segments ?? []}>
       {(segment, index) => (
-        <Show when={isVariableCommandPath(segment)}>
+        <Show when={isPositionalCommandOption(segment)}>
           <VarDeclaration
             let
-            name={camelCase(getVariableCommandPathName(segment))}
-            type="string | undefined"
+            name={camelCase(getPositionalCommandOptionName(segment))}
+            type={
+              path.positional[getPositionalCommandOptionName(segment)]?.kind ===
+              ReflectionKind.number
+                ? path.positional[getPositionalCommandOptionName(segment)]
+                    ?.variadic
+                  ? "number[]"
+                  : "number | undefined"
+                : path.positional[getPositionalCommandOptionName(segment)]
+                      ?.variadic
+                  ? "string[]"
+                  : "string | undefined"
+            }
             initializer={
-              <Show
-                when={isSetString(
-                  path.variables[getVariableCommandPathName(segment)]?.default
-                )}
-                fallback={code`undefined;`}>
-                {code` ?? "${
-                  path.variables[getVariableCommandPathName(segment)]?.default
-                }";`}
-              </Show>
+              path.positional[getPositionalCommandOptionName(segment)]
+                ?.variadic ? (
+                code`[]`
+              ) : (
+                <>
+                  {code`env.${
+                    envPrefix
+                  }_${constantCase(path.positional[getPositionalCommandOptionName(segment)]?.name)}  ?? `}
+                  <Show
+                    when={isSetString(
+                      path.positional[getPositionalCommandOptionName(segment)]
+                        ?.default
+                    )}>
+                    {code`"${
+                      path.positional[getPositionalCommandOptionName(segment)]
+                        ?.default
+                    }"`}
+                  </Show>
+                  {code`undefined;`}
+                </>
+              )
             }
           />
           <hbr />
           <IfStatement
             condition={code`args.length > ${2 + index} && args[${2 + index}]`}>
-            {code`${camelCase(getVariableCommandPathName(segment))} = args[${2 + index}];`}
+            {code`${camelCase(getPositionalCommandOptionName(segment))} = args[${2 + index}];`}
           </IfStatement>
           <hbr />
-          <hbr />
-          <Show
-            when={
-              !path.variables[getVariableCommandPathName(segment)]?.optional
-            }>
-            <IfStatement
-              condition={code`!${camelCase(
-                getVariableCommandPathName(segment)
-              )}`}>
-              {code`error(\`Missing required command path variable: "${getVariableCommandPathName(
-                segment
-              )}".\`);`}
-              {code`return;`}
-            </IfStatement>
-          </Show>
           <hbr />
         </Show>
       )}
@@ -99,177 +118,79 @@ export function VariablePathsParserLogic(props: { path: CommandTreePath }) {
 }
 
 /**
- * The command parameter parser logic.
- */
-export function ParamsParserLogic(props: { params: CommandParam[] }) {
-  const { params } = props;
-
-  const context = usePowerlines<ScriptPresetContext>();
-
-  return (
-    <Show when={params && params.length > 0}>
-      <For each={params ?? []} hardline>
-        {param => (
-          <VarDeclaration
-            let
-            name={camelCase(param.name)}
-            type={param.variadic ? "string[]" : "string | undefined"}
-            initializer={
-              param.variadic ? (
-                code`[]`
-              ) : (
-                <>
-                  {code`env.${
-                    context.config.envPrefix
-                  }_${constantCase(param.name)}  ?? `}
-                  <Show when={isSetString(param.default)}>
-                    {code`"${param.default}"`}
-                  </Show>
-                  {code`undefined;`}
-                </>
-              )
-            }
-          />
-        )}
-      </For>
-      <hbr />
-      <VarDeclaration
-        const
-        name={"argsDiv"}
-        type="number"
-        initializer={code` args.findIndex(arg => arg === "--");`}
-      />
-      <hbr />
-      <IfStatement condition={code`argsDiv !== -1`}>
-        <For each={params ?? []} hardline>
-          {(param, index) => (
-            <>
-              <IfStatement
-                condition={code`args.length > argsDiv + ${index + 1} && args[argsDiv + ${index + 1}]`}>
-                <Show
-                  when={param.variadic}
-                  fallback={code`${camelCase(param.name)} = args[argsDiv + ${index + 1}];`}>{code`${camelCase(param.name)}.push(args[argsDiv + ${index + 1}]);`}</Show>
-              </IfStatement>
-              <hbr />
-              <Show when={!param.optional}>
-                <Show
-                  when={!param.default}
-                  fallback={
-                    <ElseClause>
-                      {code`${camelCase(param.name)} = "${param.default}";`}
-                    </ElseClause>
-                  }>
-                  <ElseClause>
-                    {code`error(\`Missing required command parameter: "${param.name}".\`);`}
-                    {code`return;`}
-                  </ElseClause>
-                </Show>
-              </Show>
-              <hbr />
-            </>
-          )}
-        </For>
-      </IfStatement>
-    </Show>
-  );
-}
-
-/**
  * The command option interface property.
  */
-export function OptionsMember({
-  name,
-  option
-}: {
-  name: string;
-  option: CommandOption;
-}) {
+export function OptionsMember({ option }: { option: CommandOption }) {
   const doc = option.description || `The ${option.title} command option.`;
 
   return (
     <>
-      <Show when={option.kind === ReflectionKind.string}>
-        <InterfaceMember
-          name={name}
-          doc={doc}
-          type={
-            (option as StringCommandOption).variadic ? "string[]" : "string"
-          }
-          optional={option.optional}
-        />
-      </Show>
-      <Show when={option.kind === ReflectionKind.number}>
-        <InterfaceMember
-          name={name}
-          doc={doc}
-          type={
-            (option as NumberCommandOption).variadic ? "number[]" : "number"
-          }
-          optional={option.optional}
-        />
-      </Show>
-      <Show when={option.kind === ReflectionKind.boolean}>
-        <InterfaceMember
-          name={name}
-          doc={doc}
-          type="boolean"
-          optional={option.optional}
-        />
-        <Show when={Boolean((option as BooleanCommandOption).isNegativeOf)}>
-          <hbr />
+      <Show when={Boolean(option.name)}>
+        <Show when={option.kind === ReflectionKind.string}>
           <InterfaceMember
-            name={(option as BooleanCommandOption).isNegativeOf!}
+            name={option.name}
+            doc={doc}
+            type={
+              (option as StringCommandOption).variadic ? "string[]" : "string"
+            }
+            optional={option.optional}
+          />
+        </Show>
+        <Show when={option.kind === ReflectionKind.number}>
+          <InterfaceMember
+            name={option.name}
+            doc={doc}
+            type={
+              (option as NumberCommandOption).variadic ? "number[]" : "number"
+            }
+            optional={option.optional}
+          />
+        </Show>
+        <Show when={option.kind === ReflectionKind.boolean}>
+          <InterfaceMember
+            name={option.name}
             doc={doc}
             type="boolean"
             optional={option.optional}
           />
         </Show>
       </Show>
-      <Show when={option.alias && option.alias.length > 0}>
-        <hbr />
-        <For each={option.alias ?? []} hardline>
-          {alias => (
-            <OptionsMember
-              name={alias}
-              option={{
-                ...option,
-                alias: [],
-                description: `${doc.replace(
-                  /\.+$/,
-                  ""
-                )}. This property is an alias for ${name}.`
-              }}
-            />
-          )}
-        </For>
-      </Show>
     </>
   );
+}
+
+export interface OptionsMemberParserLogicProps {
+  /**
+   * The option name to generate the parser logic for.
+   */
+  name: string;
+
+  /**
+   * The command option to generate the parser logic for.
+   */
+  option: CommandOption;
+
+  /**
+   * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command-line arguments to option names and aliases.
+   *
+   * @defaultValue false
+   */
+  isCaseSensitive: boolean;
 }
 
 /**
  * The command option property parser logic.
  */
-export function OptionsMemberParserLogic({
-  name,
-  option
-}: {
-  name: string;
-  option: CommandOption;
-}) {
-  const context = usePowerlines<ScriptPresetContext>();
+export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
+  const { name, option, isCaseSensitive } = props;
 
   const equalsRegex = `/^--?(${
-    context?.config.isCaseSensitive && name.length > 1
-      ? name
-      : name.toLowerCase()
+    isCaseSensitive && name.length > 1 ? name : name.toLowerCase()
   }${option.alias && option.alias.length > 0 ? "|" : ""}${option.alias
     ?.map(a =>
-      (context?.config.isCaseSensitive && name.length > 1
-        ? a
-        : a.toLowerCase()) === "?"
+      (isCaseSensitive && name.length > 1 ? a : a.toLowerCase()) === "?"
         ? "\\?"
-        : context?.config.isCaseSensitive && name.length > 1
+        : isCaseSensitive && name.length > 1
           ? a
           : a.toLowerCase()
     )
@@ -290,7 +211,8 @@ export function OptionsMemberParserLogic({
             {code`options["${name}"] ??= []; `}
           </Show>
           <hbr />
-          <IfStatement condition={`${equalsRegex}.test(arg)`}>
+          <IfStatement
+            condition={`${equalsRegex}.test(arg${isCaseSensitive ? "" : ".toLowerCase()"})`}>
             <Show
               when={name.includes("?") || name.includes("-")}
               fallback={code`options.${name}.push(`}>
@@ -323,7 +245,8 @@ export function OptionsMemberParserLogic({
           when={
             !(option as StringCommandOption | NumberCommandOption).variadic
           }>
-          <IfStatement condition={`${equalsRegex}.test(arg)`}>
+          <IfStatement
+            condition={`${equalsRegex}.test(arg${isCaseSensitive ? "" : ".toLowerCase()"})`}>
             <Show when={option.kind === ReflectionKind.string}>
               <Show
                 when={name.includes("?") || name.includes("-")}
@@ -347,9 +270,6 @@ export function OptionsMemberParserLogic({
                 </Show>
                 {code` = value; `}
               </IfStatement>
-              <ElseClause>
-                {code`warn(\`Invalid value provided for the ${option.title} option: "\${value}" is not a valid number.\`); `}
-              </ElseClause>
             </Show>
           </IfStatement>
           <ElseIfClause condition={`args.length > i + 1`}>
@@ -376,16 +296,14 @@ export function OptionsMemberParserLogic({
                 </Show>
                 {code` = value; `}
               </IfStatement>
-              <ElseClause>
-                {code`warn(\`Invalid value provided for the ${option.title} option: "\${value}" is not a valid number.\`); `}
-              </ElseClause>
             </Show>
           </ElseIfClause>
           <hbr />
         </Show>
       </Show>
       <Show when={option.kind === ReflectionKind.boolean}>
-        <IfStatement condition={`${equalsRegex}.test(arg)`}>
+        <IfStatement
+          condition={`${equalsRegex}.test(arg${isCaseSensitive ? "" : ".toLowerCase()"})`}>
           <VarDeclaration
             const
             name="value"
@@ -418,51 +336,48 @@ export function OptionsMemberParserLogic({
           </Show>
         </Show>
       </Show>
-      <Show when={option.alias && option.alias.length > 0}>
-        <hbr />
-        <For each={option.alias ?? []} hardline>
-          {alias => (
-            <>
-              <Show
-                when={alias.includes("?") || alias.includes("-")}
-                fallback={code`options.${alias} `}>
-                {code`options["${alias}"] `}
-              </Show>
-              <Show
-                when={name.includes("?") || name.includes("-")}
-                fallback={code` = options.${name}; `}>
-                {code` = options["${name}"]; `}
-              </Show>
-            </>
-          )}
-        </For>
-      </Show>
     </>
   );
 }
 
-function OptionsMemberParserCondition(props: {
+export interface OptionsMemberParserConditionProps {
+  /**
+   * The option name to generate the parser logic for.
+   */
   name: string;
-  alias?: string[];
-}) {
-  const { name, alias } = props;
 
-  const context = usePowerlines<ScriptPresetContext>();
+  /**
+   * Aliases for the option, which will also be parsed in the generated code. This will affect how the generated code compares command-line arguments to option names and aliases.
+   */
+  alias?: string[];
+
+  /**
+   * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command-line arguments to option names and aliases.
+   *
+   * @defaultValue false
+   */
+  isCaseSensitive: boolean;
+}
+
+export function OptionsMemberParserCondition(
+  props: OptionsMemberParserConditionProps
+) {
+  const { name, alias, isCaseSensitive } = props;
 
   return (
     <>
-      {code`arg.startsWith("--${
-        context?.config.isCaseSensitive ? name : name.toLowerCase()
-      }=") || arg === "--${
-        context?.config.isCaseSensitive ? name : name.toLowerCase()
+      {code`arg${isCaseSensitive ? "" : ".toLowerCase()"}.startsWith("--${
+        isCaseSensitive ? name : name.toLowerCase()
+      }=") || arg${isCaseSensitive ? "" : ".toLowerCase()"} === "--${
+        isCaseSensitive ? name : name.toLowerCase()
       }" || arg.startsWith("-${name}=") || arg === "-${name}"`}
       <Show when={alias && alias.length > 0}>
         <For each={alias ?? []}>
           {a =>
-            code` || arg.startsWith("--${
-              context?.config.isCaseSensitive ? a : a.toLowerCase()
-            }=") || arg === "--${
-              context?.config.isCaseSensitive ? a : a.toLowerCase()
+            code` || arg${isCaseSensitive ? "" : ".toLowerCase()"}.startsWith("--${
+              isCaseSensitive ? a : a.toLowerCase()
+            }=") || arg${isCaseSensitive ? "" : ".toLowerCase()"} === "--${
+              isCaseSensitive ? a : a.toLowerCase()
             }" || arg.startsWith("-${a}=") || arg === "-${a}"`
           }
         </For>
@@ -474,22 +389,43 @@ function OptionsMemberParserCondition(props: {
 export function OptionsInterfaceDeclaration(props: { command: CommandTree }) {
   const { command } = props;
 
+  const options = computed(() => computedOptions(command));
+
   return (
     <InterfaceDeclaration export name={`${pascalCase(command.name)}Options`}>
-      <For each={Object.entries(command.options)}>
-        {([name, option]) => <OptionsMember name={name} option={option} />}
+      <For each={Object.values(options.value)} hardline>
+        {option => <OptionsMember option={option} />}
       </For>
     </InterfaceDeclaration>
   );
 }
 
+export interface OptionsParserLogicProps {
+  /**
+   * The command to generate the options parser logic for.
+   */
+  command: CommandTree;
+
+  /**
+   * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${envPrefix}_OPTION_NAME`).
+   */
+  envPrefix: string;
+
+  /**
+   * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command-line arguments to option names and aliases.
+   *
+   * @defaultValue false
+   */
+  isCaseSensitive?: boolean;
+}
+
 /**
  * The command options parser logic.
  */
-export function OptionsParserLogic(props: { command: CommandTree }) {
-  const { command } = props;
+export function OptionsParserLogic(props: OptionsParserLogicProps) {
+  const { command, envPrefix, isCaseSensitive = false } = props;
 
-  const context = usePowerlines<ScriptPresetContext>();
+  const options = computed(() => computedOptions(command));
 
   return (
     <>
@@ -497,13 +433,11 @@ export function OptionsParserLogic(props: { command: CommandTree }) {
         const
         name="options"
         initializer={code` {
-          ${Object.entries(command.options)
+          ${Object.entries(options.value)
             .map(([name, option]) => {
               if (option.kind === ReflectionKind.string) {
                 return ` ${name.includes("?") || name.includes("-") ? `"${name}"` : `${name}`}: ${
-                  option.env
-                    ? `env.${context.config.envPrefix}_${option.env}`
-                    : ""
+                  option.env ? `env.${envPrefix}_${option.env}` : ""
                 }${
                   option.variadic
                     ? option.default !== undefined
@@ -519,9 +453,7 @@ export function OptionsParserLogic(props: { command: CommandTree }) {
                 }, `;
               } else if (option.kind === ReflectionKind.number) {
                 return ` ${name.includes("?") || name.includes("-") ? `"${name}"` : `${name}`}: ${
-                  option.env
-                    ? `env.${context.config.envPrefix}_${option.env}`
-                    : ""
+                  option.env ? `env.${envPrefix}_${option.env}` : ""
                 }${
                   option.variadic
                     ? option.default !== undefined
@@ -537,9 +469,7 @@ export function OptionsParserLogic(props: { command: CommandTree }) {
                 }, `;
               } else if (option.kind === ReflectionKind.boolean) {
                 return ` ${name.includes("?") || name.includes("-") ? `"${name}"` : `${name}`}: ${
-                  option.env
-                    ? `env.${context.config.envPrefix}_${option.env} ?? `
-                    : ""
+                  option.env ? `env.${envPrefix}_${option.env} ?? ` : ""
                 }${option.default ? "true" : "false"},`;
               }
 
@@ -551,8 +481,9 @@ export function OptionsParserLogic(props: { command: CommandTree }) {
       <hbr />
       <hbr />
       {code`for (let i = 0; i < args.slice(${
-        command.path.segments.filter(segment => isVariableCommandPath(segment))
-          .length
+        command.path.segments.filter(segment =>
+          isPositionalCommandOption(segment)
+        ).length
       }).length; i++) { `}
       <hbr />
       <VarDeclaration
@@ -561,26 +492,34 @@ export function OptionsParserLogic(props: { command: CommandTree }) {
         type="string"
         initializer={code` args[i].length > 3 && args[i].startsWith("--")
           ? \`--\${args[i].slice(2).replaceAll("-", "")${
-            context?.config.isCaseSensitive ? "" : ".toLowerCase()"
+            isCaseSensitive ? "" : ".toLowerCase()"
           }}\`
           : args[i].length > 2 && args[i].startsWith("-")
             ? \`-\${args[i].slice(1).replaceAll("-", "")}\`
           : args[i]; `}
       />
       <hbr />
-      <For each={Object.entries(command.options)} hardline>
+
+      <For each={Object.entries(options.value)} hardline>
         {([name, option], i) => (
           <Show
             when={i === 0}
             fallback={
               <ElseIfClause
                 condition={
-                  <OptionsMemberParserCondition
-                    name={name}
-                    alias={option.alias}
-                  />
+                  <>
+                    <OptionsMemberParserCondition
+                      name={name}
+                      alias={option.alias}
+                      isCaseSensitive={isCaseSensitive}
+                    />
+                  </>
                 }>
-                <OptionsMemberParserLogic name={name} option={option} />
+                <OptionsMemberParserLogic
+                  name={name}
+                  option={option}
+                  isCaseSensitive={isCaseSensitive}
+                />
               </ElseIfClause>
             }>
             <IfStatement
@@ -588,13 +527,19 @@ export function OptionsParserLogic(props: { command: CommandTree }) {
                 <OptionsMemberParserCondition
                   name={name}
                   alias={option.alias}
+                  isCaseSensitive={isCaseSensitive}
                 />
               }>
-              <OptionsMemberParserLogic name={name} option={option} />
+              <OptionsMemberParserLogic
+                name={name}
+                option={option}
+                isCaseSensitive={isCaseSensitive}
+              />
             </IfStatement>
           </Show>
         )}
       </For>
+
       <hbr />
       {code` } `}
       <hbr />

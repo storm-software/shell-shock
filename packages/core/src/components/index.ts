@@ -17,3 +17,5 @@
  ------------------------------------------------------------------- */
 
 export * from "./docs";
+export * from "./options-parser-logic";
+export * from "./usage";

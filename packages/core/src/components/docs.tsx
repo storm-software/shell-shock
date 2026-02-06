@@ -16,24 +16,20 @@
 
  ------------------------------------------------------------------- */
 
-import { code, For, Match, memo, Show, Switch } from "@alloy-js/core";
+import { code, For, memo, Show } from "@alloy-js/core";
 import { Heading } from "@alloy-js/markdown";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { MarkdownFileProps } from "@powerlines/plugin-alloy/markdown/components/markdown-file";
 import { MarkdownFile } from "@powerlines/plugin-alloy/markdown/components/markdown-file";
 import { MarkdownTable } from "@powerlines/plugin-alloy/markdown/components/markdown-table";
 import { joinPaths } from "@stryke/path/join";
-import { kebabCase } from "@stryke/string-format/kebab-case";
 import { CommandContext } from "../contexts/command";
 import { getDocsOutputPath } from "../helpers/docs-helpers";
-import {
-  getAppBin,
-  getVariableCommandPathName,
-  isVariableCommandPath
-} from "../plugin-utils/context-helpers";
+import { getAppBin } from "../plugin-utils/context-helpers";
 import { sortOptions } from "../plugin-utils/reflect";
 import type { CommandTree } from "../types/command";
 import type { Context } from "../types/context";
+import { Usage } from "./usage";
 
 export interface CommandOptionsDocsProps {
   /**
@@ -99,23 +95,11 @@ export function CommandDocsUsageExample(props: CommandDocsUsageExampleProps) {
       <hbr />
       {code`\`\`\`bash `}
       <hbr />
-      <Switch>
-        <Match when={packageManager === "yarn"}>{`yarn exec `}</Match>
-        <Match when={packageManager === "pnpm"}>{`pnpm exec `}</Match>
-        <Match when={packageManager === "bun"}>{`bun x `}</Match>
-        <Match else>{`npx `}</Match>
-      </Switch>
-      {`${getAppBin(context)} `}
-      <For each={command.path.segments} joiner=" ">
-        {segment =>
-          isVariableCommandPath(segment)
-            ? `<${command.path.variables[segment]?.variadic ? "..." : ""}${kebabCase(
-                getVariableCommandPathName(segment)
-              )}>`
-            : segment
-        }
-      </For>
-      {code` [options] `}
+      <Usage
+        command={command}
+        bin={getAppBin(context)}
+        packageManager={packageManager}
+      />
       <hbr />
       {code`\`\`\``}
       <hbr />

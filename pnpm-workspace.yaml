@@ -5,36 +5,36 @@ packages:
   - playground/*
 
 catalog:
-  '@alloy-js/core': 0.22.0
-  '@alloy-js/markdown': 0.22.0
+  '@alloy-js/core': ^0.22.0
+  '@alloy-js/markdown': ^0.22.0
   '@alloy-js/typescript': ^0.22.0
   '@babel/core': ^7.29.0
   '@eslint/compat': ^2.0.1
   '@eslint/config-inspector': ^1.4.2
   '@ls-lint/ls-lint': ^2.3.1
   '@microsoft/api-extractor': ^7.49.2
-  '@nx/devkit': 22.4.1
-  '@nx/eslint-plugin': 22.4.1
-  '@nx/jest': 22.4.1
-  '@nx/js': 22.4.1
-  '@nx/plugin': 22.4.1
-  '@nx/workspace': 22.4.1
+  '@nx/devkit': 22.4.5
+  '@nx/eslint-plugin': 22.4.5
+  '@nx/jest': 22.4.5
+  '@nx/js': 22.4.5
+  '@nx/plugin': 22.4.5
+  '@nx/workspace': 22.4.5
   '@opentui/core': ^0.1.69
   '@opentui/react': ^0.1.69
-  '@powerlines/deepkit': ^0.6.47
-  '@powerlines/nx': ^0.11.194
-  '@powerlines/plugin-alloy': ^0.20.10
-  '@powerlines/plugin-automd': ^0.1.267
-  '@powerlines/plugin-deepkit': ^0.11.146
-  '@powerlines/plugin-env': ^0.15.176
-  '@powerlines/plugin-nodejs': ^0.1.171
-  '@powerlines/plugin-plugin': ^0.12.218
-  '@powerlines/plugin-style-dictionary': ^0.3.168
-  '@powerlines/plugin-tsdown': ^0.1.220
-  '@powerlines/plugin-tsup': ^0.12.277
-  '@powerlines/plugin-untyped': ^0.2.220
-  '@powerlines/plugin-vite': ^0.14.268
-  '@powerlines/tsconfig': ^0.2.189
+  '@powerlines/deepkit': ^0.6.50
+  '@powerlines/nx': ^0.11.197
+  '@powerlines/plugin-alloy': ^0.20.14
+  '@powerlines/plugin-automd': ^0.1.270
+  '@powerlines/plugin-deepkit': ^0.11.149
+  '@powerlines/plugin-env': ^0.15.180
+  '@powerlines/plugin-nodejs': ^0.1.175
+  '@powerlines/plugin-plugin': ^0.12.221
+  '@powerlines/plugin-style-dictionary': ^0.3.171
+  '@powerlines/plugin-tsdown': ^0.1.223
+  '@powerlines/plugin-tsup': ^0.12.280
+  '@powerlines/plugin-untyped': ^0.2.223
+  '@powerlines/plugin-vite': ^0.14.271
+  '@powerlines/tsconfig': ^0.2.192
   '@storm-software/build-tools': ^0.158.81
   '@storm-software/config': ^1.135.1
   '@storm-software/config-tools': ^1.189.0
@@ -58,7 +58,7 @@ catalog:
   '@stryke/env': ^0.20.57
   '@stryke/fs': ^0.33.40
   '@stryke/hash': ^0.12.46
-  '@stryke/helpers': 0.9.40
+  '@stryke/helpers': ^0.9.40
   '@stryke/json': ^0.9.41
   '@stryke/path': ^0.26.4
   '@stryke/string-format': ^0.13.7
@@ -97,8 +97,8 @@ catalog:
   jsonc-eslint-parser: ^2.4.2
   lefthook: ^1.13.6
   log4brains: ^1.1.0
-  nx: 22.4.1
-  powerlines: ^0.38.34
+  nx: 22.4.5
+  powerlines: ^0.38.37
   prettier: ^3.8.1
   react: ^19.2.3
   react-dom: ^19.2.3

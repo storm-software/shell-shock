@@ -69,18 +69,18 @@
         "default": "./dist/components/index.mjs"
       }
     },
-    "./components/banner": {
+    "./components/banner-function-declaration": {
       "require": {
-        "types": "./dist/components/banner.d.cts",
-        "default": "./dist/components/banner.cjs"
+        "types": "./dist/components/banner-function-declaration.d.cts",
+        "default": "./dist/components/banner-function-declaration.cjs"
       },
       "import": {
-        "types": "./dist/components/banner.d.mts",
-        "default": "./dist/components/banner.mjs"
+        "types": "./dist/components/banner-function-declaration.d.mts",
+        "default": "./dist/components/banner-function-declaration.mjs"
       },
       "default": {
-        "types": "./dist/components/banner.d.mts",
-        "default": "./dist/components/banner.mjs"
+        "types": "./dist/components/banner-function-declaration.d.mts",
+        "default": "./dist/components/banner-function-declaration.mjs"
       }
     },
     "./package.json": "./package.json",
@@ -130,7 +130,6 @@
     "@shell-shock/core": "workspace:*",
     "@shell-shock/plugin-theme": "workspace:*",
     "@shell-shock/preset-script": "workspace:*",
-    "@stryke/string-format": "catalog:",
     "cfonts": "catalog:",
     "powerlines": "catalog:"
   },

@@ -2,7 +2,7 @@
   "name": "@shell-shock/monorepo",
   "version": "0.0.1",
   "type": "module",
-  "description": "🪖  A framework built to support the rapid development of fully-featured command-line interface applications.",
+  "description": "🪖  A framework that uses NextJs's style of file based routing and applies it to command line applications.",
   "repository": {
     "type": "github",
     "url": "https://github.com/storm-software/shell-shock.git"

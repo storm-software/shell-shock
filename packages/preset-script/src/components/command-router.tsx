@@ -26,7 +26,7 @@ import {
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { DynamicImportStatement } from "@powerlines/plugin-alloy/typescript/components/dynamic-import-statement";
 import { CommandContext, useCommand } from "@shell-shock/core/contexts/command";
-import { isVariableCommandPath } from "@shell-shock/core/plugin-utils/context-helpers";
+import { isPositionalCommandOption } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import type { ScriptPresetContext } from "../types/plugin";
@@ -41,10 +41,10 @@ export function CommandRouterRoute() {
           name={`handle${pascalCase(command.name)}`}
           importPath={`./${
             command.path.segments.filter(
-              segment => !isVariableCommandPath(segment)
+              segment => !isPositionalCommandOption(segment)
             )[
               command.path.segments.filter(
-                segment => !isVariableCommandPath(segment)
+                segment => !isPositionalCommandOption(segment)
               ).length - 1
             ]
           }`}
@@ -103,7 +103,20 @@ export function CommandRouter(props: CommandRouterProps) {
                     context.config.isCaseSensitive
                       ? subcommand.name
                       : subcommand.name.toLowerCase().replaceAll(/-/g, "")
-                  }"`}>
+                  }"${
+                    subcommand.alias && subcommand.alias.length > 0
+                      ? ` || ${subcommand.alias
+                          .map(
+                            alias =>
+                              `${context.config.isCaseSensitive ? "command" : 'command.toLowerCase().replaceAll(/-/g, "")'} === "${
+                                context.config.isCaseSensitive
+                                  ? alias
+                                  : alias.toLowerCase().replaceAll(/-/g, "")
+                              }"`
+                          )
+                          .join(" || ")}`
+                      : ""
+                  }`}>
                   <Show when={Boolean(route)} fallback={<CommandRouterRoute />}>
                     {route}
                   </Show>
@@ -118,30 +131,25 @@ export function CommandRouter(props: CommandRouterProps) {
                   context.config.isCaseSensitive
                     ? subcommand.name
                     : subcommand.name.toLowerCase().replaceAll(/-/g, "")
-                }"`}>
+                }"${
+                  subcommand.alias && subcommand.alias.length > 0
+                    ? ` || ${subcommand.alias
+                        .map(
+                          alias =>
+                            `${context.config.isCaseSensitive ? "command" : 'command.toLowerCase().replaceAll(/-/g, "")'} === "${
+                              context.config.isCaseSensitive
+                                ? alias
+                                : alias.toLowerCase().replaceAll(/-/g, "")
+                            }"`
+                        )
+                        .join(" || ")}`
+                    : ""
+                }`}>
                 <Show when={Boolean(route)} fallback={<CommandRouterRoute />}>
                   {route}
                 </Show>
               </ElseIfClause>
             </Show>
-            <For each={subcommand?.alias ?? []} doubleHardline>
-              {alias => (
-                <ElseIfClause
-                  condition={code`${
-                    context.config.isCaseSensitive
-                      ? "command"
-                      : 'command.toLowerCase().replaceAll(/-/g, "")'
-                  } === "${
-                    context.config.isCaseSensitive
-                      ? alias
-                      : alias.toLowerCase().replaceAll(/-/g, "")
-                  }"`}>
-                  <Show when={Boolean(route)} fallback={<CommandRouterRoute />}>
-                    {route}
-                  </Show>
-                </ElseIfClause>
-              )}
-            </For>
           </CommandContext.Provider>
         )}
       </For>
@@ -151,7 +159,7 @@ export function CommandRouter(props: CommandRouterProps) {
       )
         .map(
           cmd =>
-            `"${cmd.name}"${(cmd.alias ?? []).map(alias => `", "${alias}"`).join("")}`
+            `"${cmd.name}"${(cmd.alias ?? []).map((alias, i) => (i === 0 ? `, "${alias}"` : ` "${alias}"`)).join("")}`
         )
         .join(", ")}], {
           caseSensitive: ${JSON.stringify(context.config.isCaseSensitive)},

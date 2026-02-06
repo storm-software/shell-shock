@@ -19,14 +19,13 @@
 import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { render } from "@powerlines/plugin-alloy/render";
-import { getAppBin } from "@shell-shock/core/plugin-utils/context-helpers";
 import theme from "@shell-shock/plugin-theme";
 import type { Plugin } from "powerlines/types/plugin";
+import { BannerFunctionDeclaration, HelpInvoke } from "./components";
 import { BinEntry } from "./components/bin-entry";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
 import { ConsoleBuiltin } from "./components/console-builtin";
-import { Help, HelpOptions } from "./components/help";
 import { UtilsBuiltin } from "./components/utils-builtin";
 import { VirtualCommandEntry } from "./components/virtual-command-entry";
 import { getDefaultOptions } from "./helpers/get-default-options";
@@ -88,9 +87,24 @@ export const plugin = <
             <>
               <BinEntry
                 builtinImports={{
-                  console: ["divider", "writeLine", "colors", "banner", "help"],
-                  utils: ["getArgs"]
-                }}>
+                  console: [
+                    "divider",
+                    "stripAnsi",
+                    "writeLine",
+                    "splitText",
+                    "colors",
+                    "help"
+                  ],
+                  utils: ["getArgs", "isMinimal"],
+                  env: ["isCI"]
+                }}
+                prefix={
+                  <>
+                    <BannerFunctionDeclaration />
+                    <hbr />
+                    <hbr />
+                  </>
+                }>
                 <Show when={Object.keys(this.commands).length > 0}>
                   <VarDeclaration
                     const
@@ -103,47 +117,10 @@ export const plugin = <
                   <hbr />
                 </Show>
                 <hbr />
-                {code`
-                writeLine("");
-                banner();
-                writeLine(""); `}
-                <hbr />
-                <hbr />
-                {code`writeLine(colors.text.heading.secondary("Global Options:"));`}
-                <hbr />
-                <HelpOptions options={this.options} />
-                {code`writeLine(""); `}
-                <hbr />
-                <hbr />
-                <Show when={Object.keys(this.commands).length > 0}>
-                  {code`writeLine(colors.text.body.secondary("The following commands are available:"));
-                  writeLine(""); `}
-                  <hbr />
-                  <hbr />
-                  <For
-                    each={Object.values(this.commands)}
-                    doubleHardline
-                    joiner={code`writeLine(""); `}
-                    ender={code`writeLine(""); `}>
-                    {child => (
-                      <>
-                        {code`
-                writeLine(colors.text.heading.primary("${child.title} ${child.isVirtual ? "" : "Command"}"));
-                writeLine("");
-                writeLine(colors.text.body.secondary("${child.description}"));
-                writeLine("");
-                `}
-                        <hbr />
-                        <Help command={child} indent={2} />
-                        <hbr />
-                      </>
-                    )}
-                  </For>
-                  {code`help("Running a specific command with the help flag (via: '${getAppBin(
-                    this
-                  )} <specific command> --help') will provide additional information that is specific to that command.");
-                  writeLine("");`}
-                </Show>
+                <HelpInvoke
+                  options={this.options}
+                  commands={this.commands ?? {}}
+                />
               </BinEntry>
               <Show when={Object.values(this.commands).length > 0}>
                 <For each={Object.values(this.commands)} doubleHardline>

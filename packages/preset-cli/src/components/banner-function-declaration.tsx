@@ -26,8 +26,8 @@ import {
 } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { ThemeColorVariant } from "@shell-shock/plugin-theme/types/theme";
 import { useTheme } from "@shell-shock/preset-script/contexts/theme";
-import type { ScriptPresetContext } from "@shell-shock/preset-script/types/plugin";
 import { render } from "cfonts";
+import type { CLIPresetContext } from "../types/plugin";
 
 export interface BannerFunctionDeclarationProps {
   variant?: ThemeColorVariant;
@@ -49,7 +49,7 @@ export function BannerFunctionDeclaration(
 
   const theme = useTheme();
 
-  const context = usePowerlines<ScriptPresetContext>();
+  const context = usePowerlines<CLIPresetContext>();
   const command = useCommand();
 
   const header = computed(
@@ -106,9 +106,10 @@ export function BannerFunctionDeclaration(
   return (
     <>
       <FunctionDeclaration
-        export
         name="banner"
-        doc="Write the application banner to the console.">
+        doc={`Write the ${getAppTitle(context)} application banner ${
+          command ? `for the ${command.title} command ` : ""
+        }to the console.`}>
         {code`
         if (hasFlag("no-banner") || hasFlag("hide-banner") || isCI || isMinimal) {
           return;

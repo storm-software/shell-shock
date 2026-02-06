@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import type { AnyFunction } from "@stryke/types/base";
 import type { ResolvedEntryTypeDefinition } from "powerlines/types/resolved";
 
 export interface BaseCommandOption {
@@ -53,14 +54,6 @@ export type CommandOption =
   | NumberCommandOption
   | BooleanCommandOption;
 
-export interface CommandParam {
-  name: string;
-  description?: string;
-  default?: string;
-  optional: boolean;
-  variadic: boolean;
-}
-
 export interface CommandPath {
   value: string | null;
   segments: string[];
@@ -81,16 +74,18 @@ export interface CommandInput extends CommandBase {
   entry: ResolvedEntryTypeDefinition;
 }
 
+export type CommandPositionalOption = StringCommandOption | NumberCommandOption;
+
 export interface CommandTreePath extends CommandPath {
-  variables: Record<string, CommandParam>;
+  positional: Record<string, CommandPositionalOption>;
 }
 
 export type CommandTree = CommandInput & {
   title: string;
   description: string;
+  alias: string[];
   path: CommandTreePath;
   options: Record<string, CommandOption>;
-  params: CommandParam[];
   parent: null | CommandTree;
   children: Record<string, CommandTree>;
 };
@@ -99,3 +94,14 @@ export type SerializedCommandTree = Omit<CommandTree, "parent" | "children"> & {
   parent: null | string;
   children: Record<string, SerializedCommandTree>;
 };
+
+export interface Metadata {
+  title?: string;
+  description?: string;
+  alias?: string | string[];
+}
+
+export interface CommandModule {
+  metadata?: Metadata;
+  default?: AnyFunction;
+}

@@ -17,8 +17,8 @@
  ------------------------------------------------------------------- */
 
 import {
-  getVariableCommandPathName,
-  isVariableCommandPath
+  getPositionalCommandOptionName,
+  isPositionalCommandOption
 } from "../plugin-utils/context-helpers";
 import type { CommandTree } from "../types";
 
@@ -27,67 +27,70 @@ export interface ValidationFailure {
   details: string;
 }
 
-export function validateCommandVariablePaths(
+export function validateCommandPositionalOptions(
   command: CommandTree
 ): ValidationFailure[] {
   const failures: ValidationFailure[] = [];
   if (!command.isVirtual && command.path.segments.length > 0) {
-    const variablePathNames = new Set<string>();
-    for (const segment of command.path.segments.filter(isVariableCommandPath) ??
-      []) {
-      if (variablePathNames.has(segment)) {
+    const positionalOptionPathNames = new Set<string>();
+    for (const segment of command.path.segments.filter(
+      isPositionalCommandOption
+    ) ?? []) {
+      if (positionalOptionPathNames.has(segment)) {
         failures.push({
-          code: "DUPLICATE_VARIABLE_PATH_NAME",
-          details: `Duplicate variable path name "${getVariableCommandPathName(segment)}" found in command.`
+          code: "DUPLICATE_POSITIONAL_OPTION_PATH_NAME",
+          details: `Duplicate positional option path name "${getPositionalCommandOptionName(segment)}" found in command.`
         });
       }
-      variablePathNames.add(getVariableCommandPathName(segment));
+      positionalOptionPathNames.add(getPositionalCommandOptionName(segment));
     }
 
     if (
-      command.path.segments.filter(isVariableCommandPath).length !==
-      Object.keys(command.path.variables ?? {}).length
+      command.path.segments.filter(isPositionalCommandOption).length !==
+      Object.keys(command.path.positional ?? {}).length
     ) {
       failures.push({
-        code: "VARIABLE_PATH_MISMATCH",
-        details: `Mismatch between variable path segments and defined path variables in command (found ${
-          command.path.segments.filter(isVariableCommandPath).length
-        } variables in the command folder path "${command.path.segments.join("/")}", but ${
-          Object.keys(command.path.variables ?? {}).length
-        } potential variable path(s) could be determined from the command's function signature).`
+        code: "POSITIONAL_OPTION_PATH_MISMATCH",
+        details: `Mismatch between positional options path segments and defined path positional options in command (found ${
+          command.path.segments.filter(isPositionalCommandOption).length
+        } positional options in the command folder path "${command.path.segments.join("/")}", but ${
+          Object.keys(command.path.positional ?? {}).length
+        } potential positional option path(s) could be determined from the command's function signature).`
       });
     }
 
     const missing = command.path.segments
-      .filter(isVariableCommandPath)
+      .filter(isPositionalCommandOption)
       .filter(
         segment =>
           Object.prototype.hasOwnProperty.call(
-            command.path.variables ?? {},
-            getVariableCommandPathName(segment)
+            command.path.positional ?? {},
+            getPositionalCommandOptionName(segment)
           ) === false
       );
     if (missing.length > 0) {
       failures.push({
-        code: "MISSING_VARIABLE_PATH",
-        details: `${missing.length} variable path segment${missing.length > 1 ? "s" : ""} in the command folder path "${command.path.segments.join(
+        code: "MISSING_POSITIONAL_OPTION_PATH",
+        details: `${missing.length} positional option path segment${missing.length > 1 ? "s" : ""} in the command folder path "${command.path.segments.join(
           "/"
         )}" do${missing.length > 1 ? "" : "es"} not have corresponding entr${
           missing.length > 1 ? "ies" : "y"
-        } in the command's path variables: \n- ${missing
-          .map(segment => `"${getVariableCommandPathName(segment)}"`)
+        } in the command's path positional options: \n- ${missing
+          .map(segment => `"${getPositionalCommandOptionName(segment)}"`)
           .join("\n- ")}`
       });
     } else {
-      for (const varName of Object.keys(command.path.variables ?? {})) {
+      for (const varName of Object.keys(command.path.positional ?? {})) {
         if (
           !command.path.segments
-            .filter(isVariableCommandPath)
-            .find(segment => getVariableCommandPathName(segment) === varName)
+            .filter(isPositionalCommandOption)
+            .find(
+              segment => getPositionalCommandOptionName(segment) === varName
+            )
         ) {
           failures.push({
-            code: "UNUSED_VARIABLE_PATH",
-            details: `The variable path name "${varName}" defined in the command's path variables is not used in the command folder path "${command.path.segments.join(
+            code: "UNUSED_POSITIONAL_OPTION_PATH",
+            details: `The positional option path name "${varName}" defined in the command's path positional options is not used in the command folder path "${command.path.segments.join(
               "/"
             )}".`
           });
@@ -96,24 +99,24 @@ export function validateCommandVariablePaths(
 
       command.path.segments.forEach((segment, index) => {
         if (
-          isVariableCommandPath(segment) &&
-          command.path.variables[getVariableCommandPathName(segment)]
+          isPositionalCommandOption(segment) &&
+          command.path.positional[getPositionalCommandOptionName(segment)]
             ?.variadic === true &&
           index + 1 < command.path.segments.length &&
           command.path.segments[index + 1] &&
-          command.path.variables[
-            getVariableCommandPathName(command.path.segments[index + 1]!)
+          command.path.positional[
+            getPositionalCommandOptionName(command.path.segments[index + 1]!)
           ]?.variadic === true
         ) {
           failures.push({
-            code: "MULTIPLE_VARIADIC_VARIABLE_PATHS",
-            details: `The variable path segment "${getVariableCommandPathName(
+            code: "MULTIPLE_VARIADIC_POSITIONAL_OPTION_PATHS",
+            details: `The positional option path segment "${getPositionalCommandOptionName(
               segment
             )}" in the command at path "${command.path.segments.join(
               "/"
-            )}" is marked as variadic, and it is followed by another variadic variable path segment "${getVariableCommandPathName(
+            )}" is marked as variadic, and it is followed by another variadic positional option path segment "${getPositionalCommandOptionName(
               command.path.segments[index + 1]!
-            )}". Only one variadic variable path segment is allowed per command, and it must be the final path segment.`
+            )}". Only one variadic positional option path segment is allowed per command, and it must be the final path segment.`
           });
         }
       });
@@ -154,63 +157,10 @@ export function validateCommandOptions(
   return failures;
 }
 
-export function validateCommandParams(
-  command: CommandTree
-): ValidationFailure[] {
-  const failures: ValidationFailure[] = [];
-  if (!command.isVirtual && command.params.length > 0) {
-    const paramNames = new Set<string>();
-    command.params.forEach((param, index) => {
-      if (paramNames.has(param.name)) {
-        failures.push({
-          code: "DUPLICATE_PARAM_NAME",
-          details: `Duplicate parameter name "${param.name}" found in command.`
-        });
-      }
-      paramNames.add(param.name);
-
-      if (param.optional) {
-        command.params.slice(index + 1).forEach(nextParam => {
-          if (nextParam.optional && !nextParam.default) {
-            failures.push({
-              code: "OPTIONAL_PARAM_NOT_LAST",
-              details: `The parameter "${nextParam.name}" in the command at path "${command.path.segments.join(
-                "/"
-              )}" is required, but it follows an optional parameter "${
-                param.name
-              }". All required parameters must come before any optional parameters.`
-            });
-          }
-        });
-      }
-
-      if (param.variadic && index + 1 < command.params.length) {
-        if (command.params[index + 1]?.variadic) {
-          failures.push({
-            code: "MULTIPLE_VARIADIC_PARAMS",
-            details: `The parameter "${param.name}" in the command at path "${command.path.segments.join(
-              "/"
-            )}" is variadic, and it is followed by another variadic parameter "${
-              command.params[index + 1]?.name
-            }". Only one variadic parameter is allowed per command, and it must be the final parameter.`
-          });
-        }
-      }
-    });
-  }
-
-  return failures;
-}
-
 export function validateCommand(command: CommandTree): ValidationFailure[] {
   const results: ValidationFailure[] = [];
 
-  let failures = validateCommandVariablePaths(command);
-  if (failures.length > 0) {
-    results.push(...failures);
-  }
-
-  failures = validateCommandParams(command);
+  let failures = validateCommandPositionalOptions(command);
   if (failures.length > 0) {
     results.push(...failures);
   }

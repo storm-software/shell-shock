@@ -69,18 +69,18 @@
         "default": "./dist/components/index.mjs"
       }
     },
-    "./components/args-parser-logic": {
+    "./components/banner-function-declaration": {
       "require": {
-        "types": "./dist/components/args-parser-logic.d.cts",
-        "default": "./dist/components/args-parser-logic.cjs"
+        "types": "./dist/components/banner-function-declaration.d.cts",
+        "default": "./dist/components/banner-function-declaration.cjs"
       },
       "import": {
-        "types": "./dist/components/args-parser-logic.d.mts",
-        "default": "./dist/components/args-parser-logic.mjs"
+        "types": "./dist/components/banner-function-declaration.d.mts",
+        "default": "./dist/components/banner-function-declaration.mjs"
       },
       "default": {
-        "types": "./dist/components/args-parser-logic.d.mts",
-        "default": "./dist/components/args-parser-logic.mjs"
+        "types": "./dist/components/banner-function-declaration.d.mts",
+        "default": "./dist/components/banner-function-declaration.mjs"
       }
     },
     "./components/bin-entry": {
@@ -286,7 +286,6 @@
     "@shell-shock/plugin-theme": "workspace:*",
     "@stryke/path": "catalog:",
     "@stryke/string-format": "catalog:",
-    "@stryke/type-checks": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:",
     "@stryke/helpers": "catalog:"

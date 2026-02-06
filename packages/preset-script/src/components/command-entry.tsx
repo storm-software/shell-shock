@@ -32,10 +32,15 @@ import {
   TSDocTitle
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import {
+  OptionsInterfaceDeclaration,
+  OptionsParserLogic,
+  PositionalOptionsParserLogic
+} from "@shell-shock/core/components/options-parser-logic";
+import {
   getAppBin,
   getAppTitle,
-  getVariableCommandPathName,
-  isVariableCommandPath
+  getPositionalCommandOptionName,
+  isPositionalCommandOption
 } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { findFilePath, relativePath } from "@stryke/path/find";
@@ -46,12 +51,6 @@ import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
-import {
-  OptionsInterfaceDeclaration,
-  OptionsParserLogic,
-  ParamsParserLogic,
-  VariablePathsParserLogic
-} from "./args-parser-logic";
 import { Help } from "./help";
 import { VirtualCommandEntry } from "./virtual-command-entry";
 
@@ -61,16 +60,15 @@ export function CommandInvocation(props: { command: CommandTree }) {
   return (
     <>
       {code`return Promise.resolve(handle${pascalCase(command.name)}(options${
-        command.path.segments.filter(segment => isVariableCommandPath(segment))
-          .length > 0
+        command.path.segments.filter(segment =>
+          isPositionalCommandOption(segment)
+        ).length > 0
           ? `, ${command.path.segments
-              .filter(segment => isVariableCommandPath(segment))
-              .map(segment => camelCase(getVariableCommandPathName(segment)))
+              .filter(segment => isPositionalCommandOption(segment))
+              .map(segment =>
+                camelCase(getPositionalCommandOptionName(segment))
+              )
               .join(", ")}`
-          : ""
-      }${
-        command.params.length > 0
-          ? `, ${command.params.map(param => camelCase(param.name)).join(", ")}`
           : ""
       }));`}
       <hbr />
@@ -93,8 +91,8 @@ export function CommandHandlerDeclaration(props: { command: CommandTree }) {
           context
         )} ${command.path.segments
           .map(segment =>
-            isVariableCommandPath(segment)
-              ? `[${constantCase(getVariableCommandPathName(segment))}]`
+            isPositionalCommandOption(segment)
+              ? `[${constantCase(getPositionalCommandOptionName(segment))}]`
               : segment
           )
           .join(" ")}) command.`}>
@@ -108,13 +106,17 @@ export function CommandHandlerDeclaration(props: { command: CommandTree }) {
         async
         name="handler"
         parameters={[{ name: "args", type: "string[]", default: "getArgs()" }]}>
-        <VariablePathsParserLogic path={command.path} />
+        <PositionalOptionsParserLogic
+          path={command.path}
+          envPrefix={context.config.envPrefix}
+        />
         <hbr />
         <hbr />
-        <OptionsParserLogic command={command} />
-        <hbr />
-        <hbr />
-        <ParamsParserLogic params={command.params} />
+        <OptionsParserLogic
+          command={command}
+          envPrefix={context.config.envPrefix}
+          isCaseSensitive={context.config.isCaseSensitive}
+        />
         <hbr />
         <hbr />
         <IfStatement condition={code`options.help`}>
@@ -158,7 +160,7 @@ export function CommandEntry(props: CommandEntryProps) {
   const filePath = computed(() =>
     joinPaths(
       command.path.segments
-        .filter(segment => !isVariableCommandPath(segment))
+        .filter(segment => !isPositionalCommandOption(segment))
         .join("/"),
       "index.ts"
     )
@@ -186,9 +188,17 @@ export function CommandEntry(props: CommandEntryProps) {
           [commandSourcePath.value]: `handle${pascalCase(command.name)}`
         })}
         builtinImports={defu(builtinImports ?? {}, {
-          env: ["env"],
-          console: ["warn", "error", "table", "colors", "writeLine"],
-          utils: ["getArgs"]
+          env: ["env", "isCI"],
+          console: [
+            "warn",
+            "error",
+            "table",
+            "colors",
+            "stripAnsi",
+            "writeLine",
+            "splitText"
+          ],
+          utils: ["getArgs", "isMinimal"]
         })}>
         <OptionsInterfaceDeclaration command={command} />
         <hbr />

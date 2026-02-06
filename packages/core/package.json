@@ -97,6 +97,34 @@
         "default": "./dist/components/docs.mjs"
       }
     },
+    "./components/options-parser-logic": {
+      "require": {
+        "types": "./dist/components/options-parser-logic.d.cts",
+        "default": "./dist/components/options-parser-logic.cjs"
+      },
+      "import": {
+        "types": "./dist/components/options-parser-logic.d.mts",
+        "default": "./dist/components/options-parser-logic.mjs"
+      },
+      "default": {
+        "types": "./dist/components/options-parser-logic.d.mts",
+        "default": "./dist/components/options-parser-logic.mjs"
+      }
+    },
+    "./components/usage": {
+      "require": {
+        "types": "./dist/components/usage.d.cts",
+        "default": "./dist/components/usage.cjs"
+      },
+      "import": {
+        "types": "./dist/components/usage.d.mts",
+        "default": "./dist/components/usage.mjs"
+      },
+      "default": {
+        "types": "./dist/components/usage.d.mts",
+        "default": "./dist/components/usage.mjs"
+      }
+    },
     "./config": {
       "require": {
         "types": "./dist/config.d.cts",
@@ -137,6 +165,20 @@
       "default": {
         "types": "./dist/contexts/command.d.mts",
         "default": "./dist/contexts/command.mjs"
+      }
+    },
+    "./contexts/options": {
+      "require": {
+        "types": "./dist/contexts/options.d.cts",
+        "default": "./dist/contexts/options.cjs"
+      },
+      "import": {
+        "types": "./dist/contexts/options.d.mts",
+        "default": "./dist/contexts/options.mjs"
+      },
+      "default": {
+        "types": "./dist/contexts/options.d.mts",
+        "default": "./dist/contexts/options.mjs"
       }
     },
     "./package.json": "./package.json",
@@ -280,20 +322,6 @@
         "default": "./dist/types/context.mjs"
       }
     },
-    "./types/internal": {
-      "require": {
-        "types": "./dist/types/internal.d.cts",
-        "default": "./dist/types/internal.cjs"
-      },
-      "import": {
-        "types": "./dist/types/internal.d.mts",
-        "default": "./dist/types/internal.mjs"
-      },
-      "default": {
-        "types": "./dist/types/internal.d.mts",
-        "default": "./dist/types/internal.mjs"
-      }
-    },
     "./types/options": {
       "require": {
         "types": "./dist/types/options.d.cts",
@@ -330,6 +358,7 @@
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/markdown": "catalog:",
+    "@alloy-js/typescript": "catalog:",
     "@powerlines/deepkit": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-automd": "catalog:",

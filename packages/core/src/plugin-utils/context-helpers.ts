@@ -110,7 +110,7 @@ export function getAppBin(context: Context): string {
  * @param path - The command path segment to check.
  * @returns True if the path is variable, false otherwise.
  */
-export function isVariableCommandPath(path: string): boolean {
+export function isPositionalCommandOption(path: string): boolean {
   return path.startsWith("[") && path.endsWith("]");
 }
 
@@ -120,6 +120,6 @@ export function isVariableCommandPath(path: string): boolean {
  * @param path - The command path segment.
  * @returns The variable name without square brackets.
  */
-export function getVariableCommandPathName(path: string): string {
-  return path.replaceAll(/^\[+/g, "").replaceAll(/\]+$/g, "");
+export function getPositionalCommandOptionName(path: string): string {
+  return path.replaceAll(/^\[+(?:\.\.\.)*/g, "").replaceAll(/\]+$/g, "");
 }

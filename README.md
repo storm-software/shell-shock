@@ -17,7 +17,7 @@
 </div>
 <br />
 
-**Shell Shock** is a framework built to support the rapid development of fully-featured command-line interface applications.
+**Shell Shock** is a framework that uses NextJs's style of file based routing and applies it to command line applications. When combined with it's extremely customizable theme and template component system, it allows for the rapid development of fully-featured command-line interfaces.
 
 <h3 align="center">💻 Visit <a href="https://stormsoftware.com" target="_blank">stormsoftware.com</a> to stay up to date with this developer</h3>
 <br />
@@ -57,7 +57,7 @@
   - [Running End-to-End Tests](#running-end-to-end-tests)
   - [Understand your workspace](#understand-your-workspace)
 - [☁ Nx Cloud](#-nx-cloud)
-  - [Distributed Computation Caching & Distributed Task Execution](#distributed-computation-caching--distributed-task-execution)
+  - [Distributed Computation Caching \& Distributed Task Execution](#distributed-computation-caching--distributed-task-execution)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [Support](#support)

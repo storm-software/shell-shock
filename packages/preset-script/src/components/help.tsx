@@ -19,10 +19,8 @@
 import { code, computed, For, Show } from "@alloy-js/core";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import {
-  getVariableCommandPathName,
-  isVariableCommandPath
-} from "@shell-shock/core/plugin-utils/context-helpers";
+import { Usage } from "@shell-shock/core/components/usage";
+import { getAppBin } from "@shell-shock/core/plugin-utils/context-helpers";
 import { sortOptions } from "@shell-shock/core/plugin-utils/reflect";
 import type {
   CommandOption,
@@ -65,19 +63,9 @@ export function HelpUsage(props: HelpUsageProps) {
         <>
           {code`
       writeLine(
-        colors.text.body.primary(
-          "$ npx ${bin} ${command.path.segments
-            .map(segment =>
-              isVariableCommandPath(segment)
-                ? `<${command.path.variables[segment]?.variadic ? "..." : ""}${kebabCase(
-                    getVariableCommandPathName(segment)
-                  )}>`
-                : segment
-            )
-            .join(" ")}${
-            Object.values(command.children).length > 0 ? " [commands]" : ""
-          } [options]"
-        ), { padding: ${theme.padding.app * indent} }
+        colors.text.body.primary("`}
+          <Usage bin={bin} command={command} />
+          {code`"), { padding: ${theme.padding.app * indent} }
       );`}
           <hbr />
         </>
@@ -260,6 +248,75 @@ export function Help(props: HelpProps) {
         <HelpCommands commands={command.children} />
         <hbr />
         <hbr />
+      </Show>
+    </>
+  );
+}
+
+export interface HelpInvokeProps {
+  /**
+   * The options to display help for.
+   */
+  options: CommandOption[];
+
+  /**
+   * A mapping of command names to their command definitions.
+   */
+  commands: Record<string, CommandTree>;
+}
+
+/**
+ * A component that generates the invocation of the `help` function for a command.
+ */
+export function HelpInvoke(props: HelpInvokeProps) {
+  const { options, commands } = props;
+
+  const context = usePowerlines<ScriptPresetContext>();
+
+  return (
+    <>
+      {code`
+      writeLine("");
+      banner();
+      writeLine(""); `}
+      <hbr />
+      <hbr />
+      {code`writeLine(colors.bold(colors.text.heading.secondary("Global Options:")));`}
+      <hbr />
+      <HelpOptions options={options} />
+      {code`writeLine(""); `}
+      <hbr />
+      <hbr />
+      <Show when={Object.keys(commands).length > 0}>
+        {code`writeLine(colors.text.body.secondary("The following commands are available:"));
+        writeLine(""); `}
+        <hbr />
+        <hbr />
+        <For
+          each={Object.values(commands)}
+          doubleHardline
+          joiner={code`writeLine(""); `}
+          ender={code`writeLine(""); `}>
+          {child => (
+            <>
+              {code`
+                writeLine(colors.text.heading.primary("${child.title} ${
+                  child.isVirtual ? "" : "Command"
+                }"));
+                writeLine("");
+                writeLine(colors.text.body.secondary("${child.description}"));
+                writeLine("");
+                `}
+              <hbr />
+              <Help command={child} indent={2} />
+              <hbr />
+            </>
+          )}
+        </For>
+        {code`help("Running a specific command with the help flag (via: '${getAppBin(
+          context
+        )} <specific command> --help') will provide additional information that is specific to that command.");
+                  writeLine("");`}
       </Show>
     </>
   );

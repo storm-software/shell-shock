@@ -39,7 +39,7 @@ export function getDefaultOptions(
         name: "interactive",
         title: "Interactive",
         description:
-          "Enable interactive mode (will be set to false if running in a CI pipeline).",
+          "Enable interactive mode - will be set to false if running in a CI pipeline.",
         alias: ["i", "interact"],
         kind: ReflectionKind.boolean,
         optional: true,
@@ -50,7 +50,7 @@ export function getDefaultOptions(
         name: "no-interactive",
         title: "Non-Interactive",
         description:
-          "Disable interactive mode (will be set to true if running in a CI pipeline).",
+          "Disable interactive mode - will be set to true if running in a CI pipeline.",
         alias: ["no-interact"],
         kind: ReflectionKind.boolean,
         optional: true,

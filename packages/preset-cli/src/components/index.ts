@@ -16,4 +16,4 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./banner";
+export * from "./banner-function-declaration";
