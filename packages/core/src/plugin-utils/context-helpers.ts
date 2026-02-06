@@ -178,3 +178,55 @@ export function isCatchAllPathSegment(path: string): boolean {
 export function getDynamicPathSegmentName(path: string): string {
   return path.replaceAll(/^\[+(?:\.\.\.)*/g, "").replaceAll(/\]+$/g, "");
 }
+
+/**
+ * Determines if a given command path segment is a path segment group (enclosed in parentheses).
+ *
+ * @example
+ * ```typescript
+ * isPathSegmentGroup("(user)"); // true
+ * isPathSegmentGroup("[[...user]]"); // false
+ * isPathSegmentGroup("[...user]"); // false
+ * isPathSegmentGroup("[user]"); // false
+ * isPathSegmentGroup("user"); // false
+ * ```
+ *
+ * @param path - The command path segment to check.
+ * @returns True if the path is a path segment group, false otherwise.
+ */
+export function isPathSegmentGroup(path: string): boolean {
+  return path.startsWith("(") && path.endsWith(")");
+}
+
+/**
+ * Extracts the group name from a command path segment by removing enclosing parentheses.
+ *
+ * @example
+ * ```typescript
+ * getPathSegmentGroupName("(admin)"); // "admin"
+ * getPathSegmentGroupName("((group))"); // "group"
+ * ```
+ *
+ * @param path - The command path segment.
+ * @returns The group name without parentheses.
+ */
+export function getPathSegmentGroupName(path: string): string {
+  return path.replaceAll(/^\(+/g, "").replaceAll(/\)+$/g, "");
+}
+
+/**
+ * Extracts the variable name from a command path segment by removing enclosing square brackets.
+ *
+ * @example
+ * ```typescript
+ * getDynamicPathSegmentName("[user]"); // "user"
+ * getDynamicPathSegmentName("[[...user]]"); // "user"
+ * getDynamicPathSegmentName("[...user]"); // "user"
+ * ```
+ *
+ * @param path - The command path segment.
+ * @returns The variable name without square brackets.
+ */
+export function getPathSegmentName(path: string): string {
+  return getPathSegmentGroupName(getDynamicPathSegmentName(path));
+}

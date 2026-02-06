@@ -45,7 +45,8 @@ import {
   getDynamicPathSegmentName,
   isCatchAllPathSegment,
   isDynamicPathSegment,
-  isOptionalCatchAllPathSegment
+  isOptionalCatchAllPathSegment,
+  isPathSegmentGroup
 } from "../plugin-utils/context-helpers";
 import type {
   CommandDynamicSegment,
@@ -130,14 +131,20 @@ export function resolveCommandName(file: string) {
 export function resolveCommandPath(context: Context, file: string): string {
   return replacePath(findFilePath(file), context.commandsPath)
     .replaceAll(/^\/+/g, "")
-    .replaceAll(/\/+$/g, "");
+    .replaceAll(/\/+$/g, "")
+    .split("/")
+    .filter(path => path && !isPathSegmentGroup(path))
+    .join("/");
 }
 
-export function resolveCommandParams(context: Context, file: string): string[] {
+export function resolveCommandDynamicPathSegments(
+  context: Context,
+  file: string
+): string[] {
   return replacePath(findFilePath(file), context.commandsPath)
     .split("/")
-    .filter(p => Boolean(p) && isDynamicPathSegment(p))
-    .map(p => p.replaceAll(/^\[+/g, "").replaceAll(/\]+$/g, ""));
+    .filter(path => Boolean(path) && isDynamicPathSegment(path))
+    .map(path => getDynamicPathSegmentName(path));
 }
 
 export function findCommandsRoot(context: Context): string {
