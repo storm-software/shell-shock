@@ -43,17 +43,22 @@ export function RunApplication() {
       {code`// Run the application main logic inside an asynchronous IIFE
       (async () => {
         try {
+          const startDate = new Date();
+
           process.on("exit", () => exit({
+            startDate,
             skipExit: true,
             isSynchronous: true,
             signal: 0
           }));
           process.on("beforeExit", () => exit({
+            startDate,
             signal: 0
           }));
           process.on("message", message => {
             if (message === 'shutdown') {
               exit({
+                startDate,
                 isSynchronous: true,
                 signal: -128
               });
@@ -61,26 +66,31 @@ export function RunApplication() {
           });
 
           process.once("SIGTERM", () => exit({
+            startDate,
             signal: 15
           }));
           process.once("SIGINT", () => exit({
+            startDate,
             signal: 2
           }));
           process.once("SIGUSR2", () => {
             verbose("The application was terminated by the user");
             return exit({
+              startDate,
               signal: 12
             });
           });
           process.once("SIGQUIT", () => {
             verbose("The application was terminated by the user");
             return exit({
+              startDate,
               signal: 12
             });
           });
 
           for (const type of ["unhandledRejection", "uncaughtException"]) {
             process.on(type, err => exit({
+              startDate,
               exception: err || new Error(\`An \${type === "unhandledRejection" ? "unhandled promise rejection" : "uncaught exception"} occurred during processing - the application is shutting down.\`)
             }));
           }
@@ -90,9 +100,9 @@ export function RunApplication() {
             error(result.error);
           }
 
-          exit();
+          exit({ startDate });
         } catch (err) {
-          exit({ exception: err as Error });
+          exit({ startDate, exception: err as Error });
         }
       })();
       `}

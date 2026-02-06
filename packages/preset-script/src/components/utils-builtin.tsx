@@ -488,6 +488,13 @@ export function ExitFunctionDeclaration() {
           type="number"
           doc="The signal number that triggered the exit. This is typically used when the shutdown is initiated by a system signal (e.g., SIGINT, SIGTERM)."
         />
+        <hbr />
+        <InterfaceMember
+          name="startDate"
+          optional
+          type="Date"
+          doc="A Date object representing the timestamp when the process started. This can be used to measure the duration of the shutdown process."
+        />
       </InterfaceDeclaration>
       <hbr />
       <hbr />
@@ -546,7 +553,7 @@ export function ExitFunctionDeclaration() {
             const terminate = (force = false) => {
               verbose(\`The ${getAppTitle(
                 context
-              )} application exited \${options.exception ? \`early due to an exception\` : "successfully"}...\`);
+              )} application exited \${options.exception ? \`early due to an exception\` : "successfully"}\${options.startDate ? \`. Total processing time is \${Date.now() - options.startDate.getTime() > 100_000 ? (Date.now() - options.startDate.getTime()) / 1000 : Date.now() - options.startDate.getTime()} \${Date.now() - options.startDate.getTime() > 100_000 ? "seconds" : "milliseconds"}\` : ""}...\`);
               if (!options.skipProcessExit) {
                 process.exit(exitCode);
               }

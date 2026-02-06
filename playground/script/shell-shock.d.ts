@@ -1007,6 +1007,10 @@ declare module "shell-shock:utils" {
      * The signal number that triggered the exit. This is typically used when the shutdown is initiated by a system signal (e.g., SIGINT, SIGTERM).
      */
     signal?: number;
+    /**
+     * A Date object representing the timestamp when the process started. This can be used to measure the duration of the shutdown process.
+     */
+    startDate?: Date;
   }
   export function exit(options?: ExitOptions): Promise<void>;
 }
