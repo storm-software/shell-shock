@@ -16,15 +16,32 @@
 
  ------------------------------------------------------------------- */
 
+import type { ReflectionClass } from "@powerlines/deepkit/vendor/type";
+import {
+  deserializeType,
+  ReflectionFunction,
+  ReflectionKind,
+  resolveClassType,
+  serializeType
+} from "@powerlines/deepkit/vendor/type";
+import { omit } from "@stryke/helpers/omit";
 import { joinPaths } from "@stryke/path/join-paths";
-import type { CommandTree, SerializedCommandTree } from "../types";
+import type {
+  CommandDynamicSegment,
+  CommandOption,
+  CommandParameter,
+  CommandTree,
+  SerializedCommandDynamicSegment,
+  SerializedCommandOption,
+  SerializedCommandTree
+} from "../types";
 import type { Context } from "../types/context";
 
 export function getCommandsPersistencePath(context: Context): string {
-  return joinPaths(context.dataPath, `commands.json`);
+  return joinPaths(context.dataPath, "reflections", "commands.json");
 }
 
-function serializedCommandTree(
+export function serializedCommandTree(
   commands: Record<string, CommandTree>
 ): Record<string, SerializedCommandTree> {
   const serialize = (
@@ -33,8 +50,35 @@ function serializedCommandTree(
   ): SerializedCommandTree => {
     const serializedNode: SerializedCommandTree = {
       ...node,
+      options: Object.entries(node.options).reduce(
+        (ret, [key, option]) => {
+          ret[key] = {
+            ...omit(option, ["reflection"])
+          };
+          return ret;
+        },
+        {} as Record<string, SerializedCommandOption>
+      ),
+      path: {
+        ...node.path,
+        dynamics: Object.entries(node.path.dynamics).reduce(
+          (ret, [key, dynamic]) => {
+            ret[key] = {
+              ...omit(dynamic, ["reflection"])
+            };
+            return ret;
+          },
+          {} as Record<string, SerializedCommandDynamicSegment>
+        )
+      },
+      params: node.params.map(param => ({
+        ...omit(param, ["reflection"])
+      })),
       parent,
-      children: {}
+      children: {},
+      reflection: node.reflection
+        ? serializeType(node.reflection.type)
+        : undefined
     };
 
     for (const [key, child] of Object.entries(node.children || {})) {
@@ -52,17 +96,67 @@ function serializedCommandTree(
   return result;
 }
 
-function deserializeCommandTree(
+export function deserializeCommandTree(
   serializedCommands: Record<string, SerializedCommandTree>
 ): Record<string, CommandTree> {
   const deserialize = (
     node: SerializedCommandTree,
     parent: CommandTree | null = null
   ): CommandTree => {
+    const type = deserializeType(node.reflection);
+    if (type.kind !== ReflectionKind.function) {
+      throw new Error(
+        `Failed to deserialize persisted data - invalid command handler reflection type for command ${node.id}`
+      );
+    }
+
+    const reflection = new ReflectionFunction(type);
+
+    let optionsReflection: ReflectionClass<any> | undefined;
+    if (
+      reflection.getParameters().length > 0 &&
+      reflection.getParameters()[0]
+    ) {
+      const optionsType = reflection.getParameters()[0]!.type;
+      if (optionsType.kind === ReflectionKind.objectLiteral) {
+        optionsReflection = resolveClassType(optionsType);
+      }
+    }
+
     const deserializedNode: CommandTree = {
       ...node,
+      options: optionsReflection
+        ? Object.entries(node.options).reduce(
+            (ret, [key, option]) => {
+              ret[key] = {
+                ...option,
+                reflection: optionsReflection.getProperty(option.name)
+              } as CommandOption;
+              return ret;
+            },
+            {} as Record<string, CommandOption>
+          )
+        : {},
+      path: {
+        ...node.path,
+        dynamics: Object.entries(node.path.dynamics).reduce(
+          (ret, [key, dynamic]) => {
+            ret[key] = {
+              ...dynamic,
+              reflection: reflection.getParameter(dynamic.name)
+            } as CommandDynamicSegment;
+            return ret;
+          },
+          {} as Record<string, CommandDynamicSegment>
+        )
+      },
+      params: node.params.map(param => ({
+        ...param,
+        reflection: reflection.getParameter(param.name)
+      })) as CommandParameter[],
       parent,
-      children: {}
+      children: {},
+      reflection
     };
 
     for (const [key, child] of Object.entries(node.children || {})) {

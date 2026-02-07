@@ -18,12 +18,14 @@
 
 import { esbuildPlugin } from "@powerlines/deepkit/esbuild-plugin";
 import type {
+  ReflectionParameter,
   ReflectionProperty,
-  TypeParameter
+  TypeArray
 } from "@powerlines/deepkit/vendor/type";
 import {
   reflect,
   ReflectionClass,
+  ReflectionFunction,
   ReflectionKind,
   ReflectionVisibility,
   stringifyType
@@ -53,9 +55,12 @@ import type {
   CommandInput,
   CommandModule,
   CommandOption,
+  CommandParameter,
   CommandTree,
   NumberCommandOption,
-  StringCommandOption
+  NumberCommandParameter,
+  StringCommandOption,
+  StringCommandParameter
 } from "../types/command";
 import type { Context } from "../types/context";
 import { getDefaultOptions } from "./utilities";
@@ -82,6 +87,38 @@ export function resolveCommandOptionDescription(
       ? "flag provided via the command-line"
       : "command-line option"
   } that allows the user to ${
+    kind === ReflectionKind.boolean
+      ? "set the"
+      : kind === ReflectionKind.array
+        ? "specify custom"
+        : "specify a custom"
+  } ${title?.trim() || titleCase(name)} ${
+    kind === ReflectionKind.boolean
+      ? "indicator"
+      : `${kind === ReflectionKind.number ? "numeric" : "string"} value${
+          kind === ReflectionKind.array ? "s" : ""
+        }`
+  } that will be used in the application.`;
+}
+
+/**
+ * Resolves the description for a command parameter based on its reflection.
+ *
+ * @param kind - The reflection kind of the command parameter.
+ * @param optional - Whether the command parameter is optional.
+ * @param name - The name of the command parameter.
+ * @param title - The title of the command parameter, if any.
+ * @param defaultValue - The default value of the command parameter, if any.
+ * @returns The resolved description for the command parameter.
+ */
+export function resolveCommandParameterDescription(
+  kind: ReflectionKind,
+  optional: boolean,
+  name: string,
+  title?: string,
+  defaultValue?: any
+): string {
+  return `A${optional && !defaultValue ? "n optional" : ""} command-line positional parameter that allows the user to ${
     kind === ReflectionKind.boolean
       ? "set the"
       : kind === ReflectionKind.array
@@ -198,7 +235,7 @@ export function extractCommandOption(
   command: CommandInput,
   reflection: ReflectionProperty
 ): CommandOption {
-  const propertyType = reflection.getType();
+  const type = reflection.getType();
 
   const option = {
     name: reflection.getNameAsString(),
@@ -216,39 +253,46 @@ export function extractCommandOption(
         reflection.getDefaultValue()
       ),
     env: constantCase(reflection.getNameAsString()),
-    kind: propertyType.kind as
+    kind: type.kind as
       | ReflectionKind.string
       | ReflectionKind.number
       | ReflectionKind.boolean,
     optional: reflection.isOptional(),
     default: reflection.getDefaultValue(),
-    variadic: false
+    variadic: reflection.isArray(),
+    reflection
   } as CommandOption;
-  if (propertyType.kind === ReflectionKind.array) {
+
+  if (reflection.isArray()) {
     if (
-      propertyType.type.kind === ReflectionKind.string ||
-      propertyType.type.kind === ReflectionKind.number
+      (type as TypeArray).type.kind === ReflectionKind.string ||
+      (type as TypeArray).type.kind === ReflectionKind.number
     ) {
       (option as StringCommandOption | NumberCommandOption).variadic = true;
-      (option as StringCommandOption | NumberCommandOption).kind =
-        propertyType.type.kind;
+      (option as StringCommandOption | NumberCommandOption).kind = (
+        type as TypeArray
+      ).type.kind as ReflectionKind.string | ReflectionKind.number;
     } else {
       throw new Error(
         `Unsupported array type for option "${reflection.getNameAsString()}" in command "${
           command.name
-        }". Only string[] and number[] are supported.`
+        }". Only string[] and number[] are supported, received ${stringifyType(
+          type
+        )
+          .trim()
+          .replaceAll(" | ", ", or ")}.`
       );
     }
   } else if (
-    propertyType.kind !== ReflectionKind.boolean &&
-    propertyType.kind !== ReflectionKind.string &&
-    propertyType.kind !== ReflectionKind.number
+    type.kind !== ReflectionKind.boolean &&
+    type.kind !== ReflectionKind.string &&
+    type.kind !== ReflectionKind.number
   ) {
     throw new Error(
       `Unsupported type for option "${reflection.getNameAsString()}" in command "${
         command.name
       }". Only string, number, boolean, string[] and number[] are supported, received ${stringifyType(
-        propertyType
+        type
       )
         .trim()
         .replaceAll(" | ", ", or ")}.`
@@ -259,30 +303,32 @@ export function extractCommandOption(
 }
 
 /**
- * Extracts command parameter information from a type parameter reflection.
+ * Extracts command dynamic path segment information from a type parameter reflection.
  *
  * @param command - The command tree to which the parameter belongs.
  * @param segment - The command path segment corresponding to the parameter.
  * @param reflection - The type parameter reflection to extract information from.
- * @returns The extracted command option information.
+ * @returns The extracted command dynamic segment information.
  */
 export function extractCommandDynamicSegment(
   command: CommandInput,
   segment: string,
-  reflection: TypeParameter
+  reflection: ReflectionParameter
 ): CommandDynamicSegment {
+  const type = reflection.getType();
+
   if (
-    reflection.type.kind !== ReflectionKind.string &&
+    type.kind !== ReflectionKind.string &&
     !(
-      reflection.type.kind === ReflectionKind.array &&
-      reflection.type.type.kind === ReflectionKind.string
+      type.kind === ReflectionKind.array &&
+      type.type.kind === ReflectionKind.string
     )
   ) {
     throw new Error(
       `Unsupported type for dynamic path segment "${segment}" in command "${
         command.name
       }". Only string types (or an array of strings) are supported, received ${stringifyType(
-        reflection.type
+        type
       )
         .trim()
         .replaceAll(" | ", ", or ")}.`
@@ -290,26 +336,28 @@ export function extractCommandDynamicSegment(
   }
 
   const option = {
-    name: segment,
-    title: titleCase(segment),
+    name: reflection.getName(),
+    segment,
+    title: reflection.getTags().title || titleCase(segment),
     description:
-      reflection.description ||
+      reflection.parameter.description ||
       resolveCommandOptionDescription(
-        ReflectionKind.string,
-        !!reflection.optional,
+        type.kind,
+        !!reflection.isOptional(),
         segment,
         titleCase(segment),
-        reflection.default
+        reflection.getDefaultValue()
       ),
-    optional: reflection.optional,
-    default: reflection.default,
+    optional: reflection.isOptional(),
+    default: reflection.getDefaultValue(),
     catchAll: command.path.segments.some(
       seg =>
         getDynamicPathSegmentName(segment) === seg && isCatchAllPathSegment(seg)
-    )
+    ),
+    reflection
   } as CommandDynamicSegment;
 
-  if (reflection.type.kind === ReflectionKind.array) {
+  if (type.kind === ReflectionKind.array) {
     if (!option.catchAll) {
       throw new Error(
         `Dynamic path segment "${segment}" in command "${
@@ -355,6 +403,96 @@ export function extractCommandDynamicSegment(
 }
 
 /**
+ * Extracts command positional parameter information from a type parameter reflection.
+ *
+ * @param command - The command tree to which the parameter belongs.
+ * @param reflection - The type parameter reflection to extract information from.
+ * @returns The extracted command positional parameter information.
+ */
+export function extractCommandParameter(
+  command: CommandInput,
+  reflection: ReflectionParameter
+): CommandParameter {
+  const type = reflection.getType();
+
+  if (
+    type.kind !== ReflectionKind.string &&
+    type.kind !== ReflectionKind.number &&
+    type.kind !== ReflectionKind.boolean &&
+    !(
+      type.kind === ReflectionKind.array &&
+      (type.type.kind === ReflectionKind.string ||
+        type.type.kind === ReflectionKind.number)
+    )
+  ) {
+    throw new Error(
+      `Unsupported type for positional parameter "${reflection.getName()}" in command "${
+        command.name
+      }". Only string types (or an array of strings) are supported, received ${stringifyType(
+        type
+      )
+        .trim()
+        .replaceAll(" | ", ", or ")}.`
+    );
+  }
+
+  const option = {
+    name: reflection.getName(),
+    title: titleCase(reflection.getName()),
+    description:
+      reflection.parameter.description ||
+      resolveCommandParameterDescription(
+        type.kind,
+        !!reflection.isOptional(),
+        reflection.getName(),
+        titleCase(reflection.getName()),
+        reflection.getDefaultValue()
+      ),
+    optional: reflection.isOptional(),
+    default: reflection.getDefaultValue(),
+    reflection
+  } as CommandParameter;
+
+  if (type.kind === ReflectionKind.array) {
+    if (
+      type.type.kind === ReflectionKind.string ||
+      type.type.kind === ReflectionKind.number
+    ) {
+      (option as StringCommandParameter | NumberCommandParameter).variadic =
+        true;
+      (option as StringCommandParameter | NumberCommandParameter).kind =
+        type.type.kind;
+    } else {
+      throw new Error(
+        `Unsupported array type for positional parameter "${reflection.getName()}" in command "${
+          command.name
+        }". Only string[] and number[] are supported, received ${stringifyType(
+          type
+        )
+          .trim()
+          .replaceAll(" | ", ", or ")}.`
+      );
+    }
+  } else if (
+    type.kind !== ReflectionKind.boolean &&
+    type.kind !== ReflectionKind.string &&
+    type.kind !== ReflectionKind.number
+  ) {
+    throw new Error(
+      `Unsupported type for positional parameter "${reflection.getName()}" in command "${
+        command.name
+      }". Only string, number, boolean, string[] and number[] are supported, received ${stringifyType(
+        type
+      )
+        .trim()
+        .replaceAll(" | ", ", or ")}.`
+    );
+  }
+
+  return option;
+}
+
+/**
  * Reflects the command tree for a given command input.
  *
  * @param context - The context in which the command is being reflected.
@@ -382,8 +520,10 @@ export async function reflectCommandTree<TContext extends Context = Context>(
       dynamics: {}
     },
     options: getDefaultOptions(context, command),
+    params: [],
     parent: parent ?? null,
-    children: {}
+    children: {},
+    reflection: null
   } as CommandTree;
 
   if (!command.isVirtual) {
@@ -443,32 +583,37 @@ export async function reflectCommandTree<TContext extends Context = Context>(
       );
     }
 
+    tree.reflection = new ReflectionFunction(type);
+
     tree.description ??=
       command.description ||
       type.description ||
       `The ${tree.title} executable command-line interface.`;
 
-    if (type.parameters.length > 0 && type.parameters[0]) {
-      const firstParam = type.parameters[0];
+    const parameters = tree.reflection.getParameters();
+    if (parameters.length > 0 && parameters[0]) {
       if (
-        firstParam.type.kind === ReflectionKind.objectLiteral ||
-        firstParam.type.kind === ReflectionKind.class
+        parameters[0].type.kind === ReflectionKind.objectLiteral ||
+        parameters[0].type.kind === ReflectionKind.class
       ) {
-        const optionsReflection = ReflectionClass.from(firstParam.type);
+        const optionsReflection = ReflectionClass.from(parameters[0].type);
         for (const propertyReflection of optionsReflection.getProperties()) {
           tree.options[propertyReflection.getNameAsString()] =
             extractCommandOption(command, propertyReflection);
         }
+      } else {
+        throw new Error(
+          `The first parameter of the command handler function in "${
+            command.entry.input.file
+          }" must be an object literal or class type representing the command options.`
+        );
       }
 
       tree.path.dynamics = tree.path.segments
         .filter(segment => isDynamicPathSegment(segment))
         .reduce(
           (obj, segment, index) => {
-            if (
-              type.parameters.length < index + 2 ||
-              !type.parameters[index + 1]
-            ) {
+            if (parameters.length < index + 2 || !parameters[index + 1]) {
               return obj;
             }
 
@@ -476,7 +621,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
             obj[paramName] = extractCommandDynamicSegment(
               command,
               paramName,
-              type.parameters[index + 1]!
+              parameters[index + 1]!
             );
 
             obj[paramName].description =
@@ -491,6 +636,12 @@ export async function reflectCommandTree<TContext extends Context = Context>(
           },
           {} as Record<string, CommandDynamicSegment>
         );
+
+      if (parameters.length < Object.keys(tree.path.dynamics).length + 1) {
+        tree.params = parameters
+          .slice(Object.keys(tree.path.dynamics).length + 1)
+          .map(param => extractCommandParameter(command, param));
+      }
     }
   } else {
     tree.description ??= `A collection of available ${
@@ -511,14 +662,13 @@ export async function reflectCommandTree<TContext extends Context = Context>(
             description: option.description,
             visibility: ReflectionVisibility.public,
             type:
-              option.kind === ReflectionKind.string ||
-              option.kind === ReflectionKind.number
-                ? option.variadic
-                  ? { kind: ReflectionKind.array, type: { kind: option.kind } }
-                  : { kind: option.kind }
-                : { kind: ReflectionKind.boolean },
+              option.reflection?.getType() ??
+              ((option as StringCommandOption | NumberCommandOption).variadic
+                ? { kind: ReflectionKind.array, type: { kind: option.kind } }
+                : { kind: option.kind }),
             default: option.default,
             tags: {
+              ...option.reflection?.getTags(),
               title: option.title,
               alias: option.alias
                 .filter(alias => alias.length > 0)
@@ -529,31 +679,22 @@ export async function reflectCommandTree<TContext extends Context = Context>(
         });
     }
 
-    // if (
-    //   Object.values(tree.path.dynamics).filter(option => option.env !== false)
-    //     .length > 0
-    // ) {
-    //   Object.values(tree.path.dynamics)
-    //     .filter(option => option.env !== false)
-    //     .forEach(option =>
-    //       context.env.types.env.addProperty({
-    //         name: constantCase(option.name),
-    //         optional: option.optional ? true : undefined,
-    //         description: option.description,
-    //         visibility: ReflectionVisibility.public,
-    //         type: option.variadic
-    //           ? {
-    //               kind: ReflectionKind.array,
-    //               type: { kind: ReflectionKind.string }
-    //             }
-    //           : { kind: ReflectionKind.string },
-    //         default: option.default,
-    //         tags: {
-    //           domain: "cli"
-    //         }
-    //       })
-    //     );
-    // }
+    Object.values(tree.params)
+      .filter(param => param.env !== false)
+      .forEach(param =>
+        context.env.types.env.addProperty({
+          name: constantCase(param.name),
+          optional: param.optional ? true : undefined,
+          description: param.description,
+          visibility: ReflectionVisibility.public,
+          type: param.reflection.getType(),
+          default: param.default,
+          tags: {
+            ...param.reflection.getTags(),
+            domain: "cli"
+          }
+        })
+      );
   }
 
   for (const input of context.inputs.filter(

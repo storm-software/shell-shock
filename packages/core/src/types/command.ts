@@ -16,11 +16,17 @@
 
  ------------------------------------------------------------------- */
 
-import type { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import type {
+  ReflectionFunction,
+  ReflectionKind,
+  ReflectionParameter,
+  ReflectionProperty,
+  SerializedTypes
+} from "@powerlines/deepkit/vendor/type";
 import type { AnyFunction } from "@stryke/types/base";
 import type { ResolvedEntryTypeDefinition } from "powerlines/types/resolved";
 
-export interface BaseCommandOption {
+export interface BaseCommandArgument {
   /**
    * The option name.
    */
@@ -51,7 +57,7 @@ export interface BaseCommandOption {
   optional: boolean;
 }
 
-export interface StringCommandOption extends BaseCommandOption {
+export interface StringCommandArgument extends BaseCommandArgument {
   /**
    * The option kind.
    */
@@ -66,7 +72,7 @@ export interface StringCommandOption extends BaseCommandOption {
   variadic: boolean;
 }
 
-export interface NumberCommandOption extends BaseCommandOption {
+export interface NumberCommandArgument extends BaseCommandArgument {
   /**
    * The option kind.
    */
@@ -81,7 +87,7 @@ export interface NumberCommandOption extends BaseCommandOption {
   variadic: boolean;
 }
 
-export interface BooleanCommandOption extends BaseCommandOption {
+export interface BooleanCommandArgument extends BaseCommandArgument {
   /**
    * The option kind.
    */
@@ -100,10 +106,65 @@ export interface BooleanCommandOption extends BaseCommandOption {
   skipAddingNegative?: boolean;
 }
 
+export interface StringCommandOption extends StringCommandArgument {
+  /**
+   * The property reflection.
+   */
+  reflection?: ReflectionProperty;
+}
+
+export interface NumberCommandOption extends NumberCommandArgument {
+  /**
+   * The property reflection.
+   */
+  reflection?: ReflectionProperty;
+}
+
+export interface BooleanCommandOption extends BooleanCommandArgument {
+  /**
+   * The property reflection.
+   */
+  reflection?: ReflectionProperty;
+  /**
+   * The option this negates.
+   */
+  isNegativeOf?: string;
+  /**
+   * Whether to skip adding a negative option.
+   */
+  skipAddingNegative?: boolean;
+}
+
 export type CommandOption =
   | StringCommandOption
   | NumberCommandOption
   | BooleanCommandOption;
+
+export interface StringCommandParameter extends StringCommandArgument {
+  /**
+   * The parameter reflection.
+   */
+  reflection: ReflectionParameter;
+}
+
+export interface NumberCommandParameter extends NumberCommandArgument {
+  /**
+   * The parameter reflection.
+   */
+  reflection: ReflectionParameter;
+}
+
+export interface BooleanCommandParameter extends BooleanCommandArgument {
+  /**
+   * The parameter reflection.
+   */
+  reflection: ReflectionParameter;
+}
+
+export type CommandParameter =
+  | StringCommandParameter
+  | NumberCommandParameter
+  | BooleanCommandParameter;
 
 export interface CommandPath {
   /**
@@ -166,6 +227,14 @@ export interface CommandInput extends CommandBase {
  * Represents a dynamic command segment with metadata and matching behavior.
  */
 export type CommandDynamicSegment = {
+  /**
+   * The parameter reflection.
+   */
+  reflection?: ReflectionParameter;
+  /**
+   * The segment value.
+   */
+  segment: string;
   /**
    * The segment name.
    */
@@ -256,6 +325,10 @@ export type CommandTree = CommandInput & {
    */
   options: Record<string, CommandOption>;
   /**
+   * The positional parameter options provided to the command.
+   */
+  params: CommandParameter[];
+  /**
    * The parent command.
    */
   parent: null | CommandTree;
@@ -263,9 +336,41 @@ export type CommandTree = CommandInput & {
    * Child commands.
    */
   children: Record<string, CommandTree>;
+  /**
+   * The command handler reflection.
+   */
+  reflection: ReflectionFunction | null;
 };
 
-export type SerializedCommandTree = Omit<CommandTree, "parent" | "children"> & {
+export type SerializedCommandOption = Omit<CommandOption, "reflection">;
+
+export type SerializedCommandDynamicSegment = Omit<
+  CommandDynamicSegment,
+  "reflection"
+>;
+
+export type SerializedCommandTreePath = Omit<CommandTreePath, "dynamics"> & {
+  dynamics: Record<string, SerializedCommandDynamicSegment>;
+};
+
+export type SerializedCommandParameter = Omit<CommandParameter, "reflection">;
+
+export type SerializedCommandTree = Omit<
+  CommandTree,
+  "options" | "path" | "params" | "parent" | "children" | "reflection"
+> & {
+  /**
+   * The command options.
+   */
+  options: Record<string, SerializedCommandOption>;
+  /**
+   * The command path with dynamics.
+   */
+  path: SerializedCommandTreePath;
+  /**
+   * The positional parameter options provided to the command.
+   */
+  params: SerializedCommandParameter[];
   /**
    * The parent command id.
    */
@@ -274,6 +379,10 @@ export type SerializedCommandTree = Omit<CommandTree, "parent" | "children"> & {
    * Serialized child commands.
    */
   children: Record<string, SerializedCommandTree>;
+  /**
+   * The command handler reflection.
+   */
+  reflection?: SerializedTypes;
 };
 
 export interface Metadata {
