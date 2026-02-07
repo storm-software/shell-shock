@@ -111,10 +111,7 @@ export function CommandHandlerDeclaration(
         async
         name="handler"
         parameters={[{ name: "args", type: "string[]", default: "getArgs()" }]}>
-        <DynamicPathSegmentsParserLogic
-          path={command.path}
-          envPrefix={context.config.envPrefix}
-        />
+        <DynamicPathSegmentsParserLogic path={command.path} />
         <hbr />
         <hbr />
         <OptionsParserLogic
@@ -198,7 +195,7 @@ export function CommandEntry(props: CommandEntryProps) {
             "writeLine",
             "splitText"
           ],
-          utils: ["getArgs", "hasFlag", "isMinimal"]
+          utils: ["getArgs", "hasFlag", "isMinimal", "isUnicodeSupported"]
         })}>
         <BannerFunctionDeclaration command={command} />
         <hbr />

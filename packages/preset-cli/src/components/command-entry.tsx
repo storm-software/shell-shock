@@ -88,7 +88,7 @@ export function CommandEntry(props: CommandEntryProps) {
             "writeLine",
             "splitText"
           ],
-          utils: ["getArgs", "hasFlag", "isMinimal"]
+          utils: ["getArgs", "hasFlag", "isMinimal", "isUnicodeSupported"]
         })}>
         <BannerFunctionDeclaration command={command} />
         <hbr />

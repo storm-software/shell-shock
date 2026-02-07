@@ -160,7 +160,7 @@ export function BinEntry(props: BinEntryProps) {
           )}
           builtinImports={defu(builtinImports ?? {}, {
             console: ["error", "verbose", "table"],
-            utils: ["hasFlag", "exit"]
+            utils: ["hasFlag", "exit", "isUnicodeSupported"]
           })}>
           <Show when={Boolean(prefix)}>
             {prefix}

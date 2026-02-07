@@ -153,7 +153,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
         )}
         builtinImports={defu(builtinImports ?? {}, {
           console: ["warn", "error", "table", "colors", "writeLine"],
-          utils: ["getArgs", "hasFlag", "isMinimal"]
+          utils: ["getArgs", "hasFlag", "isMinimal", "isUnicodeSupported"]
         })}>
         <BannerFunctionDeclaration command={command} />
         <hbr />

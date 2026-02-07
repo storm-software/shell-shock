@@ -318,9 +318,11 @@ export function VirtualHelp(props: VirtualHelpProps) {
           {child => (
             <>
               {code`
-                writeLine(colors.text.heading.primary("${
-                  child.icon ? ` ${child.icon}  ` : ""
-                }${child.title} ${child.isVirtual ? "" : "Command"}"));
+                writeLine(colors.text.heading.primary(${
+                  child.icon
+                    ? `(isUnicodeSupported ? " ${child.icon}  " : "") + `
+                    : ""
+                }"${child.title} ${child.isVirtual ? "" : "Command"}"));
                 writeLine("");
                 writeLine(colors.text.body.secondary("${child.description}"));
                 writeLine("");
@@ -381,9 +383,11 @@ export function CommandHelp(props: CommandHelpProps) {
           {child => (
             <>
               {code`
-                writeLine(colors.text.heading.primary("${
-                  child.icon ? ` ${child.icon}  ` : ""
-                }${child.title} ${child.isVirtual ? "" : "Command"}"));
+                writeLine(colors.text.heading.primary(${
+                  child.icon
+                    ? `(isUnicodeSupported ? " ${child.icon}  " : "") + `
+                    : ""
+                }"${child.title} ${child.isVirtual ? "" : "Command"}"));
                 writeLine("");
                 writeLine(colors.text.body.secondary("${child.description}"));
                 writeLine("");
