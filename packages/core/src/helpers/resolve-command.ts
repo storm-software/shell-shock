@@ -430,6 +430,9 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     ) {
       tree.alias = toArray(metadata.alias);
     }
+    if (isSetString(metadata.icon)) {
+      tree.icon = metadata.icon;
+    }
 
     const type = reflect(resolved);
 

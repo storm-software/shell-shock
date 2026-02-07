@@ -65,6 +65,7 @@ export interface CommandBase {
   title?: string;
   description?: string;
   alias?: string[];
+  icon?: string;
   path: CommandPath;
   isVirtual: boolean;
 }
@@ -120,6 +121,7 @@ export interface Metadata {
   title?: string;
   description?: string;
   alias?: string | string[];
+  icon?: string;
 }
 
 export interface CommandModule {
