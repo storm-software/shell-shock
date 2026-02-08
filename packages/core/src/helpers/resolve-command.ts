@@ -448,6 +448,7 @@ export function extractCommandParameter(
         titleCase(reflection.getName()),
         reflection.getDefaultValue()
       ),
+    env: constantCase(reflection.getName()),
     optional: reflection.isOptional(),
     default: reflection.getDefaultValue(),
     reflection
@@ -507,9 +508,15 @@ export async function reflectCommandTree<TContext extends Context = Context>(
 ): Promise<CommandTree> {
   const title =
     command.title ||
-    `${parent?.title ? `${parent.isVirtual ? parent.title.replace(/ Commands$/, "") : parent.title} - ` : ""}${titleCase(command.name)}${
-      command.isVirtual ? " Commands" : ""
-    }`;
+    `${
+      parent?.title
+        ? `${
+            parent.isVirtual
+              ? parent.title.replace(/ Commands$/, "")
+              : parent.title
+          } - `
+        : ""
+    }${titleCase(command.name)}${command.isVirtual ? " Commands" : ""}`;
 
   const tree = {
     alias: [],
@@ -575,8 +582,6 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     }
 
     const type = reflect(resolved);
-
-    // const type = await reflectType<TContext>(context, command.entry.input);
     if (type.kind !== ReflectionKind.function) {
       throw new Error(
         `The command entry file "${command.entry.input.file}" does not export a valid function.`
@@ -584,11 +589,10 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     }
 
     tree.reflection = new ReflectionFunction(type);
-
     tree.description ??=
       command.description ||
       type.description ||
-      `The ${tree.title} executable command-line interface.`;
+      `The ${tree.title} executable command line interface.`;
 
     const parameters = tree.reflection.getParameters();
     if (parameters.length > 0 && parameters[0]) {
@@ -637,7 +641,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
           {} as Record<string, CommandDynamicSegment>
         );
 
-      if (parameters.length < Object.keys(tree.path.dynamics).length + 1) {
+      if (parameters.length > Object.keys(tree.path.dynamics).length + 1) {
         tree.params = parameters
           .slice(Object.keys(tree.path.dynamics).length + 1)
           .map(param => extractCommandParameter(command, param));
@@ -648,7 +652,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
       tree.title || titleCase(tree.name)
     } commands that are included in the ${getAppTitle(
       context
-    )} command-line application.`;
+    )} command line application.`;
   }
 
   if (context.env) {

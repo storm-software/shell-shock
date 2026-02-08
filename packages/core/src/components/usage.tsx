@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { code, Match, Switch } from "@alloy-js/core";
+import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { snakeCase } from "@stryke/string-format/snake-case";
 import {
   getDynamicPathSegmentName,
@@ -35,8 +36,6 @@ export interface UsageProps {
    *
    * @remarks
    * If not specified, examples for all supported package managers will be generated.
-   *
-   * @defaultValue "npm"
    */
   packageManager?: "npm" | "yarn" | "pnpm" | "bun";
 
@@ -56,22 +55,39 @@ export function Usage(props: UsageProps) {
     <>
       {code`$ `}
       <Switch>
+        <Match when={packageManager === "npm"}>{`npx `}</Match>
         <Match when={packageManager === "yarn"}>{`yarn exec `}</Match>
         <Match when={packageManager === "pnpm"}>{`pnpm exec `}</Match>
         <Match when={packageManager === "bun"}>{`bun x `}</Match>
-        <Match else>{`npx `}</Match>
       </Switch>
-      {code`${bin} ${command.path.segments
-        .map(segment =>
-          isDynamicPathSegment(segment)
-            ? `<${snakeCase(
-                command.path.dynamics[segment]?.name ||
-                  getDynamicPathSegmentName(segment)
-              )}${command.path.dynamics[segment]?.variadic ? "..." : ""}>`
-            : segment
-        )
-        .join(" ")}${
-        Object.values(command.children).length > 0 ? " [commands]" : ""
+      {code`${bin}${
+        command.path.segments.length > 0
+          ? ` ${command.path.segments
+              .map(segment =>
+                isDynamicPathSegment(segment)
+                  ? `[${snakeCase(
+                      command.path.dynamics[segment]?.name ||
+                        getDynamicPathSegmentName(segment)
+                    )}${command.path.dynamics[segment]?.variadic ? "..." : ""}]`
+                  : segment
+              )
+              .join(" ")}`
+          : ""
+      }${Object.values(command.children).length > 0 ? " [commands]" : ""}${
+        command.params.length > 0
+          ? ` ${command.params
+              .map(
+                param =>
+                  `<${snakeCase(param.name)}${
+                    (param.kind === ReflectionKind.string ||
+                      param.kind === ReflectionKind.number) &&
+                    param.variadic
+                      ? "..."
+                      : ""
+                  }>`
+              )
+              .join(" ")}`
+          : ""
       } [options]`}
     </>
   );

@@ -102,6 +102,115 @@ export function DynamicPathSegmentsParserLogic(
   );
 }
 
+export interface PositionalParametersParserLogicProps {
+  /**
+   * The command to generate the positional parameters parser logic for.
+   */
+  command: CommandTree;
+
+  /**
+   * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${envPrefix}_OPTION_NAME`).
+   */
+  envPrefix: string;
+}
+
+export function PositionalParametersParserLogic(
+  props: PositionalParametersParserLogicProps
+) {
+  const { command, envPrefix } = props;
+
+  return (
+    <>
+      <For each={command.params ?? []} hardline>
+        {param => (
+          <>
+            <VarDeclaration
+              let
+              name={param.name}
+              type={`${
+                param.kind === ReflectionKind.boolean
+                  ? "boolean"
+                  : param.kind === ReflectionKind.number
+                    ? "number"
+                    : "string"
+              }${
+                (param.kind === ReflectionKind.string ||
+                  param.kind === ReflectionKind.number) &&
+                param.variadic
+                  ? "[]"
+                  : ""
+              }${param.optional ? " | undefined" : ""}`}
+              initializer={
+                <>
+                  {code`env.${envPrefix}_${param.env} ?? `}
+                  <Show
+                    when={param.default !== undefined}
+                    fallback={
+                      (param.kind === ReflectionKind.string ||
+                        param.kind === ReflectionKind.number) &&
+                      param.variadic
+                        ? code`[]`
+                        : code`undefined;`
+                    }>
+                    {param.kind === ReflectionKind.string
+                      ? code`"${param.default}"`
+                      : code`${param.default}`}
+                  </Show>
+                </>
+              }
+            />
+            <hbr />
+            <hbr />
+            <IfStatement
+              condition={code`args.length > ${
+                command.path.segments.filter(segment =>
+                  isDynamicPathSegment(segment)
+                ).length + 1
+              } && args[${
+                command.path.segments.filter(segment =>
+                  isDynamicPathSegment(segment)
+                ).length + 1
+              }]`}>
+              <Show
+                when={
+                  param.kind === ReflectionKind.string ||
+                  param.kind === ReflectionKind.number
+                }
+                fallback={code`${param.name} = args[${
+                  command.path.segments.filter(segment =>
+                    isDynamicPathSegment(segment)
+                  ).length + 1
+                }];`}>
+                {code`${param.name} = ${
+                  (param.kind === ReflectionKind.string ||
+                    param.kind === ReflectionKind.number) &&
+                  param.variadic
+                    ? `args.slice(${
+                        command.path.segments.filter(segment =>
+                          isDynamicPathSegment(segment)
+                        ).length + 1
+                      })`
+                    : `args[${
+                        command.path.segments.filter(segment =>
+                          isDynamicPathSegment(segment)
+                        ).length + 1
+                      }]`
+                }${
+                  param.kind === ReflectionKind.number
+                    ? ".map(Number).filter(value => !Number.isNaN(value))"
+                    : ""
+                };`}
+              </Show>
+            </IfStatement>
+            <hbr />
+            <hbr />
+          </>
+        )}
+      </For>
+    </>
+  );
+}
+
 /**
  * The command option interface property.
  */
@@ -170,14 +279,18 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
   const { name, option, isCaseSensitive } = props;
 
   const equalsRegex = `/^--?(${
-    isCaseSensitive && name.length > 1 ? name : name.toLowerCase()
+    isCaseSensitive || name.length === 1
+      ? name
+      : name.toLowerCase().replaceAll("-", "").replaceAll("_", "")
   }${option.alias && option.alias.length > 0 ? "|" : ""}${option.alias
     ?.map(a =>
-      (isCaseSensitive && name.length > 1 ? a : a.toLowerCase()) === "?"
+      (isCaseSensitive || name.length === 1
+        ? a
+        : a.toLowerCase().replaceAll("-", "").replaceAll("_", "")) === "?"
         ? "\\?"
-        : isCaseSensitive && name.length > 1
+        : isCaseSensitive || name.length === 1
           ? a
-          : a.toLowerCase()
+          : a.toLowerCase().replaceAll("-", "").replaceAll("_", "")
     )
     .join("|")})=/`;
 
@@ -197,7 +310,11 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
           </Show>
           <hbr />
           <IfStatement
-            condition={`${equalsRegex}.test(arg${isCaseSensitive ? "" : ".toLowerCase()"})`}>
+            condition={`${equalsRegex}.test(${
+              isCaseSensitive
+                ? "arg"
+                : '"-" + arg.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+            })`}>
             <Show
               when={name.includes("?") || name.includes("-")}
               fallback={code`options.${name}.push(`}>
@@ -231,7 +348,7 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
             !(option as StringCommandOption | NumberCommandOption).variadic
           }>
           <IfStatement
-            condition={`${equalsRegex}.test(arg${isCaseSensitive ? "" : ".toLowerCase()"})`}>
+            condition={`${equalsRegex}.test(${isCaseSensitive ? "arg" : '"-" + arg.toLowerCase().replaceAll("-", "").replaceAll("_", "")'})`}>
             <Show when={option.kind === ReflectionKind.string}>
               <Show
                 when={name.includes("?") || name.includes("-")}
@@ -288,7 +405,7 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
       </Show>
       <Show when={option.kind === ReflectionKind.boolean}>
         <IfStatement
-          condition={`${equalsRegex}.test(arg${isCaseSensitive ? "" : ".toLowerCase()"})`}>
+          condition={`${equalsRegex}.test(${isCaseSensitive ? "arg" : '"-" + arg.toLowerCase().replaceAll("-", "").replaceAll("_", "")'})`}>
           <VarDeclaration
             const
             name="value"
@@ -347,23 +464,63 @@ export interface OptionsMemberParserConditionProps {
 export function OptionsMemberParserCondition(
   props: OptionsMemberParserConditionProps
 ) {
-  const { name, alias, isCaseSensitive } = props;
+  const { name, alias: aliasProp, isCaseSensitive } = props;
 
   return (
     <>
-      {code`arg${isCaseSensitive ? "" : ".toLowerCase()"}.startsWith("--${
-        isCaseSensitive ? name : name.toLowerCase()
-      }=") || arg${isCaseSensitive ? "" : ".toLowerCase()"} === "--${
-        isCaseSensitive ? name : name.toLowerCase()
-      }" || arg.startsWith("-${name}=") || arg === "-${name}"`}
-      <Show when={alias && alias.length > 0}>
-        <For each={alias ?? []}>
-          {a =>
-            code` || arg${isCaseSensitive ? "" : ".toLowerCase()"}.startsWith("--${
-              isCaseSensitive || a.length === 1 ? a : a.toLowerCase()
-            }=") || arg${isCaseSensitive ? "" : ".toLowerCase()"} === "--${
-              isCaseSensitive || a.length === 1 ? a : a.toLowerCase()
-            }" || arg.startsWith("-${a}=") || arg === "-${a}"`
+      {code`${
+        isCaseSensitive
+          ? 'arg.startsWith("--'
+          : 'arg.toLowerCase().replaceAll("-", "").replaceAll("_", "").startsWith("'
+      }${isCaseSensitive ? name : name.toLowerCase().replaceAll("-", "").replaceAll("_", "")}=") || ${
+        isCaseSensitive
+          ? "arg"
+          : 'arg.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+      } === "${
+        isCaseSensitive
+          ? name
+          : name.toLowerCase().replaceAll("-", "").replaceAll("_", "")
+      }" || ${
+        isCaseSensitive
+          ? 'arg.startsWith("-'
+          : 'arg.toLowerCase().replaceAll("-", "").replaceAll("_", "").startsWith("'
+      }${isCaseSensitive ? name : name.toLowerCase().replaceAll("-", "").replaceAll("_", "")}=") || ${
+        isCaseSensitive
+          ? "arg"
+          : 'arg.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+      } === "${
+        isCaseSensitive
+          ? name
+          : name.toLowerCase().replaceAll("-", "").replaceAll("_", "")
+      }"`}
+      <Show when={aliasProp && aliasProp.length > 0}>
+        <For each={aliasProp ?? []}>
+          {alias =>
+            code` || ${
+              isCaseSensitive || alias.length === 1
+                ? 'arg.startsWith("--'
+                : 'arg.toLowerCase().replaceAll("-", "").replaceAll("_", "").startsWith("'
+            }${isCaseSensitive || alias.length === 1 ? alias : alias.toLowerCase().replaceAll("-", "").replaceAll("_", "")}=") || ${
+              isCaseSensitive || alias.length === 1
+                ? "arg"
+                : 'arg.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+            } === "${
+              isCaseSensitive || alias.length === 1
+                ? alias
+                : alias.toLowerCase().replaceAll("-", "").replaceAll("_", "")
+            }" || ${
+              isCaseSensitive || alias.length === 1
+                ? 'arg.startsWith("-'
+                : 'arg.toLowerCase().replaceAll("-", "").replaceAll("_", "").startsWith("'
+            }${isCaseSensitive || alias.length === 1 ? alias : alias.toLowerCase().replaceAll("-", "").replaceAll("_", "")}=") || ${
+              isCaseSensitive || alias.length === 1
+                ? "arg"
+                : 'arg.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+            } === "${
+              isCaseSensitive || alias.length === 1
+                ? alias
+                : alias.toLowerCase().replaceAll("-", "").replaceAll("_", "")
+            }"`
           }
         </For>
       </Show>
@@ -476,7 +633,9 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
         type="string"
         initializer={code` args[i].length > 3 && args[i].startsWith("--")
           ? \`--\${args[i].slice(2).replaceAll("-", "")${
-            isCaseSensitive ? "" : ".toLowerCase()"
+            isCaseSensitive
+              ? ""
+              : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
           }}\`
           : args[i].length > 2 && args[i].startsWith("-")
             ? \`-\${args[i].slice(1).replaceAll("-", "")}\`
@@ -526,6 +685,111 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
 
       <hbr />
       {code` } `}
+      <hbr />
+    </>
+  );
+}
+
+export interface CommandParserLogicProps {
+  /**
+   * The command to generate the parser logic for.
+   */
+  command: CommandTree;
+
+  /**
+   * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${envPrefix}_OPTION_NAME`).
+   */
+  envPrefix: string;
+
+  /**
+   * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command-line arguments to option names and aliases.
+   *
+   * @defaultValue false
+   */
+  isCaseSensitive?: boolean;
+}
+
+/**
+ * The command parser logic, which includes parsing dynamic path segments, positional parameters, and options.
+ */
+export function CommandParserLogic(props: CommandParserLogicProps) {
+  const { command, envPrefix, isCaseSensitive = false } = props;
+
+  return (
+    <>
+      <DynamicPathSegmentsParserLogic path={command.path} />
+      <hbr />
+      <hbr />
+      <VarDeclaration
+        const
+        name="lastSegmentIndex"
+        type="number"
+        initializer={
+          isDynamicPathSegment(
+            command.path.segments[command.path.segments.length - 1]!
+          )
+            ? `args.some(arg => /^--?(${Object.keys(command.options)
+                .map(key =>
+                  key.toLowerCase().replaceAll("-", "").replaceAll("_", "")
+                )
+                .join("|")})(=.*)?$/.test(arg${
+                isCaseSensitive
+                  ? ""
+                  : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+              })) ? args.findIndex(arg => /^--?(${Object.keys(command.options)
+                .map(key =>
+                  key.toLowerCase().replaceAll("-", "").replaceAll("_", "")
+                )
+                .join("|")})(=.*)?$/.test(arg${
+                isCaseSensitive
+                  ? ""
+                  : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+              })) : args.length - ${command.params.length + 1}`
+            : `args.reduce((ret, arg, index) => {
+        if (ret === -1 && (index < args.findIndex(a => /^--?(${Object.keys(
+          command.options
+        )
+          .map(key => key.toLowerCase().replaceAll("-", "").replaceAll("_", ""))
+          .join("|")})(=.*)?$/.test(a${
+          isCaseSensitive
+            ? ""
+            : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+        })) || !args.some(a => /^--?(${Object.keys(command.options)
+          .map(key => key.toLowerCase().replaceAll("-", "").replaceAll("_", ""))
+          .join("|")})(=.*)?$/.test(a${
+          isCaseSensitive
+            ? ""
+            : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+        }))) && arg${
+          isCaseSensitive
+            ? ""
+            : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+        } === "${command.path.segments[
+          command.path.segments.length - 1
+        ]?.toLowerCase()}") {
+            return index;
+        }
+
+        return ret;
+      }, -1); `
+        }
+      />
+      {code`
+      `}
+      <hbr />
+      <hbr />
+      <OptionsParserLogic
+        command={command}
+        envPrefix={envPrefix}
+        isCaseSensitive={isCaseSensitive}
+      />
+      <hbr />
+      <hbr />
+      <PositionalParametersParserLogic
+        command={command}
+        envPrefix={envPrefix}
+      />
+      <hbr />
       <hbr />
     </>
   );

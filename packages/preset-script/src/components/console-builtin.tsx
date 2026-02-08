@@ -1417,6 +1417,7 @@ export type MessageFunctionDeclarationProps = Partial<
     | "danger"
     | "error";
   variant: ThemeMessageVariant;
+  color?: ThemeMessageVariant;
   consoleFnName: "log" | "info" | "warn" | "error" | "debug";
   description: string;
   prefix?: Children;
@@ -1436,7 +1437,8 @@ export function MessageFunctionDeclaration(
     description,
     prefix,
     parameters,
-    timestamp
+    timestamp,
+    color = variant
   } = props;
 
   const theme = useTheme();
@@ -1480,55 +1482,53 @@ export function MessageFunctionDeclaration(
         ${
           !theme.labels.message.footer[variant] && timestamp
             ? `const timestamp = \`\${colors.text.message.footer.${
-                variant
+                color
               }(new Date().toLocaleDateString())} \${colors.border.message.outline.${
-                variant
+                color
               }("${
                 theme.borderStyles.message.outline[variant].bottom
               }")} \${colors.text.message.footer.${
-                variant
+                color
               }(new Date().toLocaleTimeString())}\`; `
             : ""
         }
-        writeLine(colors.border.message.outline.${variant}("${
+        writeLine(colors.border.message.outline.${color}("${
           theme.borderStyles.message.outline[variant].topLeft
         }") + ${
           theme.labels.message.header[variant] ||
           theme.icons.message.header[variant]
-            ? `colors.border.message.outline.${variant}("${
+            ? `colors.border.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].top
               }".repeat(4)) + " " + ${
                 theme.icons.message.header[variant]
-                  ? `colors.border.message.outline.${variant}("${
+                  ? `colors.border.message.outline.${color}("${
                       theme.icons.message.header[variant]
                     }") + " " +`
                   : ""
-              } colors.bold(colors.text.message.header.${variant}("${
+              } colors.bold(colors.text.message.header.${color}("${
                 theme.labels.message.header[variant]
-              }")) + " " + colors.border.message.outline.${variant}("${
+              }")) + " " + colors.border.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].top
               }".repeat(Math.max(process.stdout.columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
+                theme.borderStyles.message.outline[variant].topLeft.length +
                 4 +
                 (theme.icons.message.header[variant]
-                  ? theme.icons.message.header[variant].length +
-                    1 +
-                    (theme.labels.message.header[variant] ? 0 : 1)
+                  ? 2 + (theme.labels.message.header[variant] ? 0 : 1)
                   : 0) +
                 (theme.labels.message.header[variant]
                   ? theme.labels.message.header[variant].length + 2
                   : 0) +
-                theme.borderStyles.message.outline[variant].topLeft.length +
                 theme.borderStyles.message.outline[variant].topRight.length
               }, 0)))`
-            : `colors.border.message.outline.${variant}("${
+            : `colors.border.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].top
               }".repeat(Math.max(process.stdout.columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
                 theme.borderStyles.message.outline[variant].topLeft.length +
                 theme.borderStyles.message.outline[variant].topRight.length
               }, 0)))`
-        } + colors.border.message.outline.${variant}("${
+        } + colors.border.message.outline.${color}("${
           theme.borderStyles.message.outline[variant].topRight
         }"), { consoleFn: console.${consoleFnName} });
         splitText(
@@ -1541,23 +1541,23 @@ export function MessageFunctionDeclaration(
             theme.borderStyles.message.outline[variant].right.length
           }, 0)
         ).forEach((line) => {
-          writeLine(colors.border.message.outline.${variant}("${
+          writeLine(colors.border.message.outline.${color}("${
             theme.borderStyles.message.outline[variant].left +
             " ".repeat(Math.max(theme.padding.message, 0))
-          }") + colors.text.message.description.${variant}(line) + " ".repeat(Math.max(process.stdout.columns - (stripAnsi(line).length + ${
+          }") + colors.text.message.description.${color}(line) + " ".repeat(Math.max(process.stdout.columns - (stripAnsi(line).length + ${
             Math.max(theme.padding.app, 0) * 2 +
             Math.max(theme.padding.message, 0) +
             theme.borderStyles.message.outline[variant].left.length +
             theme.borderStyles.message.outline[variant].right.length
-          }), 0)) + colors.border.message.outline.${variant}("${
+          }), 0)) + colors.border.message.outline.${color}("${
             theme.borderStyles.message.outline[variant].right
           }"), { consoleFn: console.${consoleFnName} });
         });
-        writeLine(colors.border.message.outline.${variant}("${
+        writeLine(colors.border.message.outline.${color}("${
           theme.borderStyles.message.outline[variant].bottomLeft
         }") + ${
           theme.labels.message.footer[variant] || timestamp
-            ? `colors.border.message.outline.${variant}("${
+            ? `colors.border.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].bottom
               }".repeat(Math.max(process.stdout.columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
@@ -1571,21 +1571,21 @@ export function MessageFunctionDeclaration(
                 !theme.labels.message.footer[variant] && timestamp
                   ? " - (stripAnsi(timestamp).length + 2)"
                   : ""
-              }, 0))) + " " + ${`colors.bold(colors.text.message.footer.${variant}(${
+              }, 0))) + " " + ${`colors.bold(colors.text.message.footer.${color}(${
                 theme.labels.message.footer[variant]
                   ? `"${theme.labels.message.footer[variant]}"`
                   : timestamp && "timestamp"
-              }))`} + " " + colors.border.message.outline.${variant}("${
+              }))`} + " " + colors.border.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].bottom
               }".repeat(4))`
-            : `colors.border.message.outline.${variant}("${
+            : `colors.border.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].bottom
               }".repeat(Math.max(process.stdout.columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
                 theme.borderStyles.message.outline[variant].bottomLeft.length +
                 theme.borderStyles.message.outline[variant].bottomRight.length
               }, 0)))`
-        } + colors.border.message.outline.${variant}("${
+        } + colors.border.message.outline.${color}("${
           theme.borderStyles.message.outline[variant].bottomRight
         }"), { consoleFn: console.${consoleFnName} });
 `}
@@ -2455,7 +2455,8 @@ export function ConsoleBuiltin() {
       <hbr />
       <MessageFunctionDeclaration
         type="verbose"
-        variant="debug"
+        variant="info"
+        color="debug"
         consoleFnName="debug"
         description="verbose"
         timestamp

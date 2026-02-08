@@ -33,9 +33,8 @@ import {
   TSDocTitle
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import {
-  DynamicPathSegmentsParserLogic,
-  OptionsInterfaceDeclaration,
-  OptionsParserLogic
+  CommandParserLogic,
+  OptionsInterfaceDeclaration
 } from "@shell-shock/core/components/options-parser-logic";
 import {
   getAppBin,
@@ -68,6 +67,18 @@ export function CommandInvocation(props: { command: CommandTree }) {
               .map(segment => camelCase(getDynamicPathSegmentName(segment)))
               .join(", ")}`
           : ""
+      }${
+        command.path.segments.filter(segment => isDynamicPathSegment(segment))
+          .length > 0
+          ? `, ${command.path.segments
+              .filter(segment => isDynamicPathSegment(segment))
+              .map(segment => camelCase(getDynamicPathSegmentName(segment)))
+              .join(", ")}`
+          : ""
+      }${
+        command.params.length > 0
+          ? `, ${command.params.map(param => camelCase(param.name)).join(", ")}`
+          : ""
       }));`}
       <hbr />
     </>
@@ -91,6 +102,9 @@ export function CommandHandlerDeclaration(
 
   return (
     <>
+      <OptionsInterfaceDeclaration command={command} />
+      <hbr />
+      <hbr />
       <TSDoc
         heading={`The ${command.title} (${getAppBin(
           context
@@ -111,16 +125,11 @@ export function CommandHandlerDeclaration(
         async
         name="handler"
         parameters={[{ name: "args", type: "string[]", default: "getArgs()" }]}>
-        <DynamicPathSegmentsParserLogic path={command.path} />
-        <hbr />
-        <hbr />
-        <OptionsParserLogic
+        <CommandParserLogic
           command={command}
           envPrefix={context.config.envPrefix}
           isCaseSensitive={context.config.isCaseSensitive}
         />
-        <hbr />
-        <hbr />
         {code`writeLine("");
         banner();`}
         <hbr />
