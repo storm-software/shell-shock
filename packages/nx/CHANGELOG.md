@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.16](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.16) (02/08/2026)
+
+### Features
+
+- **core:** Added the `icon` field to command metadata ([d60b57e](https://github.com/storm-software/shell-shock/commit/d60b57e))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.7.0**
+
 ## [0.0.15](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.15) (02/06/2026)
 
 ### Miscellaneous

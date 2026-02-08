@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.4.2](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.4.2) (02/08/2026)
+
+### Miscellaneous
+
+- **core:** Added partial logic to postional parameters parsing ([6dec482](https://github.com/storm-software/shell-shock/commit/6dec482))
+- **preset-script:** Added `isUnicodeSupported` check before displaying icon ([80c870c](https://github.com/storm-software/shell-shock/commit/80c870c))
+
+### Features
+
+- **core:** Added the `icon` field to command metadata ([d60b57e](https://github.com/storm-software/shell-shock/commit/d60b57e))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.16**
+- Updated **core** to **v0.7.0**
+
 ## [0.4.1](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.4.1) (02/06/2026)
 
 ### Miscellaneous

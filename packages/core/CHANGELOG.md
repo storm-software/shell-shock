@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.7.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.7.0) (02/08/2026)
+
+### Miscellaneous
+
+- **core:** Added partial logic to postional parameters parsing ([6dec482](https://github.com/storm-software/shell-shock/commit/6dec482))
+- **core:** Added `reflection` object to command tree ([4e37f1d](https://github.com/storm-software/shell-shock/commit/4e37f1d))
+- **core:** Added comments to the type definitions ([89da76d](https://github.com/storm-software/shell-shock/commit/89da76d))
+
+### Features
+
+- **core:** Added the `icon` field to command metadata ([d60b57e](https://github.com/storm-software/shell-shock/commit/d60b57e))
+
 ## [0.6.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.6.0) (02/06/2026)
 
 ### Miscellaneous

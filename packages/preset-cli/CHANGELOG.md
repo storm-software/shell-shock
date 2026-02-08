@@ -2,6 +2,19 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.4) (02/08/2026)
+
+### Miscellaneous
+
+- **core:** Added partial logic to postional parameters parsing ([6dec482](https://github.com/storm-software/shell-shock/commit/6dec482))
+- **preset-script:** Added `isUnicodeSupported` check before displaying icon ([80c870c](https://github.com/storm-software/shell-shock/commit/80c870c))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.4.2**
+- Updated **plugin-theme** to **v0.0.16**
+- Updated **core** to **v0.7.0**
+
 ## [0.1.3](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.3) (02/06/2026)
 
 ### Miscellaneous
