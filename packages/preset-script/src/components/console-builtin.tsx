@@ -45,7 +45,7 @@ import type {
 import { getIndefiniteArticle } from "@stryke/string-format/vowels";
 import { useColors, useTheme } from "../contexts/theme";
 import type { AnsiWrappers, BaseAnsiStylesKeys } from "../helpers/ansi-utils";
-import { IsNotDebug } from "./helpers";
+import { IsNotDebug, IsNotVerbose } from "./helpers";
 
 /**
  * A component to generate a console message function in a Shell Shock project.
@@ -2462,12 +2462,7 @@ export function ConsoleBuiltin() {
         timestamp
         prefix={
           <IfStatement
-            condition={
-              <>
-                <IsNotDebug />
-                {code`&& !hasFlag(["verbose", "verbose=true", "verbose=always"])`}
-              </>
-            }>{code`return; `}</IfStatement>
+            condition={<IsNotVerbose />}>{code`return; `}</IfStatement>
         }
       />
       <hbr />

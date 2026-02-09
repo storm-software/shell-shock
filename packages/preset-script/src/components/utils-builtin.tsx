@@ -19,6 +19,7 @@
 import { code, Show, splitProps } from "@alloy-js/core";
 import {
   FunctionDeclaration,
+  IfStatement,
   InterfaceDeclaration,
   InterfaceMember,
   VarDeclaration
@@ -35,6 +36,7 @@ import {
 import { getAppTitle } from "@shell-shock/core/plugin-utils/context-helpers";
 import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
+import { IsVerbose } from "./helpers";
 
 export interface UtilsBuiltinProps extends Omit<
   BuiltinFileProps,
@@ -550,7 +552,11 @@ export function ExitFunctionDeclaration() {
               )} support team: \\n\\n\${typeof options.exception === "string" ? options.exception : options.exception.message}\`);
             }
 
-            const terminate = (force = false) => {
+            const terminate = (force = false) => { `}
+        <IfStatement
+          condition={<IsVerbose />}>{code`writeLine("");`}</IfStatement>
+        <hbr />
+        {code`
               verbose(\`The ${getAppTitle(
                 context
               )} application exited \${options.exception ? \`early due to an exception\` : "successfully"}\${options.startDate ? \`. Total processing time is \${Date.now() - options.startDate.getTime() > 100_000 ? (Date.now() - options.startDate.getTime()) / 1000 : Date.now() - options.startDate.getTime()} \${Date.now() - options.startDate.getTime() > 100_000 ? "seconds" : "milliseconds"}\` : ""}...\`);
@@ -594,6 +600,139 @@ export function ExitFunctionDeclaration() {
   );
 }
 
+export function ContextUtilities() {
+  return code`
+  /**
+   * The context object for the current command execution, containing the command path and segments.
+   */
+  interface CommandContext {
+    path: string;
+    segments: string[];
+  }
+
+  interface UseCommandContext {
+    /**
+     * Get the current context. Throws if no context is set.
+     */
+    use: () => CommandContext;
+
+    /**
+     * Call a function with a specific context instance. This is used internally to set the context for command executions, but can also be used by advanced users to manually set the context for specific operations if needed.
+     */
+    call: <R>(instance: CommandContext, callback: () => R | Promise<R>) => Promise<R>;
+  }
+
+  const _globalThis = (
+    typeof globalThis !== "undefined"
+      ? globalThis
+      : typeof self !== "undefined"
+        ? self
+        : typeof global !== "undefined"
+          ? global
+          : typeof window !== "undefined"
+            ? window
+            : {}
+  ) as typeof globalThis;
+
+  const asyncHandlers: Set<() => void | (() => void)> =
+    (_globalThis as any)["__shell-shock_async_handlers__"] ||
+    ((_globalThis as any)["__shell-shock_async_handlers__"] = new Set());
+
+  function createContext(): UseCommandContext {
+    let currentInstance: CommandContext | undefined;
+    let als = new AsyncLocalStorage<CommandContext>();
+    const getCurrentInstance = (): CommandContext | undefined => {
+      if (als) {
+        const instance = als.getStore();
+        if (instance) {
+          return instance;
+        }
+      }
+      return currentInstance;
+    };
+
+    const result = {
+      use() {
+        const instance = getCurrentInstance();
+        if (!instance) {
+          throw new Error(
+            \`The Shell Shock - Command context is not available. Make sure to call useCommand() within a valid context scope.\`
+          );
+        }
+        return instance;
+      },
+      async call(instance: CommandContext, callback: () => Promise<any> | any) {
+        currentInstance = instance;
+        const onRestore = () => {
+          currentInstance = instance;
+        };
+        const onLeave = () =>
+          currentInstance === instance ? onRestore : undefined;
+
+        asyncHandlers.add(onLeave);
+
+        try {
+          return await (als ? als.run(instance, callback) : callback());
+        } finally {
+          asyncHandlers.delete(onLeave);
+        }
+      },
+    };
+
+    ((_globalThis as any)["__shell-shock__"]) ??= {};
+    ((_globalThis as any)["__shell-shock__"]).__command__ = result;
+
+    return result;
+  }
+
+  /**
+   * The global Shell Shock - Command context instance.
+   *
+   * @internal
+   */
+  export let internal_commandContext = createContext();
+
+  /**
+   * Get the Shell Shock - Command context for the current application.
+   *
+   * @param options - The options to use when getting the context.
+   * @returns The Shell Shock - Command context for the current application.
+   * @throws If the Shell Shock - Command context is not available.
+   */
+  function useCommand(): CommandContext {
+    if (!internal_commandContext) {
+      if ((_globalThis as any)["__shell-shock__"]?.__command__) {
+        internal_commandContext = (_globalThis as any)["__shell-shock__"].__command__;
+      } else {
+        internal_commandContext = createContext();
+      }
+    }
+
+    return internal_commandContext.use();
+  }
+
+  /**
+   * A utility hook function to get the individual segments of the current command path.
+   *
+   * @returns An array of command path segments.
+   * @throws If the command context is not available.
+   */
+  export function useSegments(): string[] {
+    return useCommand().segments;
+  }
+
+  /**
+   * A utility hook function to get the full command path as a string.
+   *
+   * @returns The full command path as a string.
+   * @throws If the command context is not available.
+   */
+  export function usePath(): string {
+    return useCommand().path;
+  }
+  `;
+}
+
 /**
  * A built-in utilities module for Shell Shock.
  */
@@ -607,7 +746,8 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
       {...rest}
       imports={defu(rest.imports ?? {}, {
         "node:os": "os",
-        "node:process": "process"
+        "node:process": "process",
+        "node:async_hooks": ["AsyncLocalStorage"]
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
         console: ["error", "verbose"],
@@ -625,6 +765,9 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
       <hbr />
       <hbr />
       <ColorSupportUtilities />
+      <hbr />
+      <hbr />
+      <ContextUtilities />
       <hbr />
       <hbr />
       <ExitFunctionDeclaration />

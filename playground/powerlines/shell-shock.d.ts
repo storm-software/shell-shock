@@ -987,6 +987,46 @@ declare module "shell-shock:utils" {
    */
   export const isUnicodeSupported: boolean;
   /**
+   * The context object for the current command execution, containing the command path and segments.
+   */
+  interface CommandContext {
+    path: string;
+    segments: string[];
+  }
+  interface UseCommandContext {
+    /**
+     * Get the current context. Throws if no context is set.
+     */
+    use: () => CommandContext;
+    /**
+     * Call a function with a specific context instance. This is used internally to set the context for command executions, but can also be used by advanced users to manually set the context for specific operations if needed.
+     */
+    call: <R>(
+      instance: CommandContext,
+      callback: () => R | Promise<R>
+    ) => Promise<R>;
+  }
+  /**
+   * The global Shell Shock - Command context instance.
+   *
+   * @internal
+   */
+  export let internal_commandContext: UseCommandContext;
+  /**
+   * A utility hook function to get the individual segments of the current command path.
+   *
+   * @returns An array of command path segments.
+   * @throws If the command context is not available.
+   */
+  export function useSegments(): string[];
+  /**
+   * A utility hook function to get the full command path as a string.
+   *
+   * @returns The full command path as a string.
+   * @throws If the command context is not available.
+   */
+  export function usePath(): string;
+  /**
    * Options for the exit handler function.
    */
   export interface ExitOptions {
@@ -1012,6 +1052,7 @@ declare module "shell-shock:utils" {
     startDate?: Date;
   }
   export function exit(options?: ExitOptions): Promise<void>;
+  export {};
 }
 
 /**

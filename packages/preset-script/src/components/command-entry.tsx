@@ -21,7 +21,8 @@ import { code, computed, For, Show } from "@alloy-js/core";
 import {
   ElseClause,
   FunctionDeclaration,
-  IfStatement
+  IfStatement,
+  VarDeclaration
 } from "@alloy-js/typescript";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
@@ -47,6 +48,7 @@ import { joinPaths } from "@stryke/path/join";
 import { replaceExtension } from "@stryke/path/replace";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { constantCase } from "@stryke/string-format/constant-case";
+import { kebabCase } from "@stryke/string-format/kebab-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
@@ -60,23 +62,39 @@ export function CommandInvocation(props: { command: CommandTree }) {
 
   return (
     <>
-      {code`return Promise.resolve(Reflect.apply(handle${pascalCase(command.name)}, { path: \`${command.path.segments
-        .map(segment =>
-          isDynamicPathSegment(segment)
-            ? `\${${camelCase(getDynamicPathSegmentName(segment))}}`
-            : segment
-        )
-        .join("/")}\`, segments: [${command.path.segments
-        .map(segment =>
-          isDynamicPathSegment(segment)
-            ? camelCase(getDynamicPathSegmentName(segment))
-            : `"${segment}"`
-        )
-        .join(", ")}] }, [options${
-        command.arguments.length > 0
-          ? `, ${command.arguments.map(argument => camelCase(argument.name)).join(", ")}`
-          : ""
-      }]));`}
+      <VarDeclaration
+        name="__context"
+        initializer={code`{ path: \`${command.path.segments
+          .map(segment =>
+            isDynamicPathSegment(segment)
+              ? `\${${camelCase(getDynamicPathSegmentName(segment))}}`
+              : segment
+          )
+          .join("/")}\`, segments: [${command.path.segments
+          .map(segment =>
+            isDynamicPathSegment(segment)
+              ? camelCase(getDynamicPathSegmentName(segment))
+              : `"${segment}"`
+          )
+          .join(", ")}] }`}
+      />
+      <hbr />
+      <hbr />
+      {code`
+
+      internal_commandContext.call(__context, () => {
+        return Promise.resolve(Reflect.apply(handle${pascalCase(
+          command.name
+        )}, __context, [options${
+          command.arguments.length > 0
+            ? `, ${command.arguments
+                .map(argument => camelCase(argument.name))
+                .join(", ")}`
+            : ""
+        }]));
+      });
+
+      `}
       <hbr />
     </>
   );
@@ -148,7 +166,7 @@ export function CommandHandlerDeclaration(
             .join(" / ")} \\n\\nOptions: \\n${Object.values(command.options)
             .map(
               option =>
-                ` - ${option.name}: \${options.${camelCase(
+                ` - ${kebabCase(option.name)}: \${options.${camelCase(
                   option.name
                 )} === undefined ? "" : JSON.stringify(options.${camelCase(
                   option.name
@@ -240,7 +258,13 @@ export function CommandEntry(props: CommandEntryProps) {
             "writeLine",
             "splitText"
           ],
-          utils: ["getArgs", "hasFlag", "isMinimal", "isUnicodeSupported"]
+          utils: [
+            "getArgs",
+            "hasFlag",
+            "isMinimal",
+            "isUnicodeSupported",
+            "internal_commandContext"
+          ]
         })}>
         <BannerFunctionDeclaration command={command} />
         <hbr />

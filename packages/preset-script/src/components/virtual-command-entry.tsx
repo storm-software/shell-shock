@@ -153,6 +153,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
         )}
         builtinImports={defu(builtinImports ?? {}, {
           console: [
+            "help",
             "warn",
             "error",
             "table",

@@ -42,9 +42,8 @@ export function RunApplication() {
       <hbr />
       {code`// Run the application main logic inside an asynchronous IIFE
       (async () => {
+        const startDate = new Date();
         try {
-          const startDate = new Date();
-
           process.on("exit", () => exit({
             startDate,
             skipExit: true,
