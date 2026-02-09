@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.13](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.13) (02/09/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate README markdown files ([c8a63a7](https://github.com/storm-software/shell-shock/commit/c8a63a7))
+
 ## [0.0.12](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.12) (02/09/2026)
 
 ### Features

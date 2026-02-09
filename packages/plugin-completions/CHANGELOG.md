@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.0.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.14) (02/09/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate README markdown files ([c8a63a7](https://github.com/storm-software/shell-shock/commit/c8a63a7))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.8.1**
+
 ## [0.0.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.13) (02/09/2026)
 
 ### Updated Dependencies

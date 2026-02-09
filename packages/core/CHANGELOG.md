@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.1) (02/09/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate README markdown files ([c8a63a7](https://github.com/storm-software/shell-shock/commit/c8a63a7))
+
 ## [0.8.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.0) (02/09/2026)
 
 ### Miscellaneous

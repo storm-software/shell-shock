@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.18](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.18) (02/09/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate README markdown files ([c8a63a7](https://github.com/storm-software/shell-shock/commit/c8a63a7))
+
 ## [0.0.15](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.15) (02/06/2026)
 
 ### Miscellaneous

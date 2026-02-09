@@ -2,6 +2,21 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.0](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.0) (02/09/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate README markdown files ([c8a63a7](https://github.com/storm-software/shell-shock/commit/c8a63a7))
+
+### Features
+
+- **preset-script:** Added input validation logic to command entry files ([78edfaf](https://github.com/storm-software/shell-shock/commit/78edfaf))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.18**
+- Updated **core** to **v0.8.1**
+
 ## [0.5.0](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.5.0) (02/09/2026)
 
 ### Miscellaneous

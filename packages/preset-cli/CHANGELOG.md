@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.1.6](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.6) (02/09/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate README markdown files ([c8a63a7](https://github.com/storm-software/shell-shock/commit/c8a63a7))
+
+### Features
+
+- **preset-script:** Added input validation logic to command entry files ([78edfaf](https://github.com/storm-software/shell-shock/commit/78edfaf))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.6.0**
+- Updated **plugin-theme** to **v0.0.18**
+- Updated **core** to **v0.8.1**
+
 ## [0.1.5](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.5) (02/09/2026)
 
 ### Features
