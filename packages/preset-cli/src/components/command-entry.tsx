@@ -16,16 +16,27 @@
 
  ------------------------------------------------------------------- */
 
-import { computed, For, Show } from "@alloy-js/core";
+import { code, computed, For, Show } from "@alloy-js/core";
+import {
+  ElseIfClause,
+  IfStatement,
+  VarDeclaration
+} from "@alloy-js/typescript";
+import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { isDynamicPathSegment } from "@shell-shock/core/plugin-utils/context-helpers";
-import type { CommandTree } from "@shell-shock/core/types/command";
+import type {
+  CommandTree,
+  NumberCommandArgument,
+  NumberCommandOption
+} from "@shell-shock/core/types/command";
 import { CommandHandlerDeclaration } from "@shell-shock/preset-script/components/command-entry";
 import { findFilePath, relativePath } from "@stryke/path/find";
 import { joinPaths } from "@stryke/path/join";
 import { replaceExtension } from "@stryke/path/replace";
+import { camelCase } from "@stryke/string-format/camel-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { CLIPresetContext } from "../types/plugin";
@@ -99,7 +110,131 @@ export function CommandEntry(props: CommandEntryProps) {
         <BannerFunctionDeclaration command={command} />
         <hbr />
         <hbr />
-        <CommandHandlerDeclaration command={command} />
+        <CommandHandlerDeclaration command={command}>
+          <VarDeclaration
+            name="failures"
+            type="string[]"
+            initializer={code`[];`}
+          />
+          <hbr />
+          <For each={Object.values(command.options ?? {})} doubleHardline>
+            {option => (
+              <>
+                <Show when={!option.optional}>
+                  <IfStatement
+                    condition={code`!options${
+                      option.name.includes("?")
+                        ? `["${option.name}"]`
+                        : `.${camelCase(option.name)}`
+                    }`}>
+                    {code`failures.push("Missing required \\"${option.name}\\" option");`}
+                  </IfStatement>
+                  <Show
+                    when={
+                      (option.kind === ReflectionKind.string ||
+                        option.kind === ReflectionKind.number) &&
+                      option.variadic
+                    }>
+                    <ElseIfClause
+                      condition={code`options${
+                        option.name.includes("?")
+                          ? `["${option.name}"]`
+                          : `.${camelCase(option.name)}`
+                      }.length === 0`}>
+                      {code`failures.push("No values were provided to the required \\"${
+                        option.name
+                      }\\" array option");`}
+                    </ElseIfClause>
+                  </Show>
+                </Show>
+                <Show when={option.kind === ReflectionKind.number}>
+                  <Show
+                    when={(option as NumberCommandOption).variadic}
+                    fallback={
+                      <IfStatement
+                        condition={code`options${
+                          option.name.includes("?")
+                            ? `["${option.name}"]`
+                            : `.${camelCase(option.name)}`
+                        } && Number.isNaN(options${
+                          option.name.includes("?")
+                            ? `["${option.name}"]`
+                            : `.${camelCase(option.name)}`
+                        })`}>
+                        {code`failures.push("Invalid numeric value provided for the \\"${
+                          option.name
+                        }\\" option");`}
+                      </IfStatement>
+                    }>
+                    <IfStatement
+                      condition={code`options${
+                        option.name.includes("?")
+                          ? `["${option.name}"]`
+                          : `.${camelCase(option.name)}`
+                      }.some(value => Number.isNaN(value))`}>
+                      {code`failures.push("Invalid numeric value provided in the \\"${
+                        option.name
+                      }\\" array option");`}
+                    </IfStatement>
+                  </Show>
+                </Show>
+              </>
+            )}
+          </For>
+          <hbr />
+          <hbr />
+          <For each={command.arguments} doubleHardline>
+            {argument => (
+              <>
+                <Show when={!argument.optional}>
+                  <IfStatement condition={code`!${camelCase(argument.name)}`}>
+                    {code`failures.push("Missing required \\"${
+                      argument.name
+                    }\\" positional argument");`}
+                  </IfStatement>
+                  <Show
+                    when={
+                      (argument.kind === ReflectionKind.string ||
+                        argument.kind === ReflectionKind.number) &&
+                      argument.variadic
+                    }>
+                    <ElseIfClause
+                      condition={code`${camelCase(argument.name)}.length === 0`}>
+                      {code`failures.push("No values were provided to the required \\"${
+                        argument.name
+                      }\\" array positional argument");`}
+                    </ElseIfClause>
+                  </Show>
+                </Show>
+                <Show when={argument.kind === ReflectionKind.number}>
+                  <Show
+                    when={(argument as NumberCommandArgument).variadic}
+                    fallback={
+                      <IfStatement
+                        condition={code`${camelCase(
+                          argument.name
+                        )} && Number.isNaN(${camelCase(argument.name)})`}>
+                        {code`failures.push("Invalid numeric value provided for the \\"${
+                          argument.name
+                        }\\" positional argument");`}
+                      </IfStatement>
+                    }>
+                    <IfStatement
+                      condition={code`${camelCase(argument.name)}.some(value => Number.isNaN(value))`}>
+                      {code`failures.push("Invalid numeric value provided in the \\"${
+                        argument.name
+                      }\\" array positional argument");`}
+                    </IfStatement>
+                  </Show>
+                </Show>
+              </>
+            )}
+          </For>
+          <IfStatement condition={code`failures.length > 0`}>
+            {code`error(colors.text.message.description.error("The following validation failures were found while processing the user provided input, and must be corrected before the command line process can be executed: \\n\\n") + failures.map(failure => colors.text.body.secondary(" - " + failure)).join("\\n"));
+            options.help = true; `}
+          </IfStatement>
+        </CommandHandlerDeclaration>
       </EntryFile>
       <For each={Object.values(command.children)}>
         {child => (
