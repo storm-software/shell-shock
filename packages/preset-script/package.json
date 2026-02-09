@@ -153,6 +153,20 @@
         "default": "./dist/components/help.mjs"
       }
     },
+    "./components/helpers": {
+      "require": {
+        "types": "./dist/components/helpers.d.cts",
+        "default": "./dist/components/helpers.cjs"
+      },
+      "import": {
+        "types": "./dist/components/helpers.d.mts",
+        "default": "./dist/components/helpers.mjs"
+      },
+      "default": {
+        "types": "./dist/components/helpers.d.mts",
+        "default": "./dist/components/helpers.mjs"
+      }
+    },
     "./components/utils-builtin": {
       "require": {
         "types": "./dist/components/utils-builtin.d.cts",

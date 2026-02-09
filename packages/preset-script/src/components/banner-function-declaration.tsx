@@ -217,11 +217,15 @@ export function BannerFunctionBodyDeclaration(
               }
             ${`writeLine(colors.border.banner.outline.${variant}("${
               theme.borderStyles.banner.outline[variant].left
-            }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi("${command.title}").length + ${
+            }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi("${
+              command.title
+            }").length ${command.icon ? " + 3" : ""} + ${
               bannerPadding.value
             })) / 2), 0)) + colors.bold(colors.text.banner.command.${
               variant
-            }("${command.title}")) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi("${command.title}").length + ${
+            }("${command.icon ? `${command.icon}  ` : ""}${command.title}")) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi("${command.title}").length ${
+              command.icon ? " + 3" : ""
+            } + ${
               bannerPadding.value
             })) / 2), 0)) + colors.border.banner.outline.${variant}("${
               theme.borderStyles.banner.outline[variant].right

@@ -42,11 +42,11 @@ export const theme: ThemeUserConfig = {
         description: "#ffffff"
       },
       usage: {
-        bin: "#ffffff",
-        command: "#3be4be",
-        subcommand: "#22c55e",
-        options: "#fca5a5",
-        params: "#3fa6ff",
+        bin: "#9ca3af",
+        command: "#4ee0a1",
+        dynamic: "#8c82e3",
+        options: "#ec5050",
+        arguments: "#3bcde4",
         description: "#9ca3af"
       }
     },
@@ -84,7 +84,7 @@ export const theme: ThemeUserConfig = {
         help: "✱",
         success: "✔",
         info: "🛈",
-        debug: "✱",
+        debug: "🛠",
         warning: "🛆",
         danger: "🛇",
         error: "✘"

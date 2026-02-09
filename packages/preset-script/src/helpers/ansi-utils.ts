@@ -478,16 +478,16 @@ function buildThemeAnsiStyles(
           open: wrapFn()(convertFn(theme.text.usage.command)),
           close: wrapAnsi16()(39)
         },
-        subcommand: {
-          open: wrapFn()(convertFn(theme.text.usage.subcommand)),
+        dynamic: {
+          open: wrapFn()(convertFn(theme.text.usage.dynamic)),
           close: wrapAnsi16()(39)
         },
         options: {
           open: wrapFn()(convertFn(theme.text.usage.options)),
           close: wrapAnsi16()(39)
         },
-        params: {
-          open: wrapFn()(convertFn(theme.text.usage.params)),
+        arguments: {
+          open: wrapFn()(convertFn(theme.text.usage.arguments)),
           close: wrapAnsi16()(39)
         },
         description: {

@@ -183,9 +183,9 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
           usage: {
             bin: colors,
             command: colors,
-            subcommand: colors,
+            dynamic: colors,
             options: colors,
-            params: colors,
+            arguments: colors,
             description: colors
           }
         },
@@ -331,9 +331,9 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
           usage: {
             bin: text,
             command: text,
-            subcommand: text,
+            dynamic: text,
             options: text,
-            params: text,
+            arguments: text,
             description: text
           }
         };
@@ -570,9 +570,9 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
           resolvedConfig.colors.text.usage = {
             bin: text.usage,
             command: text.usage,
-            subcommand: text.usage,
+            dynamic: text.usage,
             options: text.usage,
-            params: text.usage,
+            arguments: text.usage,
             description: text.usage
           };
         } else if (isSetObject(text.usage)) {
@@ -582,14 +582,14 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
           if (isSetString(text.usage.command)) {
             resolvedConfig.colors.text.usage.command = text.usage.command;
           }
-          if (isSetString(text.usage.subcommand)) {
-            resolvedConfig.colors.text.usage.subcommand = text.usage.subcommand;
+          if (isSetString(text.usage.dynamic)) {
+            resolvedConfig.colors.text.usage.dynamic = text.usage.dynamic;
           }
           if (isSetString(text.usage.options)) {
             resolvedConfig.colors.text.usage.options = text.usage.options;
           }
-          if (isSetString(text.usage.params)) {
-            resolvedConfig.colors.text.usage.params = text.usage.params;
+          if (isSetString(text.usage.arguments)) {
+            resolvedConfig.colors.text.usage.arguments = text.usage.arguments;
           }
           if (isSetString(text.usage.description)) {
             resolvedConfig.colors.text.usage.description =
@@ -2191,10 +2191,10 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
         resolvedConfig.colors.text.body.secondary;
     }
     if (
-      !resolvedConfig.colors.text?.usage?.subcommand &&
+      !resolvedConfig.colors.text?.usage?.dynamic &&
       resolvedConfig.colors.text?.body?.tertiary
     ) {
-      resolvedConfig.colors.text.usage.subcommand =
+      resolvedConfig.colors.text.usage.dynamic =
         resolvedConfig.colors.text.body.tertiary;
     }
     if (
@@ -2205,10 +2205,10 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
         resolvedConfig.colors.text.body.tertiary;
     }
     if (
-      !resolvedConfig.colors.text?.usage?.params &&
+      !resolvedConfig.colors.text?.usage?.arguments &&
       resolvedConfig.colors.text?.body?.tertiary
     ) {
-      resolvedConfig.colors.text.usage.params =
+      resolvedConfig.colors.text.usage.arguments =
         resolvedConfig.colors.text.body.tertiary;
     }
     if (

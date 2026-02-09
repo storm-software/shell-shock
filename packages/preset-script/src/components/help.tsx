@@ -19,8 +19,11 @@
 import { code, computed, For, Show } from "@alloy-js/core";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import { Usage } from "@shell-shock/core/components/usage";
-import { getAppBin } from "@shell-shock/core/plugin-utils/context-helpers";
+import {
+  getAppBin,
+  getDynamicPathSegmentName,
+  isDynamicPathSegment
+} from "@shell-shock/core/plugin-utils/context-helpers";
 import { sortOptions } from "@shell-shock/core/plugin-utils/reflect";
 import type {
   CommandOption,
@@ -59,19 +62,95 @@ export function HelpUsage(props: HelpUsageProps) {
   const theme = useTheme();
 
   return (
-    <For each={Object.keys(context.config.bin)} hardline>
-      {bin => (
-        <>
-          {code`
+    <>
+      <For each={Object.keys(context.config.bin)} hardline>
+        {bin => (
+          <>
+            {code`
       writeLine(
-        colors.text.body.primary("`}
-          <Usage bin={bin} command={command} />
-          {code`"), { padding: ${theme.padding.app * indent} }
+        colors.text.body.secondary(\`\$ \${colors.text.usage.bin("${bin}")}${
+          command.path.segments.length > 0
+            ? ` ${command.path.segments
+                .map(
+                  segment =>
+                    `\${colors.text.usage.${isDynamicPathSegment(segment) ? "dynamic" : "command"}("${
+                      isDynamicPathSegment(segment)
+                        ? `[${snakeCase(
+                            command.path.dynamics[segment]?.name ||
+                              getDynamicPathSegmentName(segment)
+                          )}]`
+                        : segment
+                    }")}`
+                )
+                .join(" ")}`
+            : ""
+        }${Object.values(command.children).length > 0 ? ` \${colors.text.usage.dynamic("[command]")}` : ""}${
+          command.arguments.length > 0
+            ? ` ${command.arguments
+                .map(
+                  argument =>
+                    `\${colors.text.usage.arguments("<${snakeCase(argument.name)}${
+                      (argument.kind === ReflectionKind.string ||
+                        argument.kind === ReflectionKind.number) &&
+                      argument.variadic
+                        ? "..."
+                        : ""
+                    }>")}`
+                )
+                .join(" ")}`
+            : ""
+        } \${colors.text.usage.options("[options]")}\`), { padding: ${theme.padding.app * indent} }
       );`}
-          <hbr />
-        </>
-      )}
-    </For>
+            <hbr />
+          </>
+        )}
+      </For>
+      <Show when={command.arguments.length > 0}>
+        <hbr />
+        <For each={Object.keys(context.config.bin)} hardline>
+          {bin => (
+            <>
+              {code`
+      writeLine(
+        colors.text.body.secondary(\`\$ \${colors.text.usage.bin("${bin}")}${
+          command.path.segments.length > 0
+            ? ` ${command.path.segments
+                .map(
+                  segment =>
+                    `\${colors.text.usage.${isDynamicPathSegment(segment) ? "dynamic" : "command"}("${
+                      isDynamicPathSegment(segment)
+                        ? `[${snakeCase(
+                            command.path.dynamics[segment]?.name ||
+                              getDynamicPathSegmentName(segment)
+                          )}]`
+                        : segment
+                    }")}`
+                )
+                .join(" ")}`
+            : ""
+        }${Object.values(command.children).length > 0 ? ` \${colors.text.usage.dynamic("[command]")}` : ""} \${colors.text.usage.options("[options]")}${
+          command.arguments.length > 0
+            ? ` ${command.arguments
+                .map(
+                  argument =>
+                    `\${colors.text.usage.arguments("<${snakeCase(argument.name)}${
+                      (argument.kind === ReflectionKind.string ||
+                        argument.kind === ReflectionKind.number) &&
+                      argument.variadic
+                        ? "..."
+                        : ""
+                    }>")}`
+                )
+                .join(" ")}`
+            : ""
+        }\`), { padding: ${theme.padding.app * indent} }
+      );`}
+              <hbr />
+            </>
+          )}
+        </For>
+      </Show>
+    </>
   );
 }
 

@@ -90,9 +90,9 @@ export interface ThemeColorMessageSubItemResolvedConfig {
 export interface ThemeColorUsageSubItem {
   bin: string;
   command: string;
-  subcommand: string;
+  dynamic: string;
   options: string;
-  params: string;
+  arguments: string;
   description: string;
 }
 

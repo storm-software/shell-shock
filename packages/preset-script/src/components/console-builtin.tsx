@@ -45,6 +45,7 @@ import type {
 import { getIndefiniteArticle } from "@stryke/string-format/vowels";
 import { useColors, useTheme } from "../contexts/theme";
 import type { AnsiWrappers, BaseAnsiStylesKeys } from "../helpers/ansi-utils";
+import { IsNotDebug } from "./helpers";
 
 /**
  * A component to generate a console message function in a Shell Shock project.
@@ -847,11 +848,11 @@ export function ColorsDeclaration() {
                           ansi16m={colors.ansi16m.theme.text.usage.command}
                         />
                       )},
-                      subcommand: ${(
+                      dynamic: ${(
                         <ColorFunction
-                          ansi16={colors.ansi16.theme.text.usage.subcommand}
-                          ansi256={colors.ansi256.theme.text.usage.subcommand}
-                          ansi16m={colors.ansi16m.theme.text.usage.subcommand}
+                          ansi16={colors.ansi16.theme.text.usage.dynamic}
+                          ansi256={colors.ansi256.theme.text.usage.dynamic}
+                          ansi16m={colors.ansi16m.theme.text.usage.dynamic}
                         />
                       )},
                       options: ${(
@@ -861,11 +862,11 @@ export function ColorsDeclaration() {
                           ansi16m={colors.ansi16m.theme.text.usage.options}
                         />
                       )},
-                      params: ${(
+                      arguments: ${(
                         <ColorFunction
-                          ansi16={colors.ansi16.theme.text.usage.params}
-                          ansi256={colors.ansi256.theme.text.usage.params}
-                          ansi16m={colors.ansi16m.theme.text.usage.params}
+                          ansi16={colors.ansi16.theme.text.usage.arguments}
+                          ansi256={colors.ansi256.theme.text.usage.arguments}
+                          ansi16m={colors.ansi16m.theme.text.usage.arguments}
                         />
                       )},
                       description: ${(
@@ -2447,8 +2448,7 @@ export function ConsoleBuiltin() {
         description="debug"
         timestamp
         prefix={
-          <IfStatement
-            condition={code`!isDevelopment && !isDebug && env.LOG_LEVEL !== "debug"`}>{code`return; `}</IfStatement>
+          <IfStatement condition={<IsNotDebug />}>{code`return; `}</IfStatement>
         }
       />
       <hbr />
@@ -2462,7 +2462,12 @@ export function ConsoleBuiltin() {
         timestamp
         prefix={
           <IfStatement
-            condition={code`!(isDevelopment || isDebug || env.LOG_LEVEL === "debug" || hasFlag(["verbose", "verbose=true", "verbose=always"]))`}>{code`return; `}</IfStatement>
+            condition={
+              <>
+                <IsNotDebug />
+                {code`&& !hasFlag(["verbose", "verbose=true", "verbose=always"])`}
+              </>
+            }>{code`return; `}</IfStatement>
         }
       />
       <hbr />

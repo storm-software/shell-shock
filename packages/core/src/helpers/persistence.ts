@@ -27,9 +27,9 @@ import {
 import { omit } from "@stryke/helpers/omit";
 import { joinPaths } from "@stryke/path/join-paths";
 import type {
+  CommandArgument,
   CommandDynamicSegment,
   CommandOption,
-  CommandParameter,
   CommandTree,
   SerializedCommandDynamicSegment,
   SerializedCommandOption,
@@ -71,7 +71,7 @@ export function serializedCommandTree(
           {} as Record<string, SerializedCommandDynamicSegment>
         )
       },
-      params: node.params.map(param => ({
+      arguments: node.arguments.map(param => ({
         ...omit(param, ["reflection"])
       })),
       parent,
@@ -150,10 +150,10 @@ export function deserializeCommandTree(
           {} as Record<string, CommandDynamicSegment>
         )
       },
-      params: node.params.map(param => ({
+      arguments: node.arguments.map(param => ({
         ...param,
         reflection: reflection.getParameter(param.name)
-      })) as CommandParameter[],
+      })) as CommandArgument[],
       parent,
       children: {},
       reflection

@@ -52,6 +52,7 @@ import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
 import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { CommandHelp } from "./help";
+import { IsDebug } from "./helpers";
 import { VirtualCommandEntry } from "./virtual-command-entry";
 
 export function CommandInvocation(props: { command: CommandTree }) {
@@ -76,8 +77,8 @@ export function CommandInvocation(props: { command: CommandTree }) {
               .join(", ")}`
           : ""
       }${
-        command.params.length > 0
-          ? `, ${command.params.map(param => camelCase(param.name)).join(", ")}`
+        command.arguments.length > 0
+          ? `, ${command.arguments.map(argument => camelCase(argument.name)).join(", ")}`
           : ""
       }));`}
       <hbr />
@@ -130,8 +131,46 @@ export function CommandHandlerDeclaration(
           envPrefix={context.config.envPrefix}
           isCaseSensitive={context.config.isCaseSensitive}
         />
+        <hbr />
+        <hbr />
         {code`writeLine("");
-        banner();`}
+        banner(); `}
+        <hbr />
+        <hbr />
+        <IfStatement condition={<IsDebug />}>
+          {code`
+          writeLine("");
+          writeLine(colors.text.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console."));
+
+          writeLine("");
+          debug(\`Command path: ${command.path.segments
+            .map(segment =>
+              isDynamicPathSegment(segment)
+                ? `\${${camelCase(getDynamicPathSegmentName(segment))}}`
+                : segment
+            )
+            .join(" / ")} \\n\\nOptions: \\n${Object.values(command.options)
+            .map(
+              option =>
+                ` - ${option.name}: \${options.${camelCase(
+                  option.name
+                )} === undefined ? "" : JSON.stringify(options.${camelCase(
+                  option.name
+                )})}`
+            )
+            .join("\\n")}${
+            command.arguments.length > 0
+              ? ` \\n\\nArguments: ${command.arguments
+                  .map(
+                    argument =>
+                      ` - ${argument.name}: \${${camelCase(
+                        argument.name
+                      )} ?? ""}`
+                  )
+                  .join("\\n")}`
+              : ""
+          }\`); `}
+        </IfStatement>
         <hbr />
         <hbr />
         {children}
@@ -194,8 +233,9 @@ export function CommandEntry(props: CommandEntryProps) {
           [commandSourcePath.value]: `handle${pascalCase(command.name)}`
         })}
         builtinImports={defu(builtinImports ?? {}, {
-          env: ["env", "isCI"],
+          env: ["env", "isCI", "isDevelopment", "isDebug"],
           console: [
+            "debug",
             "warn",
             "error",
             "table",

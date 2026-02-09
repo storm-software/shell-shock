@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { code, Match, Switch } from "@alloy-js/core";
+import { code, Match, Show, Switch } from "@alloy-js/core";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { snakeCase } from "@stryke/string-format/snake-case";
 import {
@@ -68,14 +68,14 @@ export function Usage(props: UsageProps) {
                   ? `[${snakeCase(
                       command.path.dynamics[segment]?.name ||
                         getDynamicPathSegmentName(segment)
-                    )}${command.path.dynamics[segment]?.variadic ? "..." : ""}]`
+                    )}]`
                   : segment
               )
               .join(" ")}`
           : ""
       }${Object.values(command.children).length > 0 ? " [commands]" : ""}${
-        command.params.length > 0
-          ? ` ${command.params
+        command.arguments.length > 0
+          ? ` ${command.arguments
               .map(
                 param =>
                   `<${snakeCase(param.name)}${
@@ -89,6 +89,45 @@ export function Usage(props: UsageProps) {
               .join(" ")}`
           : ""
       } [options]`}
+      <Show when={command.arguments.length > 0}>
+        <hbr />
+        {code`$ `}
+        <Switch>
+          <Match when={packageManager === "npm"}>{`npx `}</Match>
+          <Match when={packageManager === "yarn"}>{`yarn exec `}</Match>
+          <Match when={packageManager === "pnpm"}>{`pnpm exec `}</Match>
+          <Match when={packageManager === "bun"}>{`bun x `}</Match>
+        </Switch>
+        {code`${bin}${
+          command.path.segments.length > 0
+            ? ` ${command.path.segments
+                .map(segment =>
+                  isDynamicPathSegment(segment)
+                    ? `[${snakeCase(
+                        command.path.dynamics[segment]?.name ||
+                          getDynamicPathSegmentName(segment)
+                      )}]`
+                    : segment
+                )
+                .join(" ")}`
+            : ""
+        }${Object.values(command.children).length > 0 ? " [commands]" : ""} [options] ${
+          command.arguments.length > 0
+            ? ` ${command.arguments
+                .map(
+                  param =>
+                    `<${snakeCase(param.name)}${
+                      (param.kind === ReflectionKind.string ||
+                        param.kind === ReflectionKind.number) &&
+                      param.variadic
+                        ? "..."
+                        : ""
+                    }>`
+                )
+                .join(" ")}`
+            : ""
+        }`}
+      </Show>
     </>
   );
 }

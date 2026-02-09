@@ -26,7 +26,7 @@ import type {
 import type { AnyFunction } from "@stryke/types/base";
 import type { ResolvedEntryTypeDefinition } from "powerlines/types/resolved";
 
-export interface BaseCommandArgument {
+export interface BaseCommandParameter {
   /**
    * The option name.
    */
@@ -57,7 +57,7 @@ export interface BaseCommandArgument {
   optional: boolean;
 }
 
-export interface StringCommandArgument extends BaseCommandArgument {
+export interface StringCommandParameter extends BaseCommandParameter {
   /**
    * The option kind.
    */
@@ -72,7 +72,7 @@ export interface StringCommandArgument extends BaseCommandArgument {
   variadic: boolean;
 }
 
-export interface NumberCommandArgument extends BaseCommandArgument {
+export interface NumberCommandParameter extends BaseCommandParameter {
   /**
    * The option kind.
    */
@@ -87,7 +87,7 @@ export interface NumberCommandArgument extends BaseCommandArgument {
   variadic: boolean;
 }
 
-export interface BooleanCommandArgument extends BaseCommandArgument {
+export interface BooleanCommandParameter extends BaseCommandParameter {
   /**
    * The option kind.
    */
@@ -106,21 +106,21 @@ export interface BooleanCommandArgument extends BaseCommandArgument {
   skipAddingNegative?: boolean;
 }
 
-export interface StringCommandOption extends StringCommandArgument {
+export interface StringCommandOption extends StringCommandParameter {
   /**
    * The property reflection.
    */
   reflection?: ReflectionProperty;
 }
 
-export interface NumberCommandOption extends NumberCommandArgument {
+export interface NumberCommandOption extends NumberCommandParameter {
   /**
    * The property reflection.
    */
   reflection?: ReflectionProperty;
 }
 
-export interface BooleanCommandOption extends BooleanCommandArgument {
+export interface BooleanCommandOption extends BooleanCommandParameter {
   /**
    * The property reflection.
    */
@@ -140,31 +140,31 @@ export type CommandOption =
   | NumberCommandOption
   | BooleanCommandOption;
 
-export interface StringCommandParameter extends StringCommandArgument {
+export interface StringCommandArgument extends StringCommandParameter {
   /**
    * The parameter reflection.
    */
   reflection: ReflectionParameter;
 }
 
-export interface NumberCommandParameter extends NumberCommandArgument {
+export interface NumberCommandArgument extends NumberCommandParameter {
   /**
    * The parameter reflection.
    */
   reflection: ReflectionParameter;
 }
 
-export interface BooleanCommandParameter extends BooleanCommandArgument {
+export interface BooleanCommandArgument extends BooleanCommandParameter {
   /**
    * The parameter reflection.
    */
   reflection: ReflectionParameter;
 }
 
-export type CommandParameter =
-  | StringCommandParameter
-  | NumberCommandParameter
-  | BooleanCommandParameter;
+export type CommandArgument =
+  | StringCommandArgument
+  | NumberCommandArgument
+  | BooleanCommandArgument;
 
 export interface CommandPath {
   /**
@@ -226,7 +226,7 @@ export interface CommandInput extends CommandBase {
 /**
  * Represents a dynamic command segment with metadata and matching behavior.
  */
-export type CommandDynamicSegment = {
+export interface CommandDynamicSegment {
   /**
    * The parameter reflection.
    */
@@ -251,50 +251,11 @@ export type CommandDynamicSegment = {
    * Whether the segment is optional.
    */
   optional: boolean;
-} & (
-  | {
-      /**
-       * The default value.
-       */
-      default?: string;
-      /**
-       * Whether the segment is a catch-all.
-       */
-      catchAll: false;
-      /**
-       * Whether the segment is variadic.
-       */
-      variadic: false;
-    }
-  | {
-      /**
-       * The default value.
-       */
-      default?: string;
-      /**
-       * Whether the segment is a catch-all.
-       */
-      catchAll: true;
-      /**
-       * Whether the segment is variadic.
-       */
-      variadic: false;
-    }
-  | {
-      /**
-       * The default values.
-       */
-      default?: string[];
-      /**
-       * Whether the segment is a catch-all.
-       */
-      catchAll: true;
-      /**
-       * Whether the segment is variadic.
-       */
-      variadic: true;
-    }
-);
+  /**
+   * The default value.
+   */
+  default?: string;
+}
 
 export interface CommandTreePath extends CommandPath {
   /**
@@ -325,9 +286,9 @@ export type CommandTree = CommandInput & {
    */
   options: Record<string, CommandOption>;
   /**
-   * The positional parameter options provided to the command.
+   * The positional arguments provided to the command.
    */
-  params: CommandParameter[];
+  arguments: CommandArgument[];
   /**
    * The parent command.
    */
@@ -353,11 +314,11 @@ export type SerializedCommandTreePath = Omit<CommandTreePath, "dynamics"> & {
   dynamics: Record<string, SerializedCommandDynamicSegment>;
 };
 
-export type SerializedCommandParameter = Omit<CommandParameter, "reflection">;
+export type SerializedCommandArgument = Omit<CommandArgument, "reflection">;
 
 export type SerializedCommandTree = Omit<
   CommandTree,
-  "options" | "path" | "params" | "parent" | "children" | "reflection"
+  "options" | "path" | "arguments" | "parent" | "children" | "reflection"
 > & {
   /**
    * The command options.
@@ -368,9 +329,9 @@ export type SerializedCommandTree = Omit<
    */
   path: SerializedCommandTreePath;
   /**
-   * The positional parameter options provided to the command.
+   * The positional arguments provided to the command.
    */
-  params: SerializedCommandParameter[];
+  arguments: SerializedCommandArgument[];
   /**
    * The parent command id.
    */

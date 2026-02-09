@@ -45,22 +45,20 @@ import { resolveModule } from "powerlines/lib/utilities/resolve";
 import {
   getAppTitle,
   getDynamicPathSegmentName,
-  isCatchAllPathSegment,
   isDynamicPathSegment,
-  isOptionalCatchAllPathSegment,
   isPathSegmentGroup
 } from "../plugin-utils/context-helpers";
 import type {
+  CommandArgument,
   CommandDynamicSegment,
   CommandInput,
   CommandModule,
   CommandOption,
-  CommandParameter,
   CommandTree,
+  NumberCommandArgument,
   NumberCommandOption,
-  NumberCommandParameter,
-  StringCommandOption,
-  StringCommandParameter
+  StringCommandArgument,
+  StringCommandOption
 } from "../types/command";
 import type { Context } from "../types/context";
 import { getDefaultOptions } from "./utilities";
@@ -317,19 +315,11 @@ export function extractCommandDynamicSegment(
 ): CommandDynamicSegment {
   const type = reflection.getType();
 
-  if (
-    type.kind !== ReflectionKind.string &&
-    !(
-      type.kind === ReflectionKind.array &&
-      type.type.kind === ReflectionKind.string
-    )
-  ) {
+  if (type.kind !== ReflectionKind.string) {
     throw new Error(
       `Unsupported type for dynamic path segment "${segment}" in command "${
         command.name
-      }". Only string types (or an array of strings) are supported, received ${stringifyType(
-        type
-      )
+      }". Only a string type is supported, received ${stringifyType(type)
         .trim()
         .replaceAll(" | ", ", or ")}.`
     );
@@ -350,54 +340,8 @@ export function extractCommandDynamicSegment(
       ),
     optional: reflection.isOptional(),
     default: reflection.getDefaultValue(),
-    catchAll: command.path.segments.some(
-      seg =>
-        getDynamicPathSegmentName(segment) === seg && isCatchAllPathSegment(seg)
-    ),
     reflection
   } as CommandDynamicSegment;
-
-  if (type.kind === ReflectionKind.array) {
-    if (!option.catchAll) {
-      throw new Error(
-        `Dynamic path segment "${segment}" in command "${
-          command.name
-        }" is an array type but is not defined as a catch-all segment. To use an array type for a dynamic path segment, it must be defined as a catch-all segment using the "[...segment]" syntax.`
-      );
-    }
-
-    option.variadic = true;
-  }
-
-  if (option.catchAll) {
-    if (
-      !option.optional &&
-      command.path.segments.some(
-        seg =>
-          getDynamicPathSegmentName(segment) === seg &&
-          isOptionalCatchAllPathSegment(seg)
-      )
-    ) {
-      throw new Error(
-        `Dynamic path segment "${segment}" in command "${
-          command.name
-        }" is defined as a catch-all segment but is not optional. To define an optional catch-all segment, use the "[[...segment]]" syntax.`
-      );
-    } else if (
-      option.optional &&
-      !command.path.segments.some(
-        seg =>
-          getDynamicPathSegmentName(segment) === seg &&
-          isOptionalCatchAllPathSegment(seg)
-      )
-    ) {
-      throw new Error(
-        `Dynamic path segment "${segment}" in command "${
-          command.name
-        }" is defined as an optional segment but is not defined as an optional catch-all segment. To define an optional catch-all segment, use the "[[...segment]]" syntax.`
-      );
-    }
-  }
 
   return option;
 }
@@ -412,7 +356,7 @@ export function extractCommandDynamicSegment(
 export function extractCommandParameter(
   command: CommandInput,
   reflection: ReflectionParameter
-): CommandParameter {
+): CommandArgument {
   const type = reflection.getType();
 
   if (
@@ -452,16 +396,15 @@ export function extractCommandParameter(
     optional: reflection.isOptional(),
     default: reflection.getDefaultValue(),
     reflection
-  } as CommandParameter;
+  } as CommandArgument;
 
   if (type.kind === ReflectionKind.array) {
     if (
       type.type.kind === ReflectionKind.string ||
       type.type.kind === ReflectionKind.number
     ) {
-      (option as StringCommandParameter | NumberCommandParameter).variadic =
-        true;
-      (option as StringCommandParameter | NumberCommandParameter).kind =
+      (option as StringCommandArgument | NumberCommandArgument).variadic = true;
+      (option as StringCommandArgument | NumberCommandArgument).kind =
         type.type.kind;
     } else {
       throw new Error(
@@ -520,6 +463,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
 
   const tree = {
     alias: [],
+    icon: parent?.icon,
     ...command,
     title,
     path: {
@@ -527,7 +471,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
       dynamics: {}
     },
     options: getDefaultOptions(context, command),
-    params: [],
+    arguments: [],
     parent: parent ?? null,
     children: {},
     reflection: null
@@ -630,11 +574,9 @@ export async function reflectCommandTree<TContext extends Context = Context>(
 
             obj[paramName].description =
               obj[paramName].description ||
-              `The ${paramName} ${
-                obj[paramName].catchAll
-                  ? `${obj[paramName].optional ? "optional " : ""}catch-all`
-                  : "dynamic "
-              } segment for the ${command.name} command.`;
+              `The ${paramName}${
+                obj[paramName].optional ? " optional" : ""
+              } dynamic segment for the ${command.name} command.`;
 
             return obj;
           },
@@ -642,7 +584,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
         );
 
       if (parameters.length > Object.keys(tree.path.dynamics).length + 1) {
-        tree.params = parameters
+        tree.arguments = parameters
           .slice(Object.keys(tree.path.dynamics).length + 1)
           .map(param => extractCommandParameter(command, param));
       }
@@ -683,7 +625,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
         });
     }
 
-    Object.values(tree.params)
+    Object.values(tree.arguments)
       .filter(param => param.env !== false)
       .forEach(param =>
         context.env.types.env.addProperty({

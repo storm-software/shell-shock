@@ -16,11 +16,12 @@
 
  ------------------------------------------------------------------- */
 
+import { camelCase } from "@stryke/string-format/camel-case";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { titleCase } from "@stryke/string-format/title-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import type { Context, UnresolvedContext } from "../types";
+import type { CommandTree, Context, UnresolvedContext } from "../types";
 
 /**
  * Sorts command argument aliases, placing single-character aliases first, followed by multi-character aliases, and then sorting them alphabetically.
@@ -114,8 +115,6 @@ export function getAppBin(context: Context): string {
  * ```typescript
  * isDynamicPathSegment("[user]"); // true
  * isDynamicPathSegment("user"); // false
- * isDynamicPathSegment("[[...user]]"); // true
- * isDynamicPathSegment("[...user]"); // true
  * ```
  *
  * @param path - The command path segment to check.
@@ -126,57 +125,18 @@ export function isDynamicPathSegment(path: string): boolean {
 }
 
 /**
- * Determines if a given command path segment is an optional catch-all segment (enclosed in square brackets with a leading ellipsis).
- *
- * @example
- * ```typescript
- * isOptionalCatchAllPathSegment("[[...user]]"); // true
- * isOptionalCatchAllPathSegment("[...user]"); // false
- * isOptionalCatchAllPathSegment("[user]"); // false
- * ```
- *
- * @param path - The command path segment to check.
- * @returns True if the path is an optional catch-all segment, false otherwise.
- */
-export function isOptionalCatchAllPathSegment(path: string): boolean {
-  return path.startsWith("[[...") && path.endsWith("]]");
-}
-
-/**
- * Determines if a given command path segment is an optional catch-all segment (enclosed in square brackets with a leading ellipsis).
- *
- * @example
- * ```typescript
- * isCatchAllPathSegment("[[...user]]"); // true
- * isCatchAllPathSegment("[...user]"); // true
- * isCatchAllPathSegment("[user]"); // false
- * ```
- *
- * @param path - The command path segment to check.
- * @returns True if the path is a catch-all segment, false otherwise.
- */
-export function isCatchAllPathSegment(path: string): boolean {
-  return (
-    (path.startsWith("[...") && path.endsWith("]")) ||
-    isOptionalCatchAllPathSegment(path)
-  );
-}
-
-/**
  * Extracts the variable name from a command path segment by removing enclosing square brackets.
  *
  * @example
  * ```typescript
  * getDynamicPathSegmentName("[user]"); // "user"
- * getDynamicPathSegmentName("[[...user]]"); // "user"
- * getDynamicPathSegmentName("[...user]"); // "user"
  * ```
  *
  * @param path - The command path segment.
  * @returns The variable name without square brackets.
  */
 export function getDynamicPathSegmentName(path: string): string {
-  return path.replaceAll(/^\[+(?:\.\.\.)*/g, "").replaceAll(/\]+$/g, "");
+  return path.replaceAll(/^\[+/g, "").replaceAll(/\]+$/g, "");
 }
 
 /**
@@ -185,8 +145,6 @@ export function getDynamicPathSegmentName(path: string): string {
  * @example
  * ```typescript
  * isPathSegmentGroup("(user)"); // true
- * isPathSegmentGroup("[[...user]]"); // false
- * isPathSegmentGroup("[...user]"); // false
  * isPathSegmentGroup("[user]"); // false
  * isPathSegmentGroup("user"); // false
  * ```
@@ -195,7 +153,7 @@ export function getDynamicPathSegmentName(path: string): string {
  * @returns True if the path is a path segment group, false otherwise.
  */
 export function isPathSegmentGroup(path: string): boolean {
-  return path.startsWith("(") && path.endsWith(")");
+  return (path.startsWith("(") && path.endsWith(")")) || path.startsWith("_");
 }
 
 /**
@@ -211,7 +169,10 @@ export function isPathSegmentGroup(path: string): boolean {
  * @returns The group name without parentheses.
  */
 export function getPathSegmentGroupName(path: string): string {
-  return path.replaceAll(/^\(+/g, "").replaceAll(/\)+$/g, "");
+  return path
+    .replaceAll(/^\(+/g, "")
+    .replaceAll(/\)+$/g, "")
+    .replaceAll(/^_+/g, "");
 }
 
 /**
@@ -220,8 +181,6 @@ export function getPathSegmentGroupName(path: string): string {
  * @example
  * ```typescript
  * getDynamicPathSegmentName("[user]"); // "user"
- * getDynamicPathSegmentName("[[...user]]"); // "user"
- * getDynamicPathSegmentName("[...user]"); // "user"
  * ```
  *
  * @param path - The command path segment.
@@ -229,4 +188,15 @@ export function getPathSegmentGroupName(path: string): string {
  */
 export function getPathSegmentName(path: string): string {
   return getPathSegmentGroupName(getDynamicPathSegmentName(path));
+}
+
+/**
+ * Retrieves the dynamic segment definition from a command tree based on a given path segment.
+ *
+ * @param command - The command tree containing the path and dynamic segment definitions.
+ * @param segment - The command path segment to retrieve the dynamic segment definition for.
+ * @returns The dynamic segment definition associated with the given path segment, or undefined if not found.
+ */
+export function getDynamicPathSegment(command: CommandTree, segment: string) {
+  return command.path.dynamics[camelCase(getDynamicPathSegmentName(segment))];
 }

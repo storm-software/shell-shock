@@ -78,8 +78,9 @@ export function CommandEntry(props: CommandEntryProps) {
           [commandSourcePath.value]: `handle${pascalCase(command.name)}`
         })}
         builtinImports={defu(builtinImports ?? {}, {
-          env: ["env", "isCI"],
+          env: ["env", "isCI", "isDevelopment", "isDebug"],
           console: [
+            "debug",
             "warn",
             "error",
             "table",

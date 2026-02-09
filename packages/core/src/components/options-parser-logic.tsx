@@ -27,10 +27,12 @@ import {
 } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { camelCase } from "@stryke/string-format/camel-case";
+import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { computedOptions } from "../contexts/options";
 import {
+  getDynamicPathSegment,
   getDynamicPathSegmentName,
   isDynamicPathSegment
 } from "../plugin-utils/context-helpers";
@@ -38,61 +40,63 @@ import type {
   BooleanCommandOption,
   CommandOption,
   CommandTree,
-  CommandTreePath,
   NumberCommandOption,
   StringCommandOption
 } from "../types/command";
 
 export interface DynamicPathSegmentsParserLogicProps {
   /**
-   * The command path to generate the dynamic path segments parser logic for.
+   * The command to generate the dynamic path segments parser logic for. This is used to access the command options and parameters when generating the parser logic for dynamic path segments.
    */
-  path: CommandTreePath;
+  command: CommandTree;
+
+  /**
+   * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command-line arguments to option names and aliases.
+   */
+  isCaseSensitive: boolean;
 }
 
 export function DynamicPathSegmentsParserLogic(
   props: DynamicPathSegmentsParserLogicProps
 ) {
-  const { path } = props;
+  const { command } = props;
 
   return (
-    <For each={path.segments ?? []}>
+    <For each={command.path.segments ?? []}>
       {(segment, index) => (
-        <Show when={isDynamicPathSegment(segment)}>
+        <Show
+          when={
+            !!(
+              isDynamicPathSegment(segment) &&
+              getDynamicPathSegment(command, segment)
+            )
+          }>
           <VarDeclaration
             let
             name={camelCase(getDynamicPathSegmentName(segment))}
-            type={`${
-              path.dynamics[getDynamicPathSegmentName(segment)]?.variadic
-                ? "string[]"
-                : "string"
-            }${
-              path.dynamics[getDynamicPathSegmentName(segment)]?.optional
+            type={`string${
+              getDynamicPathSegment(command, segment)?.optional
                 ? " | undefined"
                 : ""
             }`}
             initializer={
-              path.dynamics[getDynamicPathSegmentName(segment)]?.variadic ? (
-                code`[]`
-              ) : (
-                <>
-                  <Show
-                    when={isSetString(
-                      path.dynamics[getDynamicPathSegmentName(segment)]?.default
-                    )}>
-                    {code`"${
-                      path.dynamics[getDynamicPathSegmentName(segment)]?.default
-                    }"`}
-                  </Show>
-                  {code`undefined;`}
-                </>
-              )
+              <>
+                <Show
+                  when={isSetString(
+                    getDynamicPathSegment(command, segment)?.default
+                  )}>
+                  {code`"${getDynamicPathSegment(command, segment)?.default}"`}
+                </Show>
+                {code`undefined;`}
+              </>
             }
           />
           <hbr />
           <IfStatement
             condition={code`args.length > ${2 + index} && args[${2 + index}]`}>
-            {code`${camelCase(getDynamicPathSegmentName(segment))} = args[${2 + index}];`}
+            {code`${camelCase(
+              getDynamicPathSegmentName(segment)
+            )} = args[${2 + index}];`}
           </IfStatement>
           <hbr />
           <hbr />
@@ -102,7 +106,7 @@ export function DynamicPathSegmentsParserLogic(
   );
 }
 
-export interface PositionalParametersParserLogicProps {
+export interface PositionalArgumentsParserLogicProps {
   /**
    * The command to generate the positional parameters parser logic for.
    */
@@ -114,47 +118,49 @@ export interface PositionalParametersParserLogicProps {
   envPrefix: string;
 }
 
-export function PositionalParametersParserLogic(
-  props: PositionalParametersParserLogicProps
+export function PositionalArgumentsParserLogic(
+  props: PositionalArgumentsParserLogicProps
 ) {
   const { command, envPrefix } = props;
 
   return (
     <>
-      <For each={command.params ?? []} hardline>
-        {param => (
+      <For each={command.arguments ?? []} hardline>
+        {arg => (
           <>
             <VarDeclaration
               let
-              name={param.name}
+              name={camelCase(arg.name)}
               type={`${
-                param.kind === ReflectionKind.boolean
+                arg.kind === ReflectionKind.boolean
                   ? "boolean"
-                  : param.kind === ReflectionKind.number
+                  : arg.kind === ReflectionKind.number
                     ? "number"
                     : "string"
               }${
-                (param.kind === ReflectionKind.string ||
-                  param.kind === ReflectionKind.number) &&
-                param.variadic
+                (arg.kind === ReflectionKind.string ||
+                  arg.kind === ReflectionKind.number) &&
+                arg.variadic
                   ? "[]"
                   : ""
-              }${param.optional ? " | undefined" : ""}`}
+              }${arg.optional ? " | undefined" : ""}`}
               initializer={
                 <>
-                  {code`env.${envPrefix}_${param.env} ?? `}
+                  <Show when={isSetString(arg.env)}>
+                    {code`env.${envPrefix}_${constantCase(String(arg.env))} ?? `}
+                  </Show>
                   <Show
-                    when={param.default !== undefined}
+                    when={arg.default !== undefined}
                     fallback={
-                      (param.kind === ReflectionKind.string ||
-                        param.kind === ReflectionKind.number) &&
-                      param.variadic
+                      (arg.kind === ReflectionKind.string ||
+                        arg.kind === ReflectionKind.number) &&
+                      arg.variadic
                         ? code`[]`
                         : code`undefined;`
                     }>
-                    {param.kind === ReflectionKind.string
-                      ? code`"${param.default}"`
-                      : code`${param.default}`}
+                    {arg.kind === ReflectionKind.string
+                      ? code`"${arg.default}"`
+                      : code`${arg.default}`}
                   </Show>
                 </>
               }
@@ -173,18 +179,18 @@ export function PositionalParametersParserLogic(
               }]`}>
               <Show
                 when={
-                  param.kind === ReflectionKind.string ||
-                  param.kind === ReflectionKind.number
+                  arg.kind === ReflectionKind.string ||
+                  arg.kind === ReflectionKind.number
                 }
-                fallback={code`${param.name} = args[${
+                fallback={code`${camelCase(arg.name)} = args[${
                   command.path.segments.filter(segment =>
                     isDynamicPathSegment(segment)
                   ).length + 1
                 }];`}>
-                {code`${param.name} = ${
-                  (param.kind === ReflectionKind.string ||
-                    param.kind === ReflectionKind.number) &&
-                  param.variadic
+                {code`${camelCase(arg.name)} = ${
+                  (arg.kind === ReflectionKind.string ||
+                    arg.kind === ReflectionKind.number) &&
+                  arg.variadic
                     ? `args.slice(${
                         command.path.segments.filter(segment =>
                           isDynamicPathSegment(segment)
@@ -196,7 +202,7 @@ export function PositionalParametersParserLogic(
                         ).length + 1
                       }]`
                 }${
-                  param.kind === ReflectionKind.number
+                  arg.kind === ReflectionKind.number
                     ? ".map(Number).filter(value => !Number.isNaN(value))"
                     : ""
                 };`}
@@ -717,63 +723,13 @@ export function CommandParserLogic(props: CommandParserLogicProps) {
 
   return (
     <>
-      <DynamicPathSegmentsParserLogic path={command.path} />
-      <hbr />
-      <hbr />
-      <VarDeclaration
-        const
-        name="lastSegmentIndex"
-        type="number"
-        initializer={
-          isDynamicPathSegment(
-            command.path.segments[command.path.segments.length - 1]!
-          )
-            ? `args.some(arg => /^--?(${Object.keys(command.options)
-                .map(key =>
-                  key.toLowerCase().replaceAll("-", "").replaceAll("_", "")
-                )
-                .join("|")})(=.*)?$/.test(arg${
-                isCaseSensitive
-                  ? ""
-                  : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
-              })) ? args.findIndex(arg => /^--?(${Object.keys(command.options)
-                .map(key =>
-                  key.toLowerCase().replaceAll("-", "").replaceAll("_", "")
-                )
-                .join("|")})(=.*)?$/.test(arg${
-                isCaseSensitive
-                  ? ""
-                  : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
-              })) : args.length - ${command.params.length + 1}`
-            : `args.reduce((ret, arg, index) => {
-        if (ret === -1 && (index < args.findIndex(a => /^--?(${Object.keys(
-          command.options
-        )
-          .map(key => key.toLowerCase().replaceAll("-", "").replaceAll("_", ""))
-          .join("|")})(=.*)?$/.test(a${
-          isCaseSensitive
-            ? ""
-            : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
-        })) || !args.some(a => /^--?(${Object.keys(command.options)
-          .map(key => key.toLowerCase().replaceAll("-", "").replaceAll("_", ""))
-          .join("|")})(=.*)?$/.test(a${
-          isCaseSensitive
-            ? ""
-            : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
-        }))) && arg${
-          isCaseSensitive
-            ? ""
-            : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
-        } === "${command.path.segments[
-          command.path.segments.length - 1
-        ]?.toLowerCase()}") {
-            return index;
-        }
-
-        return ret;
-      }, -1); `
-        }
+      <DynamicPathSegmentsParserLogic
+        command={command}
+        isCaseSensitive={isCaseSensitive}
       />
+      <hbr />
+      <hbr />
+
       {code`
       `}
       <hbr />
@@ -785,10 +741,7 @@ export function CommandParserLogic(props: CommandParserLogicProps) {
       />
       <hbr />
       <hbr />
-      <PositionalParametersParserLogic
-        command={command}
-        envPrefix={envPrefix}
-      />
+      <PositionalArgumentsParserLogic command={command} envPrefix={envPrefix} />
       <hbr />
       <hbr />
     </>
