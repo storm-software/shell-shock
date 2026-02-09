@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.0) (02/09/2026)
+
+### Miscellaneous
+
+- **monorepo:** Added the `CommandContext` to pass to command handler functions ([dbf242c](https://github.com/storm-software/shell-shock/commit/dbf242c))
+
+### Features
+
+- **core:** Significant changes to handle arguments and dynamic paths ([19b8c56](https://github.com/storm-software/shell-shock/commit/19b8c56))
+- **core:** Rename the positional parameters to arguments ([d6a969c](https://github.com/storm-software/shell-shock/commit/d6a969c))
+
 ## [0.7.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.7.0) (02/08/2026)
 
 ### Miscellaneous

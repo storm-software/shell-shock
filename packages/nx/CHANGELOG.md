@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.17](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.17) (02/09/2026)
+
+### Features
+
+- **core:** Rename the positional parameters to arguments ([d6a969c](https://github.com/storm-software/shell-shock/commit/d6a969c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.8.0**
+
 ## [0.0.16](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.16) (02/08/2026)
 
 ### Features

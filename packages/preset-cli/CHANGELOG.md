@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.1.5](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.5) (02/09/2026)
+
+### Features
+
+- **core:** Significant changes to handle arguments and dynamic paths ([19b8c56](https://github.com/storm-software/shell-shock/commit/19b8c56))
+- **preset-script:** Added the `useSegments` and `usePath` hooks ([26a2c81](https://github.com/storm-software/shell-shock/commit/26a2c81))
+- **core:** Rename the positional parameters to arguments ([d6a969c](https://github.com/storm-software/shell-shock/commit/d6a969c))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.5.0**
+- Updated **plugin-theme** to **v0.0.17**
+- Updated **core** to **v0.8.0**
+
 ## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.4) (02/08/2026)
 
 ### Miscellaneous

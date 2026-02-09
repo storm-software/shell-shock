@@ -2,6 +2,23 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.5.0](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.5.0) (02/09/2026)
+
+### Miscellaneous
+
+- **monorepo:** Added the `CommandContext` to pass to command handler functions ([dbf242c](https://github.com/storm-software/shell-shock/commit/dbf242c))
+
+### Features
+
+- **core:** Significant changes to handle arguments and dynamic paths ([19b8c56](https://github.com/storm-software/shell-shock/commit/19b8c56))
+- **preset-script:** Added the `useSegments` and `usePath` hooks ([26a2c81](https://github.com/storm-software/shell-shock/commit/26a2c81))
+- **core:** Rename the positional parameters to arguments ([d6a969c](https://github.com/storm-software/shell-shock/commit/d6a969c))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.17**
+- Updated **core** to **v0.8.0**
+
 ## [0.4.2](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.4.2) (02/08/2026)
 
 ### Miscellaneous

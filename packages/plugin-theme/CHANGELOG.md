@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.0.17](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.17) (02/09/2026)
+
+### Features
+
+- **core:** Rename the positional parameters to arguments ([d6a969c](https://github.com/storm-software/shell-shock/commit/d6a969c))
+
 ## [0.0.15](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.15) (02/06/2026)
 
 ### Miscellaneous

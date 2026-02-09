@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.12](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.12) (02/09/2026)
+
+### Features
+
+- **core:** Rename the positional parameters to arguments ([d6a969c](https://github.com/storm-software/shell-shock/commit/d6a969c))
+
 ## [0.0.11](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.11) (02/08/2026)
 
 ### Features
