@@ -61,14 +61,11 @@ export function Usage(props: UsageProps) {
         <Match when={packageManager === "bun"}>{`bun x `}</Match>
       </Switch>
       {code`${bin}${
-        command.path.segments.length > 0
-          ? ` ${command.path.segments
+        command.segments.length > 0
+          ? ` ${command.segments
               .map(segment =>
                 isDynamicPathSegment(segment)
-                  ? `[${snakeCase(
-                      command.path.dynamics[segment]?.name ||
-                        getDynamicPathSegmentName(segment)
-                    )}]`
+                  ? `[${snakeCase(getDynamicPathSegmentName(segment))}]`
                   : segment
               )
               .join(" ")}`
@@ -99,14 +96,11 @@ export function Usage(props: UsageProps) {
           <Match when={packageManager === "bun"}>{`bun x `}</Match>
         </Switch>
         {code`${bin}${
-          command.path.segments.length > 0
-            ? ` ${command.path.segments
+          command.segments.length > 0
+            ? ` ${command.segments
                 .map(segment =>
                   isDynamicPathSegment(segment)
-                    ? `[${snakeCase(
-                        command.path.dynamics[segment]?.name ||
-                          getDynamicPathSegmentName(segment)
-                      )}]`
+                    ? `[${snakeCase(getDynamicPathSegmentName(segment))}]`
                     : segment
                 )
                 .join(" ")}`

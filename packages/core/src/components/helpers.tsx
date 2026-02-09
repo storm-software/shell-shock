@@ -16,7 +16,27 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./docs";
-export * from "./helpers";
-export * from "./options-parser-logic";
-export * from "./usage";
+import { code } from "@alloy-js/core";
+
+export interface BooleanInputParserLogicProps {
+  name: string;
+}
+
+/**
+ * Parses a string input into a boolean value, interpreting common truthy and falsy string representations.
+ */
+export function BooleanInputParserLogic(props: BooleanInputParserLogicProps) {
+  const { name } = props;
+
+  return (
+    <>{code` !!${name} && ${name}.toLowerCase() !== "false" && ${
+      name
+    }.toLowerCase() !== "f" && ${name}.toLowerCase() !== "no" && ${
+      name
+    } !== "n" && ${name}.toLowerCase() !== "0" && ${
+      name
+    }.toLowerCase() !== "off" && ${
+      name
+    } !== "disable" && ${name}.toLowerCase() !== "disabled"`}</>
+  );
+}

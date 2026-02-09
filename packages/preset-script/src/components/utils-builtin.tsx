@@ -750,8 +750,8 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
         "node:async_hooks": ["AsyncLocalStorage"]
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
-        console: ["error", "verbose"],
-        env: ["env", "isCI", "isTest", "isWindows"]
+        console: ["error", "verbose", "writeLine"],
+        env: ["env", "isCI", "isTest", "isWindows", "isDevelopment", "isDebug"]
       })}>
       <hbr />
       <hbr />

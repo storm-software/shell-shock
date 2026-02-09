@@ -64,13 +64,13 @@ export function CommandInvocation(props: { command: CommandTree }) {
     <>
       <VarDeclaration
         name="__context"
-        initializer={code`{ path: \`${command.path.segments
+        initializer={code`{ path: \`${command.segments
           .map(segment =>
             isDynamicPathSegment(segment)
               ? `\${${camelCase(getDynamicPathSegmentName(segment))}}`
               : segment
           )
-          .join("/")}\`, segments: [${command.path.segments
+          .join("/")}\`, segments: [${command.segments
           .map(segment =>
             isDynamicPathSegment(segment)
               ? camelCase(getDynamicPathSegmentName(segment))
@@ -121,9 +121,7 @@ export function CommandHandlerDeclaration(
       <hbr />
       <hbr />
       <TSDoc
-        heading={`The ${command.title} (${getAppBin(
-          context
-        )} ${command.path.segments
+        heading={`The ${command.title} (${getAppBin(context)} ${command.segments
           .map(segment =>
             isDynamicPathSegment(segment)
               ? `[${constantCase(getDynamicPathSegmentName(segment))}]`
@@ -157,7 +155,7 @@ export function CommandHandlerDeclaration(
           writeLine(colors.text.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console."));
 
           writeLine("");
-          debug(\`Command path: ${command.path.segments
+          debug(\`Command path: ${command.segments
             .map(segment =>
               isDynamicPathSegment(segment)
                 ? `\${${camelCase(getDynamicPathSegmentName(segment))}}`
@@ -174,12 +172,14 @@ export function CommandHandlerDeclaration(
             )
             .join("\\n")}${
             command.arguments.length > 0
-              ? ` \\n\\nArguments: ${command.arguments
+              ? ` \\n\\nArguments: \\n${command.arguments
                   .map(
                     argument =>
-                      ` - ${argument.name}: \${${camelCase(
+                      ` - ${kebabCase(argument.name)}: \${${camelCase(
                         argument.name
-                      )} ?? ""}`
+                      )} === undefined ? "" : JSON.stringify(${camelCase(
+                        argument.name
+                      )})}`
                   )
                   .join("\\n")}`
               : ""
@@ -218,7 +218,7 @@ export function CommandEntry(props: CommandEntryProps) {
   const context = usePowerlines<ScriptPresetContext>();
   const filePath = computed(() =>
     joinPaths(
-      command.path.segments
+      command.segments
         .filter(segment => !isDynamicPathSegment(segment))
         .join("/"),
       "index.ts"

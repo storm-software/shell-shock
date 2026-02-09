@@ -213,7 +213,7 @@ export function CommandDocsFile(props: CommandDocsFileProps) {
   return (
     <CommandContext.Provider value={command}>
       <MarkdownFile
-        path={joinPaths(getDocsOutputPath(context), `${command.path.value}.md`)}
+        path={joinPaths(getDocsOutputPath(context), `${command.path}.md`)}
         {...rest}>
         <CommandDocs
           levelOffset={levelOffset}

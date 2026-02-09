@@ -50,7 +50,6 @@ import {
 } from "../plugin-utils/context-helpers";
 import type {
   CommandArgument,
-  CommandDynamicSegment,
   CommandInput,
   CommandModule,
   CommandOption,
@@ -301,59 +300,13 @@ export function extractCommandOption(
 }
 
 /**
- * Extracts command dynamic path segment information from a type parameter reflection.
- *
- * @param command - The command tree to which the parameter belongs.
- * @param segment - The command path segment corresponding to the parameter.
- * @param reflection - The type parameter reflection to extract information from.
- * @returns The extracted command dynamic segment information.
- */
-export function extractCommandDynamicSegment(
-  command: CommandInput,
-  segment: string,
-  reflection: ReflectionParameter
-): CommandDynamicSegment {
-  const type = reflection.getType();
-
-  if (type.kind !== ReflectionKind.string) {
-    throw new Error(
-      `Unsupported type for dynamic path segment "${segment}" in command "${
-        command.name
-      }". Only a string type is supported, received ${stringifyType(type)
-        .trim()
-        .replaceAll(" | ", ", or ")}.`
-    );
-  }
-
-  const option = {
-    name: reflection.getName(),
-    segment,
-    title: reflection.getTags().title || titleCase(segment),
-    description:
-      reflection.parameter.description ||
-      resolveCommandOptionDescription(
-        type.kind,
-        !!reflection.isOptional(),
-        segment,
-        titleCase(segment),
-        reflection.getDefaultValue()
-      ),
-    optional: reflection.isOptional(),
-    default: reflection.getDefaultValue(),
-    reflection
-  } as CommandDynamicSegment;
-
-  return option;
-}
-
-/**
- * Extracts command positional parameter information from a type parameter reflection.
+ * Extracts command positional argument information from a type parameter reflection.
  *
  * @param command - The command tree to which the parameter belongs.
  * @param reflection - The type parameter reflection to extract information from.
- * @returns The extracted command positional parameter information.
+ * @returns The extracted command positional argument information.
  */
-export function extractCommandParameter(
+export function extractCommandArgument(
   command: CommandInput,
   reflection: ReflectionParameter
 ): CommandArgument {
@@ -382,6 +335,7 @@ export function extractCommandParameter(
 
   const option = {
     name: reflection.getName(),
+    kind: type.kind,
     title: titleCase(reflection.getName()),
     description:
       reflection.parameter.description ||
@@ -466,10 +420,6 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     icon: parent?.icon,
     ...command,
     title,
-    path: {
-      ...command.path,
-      dynamics: {}
-    },
     options: getDefaultOptions(context, command),
     arguments: [],
     parent: parent ?? null,
@@ -557,37 +507,9 @@ export async function reflectCommandTree<TContext extends Context = Context>(
         );
       }
 
-      tree.path.dynamics = tree.path.segments
-        .filter(segment => isDynamicPathSegment(segment))
-        .reduce(
-          (obj, segment, index) => {
-            if (parameters.length < index + 2 || !parameters[index + 1]) {
-              return obj;
-            }
-
-            const paramName = getDynamicPathSegmentName(segment);
-            obj[paramName] = extractCommandDynamicSegment(
-              command,
-              paramName,
-              parameters[index + 1]!
-            );
-
-            obj[paramName].description =
-              obj[paramName].description ||
-              `The ${paramName}${
-                obj[paramName].optional ? " optional" : ""
-              } dynamic segment for the ${command.name} command.`;
-
-            return obj;
-          },
-          {} as Record<string, CommandDynamicSegment>
-        );
-
-      if (parameters.length > Object.keys(tree.path.dynamics).length + 1) {
-        tree.arguments = parameters
-          .slice(Object.keys(tree.path.dynamics).length + 1)
-          .map(param => extractCommandParameter(command, param));
-      }
+      tree.arguments = parameters
+        .slice(1)
+        .map(arg => extractCommandArgument(command, arg));
     }
   } else {
     tree.description ??= `A collection of available ${
@@ -626,17 +548,17 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     }
 
     Object.values(tree.arguments)
-      .filter(param => param.env !== false)
-      .forEach(param =>
+      .filter(arg => arg.env !== false)
+      .forEach(arg =>
         context.env.types.env.addProperty({
-          name: constantCase(param.name),
-          optional: param.optional ? true : undefined,
-          description: param.description,
+          name: constantCase(arg.name),
+          optional: arg.optional ? true : undefined,
+          description: arg.description,
           visibility: ReflectionVisibility.public,
-          type: param.reflection.getType(),
-          default: param.default,
+          type: arg.reflection.getType(),
+          default: arg.default,
           tags: {
-            ...param.reflection.getTags(),
+            ...arg.reflection.getTags(),
             domain: "cli"
           }
         })
@@ -645,14 +567,14 @@ export async function reflectCommandTree<TContext extends Context = Context>(
 
   for (const input of context.inputs.filter(
     input =>
-      input.path.segments.filter(segment => !isDynamicPathSegment(segment))
+      input.segments.filter(segment => !isDynamicPathSegment(segment))
         .length ===
-        command.path.segments.filter(segment => !isDynamicPathSegment(segment))
+        command.segments.filter(segment => !isDynamicPathSegment(segment))
           .length +
           1 &&
-      input.path.segments
-        .slice(0, command.path.segments.length)
-        .every((value, index) => value === command.path.segments[index])
+      input.segments
+        .slice(0, command.segments.length)
+        .every((value, index) => value === command.segments[index])
   )) {
     tree.children[input.name] = await reflectCommandTree(context, input, tree);
   }

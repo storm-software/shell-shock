@@ -155,13 +155,11 @@ export const plugin = <TContext extends Context = Context>(
             getDefaultOptions(this, {
               id: null,
               name: this.config.name,
+              path: null,
+              segments: [],
               title: this.config.title,
               description: this.config.description,
               alias: [],
-              path: {
-                value: null,
-                segments: []
-              },
               isVirtual: false
             })
           );
@@ -204,10 +202,8 @@ export const plugin = <TContext extends Context = Context>(
 
             ret.push({
               id,
-              path: {
-                value: path,
-                segments: path.split("/").filter(Boolean)
-              },
+              path,
+              segments: path.split("/").filter(Boolean),
               name,
               alias: [],
               isVirtual: false,
@@ -298,10 +294,8 @@ export const plugin = <TContext extends Context = Context>(
 
                       ret.push({
                         id,
-                        path: {
-                          value: path,
-                          segments: path.split("/").filter(Boolean)
-                        },
+                        path,
+                        segments: path.split("/").filter(Boolean),
                         name,
                         alias: [],
                         isVirtual: true,
@@ -317,7 +311,7 @@ export const plugin = <TContext extends Context = Context>(
 
                 return ret;
               }, this.inputs)
-              .sort((a, b) => a.path.segments.length - b.path.segments.length);
+              .sort((a, b) => a.segments.length - b.segments.length);
 
             this.debug(
               `Final command input list: \n${this.inputs
@@ -356,7 +350,7 @@ export const plugin = <TContext extends Context = Context>(
           } else {
             for (const input of this.inputs.filter(
               input =>
-                input.path.segments.filter(
+                input.segments.filter(
                   segment =>
                     !isDynamicPathSegment(segment) &&
                     !isPathSegmentGroup(segment)
@@ -497,7 +491,7 @@ export const plugin = <TContext extends Context = Context>(
         );
 
         const commands = this.inputs
-          .map(input => getCommandTree(this, input.path.segments))
+          .map(input => getCommandTree(this, input.segments))
           .filter(Boolean) as CommandTree[];
 
         return render(

@@ -48,7 +48,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
   const filePath = computed(() =>
     joinPaths(
       context.entryPath,
-      command.path.segments
+      command.segments
         .filter(segment => !isDynamicPathSegment(segment))
         .join("/"),
       "index.ts"

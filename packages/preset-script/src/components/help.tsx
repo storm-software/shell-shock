@@ -27,8 +27,7 @@ import {
 import { sortOptions } from "@shell-shock/core/plugin-utils/reflect";
 import type {
   CommandOption,
-  CommandTree,
-  CommandTreePath
+  CommandTree
 } from "@shell-shock/core/types/command";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { snakeCase } from "@stryke/string-format/snake-case";
@@ -69,16 +68,13 @@ export function HelpUsage(props: HelpUsageProps) {
             {code`
       writeLine(
         colors.text.body.secondary(\`\$ \${colors.text.usage.bin("${bin}")}${
-          command.path.segments.length > 0
-            ? ` ${command.path.segments
+          command.segments.length > 0
+            ? ` ${command.segments
                 .map(
                   segment =>
                     `\${colors.text.usage.${isDynamicPathSegment(segment) ? "dynamic" : "command"}("${
                       isDynamicPathSegment(segment)
-                        ? `[${snakeCase(
-                            command.path.dynamics[segment]?.name ||
-                              getDynamicPathSegmentName(segment)
-                          )}]`
+                        ? `[${snakeCase(getDynamicPathSegmentName(segment))}]`
                         : segment
                     }")}`
                 )
@@ -113,16 +109,13 @@ export function HelpUsage(props: HelpUsageProps) {
               {code`
       writeLine(
         colors.text.body.secondary(\`\$ \${colors.text.usage.bin("${bin}")}${
-          command.path.segments.length > 0
-            ? ` ${command.path.segments
+          command.segments.length > 0
+            ? ` ${command.segments
                 .map(
                   segment =>
                     `\${colors.text.usage.${isDynamicPathSegment(segment) ? "dynamic" : "command"}("${
                       isDynamicPathSegment(segment)
-                        ? `[${snakeCase(
-                            command.path.dynamics[segment]?.name ||
-                              getDynamicPathSegmentName(segment)
-                          )}]`
+                        ? `[${snakeCase(getDynamicPathSegmentName(segment))}]`
                         : segment
                     }")}`
                 )
@@ -361,14 +354,14 @@ export interface VirtualHelpProps {
    * @remarks
    * This is optional since the virtual command entry component can be used for both the global binary executable and virtual commands (there will be no command definition for the binary executable).
    */
-  path?: CommandTreePath;
+  segments?: string[];
 }
 
 /**
  * A component that generates the invocation of the `help` function for a command.
  */
 export function VirtualHelp(props: VirtualHelpProps) {
-  const { options, path, commands } = props;
+  const { options, segments, commands } = props;
 
   const context = usePowerlines<ScriptPresetContext>();
 
@@ -415,9 +408,7 @@ export function VirtualHelp(props: VirtualHelpProps) {
         {code`help("Running a specific command with the help flag (via: '${getAppBin(
           context
         )}${
-          path?.segments && path.segments.length > 0
-            ? ` ${path.segments.join(" ")}`
-            : ""
+          segments && segments.length > 0 ? ` ${segments.join(" ")}` : ""
         } <specific command> --help') will provide additional information that is specific to that command.");
         writeLine("");`}
       </Show>
@@ -479,7 +470,9 @@ export function CommandHelp(props: CommandHelpProps) {
         </For>
         {code`help("Running a specific command with the help flag (via: '${getAppBin(
           context
-        )} ${command.path.segments.join(" ")} <specific command> --help') will provide additional information that is specific to that command.");
+        )} ${command.segments.join(
+          " "
+        )} <specific command> --help') will provide additional information that is specific to that command.");
         writeLine("");`}
       </Show>
     </>

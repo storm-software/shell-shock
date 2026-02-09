@@ -32,7 +32,6 @@ import { pascalCase } from "@stryke/string-format/pascal-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { computedOptions } from "../contexts/options";
 import {
-  getDynamicPathSegment,
   getDynamicPathSegmentName,
   isDynamicPathSegment
 } from "../plugin-utils/context-helpers";
@@ -43,8 +42,9 @@ import type {
   NumberCommandOption,
   StringCommandOption
 } from "../types/command";
+import { BooleanInputParserLogic } from "./helpers";
 
-export interface DynamicPathSegmentsParserLogicProps {
+export interface DynamicSegmentsParserLogicProps {
   /**
    * The command to generate the dynamic path segments parser logic for. This is used to access the command options and parameters when generating the parser logic for dynamic path segments.
    */
@@ -56,40 +56,19 @@ export interface DynamicPathSegmentsParserLogicProps {
   isCaseSensitive: boolean;
 }
 
-export function DynamicPathSegmentsParserLogic(
-  props: DynamicPathSegmentsParserLogicProps
+export function DynamicSegmentsParserLogic(
+  props: DynamicSegmentsParserLogicProps
 ) {
   const { command } = props;
 
   return (
-    <For each={command.path.segments ?? []}>
+    <For each={command.segments ?? []}>
       {(segment, index) => (
-        <Show
-          when={
-            !!(
-              isDynamicPathSegment(segment) &&
-              getDynamicPathSegment(command, segment)
-            )
-          }>
+        <Show when={isDynamicPathSegment(segment)}>
           <VarDeclaration
             let
             name={camelCase(getDynamicPathSegmentName(segment))}
-            type={`string${
-              getDynamicPathSegment(command, segment)?.optional
-                ? " | undefined"
-                : ""
-            }`}
-            initializer={
-              <>
-                <Show
-                  when={isSetString(
-                    getDynamicPathSegment(command, segment)?.default
-                  )}>
-                  {code`"${getDynamicPathSegment(command, segment)?.default}"`}
-                </Show>
-                {code`undefined;`}
-              </>
-            }
+            type="string"
           />
           <hbr />
           <IfStatement
@@ -106,7 +85,7 @@ export function DynamicPathSegmentsParserLogic(
   );
 }
 
-export interface PositionalArgumentsParserLogicProps {
+export interface ArgumentsParserLogicProps {
   /**
    * The command to generate the positional parameters parser logic for.
    */
@@ -116,17 +95,100 @@ export interface PositionalArgumentsParserLogicProps {
    * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${envPrefix}_OPTION_NAME`).
    */
   envPrefix: string;
+
+  /**
+   * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command-line arguments to option names and aliases.
+   */
+  isCaseSensitive: boolean;
 }
 
-export function PositionalArgumentsParserLogic(
-  props: PositionalArgumentsParserLogicProps
-) {
-  const { command, envPrefix } = props;
+export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
+  const { command, envPrefix, isCaseSensitive } = props;
 
   return (
-    <>
+    <Show when={command.arguments && command.arguments.length > 0}>
+      <VarDeclaration
+        let
+        name="optionsIndex"
+        type="number"
+        initializer={code`Math.max(0, args.slice(${command.segments.length + 1}).findIndex(arg => arg.startsWith("-") && /^(${Object.values(
+          command.options ?? {}
+        )
+          .map(
+            option =>
+              `${
+                isCaseSensitive || option.name.length === 1
+                  ? option.name
+                  : option.name
+                      .toLowerCase()
+                      .replaceAll("-", "")
+                      .replaceAll("_", "")
+              }${option.alias && option.alias.length > 0 ? "|" : ""}${option.alias
+                ?.map(a =>
+                  (isCaseSensitive || option.name.length === 1
+                    ? a
+                    : a
+                        .toLowerCase()
+                        .replaceAll("-", "")
+                        .replaceAll("_", "")) === "?"
+                    ? "\\?"
+                    : isCaseSensitive || option.name.length === 1
+                      ? a
+                      : a.toLowerCase().replaceAll("-", "").replaceAll("_", "")
+                )
+                .join("|")}`
+          )
+          .join("|")})=?.*$/.test(arg${
+          isCaseSensitive
+            ? ""
+            : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+        }))) + ${command.segments.length + 1};`}
+      />
+      <hbr />
+      <hbr />
+      <VarDeclaration
+        let
+        name="argsIndex"
+        type="number"
+        initializer={code`optionsIndex > ${
+          command.segments.length + 1
+        } ? ${command.segments.length + 1} : (Math.max(0, args.slice(optionsIndex).findLastIndex(arg => arg.startsWith("-") && /^(${Object.values(
+          command.options ?? {}
+        )
+          .map(
+            option =>
+              `${
+                isCaseSensitive || option.name.length === 1
+                  ? option.name
+                  : option.name
+                      .toLowerCase()
+                      .replaceAll("-", "")
+                      .replaceAll("_", "")
+              }${option.alias && option.alias.length > 0 ? "|" : ""}${option.alias
+                ?.map(a =>
+                  (isCaseSensitive || option.name.length === 1
+                    ? a
+                    : a
+                        .toLowerCase()
+                        .replaceAll("-", "")
+                        .replaceAll("_", "")) === "?"
+                    ? "\\?"
+                    : isCaseSensitive || option.name.length === 1
+                      ? a
+                      : a.toLowerCase().replaceAll("-", "").replaceAll("_", "")
+                )
+                .join("|")}`
+          )
+          .join("|")})=?.*$/.test(arg${
+          isCaseSensitive
+            ? ""
+            : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+        }))) + ${command.segments.length + 1});`}
+      />
+      <hbr />
+      <hbr />
       <For each={command.arguments ?? []} hardline>
-        {arg => (
+        {(arg, index) => (
           <>
             <VarDeclaration
               let
@@ -168,44 +230,37 @@ export function PositionalArgumentsParserLogic(
             <hbr />
             <hbr />
             <IfStatement
-              condition={code`args.length > ${
-                command.path.segments.filter(segment =>
-                  isDynamicPathSegment(segment)
-                ).length + 1
-              } && args[${
-                command.path.segments.filter(segment =>
-                  isDynamicPathSegment(segment)
-                ).length + 1
-              }]`}>
+              condition={code`argsIndex + ${index} < args.length && argsIndex + ${index} !== optionsIndex`}>
+              {code`${camelCase(arg.name)} = `}
               <Show
                 when={
                   arg.kind === ReflectionKind.string ||
                   arg.kind === ReflectionKind.number
                 }
-                fallback={code`${camelCase(arg.name)} = args[${
-                  command.path.segments.filter(segment =>
-                    isDynamicPathSegment(segment)
-                  ).length + 1
-                }];`}>
-                {code`${camelCase(arg.name)} = ${
-                  (arg.kind === ReflectionKind.string ||
-                    arg.kind === ReflectionKind.number) &&
-                  arg.variadic
-                    ? `args.slice(${
-                        command.path.segments.filter(segment =>
-                          isDynamicPathSegment(segment)
-                        ).length + 1
-                      })`
-                    : `args[${
-                        command.path.segments.filter(segment =>
-                          isDynamicPathSegment(segment)
-                        ).length + 1
-                      }]`
-                }${
-                  arg.kind === ReflectionKind.number
-                    ? ".map(Number).filter(value => !Number.isNaN(value))"
-                    : ""
-                };`}
+                fallback={
+                  <BooleanInputParserLogic
+                    name={`args[argsIndex + ${index}] `}
+                  />
+                }>
+                <Show
+                  when={
+                    (arg.kind === ReflectionKind.string ||
+                      arg.kind === ReflectionKind.number) &&
+                    arg.variadic
+                  }
+                  fallback={
+                    <Show
+                      when={arg.kind === ReflectionKind.number}
+                      fallback={code`args[argsIndex + ${index}]; `}>
+                      {code`Number(args[argsIndex + ${index}]); `}
+                    </Show>
+                  }>
+                  {code`args.slice(argsIndex + ${
+                    index
+                  }, (optionsIndex > argsIndex ? optionsIndex : args.length) - ${
+                    command.arguments.length - index
+                  }).join(" ").split(",").map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean)`}
+                </Show>
               </Show>
             </IfStatement>
             <hbr />
@@ -213,7 +268,7 @@ export function PositionalArgumentsParserLogic(
           </>
         )}
       </For>
-    </>
+    </Show>
   );
 }
 
@@ -420,10 +475,10 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
           <hbr />
           <Show
             when={name.includes("?") || name.includes("-")}
-            fallback={code`options.${name}`}>
-            {code`options["${name}"]`}
+            fallback={code`options.${name} = `}>
+            {code`options["${name}"] = `}
           </Show>
-          {code` = value !== "false" && value !== "f" && value !== "no" && value !== "n" && value !== "0" && value !== "off" && value !== "disable" && value !== "disabled"; `}
+          <BooleanInputParserLogic name="value" />
         </IfStatement>
         <ElseClause>
           <Show
@@ -455,12 +510,12 @@ export interface OptionsMemberParserConditionProps {
   name: string;
 
   /**
-   * Aliases for the option, which will also be parsed in the generated code. This will affect how the generated code compares command-line arguments to option names and aliases.
+   * Aliases for the option, which will also be parsed in the generated code. This will affect how the generated code compares command line arguments to option names and aliases.
    */
   alias?: string[];
 
   /**
-   * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command-line arguments to option names and aliases.
+   * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command line arguments to option names and aliases.
    *
    * @defaultValue false
    */
@@ -629,8 +684,7 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
       <hbr />
       <hbr />
       {code`for (let i = 0; i < args.slice(${
-        command.path.segments.filter(segment => isDynamicPathSegment(segment))
-          .length
+        command.segments.filter(segment => isDynamicPathSegment(segment)).length
       }).length; i++) { `}
       <hbr />
       <VarDeclaration
@@ -723,15 +777,10 @@ export function CommandParserLogic(props: CommandParserLogicProps) {
 
   return (
     <>
-      <DynamicPathSegmentsParserLogic
+      <DynamicSegmentsParserLogic
         command={command}
         isCaseSensitive={isCaseSensitive}
       />
-      <hbr />
-      <hbr />
-
-      {code`
-      `}
       <hbr />
       <hbr />
       <OptionsParserLogic
@@ -741,7 +790,11 @@ export function CommandParserLogic(props: CommandParserLogicProps) {
       />
       <hbr />
       <hbr />
-      <PositionalArgumentsParserLogic command={command} envPrefix={envPrefix} />
+      <ArgumentsParserLogic
+        command={command}
+        envPrefix={envPrefix}
+        isCaseSensitive={isCaseSensitive}
+      />
       <hbr />
       <hbr />
     </>

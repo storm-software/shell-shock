@@ -16,12 +16,11 @@
 
  ------------------------------------------------------------------- */
 
-import { camelCase } from "@stryke/string-format/camel-case";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { titleCase } from "@stryke/string-format/title-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import type { CommandTree, Context, UnresolvedContext } from "../types";
+import type { Context, UnresolvedContext } from "../types";
 
 /**
  * Sorts command argument aliases, placing single-character aliases first, followed by multi-character aliases, and then sorting them alphabetically.
@@ -188,15 +187,4 @@ export function getPathSegmentGroupName(path: string): string {
  */
 export function getPathSegmentName(path: string): string {
   return getPathSegmentGroupName(getDynamicPathSegmentName(path));
-}
-
-/**
- * Retrieves the dynamic segment definition from a command tree based on a given path segment.
- *
- * @param command - The command tree containing the path and dynamic segment definitions.
- * @param segment - The command path segment to retrieve the dynamic segment definition for.
- * @returns The dynamic segment definition associated with the given path segment, or undefined if not found.
- */
-export function getDynamicPathSegment(command: CommandTree, segment: string) {
-  return command.path.dynamics[camelCase(getDynamicPathSegmentName(segment))];
 }

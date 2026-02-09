@@ -21,20 +21,20 @@ catalog:
   '@nx/workspace': 22.4.5
   '@opentui/core': ^0.1.69
   '@opentui/react': ^0.1.69
-  '@powerlines/deepkit': ^0.6.50
-  '@powerlines/nx': ^0.11.197
-  '@powerlines/plugin-alloy': ^0.20.14
-  '@powerlines/plugin-automd': ^0.1.270
-  '@powerlines/plugin-deepkit': ^0.11.149
-  '@powerlines/plugin-env': ^0.15.180
-  '@powerlines/plugin-nodejs': ^0.1.175
-  '@powerlines/plugin-plugin': ^0.12.221
-  '@powerlines/plugin-style-dictionary': ^0.3.171
-  '@powerlines/plugin-tsdown': ^0.1.223
-  '@powerlines/plugin-tsup': ^0.12.280
-  '@powerlines/plugin-untyped': ^0.2.223
-  '@powerlines/plugin-vite': ^0.14.271
-  '@powerlines/tsconfig': ^0.2.192
+  '@powerlines/deepkit': ^0.6.51
+  '@powerlines/nx': ^0.11.198
+  '@powerlines/plugin-alloy': ^0.20.15
+  '@powerlines/plugin-automd': ^0.1.271
+  '@powerlines/plugin-deepkit': ^0.11.150
+  '@powerlines/plugin-env': ^0.15.181
+  '@powerlines/plugin-nodejs': ^0.1.176
+  '@powerlines/plugin-plugin': ^0.12.222
+  '@powerlines/plugin-style-dictionary': ^0.3.172
+  '@powerlines/plugin-tsdown': ^0.1.224
+  '@powerlines/plugin-tsup': ^0.12.281
+  '@powerlines/plugin-untyped': ^0.2.224
+  '@powerlines/plugin-vite': ^0.14.272
+  '@powerlines/tsconfig': ^0.2.193
   '@storm-software/build-tools': ^0.158.81
   '@storm-software/config': ^1.135.1
   '@storm-software/config-tools': ^1.189.0
@@ -98,14 +98,14 @@ catalog:
   lefthook: ^1.13.6
   log4brains: ^1.1.0
   nx: 22.4.5
-  powerlines: ^0.38.37
+  powerlines: ^0.38.38
   prettier: ^3.8.1
   react: ^19.2.3
   react-dom: ^19.2.3
   rimraf: ^6.1.2
   rolldown: 1.0.0-beta.52
   sherif: ^1.0.0
-  style-dictionary: ^5.2.0
+  style-dictionary: ^5.3.0
   ts-jest: ^29.4.6
   tsup: ^8.3.5
   typescript: ^5.9.3

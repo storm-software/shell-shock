@@ -112,7 +112,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                     initializer={code`getArgs();`}
                   />
                   <hbr />
-                  <CommandRouter path={[]} commands={this.commands ?? {}} />
+                  <CommandRouter segments={[]} commands={this.commands ?? {}} />
                   <hbr />
                 </Show>
                 <hbr />

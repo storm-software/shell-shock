@@ -28,10 +28,8 @@ import { omit } from "@stryke/helpers/omit";
 import { joinPaths } from "@stryke/path/join-paths";
 import type {
   CommandArgument,
-  CommandDynamicSegment,
   CommandOption,
   CommandTree,
-  SerializedCommandDynamicSegment,
   SerializedCommandOption,
   SerializedCommandTree
 } from "../types";
@@ -59,20 +57,8 @@ export function serializedCommandTree(
         },
         {} as Record<string, SerializedCommandOption>
       ),
-      path: {
-        ...node.path,
-        dynamics: Object.entries(node.path.dynamics).reduce(
-          (ret, [key, dynamic]) => {
-            ret[key] = {
-              ...omit(dynamic, ["reflection"])
-            };
-            return ret;
-          },
-          {} as Record<string, SerializedCommandDynamicSegment>
-        )
-      },
-      arguments: node.arguments.map(param => ({
-        ...omit(param, ["reflection"])
+      arguments: node.arguments.map(arg => ({
+        ...omit(arg, ["reflection"])
       })),
       parent,
       children: {},
@@ -137,22 +123,12 @@ export function deserializeCommandTree(
             {} as Record<string, CommandOption>
           )
         : {},
-      path: {
-        ...node.path,
-        dynamics: Object.entries(node.path.dynamics).reduce(
-          (ret, [key, dynamic]) => {
-            ret[key] = {
-              ...dynamic,
-              reflection: reflection.getParameter(dynamic.name)
-            } as CommandDynamicSegment;
-            return ret;
-          },
-          {} as Record<string, CommandDynamicSegment>
-        )
-      },
-      arguments: node.arguments.map(param => ({
-        ...param,
-        reflection: reflection.getParameter(param.name)
+      arguments: node.arguments.map((arg, i) => ({
+        ...arg,
+        reflection:
+          reflection.getParameters().length > i + 1
+            ? reflection.getParameters()[i + 1]
+            : reflection.getParameterOrUndefined(arg.name)
       })) as CommandArgument[],
       parent,
       children: {},

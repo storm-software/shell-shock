@@ -97,6 +97,20 @@
         "default": "./dist/components/docs.mjs"
       }
     },
+    "./components/helpers": {
+      "require": {
+        "types": "./dist/components/helpers.d.cts",
+        "default": "./dist/components/helpers.cjs"
+      },
+      "import": {
+        "types": "./dist/components/helpers.d.mts",
+        "default": "./dist/components/helpers.mjs"
+      },
+      "default": {
+        "types": "./dist/components/helpers.d.mts",
+        "default": "./dist/components/helpers.mjs"
+      }
+    },
     "./components/options-parser-logic": {
       "require": {
         "types": "./dist/components/options-parser-logic.d.cts",

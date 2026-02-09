@@ -113,7 +113,7 @@ export const plugin = <
                     initializer={code`getArgs();`}
                   />
                   <hbr />
-                  <CommandRouter path={[]} commands={this.commands ?? {}} />
+                  <CommandRouter segments={[]} commands={this.commands ?? {}} />
                   <hbr />
                 </Show>
                 <hbr />

@@ -40,12 +40,9 @@ export function CommandRouterRoute() {
         <DynamicImportStatement
           name={`handle${pascalCase(command.name)}`}
           importPath={`./${
-            command.path.segments.filter(
-              segment => !isDynamicPathSegment(segment)
-            )[
-              command.path.segments.filter(
-                segment => !isDynamicPathSegment(segment)
-              ).length - 1
+            command.segments.filter(segment => !isDynamicPathSegment(segment))[
+              command.segments.filter(segment => !isDynamicPathSegment(segment))
+                .length - 1
             ]
           }`}
           exportName="handler"
@@ -58,7 +55,7 @@ export function CommandRouterRoute() {
 }
 
 export interface CommandRouterProps {
-  path: string[];
+  segments: string[];
   commands?: Record<string, CommandTree>;
   route?: Children;
 }
@@ -67,10 +64,10 @@ export interface CommandRouterProps {
  * The command router component.
  */
 export function CommandRouter(props: CommandRouterProps) {
-  const { path, commands, route } = props;
+  const { segments, commands, route } = props;
 
   const context = usePowerlines<ScriptPresetContext>();
-  const index = computed(() => 2 + (path.length ?? 0));
+  const index = computed(() => 2 + (segments.length ?? 0));
 
   return (
     <Show when={commands && Object.keys(commands).length > 0}>
@@ -98,20 +95,26 @@ export function CommandRouter(props: CommandRouterProps) {
                   condition={code`${
                     context.config.isCaseSensitive
                       ? "command"
-                      : 'command.toLowerCase().replaceAll(/-/g, "")'
+                      : 'command.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
                   } === "${
                     context.config.isCaseSensitive
                       ? subcommand.name
-                      : subcommand.name.toLowerCase().replaceAll(/-/g, "")
+                      : subcommand.name
+                          .toLowerCase()
+                          .replaceAll("-", "")
+                          .replaceAll("_", "")
                   }"${
                     subcommand.alias && subcommand.alias.length > 0
                       ? ` || ${subcommand.alias
                           .map(
                             alias =>
-                              `${context.config.isCaseSensitive ? "command" : 'command.toLowerCase().replaceAll(/-/g, "")'} === "${
+                              `${context.config.isCaseSensitive ? "command" : 'command.toLowerCase().replaceAll("-", "").replaceAll("_", "")'} === "${
                                 context.config.isCaseSensitive
                                   ? alias
-                                  : alias.toLowerCase().replaceAll(/-/g, "")
+                                  : alias
+                                      .toLowerCase()
+                                      .replaceAll("-", "")
+                                      .replaceAll("_", "")
                               }"`
                           )
                           .join(" || ")}`
@@ -126,20 +129,26 @@ export function CommandRouter(props: CommandRouterProps) {
                 condition={code`${
                   context.config.isCaseSensitive
                     ? "command"
-                    : 'command.toLowerCase().replaceAll(/-/g, "")'
+                    : 'command.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
                 } === "${
                   context.config.isCaseSensitive
                     ? subcommand.name
-                    : subcommand.name.toLowerCase().replaceAll(/-/g, "")
+                    : subcommand.name
+                        .toLowerCase()
+                        .replaceAll("-", "")
+                        .replaceAll("_", "")
                 }"${
                   subcommand.alias && subcommand.alias.length > 0
                     ? ` || ${subcommand.alias
                         .map(
                           alias =>
-                            `${context.config.isCaseSensitive ? "command" : 'command.toLowerCase().replaceAll(/-/g, "")'} === "${
+                            `${context.config.isCaseSensitive ? "command" : 'command.toLowerCase().replaceAll("-", "").replaceAll("_", "")'} === "${
                               context.config.isCaseSensitive
                                 ? alias
-                                : alias.toLowerCase().replaceAll(/-/g, "")
+                                : alias
+                                    .toLowerCase()
+                                    .replaceAll("-", "")
+                                    .replaceAll("_", "")
                             }"`
                         )
                         .join(" || ")}`

@@ -63,7 +63,7 @@ export function VirtualCommandHandlerDeclaration(
   return (
     <>
       <TSDoc
-        heading={`The ${command.title} (${getAppBin(context)} ${command.path.segments
+        heading={`The ${command.title} (${getAppBin(context)} ${command.segments
           .map(segment =>
             isDynamicPathSegment(segment)
               ? `[${constantCase(getDynamicPathSegmentName(segment))}]`
@@ -84,7 +84,7 @@ export function VirtualCommandHandlerDeclaration(
         <hbr />
         {children}
         <CommandRouter
-          path={command.path.segments}
+          segments={command.segments}
           commands={command.children}
         />
         <hbr />
@@ -94,7 +94,7 @@ export function VirtualCommandHandlerDeclaration(
         <hbr />
         <hbr />
         <VirtualHelp
-          path={command.path}
+          segments={command.segments}
           options={Object.values(command.options)}
           commands={command.children ?? {}}
         />
@@ -120,7 +120,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
   const filePath = computed(() =>
     joinPaths(
       context.entryPath,
-      command.path.segments
+      command.segments
         .filter(segment => !isDynamicPathSegment(segment))
         .join("/"),
       "index.ts"

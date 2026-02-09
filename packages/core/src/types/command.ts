@@ -166,17 +166,6 @@ export type CommandArgument =
   | NumberCommandArgument
   | BooleanCommandArgument;
 
-export interface CommandPath {
-  /**
-   * The full path value.
-   */
-  value: string | null;
-  /**
-   * The path segments.
-   */
-  segments: string[];
-}
-
 export interface CommandBase {
   /**
    * The command id.
@@ -186,6 +175,14 @@ export interface CommandBase {
    * The command name.
    */
   name: string;
+  /**
+   * The full command path value.
+   */
+  path: string | null;
+  /**
+   * The path segments.
+   */
+  segments: string[];
   /**
    * The display title.
    */
@@ -203,10 +200,6 @@ export interface CommandBase {
    */
   icon?: string;
   /**
-   * The command path.
-   */
-  path: CommandPath;
-  /**
    * Whether the command is virtual.
    */
   isVirtual: boolean;
@@ -223,47 +216,6 @@ export interface CommandInput extends CommandBase {
   entry: ResolvedEntryTypeDefinition;
 }
 
-/**
- * Represents a dynamic command segment with metadata and matching behavior.
- */
-export interface CommandDynamicSegment {
-  /**
-   * The parameter reflection.
-   */
-  reflection?: ReflectionParameter;
-  /**
-   * The segment value.
-   */
-  segment: string;
-  /**
-   * The segment name.
-   */
-  name: string;
-  /**
-   * The segment title.
-   */
-  title: string;
-  /**
-   * The segment description.
-   */
-  description: string;
-  /**
-   * Whether the segment is optional.
-   */
-  optional: boolean;
-  /**
-   * The default value.
-   */
-  default?: string;
-}
-
-export interface CommandTreePath extends CommandPath {
-  /**
-   * Dynamic segment definitions.
-   */
-  dynamics: Record<string, CommandDynamicSegment>;
-}
-
 export type CommandTree = CommandInput & {
   /**
    * The display title.
@@ -277,10 +229,6 @@ export type CommandTree = CommandInput & {
    * Alternative command names.
    */
   alias: string[];
-  /**
-   * The command path with dynamics.
-   */
-  path: CommandTreePath;
   /**
    * The command options.
    */
@@ -305,29 +253,16 @@ export type CommandTree = CommandInput & {
 
 export type SerializedCommandOption = Omit<CommandOption, "reflection">;
 
-export type SerializedCommandDynamicSegment = Omit<
-  CommandDynamicSegment,
-  "reflection"
->;
-
-export type SerializedCommandTreePath = Omit<CommandTreePath, "dynamics"> & {
-  dynamics: Record<string, SerializedCommandDynamicSegment>;
-};
-
 export type SerializedCommandArgument = Omit<CommandArgument, "reflection">;
 
 export type SerializedCommandTree = Omit<
   CommandTree,
-  "options" | "path" | "arguments" | "parent" | "children" | "reflection"
+  "options" | "arguments" | "parent" | "children" | "reflection"
 > & {
   /**
    * The command options.
    */
   options: Record<string, SerializedCommandOption>;
-  /**
-   * The command path with dynamics.
-   */
-  path: SerializedCommandTreePath;
   /**
    * The positional arguments provided to the command.
    */
