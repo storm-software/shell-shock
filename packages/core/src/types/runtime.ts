@@ -16,32 +16,14 @@
 
  ------------------------------------------------------------------- */
 
-export interface RuntimePath {
+export interface CommandContext {
   /**
-   * The full path as a string value.
+   * The current command path within the runtime context.
    */
-  value: string;
+  path: string;
 
   /**
    * The individual segments that make up the path.
    */
-  segments: (string | string[])[];
-}
-
-export interface RuntimeContext<
-  TOptions extends Record<
-    string,
-    string | number | boolean | string[] | number[]
-  > = Record<string, string | number | boolean | string[] | number[]>,
-  TPath extends RuntimePath = RuntimePath
-> {
-  /**
-   * The parsed command-line options.
-   */
-  options: TOptions;
-
-  /**
-   * The current command path within the runtime context.
-   */
-  path: TPath;
+  segments: string[];
 }

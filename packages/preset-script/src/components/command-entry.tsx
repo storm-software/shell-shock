@@ -60,27 +60,23 @@ export function CommandInvocation(props: { command: CommandTree }) {
 
   return (
     <>
-      {code`return Promise.resolve(handle${pascalCase(command.name)}(options${
-        command.path.segments.filter(segment => isDynamicPathSegment(segment))
-          .length > 0
-          ? `, ${command.path.segments
-              .filter(segment => isDynamicPathSegment(segment))
-              .map(segment => camelCase(getDynamicPathSegmentName(segment)))
-              .join(", ")}`
-          : ""
-      }${
-        command.path.segments.filter(segment => isDynamicPathSegment(segment))
-          .length > 0
-          ? `, ${command.path.segments
-              .filter(segment => isDynamicPathSegment(segment))
-              .map(segment => camelCase(getDynamicPathSegmentName(segment)))
-              .join(", ")}`
-          : ""
-      }${
+      {code`return Promise.resolve(Reflect.apply(handle${pascalCase(command.name)}, { path: \`${command.path.segments
+        .map(segment =>
+          isDynamicPathSegment(segment)
+            ? `\${${camelCase(getDynamicPathSegmentName(segment))}}`
+            : segment
+        )
+        .join("/")}\`, segments: [${command.path.segments
+        .map(segment =>
+          isDynamicPathSegment(segment)
+            ? camelCase(getDynamicPathSegmentName(segment))
+            : `"${segment}"`
+        )
+        .join(", ")}] }, [options${
         command.arguments.length > 0
           ? `, ${command.arguments.map(argument => camelCase(argument.name)).join(", ")}`
           : ""
-      }));`}
+      }]));`}
       <hbr />
     </>
   );
