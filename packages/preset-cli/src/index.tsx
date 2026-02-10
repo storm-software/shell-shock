@@ -57,6 +57,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
       },
       configResolved() {
         this.dependencies.didyoumean2 = "^7.0.4";
+        this.dependencies["@clack/prompts"] = "^1.0.0";
       },
       async prepare() {
         this.debug(
@@ -67,7 +68,23 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           this,
           <>
             <UtilsBuiltin />
-            <ConsoleBuiltin />
+            <ConsoleBuiltin>
+              {code`
+
+// Re-export prompt functions from @clack/prompts
+export {
+  isCancel,
+  confirm,
+  select,
+  text,
+  multiselect,
+  password,
+  progress,
+  spinner
+} from "@clack/prompts";
+
+            `}
+            </ConsoleBuiltin>
           </>
         );
       }

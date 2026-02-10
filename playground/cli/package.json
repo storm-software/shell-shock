@@ -8,6 +8,7 @@
   "dependencies": { "@shell-shock/core": "workspace:*" },
   "devDependencies": {
     "@shell-shock/nx": "workspace:*",
-    "@shell-shock/preset-cli": "workspace:*"
+    "@shell-shock/preset-cli": "workspace:*",
+    "@types/node": "catalog:"
   }
 }

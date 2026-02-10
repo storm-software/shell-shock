@@ -16,23 +16,18 @@
 
  ------------------------------------------------------------------- */
 
-import { code, computed, For, Show } from "@alloy-js/core";
-import {
-  ElseIfClause,
-  IfStatement,
-  VarDeclaration
-} from "@alloy-js/typescript";
+import { code, computed, For, Match, Show, Switch } from "@alloy-js/core";
+import { ElseClause, ElseIfClause, IfStatement } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { isDynamicPathSegment } from "@shell-shock/core/plugin-utils/context-helpers";
-import type {
-  CommandTree,
-  NumberCommandArgument,
-  NumberCommandOption
-} from "@shell-shock/core/types/command";
-import { CommandHandlerDeclaration } from "@shell-shock/preset-script/components/command-entry";
+import type { CommandTree } from "@shell-shock/core/types/command";
+import {
+  CommandHandlerDeclaration,
+  CommandValidationLogic
+} from "@shell-shock/preset-script/components/command-entry";
 import { findFilePath, relativePath } from "@stryke/path/find";
 import { joinPaths } from "@stryke/path/join";
 import { replaceExtension } from "@stryke/path/replace";
@@ -85,7 +80,8 @@ export function CommandEntry(props: CommandEntryProps) {
         path={filePath.value}
         typeDefinition={typeDefinition.value}
         imports={defu(imports ?? {}, {
-          [commandSourcePath.value]: `handle${pascalCase(command.name)}`
+          [commandSourcePath.value]: `handle${pascalCase(command.name)}`,
+          prompts: "prompts"
         })}
         builtinImports={defu(builtinImports ?? {}, {
           env: ["env", "isCI", "isDevelopment", "isDebug"],
@@ -97,143 +93,250 @@ export function CommandEntry(props: CommandEntryProps) {
             "colors",
             "stripAnsi",
             "writeLine",
-            "splitText"
+            "splitText",
+            "text",
+            "confirm",
+            "isCancel"
           ],
           utils: [
             "getArgs",
             "hasFlag",
             "isMinimal",
+            "isInteractive",
             "isUnicodeSupported",
-            "internal_commandContext"
+            "internal_commandContextStore"
           ]
         })}>
         <BannerFunctionDeclaration command={command} />
         <hbr />
         <hbr />
         <CommandHandlerDeclaration command={command}>
-          <VarDeclaration
-            name="failures"
-            type="string[]"
-            initializer={code`[];`}
-          />
-          <hbr />
-          <For each={Object.values(command.options ?? {})} doubleHardline>
-            {option => (
-              <>
-                <Show when={!option.optional}>
-                  <IfStatement
-                    condition={code`!options${
-                      option.name.includes("?")
-                        ? `["${option.name}"]`
-                        : `.${camelCase(option.name)}`
-                    }`}>
-                    {code`failures.push("Missing required \\"${option.name}\\" option");`}
-                  </IfStatement>
-                  <Show
-                    when={
-                      (option.kind === ReflectionKind.string ||
-                        option.kind === ReflectionKind.number) &&
-                      option.variadic
-                    }>
-                    <ElseIfClause
-                      condition={code`options${
+          <IfStatement condition={code`!isInteractive`}>
+            <CommandValidationLogic command={command} />
+          </IfStatement>
+          <ElseClause>
+            <hbr />
+            <For each={Object.values(command.options ?? {})} doubleHardline>
+              {option => (
+                <>
+                  <Show when={!option.optional}>
+                    <IfStatement
+                      condition={code`!options${
                         option.name.includes("?")
                           ? `["${option.name}"]`
                           : `.${camelCase(option.name)}`
-                      }.length === 0`}>
-                      {code`failures.push("No values were provided to the required \\"${
-                        option.name
-                      }\\" array option");`}
-                    </ElseIfClause>
-                  </Show>
-                </Show>
-                <Show when={option.kind === ReflectionKind.number}>
-                  <Show
-                    when={(option as NumberCommandOption).variadic}
-                    fallback={
-                      <IfStatement
+                      }`}>
+                      <Switch>
+                        <Match
+                          when={
+                            option.kind === ReflectionKind.string ||
+                            option.kind === ReflectionKind.number
+                          }>{code`
+                            const value = await text({
+                              message: 'Please provide a value for the ${option.title} option:',
+                              validate(value) {
+                                if (isCancel(value)) {
+                                  return true;
+                                }
+                                if (!value || value.trim() === "") {
+                                  return "A value is required for this option";
+                                }
+                                ${
+                                  option.kind === ReflectionKind.number
+                                    ? `if (Number.isNaN(Number(value))) {
+                                  return "The value provided must be a valid number";
+                                }`
+                                    : ""
+                                }
+                                return undefined;
+                              }
+                            });
+                            if (isCancel(value)) {
+                              return;
+                            }
+
+                            options${
+                              option.name.includes("?")
+                                ? `["${option.name}"]`
+                                : `.${camelCase(option.name)}`
+                            } = ${
+                              option.kind === ReflectionKind.number
+                                ? `Number(value)`
+                                : "value"
+                            };
+                          `}</Match>
+                        <Match
+                          when={option.kind === ReflectionKind.boolean}>{code`
+                            options${
+                              option.name.includes("?")
+                                ? `["${option.name}"]`
+                                : `.${camelCase(option.name)}`
+                            } = await confirm({
+                              message: 'Please select a value for the ${option.title} option:'
+                            });
+                          `}</Match>
+                      </Switch>
+                    </IfStatement>
+                    <Show
+                      when={
+                        (option.kind === ReflectionKind.string ||
+                          option.kind === ReflectionKind.number) &&
+                        option.variadic
+                      }>
+                      <ElseIfClause
                         condition={code`options${
                           option.name.includes("?")
                             ? `["${option.name}"]`
                             : `.${camelCase(option.name)}`
-                        } && Number.isNaN(options${
-                          option.name.includes("?")
-                            ? `["${option.name}"]`
-                            : `.${camelCase(option.name)}`
-                        })`}>
-                        {code`failures.push("Invalid numeric value provided for the \\"${
-                          option.name
-                        }\\" option");`}
-                      </IfStatement>
-                    }>
-                    <IfStatement
-                      condition={code`options${
-                        option.name.includes("?")
-                          ? `["${option.name}"]`
-                          : `.${camelCase(option.name)}`
-                      }.some(value => Number.isNaN(value))`}>
-                      {code`failures.push("Invalid numeric value provided in the \\"${
-                        option.name
-                      }\\" array option");`}
+                        }.length === 0`}>
+                        {code`
+                            const value = await text({
+                              message: 'Please provide one or more values for the ${
+                                option.title
+                              } option (values are separated by a "," character):',
+                              validate(value) {
+                                if (isCancel(value)) {
+                                  return true;
+                                }
+                                if (!value || value.trim() === "") {
+                                  return "A value is required for this option";
+                                }
+                                if (value.split(",").map(value => value.trim()).filter(Boolean).length === 0) {
+                                  return "At least one value is required for this option";
+                                }
+                                ${
+                                  option.kind === ReflectionKind.number
+                                    ? `const invalidIndex = value.split(",").map(value => value.trim()).filter(Boolean).findIndex(value => Number.isNaN(Number(value));
+                                    if (invalidIndex !== -1) {
+                                      return \`Invalid numeric value provided for item #\${invalidIndex + 1} - all provided items must be a valid number\`;
+                                    } `
+                                    : ""
+                                }
+                                return undefined;
+                              }
+                            });
+                            if (isCancel(value)) {
+                              return;
+                            }
+
+                            options${
+                              option.name.includes("?")
+                                ? `["${option.name}"]`
+                                : `.${camelCase(option.name)}`
+                            } = value.split(",").map(value => value.trim()).filter(Boolean)${
+                              option.kind === ReflectionKind.number
+                                ? `.map(Number)`
+                                : ""
+                            } ;
+                          `}
+                      </ElseIfClause>
+                    </Show>
+                  </Show>
+                </>
+              )}
+            </For>
+            <hbr />
+            <hbr />
+            <For each={command.arguments} doubleHardline>
+              {argument => (
+                <>
+                  <Show when={!argument.optional}>
+                    <IfStatement condition={code`!${camelCase(argument.name)}`}>
+                      <Switch>
+                        <Match
+                          when={
+                            argument.kind === ReflectionKind.string ||
+                            argument.kind === ReflectionKind.number
+                          }>{code`
+                            const value = await text({
+                              message: 'Please provide a value for the ${argument.title} positional argument:',
+                              validate(value) {
+                                if (isCancel(value)) {
+                                  return true;
+                                }
+                                if (!value || value.trim() === "") {
+                                  return "A value is required for this positional argument";
+                                }
+                                ${
+                                  argument.kind === ReflectionKind.number
+                                    ? `if (Number.isNaN(Number(value))) {
+                                  return "The value provided must be a valid number";
+                                }`
+                                    : ""
+                                }
+                                return undefined;
+                              }
+                            });
+                            if (isCancel(value)) {
+                              return;
+                            }
+
+                            ${camelCase(argument.name)} = ${
+                              argument.kind === ReflectionKind.number
+                                ? `Number(value)`
+                                : "value"
+                            };
+                          `}</Match>
+                        <Match
+                          when={argument.kind === ReflectionKind.boolean}>{code`
+                            ${camelCase(argument.name)} = await confirm({
+                              message: 'Please select a value for the ${argument.title} positional argument:'
+                            });
+                          `}</Match>
+                      </Switch>
                     </IfStatement>
+                    <Show
+                      when={
+                        (argument.kind === ReflectionKind.string ||
+                          argument.kind === ReflectionKind.number) &&
+                        argument.variadic
+                      }>
+                      <ElseIfClause
+                        condition={code`${camelCase(argument.name)}.length === 0`}>
+                        {code`
+                            const value = await text({
+                              message: 'Please provide one or more values for the ${
+                                argument.title
+                              } option (values are separated by a "," character):',
+                              validate(value) {
+                                if (isCancel(value)) {
+                                  return true;
+                                }
+                                if (!value || value.trim() === "") {
+                                  return "A value is required for this option";
+                                }
+                                if (value.split(",").map(value => value.trim()).filter(Boolean).length === 0) {
+                                  return "At least one value is required for this option";
+                                }
+                                ${
+                                  argument.kind === ReflectionKind.number
+                                    ? `const invalidIndex = value.split(",").map(value => value.trim()).filter(Boolean).findIndex(value => Number.isNaN(Number(value));
+                                    if (invalidIndex !== -1) {
+                                      return \`Invalid numeric value provided for item #\${invalidIndex + 1} - all provided items must be a valid number\`;
+                                    } `
+                                    : ""
+                                }
+
+                                return undefined;
+                              }
+                            });
+                            if (isCancel(value)) {
+                              return;
+                            }
+
+                            ${camelCase(argument.name)} = value.split(",").map(value => value.trim()).filter(Boolean)${
+                              argument.kind === ReflectionKind.number
+                                ? `.map(Number)`
+                                : ""
+                            } ;
+                          `}
+                      </ElseIfClause>
+                    </Show>
                   </Show>
-                </Show>
-              </>
-            )}
-          </For>
-          <hbr />
-          <hbr />
-          <For each={command.arguments} doubleHardline>
-            {argument => (
-              <>
-                <Show when={!argument.optional}>
-                  <IfStatement condition={code`!${camelCase(argument.name)}`}>
-                    {code`failures.push("Missing required \\"${
-                      argument.name
-                    }\\" positional argument");`}
-                  </IfStatement>
-                  <Show
-                    when={
-                      (argument.kind === ReflectionKind.string ||
-                        argument.kind === ReflectionKind.number) &&
-                      argument.variadic
-                    }>
-                    <ElseIfClause
-                      condition={code`${camelCase(argument.name)}.length === 0`}>
-                      {code`failures.push("No values were provided to the required \\"${
-                        argument.name
-                      }\\" array positional argument");`}
-                    </ElseIfClause>
-                  </Show>
-                </Show>
-                <Show when={argument.kind === ReflectionKind.number}>
-                  <Show
-                    when={(argument as NumberCommandArgument).variadic}
-                    fallback={
-                      <IfStatement
-                        condition={code`${camelCase(
-                          argument.name
-                        )} && Number.isNaN(${camelCase(argument.name)})`}>
-                        {code`failures.push("Invalid numeric value provided for the \\"${
-                          argument.name
-                        }\\" positional argument");`}
-                      </IfStatement>
-                    }>
-                    <IfStatement
-                      condition={code`${camelCase(argument.name)}.some(value => Number.isNaN(value))`}>
-                      {code`failures.push("Invalid numeric value provided in the \\"${
-                        argument.name
-                      }\\" array positional argument");`}
-                    </IfStatement>
-                  </Show>
-                </Show>
-              </>
-            )}
-          </For>
-          <IfStatement condition={code`failures.length > 0`}>
-            {code`error(colors.text.message.description.error("The following validation failures were found while processing the user provided input, and must be corrected before the command line process can be executed: \\n\\n") + failures.map(failure => colors.text.body.secondary(" - " + failure)).join("\\n"));
-            options.help = true; `}
-          </IfStatement>
+                </>
+              )}
+            </For>
+          </ElseClause>
         </CommandHandlerDeclaration>
       </EntryFile>
       <For each={Object.values(command.children)}>

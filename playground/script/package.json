@@ -4,7 +4,7 @@
   "type": "module",
   "description": "A playground package containing a script command-line application and project setup.",
   "private": true,
-  "dependencies": {},
+  "dependencies": { "@shell-shock/core": "workspace:*" },
   "devDependencies": {
     "@shell-shock/core": "workspace:*",
     "@shell-shock/nx": "workspace:*",

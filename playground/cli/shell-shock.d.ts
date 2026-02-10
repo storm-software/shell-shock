@@ -880,6 +880,7 @@ declare module "shell-shock:env" {
  * @module shell-shock:utils
  */
 declare module "shell-shock:utils" {
+  import { AsyncLocalStorage } from "node:async_hooks";
   /**
    * Retrieves the command line arguments from Deno or Node.js environments.
    *
@@ -994,25 +995,20 @@ declare module "shell-shock:utils" {
     path: string;
     segments: string[];
   }
-  interface UseCommandContext {
-    /**
-     * Get the current context. Throws if no context is set.
-     */
-    use: () => CommandContext;
-    /**
-     * Call a function with a specific context instance. This is used internally to set the context for command executions, but can also be used by advanced users to manually set the context for specific operations if needed.
-     */
-    call: <R>(
-      instance: CommandContext,
-      callback: () => R | Promise<R>
-    ) => Promise<R>;
-  }
   /**
    * The global Shell Shock - Command context instance.
    *
    * @internal
    */
-  export let internal_commandContext: UseCommandContext;
+  export let internal_commandContextStore: AsyncLocalStorage<CommandContext>;
+  /**
+   * Get the Shell Shock - Command context for the current application.
+   *
+   * @param options - The options to use when getting the context.
+   * @returns The Shell Shock - Command context for the current application.
+   * @throws If the Shell Shock - Command context is not available.
+   */
+  export function useCommand(): CommandContext;
   /**
    * A utility hook function to get the individual segments of the current command path.
    *
@@ -1417,4 +1413,14 @@ declare module "shell-shock:console" {
       | string[]
       | string[][]
   ): void;
+  export {
+    confirm,
+    isCancel,
+    multiselect,
+    password,
+    progress,
+    select,
+    spinner,
+    text
+  } from "@clack/prompts";
 }
