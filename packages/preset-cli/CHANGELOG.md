@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.2.0) (02/10/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies ([0648dfd](https://github.com/storm-software/shell-shock/commit/0648dfd))
+
+### Features
+
+- **preset-cli:** Added `@clack/prompts` exports to `console` built-in ([060b4cf](https://github.com/storm-software/shell-shock/commit/060b4cf))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.6.1**
+- Updated **plugin-theme** to **v0.0.19**
+- Updated **core** to **v0.8.2**
+
 ## [0.1.6](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.1.6) (02/09/2026)
 
 ### Miscellaneous

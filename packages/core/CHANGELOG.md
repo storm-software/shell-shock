@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.2) (02/10/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies ([0648dfd](https://github.com/storm-software/shell-shock/commit/0648dfd))
+
 ## [0.8.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.1) (02/09/2026)
 
 ### Miscellaneous

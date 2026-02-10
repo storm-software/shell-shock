@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.1](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.1) (02/10/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies ([0648dfd](https://github.com/storm-software/shell-shock/commit/0648dfd))
+- **preset-script:** Added `children` prop to `ConsoleBuiltin` component ([b091a77](https://github.com/storm-software/shell-shock/commit/b091a77))
+- **preset-script:** Clean up the command context async hook ([6c68e40](https://github.com/storm-software/shell-shock/commit/6c68e40))
+- **preset-script:** Added `CommandValidationLogic` component and remove ansi from valdation ([f34d845](https://github.com/storm-software/shell-shock/commit/f34d845))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.19**
+- Updated **core** to **v0.8.2**
+
 ## [0.6.0](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.0) (02/09/2026)
 
 ### Miscellaneous
