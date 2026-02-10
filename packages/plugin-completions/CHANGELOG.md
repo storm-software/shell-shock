@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.0.17](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.17) (02/10/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies ([919914b](https://github.com/storm-software/shell-shock/commit/919914b))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.8.4**
+
 ## [0.0.16](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.16) (02/10/2026)
 
 ### Features

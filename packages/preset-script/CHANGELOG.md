@@ -2,6 +2,19 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.3](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.3) (02/10/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies ([919914b](https://github.com/storm-software/shell-shock/commit/919914b))
+- **preset-script:** Reduce `didyouknow2` simularity threashold to 0.25 ([6335719](https://github.com/storm-software/shell-shock/commit/6335719))
+- **preset-script:** Clean up newline display after banner ([977372f](https://github.com/storm-software/shell-shock/commit/977372f))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.0.21**
+- Updated **core** to **v0.8.4**
+
 ## [0.6.2](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.2) (02/10/2026)
 
 ### Features

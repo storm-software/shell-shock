@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.0.21](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.21) (02/10/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies ([919914b](https://github.com/storm-software/shell-shock/commit/919914b))
+
 ## [0.0.20](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.20) (02/10/2026)
 
 ### Features

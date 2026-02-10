@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.16](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.16) (02/10/2026)
+
+### Miscellaneous
+
+- **eslint-plugin:** Regenerate `package.json` file's exports ([d6612bb](https://github.com/storm-software/shell-shock/commit/d6612bb))
+- **eslint-plugin:** Implementation of initial set of linting rules ([243d973](https://github.com/storm-software/shell-shock/commit/243d973))
+
 ## [0.0.15](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.15) (02/10/2026)
 
 ### Features

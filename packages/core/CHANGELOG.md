@@ -2,6 +2,14 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.4](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.4) (02/10/2026)
+
+### Miscellaneous
+
+- **monorepo:** Clean up the command's and option's descriptions ([d82a793](https://github.com/storm-software/shell-shock/commit/d82a793))
+- **core:** Update processing to better handle duplicate parameter names ([aa3ecef](https://github.com/storm-software/shell-shock/commit/aa3ecef))
+- **core:** Add logic to handle duplicate argument names ([caf86be](https://github.com/storm-software/shell-shock/commit/caf86be))
+
 ## [0.8.3](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.3) (02/10/2026)
 
 ### Features

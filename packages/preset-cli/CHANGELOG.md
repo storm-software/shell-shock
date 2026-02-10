@@ -2,6 +2,21 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.3.1](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.3.1) (02/10/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies ([919914b](https://github.com/storm-software/shell-shock/commit/919914b))
+- **preset-cli:** Improve the input prompt messages ([9a13273](https://github.com/storm-software/shell-shock/commit/9a13273))
+- **preset-cli:** Resolve issue with duplicate scope variable name ([5f77e27](https://github.com/storm-software/shell-shock/commit/5f77e27))
+- **preset-script:** Clean up newline display after banner ([977372f](https://github.com/storm-software/shell-shock/commit/977372f))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.6.3**
+- Updated **plugin-theme** to **v0.0.21**
+- Updated **core** to **v0.8.4**
+
 ## [0.3.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.3.0) (02/10/2026)
 
 ### Features
