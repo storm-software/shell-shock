@@ -335,6 +335,7 @@ export function extractCommandArgument(
 
   const argument = {
     name: reflection.getName(),
+    alias: reflection.getAlias(),
     kind: type.kind,
     title: titleCase(reflection.getName()),
     description:
@@ -517,12 +518,27 @@ export async function reflectCommandTree<TContext extends Context = Context>(
         const found = tree.arguments.findIndex(
           arg => arg.name === argument.name
         );
-        if (found !== -1 && found !== index) {
+        if (
+          (found !== -1 && found !== index) ||
+          tree.segments.some(
+            segment =>
+              isDynamicPathSegment(segment) &&
+              getDynamicPathSegmentName(segment) === argument.name
+          )
+        ) {
           argument.name += `_${
+            tree.segments.filter(
+              segment =>
+                isDynamicPathSegment(segment) &&
+                getDynamicPathSegmentName(segment).replace(/_\d+$/, "") ===
+                  argument.name
+            ).length +
             tree.arguments.filter(
               arg => arg.name.replace(/_\d+$/, "") === argument.name
-            ).length + 1
+            ).length +
+            1
           }`;
+          argument.env = constantCase(argument.name);
         }
       });
     }
@@ -554,7 +570,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
               ...option.reflection?.getTags(),
               title: option.title,
               alias: option.alias
-                .filter(alias => alias.length > 0)
+                .filter(alias => alias.length > 1)
                 .map(alias => constantCase(alias)),
               domain: "cli"
             }
@@ -562,11 +578,11 @@ export async function reflectCommandTree<TContext extends Context = Context>(
         });
     }
 
-    Object.values(tree.arguments)
+    tree.arguments
       .filter(arg => arg.env !== false)
       .forEach(arg =>
         context.env.types.env.addProperty({
-          name: constantCase(arg.name),
+          name: arg.env as string,
           optional: arg.optional ? true : undefined,
           description: arg.description,
           visibility: ReflectionVisibility.public,
@@ -574,6 +590,9 @@ export async function reflectCommandTree<TContext extends Context = Context>(
           default: arg.default,
           tags: {
             ...arg.reflection.getTags(),
+            alias: arg.alias
+              .filter(alias => alias.length > 1)
+              .map(alias => constantCase(alias)),
             domain: "cli"
           }
         })

@@ -68,7 +68,7 @@ export function DynamicSegmentsParserLogic(
           <VarDeclaration
             let
             name={camelCase(getDynamicPathSegmentName(segment))}
-            type="string"
+            type="string | undefined"
           />
           <hbr />
           <IfStatement

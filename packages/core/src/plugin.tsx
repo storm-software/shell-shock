@@ -63,6 +63,7 @@ import {
   getAppDescription,
   getAppName,
   getAppTitle,
+  getDynamicPathSegmentName,
   isDynamicPathSegment,
   isPathSegmentGroup
 } from "./plugin-utils/context-helpers";
@@ -197,13 +198,36 @@ export const plugin = <TContext extends Context = Context>(
 
           const id = resolveCommandId(this, entry.file);
           if (!ret.some(existing => existing.id === id)) {
-            const path = resolveCommandPath(this, entry.file);
             const name = resolveCommandName(entry.file);
+            let segments = resolveCommandPath(this, entry.file)
+              .split("/")
+              .filter(Boolean);
+
+            // Ensure unique segment names by appending an index suffix to duplicates
+            segments = segments.map((segment, index) => {
+              const found = segments.findIndex(
+                existing => existing === segment
+              );
+              if (found !== -1 && found !== index) {
+                segment += `_${
+                  segments.filter(
+                    segment =>
+                      isDynamicPathSegment(segment) &&
+                      getDynamicPathSegmentName(segment).replace(
+                        /_\d+$/,
+                        ""
+                      ) === segment
+                  ).length
+                }`;
+              }
+
+              return segment;
+            });
 
             ret.push({
               id,
-              path,
-              segments: path.split("/").filter(Boolean),
+              path: segments.join("/"),
+              segments,
               name,
               alias: [],
               isVirtual: false,
@@ -290,12 +314,36 @@ export const plugin = <TContext extends Context = Context>(
                     const id = resolveCommandId(this, file);
                     if (!ret.some(existing => existing.id === id)) {
                       const name = resolveCommandName(file);
-                      const path = resolveCommandPath(this, file);
+
+                      let segments = resolveCommandPath(this, file)
+                        .split("/")
+                        .filter(Boolean);
+
+                      // Ensure unique segment names by appending an index suffix to duplicates
+                      segments = segments.map((segment, index) => {
+                        const found = segments.findIndex(
+                          existing => existing === segment
+                        );
+                        if (found !== -1 && found !== index) {
+                          segment += `_${
+                            segments.filter(
+                              segment =>
+                                isDynamicPathSegment(segment) &&
+                                getDynamicPathSegmentName(segment).replace(
+                                  /_\d+$/,
+                                  ""
+                                ) === segment
+                            ).length
+                          }`;
+                        }
+
+                        return segment;
+                      });
 
                       ret.push({
                         id,
-                        path,
-                        segments: path.split("/").filter(Boolean),
+                        path: segments.join("/"),
+                        segments,
                         name,
                         alias: [],
                         isVirtual: true,
