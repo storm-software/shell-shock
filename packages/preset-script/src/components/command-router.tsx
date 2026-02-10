@@ -196,7 +196,7 @@ export function CommandRouterBody(props: CommandRouterProps) {
           caseSensitive: ${JSON.stringify(context.config.isCaseSensitive)},
           returnType: ReturnTypeEnums.ALL_CLOSEST_MATCHES,
           thresholdType: ThresholdTypeEnums.SIMILARITY,
-          threshold: 0.75
+          threshold: 0.25
         });
         error(\`Unknown command: "\${command}"\${suggestions && suggestions.length > 0 ? \`, did you mean: \${suggestions.length === 1 ? \`"\${suggestions[0]}"\` : suggestions.map((suggestion, i) => i < suggestions.length - 1 ? \`"\${suggestion}", \` : \`or "\${suggestion}"\`)}?\` : ""} \`);`}</ElseIfClause>
     </Show>

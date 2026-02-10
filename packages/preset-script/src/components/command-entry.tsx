@@ -88,7 +88,7 @@ export function CommandInvocation(props: { command: CommandTree }) {
       <hbr />
       {code`
 
-      internal_commandContext.run(__context, () => {
+      return internal_commandContext.run(__context, () => {
         return Promise.resolve(Reflect.apply(handle${pascalCase(
           command.name
         )}, __context, [options${
