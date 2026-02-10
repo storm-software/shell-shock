@@ -333,7 +333,7 @@ export function extractCommandArgument(
     );
   }
 
-  const option = {
+  const argument = {
     name: reflection.getName(),
     kind: type.kind,
     title: titleCase(reflection.getName()),
@@ -357,8 +357,9 @@ export function extractCommandArgument(
       type.type.kind === ReflectionKind.string ||
       type.type.kind === ReflectionKind.number
     ) {
-      (option as StringCommandArgument | NumberCommandArgument).variadic = true;
-      (option as StringCommandArgument | NumberCommandArgument).kind =
+      (argument as StringCommandArgument | NumberCommandArgument).variadic =
+        true;
+      (argument as StringCommandArgument | NumberCommandArgument).kind =
         type.type.kind;
     } else {
       throw new Error(
@@ -387,7 +388,7 @@ export function extractCommandArgument(
     );
   }
 
-  return option;
+  return argument;
 }
 
 /**
@@ -510,6 +511,20 @@ export async function reflectCommandTree<TContext extends Context = Context>(
       tree.arguments = parameters
         .slice(1)
         .map(arg => extractCommandArgument(command, arg));
+
+      // Ensure unique argument names by appending an index suffix to duplicates
+      tree.arguments.forEach((argument, index) => {
+        const found = tree.arguments.findIndex(
+          arg => arg.name === argument.name
+        );
+        if (found !== -1 && found !== index) {
+          argument.name += `_${
+            tree.arguments.filter(
+              arg => arg.name.replace(/_\d+$/, "") === argument.name
+            ).length + 1
+          }`;
+        }
+      });
     }
   } else {
     tree.description ??= `A collection of available ${
