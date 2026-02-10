@@ -25,9 +25,11 @@ const config: Linter.Config = {
   plugins: {
     "shell-shock": plugin
   },
-  ignores: [".storm"],
+  ignores: [".shell-shock"],
   rules: {
-    "shell-shock/invalid-command-path": "error"
+    "shell-shock/duplicate-command-path": "warn",
+    "shell-shock/invalid-command-export": "error",
+    "shell-shock/invalid-handler-params": "error"
   }
 };
 

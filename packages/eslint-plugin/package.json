@@ -41,26 +41,13 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "exports": {
-    ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.mjs"
-    },
-    "./configs": {
-      "require": "./dist/configs/index.cjs",
-      "import": "./dist/configs/index.mjs"
-    },
-    "./configs/base": {
-      "require": "./dist/configs/base.cjs",
-      "import": "./dist/configs/base.mjs"
-    },
-    "./plugin": {
-      "require": "./dist/plugin.cjs",
-      "import": "./dist/plugin.mjs"
-    },
-    "./rules/invalid-command-path": {
-      "require": "./dist/rules/invalid-command-path.cjs",
-      "import": "./dist/rules/invalid-command-path.mjs"
-    },
+    ".": "./src/index.ts",
+    "./configs": "./src/configs/index.ts",
+    "./configs/base": "./src/configs/base.ts",
+    "./plugin": "./src/plugin.ts",
+    "./rules/duplicate-command-path": "./src/rules/duplicate-command-path.ts",
+    "./rules/invalid-command-export": "./src/rules/invalid-command-export.ts",
+    "./rules/invalid-handler-params": "./src/rules/invalid-handler-params.ts",
     "./package.json": "./package.json"
   },
   "types": "./dist/index.d.cts",
@@ -78,11 +65,14 @@
     }
   },
   "dependencies": {
+    "@stryke/fs": "catalog:",
+    "@stryke/path": "catalog:",
     "@typescript-eslint/utils": "catalog:",
     "defu": "catalog:"
   },
   "devDependencies": {
     "@eslint/config-inspector": "catalog:",
+    "@powerlines/plugin-tsdown": "catalog:",
     "@storm-software/eslint": "catalog:",
     "@types/eslint": "catalog:",
     "@types/eslint__js": "catalog:",
@@ -92,7 +82,8 @@
     "eslint-plugin-eslint-plugin": "catalog:",
     "eslint-plugin-i18n-text": "catalog:",
     "eslint-rule-documentation": "catalog:",
-    "eslint-typegen": "catalog:"
+    "eslint-typegen": "catalog:",
+    "powerlines": "catalog:"
   },
   "publishConfig": {
     "access": "public",
@@ -113,9 +104,17 @@
         "require": "./dist/plugin.cjs",
         "import": "./dist/plugin.mjs"
       },
-      "./rules/invalid-command-path": {
-        "require": "./dist/rules/invalid-command-path.cjs",
-        "import": "./dist/rules/invalid-command-path.mjs"
+      "./rules/duplicate-command-path": {
+        "require": "./dist/rules/duplicate-command-path.cjs",
+        "import": "./dist/rules/duplicate-command-path.mjs"
+      },
+      "./rules/invalid-command-export": {
+        "require": "./dist/rules/invalid-command-export.cjs",
+        "import": "./dist/rules/invalid-command-export.mjs"
+      },
+      "./rules/invalid-handler-params": {
+        "require": "./dist/rules/invalid-handler-params.cjs",
+        "import": "./dist/rules/invalid-handler-params.mjs"
       },
       "./package.json": "./package.json"
     }

@@ -48,7 +48,7 @@ function RuleCreator(urlCreator: (name: string) => string) {
   }: Readonly<
     RuleWithMetaAndName<TOptions, TMessageIds>
   >): RuleModule<TOptions> {
-    return createRule<TOptions, TMessageIds>({
+    return createRuleInfo<TOptions, TMessageIds>({
       meta: {
         ...meta,
         docs: {
@@ -67,7 +67,7 @@ function RuleCreator(urlCreator: (name: string) => string) {
  * @returns Well-typed TSESLint custom ESLint rule.
  * @remarks It is generally better to provide a docs URL function to RuleCreator.
  */
-function createRule<
+function createRuleInfo<
   TOptions extends readonly any[],
   TMessageIds extends string
 >({
@@ -90,7 +90,7 @@ function createRule<
   };
 }
 
-export const createEslintRule = RuleCreator(
+export const createRule = RuleCreator(
   ruleName =>
     `https://docs.stormsoftware.com/projects/shell-shock/eslint/rules/${ruleName}.md`
 ) as any as <TOptions extends readonly unknown[], TMessageIds extends string>({

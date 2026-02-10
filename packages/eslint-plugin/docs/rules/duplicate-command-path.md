@@ -1,4 +1,4 @@
-# Require a valid command path for each command file listed in the `entry` configuration (`shell-shock/invalid-command-path`)
+# Require a unique command path for each command file listed for the project (`shell-shock/duplicate-command-path`)
 
 💼🚫 This rule is enabled in the 🔒 `strict` config. This rule is _disabled_ in
 the following configs: 📋 `base`, 🌟 `recommended`.
