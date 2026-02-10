@@ -65,69 +65,73 @@ import { getDefaultOptions } from "./utilities";
 /**
  * Resolves the description for a command option based on its reflection.
  *
+ * @param name - The name of the command option.
  * @param kind - The reflection kind of the command option.
  * @param optional - Whether the command option is optional.
- * @param name - The name of the command option.
+ * @param variadic - Whether the command option is variadic (i.e., an array).
  * @param title - The title of the command option, if any.
  * @param defaultValue - The default value of the command option, if any.
  * @returns The resolved description for the command option.
  */
 export function resolveCommandOptionDescription(
-  kind: ReflectionKind,
-  optional: boolean,
   name: string,
+  kind: ReflectionKind,
+  optional = false,
+  variadic = false,
   title?: string,
   defaultValue?: any
 ): string {
-  return `A${optional && !defaultValue ? "n optional" : ""} ${
-    kind === ReflectionKind.boolean
-      ? "flag provided via the command-line"
-      : "command-line option"
+  return `A${optional && !defaultValue ? "n optional" : ""} command line ${
+    kind === ReflectionKind.boolean ? "flag" : "option"
   } that allows the user to ${
     kind === ReflectionKind.boolean
       ? "set the"
-      : kind === ReflectionKind.array
+      : variadic
         ? "specify custom"
         : "specify a custom"
   } ${title?.trim() || titleCase(name)} ${
     kind === ReflectionKind.boolean
       ? "indicator"
       : `${kind === ReflectionKind.number ? "numeric" : "string"} value${
-          kind === ReflectionKind.array ? "s" : ""
+          variadic ? "s" : ""
         }`
-  } that will be used in the application.`;
+  }.`;
 }
 
 /**
- * Resolves the description for a command parameter based on its reflection.
+ * Resolves the description for a command argument based on its reflection.
  *
- * @param kind - The reflection kind of the command parameter.
- * @param optional - Whether the command parameter is optional.
- * @param name - The name of the command parameter.
- * @param title - The title of the command parameter, if any.
- * @param defaultValue - The default value of the command parameter, if any.
- * @returns The resolved description for the command parameter.
+ * @param name - The name of the command argument.
+ * @param kind - The reflection kind of the command argument.
+ * @param optional - Whether the command argument is optional.
+ * @param variadic - Whether the command argument is variadic (i.e., an array).
+ * @param title - The title of the command argument, if any.
+ * @param defaultValue - The default value of the command argument, if any.
+ * @returns The resolved description for the command argument.
  */
-export function resolveCommandParameterDescription(
-  kind: ReflectionKind,
-  optional: boolean,
+export function resolveCommandArgumentDescription(
   name: string,
+  kind: ReflectionKind,
+  optional = false,
+  variadic = false,
   title?: string,
   defaultValue?: any
 ): string {
-  return `A${optional && !defaultValue ? "n optional" : ""} command-line positional parameter that allows the user to ${
+  return `An${
+    optional && !defaultValue ? " optional" : ""
+  } argument that allows the user to ${
     kind === ReflectionKind.boolean
       ? "set the"
-      : kind === ReflectionKind.array
+      : variadic
         ? "specify custom"
         : "specify a custom"
   } ${title?.trim() || titleCase(name)} ${
     kind === ReflectionKind.boolean
       ? "indicator"
       : `${kind === ReflectionKind.number ? "numeric" : "string"} value${
-          kind === ReflectionKind.array ? "s" : ""
+          variadic ? "s" : ""
         }`
-  } that will be used in the application.`;
+  }.`;
 }
 
 export function resolveCommandId(context: Context, file: string): string {
@@ -243,9 +247,10 @@ export function extractCommandOption(
     description:
       reflection.getDescription() ||
       resolveCommandOptionDescription(
+        reflection.getNameAsString(),
         reflection.getKind(),
         reflection.isOptional(),
-        reflection.getNameAsString(),
+        reflection.isArray(),
         reflection.getTags().title,
         reflection.getDefaultValue()
       ),
@@ -323,7 +328,7 @@ export function extractCommandArgument(
     )
   ) {
     throw new Error(
-      `Unsupported type for positional parameter "${reflection.getName()}" in command "${
+      `Unsupported type for argument "${reflection.getName()}" in command "${
         command.name
       }". Only string types (or an array of strings) are supported, received ${stringifyType(
         type
@@ -340,10 +345,11 @@ export function extractCommandArgument(
     title: titleCase(reflection.getName()),
     description:
       reflection.parameter.description ||
-      resolveCommandParameterDescription(
-        type.kind,
-        !!reflection.isOptional(),
+      resolveCommandArgumentDescription(
         reflection.getName(),
+        type.kind === ReflectionKind.array ? type.type.kind : type.kind,
+        reflection.isOptional(),
+        type.kind === ReflectionKind.array,
         titleCase(reflection.getName()),
         reflection.getDefaultValue()
       ),
@@ -364,7 +370,7 @@ export function extractCommandArgument(
         type.type.kind;
     } else {
       throw new Error(
-        `Unsupported array type for positional parameter "${reflection.getName()}" in command "${
+        `Unsupported array type for argument "${reflection.getName()}" in command "${
           command.name
         }". Only string[] and number[] are supported, received ${stringifyType(
           type
@@ -379,7 +385,7 @@ export function extractCommandArgument(
     type.kind !== ReflectionKind.number
   ) {
     throw new Error(
-      `Unsupported type for positional parameter "${reflection.getName()}" in command "${
+      `Unsupported type for argument "${reflection.getName()}" in command "${
         command.name
       }". Only string, number, boolean, string[] and number[] are supported, received ${stringifyType(
         type
@@ -411,7 +417,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
       parent?.title
         ? `${
             parent.isVirtual
-              ? parent.title.replace(/ Commands$/, "")
+              ? parent.title.replace(/(?:c|C)ommands?$/, "").trim()
               : parent.title
           } - `
         : ""
@@ -488,7 +494,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     tree.description ??=
       command.description ||
       type.description ||
-      `The ${tree.title} executable command line interface.`;
+      `The ${tree.title.replace(/(?:c|C)ommands?$/, "").trim()} executable command line interface.`;
 
     const parameters = tree.reflection.getParameters();
     if (parameters.length > 0 && parameters[0]) {
@@ -535,8 +541,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
             ).length +
             tree.arguments.filter(
               arg => arg.name.replace(/_\d+$/, "") === argument.name
-            ).length +
-            1
+            ).length
           }`;
           argument.env = constantCase(argument.name);
         }
@@ -544,7 +549,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     }
   } else {
     tree.description ??= `A collection of available ${
-      tree.title || titleCase(tree.name)
+      tree.title.replace(/(?:c|C)ommands?$/, "").trim() || titleCase(tree.name)
     } commands that are included in the ${getAppTitle(
       context
     )} command line application.`;
