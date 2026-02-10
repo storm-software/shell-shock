@@ -186,16 +186,16 @@ export function CommandEntry(props: CommandEntryProps) {
                               message: 'Please provide a value for the ${
                                 option.title
                               } option:',
-                              validate(value) {
-                                if (isCancel(value)) {
+                              validate(val) {
+                                if (isCancel(val)) {
                                   return true;
                                 }
-                                if (!value || value.trim() === "") {
+                                if (!val || val.trim() === "") {
                                   return "A value is required for this option";
                                 }
                                 ${
                                   option.kind === ReflectionKind.number
-                                    ? `if (Number.isNaN(Number(value))) {
+                                    ? `if (Number.isNaN(Number(val))) {
                                   return "The value provided must be a valid number";
                                 }`
                                     : ""
@@ -246,19 +246,19 @@ export function CommandEntry(props: CommandEntryProps) {
                               message: 'Please provide one or more values for the ${
                                 option.title
                               } option (values are separated by a "," character):',
-                              validate(value) {
-                                if (isCancel(value)) {
+                              validate(val) {
+                                if (isCancel(val)) {
                                   return true;
                                 }
-                                if (!value || value.trim() === "") {
+                                if (!val || val.trim() === "") {
                                   return "A value is required for this option";
                                 }
-                                if (value.split(",").map(value => value.trim()).filter(Boolean).length === 0) {
+                                if (val.split(",").map(v => v.trim()).filter(Boolean).length === 0) {
                                   return "At least one value is required for this option";
                                 }
                                 ${
                                   option.kind === ReflectionKind.number
-                                    ? `const invalidIndex = value.split(",").map(value => value.trim()).filter(Boolean).findIndex(value => Number.isNaN(Number(value));
+                                    ? `const invalidIndex = val.split(",").map(v => v.trim()).filter(Boolean).findIndex(v => Number.isNaN(Number(v));
                                     if (invalidIndex !== -1) {
                                       return \`Invalid numeric value provided for item #\${invalidIndex + 1} - all provided items must be a valid number\`;
                                     } `
@@ -302,16 +302,16 @@ export function CommandEntry(props: CommandEntryProps) {
                           }>{code`
                             const value = await text({
                               message: 'Please provide a value for the ${argument.title} positional argument:',
-                              validate(value) {
-                                if (isCancel(value)) {
+                              validate(val) {
+                                if (isCancel(val)) {
                                   return true;
                                 }
-                                if (!value || value.trim() === "") {
+                                if (!val || val.trim() === "") {
                                   return "A value is required for this positional argument";
                                 }
                                 ${
                                   argument.kind === ReflectionKind.number
-                                    ? `if (Number.isNaN(Number(value))) {
+                                    ? `if (Number.isNaN(Number(val))) {
                                   return "The value provided must be a valid number";
                                 }`
                                     : ""
@@ -350,19 +350,19 @@ export function CommandEntry(props: CommandEntryProps) {
                               message: 'Please provide one or more values for the ${
                                 argument.title
                               } option (values are separated by a "," character):',
-                              validate(value) {
-                                if (isCancel(value)) {
+                              validate(val) {
+                                if (isCancel(val)) {
                                   return true;
                                 }
-                                if (!value || value.trim() === "") {
+                                if (!val || val.trim() === "") {
                                   return "A value is required for this option";
                                 }
-                                if (value.split(",").map(value => value.trim()).filter(Boolean).length === 0) {
+                                if (val.split(",").map(v => v.trim()).filter(Boolean).length === 0) {
                                   return "At least one value is required for this option";
                                 }
                                 ${
                                   argument.kind === ReflectionKind.number
-                                    ? `const invalidIndex = value.split(",").map(value => value.trim()).filter(Boolean).findIndex(value => Number.isNaN(Number(value));
+                                    ? `const invalidIndex = val.split(",").map(v => v.trim()).filter(Boolean).findIndex(v => Number.isNaN(Number(v));
                                     if (invalidIndex !== -1) {
                                       return \`Invalid numeric value provided for item #\${invalidIndex + 1} - all provided items must be a valid number\`;
                                     } `
