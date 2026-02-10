@@ -82,7 +82,7 @@ catalog:
   copyfiles: ^2.4.1
   defu: ^6.1.4
   didyoumean2: ^7.0.4
-  esbuild: ^0.24.2
+  esbuild: ^0.25.0
   eslint: ^9.39.2
   eslint-doc-generator: ^3.0.2
   eslint-flat-config-utils: ^2.1.4
