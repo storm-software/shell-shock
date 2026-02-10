@@ -367,9 +367,6 @@ export function VirtualHelp(props: VirtualHelpProps) {
 
   return (
     <>
-      {code`
-      writeLine(""); `}
-      <hbr />
       <hbr />
       {code`writeLine(colors.bold(colors.text.heading.secondary("Global Options:")));`}
       <hbr />

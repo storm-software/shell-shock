@@ -67,40 +67,40 @@ export function CommandRouter(props: CommandRouterProps) {
       <IfStatement condition={code`isInteractive && !isHelp`}>
         {code`
         banner();
-        writeLine("");
 
-      intro("Command selection");
+        intro("Command selection");
 
-      let segments = await select({
-        message: "Please select a command to execute:",
-        options: [ `}
+        let segments = await select({
+          message: "Please select a command to execute:",
+          options: [ `}
         <CommandRouterSelectOptions commands={commands} />
         {` ],
-      });
-      if (isCancel(segments)) {
-        return;
-      }
-
-      let dynamics = {} as Record<string, string>;
-      for (const dynamic of segments.filter(segment => segment.startsWith("[") && segment.endsWith("]"))) {
-        const value = await text({
-          message: \`Please provide a value for \${dynamic.replace(/^\[+/, "").replace(/\]+$/, "")}:\`,
         });
-        if (isCancel(value)) {
+        if (isCancel(segments)) {
           return;
         }
-        dynamics[dynamic] = value;
-      }
 
-      segments = segments.map(segment => dynamics[segment] || segment);
-      const context = useApp();
-      context.set("args", [args[0], ...segments, ...args.slice(${segments.length + 2})]);
+        let dynamics = {} as Record<string, string>;
+        for (const dynamic of segments.filter(segment => segment.startsWith("[") && segment.endsWith("]"))) {
+          const value = await text({
+            message: \`Please provide a value for \${dynamic.replace(/^\[+/, "").replace(/\]+$/, "")}:\`,
+          });
+          if (isCancel(value)) {
+            return;
+          }
+          dynamics[dynamic] = value;
+        }
 
-      outro(\`Executing \${segments.join(" ")} command\`);
+        segments = segments.map(segment => dynamics[segment] || segment);
+        const context = useApp();
+        context.set("args", [args.length > 0 ? args[0] : undefined, args.length > 1 ? args[1] : undefined, ...segments, ...args.slice(${
+          segments.length + 2
+        })].filter(Boolean) as string[]);
 
-      command = segments[0];
-      args = context.get("args");
-      `}
+        outro(\`Executing \${segments.join(" ")} command\`);
+
+        command = segments[0];
+        args = context.get("args"); `}
         <CommandRouterBody {...props} segments={segments} commands={commands} />
       </IfStatement>
       <hbr />

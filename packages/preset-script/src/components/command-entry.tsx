@@ -157,7 +157,6 @@ export function CommandHandlerDeclaration(
         <hbr />
         <IfStatement condition={<IsDebug />}>
           {code`
-          writeLine("");
           writeLine(colors.text.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console."));
 
           writeLine("");

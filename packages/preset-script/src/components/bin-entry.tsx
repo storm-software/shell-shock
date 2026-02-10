@@ -160,7 +160,7 @@ export function BinEntry(props: BinEntryProps) {
               }, {} as TypescriptFileImports)
           )}
           builtinImports={defu(builtinImports ?? {}, {
-            console: ["error", "verbose", "table"],
+            console: ["error", "verbose", "table", "text", "writeLine"],
             utils: [
               "hasFlag",
               "exit",
@@ -175,10 +175,16 @@ export function BinEntry(props: BinEntryProps) {
             <hbr />
           </Show>
           <TSDoc
-            heading={`Binary entry point for the ${getAppTitle(context)} CLI application.`}></TSDoc>
+            heading={`Binary entry point for the ${getAppTitle(
+              context
+            )} CLI application.`}></TSDoc>
           <FunctionDeclaration async returnType="any" name="main">
             <IfStatement condition={code`hasFlag(["version", "v"])`}>
-              {code`console.log(${context?.packageJson.version ? `"${context?.packageJson.version}"` : "0.0.1"});
+              {code`console.log(${
+                context?.packageJson.version
+                  ? `"${context?.packageJson.version}"`
+                  : "0.0.1"
+              });
           return;`}
             </IfStatement>
             <hbr />

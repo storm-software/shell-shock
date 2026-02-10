@@ -277,7 +277,8 @@ export function BannerFunctionBodyDeclaration(
         } + colors.border.banner.outline.${variant}("${
           theme.borderStyles.banner.outline[variant].bottomRight
         }"), { consoleFn: console.${consoleFnName} });
-`}
+
+        writeLine(""); `}
     </>
   );
 }
