@@ -41,14 +41,105 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "exports": {
-    ".": "./src/index.ts",
-    "./configs": "./src/configs/index.ts",
-    "./configs/base": "./src/configs/base.ts",
-    "./plugin": "./src/plugin.ts",
-    "./rules/duplicate-command-path": "./src/rules/duplicate-command-path.ts",
-    "./rules/invalid-command-export": "./src/rules/invalid-command-export.ts",
-    "./rules/invalid-handler-params": "./src/rules/invalid-handler-params.ts",
-    "./package.json": "./package.json"
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "default": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./configs": {
+      "require": {
+        "types": "./dist/configs/index.d.cts",
+        "default": "./dist/configs/index.cjs"
+      },
+      "import": {
+        "types": "./dist/configs/index.d.mts",
+        "default": "./dist/configs/index.mjs"
+      },
+      "default": {
+        "types": "./dist/configs/index.d.mts",
+        "default": "./dist/configs/index.mjs"
+      }
+    },
+    "./configs/base": {
+      "require": {
+        "types": "./dist/configs/base.d.cts",
+        "default": "./dist/configs/base.cjs"
+      },
+      "import": {
+        "types": "./dist/configs/base.d.mts",
+        "default": "./dist/configs/base.mjs"
+      },
+      "default": {
+        "types": "./dist/configs/base.d.mts",
+        "default": "./dist/configs/base.mjs"
+      }
+    },
+    "./package.json": "./package.json",
+    "./plugin": {
+      "require": {
+        "types": "./dist/plugin.d.cts",
+        "default": "./dist/plugin.cjs"
+      },
+      "import": {
+        "types": "./dist/plugin.d.mts",
+        "default": "./dist/plugin.mjs"
+      },
+      "default": {
+        "types": "./dist/plugin.d.mts",
+        "default": "./dist/plugin.mjs"
+      }
+    },
+    "./rules/duplicate-command-path": {
+      "require": {
+        "types": "./dist/rules/duplicate-command-path.d.cts",
+        "default": "./dist/rules/duplicate-command-path.cjs"
+      },
+      "import": {
+        "types": "./dist/rules/duplicate-command-path.d.mts",
+        "default": "./dist/rules/duplicate-command-path.mjs"
+      },
+      "default": {
+        "types": "./dist/rules/duplicate-command-path.d.mts",
+        "default": "./dist/rules/duplicate-command-path.mjs"
+      }
+    },
+    "./rules/invalid-command-export": {
+      "require": {
+        "types": "./dist/rules/invalid-command-export.d.cts",
+        "default": "./dist/rules/invalid-command-export.cjs"
+      },
+      "import": {
+        "types": "./dist/rules/invalid-command-export.d.mts",
+        "default": "./dist/rules/invalid-command-export.mjs"
+      },
+      "default": {
+        "types": "./dist/rules/invalid-command-export.d.mts",
+        "default": "./dist/rules/invalid-command-export.mjs"
+      }
+    },
+    "./rules/invalid-handler-params": {
+      "require": {
+        "types": "./dist/rules/invalid-handler-params.d.cts",
+        "default": "./dist/rules/invalid-handler-params.cjs"
+      },
+      "import": {
+        "types": "./dist/rules/invalid-handler-params.d.mts",
+        "default": "./dist/rules/invalid-handler-params.mjs"
+      },
+      "default": {
+        "types": "./dist/rules/invalid-handler-params.d.mts",
+        "default": "./dist/rules/invalid-handler-params.mjs"
+      }
+    }
   },
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
@@ -56,8 +147,8 @@
   "keywords": ["eslint", "eslint-plugin", "shell-shock", "storm-software"],
   "peerDependencies": {
     "eslint": "catalog:",
-    "@powerlines/plugin-tsdown": "0.1.184",
-    "powerlines": "0.37.102"
+    "@powerlines/plugin-tsdown": ">=0.1.224",
+    "powerlines": ">=0.38.38"
   },
   "peerDependenciesMeta": {
     "eslint": {
