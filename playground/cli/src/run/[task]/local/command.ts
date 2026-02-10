@@ -27,10 +27,10 @@ interface RunTaskLocalOptions {
  * Run specified task locally.
  *
  * @param options - The local arguments.
- * @param task - The task to run.
+ * @param name - A name positional argument to demonstrate the use of the command input.
  */
-function runTaskLocal(options: RunTaskLocalOptions, task: string) {
-  console.log("Running task local:", task, "at", options.root);
+function runTaskLocal(options: RunTaskLocalOptions, name: string) {
+  console.log("Running name local:", name, "at", options.root);
 }
 
 export default runTaskLocal;
