@@ -29,6 +29,7 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import {
   TSDoc,
@@ -43,6 +44,7 @@ import type {
   ThemeResolvedConfig
 } from "@shell-shock/plugin-theme/types/theme";
 import { getIndefiniteArticle } from "@stryke/string-format/vowels";
+import { defu } from "defu";
 import { useColors, useTheme } from "../contexts/theme";
 import type { AnsiWrappers, BaseAnsiStylesKeys } from "../helpers/ansi-utils";
 import { IsNotDebug, IsNotVerbose } from "./helpers";
@@ -2376,20 +2378,27 @@ cells.forEach((row, rowIndex) => {
   );
 }
 
+export type ConsoleBuiltinProps = Pick<
+  BuiltinFileProps,
+  "children" | "imports" | "builtinImports"
+>;
+
 /**
  * A built-in console utilities module for Shell Shock.
  */
-export function ConsoleBuiltin() {
+export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
+  const { children, imports, builtinImports } = props;
+
   return (
     <BuiltinFile
       id="console"
       description="A collection of helper utilities to assist in generating content meant for display in the console."
-      imports={{
+      imports={defu(imports, {
         "@shell-shock/plugin-theme/types/theme": [
           { name: "ThemeColorsResolvedConfig", type: true }
         ]
-      }}
-      builtinImports={{
+      })}
+      builtinImports={defu(builtinImports, {
         utils: [
           "hasFlag",
           "isMinimal",
@@ -2398,7 +2407,7 @@ export function ConsoleBuiltin() {
           "isHyperlinkSupported"
         ],
         env: ["env", "isDevelopment", "isDebug", "isCI"]
-      }}>
+      })}>
       <StripAnsiFunctionDeclaration />
       <hbr />
       <hbr />
@@ -2515,6 +2524,9 @@ export function ConsoleBuiltin() {
       <hbr />
       <hbr />
       <TableFunctionDeclaration />
+      <hbr />
+      <hbr />
+      {children}
       <hbr />
       <hbr />
     </BuiltinFile>

@@ -89,7 +89,7 @@ export function CommandInvocation(props: { command: CommandTree }) {
       <hbr />
       {code`
 
-      internal_commandContext.call(__context, () => {
+      internal_commandContextStore.run(__context, () => {
         return Promise.resolve(Reflect.apply(handle${pascalCase(
           command.name
         )}, __context, [options${
@@ -190,7 +190,8 @@ export function CommandHandlerDeclaration(
                   )
                   .join("\\n")}`
               : ""
-          }\`); `}
+          }\`);
+          writeLine(""); `}
         </IfStatement>
         <hbr />
         <hbr />
@@ -405,7 +406,7 @@ export function CommandEntry(props: CommandEntryProps) {
             "hasFlag",
             "isMinimal",
             "isUnicodeSupported",
-            "internal_commandContext"
+            "internal_commandContextStore"
           ]
         })}>
         <BannerFunctionDeclaration command={command} />
