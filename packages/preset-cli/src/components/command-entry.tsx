@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { code, computed, For, Match, Show, Switch } from "@alloy-js/core";
-import { ElseClause, ElseIfClause, IfStatement } from "@alloy-js/typescript";
+import { ElseIfClause, IfStatement } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
@@ -84,7 +84,7 @@ export function CommandEntry(props: CommandEntryProps) {
           prompts: "prompts"
         })}
         builtinImports={defu(builtinImports ?? {}, {
-          env: ["env", "isCI", "isDevelopment", "isDebug"],
+          env: ["env", "isDevelopment", "isDebug"],
           console: [
             "debug",
             "warn",
@@ -96,15 +96,19 @@ export function CommandEntry(props: CommandEntryProps) {
             "splitText",
             "text",
             "confirm",
-            "isCancel"
+            "isCancel",
+            "intro",
+            "outro"
           ],
           utils: [
-            "getArgs",
+            "useApp",
+            "useArgs",
             "hasFlag",
             "isMinimal",
             "isInteractive",
+            "isHelp",
             "isUnicodeSupported",
-            "internal_commandContextStore"
+            "internal_commandContext"
           ]
         })}>
         <BannerFunctionDeclaration command={command} />
@@ -114,7 +118,53 @@ export function CommandEntry(props: CommandEntryProps) {
           <IfStatement condition={code`!isInteractive`}>
             <CommandValidationLogic command={command} />
           </IfStatement>
-          <ElseClause>
+          <ElseIfClause
+            condition={code`!isHelp && (${Object.values(command.options ?? {})
+              .filter(option => !option.optional)
+              .map(option =>
+                (option.kind === ReflectionKind.string ||
+                  option.kind === ReflectionKind.number) &&
+                option.variadic
+                  ? `(!options${
+                      option.name.includes("?")
+                        ? `["${option.name}"]`
+                        : `.${camelCase(option.name)}`
+                    } || options${
+                      option.name.includes("?")
+                        ? `["${option.name}"]`
+                        : `.${camelCase(option.name)}`
+                    }.length === 0)`
+                  : `options${
+                      option.name.includes("?")
+                        ? `["${option.name}"]`
+                        : `.${camelCase(option.name)}`
+                    } === undefined`
+              )
+              .join(" || ")}${
+              Object.values(command.options ?? {}).filter(
+                option => !option.optional
+              ).length > 0 &&
+              Object.values(command.arguments ?? {}).filter(
+                argument => !argument.optional
+              ).length > 0
+                ? " || "
+                : ""
+            }${Object.values(command.arguments ?? {})
+              .filter(argument => !argument.optional)
+              .map(argument =>
+                (argument.kind === ReflectionKind.string ||
+                  argument.kind === ReflectionKind.number) &&
+                argument.variadic
+                  ? `(!${camelCase(
+                      argument.name
+                    )} || ${camelCase(argument.name)}.length === 0)`
+                  : `${camelCase(argument.name)} === undefined`
+              )
+              .join(" || ")}) `}>
+            {code`writeLine("");
+
+            intro("Select required input parameters"); `}
+            <hbr />
             <hbr />
             <For each={Object.values(command.options ?? {})} doubleHardline>
               {option => (
@@ -133,7 +183,9 @@ export function CommandEntry(props: CommandEntryProps) {
                             option.kind === ReflectionKind.number
                           }>{code`
                             const value = await text({
-                              message: 'Please provide a value for the ${option.title} option:',
+                              message: 'Please provide a value for the ${
+                                option.title
+                              } option:',
                               validate(value) {
                                 if (isCancel(value)) {
                                   return true;
@@ -336,7 +388,12 @@ export function CommandEntry(props: CommandEntryProps) {
                 </>
               )}
             </For>
-          </ElseClause>
+            {code`outro("Completed providing all required input parameters");
+
+            writeLine(""); `}
+            <hbr />
+            <hbr />
+          </ElseIfClause>
         </CommandHandlerDeclaration>
       </EntryFile>
       <For each={Object.values(command.children)}>

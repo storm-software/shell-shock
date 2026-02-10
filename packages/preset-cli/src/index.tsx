@@ -21,13 +21,13 @@ import { VarDeclaration } from "@alloy-js/typescript";
 import { render } from "@powerlines/plugin-alloy/render";
 import theme from "@shell-shock/plugin-theme";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
-import { CommandRouter } from "@shell-shock/preset-script/components/command-router";
 import { ConsoleBuiltin } from "@shell-shock/preset-script/components/console-builtin";
 import { VirtualHelp } from "@shell-shock/preset-script/components/help";
 import { UtilsBuiltin } from "@shell-shock/preset-script/components/utils-builtin";
 import type { Plugin } from "powerlines/types/plugin";
 import { BannerFunctionDeclaration } from "./components/banner-function-declaration";
 import { CommandEntry } from "./components/command-entry";
+import { CommandRouter } from "./components/command-router";
 import { VirtualCommandEntry } from "./components/virtual-command-entry";
 import { getDefaultOptions } from "./helpers/get-default-options";
 import type { CLIPresetContext, CLIPresetOptions } from "./types/plugin";
@@ -80,7 +80,9 @@ export {
   multiselect,
   password,
   progress,
-  spinner
+  spinner,
+  intro,
+  outro
 } from "@clack/prompts";
 
             `}
@@ -109,10 +111,22 @@ export {
                     "writeLine",
                     "splitText",
                     "colors",
-                    "help"
+                    "help",
+                    "writeLine",
+                    "splitText",
+                    "stripAnsi",
+                    "intro",
+                    "outro",
+                    "select",
+                    "isCancel"
                   ],
-                  utils: ["getArgs", "isMinimal"],
-                  env: ["isCI"]
+                  utils: [
+                    "useApp",
+                    "useArgs",
+                    "isMinimal",
+                    "isInteractive",
+                    "isHelp"
+                  ]
                 }}
                 prefix={
                   <>
@@ -123,10 +137,10 @@ export {
                 }>
                 <Show when={Object.keys(this.commands).length > 0}>
                   <VarDeclaration
-                    const
+                    let
                     name="args"
                     type="string[]"
-                    initializer={code`getArgs();`}
+                    initializer={code`useArgs();`}
                   />
                   <hbr />
                   <CommandRouter segments={[]} commands={this.commands ?? {}} />

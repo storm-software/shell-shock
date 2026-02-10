@@ -95,8 +95,7 @@ export const plugin = <
                     "colors",
                     "help"
                   ],
-                  utils: ["getArgs", "isMinimal"],
-                  env: ["isCI"]
+                  utils: ["useArgs", "isMinimal"]
                 }}
                 prefix={
                   <>
@@ -110,7 +109,7 @@ export const plugin = <
                     const
                     name="args"
                     type="string[]"
-                    initializer={code`getArgs();`}
+                    initializer={code`useArgs();`}
                   />
                   <hbr />
                   <CommandRouter segments={[]} commands={this.commands ?? {}} />

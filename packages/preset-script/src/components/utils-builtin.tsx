@@ -29,8 +29,10 @@ import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/compo
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import {
   TSDoc,
+  TSDocInternal,
   TSDocLink,
   TSDocParam,
+  TSDocRemarks,
   TSDocReturns
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { getAppTitle } from "@shell-shock/core/plugin-utils/context-helpers";
@@ -395,13 +397,23 @@ export function ArgsUtilities() {
   return (
     <>
       <TSDoc heading="Retrieves the command line arguments from Deno or Node.js environments.">
+        <TSDocRemarks>
+          {
+            "This function is only intended for internal use. Please use `useArgs()` instead."
+          }
+        </TSDocRemarks>
+        <hbr />
+        <hbr />
+        <TSDocInternal />
+        <hbr />
+        <hbr />
         <TSDocReturns>
           {
             "An array of command line arguments from Deno or Node.js environments."
           }
         </TSDocReturns>
       </TSDoc>
-      <FunctionDeclaration export name="getArgs">
+      <FunctionDeclaration export name="getArgs" returnType="string[]">
         {code`return ((globalThis as { Deno?: { args: string[] } })?.Deno?.args ?? process.argv ?? []) as string[];`}
       </FunctionDeclaration>
       <hbr />
@@ -432,7 +444,7 @@ export function ArgsUtilities() {
           {
             name: "argv",
             type: "string[]",
-            default: "getArgs()"
+            default: "useArgs()"
           }
         ]}>
         <VarDeclaration
@@ -447,6 +459,14 @@ export function ArgsUtilities() {
         <hbr />
         {code`return position !== -1 && argv.indexOf("--") === -1 || position < argv.indexOf("--");`}
       </FunctionDeclaration>
+      <hbr />
+      <hbr />
+      <VarDeclaration
+        export
+        name="isHelp"
+        type="boolean"
+        initializer={code` !isCI && hasFlag(["help", "h", "?"]); `}
+      />
     </>
   );
 }
@@ -559,7 +579,7 @@ export function ExitFunctionDeclaration() {
         {code`
               verbose(\`The ${getAppTitle(
                 context
-              )} application exited \${options.exception ? \`early due to an exception\` : "successfully"}\${options.startDate ? \`. Total processing time is \${Date.now() - options.startDate.getTime() > 5000 ? (Date.now() - options.startDate.getTime()) / 1000 : Date.now() - options.startDate.getTime()} \${Date.now() - options.startDate.getTime() > 5000 ? "seconds" : "milliseconds"}\` : ""}...\`);
+              )} application exited \${options.exception ? \`early due to an exception\` : "successfully"}\${options.startDate ? \`. Total processing time is \${Date.now() - options.startDate.getTime() > 5000 ? Math.floor((Date.now() - options.startDate.getTime()) / 1000) : Date.now() - options.startDate.getTime()} \${Date.now() - options.startDate.getTime() > 5000 ? "seconds" : "milliseconds"}\` : ""}...\`);
               if (!options.skipProcessExit) {
                 process.exit(exitCode);
               }
@@ -603,9 +623,36 @@ export function ExitFunctionDeclaration() {
 export function ContextUtilities() {
   return code`
   /**
+   * The global Shell Shock - Application context instance.
+   *
+   * @internal
+   */
+  export let internal_appContext = new AsyncLocalStorage<Map<string, any>>();
+
+  /**
+   * Get the Shell Shock - Application context for the current application.
+   *
+   * @param options - The options to use when getting the context.
+   * @returns The Shell Shock - Application context for the current application or undefined if the context is not available.
+   */
+  export function useApp(): Map<string, any> | undefined {
+    return internal_appContext.getStore();
+  }
+
+  /**
+   * A utility hook function to get the command line arguments from the application context.
+   *
+   * @returns An array of command line arguments from the application context.
+   * @throws If the application context is not available.
+   */
+  export function useArgs(): string[] {
+    return useApp()?.get("args") ?? getArgs();
+  }
+
+  /**
    * The context object for the current command execution, containing the command path and segments.
    */
-  interface CommandContext {
+  export interface CommandContext {
     path: string;
     segments: string[];
   }
@@ -615,7 +662,7 @@ export function ContextUtilities() {
    *
    * @internal
    */
-  export let internal_commandContextStore = new AsyncLocalStorage<CommandContext>();
+  export let internal_commandContext = new AsyncLocalStorage<CommandContext>();
 
   /**
    * Get the Shell Shock - Command context for the current application.
@@ -625,7 +672,7 @@ export function ContextUtilities() {
    * @throws If the Shell Shock - Command context is not available.
    */
   export function useCommand(): CommandContext {
-    const result = internal_commandContextStore.getStore();
+    const result = internal_commandContext.getStore();
     if (!result) {
       throw new Error(
         \`The Shell Shock - Command context is not available. Make sure to call useCommand() within a valid context scope.\`
@@ -678,6 +725,9 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
       })}>
       <hbr />
       <hbr />
+      <ContextUtilities />
+      <hbr />
+      <hbr />
       <ArgsUtilities />
       <hbr />
       <hbr />
@@ -688,9 +738,6 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
       <hbr />
       <hbr />
       <ColorSupportUtilities />
-      <hbr />
-      <hbr />
-      <ContextUtilities />
       <hbr />
       <hbr />
       <ExitFunctionDeclaration />

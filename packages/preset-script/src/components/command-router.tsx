@@ -66,7 +66,6 @@ export interface CommandRouterProps {
 export function CommandRouter(props: CommandRouterProps) {
   const { segments, commands, route } = props;
 
-  const context = usePowerlines<ScriptPresetContext>();
   const index = computed(() => 2 + (segments.length ?? 0));
 
   return (
@@ -78,13 +77,36 @@ export function CommandRouter(props: CommandRouterProps) {
         initializer={code`"";`}
       />
       <hbr />
-      <IfStatement
-        condition={code`args.length > ${
-          index.value
-        } && args[${index.value}]`}>{code`command = args[${
-        index.value
-      }];`}</IfStatement>
       <hbr />
+      <Show when={commands && Object.keys(commands).length > 0}>
+        <IfStatement
+          condition={code`args.length > ${
+            index.value
+          } && args[${index.value}]`}>{code`command = args[${
+          index.value
+        }];`}</IfStatement>
+        <hbr />
+        <hbr />
+      </Show>
+      <CommandRouterBody
+        segments={segments}
+        commands={commands}
+        route={route}
+      />
+    </Show>
+  );
+}
+
+/**
+ * The internal command router body logic component.
+ */
+export function CommandRouterBody(props: CommandRouterProps) {
+  const { commands, route } = props;
+
+  const context = usePowerlines<ScriptPresetContext>();
+
+  return (
+    <Show when={commands && Object.keys(commands).length > 0}>
       <For each={Object.values(commands ?? {})}>
         {(subcommand, idx) => (
           <CommandContext.Provider value={subcommand}>
@@ -163,7 +185,7 @@ export function CommandRouter(props: CommandRouterProps) {
         )}
       </For>
       <ElseIfClause
-        condition={code`Boolean(command)`}>{code`const suggestions = didYouMean(command, [${Object.values(
+        condition={code`Boolean(command) && !command.startsWith("-")`}>{code`const suggestions = didYouMean(command, [${Object.values(
         commands ?? {}
       )
         .map(

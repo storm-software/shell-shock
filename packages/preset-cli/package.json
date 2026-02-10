@@ -97,6 +97,20 @@
         "default": "./dist/components/command-entry.mjs"
       }
     },
+    "./components/command-router": {
+      "require": {
+        "types": "./dist/components/command-router.d.cts",
+        "default": "./dist/components/command-router.cjs"
+      },
+      "import": {
+        "types": "./dist/components/command-router.d.mts",
+        "default": "./dist/components/command-router.mjs"
+      },
+      "default": {
+        "types": "./dist/components/command-router.d.mts",
+        "default": "./dist/components/command-router.mjs"
+      }
+    },
     "./components/virtual-command-entry": {
       "require": {
         "types": "./dist/components/virtual-command-entry.d.cts",

@@ -30,6 +30,7 @@ import defu from "defu";
 import type { CLIPresetContext } from "../types/plugin";
 import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { CommandEntry } from "./command-entry";
+import { CommandRouter } from "./command-router";
 
 export interface VirtualCommandEntryProps extends Omit<
   EntryFileProps,
@@ -80,13 +81,40 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             }, {} as TypescriptFileImports)
         )}
         builtinImports={defu(builtinImports ?? {}, {
-          console: ["warn", "error", "table", "colors", "writeLine"],
-          utils: ["getArgs", "hasFlag", "isMinimal", "isUnicodeSupported"]
+          console: [
+            "warn",
+            "error",
+            "help",
+            "table",
+            "colors",
+            "writeLine",
+            "splitText",
+            "stripAnsi",
+            "intro",
+            "outro",
+            "text",
+            "select",
+            "isCancel"
+          ],
+          utils: [
+            "useApp",
+            "useArgs",
+            "hasFlag",
+            "isMinimal",
+            "isUnicodeSupported",
+            "isInteractive",
+            "isHelp"
+          ]
         })}>
         <BannerFunctionDeclaration command={command} />
         <hbr />
         <hbr />
-        <VirtualCommandHandlerDeclaration command={command} />
+        <VirtualCommandHandlerDeclaration command={command}>
+          <CommandRouter
+            segments={command.segments}
+            commands={command.children}
+          />
+        </VirtualCommandHandlerDeclaration>
       </TypescriptFile>
       <For each={Object.values(command.children)}>
         {child => (

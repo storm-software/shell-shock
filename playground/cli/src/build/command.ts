@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { Metadata } from "@shell-shock/core";
-import { info, table } from "shell-shock:console";
+import { info } from "shell-shock:console";
 
 export const metadata: Metadata = {
   title: "Project Build",
@@ -45,8 +45,6 @@ function build(options: BuildOptions) {
   info(
     `Building at ${options.root} with targets=${options.targets.join(", ")}`
   );
-
-  table(["Root", "Verbose", "Targets"]);
 }
 
 export default build;

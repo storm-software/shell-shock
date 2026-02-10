@@ -26,7 +26,6 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
-import { SingleLineComment } from "@powerlines/plugin-alloy/core/components/single-line-comment";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
@@ -89,7 +88,7 @@ export function CommandInvocation(props: { command: CommandTree }) {
       <hbr />
       {code`
 
-      internal_commandContextStore.run(__context, () => {
+      internal_commandContext.run(__context, () => {
         return Promise.resolve(Reflect.apply(handle${pascalCase(
           command.name
         )}, __context, [options${
@@ -144,7 +143,7 @@ export function CommandHandlerDeclaration(
         export
         async
         name="handler"
-        parameters={[{ name: "args", type: "string[]", default: "getArgs()" }]}>
+        parameters={[{ name: "args", type: "string[]", default: "useArgs()" }]}>
         <CommandParserLogic
           command={command}
           envPrefix={context.config.envPrefix}
@@ -390,7 +389,7 @@ export function CommandEntry(props: CommandEntryProps) {
           [commandSourcePath.value]: `handle${pascalCase(command.name)}`
         })}
         builtinImports={defu(builtinImports ?? {}, {
-          env: ["env", "isCI", "isDevelopment", "isDebug"],
+          env: ["env", "isDevelopment", "isDebug"],
           console: [
             "debug",
             "warn",
@@ -402,11 +401,11 @@ export function CommandEntry(props: CommandEntryProps) {
             "splitText"
           ],
           utils: [
-            "getArgs",
+            "useArgs",
             "hasFlag",
             "isMinimal",
             "isUnicodeSupported",
-            "internal_commandContextStore"
+            "internal_commandContext"
           ]
         })}>
         <BannerFunctionDeclaration command={command} />
@@ -414,8 +413,6 @@ export function CommandEntry(props: CommandEntryProps) {
         <hbr />
         <OptionsInterfaceDeclaration command={command} />
         <hbr />
-        <hbr />
-        <SingleLineComment>{code`Validate required options and arguments`}</SingleLineComment>
         <hbr />
         <CommandHandlerDeclaration command={command}>
           <CommandValidationLogic command={command} />

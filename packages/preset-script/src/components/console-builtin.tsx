@@ -2406,7 +2406,7 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
           "colorSupportLevels",
           "isHyperlinkSupported"
         ],
-        env: ["env", "isDevelopment", "isDebug", "isCI"]
+        env: ["env", "isDevelopment", "isDebug"]
       })}>
       <StripAnsiFunctionDeclaration />
       <hbr />

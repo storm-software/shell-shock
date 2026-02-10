@@ -37,6 +37,8 @@ export function BooleanInputParserLogic(props: BooleanInputParserLogicProps) {
       name
     }.toLowerCase() !== "off" && ${
       name
-    } !== "disable" && ${name}.toLowerCase() !== "disabled"`}</>
+    } !== "disable" && ${name}.toLowerCase() !== "disabled" && ${
+      name
+    }.toLowerCase() !== "never"`}</>
   );
 }

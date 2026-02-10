@@ -881,7 +881,70 @@ declare module "shell-shock:env" {
 declare module "shell-shock:utils" {
   import { AsyncLocalStorage } from "node:async_hooks";
   /**
+   * The global Shell Shock - Application context instance.
+   *
+   * @internal
+   */
+  export let internal_appContext: AsyncLocalStorage<Map<string, any>>;
+  /**
+   * Get the Shell Shock - Application context for the current application.
+   *
+   * @param options - The options to use when getting the context.
+   * @returns The Shell Shock - Application context for the current application or undefined if the context is not available.
+   */
+  export function useApp(): Map<string, any> | undefined;
+  /**
+   * A utility hook function to get the command line arguments from the application context.
+   *
+   * @returns An array of command line arguments from the application context.
+   * @throws If the application context is not available.
+   */
+  export function useArgs(): string[];
+  /**
+   * The context object for the current command execution, containing the command path and segments.
+   */
+  export interface CommandContext {
+    path: string;
+    segments: string[];
+  }
+  /**
+   * The global Shell Shock - Command context instance.
+   *
+   * @internal
+   */
+  export let internal_commandContext: AsyncLocalStorage<CommandContext>;
+  /**
+   * Get the Shell Shock - Command context for the current application.
+   *
+   * @param options - The options to use when getting the context.
+   * @returns The Shell Shock - Command context for the current application.
+   * @throws If the Shell Shock - Command context is not available.
+   */
+  export function useCommand(): CommandContext;
+  /**
+   * A utility hook function to get the individual segments of the current command path.
+   *
+   * @returns An array of command path segments.
+   * @throws If the command context is not available.
+   */
+  export function useSegments(): string[];
+  /**
+   * A utility hook function to get the full command path as a string.
+   *
+   * @returns The full command path as a string.
+   * @throws If the command context is not available.
+   */
+  export function usePath(): string;
+  /**
    * Retrieves the command line arguments from Deno or Node.js environments.
+   *
+   * @remarks
+   * This function is only intended for internal use. Please use `useArgs()` instead.
+   *
+   *
+   * @internal
+   *
+   *
    *
    * @returns An array of command line arguments from Deno or Node.js
    *   environments.
@@ -901,6 +964,7 @@ declare module "shell-shock:utils" {
    *
    */
   export function hasFlag(flag: string | string[], argv?: string[]): boolean;
+  export const isHelp: boolean;
   /**
    * Detect if stdout.TTY is available
    */
@@ -988,41 +1052,6 @@ declare module "shell-shock:utils" {
    */
   export const isUnicodeSupported: boolean;
   /**
-   * The context object for the current command execution, containing the command path and segments.
-   */
-  interface CommandContext {
-    path: string;
-    segments: string[];
-  }
-  /**
-   * The global Shell Shock - Command context instance.
-   *
-   * @internal
-   */
-  export let internal_commandContextStore: AsyncLocalStorage<CommandContext>;
-  /**
-   * Get the Shell Shock - Command context for the current application.
-   *
-   * @param options - The options to use when getting the context.
-   * @returns The Shell Shock - Command context for the current application.
-   * @throws If the Shell Shock - Command context is not available.
-   */
-  export function useCommand(): CommandContext;
-  /**
-   * A utility hook function to get the individual segments of the current command path.
-   *
-   * @returns An array of command path segments.
-   * @throws If the command context is not available.
-   */
-  export function useSegments(): string[];
-  /**
-   * A utility hook function to get the full command path as a string.
-   *
-   * @returns The full command path as a string.
-   * @throws If the command context is not available.
-   */
-  export function usePath(): string;
-  /**
    * Options for the exit handler function.
    */
   export interface ExitOptions {
@@ -1048,7 +1077,6 @@ declare module "shell-shock:utils" {
     startDate?: Date;
   }
   export function exit(options?: ExitOptions): Promise<void>;
-  export {};
 }
 
 /**

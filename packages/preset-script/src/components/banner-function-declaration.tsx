@@ -144,9 +144,11 @@ export function BannerFunctionBodyDeclaration(
   return (
     <>
       {code`
-        if (hasFlag("no-banner") || hasFlag("hide-banner") || isCI || isMinimal) {
+        if (useApp().get("banner") || hasFlag("no-banner") || hasFlag("hide-banner") || isMinimal) {
           return;
-        } `}
+        }
+
+        useApp().set("banner", true); `}
       <hbr />
       <hbr />
       {children}

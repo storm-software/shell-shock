@@ -94,10 +94,12 @@ export function RunApplication() {
             }));
           }
 
-          const result = await main();
-          if (result?.error) {
-            error(result.error);
-          }
+          await internal_appContext.run(new Map([["args", getArgs()]]), async () => {
+            const result = await main();
+            if (result?.error) {
+              error(result.error);
+            }
+          });
 
           exit({ startDate });
         } catch (err) {
@@ -159,7 +161,13 @@ export function BinEntry(props: BinEntryProps) {
           )}
           builtinImports={defu(builtinImports ?? {}, {
             console: ["error", "verbose", "table"],
-            utils: ["hasFlag", "exit", "isUnicodeSupported"]
+            utils: [
+              "hasFlag",
+              "exit",
+              "isUnicodeSupported",
+              "internal_appContext",
+              "getArgs"
+            ]
           })}>
           <Show when={Boolean(prefix)}>
             {prefix}

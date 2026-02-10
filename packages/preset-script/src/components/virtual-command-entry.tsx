@@ -79,18 +79,14 @@ export function VirtualCommandHandlerDeclaration(
         export
         async
         name="handler"
-        parameters={[{ name: "args", type: "string[]", default: "getArgs()" }]}>
+        parameters={[{ name: "args", type: "string[]", default: "useArgs()" }]}>
         <hbr />
         <hbr />
         {children}
-        <CommandRouter
-          segments={command.segments}
-          commands={command.children}
-        />
         <hbr />
         <hbr />
         {code`writeLine("");
-        banner();`}
+        banner(); `}
         <hbr />
         <hbr />
         <VirtualHelp
@@ -162,12 +158,17 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             "splitText",
             "stripAnsi"
           ],
-          utils: ["getArgs", "hasFlag", "isMinimal", "isUnicodeSupported"]
+          utils: ["useArgs", "hasFlag", "isMinimal", "isUnicodeSupported"]
         })}>
         <BannerFunctionDeclaration command={command} />
         <hbr />
         <hbr />
-        <VirtualCommandHandlerDeclaration command={command} />
+        <VirtualCommandHandlerDeclaration command={command}>
+          <CommandRouter
+            segments={command.segments}
+            commands={command.children}
+          />
+        </VirtualCommandHandlerDeclaration>
       </TypescriptFile>
       <For each={Object.values(command.children)}>
         {child => (
