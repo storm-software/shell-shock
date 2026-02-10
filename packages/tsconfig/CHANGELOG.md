@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.20](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.20) (02/10/2026)
+
+### Features
+
+- **preset-cli:** Prompt user for missing input during execution ([d44c65d](https://github.com/storm-software/shell-shock/commit/d44c65d))
+
 ## [0.0.19](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.19) (02/10/2026)
 
 ### Miscellaneous

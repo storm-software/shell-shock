@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.3](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.3) (02/10/2026)
+
+### Features
+
+- **preset-cli:** Prompt user for missing input during execution ([d44c65d](https://github.com/storm-software/shell-shock/commit/d44c65d))
+
 ## [0.8.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.2) (02/10/2026)
 
 ### Miscellaneous

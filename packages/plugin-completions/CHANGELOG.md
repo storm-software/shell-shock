@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.0.16](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.16) (02/10/2026)
+
+### Features
+
+- **preset-cli:** Prompt user for missing input during execution ([d44c65d](https://github.com/storm-software/shell-shock/commit/d44c65d))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.8.3**
+
 ## [0.0.15](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.15) (02/10/2026)
 
 ### Miscellaneous

@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.3.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.3.0) (02/10/2026)
+
+### Features
+
+- **preset-cli:** Prompt user for missing input during execution ([d44c65d](https://github.com/storm-software/shell-shock/commit/d44c65d))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.6.2**
+- Updated **plugin-theme** to **v0.0.20**
+- Updated **core** to **v0.8.3**
+
 ## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.2.0) (02/10/2026)
 
 ### Miscellaneous
