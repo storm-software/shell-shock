@@ -32,6 +32,7 @@ import { findFilePath, relativePath } from "@stryke/path/find";
 import { joinPaths } from "@stryke/path/join";
 import { replaceExtension } from "@stryke/path/replace";
 import { camelCase } from "@stryke/string-format/camel-case";
+import { lowerCaseFirst } from "@stryke/string-format/lower-case-first";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { CLIPresetContext } from "../types/plugin";
@@ -183,15 +184,23 @@ export function CommandEntry(props: CommandEntryProps) {
                             option.kind === ReflectionKind.number
                           }>{code`
                             const value = await text({
-                              message: 'Please provide a value for the ${
-                                option.title
-                              } option:',
+                              message: 'Please provide a${
+                                option.kind === ReflectionKind.number
+                                  ? " numeric"
+                                  : ""
+                              } value for the "${option.name}" option${
+                                option.description
+                                  ? ` (${lowerCaseFirst(
+                                      option.description
+                                    ).replace(/\.+$/, "")})`
+                                  : ""
+                              }:',
                               validate(val) {
                                 if (isCancel(val)) {
                                   return true;
                                 }
                                 if (!val || val.trim() === "") {
-                                  return "A value is required for this option";
+                                  return "A value must be provided for this option";
                                 }
                                 ${
                                   option.kind === ReflectionKind.number
@@ -224,7 +233,15 @@ export function CommandEntry(props: CommandEntryProps) {
                                 ? `["${option.name}"]`
                                 : `.${camelCase(option.name)}`
                             } = await confirm({
-                              message: 'Please select a value for the ${option.title} option:'
+                              message: 'Please select a value for the "${
+                                option.name
+                              }" option${
+                                option.description
+                                  ? ` (${lowerCaseFirst(
+                                      option.description
+                                    ).replace(/\.+$/, "")})`
+                                  : ""
+                              }:'
                             });
                           `}</Match>
                       </Switch>
@@ -243,18 +260,26 @@ export function CommandEntry(props: CommandEntryProps) {
                         }.length === 0`}>
                         {code`
                             const value = await text({
-                              message: 'Please provide one or more values for the ${
-                                option.title
-                              } option (values are separated by a "," character):',
+                              message: 'Please provide one or more${
+                                option.kind === ReflectionKind.number
+                                  ? " numeric"
+                                  : ""
+                              } values for the "${option.name}" option${
+                                option.description
+                                  ? ` (${lowerCaseFirst(
+                                      option.description
+                                    ).replace(/\.+$/, "")})`
+                                  : ""
+                              } - values are separated by a "," character:',
                               validate(val) {
                                 if (isCancel(val)) {
                                   return true;
                                 }
                                 if (!val || val.trim() === "") {
-                                  return "A value is required for this option";
+                                  return "A value must be provided for this option";
                                 }
                                 if (val.split(",").map(v => v.trim()).filter(Boolean).length === 0) {
-                                  return "At least one value is required for this option";
+                                  return "At least one value must be provided for this option";
                                 }
                                 ${
                                   option.kind === ReflectionKind.number
@@ -301,18 +326,26 @@ export function CommandEntry(props: CommandEntryProps) {
                             argument.kind === ReflectionKind.number
                           }>{code`
                             const value = await text({
-                              message: 'Please provide a value for the ${argument.title} positional argument:',
+                              message: 'Please provide a${
+                                argument.kind === ReflectionKind.number
+                                  ? " numeric"
+                                  : ""
+                              } value for the "${argument.name}" argument${
+                                argument.description
+                                  ? ` (${lowerCaseFirst(argument.description).replace(/\.+$/, "")})`
+                                  : ""
+                              }:',
                               validate(val) {
                                 if (isCancel(val)) {
                                   return true;
                                 }
                                 if (!val || val.trim() === "") {
-                                  return "A value is required for this positional argument";
+                                  return "A value must be provided for this argument";
                                 }
                                 ${
                                   argument.kind === ReflectionKind.number
                                     ? `if (Number.isNaN(Number(val))) {
-                                  return "The value provided must be a valid number";
+                                  return "The provided value must be a valid number";
                                 }`
                                     : ""
                                 }
@@ -332,7 +365,11 @@ export function CommandEntry(props: CommandEntryProps) {
                         <Match
                           when={argument.kind === ReflectionKind.boolean}>{code`
                             ${camelCase(argument.name)} = await confirm({
-                              message: 'Please select a value for the ${argument.title} positional argument:'
+                              message: 'Please select a value for the "${argument.name}" argument${
+                                argument.description
+                                  ? ` (${lowerCaseFirst(argument.description).replace(/\.+$/, "")})`
+                                  : ""
+                              }:'
                             });
                           `}</Match>
                       </Switch>
@@ -347,18 +384,24 @@ export function CommandEntry(props: CommandEntryProps) {
                         condition={code`${camelCase(argument.name)}.length === 0`}>
                         {code`
                             const value = await text({
-                              message: 'Please provide one or more values for the ${
-                                argument.title
-                              } option (values are separated by a "," character):',
+                              message: 'Please provide one or more${
+                                argument.kind === ReflectionKind.number
+                                  ? " numeric"
+                                  : ""
+                              } values for the "${argument.name}" argument${
+                                argument.description
+                                  ? ` (${lowerCaseFirst(argument.description).replace(/\.+$/, "")})`
+                                  : ""
+                              } - values are separated by a "," character:',
                               validate(val) {
                                 if (isCancel(val)) {
                                   return true;
                                 }
                                 if (!val || val.trim() === "") {
-                                  return "A value is required for this option";
+                                  return "A value must be provided for this argument";
                                 }
                                 if (val.split(",").map(v => v.trim()).filter(Boolean).length === 0) {
-                                  return "At least one value is required for this option";
+                                  return "At least one value must be provided for this argument";
                                 }
                                 ${
                                   argument.kind === ReflectionKind.number
