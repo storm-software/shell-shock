@@ -47,11 +47,11 @@ export function getDefaultOptions(
       },
     context.config.interactive !== "never" &&
       context.config.interactive !== false && {
-        name: "no-interactive",
+        name: "non-interactive",
         title: "Non-Interactive",
         description:
           "Disable interactive mode - will be set to true if running in a CI pipeline.",
-        alias: ["non-interactive", "no-interact"],
+        alias: ["no-interactive"],
         kind: ReflectionKind.boolean,
         optional: true,
         default: false,

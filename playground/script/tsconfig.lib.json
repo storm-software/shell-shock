@@ -7,9 +7,9 @@
     "outDir": "./out-tsc"
   },
   "references": [
-    { "path": "../../packages/core/tsconfig.lib.json" },
     { "path": "../../packages/preset-script/tsconfig.lib.json" },
-    { "path": "../../packages/nx/tsconfig.lib.json" }
+    { "path": "../../packages/nx/tsconfig.lib.json" },
+    { "path": "../../packages/core/tsconfig.lib.json" }
   ],
   "include": [
     "src/**/*.ts",

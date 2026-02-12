@@ -1091,7 +1091,7 @@ declare module "shell-shock:console" {
    *
    * @example
    * ```ts
-   * const result = stripAnsi("Hello\\u001b[31mWorld\\u001b[0mAgain"); // "HelloWorldAgain"
+   * const result = stripAnsi("Hello\\x1b[31mWorld\\x1b[0mAgain"); // "HelloWorldAgain"
    * ```
    * @param text - The text to strip ANSI codes from.
    * @returns The text with ANSI codes removed.
@@ -1344,6 +1344,37 @@ declare module "shell-shock:console" {
    */
   export function error(err: string | Error): void;
   /**
+   * A type representing the width size of an item in the console.
+   */
+  export type WidthSize =
+    | "full"
+    | "1/1"
+    | "1/2"
+    | "1/3"
+    | "1/4"
+    | "1/5"
+    | "1/6"
+    | "1/12"
+    | "1/24"
+    | "100%"
+    | "50%"
+    | "33.33%"
+    | "25%"
+    | "20%"
+    | "10%"
+    | "5%"
+    | "2.5%";
+  /**
+   * Calculate the width in characters based on the provided width size.
+   *
+   * @remarks
+   * This function calculates the width in characters based on the provided width size, which can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%"). The calculation is based on the current width of the console (process.stdout.columns).
+   * @param size - The width size to calculate. This can be a predefined string
+   *   (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%").
+   * @returns The calculated width in characters.
+   *
+   */
+  export function calculateWidth(size: WidthSize): number; /**
    * The border options applied to table cells.
    */
   export type BorderOption =
@@ -1406,6 +1437,13 @@ declare module "shell-shock:console" {
      * The actual string value of the table cell.
      */
     value?: string;
+    /**
+     * Width of the table cell.
+     *
+     * @remarks
+     * The width of the table cell (where 1 is a single character in the terminal). If not specified, the width will be determined based on the content of the cell and the available space in the console.
+     */
+    maxWidth: number | WidthSize | undefined;
   }
   /**
    * Options for a specific table row provided to the {@link table} function.
@@ -1453,4 +1491,13 @@ declare module "shell-shock:console" {
     spinner,
     text
   } from "@clack/prompts";
+}
+
+/**
+ * A collection of prompts that allow for interactive input in command line applications.
+ *
+ * @module shell-shock:prompts
+ */
+declare module "shell-shock:prompts" {
+  export {};
 }

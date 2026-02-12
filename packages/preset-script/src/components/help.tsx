@@ -194,7 +194,7 @@ export function HelpOptions(props: HelpOptionsProps) {
               : option.kind === ReflectionKind.number
                 ? ` <${snakeCase(option.name)}${option.variadic ? "..." : ""}>`
                 : ""
-          }"), align: "right", border: "none" }, { value: colors.text.body.tertiary("${option.description.replace(
+          }"), align: "right", border: "none", maxWidth: "1/3" }, { value: colors.text.body.tertiary("${option.description.replace(
             /\.+$/,
             ""
           )} ${

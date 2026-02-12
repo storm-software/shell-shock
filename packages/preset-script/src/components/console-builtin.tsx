@@ -21,6 +21,7 @@ import { code, For, Show } from "@alloy-js/core";
 import type { FunctionDeclarationProps } from "@alloy-js/typescript";
 import {
   ElseClause,
+  ElseIfClause,
   FunctionDeclaration,
   IfStatement,
   InterfaceDeclaration,
@@ -48,6 +49,65 @@ import { defu } from "defu";
 import { useColors, useTheme } from "../contexts/theme";
 import type { AnsiWrappers, BaseAnsiStylesKeys } from "../helpers/ansi-utils";
 import { IsNotDebug, IsNotVerbose } from "./helpers";
+
+// const ESC = '\x1B';
+// const CSI = `${ESC}[`;
+// const beep = '\u0007';
+
+// const cursor = {
+//   to(x, y) {
+//     if (!y) return `${CSI}${x + 1}G`;
+//     return `${CSI}${y + 1};${x + 1}H`;
+//   },
+//   move(x, y) {
+//     let ret = '';
+
+//     if (x < 0) ret += `${CSI}${-x}D`;
+//     else if (x > 0) ret += `${CSI}${x}C`;
+
+//     if (y < 0) ret += `${CSI}${-y}A`;
+//     else if (y > 0) ret += `${CSI}${y}B`;
+
+//     return ret;
+//   },
+//   up: (count = 1) => `${CSI}${count}A`,
+//   down: (count = 1) => `${CSI}${count}B`,
+//   forward: (count = 1) => `${CSI}${count}C`,
+//   backward: (count = 1) => `${CSI}${count}D`,
+//   nextLine: (count = 1) => `${CSI}E`.repeat(count),
+//   prevLine: (count = 1) => `${CSI}F`.repeat(count),
+//   left: `${CSI}G`,
+//   hide: `${CSI}?25l`,
+//   show: `${CSI}?25h`,
+//   save: `${ESC}7`,
+//   restore: `${ESC}8`
+// }
+
+// const scroll = {
+//   up: (count = 1) => `${CSI}S`.repeat(count),
+//   down: (count = 1) => `${CSI}T`.repeat(count)
+// }
+
+// const erase = {
+//   screen: `${CSI}2J`,
+//   up: (count = 1) => `${CSI}1J`.repeat(count),
+//   down: (count = 1) => `${CSI}J`.repeat(count),
+//   line: `${CSI}2K`,
+//   lineEnd: `${CSI}K`,
+//   lineStart: `${CSI}1K`,
+//   lines(count) {
+//     let clear = '';
+//     for (let i = 0; i < count; i++)
+//       clear += this.line + (i < count - 1 ? cursor.up() : '');
+//     if (count)
+//       clear += cursor.left;
+//     return clear;
+//   }
+// }
+
+// const clear = {
+//   screen: `${ESC}c`
+// }
 
 /**
  * A component to generate a console message function in a Shell Shock project.
@@ -1261,6 +1321,110 @@ export function WriteLineFunctionDeclaration() {
 
   return (
     <>
+      <FunctionDeclaration
+        name="adjustIndex"
+        parameters={[
+          {
+            name: "line",
+            type: "string"
+          },
+          {
+            name: "index",
+            type: "number"
+          }
+        ]}
+        returnType="number">
+        {code`let adjustedIndex = 0;
+
+        const segments = line.match(/\\x1b\\[(\\d|;)+m.*\\x1b\\[(\\d|;)+m/gi);
+        if (segments && segments.length > 0) {
+          segments.reduce((count, matched) => {
+            if (count < index) {
+              const stripped = stripAnsi(matched);
+              if (count + stripped.length < index) {
+                count += stripped.length;
+                adjustedIndex += matched.length;
+              } else {
+                adjustedIndex += index - count + (matched.slice(0, index - count).match(/\\x1b\\[(\\d|;)+m/g)?.join("")?.length ?? 0);
+                count = index;
+              }
+            }
+
+            return count;
+          }, 0);
+        } else {
+          adjustedIndex = index;
+        }
+
+        return adjustedIndex - (line.slice(0, adjustedIndex).match(/\\x1b\\[/g)?.length ?? 0); `}
+      </FunctionDeclaration>
+      <hbr />
+      <hbr />
+      <FunctionDeclaration
+        name="breakLine"
+        parameters={[
+          {
+            name: "line",
+            type: "string"
+          },
+          {
+            name: "index",
+            type: "number"
+          }
+        ]}
+        returnType="[string, string]">
+        {code`const first = line.slice(0, index);
+        const second = line.slice(index);
+
+        // Match all ANSI escape sequences in the first string
+        const ansiRegex = /[\\x1b\\u009b][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?(?:\\u0007))|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))/g;
+
+        const openCodes: string[] = [];
+        const closeCodes: string[] = [];
+        let match: RegExpExecArray | null;
+
+        while ((match = ansiRegex.exec(first)) !== null) {
+          const code = match[0];
+          // Check if this is a reset/close code (e.g., \\x1b[0m, \\x1b[39m, \\x1b[49m, etc.)
+          if (/\\x1b\\[(?:0|22|23|24|27|28|29|39|49)m/.test(code)) {
+            // A close/reset code cancels the last open code
+            openCodes.pop();
+            closeCodes.pop();
+          } else {
+            openCodes.push(code);
+            // Derive a close code: map SGR open codes to their reset counterparts
+            const sgrMatch = code.match(/\\x1b\\[(\\d+)m/);
+            if (sgrMatch) {
+              const n = parseInt(sgrMatch[1]!, 10);
+              let closeCode: string;
+              if (n >= 30 && n <= 37) closeCode = "\\x1b[39m";
+              else if (n >= 40 && n <= 47) closeCode = "\\x1b[49m";
+              else if (n >= 90 && n <= 97) closeCode = "\\x1b[39m";
+              else if (n >= 100 && n <= 107) closeCode = "\\x1b[49m";
+              else if (n === 1) closeCode = "\\x1b[22m";
+              else if (n === 2) closeCode = "\\x1b[22m";
+              else if (n === 3) closeCode = "\\x1b[23m";
+              else if (n === 4) closeCode = "\\x1b[24m";
+              else if (n === 7) closeCode = "\\x1b[27m";
+              else if (n === 8) closeCode = "\\x1b[28m";
+              else if (n === 9) closeCode = "\\x1b[29m";
+              else closeCode = "\\x1b[0m";
+              closeCodes.push(closeCode);
+            } else {
+              closeCodes.push("\\x1b[0m");
+            }
+          }
+        }
+
+        // Append close codes to the end of "first" (in reverse order)
+        const closeSequence = closeCodes.slice().reverse().join("");
+        // Prepend open codes to the start of "second"
+        const openSequence = openCodes.join("");
+
+        return [first.replace(/^\\s+/, "").replace(/\\s+$/, "") + closeSequence, openSequence + second.replace(/^\\s+/, "").replace(/\\s+$/, "")]; `}
+      </FunctionDeclaration>
+      <hbr />
+      <hbr />
       <TSDoc heading="Split text into multiple lines based on a maximum length.">
         <TSDocRemarks>
           {`This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.`}
@@ -1292,15 +1456,15 @@ export function WriteLineFunctionDeclaration() {
 
   while (stripAnsi(line).length > maxLength || line.indexOf("\\n") !== -1) {
     if (line.indexOf("\\n") !== -1) {
-      result.push(...splitText(line.slice(0, line.indexOf("\\n")).replace(/\\n/, ""), maxLength));
+      result.push(...splitText(line.slice(0, line.indexOf("\\n")).replace(/(\\r)?\\n/, ""), maxLength));
       line = line.indexOf("\\n") + 1 < line.length
         ? line.slice(line.indexOf("\\n") + 1)
         : "";
     } else {
-      const index = [" ", "/", "\\\\", ".", ",", "-", ":", "|", "@", "+"].reduce((ret, split) => {
+      const index = [" ", "/", ".", ",", "-", ":", "|", "@", "+"].reduce((ret, split) => {
         let current = ret;
-        while (stripAnsi(line).indexOf(split, current + 1) !== -1 && stripAnsi(line).indexOf(split, current + 1) <= maxLength && (!/.*\\([^)]*$/.test(stripAnsi(line).slice(0, line.indexOf(split, current + 1))) || !/^[^(]*\\).*/.test(stripAnsi(line).slice(line.indexOf(split, current + 1) + 1)) || stripAnsi(line).slice(line.indexOf(split, current + 1) + 1).replace(/^.*\\)/, "").indexOf(split) !== -1)) {
-          current = line.indexOf(split, current + 1);
+        while (stripAnsi(line).indexOf(split, current + 1) !== -1 && stripAnsi(line).indexOf(split, current + 1) <= maxLength) {
+          current = line.indexOf(split, adjustIndex(line, current + 1));
         }
 
         return current;
@@ -1309,14 +1473,16 @@ export function WriteLineFunctionDeclaration() {
         break;
       }
 
-      result.push(line.slice(0, index));
-      line = line.slice(index + 1);
+      const lines = breakLine(line, index);
+      result.push(lines[0]);
+      line = lines[1];
     }
   }
 
   while (stripAnsi(line).length > maxLength) {
-    result.push(line.slice(0, maxLength));
-    line = line.slice(maxLength + 1);
+    const lines = breakLine(line, maxLength);
+    result.push(lines[0]);
+    line = lines[1];
   }
 
   result.push(line);
@@ -1605,11 +1771,11 @@ export function WrapAnsiFunction() {
     <>
       <TSDoc heading="Applies ANSI escape codes to a string.">
         <TSDocRemarks>
-          {`Split text by /\\\\u001b[\\[|\\]][0-9;]*m/ and wrap non-ANSI parts with open/closeing tags.`}
+          {`Split text by /\\\\x1b[\\[|\\]][0-9;]*m/ and wrap non-ANSI parts with open/closeing tags.`}
         </TSDocRemarks>
 
         <TSDocExample>
-          {`const result = wrapAnsi("Hello\\\\u001b[31mWorld\\\\u001b[0mAgain", "\\\\u001b[36m", "\\\\u001b[39");\nconsole.log(result); // "\\\\u001b[36mHello\\\\u001b[39\\\\u001b[31mWorld\\\\u001b[0m\\\\u001b[36mAgain\\\\u001b[39"`}
+          {`const result = wrapAnsi("Hello\\\\x1b[31mWorld\\\\x1b[0mAgain", "\\\\x1b[36m", "\\\\x1b[39");\nconsole.log(result); // "\\\\x1b[36mHello\\\\x1b[39\\\\x1b[31mWorld\\\\x1b[0m\\\\x1b[36mAgain\\\\x1b[39"`}
         </TSDocExample>
 
         <TSDocParam name="text">
@@ -1639,7 +1805,7 @@ export function WrapAnsiFunction() {
 
         let last = 0;
         let match: RegExpExecArray | null;
-        while ((match = /\\\\u001b[\\[|\\]][0-9;]*m/g.exec(str)) !== null) {
+        while ((match = /\\\\x1b[\\[|\\]][0-9;]*m/g.exec(str)) !== null) {
           if (match.index > last) tokens.push(str.slice(last, match.index));
           tokens.push(match[0]);
           last = match.index + match[0].length;
@@ -1652,7 +1818,7 @@ export function WrapAnsiFunction() {
         let result = "";
         for (let i = 0; i < tokens.length; i++) {
           const seg = tokens[i]!;
-          if (/^\\\\u001b[\\[|\\]][0-9;]*m$/.test(seg)) {
+          if (/^\\\\x1b[\\[|\\]][0-9;]*m$/.test(seg)) {
             result += seg;
             continue;
           }
@@ -1661,7 +1827,7 @@ export function WrapAnsiFunction() {
             continue;
           }
 
-          result += i > 0 && /^\\\\u001b[\\[|\\]][0-9;]*m$/.test(tokens[i - 1]!) && i + 1 < tokens.length && /^\\\\u001b[\\[|\\]][0-9;]*m$/.test(tokens[i + 1]!)
+          result += i > 0 && /^\\\\x1b[\\[|\\]][0-9;]*m$/.test(tokens[i - 1]!) && i + 1 < tokens.length && /^\\\\x1b[\\[|\\]][0-9;]*m$/.test(tokens[i + 1]!)
             ? seg
             : \`\${open}\${seg}\${close}\`;
         }
@@ -1681,7 +1847,7 @@ export function StripAnsiFunctionDeclaration() {
     <>
       <TSDoc heading="Removes ANSI escape codes from a string.">
         <TSDocExample>
-          {`const result = stripAnsi("Hello\\\\u001b[31mWorld\\\\u001b[0mAgain"); // "HelloWorldAgain"`}
+          {`const result = stripAnsi("Hello\\\\x1b[31mWorld\\\\x1b[0mAgain"); // "HelloWorldAgain"`}
         </TSDocExample>
 
         <TSDocParam name="text">
@@ -1821,7 +1987,7 @@ export function LinkFunctionDeclaration() {
           { name: "text", type: "string", optional: true }
         ]}>
         <IfStatement condition={code`isHyperlinkSupported()`}>
-          {code`return \`\\u001b]8;;\${url}\\u0007\${text ?? url}\\u001b]8;;\\u0007\`;`}
+          {code`return \`\\x1b]8;;\${url}\\u0007\${text ?? url}\\x1b]8;;\\u0007\`;`}
         </IfStatement>
         <hbr />
         <IfStatement condition={code`isColorSupported`}>
@@ -1902,6 +2068,72 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
     <>
       <TypeDeclaration
         export
+        name="WidthSize"
+        doc="A type representing the width size of an item in the console.">
+        {code`"full" | "1/1" | "1/2" | "1/3" | "1/4" | "1/5" | "1/6" | "1/12" | "1/24" | "100%" | "50%" | "33.33%" | "25%" | "20%" | "10%" | "5%" | "2.5%"`}
+      </TypeDeclaration>
+      <hbr />
+      <hbr />
+      <TSDoc heading="Calculate the width in characters based on the provided width size.">
+        <TSDocRemarks>
+          {`This function calculates the width in characters based on the provided width size, which can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%"). The calculation is based on the current width of the console (process.stdout.columns).`}
+        </TSDocRemarks>
+        <TSDocParam name="size">
+          {`The width size to calculate. This can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%").`}
+        </TSDocParam>
+        <TSDocReturns>{`The calculated width in characters.`}</TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        name="calculateWidth"
+        parameters={[
+          {
+            name: "size",
+            type: "WidthSize",
+            optional: false
+          }
+        ]}
+        returnType="number">
+        <IfStatement condition={code`["full", "100%", "1/1"]. includes(size)`}>
+          {code`return process.stdout.columns;`}
+        </IfStatement>
+        <ElseIfClause condition={code`["1/2", "50%"].includes(size)`}>
+          {code`return Math.round(process.stdout.columns / 2);`}
+        </ElseIfClause>
+        <ElseIfClause condition={code`["1/3", "33.33%"].includes(size)`}>
+          {code`return Math.round(process.stdout.columns / 3);`}
+        </ElseIfClause>
+        <ElseIfClause condition={code`["1/4", "25%"].includes(size)`}>
+          {code`return Math.round(process.stdout.columns / 4);`}
+        </ElseIfClause>
+        <ElseIfClause condition={code`["1/5", "20%"].includes(size)`}>
+          {code`return Math.round(process.stdout.columns / 5);`}
+        </ElseIfClause>
+        <ElseIfClause condition={code`["1/6", "10%"].includes(size)`}>
+          {code`return Math.round(process.stdout.columns / 6);`}
+        </ElseIfClause>
+        <ElseIfClause condition={code`["1/12", "5%"].includes(size)`}>
+          {code`return Math.round(process.stdout.columns / 12);`}
+        </ElseIfClause>
+        <ElseIfClause condition={code`["1/24", "2.5%"].includes(size)`}>
+          {code`return Math.round(process.stdout.columns / 24);`}
+        </ElseIfClause>
+        <ElseClause>
+          {code`
+            const match = size.match(/(\\d+(\\.\\d+)?)%/);
+            if (match) {
+              return Math.round((process.stdout.columns * parseFloat(match[1])) / 100);
+            }
+
+            throw new Error(\`Invalid width size: \${size}\`);
+          `}
+        </ElseClause>
+        <hbr />
+        <hbr />
+      </FunctionDeclaration>
+
+      <TypeDeclaration
+        export
         name="BorderOption"
         doc="The border options applied to table cells.">
         {code`"primary" | "secondary" | "tertiary" | "none" | string; `}
@@ -1969,6 +2201,16 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
           optional
           type="string"
           doc="The actual string value of the table cell."
+        />
+        <hbr />
+        <TSDoc heading="Width of the table cell.">
+          <TSDocRemarks>
+            {`The width of the table cell (where 1 is a single character in the terminal). If not specified, the width will be determined based on the content of the cell and the available space in the console.`}
+          </TSDocRemarks>
+        </TSDoc>
+        <InterfaceMember
+          name="maxWidth"
+          type="number | WidthSize | undefined"
         />
         <hbr />
       </InterfaceDeclaration>
@@ -2079,8 +2321,9 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
       <TypeDeclaration
         name="TableCell"
         doc="The internal state of a formatted table cell in the {@link table} function.">
-        {code`Required<Omit<TableCellOptions, "border">> & Dimensions & {
+        {code`Required<Omit<TableCellOptions, "maxWidth" | "border">> & Dimensions & {
           border: TableCellBorder;
+          maxWidth?: number;
         };
         `}
       </TypeDeclaration>
@@ -2192,17 +2435,21 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
             });
             const value = cell.value ?? "";
             const width = stripAnsi(value).length + padding * 2;
+            const maxWidth = cell.maxWidth ? typeof cell.maxWidth === "number" ? cell.maxWidth : calculateWidth(cell.maxWidth) : undefined;
 
             return {
               value,
               height: 1,
               width,
+              maxWidth,
               border,
               padding,
               align: cell.align || opts?.align || "left",
             };
           }
         };
+
+        let colMaxWidths = [] as number[];
     `}
         <hbr />
         <IfStatement condition={code`Array.isArray(options)`}>
@@ -2214,12 +2461,26 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
             {code`
           cells.push(
             ...options.map(row => Array.isArray(row)
-              ? row.reduce((cellRow, cell) => {
-                cellRow.push(extractTableCell(cell));
+              ? row.reduce((cellRow, cell, index) => {
+                if (colMaxWidths.length <= index) {
+                  colMaxWidths.push(undefined);
+                }
+                const newCell = extractTableCell(cell);
+                if (newCell.maxWidth && (!colMaxWidths[index] || newCell.maxWidth < colMaxWidths[index]!)) {
+                  colMaxWidths[index] = newCell.maxWidth;
+                }
+                cellRow.push(newCell);
                 return cellRow;
               }, [] as TableCell[])
-              : (row as TableRowOptions).values?.reduce((cellRow, cell) => {
-                cellRow.push(extractTableCell(cell, row as TableRowOptions));
+              : (row as TableRowOptions).values?.reduce((cellRow, cell, index) => {
+                if (colMaxWidths.length <= index) {
+                  colMaxWidths.push(undefined);
+                }
+                const newCell = extractTableCell(cell, row as TableRowOptions);
+                if (newCell.maxWidth && (!colMaxWidths[index] || newCell.maxWidth < colMaxWidths[index]!)) {
+                  colMaxWidths[index] = newCell.maxWidth;
+                }
+                cellRow.push(newCell);
                 return cellRow;
               }, [] as TableCell[]) ?? []
             )
@@ -2231,12 +2492,26 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
           {code`
         cells.push(
           ...options.values!.map(row => Array.isArray(row)
-            ? row.reduce((cellRow, cell) => {
-              cellRow.push(extractTableCell(cell));
+            ? row.reduce((cellRow, cell, index) => {
+              if (colMaxWidths.length <= index) {
+                colMaxWidths.push(undefined);
+              }
+              const newCell = extractTableCell(cell);
+              if (newCell.maxWidth && (!colMaxWidths[index] || newCell.maxWidth < colMaxWidths[index]!)) {
+                colMaxWidths[index] = newCell.maxWidth;
+              }
+              cellRow.push(newCell);
               return cellRow;
             }, [] as TableCell[])
-            : (row as TableRowOptions).values?.reduce((cellRow, cell) => {
-              cellRow.push(extractTableCell(cell, options));
+            : (row as TableRowOptions).values?.reduce((cellRow, cell, index) => {
+              if (colMaxWidths.length <= index) {
+                colMaxWidths.push(undefined);
+              }
+              const newCell = extractTableCell(cell, options);
+              if (newCell.maxWidth && (!colMaxWidths[index] || newCell.maxWidth < colMaxWidths[index]!)) {
+                colMaxWidths[index] = newCell.maxWidth;
+              }
+              cellRow.push(newCell);
               return cellRow;
             }, [] as TableCell[]) ?? []
           )
@@ -2250,6 +2525,12 @@ cells = cells.filter(row => row.length > 0);
 if (cells.length === 0) {
   return;
 }
+
+cells.forEach(row => row.forEach((cell, index) => {
+  if (colMaxWidths[index] && cell.maxWidth !== colMaxWidths[index]!) {
+    cell.maxWidth = colMaxWidths[index]!;
+  }
+}));
 
 // Calculate table dimensions
 let colWidths = [] as number[];
@@ -2279,6 +2560,26 @@ do {
   recalculate = false;
   rowDims = calculateRowDimensions();
 
+  if (!recalculate && colWidths.some((colWidth, index) => colMaxWidths[index] && colWidth > colMaxWidths[index]!)) {
+    (colWidths.map((colWidth, index) => colMaxWidths[index] && colWidth > colMaxWidths[index]! ? index : undefined).filter(colWidth => colWidth !== undefined) as number[]).forEach(index => {
+      cells.forEach(row => {
+        const cell = row[index]!;
+        if (cell.width > colMaxWidths[index]) {
+          const lines = splitText(
+            cell.value,
+            colMaxWidths[index] - cell.padding * 2,
+          );
+
+          cell.value = lines.join("\\n");
+          cell.height = lines.length;
+          cell.width = Math.max(...lines.map(line => stripAnsi(line).length)) + cell.padding * 2;
+
+          recalculate = true;
+        }
+      });
+    });
+  }
+
   rowDims.forEach((row, rowIndex) => {
     if (!recalculate && row.width > Math.max(process.stdout.columns - ${
       Math.max(theme.padding.app, 0) * 2
@@ -2292,9 +2593,10 @@ do {
 
       const lines = splitText(
         cell.value,
-        Math.max(process.stdout.columns - ${
+        Math.min(Math.max(process.stdout.columns - ${
           Math.max(theme.padding.app, 0) * 2
-        } - (row.width - (cell.width - cell.padding * 2)), 0)
+        } - (row.width - (cell.width - cell.padding * 2)), 0),
+        cell.maxWidth ?? Number.POSITIVE_INFINITY)
       );
 
       cell.value = lines.join("\\n");
@@ -2310,9 +2612,9 @@ do {
   }, 0)) {
     let colIndex = 0;
     const cell = cells.reduce((ret, row) => {
-      return row.reduce((largest, current, i) => {
+      return row.reduce((largest, current, index) => {
         if (largest.width < current.width) {
-          colIndex = i;
+          colIndex = index;
           return current;
         }
         return largest;
@@ -2321,9 +2623,10 @@ do {
 
     const lines = splitText(
       cell.value,
-      Math.max(process.stdout.columns - ${
+      Math.min(Math.max(process.stdout.columns - ${
         Math.max(theme.padding.app, 0) * 2
-      } - (colWidths.filter((_, i) => i !== colIndex).reduce((a, b) => a + b, 0)) - cell.padding * 2, 0)
+      } - (colWidths.filter((_, i) => i !== colIndex).reduce((a, b) => a + b, 0)) - cell.padding * 2, 0),
+      cell.maxWidth ?? Number.POSITIVE_INFINITY)
     );
 
     cell.value = lines.join("\\n");

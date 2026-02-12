@@ -1344,6 +1344,37 @@ declare module "shell-shock:console" {
    */
   export function error(err: string | Error): void;
   /**
+   * A type representing the width size of an item in the console.
+   */
+  export type WidthSize =
+    | "full"
+    | "1/1"
+    | "1/2"
+    | "1/3"
+    | "1/4"
+    | "1/5"
+    | "1/6"
+    | "1/12"
+    | "1/24"
+    | "100%"
+    | "50%"
+    | "33.33%"
+    | "25%"
+    | "20%"
+    | "10%"
+    | "5%"
+    | "2.5%";
+  /**
+   * Calculate the width in characters based on the provided width size.
+   *
+   * @remarks
+   * This function calculates the width in characters based on the provided width size, which can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%"). The calculation is based on the current width of the console (process.stdout.columns).
+   * @param size - The width size to calculate. This can be a predefined string
+   *   (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%").
+   * @returns The calculated width in characters.
+   *
+   */
+  export function calculateWidth(size: WidthSize): number; /**
    * The border options applied to table cells.
    */
   export type BorderOption =
@@ -1406,6 +1437,13 @@ declare module "shell-shock:console" {
      * The actual string value of the table cell.
      */
     value?: string;
+    /**
+     * Width of the table cell.
+     *
+     * @remarks
+     * The width of the table cell (where 1 is a single character in the terminal). If not specified, the width will be determined based on the content of the cell and the available space in the console.
+     */
+    maxWidth: number | WidthSize | undefined;
   }
   /**
    * Options for a specific table row provided to the {@link table} function.

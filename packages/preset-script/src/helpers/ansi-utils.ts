@@ -89,19 +89,19 @@ type WrapAnsi16mFn = (offset?: number) => (code: string) => string;
 const wrapAnsi16: WrapAnsiFn =
   (offset = 0) =>
   (code: number) =>
-    `\\u001b[${code + offset}m`;
+    `\\x1b[${code + offset}m`;
 
 const wrapAnsi256: WrapAnsiFn =
   (offset = 0) =>
   (code: number) =>
-    `\\u001b[${38 + offset};5;${code}m`;
+    `\\x1b[${38 + offset};5;${code}m`;
 
 const wrapAnsi16m: WrapAnsi16mFn =
   (offset = 0) =>
   (code: string) => {
     const [red, green, blue] = hexToRgb(code);
 
-    return `\\u001b[${38 + offset};2;${red};${green};${blue}m`;
+    return `\\x1b[${38 + offset};2;${red};${green};${blue}m`;
   };
 
 export type BaseAnsiStylesKeys =
