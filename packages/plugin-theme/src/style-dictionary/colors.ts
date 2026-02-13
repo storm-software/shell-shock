@@ -16,7 +16,6 @@
 
  ------------------------------------------------------------------- */
 
-import { isNumber } from "@stryke/type-checks/is-number";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import type { Config, PlatformConfig } from "style-dictionary";
@@ -27,48 +26,29 @@ import type {
 } from "style-dictionary/types";
 import type { ThemePluginContext } from "../types/plugin";
 import type {
-  ThemeBorderStyleAppSubItemUserConfig,
-  ThemeBorderStyleMessageStateUserConfig,
-  ThemeBorderStyleSectionTypesUserConfig,
-  ThemeBorderStylesResolvedConfig,
-  ThemeBorderStyleSubItemUserConfig,
-  ThemeBorderStylesUserConfig,
   ThemeColorBannerSubItemResolvedConfig,
   ThemeColorBodySubItem,
   ThemeColorBorderItemsResolvedConfig,
   ThemeColorBorderItemsUserConfig,
   ThemeColorMessageState,
   ThemeColorMessageSubItemResolvedConfig,
+  ThemeColorPromptSubItemResolvedConfig,
   ThemeColorsResolvedConfig,
   ThemeColorSubItem,
   ThemeColorTextItemsResolvedConfig,
   ThemeColorTextItemsUserConfig,
   ThemeColorUsageSubItem,
-  ThemeIconMessageStateConfig,
-  ThemeIconsResolvedConfig,
-  ThemeIconSubItemConfig,
-  ThemeIconsUserConfig,
-  ThemeIconTypeResolvedConfig,
-  ThemeLabelBannerSubItemConfig,
-  ThemeLabelMessageStateConfig,
-  ThemeLabelsResolvedConfig,
-  ThemeLabelsUserConfig,
-  ThemeLabelTypeResolvedConfig,
-  ThemeLabelTypeUserConfig,
-  ThemePaddingResolvedConfig,
-  ThemeResolvedConfig,
-  ThemeStyleBorderIdentifiers
+  ThemeResolvedConfig
 } from "../types/theme";
-import { resolveBorderStyle } from "./helpers";
 
 /**
- * Shell Shock - Theme Preprocessor
+ * Shell Shock - Theme Colors Preprocessor
  *
  * @remarks
  * This preprocessor applies custom value transformations to design tokens based on the provided configuration options.
  */
-export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
-  name: "shell-shock/preprocessor",
+export const colors = (context: ThemePluginContext): Preprocessor => ({
+  name: "shell-shock/colors",
   preprocessor: (
     dictionary: PreprocessedTokens,
     _options: Config | PlatformConfig
@@ -187,6 +167,42 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             options: colors,
             arguments: colors,
             description: colors
+          },
+          prompt: {
+            icon: {
+              active: colors,
+              cancelled: colors,
+              warning: colors,
+              error: colors,
+              submitted: colors,
+              disabled: colors
+            },
+            label: {
+              active: colors,
+              cancelled: colors,
+              warning: colors,
+              error: colors,
+              submitted: colors,
+              disabled: colors
+            },
+            input: {
+              active: colors,
+              inactive: colors,
+              cancelled: colors,
+              warning: colors,
+              error: colors,
+              submitted: colors,
+              disabled: colors
+            },
+            description: {
+              active: colors,
+              inactive: colors,
+              cancelled: colors,
+              warning: colors,
+              error: colors,
+              submitted: colors,
+              disabled: colors
+            }
           }
         },
         border: {
@@ -335,6 +351,42 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             options: text,
             arguments: text,
             description: text
+          },
+          prompt: {
+            icon: {
+              active: text,
+              cancelled: text,
+              warning: text,
+              error: text,
+              submitted: text,
+              disabled: text
+            },
+            label: {
+              active: text,
+              cancelled: text,
+              warning: text,
+              error: text,
+              submitted: text,
+              disabled: text
+            },
+            input: {
+              active: text,
+              inactive: text,
+              cancelled: text,
+              warning: text,
+              error: text,
+              submitted: text,
+              disabled: text
+            },
+            description: {
+              active: text,
+              inactive: text,
+              cancelled: text,
+              warning: text,
+              error: text,
+              submitted: text,
+              disabled: text
+            }
           }
         };
       } else if (isSetObject(text)) {
@@ -808,6 +860,206 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
             }
           }
         }
+
+        resolvedConfig.colors.text.prompt ??=
+          {} as ThemeColorPromptSubItemResolvedConfig;
+        const prompt = text.prompt;
+
+        if (isSetString(prompt)) {
+          resolvedConfig.colors.text.prompt = {
+            icon: {
+              active: prompt,
+              cancelled: prompt,
+              warning: prompt,
+              error: prompt,
+              submitted: prompt,
+              disabled: prompt
+            },
+            label: {
+              active: prompt,
+              cancelled: prompt,
+              warning: prompt,
+              error: prompt,
+              submitted: prompt,
+              disabled: prompt
+            },
+            input: {
+              active: prompt,
+              inactive: prompt,
+              cancelled: prompt,
+              warning: prompt,
+              error: prompt,
+              submitted: prompt,
+              disabled: prompt
+            },
+            description: {
+              active: prompt,
+              inactive: prompt,
+              cancelled: prompt,
+              warning: prompt,
+              error: prompt,
+              submitted: prompt,
+              disabled: prompt
+            }
+          };
+        } else if (isSetObject(prompt)) {
+          if (isSetString(prompt.icon)) {
+            const icon = prompt.icon;
+            resolvedConfig.colors.text.prompt.icon = {
+              active: icon,
+              cancelled: icon,
+              warning: icon,
+              error: icon,
+              submitted: icon,
+              disabled: icon
+            };
+          } else if (isSetObject(prompt.icon)) {
+            if (isSetString(prompt.icon.active)) {
+              resolvedConfig.colors.text.prompt.icon.active =
+                prompt.icon.active;
+            }
+            if (isSetString(prompt.icon.cancelled)) {
+              resolvedConfig.colors.text.prompt.icon.cancelled =
+                prompt.icon.cancelled;
+            }
+            if (isSetString(prompt.icon.warning)) {
+              resolvedConfig.colors.text.prompt.icon.warning =
+                prompt.icon.warning;
+            }
+            if (isSetString(prompt.icon.error)) {
+              resolvedConfig.colors.text.prompt.icon.error = prompt.icon.error;
+            }
+            if (isSetString(prompt.icon.submitted)) {
+              resolvedConfig.colors.text.prompt.icon.submitted =
+                prompt.icon.submitted;
+            }
+            if (isSetString(prompt.icon.disabled)) {
+              resolvedConfig.colors.text.prompt.icon.disabled =
+                prompt.icon.disabled;
+            }
+          }
+
+          if (isSetString(prompt.label)) {
+            const label = prompt.label;
+            resolvedConfig.colors.text.prompt.label = {
+              active: label,
+              cancelled: label,
+              warning: label,
+              error: label,
+              submitted: label,
+              disabled: label
+            };
+          } else if (isSetObject(prompt.label)) {
+            if (isSetString(prompt.label.active)) {
+              resolvedConfig.colors.text.prompt.label.active =
+                prompt.label.active;
+            }
+            if (isSetString(prompt.label.cancelled)) {
+              resolvedConfig.colors.text.prompt.label.cancelled =
+                prompt.label.cancelled;
+            }
+            if (isSetString(prompt.label.warning)) {
+              resolvedConfig.colors.text.prompt.label.warning =
+                prompt.label.warning;
+            }
+            if (isSetString(prompt.label.error)) {
+              resolvedConfig.colors.text.prompt.label.error =
+                prompt.label.error;
+            }
+            if (isSetString(prompt.label.submitted)) {
+              resolvedConfig.colors.text.prompt.label.submitted =
+                prompt.label.submitted;
+            }
+            if (isSetString(prompt.label.disabled)) {
+              resolvedConfig.colors.text.prompt.label.disabled =
+                prompt.label.disabled;
+            }
+          }
+
+          if (isSetString(prompt.input)) {
+            const input = prompt.input;
+            resolvedConfig.colors.text.prompt.input = {
+              active: input,
+              inactive: input,
+              cancelled: input,
+              warning: input,
+              error: input,
+              submitted: input,
+              disabled: input
+            };
+          } else if (isSetObject(prompt.input)) {
+            if (isSetString(prompt.input.active)) {
+              resolvedConfig.colors.text.prompt.input.active =
+                prompt.input.active;
+            }
+            if (isSetString(prompt.input.inactive)) {
+              resolvedConfig.colors.text.prompt.input.inactive =
+                prompt.input.inactive;
+            }
+            if (isSetString(prompt.input.cancelled)) {
+              resolvedConfig.colors.text.prompt.input.cancelled =
+                prompt.input.cancelled;
+            }
+            if (isSetString(prompt.input.warning)) {
+              resolvedConfig.colors.text.prompt.input.warning =
+                prompt.input.warning;
+            }
+            if (isSetString(prompt.input.error)) {
+              resolvedConfig.colors.text.prompt.input.error =
+                prompt.input.error;
+            }
+            if (isSetString(prompt.input.submitted)) {
+              resolvedConfig.colors.text.prompt.input.submitted =
+                prompt.input.submitted;
+            }
+            if (isSetString(prompt.input.disabled)) {
+              resolvedConfig.colors.text.prompt.input.disabled =
+                prompt.input.disabled;
+            }
+          }
+
+          if (isSetString(prompt.description)) {
+            const description = prompt.description;
+            resolvedConfig.colors.text.prompt.description = {
+              active: description,
+              inactive: description,
+              cancelled: description,
+              warning: description,
+              error: description,
+              submitted: description,
+              disabled: description
+            };
+          } else if (isSetObject(prompt.description)) {
+            if (isSetString(prompt.description.active)) {
+              resolvedConfig.colors.text.prompt.description.active =
+                prompt.description.active;
+            }
+            if (isSetString(prompt.description.inactive)) {
+              resolvedConfig.colors.text.prompt.description.inactive =
+                prompt.description.inactive;
+            }
+            if (isSetString(prompt.description.cancelled)) {
+              resolvedConfig.colors.text.prompt.description.cancelled =
+                prompt.description.cancelled;
+            }
+            if (isSetString(prompt.description.warning)) {
+              resolvedConfig.colors.text.prompt.description.warning =
+                prompt.description.warning;
+            }
+            if (isSetString(prompt.description.error)) {
+              resolvedConfig.colors.text.prompt.description.error =
+                prompt.description.error;
+            }
+            if (isSetString(prompt.description.submitted)) {
+              resolvedConfig.colors.text.prompt.description.submitted =
+                prompt.description.submitted;
+            }
+            if (isSetString(prompt.description.disabled)) {
+              resolvedConfig.colors.text.prompt.description.disabled =
+                prompt.description.disabled;
+            }
+          }
+        }
       }
 
       resolvedConfig.colors.border ??= {
@@ -1229,898 +1481,6 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
     }
 
     // #endregion Colors
-
-    // #region BorderStyles
-
-    resolvedConfig.borderStyles ??= {
-      banner: { outline: {}, divider: {} },
-      message: { outline: {}, divider: {} },
-      app: { table: {}, divider: {} }
-    } as ThemeBorderStylesResolvedConfig;
-    const borderStyles = dictionary.borderStyles as ThemeBorderStylesUserConfig;
-
-    if (isSetString(borderStyles)) {
-      const borderStyle = resolveBorderStyle(
-        borderStyles as ThemeStyleBorderIdentifiers
-      );
-
-      resolvedConfig.borderStyles = {
-        banner: {
-          outline: {
-            primary: borderStyle,
-            secondary: borderStyle,
-            tertiary: borderStyle
-          },
-          divider: {
-            primary: borderStyle,
-            secondary: borderStyle,
-            tertiary: borderStyle
-          }
-        },
-        message: {
-          outline: {
-            help: borderStyle,
-            success: borderStyle,
-            info: borderStyle,
-            debug: borderStyle,
-            warning: borderStyle,
-            danger: borderStyle,
-            error: borderStyle
-          },
-          divider: {
-            help: borderStyle,
-            success: borderStyle,
-            info: borderStyle,
-            debug: borderStyle,
-            warning: borderStyle,
-            danger: borderStyle,
-            error: borderStyle
-          }
-        },
-        app: {
-          table: {
-            primary: borderStyle,
-            secondary: borderStyle,
-            tertiary: borderStyle
-          },
-          divider: {
-            primary: borderStyle,
-            secondary: borderStyle,
-            tertiary: borderStyle
-          }
-        }
-      };
-    } else if (isSetObject(borderStyles)) {
-      resolvedConfig.borderStyles.banner ??= {
-        outline: {},
-        divider: {}
-      } as ThemeBorderStylesResolvedConfig["banner"];
-      const banner = borderStyles.banner;
-
-      if (isSetString(banner)) {
-        const borderStyle = resolveBorderStyle(banner);
-
-        resolvedConfig.borderStyles.banner = {
-          outline: {
-            primary: borderStyle,
-            secondary: borderStyle,
-            tertiary: borderStyle
-          },
-          divider: {
-            primary: borderStyle,
-            secondary: borderStyle,
-            tertiary: borderStyle
-          }
-        };
-      } else if (isSetObject(banner)) {
-        resolvedConfig.borderStyles.banner ??=
-          {} as ThemeBorderStylesResolvedConfig["banner"];
-        const outline = (
-          banner as ThemeBorderStyleSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
-        ).outline;
-
-        if (isSetString(outline)) {
-          const borderStyle = resolveBorderStyle(outline);
-
-          resolvedConfig.borderStyles.banner.outline = {
-            primary: borderStyle,
-            secondary: borderStyle,
-            tertiary: borderStyle
-          };
-        } else if (isSetObject(outline)) {
-          resolvedConfig.borderStyles.banner.outline =
-            {} as ThemeBorderStylesResolvedConfig["banner"]["outline"];
-
-          if (
-            isSetString(
-              (outline as ThemeBorderStyleSectionTypesUserConfig).primary
-            )
-          ) {
-            resolvedConfig.borderStyles.banner.outline.primary =
-              resolveBorderStyle(
-                (outline as ThemeBorderStyleSectionTypesUserConfig)
-                  .primary as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (outline as ThemeBorderStyleSectionTypesUserConfig).secondary
-            )
-          ) {
-            resolvedConfig.borderStyles.banner.outline.secondary =
-              resolveBorderStyle(
-                (outline as ThemeBorderStyleSectionTypesUserConfig)
-                  .secondary as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (outline as ThemeBorderStyleSectionTypesUserConfig).tertiary
-            )
-          ) {
-            resolvedConfig.borderStyles.banner.outline.tertiary =
-              resolveBorderStyle(
-                (outline as ThemeBorderStyleSectionTypesUserConfig)
-                  .tertiary as ThemeStyleBorderIdentifiers
-              );
-          }
-        }
-
-        const divider = (
-          banner as ThemeBorderStyleSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
-        ).divider;
-
-        if (isSetString(divider)) {
-          const borderStyle = resolveBorderStyle(divider);
-
-          resolvedConfig.borderStyles.banner.divider = {
-            primary: borderStyle,
-            secondary: borderStyle,
-            tertiary: borderStyle
-          };
-        } else if (isSetObject(divider)) {
-          resolvedConfig.borderStyles.banner.divider =
-            {} as ThemeBorderStylesResolvedConfig["banner"]["divider"];
-
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleSectionTypesUserConfig).primary
-            )
-          ) {
-            resolvedConfig.borderStyles.banner.divider.primary =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleSectionTypesUserConfig)
-                  .primary as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleSectionTypesUserConfig).secondary
-            )
-          ) {
-            resolvedConfig.borderStyles.banner.divider.secondary =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleSectionTypesUserConfig)
-                  .secondary as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleSectionTypesUserConfig).tertiary
-            )
-          ) {
-            resolvedConfig.borderStyles.banner.divider.tertiary =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleSectionTypesUserConfig)
-                  .tertiary as ThemeStyleBorderIdentifiers
-              );
-          }
-        }
-      }
-
-      resolvedConfig.borderStyles.app ??= {
-        table: {},
-        divider: {}
-      } as ThemeBorderStylesResolvedConfig["app"];
-      const app = borderStyles.app;
-
-      if (isSetString(app)) {
-        const borderStyle = resolveBorderStyle(app);
-
-        resolvedConfig.borderStyles.app = {
-          table: {
-            primary: borderStyle,
-            secondary: borderStyle,
-            tertiary: borderStyle
-          },
-          divider: {
-            primary: borderStyle,
-            secondary: borderStyle,
-            tertiary: borderStyle
-          }
-        };
-      } else if (isSetObject(app)) {
-        resolvedConfig.borderStyles.app ??=
-          {} as ThemeBorderStylesResolvedConfig["app"];
-
-        const table = (
-          app as ThemeBorderStyleAppSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
-        ).table;
-
-        if (isSetString(table)) {
-          const borderStyle = resolveBorderStyle(table);
-
-          resolvedConfig.borderStyles.app.table = {
-            primary: borderStyle,
-            secondary: borderStyle,
-            tertiary: borderStyle
-          };
-        } else if (isSetObject(table)) {
-          resolvedConfig.borderStyles.app.table =
-            {} as ThemeBorderStylesResolvedConfig["app"]["table"];
-
-          if (
-            isSetString(
-              (table as ThemeBorderStyleSectionTypesUserConfig).primary
-            )
-          ) {
-            resolvedConfig.borderStyles.app.table.primary = resolveBorderStyle(
-              (table as ThemeBorderStyleSectionTypesUserConfig)
-                .primary as ThemeStyleBorderIdentifiers
-            );
-          }
-          if (
-            isSetString(
-              (table as ThemeBorderStyleSectionTypesUserConfig).secondary
-            )
-          ) {
-            resolvedConfig.borderStyles.app.table.secondary =
-              resolveBorderStyle(
-                (table as ThemeBorderStyleSectionTypesUserConfig)
-                  .secondary as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (table as ThemeBorderStyleSectionTypesUserConfig).tertiary
-            )
-          ) {
-            resolvedConfig.borderStyles.app.table.tertiary = resolveBorderStyle(
-              (table as ThemeBorderStyleSectionTypesUserConfig)
-                .tertiary as ThemeStyleBorderIdentifiers
-            );
-          }
-        }
-
-        const divider = (
-          app as ThemeBorderStyleAppSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
-        ).divider;
-
-        if (isSetString(divider)) {
-          const borderStyle = resolveBorderStyle(divider);
-
-          resolvedConfig.borderStyles.app.divider = {
-            primary: borderStyle,
-            secondary: borderStyle,
-            tertiary: borderStyle
-          };
-        } else if (isSetObject(divider)) {
-          resolvedConfig.borderStyles.app.divider =
-            {} as ThemeBorderStylesResolvedConfig["app"]["divider"];
-
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleSectionTypesUserConfig).primary
-            )
-          ) {
-            resolvedConfig.borderStyles.app.divider.primary =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleSectionTypesUserConfig)
-                  .primary as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleSectionTypesUserConfig).secondary
-            )
-          ) {
-            resolvedConfig.borderStyles.app.divider.secondary =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleSectionTypesUserConfig)
-                  .secondary as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleSectionTypesUserConfig).tertiary
-            )
-          ) {
-            resolvedConfig.borderStyles.app.divider.tertiary =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleSectionTypesUserConfig)
-                  .tertiary as ThemeStyleBorderIdentifiers
-              );
-          }
-        }
-      }
-
-      resolvedConfig.borderStyles.message ??=
-        {} as ThemeBorderStylesResolvedConfig["message"];
-      const message = borderStyles.message;
-
-      if (isSetString(message)) {
-        const borderStyle = resolveBorderStyle(message);
-
-        resolvedConfig.borderStyles.message = {
-          outline: {
-            help: borderStyle,
-            success: borderStyle,
-            info: borderStyle,
-            debug: borderStyle,
-            warning: borderStyle,
-            danger: borderStyle,
-            error: borderStyle
-          },
-          divider: {
-            help: borderStyle,
-            success: borderStyle,
-            info: borderStyle,
-            debug: borderStyle,
-            warning: borderStyle,
-            danger: borderStyle,
-            error: borderStyle
-          }
-        };
-      } else if (isSetObject(message)) {
-        const outline = (
-          message as ThemeBorderStyleSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
-        ).outline;
-
-        if (isSetString(outline)) {
-          const borderStyle = resolveBorderStyle(outline);
-
-          resolvedConfig.borderStyles.message.outline = {
-            help: borderStyle,
-            success: borderStyle,
-            info: borderStyle,
-            debug: borderStyle,
-            warning: borderStyle,
-            danger: borderStyle,
-            error: borderStyle
-          };
-        } else if (isSetObject(outline)) {
-          resolvedConfig.borderStyles.message.outline =
-            {} as ThemeBorderStylesResolvedConfig["message"]["outline"];
-
-          if (
-            isSetString(
-              (outline as ThemeBorderStyleMessageStateUserConfig).help
-            )
-          ) {
-            resolvedConfig.borderStyles.message.outline.help =
-              resolveBorderStyle(
-                (outline as ThemeBorderStyleMessageStateUserConfig)
-                  .help as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (outline as ThemeBorderStyleMessageStateUserConfig).success
-            )
-          ) {
-            resolvedConfig.borderStyles.message.outline.success =
-              resolveBorderStyle(
-                (outline as ThemeBorderStyleMessageStateUserConfig)
-                  .success as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (outline as ThemeBorderStyleMessageStateUserConfig).info
-            )
-          ) {
-            resolvedConfig.borderStyles.message.outline.info =
-              resolveBorderStyle(
-                (outline as ThemeBorderStyleMessageStateUserConfig)
-                  .info as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (outline as ThemeBorderStyleMessageStateUserConfig).debug
-            )
-          ) {
-            resolvedConfig.borderStyles.message.outline.debug =
-              resolveBorderStyle(
-                (outline as ThemeBorderStyleMessageStateUserConfig)
-                  .debug as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (outline as ThemeBorderStyleMessageStateUserConfig).warning
-            )
-          ) {
-            resolvedConfig.borderStyles.message.outline.warning =
-              resolveBorderStyle(
-                (outline as ThemeBorderStyleMessageStateUserConfig)
-                  .warning as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (outline as ThemeBorderStyleMessageStateUserConfig).danger
-            )
-          ) {
-            resolvedConfig.borderStyles.message.outline.danger =
-              resolveBorderStyle(
-                (outline as ThemeBorderStyleMessageStateUserConfig)
-                  .danger as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (outline as ThemeBorderStyleMessageStateUserConfig).error
-            )
-          ) {
-            resolvedConfig.borderStyles.message.outline.error =
-              resolveBorderStyle(
-                (outline as ThemeBorderStyleMessageStateUserConfig)
-                  .error as ThemeStyleBorderIdentifiers
-              );
-          }
-        }
-
-        resolvedConfig.borderStyles.message.divider ??=
-          {} as ThemeBorderStylesResolvedConfig["message"]["divider"];
-        const divider = (
-          message as ThemeBorderStyleSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
-        ).divider;
-
-        if (isSetString(divider)) {
-          const borderStyle = resolveBorderStyle(divider);
-
-          resolvedConfig.borderStyles.message.divider = {
-            help: borderStyle,
-            success: borderStyle,
-            info: borderStyle,
-            debug: borderStyle,
-            warning: borderStyle,
-            danger: borderStyle,
-            error: borderStyle
-          };
-        } else if (isSetObject(divider)) {
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleMessageStateUserConfig).help
-            )
-          ) {
-            resolvedConfig.borderStyles.message.divider.help =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleMessageStateUserConfig)
-                  .help as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleMessageStateUserConfig).success
-            )
-          ) {
-            resolvedConfig.borderStyles.message.divider.success =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleMessageStateUserConfig)
-                  .success as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleMessageStateUserConfig).info
-            )
-          ) {
-            resolvedConfig.borderStyles.message.divider.info =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleMessageStateUserConfig)
-                  .info as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleMessageStateUserConfig).debug
-            )
-          ) {
-            resolvedConfig.borderStyles.message.divider.debug =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleMessageStateUserConfig)
-                  .debug as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleMessageStateUserConfig).warning
-            )
-          ) {
-            resolvedConfig.borderStyles.message.divider.warning =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleMessageStateUserConfig)
-                  .warning as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleMessageStateUserConfig).danger
-            )
-          ) {
-            resolvedConfig.borderStyles.message.divider.danger =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleMessageStateUserConfig)
-                  .danger as ThemeStyleBorderIdentifiers
-              );
-          }
-          if (
-            isSetString(
-              (divider as ThemeBorderStyleMessageStateUserConfig).error
-            )
-          ) {
-            resolvedConfig.borderStyles.message.divider.error =
-              resolveBorderStyle(
-                (divider as ThemeBorderStyleMessageStateUserConfig)
-                  .error as ThemeStyleBorderIdentifiers
-              );
-          }
-        }
-      }
-    }
-
-    // #endregion BorderStyles
-
-    // #region Padding
-
-    resolvedConfig.padding ??= {} as ThemePaddingResolvedConfig;
-    const padding = dictionary.padding;
-
-    if (isNumber(padding)) {
-      resolvedConfig.padding = {
-        banner: padding,
-        message: padding,
-        app: padding,
-        table: padding
-      };
-    } else if (isSetObject(padding)) {
-      if (isNumber(padding.banner)) {
-        resolvedConfig.padding.banner = padding.banner;
-      }
-      if (isNumber(padding.message)) {
-        resolvedConfig.padding.message = padding.message;
-      }
-      if (isNumber(padding.app)) {
-        resolvedConfig.padding.app = padding.app;
-      }
-      if (isNumber(padding.table)) {
-        resolvedConfig.padding.table = padding.table;
-      }
-    }
-
-    // #endregion Padding
-
-    // #region Icons
-
-    resolvedConfig.icons ??= {
-      message: { header: {} },
-      banner: { header: {} }
-    } as ThemeIconsResolvedConfig;
-    const icons = dictionary.icons as ThemeIconsUserConfig;
-
-    if (isSetString(icons)) {
-      resolvedConfig.icons = {
-        message: {
-          header: {
-            help: icons,
-            success: icons,
-            info: icons,
-            debug: icons,
-            warning: icons,
-            danger: icons,
-            error: icons
-          }
-        },
-        banner: {
-          header: {
-            primary: icons,
-            secondary: icons,
-            tertiary: icons
-          }
-        }
-      };
-    } else if (isSetObject(icons)) {
-      resolvedConfig.icons.message =
-        {} as ThemeIconTypeResolvedConfig<ThemeIconMessageStateConfig>;
-      const message = icons.message;
-
-      if (isSetString(message)) {
-        resolvedConfig.icons.message = {
-          header: {
-            help: message,
-            success: message,
-            info: message,
-            debug: message,
-            warning: message,
-            danger: message,
-            error: message
-          }
-        };
-      } else if (isSetObject(message)) {
-        resolvedConfig.icons.message.header ??=
-          {} as ThemeIconMessageStateConfig;
-        const header = message.header;
-
-        if (isSetString(header)) {
-          resolvedConfig.icons.message = {
-            header: {
-              help: header,
-              success: header,
-              info: header,
-              debug: header,
-              warning: header,
-              danger: header,
-              error: header
-            }
-          };
-        } else if (isSetObject(header)) {
-          if (isSetString(header.help)) {
-            resolvedConfig.icons.message.header.help = header.help;
-          }
-          if (isSetString(header.success)) {
-            resolvedConfig.icons.message.header.success = header.success;
-          }
-          if (isSetString(header.info)) {
-            resolvedConfig.icons.message.header.info = header.info;
-          }
-          if (isSetString(header.debug)) {
-            resolvedConfig.icons.message.header.debug = header.debug;
-          }
-          if (isSetString(header.warning)) {
-            resolvedConfig.icons.message.header.warning = header.warning;
-          }
-          if (isSetString(header.danger)) {
-            resolvedConfig.icons.message.header.danger = header.danger;
-          }
-          if (isSetString(header.error)) {
-            resolvedConfig.icons.message.header.error = header.error;
-          }
-        }
-      }
-
-      resolvedConfig.icons.banner ??= {
-        header: {}
-      } as ThemeIconTypeResolvedConfig<ThemeIconSubItemConfig>;
-      const banner = icons.banner;
-
-      if (isSetString(banner)) {
-        resolvedConfig.icons.banner = {
-          header: {
-            primary: banner,
-            secondary: banner,
-            tertiary: banner
-          }
-        };
-      } else if (isSetObject(banner)) {
-        resolvedConfig.icons.banner.header ??= {} as ThemeIconSubItemConfig;
-        const header = banner.header as ThemeIconSubItemConfig;
-
-        if (isSetString(banner.header)) {
-          resolvedConfig.icons.banner = {
-            header: {
-              primary: banner.header,
-              secondary: banner.header,
-              tertiary: banner.header
-            }
-          };
-        } else if (isSetObject(banner.header)) {
-          if (isSetString(header.primary)) {
-            resolvedConfig.icons.banner.header.primary = header.primary;
-          }
-          if (isSetString(header.secondary)) {
-            resolvedConfig.icons.banner.header.secondary = header.secondary;
-          }
-          if (isSetString(header.tertiary)) {
-            resolvedConfig.icons.banner.header.tertiary = header.tertiary;
-          }
-        }
-      }
-    }
-
-    // #endregion Icons
-
-    // #region Labels
-
-    resolvedConfig.labels ??= {
-      message: { header: {}, footer: {} },
-      banner: { header: {}, footer: {} }
-    } as ThemeLabelsResolvedConfig;
-    const labels = dictionary.labels as ThemeLabelsUserConfig;
-
-    if (isSetString(labels)) {
-      resolvedConfig.labels = {
-        message: {
-          header: {
-            help: labels,
-            success: labels,
-            info: labels,
-            debug: labels,
-            warning: labels,
-            danger: labels,
-            error: labels
-          },
-          footer: {}
-        },
-        banner: {
-          header: {
-            primary: labels,
-            secondary: labels,
-            tertiary: labels
-          },
-          footer: {}
-        }
-      };
-    } else if (isSetObject(labels)) {
-      resolvedConfig.labels.message ??=
-        {} as ThemeLabelTypeResolvedConfig<ThemeLabelMessageStateConfig>;
-      const message =
-        labels?.message as ThemeLabelTypeUserConfig<ThemeLabelMessageStateConfig>;
-
-      if (isSetString(message)) {
-        resolvedConfig.labels.message = {
-          header: {
-            help: message,
-            success: message,
-            info: message,
-            debug: message,
-            warning: message,
-            danger: message,
-            error: message
-          },
-          footer: {}
-        };
-      } else if (isSetObject(message)) {
-        resolvedConfig.labels.message.header =
-          {} as ThemeLabelMessageStateConfig;
-        resolvedConfig.labels.message.footer =
-          {} as ThemeLabelMessageStateConfig;
-        const header = message.header;
-        const footer = message.footer;
-
-        if (isSetString(header)) {
-          resolvedConfig.labels.message.header = {
-            help: header,
-            success: header,
-            info: header,
-            debug: header,
-            warning: header,
-            danger: header,
-            error: header
-          };
-        } else if (isSetObject(header)) {
-          if (isSetString(header.help)) {
-            resolvedConfig.labels.message.header.help = header.help;
-          }
-          if (isSetString(header.success)) {
-            resolvedConfig.labels.message.header.success = header.success;
-          }
-          if (isSetString(header.info)) {
-            resolvedConfig.labels.message.header.info = header.info;
-          }
-          if (isSetString(header.debug)) {
-            resolvedConfig.labels.message.header.debug = header.debug;
-          }
-          if (isSetString(header.warning)) {
-            resolvedConfig.labels.message.header.warning = header.warning;
-          }
-          if (isSetString(header.danger)) {
-            resolvedConfig.labels.message.header.danger = header.danger;
-          }
-          if (isSetString(header.error)) {
-            resolvedConfig.labels.message.header.error = header.error;
-          }
-        }
-
-        if (isSetString(footer)) {
-          resolvedConfig.labels.message.footer = {
-            help: footer,
-            success: footer,
-            info: footer,
-            debug: footer,
-            warning: footer,
-            danger: footer,
-            error: footer
-          };
-        } else if (isSetObject(footer)) {
-          if (isSetString(footer.help)) {
-            resolvedConfig.labels.message.footer.help = footer.help;
-          }
-          if (isSetString(footer.success)) {
-            resolvedConfig.labels.message.footer.success = footer.success;
-          }
-          if (isSetString(footer.info)) {
-            resolvedConfig.labels.message.footer.info = footer.info;
-          }
-          if (isSetString(footer.debug)) {
-            resolvedConfig.labels.message.footer.debug = footer.debug;
-          }
-          if (isSetString(footer.warning)) {
-            resolvedConfig.labels.message.footer.warning = footer.warning;
-          }
-          if (isSetString(footer.danger)) {
-            resolvedConfig.labels.message.footer.danger = footer.danger;
-          }
-          if (isSetString(footer.error)) {
-            resolvedConfig.labels.message.footer.error = footer.error;
-          }
-        }
-
-        resolvedConfig.labels.banner ??=
-          {} as ThemeLabelTypeResolvedConfig<ThemeLabelBannerSubItemConfig>;
-        const banner =
-          labels?.banner as ThemeLabelTypeUserConfig<ThemeLabelBannerSubItemConfig>;
-
-        if (isSetString(banner)) {
-          resolvedConfig.labels.banner = {
-            header: {
-              primary: banner,
-              secondary: banner,
-              tertiary: banner
-            },
-            footer: {}
-          };
-        } else if (isSetObject(banner)) {
-          resolvedConfig.labels.banner.header =
-            {} as ThemeLabelBannerSubItemConfig;
-          resolvedConfig.labels.banner.footer =
-            {} as ThemeLabelBannerSubItemConfig;
-          const header = banner.header;
-          const footer = banner.footer;
-
-          if (isSetString(header)) {
-            resolvedConfig.labels.banner.header = {
-              primary: header,
-              secondary: header,
-              tertiary: header
-            };
-          } else if (isSetObject(header)) {
-            if (isSetString(header.primary)) {
-              resolvedConfig.labels.banner.header.primary = header.primary;
-            }
-            if (isSetString(header.secondary)) {
-              resolvedConfig.labels.banner.header.secondary = header.secondary;
-            }
-            if (isSetString(header.tertiary)) {
-              resolvedConfig.labels.banner.header.tertiary = header.tertiary;
-            }
-          }
-
-          if (isSetString(footer)) {
-            resolvedConfig.labels.banner.footer = {
-              primary: footer,
-              secondary: footer,
-              tertiary: footer
-            };
-          } else if (isSetObject(footer)) {
-            if (isSetString(footer.primary)) {
-              resolvedConfig.labels.banner.footer.primary = footer.primary;
-            }
-            if (isSetString(footer.secondary)) {
-              resolvedConfig.labels.banner.footer.secondary = footer.secondary;
-            }
-            if (isSetString(footer.tertiary)) {
-              resolvedConfig.labels.banner.footer.tertiary = footer.tertiary;
-            }
-          }
-        }
-      }
-    }
-
-    // #endregion Labels
-
-    // #endregion Tiered token resolution
 
     // #region Missing token defaulting
 
@@ -2739,6 +2099,192 @@ export const preprocessor = (context: ThemePluginContext): Preprocessor => ({
     ) {
       resolvedConfig.colors.text.message.link.error =
         resolvedConfig.colors.text.body.link;
+    }
+
+    if (
+      !resolvedConfig.colors.text.prompt.icon?.active &&
+      resolvedConfig.colors.text?.banner?.title?.primary
+    ) {
+      resolvedConfig.colors.text.prompt.icon.active =
+        resolvedConfig.colors.text.banner.title.primary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.icon?.submitted &&
+      resolvedConfig.colors.text?.message?.header?.success
+    ) {
+      resolvedConfig.colors.text.prompt.icon.submitted =
+        resolvedConfig.colors.text.message.header.success;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.icon?.warning &&
+      resolvedConfig.colors.text?.message?.header?.warning
+    ) {
+      resolvedConfig.colors.text.prompt.icon.warning =
+        resolvedConfig.colors.text.message.header.warning;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.icon?.error &&
+      resolvedConfig.colors.text?.message?.header?.error
+    ) {
+      resolvedConfig.colors.text.prompt.icon.error =
+        resolvedConfig.colors.text.message.header.error;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.icon?.disabled &&
+      resolvedConfig.colors.text?.body?.tertiary
+    ) {
+      resolvedConfig.colors.text.prompt.icon.disabled =
+        resolvedConfig.colors.text.body.tertiary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.icon?.cancelled &&
+      resolvedConfig.colors.text.prompt.icon?.disabled
+    ) {
+      resolvedConfig.colors.text.prompt.icon.cancelled =
+        resolvedConfig.colors.text.prompt.icon.disabled;
+    }
+
+    if (
+      !resolvedConfig.colors.text.prompt.label?.active &&
+      resolvedConfig.colors.text?.body?.primary
+    ) {
+      resolvedConfig.colors.text.prompt.label.active =
+        resolvedConfig.colors.text.body.primary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.label?.submitted &&
+      resolvedConfig.colors.text?.body?.tertiary
+    ) {
+      resolvedConfig.colors.text.prompt.label.submitted =
+        resolvedConfig.colors.text.body.tertiary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.label?.warning &&
+      resolvedConfig.colors.text.prompt.label?.active
+    ) {
+      resolvedConfig.colors.text.prompt.label.warning =
+        resolvedConfig.colors.text.prompt.label.active;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.label?.error &&
+      resolvedConfig.colors.text.prompt.label?.active
+    ) {
+      resolvedConfig.colors.text.prompt.label.error =
+        resolvedConfig.colors.text.prompt.label.active;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.label?.disabled &&
+      resolvedConfig.colors.text?.body?.tertiary
+    ) {
+      resolvedConfig.colors.text.prompt.label.disabled =
+        resolvedConfig.colors.text.body.tertiary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.label?.cancelled &&
+      resolvedConfig.colors.text.prompt.label?.disabled
+    ) {
+      resolvedConfig.colors.text.prompt.label.cancelled =
+        resolvedConfig.colors.text.prompt.label.disabled;
+    }
+
+    if (
+      !resolvedConfig.colors.text.prompt.input?.active &&
+      resolvedConfig.colors.text?.heading?.primary
+    ) {
+      resolvedConfig.colors.text.prompt.input.active =
+        resolvedConfig.colors.text.heading.primary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.input?.inactive &&
+      resolvedConfig.colors.text?.heading?.secondary
+    ) {
+      resolvedConfig.colors.text.prompt.input.inactive =
+        resolvedConfig.colors.text.heading.secondary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.input?.submitted &&
+      resolvedConfig.colors.text?.heading?.tertiary
+    ) {
+      resolvedConfig.colors.text.prompt.label.submitted =
+        resolvedConfig.colors.text.heading.tertiary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.label?.warning &&
+      resolvedConfig.colors.text.prompt.label?.active
+    ) {
+      resolvedConfig.colors.text.prompt.label.warning =
+        resolvedConfig.colors.text.prompt.label.active;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.label?.error &&
+      resolvedConfig.colors.text.prompt.label?.active
+    ) {
+      resolvedConfig.colors.text.prompt.label.error =
+        resolvedConfig.colors.text.prompt.label.active;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.label?.disabled &&
+      resolvedConfig.colors.text?.body?.tertiary
+    ) {
+      resolvedConfig.colors.text.prompt.label.disabled =
+        resolvedConfig.colors.text.body.tertiary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.label?.cancelled &&
+      resolvedConfig.colors.text.prompt.label?.disabled
+    ) {
+      resolvedConfig.colors.text.prompt.label.cancelled =
+        resolvedConfig.colors.text.prompt.label.disabled;
+    }
+
+    if (
+      !resolvedConfig.colors.text.prompt.description?.active &&
+      resolvedConfig.colors.text?.heading?.primary
+    ) {
+      resolvedConfig.colors.text.prompt.description.active =
+        resolvedConfig.colors.text.heading.primary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.description?.inactive &&
+      resolvedConfig.colors.text?.heading?.secondary
+    ) {
+      resolvedConfig.colors.text.prompt.description.inactive =
+        resolvedConfig.colors.text.heading.secondary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.description?.submitted &&
+      resolvedConfig.colors.text?.heading?.tertiary
+    ) {
+      resolvedConfig.colors.text.prompt.description.submitted =
+        resolvedConfig.colors.text.heading.tertiary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.description?.warning &&
+      resolvedConfig.colors.text?.body?.secondary
+    ) {
+      resolvedConfig.colors.text.prompt.description.warning =
+        resolvedConfig.colors.text.body.secondary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.description?.error &&
+      resolvedConfig.colors.text.prompt.icon?.error
+    ) {
+      resolvedConfig.colors.text.prompt.description.error =
+        resolvedConfig.colors.text.prompt.icon.error;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.description?.disabled &&
+      resolvedConfig.colors.text?.body?.tertiary
+    ) {
+      resolvedConfig.colors.text.prompt.description.disabled =
+        resolvedConfig.colors.text.body.tertiary;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.description?.cancelled &&
+      resolvedConfig.colors.text.prompt.description?.disabled
+    ) {
+      resolvedConfig.colors.text.prompt.description.cancelled =
+        resolvedConfig.colors.text.prompt.description.disabled;
     }
 
     // #endregion Missing token defaulting

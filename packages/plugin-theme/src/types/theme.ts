@@ -55,6 +55,19 @@ export interface ThemeColorMessageState {
   error: string;
 }
 
+export interface ThemeColorPromptLabelState {
+  active: string;
+  warning: string;
+  error: string;
+  submitted: string;
+  cancelled: string;
+  disabled: string;
+}
+
+export interface ThemeColorInputPromptState extends ThemeColorPromptLabelState {
+  inactive: string;
+}
+
 export interface ThemeColorBannerSubItemUserConfig {
   title: Partial<ThemeColorSubItem> | string;
   link: Partial<ThemeColorSubItem> | string;
@@ -96,12 +109,27 @@ export interface ThemeColorUsageSubItem {
   description: string;
 }
 
+export interface ThemeColorPromptSubItemUserConfig {
+  icon: Partial<ThemeColorPromptLabelState> | string;
+  label: Partial<ThemeColorPromptLabelState> | string;
+  input: Partial<ThemeColorInputPromptState> | string;
+  description: Partial<ThemeColorInputPromptState> | string;
+}
+
+export interface ThemeColorPromptSubItemResolvedConfig {
+  icon: ThemeColorPromptLabelState;
+  label: ThemeColorPromptLabelState;
+  input: ThemeColorInputPromptState;
+  description: ThemeColorInputPromptState;
+}
+
 export interface ThemeColorTextItemsUserConfig {
   banner: Partial<ThemeColorBannerSubItemUserConfig> | string;
   heading: Partial<ThemeColorSubItem> | string;
   body: Partial<ThemeColorBodySubItem> | string;
   message: Partial<ThemeColorMessageSubItemUserConfig> | string;
   usage: Partial<ThemeColorUsageSubItem> | string;
+  prompt: Partial<ThemeColorPromptSubItemUserConfig> | string;
 }
 
 export interface ThemeColorTextItemsResolvedConfig {
@@ -110,6 +138,7 @@ export interface ThemeColorTextItemsResolvedConfig {
   body: ThemeColorBodySubItem;
   message: ThemeColorMessageSubItemResolvedConfig;
   usage: ThemeColorUsageSubItem;
+  prompt: ThemeColorPromptSubItemResolvedConfig;
 }
 
 export interface ThemeColorBorderSubItemUserConfig<TState extends object> {
@@ -326,6 +355,15 @@ export interface ThemeIconSubItemConfig {
   tertiary: string;
 }
 
+export interface ThemeIconPromptState {
+  active: string;
+  warning: string;
+  error: string;
+  submitted: string;
+  cancelled: string;
+  disabled: string;
+}
+
 export interface ThemeIconTypeUserConfig<TState extends object> {
   header: Partial<TState> | string;
 }
@@ -337,11 +375,13 @@ export interface ThemeIconTypeResolvedConfig<TState extends object> {
 export interface ThemeIconsUserConfig {
   message: ThemeIconTypeUserConfig<ThemeIconMessageStateConfig> | string;
   banner: ThemeIconTypeUserConfig<ThemeIconSubItemConfig> | string;
+  prompt: Partial<ThemeIconPromptState> | string;
 }
 
 export interface ThemeIconsResolvedConfig {
   message: ThemeIconTypeResolvedConfig<ThemeIconMessageStateConfig>;
   banner: ThemeIconTypeResolvedConfig<ThemeIconSubItemConfig>;
+  prompt: ThemeIconPromptState;
 }
 
 export interface ThemeLabelMessageStateConfig {
@@ -387,6 +427,7 @@ export interface ThemeUserConfig {
   padding?: Partial<ThemePaddingUserConfig> | number;
   icons?: Partial<ThemeIconsUserConfig> | string;
   labels?: Partial<ThemeLabelsUserConfig> | string;
+  settings?: Record<string, unknown>;
 }
 
 export interface ThemeResolvedConfig {
@@ -396,5 +437,6 @@ export interface ThemeResolvedConfig {
   padding: ThemePaddingResolvedConfig;
   icons: ThemeIconsResolvedConfig;
   labels: ThemeLabelsResolvedConfig;
+  settings: Record<string, unknown>;
   [key: string]: unknown;
 }

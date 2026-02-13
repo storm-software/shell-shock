@@ -35,7 +35,7 @@ export const theme: ThemeUserConfig = {
       body: {
         primary: "#cbd5e1",
         secondary: "#9ca3af",
-        tertiary: "#868b95",
+        tertiary: "#65676d",
         link: "#3fa6ff"
       },
       message: {
@@ -48,13 +48,49 @@ export const theme: ThemeUserConfig = {
         options: "#ec5050",
         arguments: "#3bcde4",
         description: "#9ca3af"
+      },
+      prompt: {
+        icon: {
+          active: "#3be4be",
+          warning: "#f3d371",
+          error: "#d8314a",
+          submitted: "#45b27e",
+          cancelled: "#d8314a",
+          disabled: "#d8314a"
+        },
+        label: {
+          active: "#ffffff",
+          warning: "#ffffff",
+          error: "#ffffff",
+          submitted: "#9ca3af",
+          cancelled: "#9ca3af",
+          disabled: "#4f4f50"
+        },
+        input: {
+          active: "#3be4be",
+          inactive: "#9ca3af",
+          warning: "#f3d371",
+          error: "#d8314a",
+          submitted: "#cbd5e1",
+          cancelled: "#d8314a",
+          disabled: "#4f4f50"
+        },
+        description: {
+          active: "#9ca3af",
+          inactive: "#4f4f50",
+          warning: "#f3d371",
+          error: "#d8314a",
+          submitted: "#4f4f50",
+          cancelled: "#d8314a",
+          disabled: "#4f4f50"
+        }
       }
     },
     border: {
       app: {
         primary: "#ffffff",
-        secondary: "#cbd5e1",
-        tertiary: "#9ca3af"
+        secondary: "#9ca3af",
+        tertiary: "#4f4f50"
       },
       banner: "#3be4be",
       message: {
@@ -76,7 +112,7 @@ export const theme: ThemeUserConfig = {
     app: 0,
     banner: 14,
     message: 8,
-    table: 2
+    table: 1
   },
   icons: {
     message: {
@@ -92,6 +128,14 @@ export const theme: ThemeUserConfig = {
     },
     banner: {
       header: "⏺" // 🗲 🗱 ⬤
+    },
+    prompt: {
+      active: "✱",
+      error: "🛇",
+      warning: "🛆",
+      submitted: "✔",
+      cancelled: "✘",
+      disabled: "🛇"
     }
   },
   labels: {

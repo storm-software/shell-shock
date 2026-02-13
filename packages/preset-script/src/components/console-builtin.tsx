@@ -112,6 +112,82 @@ import { IsNotDebug, IsNotVerbose } from "./helpers";
 /**
  * A component to generate a console message function in a Shell Shock project.
  */
+function AnsiHelpers() {
+  return code`export const beep = "\\u0007";
+
+  export const cursor = {
+    to(x, y) {
+      if (!y) {
+        return \`\\x1B[\${x + 1}G\`;
+      }
+
+      return \`\\x1B[\${y + 1};\${x + 1}H\`;
+    },
+    move(x, y) {
+      let ret = '';
+
+      if (x < 0) {
+        ret += \`\\x1B[\${-x}D\`;
+      } else if (x > 0) {
+        ret += \`\\x1B[\${x}C\`;
+      }
+
+      if (y < 0) {
+        ret += \`\\x1B[\${-y}A\`;
+      } else if (y > 0) {
+        ret += \`\\x1B[\${y}B\`;
+      }
+
+      return ret;
+    },
+    up: (count = 1) => \`\\x1B[\${count}A\`,
+    down: (count = 1) => \`\\x1B[\${count}B\`,
+    forward: (count = 1) => \`\\x1B[\${count}C\`,
+    backward: (count = 1) => \`\\x1B[\${count}D\`,
+    nextLine: (count = 1) => "\\x1B[E".repeat(count),
+    prevLine: (count = 1) => "\\x1B[F".repeat(count),
+    left: "\\x1B[G",
+    hide: "\\x1B[?25l",
+    show: "\\x1B[?25h",
+    save: "\\x1B7",
+    restore: "\\x1B8"
+  }
+
+  export const scroll = {
+    up: (count = 1) => "\\x1B[S".repeat(count),
+    down: (count = 1) => "\\x1B[T".repeat(count)
+  }
+
+  export const erase = {
+    screen: "\\x1B[2J",
+    up: (count = 1) => "\\x1B[1J".repeat(count),
+    down: (count = 1) => "\\x1B[J".repeat(count),
+    line: "\\x1B[2K",
+    lineEnd: "\\x1B[K",
+    lineStart: "\\x1B[1K",
+    lines(count) {
+      let clear = "";
+      for (let i = 0; i < count; i++) {
+        clear += this.line + (i < count - 1 ? cursor.up() : "");
+      }
+
+      if (count) {
+        clear += cursor.left;
+      }
+
+      return clear;
+    }
+  }
+
+  export const clear = {
+    screen: "\\x1Bc"
+  }
+`;
+}
+
+/**
+ * A component to generate a console message function in a Shell Shock project.
+ */
 function ColorFunction({
   ansi16,
   ansi256,
@@ -938,6 +1014,363 @@ export function ColorsDeclaration() {
                           ansi16m={colors.ansi16m.theme.text.usage.description}
                         />
                       )}
+                    },
+                    prompt: {
+                      icon: {
+                        active: ${(
+                          <ColorFunction
+                            ansi16={colors.ansi16.theme.text.prompt.icon.active}
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.icon.active
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.icon.active
+                            }
+                          />
+                        )},
+                        warning: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.icon.warning
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.icon.warning
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.icon.warning
+                            }
+                          />
+                        )},
+                        error: ${(
+                          <ColorFunction
+                            ansi16={colors.ansi16.theme.text.prompt.icon.error}
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.icon.error
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.icon.error
+                            }
+                          />
+                        )},
+                        submitted: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.icon.submitted
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.icon.submitted
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.icon.submitted
+                            }
+                          />
+                        )},
+                        cancelled: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.icon.cancelled
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.icon.cancelled
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.icon.cancelled
+                            }
+                          />
+                        )},
+                        disabled: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.icon.disabled
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.icon.disabled
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.icon.disabled
+                            }
+                          />
+                        )}
+                      },
+                      label: {
+                        active: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.label.active
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.label.active
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.label.active
+                            }
+                          />
+                        )},
+                        warning: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.label.warning
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.label.warning
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.label.warning
+                            }
+                          />
+                        )},
+                        error: ${(
+                          <ColorFunction
+                            ansi16={colors.ansi16.theme.text.prompt.label.error}
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.label.error
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.label.error
+                            }
+                          />
+                        )},
+                        submitted: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.label.submitted
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.label.submitted
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.label.submitted
+                            }
+                          />
+                        )},
+                        cancelled: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.label.cancelled
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.label.cancelled
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.label.cancelled
+                            }
+                          />
+                        )},
+                        disabled: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.label.disabled
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.label.disabled
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.label.disabled
+                            }
+                          />
+                        )}
+                      },
+                      input: {
+                        active: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.input.active
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.input.active
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.input.active
+                            }
+                          />
+                        )},
+                        inactive: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.input.inactive
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.input.inactive
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.input.inactive
+                            }
+                          />
+                        )},
+                        warning: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.input.warning
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.input.warning
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.input.warning
+                            }
+                          />
+                        )},
+                        error: ${(
+                          <ColorFunction
+                            ansi16={colors.ansi16.theme.text.prompt.input.error}
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.input.error
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.input.error
+                            }
+                          />
+                        )},
+                        submitted: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.input.submitted
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.input.submitted
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.input.submitted
+                            }
+                          />
+                        )},
+                        cancelled: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.input.cancelled
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.input.cancelled
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.input.cancelled
+                            }
+                          />
+                        )},
+                        disabled: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.input.disabled
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.input.disabled
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.input.disabled
+                            }
+                          />
+                        )}
+                      },
+                      description: {
+                        active: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.description.active
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.description
+                                .active
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.description
+                                .active
+                            }
+                          />
+                        )},
+                        inactive: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.description
+                                .inactive
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.description
+                                .inactive
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.description
+                                .inactive
+                            }
+                          />
+                        )},
+                        warning: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.description
+                                .warning
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.description
+                                .warning
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.description
+                                .warning
+                            }
+                          />
+                        )},
+                        error: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.description.error
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.description.error
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.description.error
+                            }
+                          />
+                        )},
+                        submitted: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.description
+                                .submitted
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.description
+                                .submitted
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.description
+                                .submitted
+                            }
+                          />
+                        )},
+                        cancelled: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.description
+                                .cancelled
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.description
+                                .cancelled
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.description
+                                .cancelled
+                            }
+                          />
+                        )},
+                        disabled: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.description
+                                .disabled
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.description
+                                .disabled
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.description
+                                .disabled
+                            }
+                          />
+                        )}
+                      }
                     }
                   },
                   border: {
@@ -2365,7 +2798,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
         />
         <hbr />
         {code`
-        const extractTableCell = (cell: string | TableCellOptions, opts?: TableOutputOptions): TableCell => {
+        const extractTableCell = (cell: string | TableCellOptions, columnIndex: number, rowLength: number, opts?: TableOutputOptions): TableCell => {
           if (typeof cell === "string") {
             const borderOptions = opts?.border || "primary";
 
@@ -2392,7 +2825,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
               border.bottomRight = ${extractBorderOptionsString("bottomRight", theme)};
             }
 
-            const padding = Math.max(0, opts?.padding ?? ${theme.padding.table});
+            const padding = Math.max(0, opts?.padding ?? ${theme.padding.table}) * (columnIndex === 0 || columnIndex === rowLength - 1 ? 2 : 1);
             const value = cell ?? "";
             const width = stripAnsi(value).length + padding * 2;
 
@@ -2455,7 +2888,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
         <IfStatement condition={code`Array.isArray(options)`}>
           <IfStatement
             condition={code`options.every(row => typeof row === "string" || (typeof row === "object" && !Array.isArray(row) && !("values" in row)))`}>
-            {code`cells.push(options.map(cell => extractTableCell(cell as string | TableCellOptions)));`}
+            {code`cells.push(options.map((cell, index) => extractTableCell(cell as string | TableCellOptions, index, options.length)));`}
           </IfStatement>
           <ElseClause>
             {code`
@@ -2465,7 +2898,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
                 if (colMaxWidths.length <= index) {
                   colMaxWidths.push(undefined);
                 }
-                const newCell = extractTableCell(cell);
+                const newCell = extractTableCell(cell, index, row.length);
                 if (newCell.maxWidth && (!colMaxWidths[index] || newCell.maxWidth < colMaxWidths[index]!)) {
                   colMaxWidths[index] = newCell.maxWidth;
                 }
@@ -2476,7 +2909,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
                 if (colMaxWidths.length <= index) {
                   colMaxWidths.push(undefined);
                 }
-                const newCell = extractTableCell(cell, row as TableRowOptions);
+                const newCell = extractTableCell(cell, index, (row as TableRowOptions).values?.length ?? 1, row as TableRowOptions);
                 if (newCell.maxWidth && (!colMaxWidths[index] || newCell.maxWidth < colMaxWidths[index]!)) {
                   colMaxWidths[index] = newCell.maxWidth;
                 }
@@ -2496,7 +2929,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
               if (colMaxWidths.length <= index) {
                 colMaxWidths.push(undefined);
               }
-              const newCell = extractTableCell(cell);
+              const newCell = extractTableCell(cell, index, row.length);
               if (newCell.maxWidth && (!colMaxWidths[index] || newCell.maxWidth < colMaxWidths[index]!)) {
                 colMaxWidths[index] = newCell.maxWidth;
               }
@@ -2507,7 +2940,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
               if (colMaxWidths.length <= index) {
                 colMaxWidths.push(undefined);
               }
-              const newCell = extractTableCell(cell, options);
+              const newCell = extractTableCell(cell, index, (row as TableRowOptions).values?.length ?? 1, options);
               if (newCell.maxWidth && (!colMaxWidths[index] || newCell.maxWidth < colMaxWidths[index]!)) {
                 colMaxWidths[index] = newCell.maxWidth;
               }
@@ -2711,6 +3144,9 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
         ],
         env: ["env", "isDevelopment", "isDebug"]
       })}>
+      <AnsiHelpers />
+      <hbr />
+      <hbr />
       <StripAnsiFunctionDeclaration />
       <hbr />
       <hbr />

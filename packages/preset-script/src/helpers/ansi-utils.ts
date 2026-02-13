@@ -494,6 +494,120 @@ function buildThemeAnsiStyles(
           open: wrapFn()(convertFn(theme.text.usage.description)),
           close: wrapAnsi16()(39)
         }
+      },
+      prompt: {
+        icon: {
+          active: {
+            open: wrapFn()(convertFn(theme.text.prompt.icon.active)),
+            close: wrapAnsi16()(39)
+          },
+          warning: {
+            open: wrapFn()(convertFn(theme.text.prompt.icon.warning)),
+            close: wrapAnsi16()(39)
+          },
+          error: {
+            open: wrapFn()(convertFn(theme.text.prompt.icon.error)),
+            close: wrapAnsi16()(39)
+          },
+          submitted: {
+            open: wrapFn()(convertFn(theme.text.prompt.icon.submitted)),
+            close: wrapAnsi16()(39)
+          },
+          cancelled: {
+            open: wrapFn()(convertFn(theme.text.prompt.icon.cancelled)),
+            close: wrapAnsi16()(39)
+          },
+          disabled: {
+            open: wrapFn()(convertFn(theme.text.prompt.icon.disabled)),
+            close: wrapAnsi16()(39)
+          }
+        },
+        label: {
+          active: {
+            open: wrapFn()(convertFn(theme.text.prompt.label.active)),
+            close: wrapAnsi16()(39)
+          },
+          warning: {
+            open: wrapFn()(convertFn(theme.text.prompt.label.warning)),
+            close: wrapAnsi16()(39)
+          },
+          error: {
+            open: wrapFn()(convertFn(theme.text.prompt.label.error)),
+            close: wrapAnsi16()(39)
+          },
+          submitted: {
+            open: wrapFn()(convertFn(theme.text.prompt.label.submitted)),
+            close: wrapAnsi16()(39)
+          },
+          cancelled: {
+            open: wrapFn()(convertFn(theme.text.prompt.label.cancelled)),
+            close: wrapAnsi16()(39)
+          },
+          disabled: {
+            open: wrapFn()(convertFn(theme.text.prompt.label.disabled)),
+            close: wrapAnsi16()(39)
+          }
+        },
+        input: {
+          active: {
+            open: wrapFn()(convertFn(theme.text.prompt.input.active)),
+            close: wrapAnsi16()(39)
+          },
+          inactive: {
+            open: wrapFn()(convertFn(theme.text.prompt.input.inactive)),
+            close: wrapAnsi16()(39)
+          },
+          warning: {
+            open: wrapFn()(convertFn(theme.text.prompt.input.warning)),
+            close: wrapAnsi16()(39)
+          },
+          error: {
+            open: wrapFn()(convertFn(theme.text.prompt.input.error)),
+            close: wrapAnsi16()(39)
+          },
+          submitted: {
+            open: wrapFn()(convertFn(theme.text.prompt.input.submitted)),
+            close: wrapAnsi16()(39)
+          },
+          cancelled: {
+            open: wrapFn()(convertFn(theme.text.prompt.input.cancelled)),
+            close: wrapAnsi16()(39)
+          },
+          disabled: {
+            open: wrapFn()(convertFn(theme.text.prompt.input.disabled)),
+            close: wrapAnsi16()(39)
+          }
+        },
+        description: {
+          active: {
+            open: wrapFn()(convertFn(theme.text.prompt.description.active)),
+            close: wrapAnsi16()(39)
+          },
+          inactive: {
+            open: wrapFn()(convertFn(theme.text.prompt.description.inactive)),
+            close: wrapAnsi16()(39)
+          },
+          warning: {
+            open: wrapFn()(convertFn(theme.text.prompt.description.warning)),
+            close: wrapAnsi16()(39)
+          },
+          error: {
+            open: wrapFn()(convertFn(theme.text.prompt.description.error)),
+            close: wrapAnsi16()(39)
+          },
+          submitted: {
+            open: wrapFn()(convertFn(theme.text.prompt.description.submitted)),
+            close: wrapAnsi16()(39)
+          },
+          cancelled: {
+            open: wrapFn()(convertFn(theme.text.prompt.description.cancelled)),
+            close: wrapAnsi16()(39)
+          },
+          disabled: {
+            open: wrapFn()(convertFn(theme.text.prompt.description.disabled)),
+            close: wrapAnsi16()(39)
+          }
+        }
       }
     },
     border: {

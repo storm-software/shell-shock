@@ -22,7 +22,12 @@ import { isSetObject } from "@stryke/type-checks/is-set-object";
 import defu from "defu";
 import type { Plugin } from "powerlines";
 import type { Config } from "style-dictionary/types";
-import { preprocessor } from "./style-dictionary/preprocessor";
+import { borderStyles } from "./style-dictionary/border-styles";
+import { colors } from "./style-dictionary/colors";
+import { icons } from "./style-dictionary/icons";
+import { labels } from "./style-dictionary/labels";
+import { padding } from "./style-dictionary/padding";
+import { settings } from "./style-dictionary/settings";
 import { theme as defaultTheme } from "./themes/storm";
 import type { ThemePluginContext, ThemePluginOptions } from "./types/plugin";
 
@@ -49,7 +54,12 @@ export const plugin = <
           // theme: options.theme,
           styleDictionary: {
             customPreprocessors: (context: TContext) => ({
-              "shell-shock/preprocessor": preprocessor(context)
+              "shell-shock/colors": colors(context),
+              "shell-shock/border-styles": borderStyles(context),
+              "shell-shock/padding": padding(context),
+              "shell-shock/icons": icons(context),
+              "shell-shock/labels": labels(context),
+              "shell-shock/settings": settings(context)
             })
           }
         };

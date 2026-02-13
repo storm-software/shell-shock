@@ -60,10 +60,8 @@ export const plugin = <
             id: "completions",
             name: "completions",
             alias: ["completion"],
-            path: {
-              segments: ["completions"],
-              value: "completions"
-            },
+            path: "completions",
+            segments: ["completions"],
             title: "CLI Completions",
             description: `Commands for generating shell completion scripts for the ${getAppTitle(
               this
@@ -84,10 +82,8 @@ export const plugin = <
             id: "completions-bash",
             name: "bash",
             alias: [],
-            path: {
-              segments: ["completions", "bash"],
-              value: "completions/bash"
-            },
+            path: "completions/bash",
+            segments: ["completions", "bash"],
             title: "CLI Completions - Bash Shell",
             entry: {
               file: joinPaths(
@@ -110,10 +106,8 @@ export const plugin = <
             id: "completions-zsh",
             name: "zsh",
             alias: [],
-            path: {
-              segments: ["completions", "zsh"],
-              value: "completions/zsh"
-            },
+            path: "completions/zsh",
+            segments: ["completions", "zsh"],
             title: "CLI Completions - Zsh Shell",
             entry: {
               file: joinPaths(
