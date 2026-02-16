@@ -1,4 +1,4 @@
-# Require a unique command path for each command file listed for the project (`shell-shock/duplicate-command-path`)
+# All command files must include a handler function as the default export (`shell-shock/invalid-command-export`)
 
 💼🚫 This rule is enabled in the 🔒 `strict` config. This rule is _disabled_ in
 the following configs: 📋 `base`, 🌟 `recommended`.
@@ -13,15 +13,15 @@ the following configs: 📋 `base`, 🌟 `recommended`.
 👎 Examples of **incorrect** code for this rule:
 
 ```ts
-// file at commands/admin/command.ts
-// file at commands/admin/(task)/command.ts
+export default const value = 1;
 ```
 
 👍 Examples of **correct** code for this rule:
 
 ```ts
-// file at commands/admin/create/command.ts
-// file at commands/admin/(task)/command.ts
+export default function handler(options) {
+    ...
+}
 ```
 
 ## Version

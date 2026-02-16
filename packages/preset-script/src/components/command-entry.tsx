@@ -26,6 +26,7 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
@@ -84,8 +85,7 @@ export function CommandInvocation(props: { command: CommandTree }) {
           )
           .join(", ")}] }`}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       {code`
 
       return internal_commandContext.run(__context, () => {
@@ -108,6 +108,7 @@ export function CommandInvocation(props: { command: CommandTree }) {
 
 export interface CommandHandlerDeclarationProps {
   command: CommandTree;
+  banner?: Children;
   children?: Children;
 }
 
@@ -117,15 +118,14 @@ export interface CommandHandlerDeclarationProps {
 export function CommandHandlerDeclaration(
   props: CommandHandlerDeclarationProps
 ) {
-  const { command, children } = props;
+  const { command, banner, children } = props;
 
   const context = usePowerlines<ScriptPresetContext>();
 
   return (
     <>
       <OptionsInterfaceDeclaration command={command} />
-      <hbr />
-      <hbr />
+      <Spacing />
       <TSDoc
         heading={`The ${command.title} (${getAppBin(context)} ${command.segments
           .map(segment =>
@@ -151,15 +151,12 @@ export function CommandHandlerDeclaration(
         />
         <hbr />
         <hbr />
-        {code`writeLine("");
-        banner(); `}
+        <Show when={Boolean(banner)}>{banner}</Show>
         <hbr />
         <hbr />
         <IfStatement condition={<IsDebug />}>
-          {code`
+          {code`writeLine("");
           writeLine(colors.text.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console."));
-
-          writeLine("");
           debug(\`Command path: ${command.segments
             .map(segment =>
               isDynamicPathSegment(segment)
@@ -286,8 +283,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
           </>
         )}
       </For>
-      <hbr />
-      <hbr />
+      <Spacing />
       <For each={command.arguments} doubleHardline>
         {argument => (
           <>
@@ -343,10 +339,8 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
   );
 }
 
-export interface CommandEntryProps extends Omit<
-  EntryFileProps,
-  "path" | "typeDefinition"
-> {
+export interface CommandEntryProps
+  extends Omit<EntryFileProps, "path" | "typeDefinition"> {
   command: CommandTree;
 }
 
@@ -413,7 +407,7 @@ export function CommandEntry(props: CommandEntryProps) {
         <OptionsInterfaceDeclaration command={command} />
         <hbr />
         <hbr />
-        <CommandHandlerDeclaration command={command}>
+        <CommandHandlerDeclaration command={command} banner={code`banner(); `}>
           <CommandValidationLogic command={command} />
         </CommandHandlerDeclaration>
       </EntryFile>

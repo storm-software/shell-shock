@@ -522,29 +522,29 @@ function buildThemeAnsiStyles(
             close: wrapAnsi16()(39)
           }
         },
-        label: {
+        message: {
           active: {
-            open: wrapFn()(convertFn(theme.text.prompt.label.active)),
+            open: wrapFn()(convertFn(theme.text.prompt.message.active)),
             close: wrapAnsi16()(39)
           },
           warning: {
-            open: wrapFn()(convertFn(theme.text.prompt.label.warning)),
+            open: wrapFn()(convertFn(theme.text.prompt.message.warning)),
             close: wrapAnsi16()(39)
           },
           error: {
-            open: wrapFn()(convertFn(theme.text.prompt.label.error)),
+            open: wrapFn()(convertFn(theme.text.prompt.message.error)),
             close: wrapAnsi16()(39)
           },
           submitted: {
-            open: wrapFn()(convertFn(theme.text.prompt.label.submitted)),
+            open: wrapFn()(convertFn(theme.text.prompt.message.submitted)),
             close: wrapAnsi16()(39)
           },
           cancelled: {
-            open: wrapFn()(convertFn(theme.text.prompt.label.cancelled)),
+            open: wrapFn()(convertFn(theme.text.prompt.message.cancelled)),
             close: wrapAnsi16()(39)
           },
           disabled: {
-            open: wrapFn()(convertFn(theme.text.prompt.label.disabled)),
+            open: wrapFn()(convertFn(theme.text.prompt.message.disabled)),
             close: wrapAnsi16()(39)
           }
         },

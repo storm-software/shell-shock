@@ -15,121 +15,94 @@ declare module "shell-shock:env" {
    *
    * @title Object
    *
-   */
-  export interface EnvBase {
+   * */ export interface EnvBase {
     /**
      * The application's cached data directory.
      *
      * @title Cache Directory
      *
-     */
-    CACHE_DIR?: string;
+     * */ CACHE_DIR?: string;
     /**
      * An indicator that specifies the current runtime is a continuous integration environment.
      *
      * @title Continuous Integration
      * @alias CONTINUOUS_INTEGRATION
      * @defaultValue false
-     *
-     */
-    CI: boolean;
+     * */ CI: boolean;
     /**
      * The application's configuration data directory.
      *
      * @title Configuration Directory
      *
-     */
-    CONFIG_DIR?: string;
+     * */ CONFIG_DIR?: string;
     /**
      * The application's runtime data directory.
      *
      * @title Data Directory
      *
-     */
-    DATA_DIR?: string;
+     * */ DATA_DIR?: string;
     /**
      * Indicates if the application is running in debug mode.
      *
      * @defaultValue false
-     *
-     */
-    DEBUG: boolean;
+     * */ DEBUG: boolean;
     /**
      * The default locale to be used in the application.
      *
      * @defaultValue "en_US"
-     *
-     */
-    DEFAULT_LOCALE: string;
+     * */ DEFAULT_LOCALE: string;
     /**
      * The default timezone for the application.
      *
      * @defaultValue "America/New_York"
-     *
-     */
-    DEFAULT_TIMEZONE: string;
+     * */ DEFAULT_TIMEZONE: string;
     /**
      * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
      *
      *
-     */
-    DEVENV_RUNTIME?: string;
+     * */ DEVENV_RUNTIME?: string;
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
      * @defaultValue "production"
-     *
-     */
-    ENVIRONMENT: string;
+     * */ ENVIRONMENT: string;
     /**
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
      *
-     */
-    ERROR_URL: string;
+     * */ ERROR_URL: string;
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
      * @defaultValue false
-     *
-     */
-    FORCE_COLOR: boolean | number;
+     * */ FORCE_COLOR: boolean | number;
     /**
      * An indicator that specifies the current runtime should force hyperlinks in terminal output.
      *
      * @defaultValue false
-     *
-     */
-    FORCE_HYPERLINK: boolean | number;
+     * */ FORCE_HYPERLINK: boolean | number;
     /**
      * Indicates if error data should be included.
      *
      * @defaultValue false
-     *
-     */
-    INCLUDE_ERROR_DATA: boolean;
+     * */ INCLUDE_ERROR_DATA: boolean;
     /**
      * The application's logging directory.
      *
      * @title Log Directory
      *
-     */
-    LOG_DIR?: string;
+     * */ LOG_DIR?: string;
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
      * @defaultValue "info"
-     *
-     */
-    LOG_LEVEL?: "error" | "warn" | "info" | "debug" | null;
+     * */ LOG_LEVEL?: "error" | "warn" | "info" | "debug" | null;
     /**
      * An indicator that specifies the current runtime is a minimal environment.
      *
      * @defaultValue false
-     *
-     */
-    MINIMAL: boolean;
+     * */ MINIMAL: boolean;
     /**
      * The mode in which the application is running.
      *
@@ -137,585 +110,496 @@ declare module "shell-shock:env" {
      *
      * @alias VERCEL_ENV
      * @defaultValue "production"
-     *
-     */
-    MODE: "development" | "test" | "production";
+     * */ MODE: "development" | "test" | "production";
     /**
      * An indicator that specifies the current runtime is a no color environment.
      *
      * @defaultValue false
-     *
-     */
-    NO_COLOR: boolean;
+     * */ NO_COLOR: boolean;
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
      *
-     */
-    ORGANIZATION: string;
+     * */ ORGANIZATION: string;
     /**
      * The platform for which the application was built.
      *
      * @defaultValue "neutral"
-     *
-     */
-    PLATFORM: "node" | "neutral" | "browser";
+     * */ PLATFORM: "node" | "neutral" | "browser";
     /**
      * Indicates if error stack traces should be captured.
      *
      * @defaultValue false
-     *
-     */
-    STACKTRACE: boolean;
+     * */ STACKTRACE: boolean;
     /**
      * The application's temporary data directory.
      *
      * @title Temporary Directory
      *
-     */
-    TEMP_DIR?: string;
+     * */ TEMP_DIR?: string;
     /**
      * An indicator that specifies the current runtime is a test environment.
      *
      * @defaultValue false
-     *
-     */
-    TEST: boolean;
+     * */ TEST: boolean;
     /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly AC_APPCIRCLE?: string;
+     * */ readonly AC_APPCIRCLE?: string;
     /**
      * The name of the agent running the application. This variable is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly AGENT_NAME?: string;
+     * */ readonly AGENT_NAME?: string;
     /**
      * The agola git reference. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly AGOLA_GIT_REF?: string;
+     * */ readonly AGOLA_GIT_REF?: string;
     /**
      * The name of the application.
      *
      * @readonly
      *
-     */
-    readonly APP_NAME: string;
+     * */ readonly APP_NAME: string;
     /**
      * The version of the application.
      *
      * @readonly
      * @defaultValue "1.0.0"
-     *
-     */
-    readonly APP_VERSION: string;
+     * */ readonly APP_VERSION: string;
     /**
      * The appcenter build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly APPCENTER_BUILD_ID?: string;
+     * */ readonly APPCENTER_BUILD_ID?: string;
     /**
      * A variable that specifies the application data directory on Windows.
      *
      * @readonly
      *
-     */
-    readonly APPDATA?: string;
+     * */ readonly APPDATA?: string;
     /**
      * The appveyor build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly APPVEYOR?: string;
+     * */ readonly APPVEYOR?: string;
     /**
      * The bamboo plan key. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly bamboo_planKey?: string;
+     * */ readonly bamboo_planKey?: string;
     /**
      * The bitbucket commit. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly BITBUCKET_COMMIT?: string;
+     * */ readonly BITBUCKET_COMMIT?: string;
     /**
      * The bitrise build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly BITRISE_IO?: string;
+     * */ readonly BITRISE_IO?: string;
     /**
      * The buddy workspace ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly BUDDY_WORKSPACE_ID?: string;
+     * */ readonly BUDDY_WORKSPACE_ID?: string;
     /**
      * A checksum hash created during the build.
      *
      * @readonly
      *
-     */
-    readonly BUILD_CHECKSUM: string;
+     * */ readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
      *
-     */
-    readonly BUILD_ID: string;
+     * */ readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
      *
-     */
-    readonly BUILD_TIMESTAMP: string;
+     * */ readonly BUILD_TIMESTAMP: string;
     /**
      * The builder output build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly BUILDER_OUTPUT?: string;
+     * */ readonly BUILDER_OUTPUT?: string;
     /**
      * The buildkite build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly BUILDKITE?: string;
+     * */ readonly BUILDKITE?: string;
     /**
      * The cf build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CF_BUILD_ID?: string;
+     * */ readonly CF_BUILD_ID?: string;
     /**
      * The ci name. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CI_NAME?: string;
+     * */ readonly CI_NAME?: string;
     /**
      * The xcode project build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CI_XCODE_PROJECT?: string;
+     * */ readonly CI_XCODE_PROJECT?: string;
     /**
      * The circleci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CIRCLECI?: string;
+     * */ readonly CIRCLECI?: string;
     /**
      * The cirrus-ci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CIRRUS_CI?: string;
+     * */ readonly CIRRUS_CI?: string;
     /**
      * The cm build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CM_BUILD_ID?: string;
+     * */ readonly CM_BUILD_ID?: string;
     /**
      * The codebuild build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CODEBUILD?: string;
+     * */ readonly CODEBUILD?: string;
     /**
      * The color terminal type. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly COLORTERM?: string;
+     * */ readonly COLORTERM?: string;
     /**
      * The ConEmu task name. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly ConEmuTask?: string;
+     * */ readonly ConEmuTask?: string;
     /**
      * The cursor trace ID. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly CURSOR_TRACE_ID?: string;
+     * */ readonly CURSOR_TRACE_ID?: string;
     /**
      * The drone build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly DRONE?: string;
+     * */ readonly DRONE?: string;
     /**
      * The dsari build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly DSARI?: string;
+     * */ readonly DSARI?: string;
     /**
      * The earthly build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly EARTHLY_CI?: string;
+     * */ readonly EARTHLY_CI?: string;
     /**
      * The eas build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly EAS_BUILD?: string;
+     * */ readonly EAS_BUILD?: string;
     /**
      * The gerrit project. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly GERRIT_PROJECT?: string;
+     * */ readonly GERRIT_PROJECT?: string;
     /**
      * The gitea actions build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly GITEA_ACTIONS?: string;
+     * */ readonly GITEA_ACTIONS?: string;
     /**
      * The github actions build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly GITHUB_ACTIONS?: string;
+     * */ readonly GITHUB_ACTIONS?: string;
     /**
      * The gitlab ci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly GITLAB_CI?: string;
+     * */ readonly GITLAB_CI?: string;
     /**
      * The go cd build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly GOCD?: string;
+     * */ readonly GOCD?: string;
     /**
      * The harness build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly HARNESS_BUILD_ID?: string;
+     * */ readonly HARNESS_BUILD_ID?: string;
     /**
      * The hudson build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly HUDSON?: string;
+     * */ readonly HUDSON?: string;
     /**
      * The jenkins url. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly JENKINS_URL?: string;
+     * */ readonly JENKINS_URL?: string;
     /**
      * The layerci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly LAYERCI?: string;
+     * */ readonly LAYERCI?: string;
     /**
      * A variable that specifies the current user's local application data directory on Windows.
      *
      * @readonly
      *
-     */
-    readonly LOCALAPPDATA?: string;
+     * */ readonly LOCALAPPDATA?: string;
     /**
      * The magnum build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly MAGNUM?: string;
+     * */ readonly MAGNUM?: string;
     /**
      * The netlify build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly NETLIFY?: string;
+     * */ readonly NETLIFY?: string;
     /**
      * The nevercode build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly NEVERCODE?: string;
+     * */ readonly NEVERCODE?: string;
     /**
      * The now builder build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly NOW_BUILDER?: string;
+     * */ readonly NOW_BUILDER?: string;
     /**
      * The prow job ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly PROW_JOB_ID?: string;
+     * */ readonly PROW_JOB_ID?: string;
     /**
      * The release build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly RELEASE_BUILD_ID?: string;
+     * */ readonly RELEASE_BUILD_ID?: string;
     /**
      * The unique identifier for the release.
      *
      * @readonly
      *
-     */
-    readonly RELEASE_ID: string;
+     * */ readonly RELEASE_ID: string;
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
      *
-     */
-    readonly RELEASE_TAG: string;
+     * */ readonly RELEASE_TAG: string;
     /**
      * The render build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly RENDER?: string;
+     * */ readonly RENDER?: string;
     /**
      * The unique identifier for the current run. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly RUN_ID?: string;
+     * */ readonly RUN_ID?: string;
     /**
      * The sailci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly SAILCI?: string;
+     * */ readonly SAILCI?: string;
     /**
      * The screwdriver build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly SCREWDRIVER?: string;
+     * */ readonly SCREWDRIVER?: string;
     /**
      * The semaphore build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly SEMAPHORE?: string;
+     * */ readonly SEMAPHORE?: string;
     /**
      * The sourcehut build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly SOURCEHUT?: string;
+     * */ readonly SOURCEHUT?: string;
     /**
      * The spaceship build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly SPACESHIP_CI?: string;
+     * */ readonly SPACESHIP_CI?: string;
     /**
      * The strider build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly STRIDER?: string;
+     * */ readonly STRIDER?: string;
     /**
      * The task ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly TASK_ID?: string;
+     * */ readonly TASK_ID?: string;
     /**
      * The teamcity version. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly TEAMCITY_VERSION?: string;
+     * */ readonly TEAMCITY_VERSION?: string;
     /**
      * The terminal type. This variable is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly TERM?: string;
+     * */ readonly TERM?: string;
     /**
      * The terminal program name. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly TERM_PROGRAM?: string;
+     * */ readonly TERM_PROGRAM?: string;
     /**
      * The terminal program version. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly TERM_PROGRAM_VERSION?: string;
+     * */ readonly TERM_PROGRAM_VERSION?: string;
     /**
      * The terminal emulator name. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly TERMINAL_EMULATOR?: string;
+     * */ readonly TERMINAL_EMULATOR?: string;
     /**
      * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly TERMINUS_SUBLIME?: boolean;
+     * */ readonly TERMINUS_SUBLIME?: boolean;
     /**
      * The task force build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly TF_BUILD?: string;
+     * */ readonly TF_BUILD?: string;
     /**
      * The travis build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly TRAVIS?: string;
+     * */ readonly TRAVIS?: string;
     /**
      * The vela build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly VELA?: string;
+     * */ readonly VELA?: string;
     /**
      * The VTE version. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly VTE_VERSION?: string;
+     * */ readonly VTE_VERSION?: string;
     /**
      * The terminal emulator session ID. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly WT_SESSION?: string;
+     * */ readonly WT_SESSION?: string;
     /**
      * The xcode server build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly XCS?: string;
+     * */ readonly XCS?: string;
     /**
      * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
      *
-     */
-    readonly XDG_CACHE_HOME?: string;
+     * */ readonly XDG_CACHE_HOME?: string;
     /**
      * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
      *
-     */
-    readonly XDG_CONFIG_HOME?: string;
+     * */ readonly XDG_CONFIG_HOME?: string;
     /**
      * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
      *
-     */
-    readonly XDG_DATA_HOME?: string;
+     * */ readonly XDG_DATA_HOME?: string;
     /**
      * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
      *
-     */
-    readonly XDG_RUNTIME_DIR?: string;
+     * */ readonly XDG_RUNTIME_DIR?: string;
     /**
      * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
      *
-     */
-    readonly XDG_STATE_HOME?: string;
+     * */ readonly XDG_STATE_HOME?: string;
   }
   /**
    * The environment configuration object with prefixed keys.
    *
    * @remarks
    * The `Env` type extends the `EnvBase` interface by including additional keys that are prefixed according to the project's configuration. This allows for flexibility in accessing environment variables with different naming conventions.
-   */
-  export type Env = {
+   * */ export type Env = {
     [Key in keyof EnvBase as
       | Key
       | `NEXT_${Key}`
@@ -733,8 +617,7 @@ declare module "shell-shock:env" {
    *
    * @title Object
    *
-   */
-  export const initialEnv: Partial<EnvBase>;
+   * */ export declare const initialEnv: Partial<EnvBase>;
   /**
    * The environment configuration serializer for the Powerlines application.
    *
@@ -744,8 +627,7 @@ declare module "shell-shock:env" {
    *
    * @remarks
    * This serializer is used to serialize and deserialize the Powerlines environment configuration.
-   */
-  export class EnvSerializer extends Serializer {
+   * */ export declare class EnvSerializer extends Serializer {
     /**
      * Initializes a new instance of the `EnvSerializer` class.
      */
@@ -762,8 +644,7 @@ declare module "shell-shock:env" {
    * ```
    * @throws ValidationError when serialization or validation fails.
    *
-   */
-  export const serializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
+   * */ export declare const serializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
     EnvBase,
     any
   >;
@@ -778,8 +659,7 @@ declare module "shell-shock:env" {
    * ```
    * @throws ValidationError when deserialization fails.
    *
-   */
-  export const deserializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
+   * */ export declare const deserializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
     any,
     EnvBase
   >;
@@ -793,15 +673,15 @@ declare module "shell-shock:env" {
    *   settings provided by the runtime.
    * @returns The initialized Powerlines configuration object.
    *
-   */
-  export function createEnv(environmentConfig?: Partial<Env>): Env;
+   * */ export declare function createEnv(
+    environmentConfig?: Partial<Env>
+  ): Env;
   /**
    * The environment configuration object.
    *
    * @remarks
    * This object provides access to the environment configuration parameters in the application runtime.
-   */
-  export const env: Env;
+   * */ export declare const env: Env;
   /**
    * Detect if the application is running in a continuous integration (CI) environment.
    */
@@ -817,8 +697,7 @@ declare module "shell-shock:env" {
    * - `test`
    *
    * - `development`
-   */
-  export const mode: string;
+   * */ export declare const mode: string;
   /**
    * Detect if the application is running in `"production"` mode
    */
@@ -852,13 +731,10 @@ declare module "shell-shock:env" {
    *
    * @remarks
    * These environment path types are accessed in the {@link EnvPaths} type.
-   */
-  export type EnvPathType = "data" | "config" | "cache" | "log" | "temp";
+   * */ export type EnvPathType = "data" | "config" | "cache" | "log" | "temp";
   /**
    * The environment paths for storing things like data, config, logs, and cache in the current runtime environment.
-   *
-   */
-  export type EnvPaths = Record<EnvPathType, string>;
+   * */ export type EnvPaths = Record<EnvPathType, string>;
   /**
    * The resolved application directories based on the current operating system and environment variables.
    *
@@ -870,6 +746,5 @@ declare module "shell-shock:env" {
    * - **Windows**: directories are generally created in `%AppData%/<name>`
    *
    * - **MacOS**: directories are generally created in `~/Library/Application Support/<name>`
-   */
-  export const paths: EnvPaths;
+   * */ export declare const paths: EnvPaths;
 }

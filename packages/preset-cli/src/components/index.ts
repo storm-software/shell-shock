@@ -18,4 +18,6 @@
 
 export * from "./banner-function-declaration";
 export * from "./command-entry";
+export * from "./command-router";
+export * from "./prompts-builtin";
 export * from "./virtual-command-entry";

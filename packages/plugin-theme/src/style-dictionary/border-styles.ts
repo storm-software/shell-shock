@@ -35,7 +35,7 @@ import type {
   ThemeResolvedConfig,
   ThemeStyleBorderIdentifiers
 } from "../types/theme";
-import { resolveBorderStyle } from "./helpers";
+import { mergeThemes, resolveBorderStyle } from "./helpers";
 
 /**
  * Shell Shock - Theme Border Styles Preprocessor
@@ -600,7 +600,7 @@ export const borderStyles = (context: ThemePluginContext): Preprocessor => ({
 
     // #endregion Tiered token resolution
 
-    context.theme = resolvedConfig;
+    mergeThemes(context, resolvedConfig);
 
     return dictionary;
   }

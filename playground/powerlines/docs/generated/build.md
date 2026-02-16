@@ -12,30 +12,22 @@ The Build executable command-line interface.
 
 The build command can be executed using the following syntax:
 
-
 ```bash
 npx playground-powerlines build [options]
 ```
-
 
 ```bash
 yarn exec playground-powerlines build [options]
 ```
 
-
 ```bash
 pnpm exec playground-powerlines build [options]
 ```
-
 
 ```bash
 bun x playground-powerlines build [options]
 ```
 
-
 ## Options
 
 The following options are available for the build command:
-
-
-

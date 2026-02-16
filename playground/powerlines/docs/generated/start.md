@@ -12,30 +12,22 @@ The Start executable command-line interface.
 
 The start command can be executed using the following syntax:
 
-
 ```bash
 npx playground-powerlines start [options]
 ```
-
 
 ```bash
 yarn exec playground-powerlines start [options]
 ```
 
-
 ```bash
 pnpm exec playground-powerlines start [options]
 ```
-
 
 ```bash
 bun x playground-powerlines start [options]
 ```
 
-
 ## Options
 
 The following options are available for the start command:
-
-
-

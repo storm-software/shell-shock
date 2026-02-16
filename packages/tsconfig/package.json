@@ -52,7 +52,6 @@
     "typescript",
     "tsconfig"
   ],
-  "sideEffects": false,
   "peerDependenciesMeta": {
     "@powerlines/tsconfig": {
       "optional": false
@@ -63,5 +62,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "sideEffects": false
 }

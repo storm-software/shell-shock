@@ -30,6 +30,7 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import {
@@ -50,139 +51,130 @@ import { useColors, useTheme } from "../contexts/theme";
 import type { AnsiWrappers, BaseAnsiStylesKeys } from "../helpers/ansi-utils";
 import { IsNotDebug, IsNotVerbose } from "./helpers";
 
-// const ESC = '\x1B';
-// const CSI = `${ESC}[`;
-// const beep = '\u0007';
+export function AnsiHelpersDeclarations() {
+  return (
+    <>
+      <VarDeclaration
+        const
+        export
+        name="beep"
+        doc="The ASCII Bell character, which can be used to trigger a beep sound in the console.">
+        {code` "\\u0007"; `}
+      </VarDeclaration>
+      <Spacing />
+      <VarDeclaration
+        const
+        export
+        name="cursor"
+        doc="An object containing ANSI escape codes for controlling the console cursor.">
+        {code` {
+          to(x, y) {
+            if (!y) {
+              return \`\\x1B[\${x + 1}G\`;
+            }
 
-// const cursor = {
-//   to(x, y) {
-//     if (!y) return `${CSI}${x + 1}G`;
-//     return `${CSI}${y + 1};${x + 1}H`;
-//   },
-//   move(x, y) {
-//     let ret = '';
+            return \`\\x1B[\${y + 1};\${x + 1}H\`;
+          },
+          move(x, y) {
+            let ret = '';
 
-//     if (x < 0) ret += `${CSI}${-x}D`;
-//     else if (x > 0) ret += `${CSI}${x}C`;
+            if (x < 0) {
+              ret += \`\\x1B[\${-x}D\`;
+            } else if (x > 0) {
+              ret += \`\\x1B[\${x}C\`;
+            }
 
-//     if (y < 0) ret += `${CSI}${-y}A`;
-//     else if (y > 0) ret += `${CSI}${y}B`;
+            if (y < 0) {
+              ret += \`\\x1B[\${-y}A\`;
+            } else if (y > 0) {
+              ret += \`\\x1B[\${y}B\`;
+            }
 
-//     return ret;
-//   },
-//   up: (count = 1) => `${CSI}${count}A`,
-//   down: (count = 1) => `${CSI}${count}B`,
-//   forward: (count = 1) => `${CSI}${count}C`,
-//   backward: (count = 1) => `${CSI}${count}D`,
-//   nextLine: (count = 1) => `${CSI}E`.repeat(count),
-//   prevLine: (count = 1) => `${CSI}F`.repeat(count),
-//   left: `${CSI}G`,
-//   hide: `${CSI}?25l`,
-//   show: `${CSI}?25h`,
-//   save: `${ESC}7`,
-//   restore: `${ESC}8`
-// }
+            return ret;
+          },
+          up: (count = 1) => \`\\x1B[\${count}A\`,
+          down: (count = 1) => \`\\x1B[\${count}B\`,
+          forward: (count = 1) => \`\\x1B[\${count}C\`,
+          backward: (count = 1) => \`\\x1B[\${count}D\`,
+          nextLine: (count = 1) => "\\x1B[E".repeat(count),
+          prevLine: (count = 1) => "\\x1B[F".repeat(count),
+          left: "\\x1B[G",
+          hide: "\\x1B[?25l",
+          show: "\\x1B[?25h",
+          save: "\\x1B7",
+          restore: "\\x1B8"
+        } `}
+      </VarDeclaration>
+      <Spacing />
+      <VarDeclaration
+        const
+        export
+        name="erase"
+        doc="An object containing ANSI escape codes for erasing parts of the console.">
+        {code` {
+          screen: "\\x1B[2J",
+          up: (count = 1) => "\\x1B[1J".repeat(count),
+          down: (count = 1) => "\\x1B[J".repeat(count),
+          line: "\\x1B[2K",
+          lineEnd: "\\x1B[K",
+          lineStart: "\\x1B[1K",
+          lines(count) {
+            let lineClear = "";
+            for (let i = 0; i < count; i++) {
+              lineClear += this.line + (i < count - 1 ? cursor.up() : "");
+            }
 
-// const scroll = {
-//   up: (count = 1) => `${CSI}S`.repeat(count),
-//   down: (count = 1) => `${CSI}T`.repeat(count)
-// }
+            if (count) {
+              lineClear += cursor.left;
+            }
 
-// const erase = {
-//   screen: `${CSI}2J`,
-//   up: (count = 1) => `${CSI}1J`.repeat(count),
-//   down: (count = 1) => `${CSI}J`.repeat(count),
-//   line: `${CSI}2K`,
-//   lineEnd: `${CSI}K`,
-//   lineStart: `${CSI}1K`,
-//   lines(count) {
-//     let clear = '';
-//     for (let i = 0; i < count; i++)
-//       clear += this.line + (i < count - 1 ? cursor.up() : '');
-//     if (count)
-//       clear += cursor.left;
-//     return clear;
-//   }
-// }
+            return lineClear;
+          }
+        } `}
+      </VarDeclaration>
+      <Spacing />
+      <VarDeclaration
+        const
+        export
+        name="scroll"
+        doc="An object containing ANSI escape codes for scrolling the console.">
+        {code` {
+          up: (count = 1) => "\\x1B[S".repeat(count),
+          down: (count = 1) => "\\x1B[T".repeat(count)
+        } `}
+      </VarDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        export
+        name="clear"
+        doc="A helper function to clear the console based on a count of lines"
+        parameters={[
+          {
+            name: "current",
+            type: "string",
+            doc: "The current console output to be cleared"
+          },
+          {
+            name: "consoleWidth",
+            type: "number",
+            doc: "The number of characters per line in the console"
+          }
+        ]}>
+        {code`if (!consoleWidth) {
+          return erase.line + cursor.to(0);
+        }
 
-// const clear = {
-//   screen: `${ESC}c`
-// }
+        let rows = 0;
+        const lines = current.split(/\\r?\\n/);
+        for (let line of lines) {
+          rows += 1 + Math.floor(Math.max([...stripAnsi(line)].length - 1, 0) / consoleWidth);
+        }
 
-/**
- * A component to generate a console message function in a Shell Shock project.
- */
-function AnsiHelpers() {
-  return code`export const beep = "\\u0007";
-
-  export const cursor = {
-    to(x, y) {
-      if (!y) {
-        return \`\\x1B[\${x + 1}G\`;
-      }
-
-      return \`\\x1B[\${y + 1};\${x + 1}H\`;
-    },
-    move(x, y) {
-      let ret = '';
-
-      if (x < 0) {
-        ret += \`\\x1B[\${-x}D\`;
-      } else if (x > 0) {
-        ret += \`\\x1B[\${x}C\`;
-      }
-
-      if (y < 0) {
-        ret += \`\\x1B[\${-y}A\`;
-      } else if (y > 0) {
-        ret += \`\\x1B[\${y}B\`;
-      }
-
-      return ret;
-    },
-    up: (count = 1) => \`\\x1B[\${count}A\`,
-    down: (count = 1) => \`\\x1B[\${count}B\`,
-    forward: (count = 1) => \`\\x1B[\${count}C\`,
-    backward: (count = 1) => \`\\x1B[\${count}D\`,
-    nextLine: (count = 1) => "\\x1B[E".repeat(count),
-    prevLine: (count = 1) => "\\x1B[F".repeat(count),
-    left: "\\x1B[G",
-    hide: "\\x1B[?25l",
-    show: "\\x1B[?25h",
-    save: "\\x1B7",
-    restore: "\\x1B8"
-  }
-
-  export const scroll = {
-    up: (count = 1) => "\\x1B[S".repeat(count),
-    down: (count = 1) => "\\x1B[T".repeat(count)
-  }
-
-  export const erase = {
-    screen: "\\x1B[2J",
-    up: (count = 1) => "\\x1B[1J".repeat(count),
-    down: (count = 1) => "\\x1B[J".repeat(count),
-    line: "\\x1B[2K",
-    lineEnd: "\\x1B[K",
-    lineStart: "\\x1B[1K",
-    lines(count) {
-      let clear = "";
-      for (let i = 0; i < count; i++) {
-        clear += this.line + (i < count - 1 ? cursor.up() : "");
-      }
-
-      if (count) {
-        clear += cursor.left;
-      }
-
-      return clear;
-    }
-  }
-
-  export const clear = {
-    screen: "\\x1Bc"
-  }
-`;
+        return erase.lines(rows); `}
+      </FunctionDeclaration>
+      <Spacing />
+    </>
+  );
 }
 
 /**
@@ -230,8 +222,7 @@ export function ColorsDeclaration() {
           {(color, idx) => `${idx > 0 ? " | " : ""}"${color}"`}
         </For>
       </TypeDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <hbr />
       {code`
       /**
@@ -241,16 +232,14 @@ export function ColorsDeclaration() {
       * This type allows for nested theme color definitions, enabling complex theming structures for console applications.
       */
      export type ThemeColors<T> = T extends object ? { [K in keyof T]: ThemeColors<T[K]>; } : ((text: string) => string); `}
-      <hbr />
-      <hbr />
+      <Spacing />
       <TypeDeclaration
         export
         name="Colors"
         doc="An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link AnsiColor} for available colors.">
         {code`Record<AnsiColor, (text: string) => string> & ThemeColors<ThemeColorsResolvedConfig>`}
       </TypeDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <TSDoc heading="An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link Colors} for available colors." />
       <VarDeclaration
         const
@@ -1092,80 +1081,82 @@ export function ColorsDeclaration() {
                           />
                         )}
                       },
-                      label: {
+                      message: {
                         active: ${(
                           <ColorFunction
                             ansi16={
-                              colors.ansi16.theme.text.prompt.label.active
+                              colors.ansi16.theme.text.prompt.message.active
                             }
                             ansi256={
-                              colors.ansi256.theme.text.prompt.label.active
+                              colors.ansi256.theme.text.prompt.message.active
                             }
                             ansi16m={
-                              colors.ansi16m.theme.text.prompt.label.active
+                              colors.ansi16m.theme.text.prompt.message.active
                             }
                           />
                         )},
                         warning: ${(
                           <ColorFunction
                             ansi16={
-                              colors.ansi16.theme.text.prompt.label.warning
+                              colors.ansi16.theme.text.prompt.message.warning
                             }
                             ansi256={
-                              colors.ansi256.theme.text.prompt.label.warning
+                              colors.ansi256.theme.text.prompt.message.warning
                             }
                             ansi16m={
-                              colors.ansi16m.theme.text.prompt.label.warning
+                              colors.ansi16m.theme.text.prompt.message.warning
                             }
                           />
                         )},
                         error: ${(
                           <ColorFunction
-                            ansi16={colors.ansi16.theme.text.prompt.label.error}
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.message.error
+                            }
                             ansi256={
-                              colors.ansi256.theme.text.prompt.label.error
+                              colors.ansi256.theme.text.prompt.message.error
                             }
                             ansi16m={
-                              colors.ansi16m.theme.text.prompt.label.error
+                              colors.ansi16m.theme.text.prompt.message.error
                             }
                           />
                         )},
                         submitted: ${(
                           <ColorFunction
                             ansi16={
-                              colors.ansi16.theme.text.prompt.label.submitted
+                              colors.ansi16.theme.text.prompt.message.submitted
                             }
                             ansi256={
-                              colors.ansi256.theme.text.prompt.label.submitted
+                              colors.ansi256.theme.text.prompt.message.submitted
                             }
                             ansi16m={
-                              colors.ansi16m.theme.text.prompt.label.submitted
+                              colors.ansi16m.theme.text.prompt.message.submitted
                             }
                           />
                         )},
                         cancelled: ${(
                           <ColorFunction
                             ansi16={
-                              colors.ansi16.theme.text.prompt.label.cancelled
+                              colors.ansi16.theme.text.prompt.message.cancelled
                             }
                             ansi256={
-                              colors.ansi256.theme.text.prompt.label.cancelled
+                              colors.ansi256.theme.text.prompt.message.cancelled
                             }
                             ansi16m={
-                              colors.ansi16m.theme.text.prompt.label.cancelled
+                              colors.ansi16m.theme.text.prompt.message.cancelled
                             }
                           />
                         )},
                         disabled: ${(
                           <ColorFunction
                             ansi16={
-                              colors.ansi16.theme.text.prompt.label.disabled
+                              colors.ansi16.theme.text.prompt.message.disabled
                             }
                             ansi256={
-                              colors.ansi256.theme.text.prompt.label.disabled
+                              colors.ansi256.theme.text.prompt.message.disabled
                             }
                             ansi16m={
-                              colors.ansi16m.theme.text.prompt.label.disabled
+                              colors.ansi16m.theme.text.prompt.message.disabled
                             }
                           />
                         )}
@@ -1791,8 +1782,7 @@ export function WriteLineFunctionDeclaration() {
 
         return adjustedIndex - (line.slice(0, adjustedIndex).match(/\\x1b\\[/g)?.length ?? 0); `}
       </FunctionDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <FunctionDeclaration
         name="breakLine"
         parameters={[
@@ -1856,8 +1846,7 @@ export function WriteLineFunctionDeclaration() {
 
         return [first.replace(/^\\s+/, "").replace(/\\s+$/, "") + closeSequence, openSequence + second.replace(/^\\s+/, "").replace(/\\s+$/, "")]; `}
       </FunctionDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <TSDoc heading="Split text into multiple lines based on a maximum length.">
         <TSDocRemarks>
           {`This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.`}
@@ -1880,23 +1869,24 @@ export function WriteLineFunctionDeclaration() {
           },
           {
             name: "maxLength",
-            type: "number"
+            type: "number | SizeToken"
           }
         ]}>
         {code`
   let line = text;
   let result = [] as string[];
 
-  while (stripAnsi(line).length > maxLength || line.indexOf("\\n") !== -1) {
+  const calculatedMaxLength = isSizeToken(maxLength) ? calculateWidth(maxLength) : maxLength;
+  while (stripAnsi(line).length > calculatedMaxLength || line.indexOf("\\n") !== -1) {
     if (line.indexOf("\\n") !== -1) {
-      result.push(...splitText(line.slice(0, line.indexOf("\\n")).replace(/(\\r)?\\n/, ""), maxLength));
+      result.push(...splitText(line.slice(0, line.indexOf("\\n")).replace(/(\\r)?\\n/, ""), calculatedMaxLength));
       line = line.indexOf("\\n") + 1 < line.length
         ? line.slice(line.indexOf("\\n") + 1)
         : "";
     } else {
       const index = [" ", "/", ".", ",", "-", ":", "|", "@", "+"].reduce((ret, split) => {
         let current = ret;
-        while (stripAnsi(line).indexOf(split, current + 1) !== -1 && stripAnsi(line).indexOf(split, current + 1) <= maxLength) {
+        while (stripAnsi(line).indexOf(split, current + 1) !== -1 && stripAnsi(line).indexOf(split, current + 1) <= calculatedMaxLength) {
           current = line.indexOf(split, adjustIndex(line, current + 1));
         }
 
@@ -1912,8 +1902,8 @@ export function WriteLineFunctionDeclaration() {
     }
   }
 
-  while (stripAnsi(line).length > maxLength) {
-    const lines = breakLine(line, maxLength);
+  while (stripAnsi(line).length > calculatedMaxLength) {
+    const lines = breakLine(line, calculatedMaxLength);
     result.push(lines[0]);
     line = lines[1];
   }
@@ -1922,8 +1912,7 @@ export function WriteLineFunctionDeclaration() {
   return result;
 `}
       </FunctionDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <InterfaceDeclaration
         export
         name="WriteLineOptions"
@@ -1963,8 +1952,7 @@ export function WriteLineFunctionDeclaration() {
           type='"primary" | "secondary" | "tertiary"'
         />
       </InterfaceDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <TSDoc heading="Write a line to the console.">
         <TSDocRemarks>
           {`This function writes a line to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.`}
@@ -2094,6 +2082,8 @@ export function MessageFunctionDeclaration(
               }(new Date().toLocaleTimeString())}\`; `
             : ""
         }
+
+        writeLine("");
         writeLine(colors.border.message.outline.${color}("${
           theme.borderStyles.message.outline[variant].topLeft
         }") + ${
@@ -2353,8 +2343,7 @@ export function DividerFunctionDeclaration() {
         </TSDoc>
         <InterfaceMember name="padding" optional type="number" />
       </InterfaceDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <TSDoc heading="Write a divider line to the console.">
         <TSDocExample>
           {`divider({ width: 50, border: "primary" }); // Writes a divider line of width 50 with primary border.`}
@@ -2501,12 +2490,36 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
     <>
       <TypeDeclaration
         export
-        name="WidthSize"
+        name="SizeToken"
         doc="A type representing the width size of an item in the console.">
         {code`"full" | "1/1" | "1/2" | "1/3" | "1/4" | "1/5" | "1/6" | "1/12" | "1/24" | "100%" | "50%" | "33.33%" | "25%" | "20%" | "10%" | "5%" | "2.5%"`}
       </TypeDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
+      <TSDoc heading="Determine if a value is a valid size token.">
+        <TSDocRemarks>
+          {`This function checks if the provided value is a valid size token, which can be one of the predefined strings representing common width sizes (e.g., "full", "1/2", "1/3", etc.) or percentage strings (e.g., "50%").`}
+        </TSDocRemarks>
+        <TSDocParam name="value">{`The value to check for being a valid size token.`}</TSDocParam>
+        <TSDocReturns>{`True if the value is a valid size token, false otherwise.`}</TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        doc="Determines if the provided value is a valid size token."
+        name="isSizeToken"
+        parameters={[
+          {
+            name: "value",
+            type: "any"
+          }
+        ]}
+        returnType="value is SizeToken">
+        <IfStatement
+          condition={code`["full", "1/1", "1/2", "1/3", "1/4", "1/5", "1/6", "1/12", "1/24", "100%", "50%", "33.33%", "25%", "20%", "10%", "5%", "2.5%"].includes(value)`}>
+          {code`return true; `}
+        </IfStatement>
+        {code`return false; `}
+      </FunctionDeclaration>
+      <Spacing />
       <TSDoc heading="Calculate the width in characters based on the provided width size.">
         <TSDocRemarks>
           {`This function calculates the width in characters based on the provided width size, which can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%"). The calculation is based on the current width of the console (process.stdout.columns).`}
@@ -2522,7 +2535,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
         parameters={[
           {
             name: "size",
-            type: "WidthSize",
+            type: "SizeToken",
             optional: false
           }
         ]}
@@ -2571,8 +2584,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
         doc="The border options applied to table cells.">
         {code`"primary" | "secondary" | "tertiary" | "none" | string; `}
       </TypeDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <InterfaceDeclaration
         export
         name="TableOutputOptions"
@@ -2622,8 +2634,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
         />
         <hbr />
       </InterfaceDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <InterfaceDeclaration
         export
         name="TableCellOptions"
@@ -2643,12 +2654,11 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
         </TSDoc>
         <InterfaceMember
           name="maxWidth"
-          type="number | WidthSize | undefined"
+          type="number | SizeToken | undefined"
         />
         <hbr />
       </InterfaceDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <InterfaceDeclaration
         export
         name="TableRowOptions"
@@ -2662,8 +2672,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
         />
         <hbr />
       </InterfaceDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <InterfaceDeclaration
         export
         name="TableOptions"
@@ -2677,8 +2686,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
         />
         <hbr />
       </InterfaceDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <InterfaceDeclaration
         name="Dimensions"
         doc="The height and width for a specific table/cell used internally in the {@link table} function.">
@@ -2695,8 +2703,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
         />
         <hbr />
       </InterfaceDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <InterfaceDeclaration
         name="TableCellBorder"
         doc="The resolved complete border styles for a table cell.">
@@ -2749,8 +2756,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
         />
         <hbr />
       </InterfaceDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <TypeDeclaration
         name="TableCell"
         doc="The internal state of a formatted table cell in the {@link table} function.">
@@ -2760,8 +2766,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
         };
         `}
       </TypeDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <TSDoc heading="Write a table to the console.">
         <TSDocRemarks>
           {`This function writes a table to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.`}
@@ -2882,7 +2887,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
           }
         };
 
-        let colMaxWidths = [] as number[];
+        let colMaxWidths = [] as (number | undefined)[];
     `}
         <hbr />
         <IfStatement condition={code`Array.isArray(options)`}>
@@ -2997,7 +3002,7 @@ do {
     (colWidths.map((colWidth, index) => colMaxWidths[index] && colWidth > colMaxWidths[index]! ? index : undefined).filter(colWidth => colWidth !== undefined) as number[]).forEach(index => {
       cells.forEach(row => {
         const cell = row[index]!;
-        if (cell.width > colMaxWidths[index]) {
+        if (colMaxWidths[index] && cell.width > colMaxWidths[index]) {
           const lines = splitText(
             cell.value,
             colMaxWidths[index] - cell.padding * 2,
@@ -3144,51 +3149,41 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
         ],
         env: ["env", "isDevelopment", "isDebug"]
       })}>
-      <AnsiHelpers />
-      <hbr />
-      <hbr />
+      <AnsiHelpersDeclarations />
+      <Spacing />
       <StripAnsiFunctionDeclaration />
-      <hbr />
-      <hbr />
+      <Spacing />
       <WrapAnsiFunction />
-      <hbr />
-      <hbr />
+      <Spacing />
       <ColorsDeclaration />
-      <hbr />
-      <hbr />
+      <Spacing />
       <WriteLineFunctionDeclaration />
-      <hbr />
-      <hbr />
+      <Spacing />
       <LinkFunctionDeclaration />
-      <hbr />
-      <hbr />
+      <Spacing />
       <DividerFunctionDeclaration />
-      <hbr />
-      <hbr />
+      <Spacing />
       <MessageFunctionDeclaration
         type="help"
         variant="help"
         consoleFnName="log"
         description="help"
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <MessageFunctionDeclaration
         type="success"
         variant="success"
         consoleFnName="info"
         description="success"
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <MessageFunctionDeclaration
         type="info"
         variant="info"
         consoleFnName="info"
         description="informational"
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <MessageFunctionDeclaration
         type="debug"
         variant="debug"
@@ -3199,8 +3194,7 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
           <IfStatement condition={<IsNotDebug />}>{code`return; `}</IfStatement>
         }
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <MessageFunctionDeclaration
         type="verbose"
         variant="info"
@@ -3213,24 +3207,21 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
             condition={<IsNotVerbose />}>{code`return; `}</IfStatement>
         }
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <MessageFunctionDeclaration
         type="warn"
         variant="warning"
         consoleFnName="warn"
         description="warning"
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <MessageFunctionDeclaration
         type="danger"
         variant="danger"
         consoleFnName="error"
         description="destructive/danger"
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <MessageFunctionDeclaration
         type="error"
         variant="error"
@@ -3247,8 +3238,7 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
         prefix={
           <>
             <VarDeclaration let name="message" type="string | undefined" />
-            <hbr />
-            <hbr />
+            <Spacing />
             <IfStatement condition={code`(err as Error)?.message`}>
               {code`message = (err as Error).message;`}
               <IfStatement
@@ -3260,14 +3250,11 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
           </>
         }
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <TableFunctionDeclaration />
-      <hbr />
-      <hbr />
+      <Spacing />
       {children}
-      <hbr />
-      <hbr />
+      <Spacing />
     </BuiltinFile>
   );
 }

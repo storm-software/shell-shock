@@ -21,6 +21,7 @@
       "type": "node",
       "request": "launch",
       "program": "./playground/cli/dist/bin.mjs",
+      "args": [""],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"
     },

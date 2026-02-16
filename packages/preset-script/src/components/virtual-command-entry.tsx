@@ -47,6 +47,7 @@ import { VirtualHelp } from "./help";
 
 export interface VirtualCommandHandlerDeclarationProps {
   command: CommandTree;
+  banner?: Children;
   children?: Children;
 }
 
@@ -56,7 +57,7 @@ export interface VirtualCommandHandlerDeclarationProps {
 export function VirtualCommandHandlerDeclaration(
   props: VirtualCommandHandlerDeclarationProps
 ) {
-  const { command, children } = props;
+  const { command, children, banner } = props;
 
   const context = usePowerlines<ScriptPresetContext>();
 
@@ -85,8 +86,7 @@ export function VirtualCommandHandlerDeclaration(
         {children}
         <hbr />
         <hbr />
-        {code`writeLine("");
-        banner(); `}
+        <Show when={Boolean(banner)}>{banner}</Show>
         <hbr />
         <hbr />
         <VirtualHelp
@@ -99,10 +99,8 @@ export function VirtualCommandHandlerDeclaration(
   );
 }
 
-export interface VirtualCommandEntryProps extends Omit<
-  EntryFileProps,
-  "path" | "typeDefinition"
-> {
+export interface VirtualCommandEntryProps
+  extends Omit<EntryFileProps, "path" | "typeDefinition"> {
   command: CommandTree;
 }
 
@@ -163,7 +161,9 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
         <BannerFunctionDeclaration command={command} />
         <hbr />
         <hbr />
-        <VirtualCommandHandlerDeclaration command={command}>
+        <VirtualCommandHandlerDeclaration
+          command={command}
+          banner={code`banner(); `}>
           <CommandRouter
             segments={command.segments}
             commands={command.children}

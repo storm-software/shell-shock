@@ -58,7 +58,7 @@ export const theme: ThemeUserConfig = {
           cancelled: "#d8314a",
           disabled: "#d8314a"
         },
-        label: {
+        message: {
           active: "#ffffff",
           warning: "#ffffff",
           error: "#ffffff",
@@ -68,11 +68,12 @@ export const theme: ThemeUserConfig = {
         },
         input: {
           active: "#3be4be",
-          inactive: "#9ca3af",
+          inactive: "#65676d",
           warning: "#f3d371",
           error: "#d8314a",
-          submitted: "#cbd5e1",
+          submitted: "#ffffff",
           cancelled: "#d8314a",
+          placeholder: "#65676d",
           disabled: "#4f4f50"
         },
         description: {
@@ -131,7 +132,7 @@ export const theme: ThemeUserConfig = {
     },
     prompt: {
       active: "✱",
-      error: "🛇",
+      error: "✘",
       warning: "🛆",
       submitted: "✔",
       cancelled: "✘",

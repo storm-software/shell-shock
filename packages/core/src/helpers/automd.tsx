@@ -42,13 +42,11 @@ export const commands = (context: Context) =>
           context,
           <>
             <Heading level={2}>Commands</Heading>
-            <hbr />
-            <hbr />
+            <Spacing />
             {code`The following commands are available in the ${getAppTitle(
               context
             )} CLI application:`}
-            <hbr />
-            <hbr />
+            <Spacing />
             <For each={Object.values(context.commands)} doubleHardline>
               {child => (
                 <Show when={!child.isVirtual}>
@@ -56,8 +54,7 @@ export const commands = (context: Context) =>
                 </Show>
               )}
             </For>
-            <hbr />
-            <hbr />
+            <Spacing />
           </>
         )
       };

@@ -18,6 +18,7 @@
 
 import { code, computed, For, Show } from "@alloy-js/core";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import {
   getAppBin,
@@ -311,8 +312,7 @@ export function BaseHelp(props: BaseHelpProps) {
       });`}
       <hbr />
       <HelpUsage command={command} indent={indent} />
-      <hbr />
-      <hbr />
+      <Spacing />
       <Show when={options.value.length > 0}>
         {code`writeLine("");
       writeLine(colors.bold(colors.text.heading.secondary("Options:"))${
@@ -372,8 +372,7 @@ export function VirtualHelp(props: VirtualHelpProps) {
       <hbr />
       <HelpOptions options={options} />
       {code`writeLine(""); `}
-      <hbr />
-      <hbr />
+      <Spacing />
       <Show when={Object.keys(commands).length > 0}>
         {code`writeLine(colors.text.body.secondary("The following commands are available:"));
         writeLine(""); `}
@@ -431,12 +430,10 @@ export function CommandHelp(props: CommandHelpProps) {
   return (
     <>
       {code`writeLine(""); `}
-      <hbr />
-      <hbr />
+      <Spacing />
       <BaseHelp command={command} filterGlobalOptions={false} />
       {code`writeLine(""); `}
-      <hbr />
-      <hbr />
+      <Spacing />
       <Show when={Object.keys(command.children).length > 0}>
         {code`writeLine(colors.text.body.secondary("The following sub-commands are available:"));
         writeLine(""); `}

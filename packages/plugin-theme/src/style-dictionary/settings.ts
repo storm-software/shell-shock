@@ -25,6 +25,7 @@ import type {
 } from "style-dictionary/types";
 import type { ThemePluginContext } from "../types/plugin";
 import type { ThemeResolvedConfig } from "../types/theme";
+import { mergeThemes } from "./helpers";
 
 /**
  * Shell Shock - Theme Settings Preprocessor
@@ -59,7 +60,7 @@ export const settings = (context: ThemePluginContext): Preprocessor => ({
 
     // #endregion Tiered token resolution
 
-    context.theme = resolvedConfig;
+    mergeThemes(context, resolvedConfig);
 
     return dictionary;
   }

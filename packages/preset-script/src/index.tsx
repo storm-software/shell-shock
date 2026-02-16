@@ -117,8 +117,7 @@ export const plugin = <
                 </Show>
                 <hbr />
                 <hbr />
-                {code`writeLine("");
-                banner();`}
+                {code`banner();`}
                 <hbr />
                 <hbr />
                 <VirtualHelp

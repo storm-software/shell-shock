@@ -26,6 +26,7 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
@@ -144,8 +145,7 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
             : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
         }))) + ${command.segments.length + 1};`}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <VarDeclaration
         let
         name="argsIndex"
@@ -185,8 +185,7 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
             : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
         }))) + ${command.segments.length + 1});`}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <For each={command.arguments ?? []} hardline>
         {(arg, index) => (
           <>
@@ -227,8 +226,7 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
                 </>
               }
             />
-            <hbr />
-            <hbr />
+            <Spacing />
             <IfStatement
               condition={code`argsIndex + ${index} < args.length && argsIndex + ${index} !== optionsIndex`}>
               {code`${camelCase(arg.name)} = `}
@@ -263,8 +261,7 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
                 </Show>
               </Show>
             </IfStatement>
-            <hbr />
-            <hbr />
+            <Spacing />
           </>
         )}
       </For>
@@ -681,8 +678,7 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
             .join("")}
           } as ${pascalCase(command.name)}Options;`}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       {code`for (let i = 0; i < args.slice(${
         command.segments.filter(segment => isDynamicPathSegment(segment)).length
       }).length; i++) { `}
@@ -781,22 +777,19 @@ export function CommandParserLogic(props: CommandParserLogicProps) {
         command={command}
         isCaseSensitive={isCaseSensitive}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <OptionsParserLogic
         command={command}
         envPrefix={envPrefix}
         isCaseSensitive={isCaseSensitive}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <ArgumentsParserLogic
         command={command}
         envPrefix={envPrefix}
         isCaseSensitive={isCaseSensitive}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
     </>
   );
 }

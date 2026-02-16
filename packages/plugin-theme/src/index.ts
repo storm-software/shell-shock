@@ -75,7 +75,14 @@ export const plugin = <
               : defaultTheme,
             platforms: {
               js: {
-                preprocessors: ["shell-shock/preprocessor"],
+                preprocessors: [
+                  "shell-shock/colors",
+                  "shell-shock/border-styles",
+                  "shell-shock/padding",
+                  "shell-shock/icons",
+                  "shell-shock/labels",
+                  "shell-shock/settings"
+                ],
                 transformGroup: "js",
                 transforms: ["name/camel"],
                 fileHeader: "powerlines/file-header",

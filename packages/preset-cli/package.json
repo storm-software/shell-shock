@@ -111,6 +111,20 @@
         "default": "./dist/components/command-router.mjs"
       }
     },
+    "./components/prompts-builtin": {
+      "require": {
+        "types": "./dist/components/prompts-builtin.d.cts",
+        "default": "./dist/components/prompts-builtin.cjs"
+      },
+      "import": {
+        "types": "./dist/components/prompts-builtin.d.mts",
+        "default": "./dist/components/prompts-builtin.mjs"
+      },
+      "default": {
+        "types": "./dist/components/prompts-builtin.d.mts",
+        "default": "./dist/components/prompts-builtin.mjs"
+      }
+    },
     "./components/virtual-command-entry": {
       "require": {
         "types": "./dist/components/virtual-command-entry.d.cts",

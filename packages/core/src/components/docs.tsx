@@ -18,6 +18,7 @@
 
 import { code, For, memo, Show } from "@alloy-js/core";
 import { Heading } from "@alloy-js/markdown";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { MarkdownFileProps } from "@powerlines/plugin-alloy/markdown/components/markdown-file";
 import { MarkdownFile } from "@powerlines/plugin-alloy/markdown/components/markdown-file";
@@ -140,17 +141,13 @@ export function CommandDocs(props: CommandDocsProps) {
   return (
     <>
       <Heading level={1 + levelOffset}>{command.title}</Heading>
-      <hbr />
-      <hbr />
+      <Spacing />
       {code`${command.description}`}
-      <hbr />
-      <hbr />
+      <Spacing />
       <Heading level={2 + levelOffset}>Usage</Heading>
-      <hbr />
-      <hbr />
+      <Spacing />
       {code`The ${command.name} command can be executed using the following syntax: `}
-      <hbr />
-      <hbr />
+      <Spacing />
       <Show
         when={usageExamples && usageExamples.length > 0}
         fallback={
@@ -165,19 +162,15 @@ export function CommandDocs(props: CommandDocsProps) {
           )}
         </For>
       </Show>
-      <hbr />
-      <hbr />
+      <Spacing />
       <Heading level={2 + levelOffset}>Options</Heading>
-      <hbr />
-      <hbr />
+      <Spacing />
       {code`The following options are available for the ${
         command.name
       } command:`}
-      <hbr />
-      <hbr />
+      <Spacing />
       <CommandOptionsDocs command={command} />
-      <hbr />
-      <hbr />
+      <Spacing />
     </>
   );
 }

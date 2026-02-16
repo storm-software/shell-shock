@@ -12,30 +12,22 @@ The Run - Local executable command-line interface.
 
 The local command can be executed using the following syntax:
 
-
 ```bash
-npx playground-script run <task> local [options]
+npx playground-script run [options] < task > local
 ```
 
-
 ```bash
-yarn exec playground-script run <task> local [options]
+yarn exec playground-script run [options] < task > local
 ```
 
-
 ```bash
-pnpm exec playground-script run <task> local [options]
+pnpm exec playground-script run [options] < task > local
 ```
 
-
 ```bash
-bun x playground-script run <task> local [options]
+bun x playground-script run [options] < task > local
 ```
-
 
 ## Options
 
 The following options are available for the local command:
-
-
-

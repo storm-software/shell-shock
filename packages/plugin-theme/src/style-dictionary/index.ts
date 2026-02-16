@@ -20,5 +20,6 @@ export * from "./border-styles";
 export * from "./colors";
 export * from "./helpers";
 export * from "./icons";
+export * from "./labels";
 export * from "./padding";
 export * from "./settings";

@@ -12,30 +12,22 @@ The New - Application executable command-line interface.
 
 The application command can be executed using the following syntax:
 
-
 ```bash
 npx playground-script new application [options]
 ```
-
 
 ```bash
 yarn exec playground-script new application [options]
 ```
 
-
 ```bash
 pnpm exec playground-script new application [options]
 ```
-
 
 ```bash
 bun x playground-script new application [options]
 ```
 
-
 ## Options
 
 The following options are available for the application command:
-
-
-

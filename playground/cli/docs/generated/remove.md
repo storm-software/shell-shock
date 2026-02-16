@@ -12,30 +12,22 @@ The Remove executable command-line interface.
 
 The remove command can be executed using the following syntax:
 
-
 ```bash
 npx playground-cli remove [options]
 ```
-
 
 ```bash
 yarn exec playground-cli remove [options]
 ```
 
-
 ```bash
 pnpm exec playground-cli remove [options]
 ```
-
 
 ```bash
 bun x playground-cli remove [options]
 ```
 
-
 ## Options
 
 The following options are available for the remove command:
-
-
-

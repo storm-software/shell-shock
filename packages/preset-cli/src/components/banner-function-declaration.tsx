@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { code, computed } from "@alloy-js/core";
-import { FunctionDeclaration } from "@alloy-js/typescript";
+import { FunctionDeclaration, IfStatement } from "@alloy-js/typescript";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import {
   getAppDescription,
@@ -94,10 +94,12 @@ export function BannerFunctionDeclaration(
   return (
     <>
       <FunctionDeclaration
+        async
         name="banner"
         doc={`Write the ${getAppTitle(context)} application banner ${
           command ? `for the ${command.title} command ` : ""
-        }to the console.`}>
+        }to the console.`}
+        parameters={[{ name: "pause", type: "number", default: 250 }]}>
         <BannerFunctionBodyDeclaration
           header={header.value}
           description={description.value}
@@ -112,6 +114,9 @@ export function BannerFunctionDeclaration(
           totalPadding.value
         }, 0) ? "${title.value}" : \`\\n\${titleLines.join("\\n")}\\n\`; `}
         </BannerFunctionBodyDeclaration>
+        <IfStatement condition={code`isInteractive && !isHelp`}>
+          {code`await sleep(pause);`}
+        </IfStatement>
       </FunctionDeclaration>
     </>
   );

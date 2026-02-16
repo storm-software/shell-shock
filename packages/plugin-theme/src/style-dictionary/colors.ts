@@ -40,6 +40,7 @@ import type {
   ThemeColorUsageSubItem,
   ThemeResolvedConfig
 } from "../types/theme";
+import { mergeThemes } from "./helpers";
 
 /**
  * Shell Shock - Theme Colors Preprocessor
@@ -177,7 +178,7 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
               submitted: colors,
               disabled: colors
             },
-            label: {
+            message: {
               active: colors,
               cancelled: colors,
               warning: colors,
@@ -192,6 +193,7 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
               warning: colors,
               error: colors,
               submitted: colors,
+              placeholder: colors,
               disabled: colors
             },
             description: {
@@ -361,7 +363,7 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
               submitted: text,
               disabled: text
             },
-            label: {
+            message: {
               active: text,
               cancelled: text,
               warning: text,
@@ -376,6 +378,7 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
               warning: text,
               error: text,
               submitted: text,
+              placeholder: text,
               disabled: text
             },
             description: {
@@ -861,8 +864,12 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
           }
         }
 
-        resolvedConfig.colors.text.prompt ??=
-          {} as ThemeColorPromptSubItemResolvedConfig;
+        resolvedConfig.colors.text.prompt ??= {
+          icon: {},
+          message: {},
+          input: {},
+          description: {}
+        } as ThemeColorPromptSubItemResolvedConfig;
         const prompt = text.prompt;
 
         if (isSetString(prompt)) {
@@ -875,7 +882,7 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
               submitted: prompt,
               disabled: prompt
             },
-            label: {
+            message: {
               active: prompt,
               cancelled: prompt,
               warning: prompt,
@@ -890,6 +897,7 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
               warning: prompt,
               error: prompt,
               submitted: prompt,
+              placeholder: prompt,
               disabled: prompt
             },
             description: {
@@ -939,40 +947,40 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
             }
           }
 
-          if (isSetString(prompt.label)) {
-            const label = prompt.label;
-            resolvedConfig.colors.text.prompt.label = {
-              active: label,
-              cancelled: label,
-              warning: label,
-              error: label,
-              submitted: label,
-              disabled: label
+          if (isSetString(prompt.message)) {
+            const message = prompt.message;
+            resolvedConfig.colors.text.prompt.message = {
+              active: message,
+              cancelled: message,
+              warning: message,
+              error: message,
+              submitted: message,
+              disabled: message
             };
-          } else if (isSetObject(prompt.label)) {
-            if (isSetString(prompt.label.active)) {
-              resolvedConfig.colors.text.prompt.label.active =
-                prompt.label.active;
+          } else if (isSetObject(prompt.message)) {
+            if (isSetString(prompt.message.active)) {
+              resolvedConfig.colors.text.prompt.message.active =
+                prompt.message.active;
             }
-            if (isSetString(prompt.label.cancelled)) {
-              resolvedConfig.colors.text.prompt.label.cancelled =
-                prompt.label.cancelled;
+            if (isSetString(prompt.message.cancelled)) {
+              resolvedConfig.colors.text.prompt.message.cancelled =
+                prompt.message.cancelled;
             }
-            if (isSetString(prompt.label.warning)) {
-              resolvedConfig.colors.text.prompt.label.warning =
-                prompt.label.warning;
+            if (isSetString(prompt.message.warning)) {
+              resolvedConfig.colors.text.prompt.message.warning =
+                prompt.message.warning;
             }
-            if (isSetString(prompt.label.error)) {
-              resolvedConfig.colors.text.prompt.label.error =
-                prompt.label.error;
+            if (isSetString(prompt.message.error)) {
+              resolvedConfig.colors.text.prompt.message.error =
+                prompt.message.error;
             }
-            if (isSetString(prompt.label.submitted)) {
-              resolvedConfig.colors.text.prompt.label.submitted =
-                prompt.label.submitted;
+            if (isSetString(prompt.message.submitted)) {
+              resolvedConfig.colors.text.prompt.message.submitted =
+                prompt.message.submitted;
             }
-            if (isSetString(prompt.label.disabled)) {
-              resolvedConfig.colors.text.prompt.label.disabled =
-                prompt.label.disabled;
+            if (isSetString(prompt.message.disabled)) {
+              resolvedConfig.colors.text.prompt.message.disabled =
+                prompt.message.disabled;
             }
           }
 
@@ -985,6 +993,7 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
               warning: input,
               error: input,
               submitted: input,
+              placeholder: input,
               disabled: input
             };
           } else if (isSetObject(prompt.input)) {
@@ -1011,6 +1020,10 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
             if (isSetString(prompt.input.submitted)) {
               resolvedConfig.colors.text.prompt.input.submitted =
                 prompt.input.submitted;
+            }
+            if (isSetString(prompt.input.placeholder)) {
+              resolvedConfig.colors.text.prompt.input.placeholder =
+                prompt.input.placeholder;
             }
             if (isSetString(prompt.input.disabled)) {
               resolvedConfig.colors.text.prompt.input.disabled =
@@ -2145,46 +2158,46 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
     }
 
     if (
-      !resolvedConfig.colors.text.prompt.label?.active &&
+      !resolvedConfig.colors.text.prompt.message?.active &&
       resolvedConfig.colors.text?.body?.primary
     ) {
-      resolvedConfig.colors.text.prompt.label.active =
+      resolvedConfig.colors.text.prompt.message.active =
         resolvedConfig.colors.text.body.primary;
     }
     if (
-      !resolvedConfig.colors.text.prompt.label?.submitted &&
+      !resolvedConfig.colors.text.prompt.message?.submitted &&
       resolvedConfig.colors.text?.body?.tertiary
     ) {
-      resolvedConfig.colors.text.prompt.label.submitted =
+      resolvedConfig.colors.text.prompt.message.submitted =
         resolvedConfig.colors.text.body.tertiary;
     }
     if (
-      !resolvedConfig.colors.text.prompt.label?.warning &&
-      resolvedConfig.colors.text.prompt.label?.active
+      !resolvedConfig.colors.text.prompt.message?.warning &&
+      resolvedConfig.colors.text.prompt.message?.active
     ) {
-      resolvedConfig.colors.text.prompt.label.warning =
-        resolvedConfig.colors.text.prompt.label.active;
+      resolvedConfig.colors.text.prompt.message.warning =
+        resolvedConfig.colors.text.prompt.message.active;
     }
     if (
-      !resolvedConfig.colors.text.prompt.label?.error &&
-      resolvedConfig.colors.text.prompt.label?.active
+      !resolvedConfig.colors.text.prompt.message?.error &&
+      resolvedConfig.colors.text.prompt.message?.active
     ) {
-      resolvedConfig.colors.text.prompt.label.error =
-        resolvedConfig.colors.text.prompt.label.active;
+      resolvedConfig.colors.text.prompt.message.error =
+        resolvedConfig.colors.text.prompt.message.active;
     }
     if (
-      !resolvedConfig.colors.text.prompt.label?.disabled &&
+      !resolvedConfig.colors.text.prompt.message?.disabled &&
       resolvedConfig.colors.text?.body?.tertiary
     ) {
-      resolvedConfig.colors.text.prompt.label.disabled =
+      resolvedConfig.colors.text.prompt.message.disabled =
         resolvedConfig.colors.text.body.tertiary;
     }
     if (
-      !resolvedConfig.colors.text.prompt.label?.cancelled &&
-      resolvedConfig.colors.text.prompt.label?.disabled
+      !resolvedConfig.colors.text.prompt.message?.cancelled &&
+      resolvedConfig.colors.text.prompt.message?.disabled
     ) {
-      resolvedConfig.colors.text.prompt.label.cancelled =
-        resolvedConfig.colors.text.prompt.label.disabled;
+      resolvedConfig.colors.text.prompt.message.cancelled =
+        resolvedConfig.colors.text.prompt.message.disabled;
     }
 
     if (
@@ -2205,36 +2218,36 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
       !resolvedConfig.colors.text.prompt.input?.submitted &&
       resolvedConfig.colors.text?.heading?.tertiary
     ) {
-      resolvedConfig.colors.text.prompt.label.submitted =
+      resolvedConfig.colors.text.prompt.message.submitted =
         resolvedConfig.colors.text.heading.tertiary;
     }
     if (
-      !resolvedConfig.colors.text.prompt.label?.warning &&
-      resolvedConfig.colors.text.prompt.label?.active
+      !resolvedConfig.colors.text.prompt.message?.warning &&
+      resolvedConfig.colors.text.prompt.message?.active
     ) {
-      resolvedConfig.colors.text.prompt.label.warning =
-        resolvedConfig.colors.text.prompt.label.active;
+      resolvedConfig.colors.text.prompt.message.warning =
+        resolvedConfig.colors.text.prompt.message.active;
     }
     if (
-      !resolvedConfig.colors.text.prompt.label?.error &&
-      resolvedConfig.colors.text.prompt.label?.active
+      !resolvedConfig.colors.text.prompt.message?.error &&
+      resolvedConfig.colors.text.prompt.message?.active
     ) {
-      resolvedConfig.colors.text.prompt.label.error =
-        resolvedConfig.colors.text.prompt.label.active;
+      resolvedConfig.colors.text.prompt.message.error =
+        resolvedConfig.colors.text.prompt.message.active;
     }
     if (
-      !resolvedConfig.colors.text.prompt.label?.disabled &&
+      !resolvedConfig.colors.text.prompt.message?.disabled &&
       resolvedConfig.colors.text?.body?.tertiary
     ) {
-      resolvedConfig.colors.text.prompt.label.disabled =
+      resolvedConfig.colors.text.prompt.message.disabled =
         resolvedConfig.colors.text.body.tertiary;
     }
     if (
-      !resolvedConfig.colors.text.prompt.label?.cancelled &&
-      resolvedConfig.colors.text.prompt.label?.disabled
+      !resolvedConfig.colors.text.prompt.message?.cancelled &&
+      resolvedConfig.colors.text.prompt.message?.disabled
     ) {
-      resolvedConfig.colors.text.prompt.label.cancelled =
-        resolvedConfig.colors.text.prompt.label.disabled;
+      resolvedConfig.colors.text.prompt.message.cancelled =
+        resolvedConfig.colors.text.prompt.message.disabled;
     }
 
     if (
@@ -2287,9 +2300,31 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
         resolvedConfig.colors.text.prompt.description.disabled;
     }
 
+    if (
+      !resolvedConfig.colors.text.prompt.input?.cancelled &&
+      resolvedConfig.colors.text.prompt.input?.disabled
+    ) {
+      resolvedConfig.colors.text.prompt.input.cancelled =
+        resolvedConfig.colors.text.prompt.input.disabled;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.input?.placeholder &&
+      resolvedConfig.colors.text.prompt.input?.disabled
+    ) {
+      resolvedConfig.colors.text.prompt.input.placeholder =
+        resolvedConfig.colors.text.prompt.input.disabled;
+    }
+    if (
+      !resolvedConfig.colors.text.prompt.input?.disabled &&
+      resolvedConfig.colors.text.prompt.input?.placeholder
+    ) {
+      resolvedConfig.colors.text.prompt.input.disabled =
+        resolvedConfig.colors.text.prompt.input.placeholder;
+    }
+
     // #endregion Missing token defaulting
 
-    context.theme = resolvedConfig;
+    mergeThemes(context, resolvedConfig);
 
     return dictionary;
   }

@@ -4,12 +4,14 @@
   "type": "module",
   "description": "A playground package that uses the Powerlines plugin.",
   "private": true,
+  "bin": {
+    "playground-powerlines": "./dist/bin.mjs"
+  },
   "devDependencies": {
     "@powerlines/nx": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@shell-shock/preset-script": "workspace:*",
     "@types/node": "catalog:",
     "powerlines": "catalog:"
-  },
-  "bin": { "playground-powerlines": "./dist/bin.mjs" }
+  }
 }

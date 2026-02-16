@@ -23,6 +23,7 @@ import {
   IfStatement,
   VarDeclaration
 } from "@alloy-js/typescript";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { DynamicImportStatement } from "@powerlines/plugin-alloy/typescript/components/dynamic-import-statement";
 import { CommandContext, useCommand } from "@shell-shock/core/contexts/command";
@@ -76,8 +77,7 @@ export function CommandRouter(props: CommandRouterProps) {
         type="string"
         initializer={code`"";`}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <Show when={commands && Object.keys(commands).length > 0}>
         <IfStatement
           condition={code`args.length > ${

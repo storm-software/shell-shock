@@ -25,6 +25,7 @@ import { ConsoleBuiltin } from "@shell-shock/preset-script/components/console-bu
 import { VirtualHelp } from "@shell-shock/preset-script/components/help";
 import { UtilsBuiltin } from "@shell-shock/preset-script/components/utils-builtin";
 import type { Plugin } from "powerlines/types/plugin";
+import { PromptsBuiltin } from "./components";
 import { BannerFunctionDeclaration } from "./components/banner-function-declaration";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
@@ -57,7 +58,6 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
       },
       configResolved() {
         this.dependencies.didyoumean2 = "^7.0.4";
-        this.dependencies["@clack/prompts"] = "^1.0.0";
       },
       async prepare() {
         this.debug(
@@ -68,25 +68,8 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           this,
           <>
             <UtilsBuiltin />
-            <ConsoleBuiltin>
-              {code`
-
-// Re-export prompt functions from @clack/prompts
-export {
-  isCancel,
-  confirm,
-  select,
-  text,
-  multiselect,
-  password,
-  progress,
-  spinner,
-  intro,
-  outro
-} from "@clack/prompts";
-
-            `}
-            </ConsoleBuiltin>
+            <ConsoleBuiltin />
+            <PromptsBuiltin />
           </>
         );
       }
@@ -114,11 +97,7 @@ export {
                     "help",
                     "writeLine",
                     "splitText",
-                    "stripAnsi",
-                    "intro",
-                    "outro",
-                    "select",
-                    "isCancel"
+                    "stripAnsi"
                   ],
                   utils: [
                     "useApp",
@@ -126,7 +105,8 @@ export {
                     "isMinimal",
                     "isInteractive",
                     "isHelp"
-                  ]
+                  ],
+                  prompts: ["text", "toggle", "select", "isCancel", "sleep"]
                 }}
                 prefix={
                   <>
@@ -147,8 +127,7 @@ export {
                   <hbr />
                 </Show>
                 <hbr />
-                {code`writeLine("");
-                banner();`}
+                {code`await banner(0);`}
                 <hbr />
                 <hbr />
                 <VirtualHelp

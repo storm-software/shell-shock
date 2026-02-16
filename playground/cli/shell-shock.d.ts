@@ -15,121 +15,94 @@ declare module "shell-shock:env" {
    *
    * @title Object
    *
-   */
-  export interface EnvBase {
+   * */ export interface EnvBase {
     /**
      * The application's cached data directory.
      *
      * @title Cache Directory
      *
-     */
-    CACHE_DIR?: string;
+     * */ CACHE_DIR?: string;
     /**
      * An indicator that specifies the current runtime is a continuous integration environment.
      *
      * @title Continuous Integration
      * @alias CONTINUOUS_INTEGRATION
      * @defaultValue false
-     *
-     */
-    CI: boolean;
+     * */ CI: boolean;
     /**
      * The application's configuration data directory.
      *
      * @title Configuration Directory
      *
-     */
-    CONFIG_DIR?: string;
+     * */ CONFIG_DIR?: string;
     /**
      * The application's runtime data directory.
      *
      * @title Data Directory
      *
-     */
-    DATA_DIR?: string;
+     * */ DATA_DIR?: string;
     /**
      * Indicates if the application is running in debug mode.
      *
      * @defaultValue false
-     *
-     */
-    DEBUG: boolean;
+     * */ DEBUG: boolean;
     /**
      * The default locale to be used in the application.
      *
      * @defaultValue "en_US"
-     *
-     */
-    DEFAULT_LOCALE: string;
+     * */ DEFAULT_LOCALE: string;
     /**
      * The default timezone for the application.
      *
      * @defaultValue "America/New_York"
-     *
-     */
-    DEFAULT_TIMEZONE: string;
+     * */ DEFAULT_TIMEZONE: string;
     /**
      * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
      *
      *
-     */
-    DEVENV_RUNTIME?: string;
+     * */ DEVENV_RUNTIME?: string;
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
      * @defaultValue "production"
-     *
-     */
-    ENVIRONMENT: string;
+     * */ ENVIRONMENT: string;
     /**
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
      *
-     */
-    ERROR_URL: string;
+     * */ ERROR_URL: string;
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
      * @defaultValue false
-     *
-     */
-    FORCE_COLOR: boolean | number;
+     * */ FORCE_COLOR: boolean | number;
     /**
      * An indicator that specifies the current runtime should force hyperlinks in terminal output.
      *
      * @defaultValue false
-     *
-     */
-    FORCE_HYPERLINK: boolean | number;
+     * */ FORCE_HYPERLINK: boolean | number;
     /**
      * Indicates if error data should be included.
      *
      * @defaultValue false
-     *
-     */
-    INCLUDE_ERROR_DATA: boolean;
+     * */ INCLUDE_ERROR_DATA: boolean;
     /**
      * The application's logging directory.
      *
      * @title Log Directory
      *
-     */
-    LOG_DIR?: string;
+     * */ LOG_DIR?: string;
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
      * @defaultValue "info"
-     *
-     */
-    LOG_LEVEL?: "error" | "warn" | "info" | "debug" | null;
+     * */ LOG_LEVEL?: "error" | "warn" | "info" | "debug" | null;
     /**
      * An indicator that specifies the current runtime is a minimal environment.
      *
      * @defaultValue false
-     *
-     */
-    MINIMAL: boolean;
+     * */ MINIMAL: boolean;
     /**
      * The mode in which the application is running.
      *
@@ -137,585 +110,496 @@ declare module "shell-shock:env" {
      *
      * @alias VERCEL_ENV
      * @defaultValue "production"
-     *
-     */
-    MODE: "development" | "test" | "production";
+     * */ MODE: "development" | "test" | "production";
     /**
      * An indicator that specifies the current runtime is a no color environment.
      *
      * @defaultValue false
-     *
-     */
-    NO_COLOR: boolean;
+     * */ NO_COLOR: boolean;
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
      *
-     */
-    ORGANIZATION: string;
+     * */ ORGANIZATION: string;
     /**
      * The platform for which the application was built.
      *
      * @defaultValue "neutral"
-     *
-     */
-    PLATFORM: "node" | "neutral" | "browser";
+     * */ PLATFORM: "node" | "neutral" | "browser";
     /**
      * Indicates if error stack traces should be captured.
      *
      * @defaultValue false
-     *
-     */
-    STACKTRACE: boolean;
+     * */ STACKTRACE: boolean;
     /**
      * The application's temporary data directory.
      *
      * @title Temporary Directory
      *
-     */
-    TEMP_DIR?: string;
+     * */ TEMP_DIR?: string;
     /**
      * An indicator that specifies the current runtime is a test environment.
      *
      * @defaultValue false
-     *
-     */
-    TEST: boolean;
+     * */ TEST: boolean;
     /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly AC_APPCIRCLE?: string;
+     * */ readonly AC_APPCIRCLE?: string;
     /**
      * The name of the agent running the application. This variable is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly AGENT_NAME?: string;
+     * */ readonly AGENT_NAME?: string;
     /**
      * The agola git reference. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly AGOLA_GIT_REF?: string;
+     * */ readonly AGOLA_GIT_REF?: string;
     /**
      * The name of the application.
      *
      * @readonly
      *
-     */
-    readonly APP_NAME: string;
+     * */ readonly APP_NAME: string;
     /**
      * The version of the application.
      *
      * @readonly
      * @defaultValue "1.0.0"
-     *
-     */
-    readonly APP_VERSION: string;
+     * */ readonly APP_VERSION: string;
     /**
      * The appcenter build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly APPCENTER_BUILD_ID?: string;
+     * */ readonly APPCENTER_BUILD_ID?: string;
     /**
      * A variable that specifies the application data directory on Windows.
      *
      * @readonly
      *
-     */
-    readonly APPDATA?: string;
+     * */ readonly APPDATA?: string;
     /**
      * The appveyor build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly APPVEYOR?: string;
+     * */ readonly APPVEYOR?: string;
     /**
      * The bamboo plan key. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly bamboo_planKey?: string;
+     * */ readonly bamboo_planKey?: string;
     /**
      * The bitbucket commit. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly BITBUCKET_COMMIT?: string;
+     * */ readonly BITBUCKET_COMMIT?: string;
     /**
      * The bitrise build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly BITRISE_IO?: string;
+     * */ readonly BITRISE_IO?: string;
     /**
      * The buddy workspace ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly BUDDY_WORKSPACE_ID?: string;
+     * */ readonly BUDDY_WORKSPACE_ID?: string;
     /**
      * A checksum hash created during the build.
      *
      * @readonly
      *
-     */
-    readonly BUILD_CHECKSUM: string;
+     * */ readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
      *
-     */
-    readonly BUILD_ID: string;
+     * */ readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
      *
-     */
-    readonly BUILD_TIMESTAMP: string;
+     * */ readonly BUILD_TIMESTAMP: string;
     /**
      * The builder output build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly BUILDER_OUTPUT?: string;
+     * */ readonly BUILDER_OUTPUT?: string;
     /**
      * The buildkite build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly BUILDKITE?: string;
+     * */ readonly BUILDKITE?: string;
     /**
      * The cf build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CF_BUILD_ID?: string;
+     * */ readonly CF_BUILD_ID?: string;
     /**
      * The ci name. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CI_NAME?: string;
+     * */ readonly CI_NAME?: string;
     /**
      * The xcode project build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CI_XCODE_PROJECT?: string;
+     * */ readonly CI_XCODE_PROJECT?: string;
     /**
      * The circleci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CIRCLECI?: string;
+     * */ readonly CIRCLECI?: string;
     /**
      * The cirrus-ci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CIRRUS_CI?: string;
+     * */ readonly CIRRUS_CI?: string;
     /**
      * The cm build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CM_BUILD_ID?: string;
+     * */ readonly CM_BUILD_ID?: string;
     /**
      * The codebuild build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly CODEBUILD?: string;
+     * */ readonly CODEBUILD?: string;
     /**
      * The color terminal type. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly COLORTERM?: string;
+     * */ readonly COLORTERM?: string;
     /**
      * The ConEmu task name. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly ConEmuTask?: string;
+     * */ readonly ConEmuTask?: string;
     /**
      * The cursor trace ID. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly CURSOR_TRACE_ID?: string;
+     * */ readonly CURSOR_TRACE_ID?: string;
     /**
      * The drone build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly DRONE?: string;
+     * */ readonly DRONE?: string;
     /**
      * The dsari build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly DSARI?: string;
+     * */ readonly DSARI?: string;
     /**
      * The earthly build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly EARTHLY_CI?: string;
+     * */ readonly EARTHLY_CI?: string;
     /**
      * The eas build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly EAS_BUILD?: string;
+     * */ readonly EAS_BUILD?: string;
     /**
      * The gerrit project. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly GERRIT_PROJECT?: string;
+     * */ readonly GERRIT_PROJECT?: string;
     /**
      * The gitea actions build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly GITEA_ACTIONS?: string;
+     * */ readonly GITEA_ACTIONS?: string;
     /**
      * The github actions build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly GITHUB_ACTIONS?: string;
+     * */ readonly GITHUB_ACTIONS?: string;
     /**
      * The gitlab ci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly GITLAB_CI?: string;
+     * */ readonly GITLAB_CI?: string;
     /**
      * The go cd build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly GOCD?: string;
+     * */ readonly GOCD?: string;
     /**
      * The harness build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly HARNESS_BUILD_ID?: string;
+     * */ readonly HARNESS_BUILD_ID?: string;
     /**
      * The hudson build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly HUDSON?: string;
+     * */ readonly HUDSON?: string;
     /**
      * The jenkins url. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly JENKINS_URL?: string;
+     * */ readonly JENKINS_URL?: string;
     /**
      * The layerci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly LAYERCI?: string;
+     * */ readonly LAYERCI?: string;
     /**
      * A variable that specifies the current user's local application data directory on Windows.
      *
      * @readonly
      *
-     */
-    readonly LOCALAPPDATA?: string;
+     * */ readonly LOCALAPPDATA?: string;
     /**
      * The magnum build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly MAGNUM?: string;
+     * */ readonly MAGNUM?: string;
     /**
      * The netlify build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly NETLIFY?: string;
+     * */ readonly NETLIFY?: string;
     /**
      * The nevercode build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly NEVERCODE?: string;
+     * */ readonly NEVERCODE?: string;
     /**
      * The now builder build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly NOW_BUILDER?: string;
+     * */ readonly NOW_BUILDER?: string;
     /**
      * The prow job ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly PROW_JOB_ID?: string;
+     * */ readonly PROW_JOB_ID?: string;
     /**
      * The release build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly RELEASE_BUILD_ID?: string;
+     * */ readonly RELEASE_BUILD_ID?: string;
     /**
      * The unique identifier for the release.
      *
      * @readonly
      *
-     */
-    readonly RELEASE_ID: string;
+     * */ readonly RELEASE_ID: string;
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
      *
-     */
-    readonly RELEASE_TAG: string;
+     * */ readonly RELEASE_TAG: string;
     /**
      * The render build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly RENDER?: string;
+     * */ readonly RENDER?: string;
     /**
      * The unique identifier for the current run. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly RUN_ID?: string;
+     * */ readonly RUN_ID?: string;
     /**
      * The sailci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly SAILCI?: string;
+     * */ readonly SAILCI?: string;
     /**
      * The screwdriver build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly SCREWDRIVER?: string;
+     * */ readonly SCREWDRIVER?: string;
     /**
      * The semaphore build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly SEMAPHORE?: string;
+     * */ readonly SEMAPHORE?: string;
     /**
      * The sourcehut build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly SOURCEHUT?: string;
+     * */ readonly SOURCEHUT?: string;
     /**
      * The spaceship build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly SPACESHIP_CI?: string;
+     * */ readonly SPACESHIP_CI?: string;
     /**
      * The strider build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly STRIDER?: string;
+     * */ readonly STRIDER?: string;
     /**
      * The task ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly TASK_ID?: string;
+     * */ readonly TASK_ID?: string;
     /**
      * The teamcity version. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly TEAMCITY_VERSION?: string;
+     * */ readonly TEAMCITY_VERSION?: string;
     /**
      * The terminal type. This variable is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly TERM?: string;
+     * */ readonly TERM?: string;
     /**
      * The terminal program name. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly TERM_PROGRAM?: string;
+     * */ readonly TERM_PROGRAM?: string;
     /**
      * The terminal program version. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly TERM_PROGRAM_VERSION?: string;
+     * */ readonly TERM_PROGRAM_VERSION?: string;
     /**
      * The terminal emulator name. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly TERMINAL_EMULATOR?: string;
+     * */ readonly TERMINAL_EMULATOR?: string;
     /**
      * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly TERMINUS_SUBLIME?: boolean;
+     * */ readonly TERMINUS_SUBLIME?: boolean;
     /**
      * The task force build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly TF_BUILD?: string;
+     * */ readonly TF_BUILD?: string;
     /**
      * The travis build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly TRAVIS?: string;
+     * */ readonly TRAVIS?: string;
     /**
      * The vela build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly VELA?: string;
+     * */ readonly VELA?: string;
     /**
      * The VTE version. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly VTE_VERSION?: string;
+     * */ readonly VTE_VERSION?: string;
     /**
      * The terminal emulator session ID. This variable is set by certain terminal emulators.
      *
      * @readonly
      *
-     */
-    readonly WT_SESSION?: string;
+     * */ readonly WT_SESSION?: string;
     /**
      * The xcode server build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
      *
-     */
-    readonly XCS?: string;
+     * */ readonly XCS?: string;
     /**
      * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
      *
-     */
-    readonly XDG_CACHE_HOME?: string;
+     * */ readonly XDG_CACHE_HOME?: string;
     /**
      * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
      *
-     */
-    readonly XDG_CONFIG_HOME?: string;
+     * */ readonly XDG_CONFIG_HOME?: string;
     /**
      * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
      *
-     */
-    readonly XDG_DATA_HOME?: string;
+     * */ readonly XDG_DATA_HOME?: string;
     /**
      * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
      *
-     */
-    readonly XDG_RUNTIME_DIR?: string;
+     * */ readonly XDG_RUNTIME_DIR?: string;
     /**
      * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
      *
-     */
-    readonly XDG_STATE_HOME?: string;
+     * */ readonly XDG_STATE_HOME?: string;
   }
   /**
    * The environment configuration object with prefixed keys.
    *
    * @remarks
    * The `Env` type extends the `EnvBase` interface by including additional keys that are prefixed according to the project's configuration. This allows for flexibility in accessing environment variables with different naming conventions.
-   */
-  export type Env = {
+   * */ export type Env = {
     [Key in keyof EnvBase as
       | Key
       | `NEXT_${Key}`
@@ -733,8 +617,7 @@ declare module "shell-shock:env" {
    *
    * @title Object
    *
-   */
-  export const initialEnv: Partial<EnvBase>;
+   * */ export declare const initialEnv: Partial<EnvBase>;
   /**
    * The environment configuration serializer for the Powerlines application.
    *
@@ -744,8 +627,7 @@ declare module "shell-shock:env" {
    *
    * @remarks
    * This serializer is used to serialize and deserialize the Powerlines environment configuration.
-   */
-  export class EnvSerializer extends Serializer {
+   * */ export declare class EnvSerializer extends Serializer {
     /**
      * Initializes a new instance of the `EnvSerializer` class.
      */
@@ -762,8 +644,7 @@ declare module "shell-shock:env" {
    * ```
    * @throws ValidationError when serialization or validation fails.
    *
-   */
-  export const serializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
+   * */ export declare const serializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
     EnvBase,
     any
   >;
@@ -778,8 +659,7 @@ declare module "shell-shock:env" {
    * ```
    * @throws ValidationError when deserialization fails.
    *
-   */
-  export const deserializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
+   * */ export declare const deserializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
     any,
     EnvBase
   >;
@@ -793,15 +673,15 @@ declare module "shell-shock:env" {
    *   settings provided by the runtime.
    * @returns The initialized Powerlines configuration object.
    *
-   */
-  export function createEnv(environmentConfig?: Partial<Env>): Env;
+   * */ export declare function createEnv(
+    environmentConfig?: Partial<Env>
+  ): Env;
   /**
    * The environment configuration object.
    *
    * @remarks
    * This object provides access to the environment configuration parameters in the application runtime.
-   */
-  export const env: Env;
+   * */ export declare const env: Env;
   /**
    * Detect if the application is running in a continuous integration (CI) environment.
    */
@@ -817,8 +697,7 @@ declare module "shell-shock:env" {
    * - `test`
    *
    * - `development`
-   */
-  export const mode: string;
+   * */ export declare const mode: string;
   /**
    * Detect if the application is running in `"production"` mode
    */
@@ -852,13 +731,10 @@ declare module "shell-shock:env" {
    *
    * @remarks
    * These environment path types are accessed in the {@link EnvPaths} type.
-   */
-  export type EnvPathType = "data" | "config" | "cache" | "log" | "temp";
+   * */ export type EnvPathType = "data" | "config" | "cache" | "log" | "temp";
   /**
    * The environment paths for storing things like data, config, logs, and cache in the current runtime environment.
-   *
-   */
-  export type EnvPaths = Record<EnvPathType, string>;
+   * */ export type EnvPaths = Record<EnvPathType, string>;
   /**
    * The resolved application directories based on the current operating system and environment variables.
    *
@@ -870,8 +746,7 @@ declare module "shell-shock:env" {
    * - **Windows**: directories are generally created in `%AppData%/<name>`
    *
    * - **MacOS**: directories are generally created in `~/Library/Application Support/<name>`
-   */
-  export const paths: EnvPaths;
+   * */ export declare const paths: EnvPaths;
 }
 
 /**
@@ -950,8 +825,7 @@ declare module "shell-shock:utils" {
    * @returns An array of command line arguments from Deno or Node.js
    *   environments.
    *
-   */
-  export function getArgs(): string[];
+   * */ export declare function getArgs(): string[];
   /**
    * Checks if a specific flag is present in the command line arguments.
    *
@@ -963,8 +837,10 @@ declare module "shell-shock:utils" {
    *   Deno args or process args.
    * @returns True if the flag is present, false otherwise.
    *
-   */
-  export function hasFlag(flag: string | string[], argv?: string[]): boolean;
+   * */ export declare function hasFlag(
+    flag: string | string[],
+    argv?: string[]
+  ): boolean;
   export const isHelp: boolean;
   /**
    * Detect if stdout.TTY is available
@@ -983,8 +859,7 @@ declare module "shell-shock:utils" {
    *
    * @returns True if the current environment/terminal supports hyperlinks.
    *
-   */
-  export function isHyperlinkSupported(): boolean;
+   * */ export declare function isHyperlinkSupported(): boolean;
   /**
    * Options for the getColorSupportLevel function
    */
@@ -1004,8 +879,7 @@ declare module "shell-shock:utils" {
    *   Deno args or process args.
    * @returns True if the flag is present, false otherwise.
    *
-   */
-  export function getColorSupportLevel(
+   * */ export declare function getColorSupportLevel(
     stream: NodeJS.WriteStream & {
       fd: 1 | 2;
     },
@@ -1087,6 +961,55 @@ declare module "shell-shock:utils" {
  */
 declare module "shell-shock:console" {
   /**
+   * The ASCII Bell character, which can be used to trigger a beep sound in the console.
+   */
+  export const beep = "\u0007";
+  /**
+   * An object containing ANSI escape codes for controlling the console cursor.
+   */
+  export const cursor: {
+    to(x: any, y: any): string;
+    move(x: any, y: any): string;
+    up: (count?: number) => string;
+    down: (count?: number) => string;
+    forward: (count?: number) => string;
+    backward: (count?: number) => string;
+    nextLine: (count?: number) => string;
+    prevLine: (count?: number) => string;
+    left: string;
+    hide: string;
+    show: string;
+    save: string;
+    restore: string;
+  };
+  /**
+   * An object containing ANSI escape codes for erasing parts of the console.
+   */
+  export const erase: {
+    screen: string;
+    up: (count?: number) => string;
+    down: (count?: number) => string;
+    line: string;
+    lineEnd: string;
+    lineStart: string;
+    lines(count: any): string;
+  };
+  /**
+   * An object containing ANSI escape codes for scrolling the console.
+   */
+  export const scroll: {
+    up: (count?: number) => string;
+    down: (count?: number) => string;
+  };
+  /**
+   * A helper function to clear the console based on a count of lines
+   *
+   * @param {string} current - The current console output to be cleared
+   * @param {number} consoleWidth - The number of characters per line in the
+   *   console
+   */
+  export function clear(current: string, consoleWidth: number): string;
+  /**
    * Removes ANSI escape codes from a string.
    *
    * @example
@@ -1096,8 +1019,7 @@ declare module "shell-shock:console" {
    * @param text - The text to strip ANSI codes from.
    * @returns The text with ANSI codes removed.
    *
-   */
-  export function stripAnsi(text: string | number): string;
+   * */ export declare function stripAnsi(text: string | number): string;
   /**
    * The available ANSI colors for console text.
    */
@@ -1165,9 +1087,7 @@ declare module "shell-shock:console" {
     ThemeColors<ThemeColorsResolvedConfig>;
   /**
    * An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link Colors} for available colors.
-   *
-   */
-  export const colors: Colors;
+   * */ export declare const colors: Colors;
   /**
    * Split text into multiple lines based on a maximum length.
    *
@@ -1176,8 +1096,10 @@ declare module "shell-shock:console" {
    *
    * @param text - The text to split into multiple lines.
    * @param maxLength - The maximum length of each line.
-   */
-  export function splitText(text: string, maxLength: number): string[];
+   * */ export declare function splitText(
+    text: string,
+    maxLength: number | SizeToken
+  ): string[];
   /**
    * Options for writing a line to the console.
    */
@@ -1187,8 +1109,7 @@ declare module "shell-shock:console" {
      *
      * @remarks
      * The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.
-     */
-    padding?: number;
+     * */ padding?: number;
     /**
      * Console function to use for writing the line
      *
@@ -1196,17 +1117,14 @@ declare module "shell-shock:console" {
      * The console function to use for writing the line. If not specified, the default console function `console.log` will be used.
      *
      * @defaultValue `console.log`
-     *
-     */
-    consoleFn?: (text: string) => void;
+     * */ consoleFn?: (text: string) => void;
     /**
      * Color of the line text
      *
      * @remarks
      * The color to apply to the line text when writing to the console. This can be one of the predefined color themes: "primary", "secondary", or "tertiary". If not specified, no specific coloring will be applied to the text (the default/system terminal text color will likely be used).
      *
-     */
-    color?: "primary" | "secondary" | "tertiary";
+     * */ color?: "primary" | "secondary" | "tertiary";
   }
   /**
    * Write a line to the console.
@@ -1216,8 +1134,7 @@ declare module "shell-shock:console" {
    *
    * @param text - The line text to write to the console.
    * @param options - The options to apply when writing the line to the console.
-   */
-  export function writeLine(
+   * */ export declare function writeLine(
     text?: string | number | boolean | null,
     options?: WriteLineOptions
   ): void;
@@ -1229,8 +1146,7 @@ declare module "shell-shock:console" {
    *   be used as the text.
    * @returns The formatted hyperlink string.
    *
-   */
-  export function link(url: string, text?: string): string;
+   * */ export declare function link(url: string, text?: string): string;
   /**
    * Options for formatting the divider line written to console.
    */
@@ -1245,9 +1161,7 @@ declare module "shell-shock:console" {
      * @remarks
      * The value provided will determine the border style and color based on the current theme configuration.
      * @defaultValue "primary"
-     *
-     */
-    /**
+     * */ /**
      * The border style/color of the divider line. Can be 'primary', 'secondary', 'tertiary', or 'none'. If not specified, the default border style will be used.
      */
     border?: "primary" | "secondary" | "tertiary";
@@ -1257,9 +1171,7 @@ declare module "shell-shock:console" {
      * @remarks
      * The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.
      * @defaultValue 0
-     *
-     */
-    padding?: number;
+     * */ padding?: number;
   }
   /**
    * Write a divider line to the console.
@@ -1269,8 +1181,7 @@ declare module "shell-shock:console" {
    * divider({ width: 50, border: "primary" }); // Writes a divider line of width 50 with primary border.
    * ```
    * @param options - Options for formatting the divider line.
-   */
-  export function divider(options: DividerOptions): void;
+   * */ export declare function divider(options: DividerOptions): void;
   /**
    * Write a help message to the console.
    *
@@ -1278,8 +1189,7 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   */
-  export function help(message: string): void;
+   * */ export declare function help(message: string): void;
   /**
    * Write a success message to the console.
    *
@@ -1287,8 +1197,7 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   */
-  export function success(message: string): void;
+   * */ export declare function success(message: string): void;
   /**
    * Write an informational message to the console.
    *
@@ -1296,8 +1205,7 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   */
-  export function info(message: string): void;
+   * */ export declare function info(message: string): void;
   /**
    * Write a debug message to the console.
    *
@@ -1305,8 +1213,7 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   */
-  export function debug(message: string): void;
+   * */ export declare function debug(message: string): void;
   /**
    * Write a verbose message to the console.
    *
@@ -1314,8 +1221,7 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   */
-  export function verbose(message: string): void;
+   * */ export declare function verbose(message: string): void;
   /**
    * Write a warning message to the console.
    *
@@ -1323,8 +1229,7 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   */
-  export function warn(message: string): void;
+   * */ export declare function warn(message: string): void;
   /**
    * Write a destructive/danger message to the console.
    *
@@ -1332,8 +1237,7 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   */
-  export function danger(message: string): void;
+   * */ export declare function danger(message: string): void;
   /**
    * Write an error message to the console.
    *
@@ -1341,12 +1245,11 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   */
-  export function error(err: string | Error): void;
+   * */ export declare function error(err: string | Error): void;
   /**
    * A type representing the width size of an item in the console.
    */
-  export type WidthSize =
+  export type SizeToken =
     | "full"
     | "1/1"
     | "1/2"
@@ -1365,6 +1268,20 @@ declare module "shell-shock:console" {
     | "5%"
     | "2.5%";
   /**
+   * Determine if a value is a valid size token.
+   *
+   * @remarks
+   * This function checks if the provided value is a valid size token, which can be one of the predefined strings representing common width sizes (e.g., "full", "1/2", "1/3", etc.) or percentage strings (e.g., "50%").
+   * @param value - The value to check for being a valid size token.
+   * @returns True if the value is a valid size token, false otherwise.
+   *
+   * */ /**
+   * Determines if the provided value is a valid size token.
+   *
+   * @param {any} value
+   */
+  export function isSizeToken(value: any): value is SizeToken;
+  /**
    * Calculate the width in characters based on the provided width size.
    *
    * @remarks
@@ -1373,8 +1290,7 @@ declare module "shell-shock:console" {
    *   (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%").
    * @returns The calculated width in characters.
    *
-   */
-  export function calculateWidth(size: WidthSize): number; /**
+   * */ export declare function calculateWidth(size: SizeToken): number; /**
    * The border options applied to table cells.
    */
   export type BorderOption =
@@ -1394,9 +1310,7 @@ declare module "shell-shock:console" {
      * The border variant to use for the table cell. This determines the color and style of the border around the cell.
      *
      * @defaultValue primary
-     *
-     */
-    border?:
+     * */ border?:
       | BorderOption
       | {
           top?: BorderOption;
@@ -1414,10 +1328,8 @@ declare module "shell-shock:console" {
      * @remarks
      * The amount of padding (in spaces) to apply to the table cell. This value is applied to both the left and right sides of the cell. If not specified, the default table padding defined in the current theme configuration will be used.
      *
-     * @defaultValue `2`
-     *
-     */
-    padding?: number;
+     * @defaultValue `1`
+     * */ padding?: number;
     /**
      * Alignment for the table cell.
      *
@@ -1425,9 +1337,7 @@ declare module "shell-shock:console" {
      * The alignment for the table cell. This determines how the text within the cell is aligned. If not specified, the default alignment is "left".
      *
      * @defaultValue left
-     *
-     */
-    align?: "left" | "right" | "center";
+     * */ align?: "left" | "right" | "center";
   }
   /**
    * Options for a specific table cell provided to the {@link table} function.
@@ -1442,8 +1352,7 @@ declare module "shell-shock:console" {
      *
      * @remarks
      * The width of the table cell (where 1 is a single character in the terminal). If not specified, the width will be determined based on the content of the cell and the available space in the console.
-     */
-    maxWidth: number | WidthSize | undefined;
+     * */ maxWidth: number | SizeToken | undefined;
   }
   /**
    * Options for a specific table row provided to the {@link table} function.
@@ -1470,8 +1379,7 @@ declare module "shell-shock:console" {
    * This function writes a table to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
    *
    * @param options - Options to customize the table output.
-   */
-  export function table(
+   * */ export declare function table(
     options:
       | TableOptions
       | TableRowOptions[]
@@ -1479,18 +1387,6 @@ declare module "shell-shock:console" {
       | string[]
       | string[][]
   ): void;
-  export {
-    confirm,
-    intro,
-    isCancel,
-    multiselect,
-    outro,
-    password,
-    progress,
-    select,
-    spinner,
-    text
-  } from "@clack/prompts";
 }
 
 /**
@@ -1499,5 +1395,539 @@ declare module "shell-shock:console" {
  * @module shell-shock:prompts
  */
 declare module "shell-shock:prompts" {
+  import EventEmitter from "node:events";
+  import readline from "node:readline";
+  /**
+   * A utility function to pause execution for a specified duration, which can be used in prompt interactions to create delays or timeouts. The function returns a promise that resolves after the specified duration in milliseconds, allowing it to be used with async/await syntax for easier handling of asynchronous prompt logic.
+   *
+   * @param duration - The duration to sleep in milliseconds.
+   * @returns A promise that resolves after the specified duration, allowing for
+   *   asynchronous delays in prompt interactions.
+   *
+   * */ export declare function sleep(duration: number): Promise<void>;
+  /**
+   * A type for a custom prompt input parser, which can be used to create custom input styles for prompts. The function should return the parsed value for the given input string.
+   * */ export type PromptParser<TValue = string> = (
+    this: Prompt<TValue>,
+    input: string
+  ) => TValue;
+  /**
+   * A type for a custom prompt input formatter, which can be used to create custom display styles for prompts. The function should return the formatted string to display for the given input value.
+   * */ export type PromptFormatter<TValue = string> = (
+    this: Prompt<TValue>,
+    input: TValue
+  ) => string;
+  /**
+   * A built-in prompt mask function that just returns the input as is, making it
+   * invisible
+   *
+   * @param {string} input
+   */
+  export function noMask(input: string): string;
+  /**
+   * A built-in prompt mask function that makes input invisible
+   *
+   * @param {string} input
+   */
+  export function invisibleMask(input: string): string;
+  /**
+   * The current state of a prompt
+   * */ export interface PromptState<TValue = string> {
+    /**
+     * The current value of the prompt
+     * */ value: TValue;
+    /**
+     * Indicates whether the prompt is in an error state
+     * */ isError: boolean;
+    /**
+     * If the prompt is in an error state, this will contain the error message to display
+     * */ errorMessage?: string;
+    /**
+     * Indicates whether the prompt is submitted
+     * */ isSubmitted: boolean;
+    /**
+     * Indicates whether the prompt is cancelled
+     * */ isCancelled: boolean;
+    /**
+     * Indicates whether the prompt is completed, which can be used to indicate that the prompt interaction is finished regardless of whether it was submitted or cancelled
+     * */ isCompleted: boolean;
+  }
+  /**
+   * Configuration options for configuring a prompt
+   * */ interface PromptConfig<TValue = string> {
+    /**
+     * The readable stream to use for prompt input, defaults to process.stdin
+     * */ input?: NodeJS.ReadStream;
+    /**
+     * The writable stream to use for prompt output, defaults to process.stdout
+     * */ output?: NodeJS.WriteStream;
+    /**
+     * The prompt message to display
+     * */ message: string;
+    /**
+     * The prompt description message to display
+     * */ description?: string;
+    /**
+     * The initial value of the prompt
+     * */ initialValue?: TValue;
+    /**
+     * A validation function that returns true if the input is valid, false or a string error message if the input is invalid
+     * */ validate?: (
+      value: TValue
+    ) => boolean | string | Promise<boolean | string>;
+    /**
+     * A function that parses the input value and returns the parsed result or throws an error if the input is invalid
+     * */ parse?: PromptParser<TValue>;
+    /**
+     * A function that formats the input value and returns the formatted result or throws an error if the input is invalid
+     * */ format?: PromptFormatter<TValue>;
+    /**
+     * A function that masks the input value and returns the masked result or throws an error if the input is invalid
+     * */ mask?: (input: string) => string;
+    /**
+     * The default error message to display when validation fails
+     * */ defaultErrorMessage?: string;
+  }
+  /**
+   * Base prompt class that other prompt types can extend from
+   * */ declare abstract class Prompt<TValue = string> extends EventEmitter {
+    protected config: PromptConfig<TValue>;
+    protected abstract initialValue: TValue;
+    protected input: NodeJS.ReadStream;
+    protected output: NodeJS.WriteStream;
+    protected message: string;
+    protected description: string;
+    protected errorMessage: string | null;
+    protected defaultErrorMessage: string;
+    protected isSubmitted: boolean;
+    protected isCancelled: boolean;
+    isInitial: boolean;
+    protected consoleOutput: string;
+    protected consoleStatus: string;
+    protected displayValue: string;
+    protected validator: (
+      value: TValue
+    ) => boolean | string | Promise<boolean | string>;
+    protected parser: PromptParser<TValue>;
+    protected formatter: PromptFormatter<TValue>;
+    protected mask: (input: string) => string;
+    protected cursor: number;
+    protected cursorOffset: number;
+    constructor(config: PromptConfig<TValue>);
+    /**
+     * A getter for the prompt value that returns the current value or the initial value if the current value is not set
+     * */ get value(): TValue;
+    get isError(): boolean;
+    protected get isSelect(): boolean;
+    protected get isCompleted(): boolean;
+    protected get isPlaceholder(): boolean;
+    protected get status(): string;
+    /**
+     * A method to change the prompt value, which also updates the display value and fires a state update event. This method can be called by subclasses whenever the prompt value needs to be updated based on user input or other interactions.
+     *
+     * @param value
+     * */ protected changeValue(value: TValue): void;
+    /**
+     * A method to emit the current state
+     * */ protected sync(): void;
+    /**
+     * A method to ring the bell
+     * */ protected bell(): void;
+    /**
+     * A method to handle keypress events and determine the corresponding action
+     *
+     * @param char
+     * @param key
+     * */ protected onKeypress(char: string, key: readline.Key): void;
+    /**
+     * A method to handle keypress events and determine the corresponding action
+     *
+     * @param char
+     * @param key
+     * */ protected keypress(char: string, key: readline.Key): void;
+    /**
+     * A method to close the prompt and clean up resources, which also emits a submit or cancel event based on the prompt state. This method should be called when the prompt interaction is finished and the prompt needs to be closed.
+     * */ protected close(): Promise<void>;
+    /**
+     * A method to validate the prompt input using the provided validator function, which updates the error message and error state based on the validation result. This method is called whenever the prompt value changes and needs to be validated.
+     *
+     * @param value
+     * */ protected validate(value: TValue): Promise<void>;
+    /**
+     * A method to route keypress events to specific prompt actions based on the key pressed. This method maps various key combinations and keys to corresponding actions that can be handled by the prompt, such as submitting, cancelling, navigating, etc.
+     *
+     * @param key
+     * */ protected getAction(key: readline.Key): string | false;
+    /**
+     * A method to reset the prompt input
+     * */ protected reset(): void;
+    /**
+     * A method to cancel the prompt input
+     * */ protected cancel(): void;
+    /**
+     * A method to submit the prompt input
+     * */ protected submit(): Promise<void>;
+    /**
+     * A method to render the prompt
+     * */ protected invokeRender(): void;
+    /**
+     * A method to render the prompt
+     * */ protected render(): string;
+  }
+  /**
+   * Configuration options for creating a prompt with a prompt factory function
+   * */ interface PromptFactoryConfig<TValue = string>
+    extends PromptConfig<TValue> {
+    /**
+     * A function that is called when the prompt state changes, useful for updating the prompt message or other properties dynamically
+     * */ onState?: (state: PromptState<TValue>) => any;
+    /**
+     * A function that is called when the prompt is submitted, useful for handling the submitted value or performing actions based on the prompt state
+     * */ onSubmit?: (value: TValue) => any;
+    /**
+     * A function that is called when the prompt is canceled, useful for handling the canceled value or performing actions based on the prompt state
+     * */ onCancel?: (event: any) => any;
+  }
+  /**
+   * A unique symbol used to indicate that a prompt was cancelled, which can be returned from a prompt factory function to signal that the prompt interaction should be cancelled and any pending promises should be rejected with this symbol. This allows for a consistent way to handle prompt cancellations across different prompt types and interactions.
+   */
+  export const CANCEL_SYMBOL: unique symbol;
+  /**
+   * Checks if a given value is a {@link CANCEL_SYMBOL | cancel symbol}.
+   *
+   * @param {any} value - The value to check
+   */
+  export function isCancel(value: any): boolean;
+  /**
+   * Configuration options for configuring a text-based prompt
+   * */ interface StringPromptConfig extends PromptConfig<string> {
+    /**
+     * The initial value of the prompt
+     * */ initialValue?: string;
+    /**
+     * A function that masks the input value and returns the masked result
+     * */ mask?: (input: string) => string;
+  }
+  /**
+   * A type definition for the configuration options to pass to the text prompt, which extends the base PromptConfig with additional options specific to text prompts. This type can be used when creating a text prompt using the {@link text | text prompt factory function} or when manually creating an instance of the TextPrompt class. The TextConfig type includes all the properties of the base PromptConfig, such as message, description, initialValue, validate, parse, format, mask, etc., as well as any additional properties that are specific to text prompts.
+   * */ export type TextConfig = PromptFactoryConfig<string> &
+    StringPromptConfig;
+  /**
+   * A function to create and run a text prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @remarks
+   * This function can be used to easily create and run a text prompt without needing to manually create an instance of the TextPrompt class and handle its events. The function accepts a configuration object that extends the base PromptFactoryConfig with additional options specific to text prompts, such as the initial value and mask function. The returned promise allows for easy handling of the prompt result using async/await syntax or traditional promise chaining.
+   * @example
+   * ```ts
+   *
+   *
+   * async function run() {
+   *   const name = await text({
+   *     message: "What is your name?",
+   *     description: "Please enter your full name",
+   *     validate: value => value.trim().length > 0 || "Name cannot be empty"
+   *   });
+   *   if (isCancel(name)) {
+   *     console.log("Prompt was cancelled");
+   *     return;
+   *   }
+   *
+   *   console.log("Hello, " + name + "!");
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param config - The configuration options to pass to the text prompt, which
+   *   extends the base PromptConfig with additional options specific to text
+   *   prompts
+   * @returns A promise that resolves with the submitted value or rejects with a
+   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
+   *
+   * */ export declare function text(
+    config: TextConfig
+  ): Promise<string | symbol>;
+  /**
+   * Configuration for an option the user can select from the select prompt
+   * */ interface PromptOptionConfig {
+    /**
+     * The message label for the option
+     * */ label?: string;
+    /**
+     * An icon for the option
+     * */ icon?: string;
+    /**
+     * The value of the option
+     * */ value: any;
+    /**
+     * The description of the option
+     * */ description?: string;
+    /**
+     * Whether the option is selected
+     * */ selected?: boolean;
+    /**
+     * Whether the option is disabled
+     * */ disabled?: boolean;
+  }
+  /**
+   * An option the user can select from the select prompt
+   * */ export interface PromptOption extends PromptOptionConfig {
+    /**
+     * The index of the option
+     * */ index: number;
+    /**
+     * Whether the option is selected
+     * */ selected: boolean;
+    /**
+     * Whether the option is disabled
+     * */ disabled: boolean;
+  }
+  /**
+   * An options object for configuring a select prompt
+   * */ interface SelectPromptConfig extends PromptConfig<string> {
+    /**
+     * A hint to display to the user
+     * */ hint?: string;
+    /**
+     * The options available for the select prompt
+     * */ options: Array<string | PromptOptionConfig>;
+    /**
+     * The number of options to display per page, defaults to 8
+     * */ optionsPerPage?: number;
+  }
+  /**
+   * A type definition for the configuration options to pass to the select prompt, which extends the base PromptConfig with additional options specific to select prompts. This type can be used when creating a select prompt using the {@link select | select prompt factory function}.
+   *
+   * @remarks
+   * The Select Config type includes all the properties of the base PromptConfig, such as message, description, initialValue, validate, parse, format, etc., as well as any additional properties that are specific to select prompts, such as the list of options and pagination settings.
+   * */ export type SelectConfig = PromptFactoryConfig<string> &
+    SelectPromptConfig;
+  /**
+   * A function to create and run a select prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @example
+   * ```ts
+   *
+   *
+   * async function run() {
+   *   const color = await select({
+   *     message: "What is your favorite color?",
+   *     description: "Please select your favorite color",
+   *     validate: value => value.trim().length > 0 || "Color cannot be empty",
+   *     options: [
+   *       { label: "Red", value: "red", description: "The color of fire and blood" },
+   *       { label: "Green", value: "green", description: "The color of nature and growth" },
+   *       { label: "Blue", value: "blue", description: "The color of the sky and sea" },
+   *       { label: "Yellow", value: "yellow", description: "The color of sunshine and happiness" }
+   *     ]
+   *   });
+   *   if (isCancel(color)) {
+   *     console.log("Prompt was cancelled");
+   *     return;
+   *   }
+   *
+   *   console.log("Your favorite color is " + color + "!");
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param config - The configuration options to pass to the select prompt, which
+   *   extends the base PromptConfig with additional options specific to select
+   *   prompts
+   * @returns A promise that resolves with the submitted value or rejects with a
+   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
+   *
+   * */ export declare function select(
+    config: SelectConfig
+  ): Promise<string | symbol>;
+  /**
+   * Configuration options for configuring a numeric prompt
+   * */ interface NumberPromptConfig extends PromptConfig<number> {
+    /**
+     * Whether the prompt should accept floating point numbers
+     * */ isFloat?: boolean;
+    /**
+     * The number of decimal places to round the input to, defaults to 2
+     * */ precision?: number;
+    /**
+     * The increment value for the number prompt, defaults to 1
+     * */ increment?: number;
+    /**
+     * The minimum value for the number prompt, defaults to -Infinity
+     * */ min?: number;
+    /**
+     * The maximum value for the number prompt, defaults to Infinity
+     * */ max?: number;
+  }
+  /**
+   * An object representing the configuration options for a numeric prompt.
+   * */ export type NumericConfig = PromptFactoryConfig<number> &
+    NumberPromptConfig;
+  /**
+   * A function to create and run a numeric prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @example
+   * ```ts
+   *
+   *
+   * async function run() {
+   *   const age = await numeric({
+   *     message: "How old are you?",
+   *     description: "Please enter your age in years",
+   *     validate: value => value < 21 ? "You must be at least 21 years old" : true,
+   *   });
+   *   if (isCancel(age)) {
+   *     console.log("Prompt was cancelled");
+   *     return;
+   *   }
+   *
+   *   console.log("Your age is " + age + "!");
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param config - The configuration options to pass to the numeric prompt,
+   *   which extends the base PromptFactoryConfig with additional options specific
+   *   to numeric prompts
+   * @returns A promise that resolves with the submitted value or rejects with a
+   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
+   *
+   * */ export declare function numeric(
+    config: NumericConfig
+  ): Promise<number | symbol>;
+  /**
+   * Configuration options for configuring a boolean toggle prompt
+   * */ export interface TogglePromptConfig extends PromptConfig<boolean> {
+    /**
+     * The message for the true state of the prompt
+     * */ trueMessage?: string;
+    /**
+     * The message for the false state of the prompt
+     * */ falseMessage?: string;
+  }
+  /**
+   * A prompt for selecting a boolean input
+   * */ export declare class TogglePrompt extends Prompt<boolean> {
+    protected initialValue: boolean;
+    protected trueMessage: string;
+    protected falseMessage: string;
+    constructor(config: TogglePromptConfig);
+    /**
+     * Update the toggle value to a checked state based on user input
+     * */ protected check(): void;
+    /**
+     * Update the toggle value to an unchecked state based on user input
+     * */ protected uncheck(): void;
+    /**
+     * A method to handle keypress events and determine the corresponding action
+     *
+     * @param char
+     * @param key
+     * */ protected keypress(char: string, key: readline.Key): any;
+    /**
+     * A method to delete the character backward of the cursor
+     * */ protected delete(): void;
+    /**
+     * A method to move the cursor to the left
+     * */ protected left(): void;
+    /**
+     * A method to move the cursor to the right
+     * */ protected right(): void;
+    /**
+     * A method to move the cursor to down
+     * */ protected down(): void;
+    /**
+     * A method to move the cursor to up
+     * */ protected up(): void;
+    /**
+     * A method to move to the next value
+     * */ protected next(): void;
+  }
+  /**
+   * An object representing the configuration options for a toggle prompt, which extends the base PromptFactoryConfig with additional options specific to the toggle prompt.
+   * */ export type ToggleConfig = PromptFactoryConfig<boolean> &
+    TogglePromptConfig;
+  /**
+   * A function to create and run a toggle prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @example
+   * ```ts
+   *
+   *
+   * async function run() {
+   *   const likesIceCream = await toggle({
+   *     message: "Do you like ice cream?"
+   *   });
+   *   if (isCancel(likesIceCream)) {
+   *     console.log("Prompt was cancelled");
+   *     return;
+   *   }
+   *
+   *   console.log("You" + (likesIceCream ? " like ice cream" : " don't like ice cream") + "!");
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param config - The configuration options to pass to the toggle prompt, which
+   *   extends the base PromptFactoryConfig with additional options specific to
+   *   the toggle prompt
+   * @returns A promise that resolves with the submitted value or rejects with a
+   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
+   *
+   * */ export declare function toggle(
+    config: ToggleConfig
+  ): Promise<boolean | symbol>;
+  /**
+   * A built-in prompt mask function that masks input with asterisks
+   *
+   * @param {string} input
+   */
+  export function passwordMask(input: string): string;
+  /**
+   * An object representing the configuration options for a password prompt, which extends the base PromptFactoryConfig with additional options specific to password prompts.
+   * */ export type PasswordConfig = Omit<TextConfig, "mask">;
+  /**
+   * A function to create and run a password prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @remarks
+   * This function creates an instance of the TextPrompt class with the provided configuration options and a custom mask function to handle password input. It sets up event listeners for state updates, submission, and cancellation to handle the prompt interactions and return the appropriate results. The password prompt allows users to input text that is masked for privacy, making it suitable for scenarios like entering passwords or sensitive information.
+   *
+   *
+   * @example
+   * ```ts
+   *
+   *
+   * async function run() {
+   *   const userPassword = await password({
+   *     message: "Enter your password"
+   *   });
+   *   if (isCancel(userPassword)) {
+   *     console.log("Prompt was cancelled");
+   *     return;
+   *   }
+   *
+   *   console.log("You entered a password!");
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param config - The configuration options to pass to the password prompt,
+   *   which extends the base PromptConfig with additional options specific to
+   *   password prompts
+   * @returns A promise that resolves with the submitted value or rejects with a
+   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
+   *
+   * */ export declare function password(
+    config: PasswordConfig
+  ): Promise<string | symbol>;
   export {};
 }

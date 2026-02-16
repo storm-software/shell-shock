@@ -19,6 +19,7 @@
 import type { Children } from "@alloy-js/core";
 import { code, computed, For, Show } from "@alloy-js/core";
 import { FunctionDeclaration, IfStatement } from "@alloy-js/typescript";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { TypescriptFileImports } from "@powerlines/plugin-alloy/types/components";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
@@ -38,8 +39,7 @@ import type { ScriptPresetContext } from "../types/plugin";
 export function RunApplication() {
   return (
     <>
-      <hbr />
-      <hbr />
+      <Spacing />
       {code`// Run the application main logic inside an asynchronous IIFE
       (async () => {
         const startDate = new Date();
@@ -112,10 +112,8 @@ export function RunApplication() {
   );
 }
 
-export interface BinEntryProps extends Omit<
-  EntryFileProps,
-  "path" | "hashbang"
-> {
+export interface BinEntryProps
+  extends Omit<EntryFileProps, "path" | "hashbang"> {
   prefix?: Children;
   postfix?: Children;
   children: Children;
@@ -160,7 +158,7 @@ export function BinEntry(props: BinEntryProps) {
               }, {} as TypescriptFileImports)
           )}
           builtinImports={defu(builtinImports ?? {}, {
-            console: ["error", "verbose", "table", "text", "writeLine"],
+            console: ["error", "verbose", "table", "writeLine"],
             utils: [
               "hasFlag",
               "exit",
@@ -171,8 +169,7 @@ export function BinEntry(props: BinEntryProps) {
           })}>
           <Show when={Boolean(prefix)}>
             {prefix}
-            <hbr />
-            <hbr />
+            <Spacing />
           </Show>
           <TSDoc
             heading={`Binary entry point for the ${getAppTitle(
@@ -187,8 +184,7 @@ export function BinEntry(props: BinEntryProps) {
               });
           return;`}
             </IfStatement>
-            <hbr />
-            <hbr />
+            <Spacing />
             {children}
             <hbr />
           </FunctionDeclaration>

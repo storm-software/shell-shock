@@ -18,6 +18,7 @@
 
 import { code, For } from "@alloy-js/core";
 import { IfStatement } from "@alloy-js/typescript";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import type { CommandRouterProps } from "@shell-shock/preset-script/components/command-router";
 import {
@@ -42,11 +43,9 @@ export function CommandRouterSelectOptions(
         ) : (
           code`{ value: [${command.segments
             .map(segment => `"${segment}"`)
-            .join(
-              ", "
-            )}], label: "${command.icon ? `${command.icon}  ` : ""}${command.title}", hint: "${
+            .join(", ")}], label: "${command.title}", description: "${
             command.description
-          }" }`
+          }"${command.icon ? `, icon: "${command.icon}"` : ""} }`
         )
       }
     </For>
@@ -62,16 +61,12 @@ export function CommandRouter(props: CommandRouterProps) {
   return (
     <>
       <BaseCommandRouter {...props} segments={segments} commands={commands} />
-      <hbr />
-      <hbr />
+      <Spacing />
       <IfStatement condition={code`isInteractive && !isHelp`}>
-        {code`
-        banner();
-
-        intro("Command selection");
+        {code`await banner();
 
         let segments = await select({
-          message: "Please select a command to execute:",
+          message: "Which command would you like to execute?",
           options: [ `}
         <CommandRouterSelectOptions commands={commands} />
         {` ],
@@ -97,14 +92,11 @@ export function CommandRouter(props: CommandRouterProps) {
           segments.length + 2
         })].filter(Boolean) as string[]);
 
-        outro(\`Executing \${segments.join(" ")} command\`);
-
         command = segments[0];
         args = context.get("args"); `}
         <CommandRouterBody {...props} segments={segments} commands={commands} />
       </IfStatement>
-      <hbr />
-      <hbr />
+      <Spacing />
     </>
   );
 }

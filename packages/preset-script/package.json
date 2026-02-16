@@ -298,11 +298,11 @@
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@shell-shock/plugin-theme": "workspace:*",
+    "@stryke/helpers": "catalog:",
     "@stryke/path": "catalog:",
     "@stryke/string-format": "catalog:",
     "defu": "catalog:",
-    "powerlines": "catalog:",
-    "@stryke/helpers": "catalog:"
+    "powerlines": "catalog:"
   },
   "devDependencies": {
     "@babel/core": "catalog:",

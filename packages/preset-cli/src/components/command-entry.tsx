@@ -19,6 +19,7 @@
 import { code, computed, For, Match, Show, Switch } from "@alloy-js/core";
 import { ElseIfClause, IfStatement } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
@@ -39,10 +40,8 @@ import type { CLIPresetContext } from "../types/plugin";
 import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { VirtualCommandEntry } from "./virtual-command-entry";
 
-export interface CommandEntryProps extends Omit<
-  EntryFileProps,
-  "path" | "typeDefinition"
-> {
+export interface CommandEntryProps
+  extends Omit<EntryFileProps, "path" | "typeDefinition"> {
   command: CommandTree;
 }
 
@@ -94,12 +93,7 @@ export function CommandEntry(props: CommandEntryProps) {
             "colors",
             "stripAnsi",
             "writeLine",
-            "splitText",
-            "text",
-            "confirm",
-            "isCancel",
-            "intro",
-            "outro"
+            "splitText"
           ],
           utils: [
             "useApp",
@@ -110,12 +104,15 @@ export function CommandEntry(props: CommandEntryProps) {
             "isHelp",
             "isUnicodeSupported",
             "internal_commandContext"
-          ]
+          ],
+          prompts: ["text", "toggle", "select", "isCancel", "sleep"]
         })}>
         <BannerFunctionDeclaration command={command} />
         <hbr />
         <hbr />
-        <CommandHandlerDeclaration command={command}>
+        <CommandHandlerDeclaration
+          command={command}
+          banner={code`await banner(); `}>
           <IfStatement condition={code`!isInteractive`}>
             <CommandValidationLogic command={command} />
           </IfStatement>
@@ -162,11 +159,8 @@ export function CommandEntry(props: CommandEntryProps) {
                   : `${camelCase(argument.name)} === undefined`
               )
               .join(" || ")}) `}>
-            {code`writeLine("");
-
-            intro("Select required input parameters"); `}
-            <hbr />
-            <hbr />
+            {code`writeLine(""); `}
+            <Spacing />
             <For each={Object.values(command.options ?? {})} doubleHardline>
               {option => (
                 <>
@@ -184,21 +178,18 @@ export function CommandEntry(props: CommandEntryProps) {
                             option.kind === ReflectionKind.number
                           }>{code`
                             const value = await text({
-                              message: 'Please provide a${
+                              message: "Please provide a${
                                 option.kind === ReflectionKind.number
                                   ? " numeric"
                                   : ""
-                              } value for the "${option.name}" option${
+                              } value for the \\"${option.name}\\" option${
                                 option.description
                                   ? ` (${lowerCaseFirst(
                                       option.description
                                     ).replace(/\.+$/, "")})`
                                   : ""
-                              }:',
+                              }",
                               validate(val) {
-                                if (isCancel(val)) {
-                                  return true;
-                                }
                                 if (!val || val.trim() === "") {
                                   return "A value must be provided for this option";
                                 }
@@ -232,8 +223,8 @@ export function CommandEntry(props: CommandEntryProps) {
                               option.name.includes("?")
                                 ? `["${option.name}"]`
                                 : `.${camelCase(option.name)}`
-                            } = await confirm({
-                              message: 'Please select a value for the "${
+                            } = await toggle({
+                              message: "Please select a value for the "${
                                 option.name
                               }" option${
                                 option.description
@@ -241,7 +232,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                       option.description
                                     ).replace(/\.+$/, "")})`
                                   : ""
-                              }:'
+                              }"
                             });
                           `}</Match>
                       </Switch>
@@ -260,21 +251,18 @@ export function CommandEntry(props: CommandEntryProps) {
                         }.length === 0`}>
                         {code`
                             const value = await text({
-                              message: 'Please provide one or more${
+                              message: "Please provide one or more${
                                 option.kind === ReflectionKind.number
                                   ? " numeric"
                                   : ""
-                              } values for the "${option.name}" option${
+                              } values for the \\"${option.name}\\" option${
                                 option.description
                                   ? ` (${lowerCaseFirst(
                                       option.description
                                     ).replace(/\.+$/, "")})`
                                   : ""
-                              } - values are separated by a "," character:',
+                              } - values are separated by a \\",\\" character",
                               validate(val) {
-                                if (isCancel(val)) {
-                                  return true;
-                                }
                                 if (!val || val.trim() === "") {
                                   return "A value must be provided for this option";
                                 }
@@ -312,8 +300,7 @@ export function CommandEntry(props: CommandEntryProps) {
                 </>
               )}
             </For>
-            <hbr />
-            <hbr />
+            <Spacing />
             <For each={command.arguments} doubleHardline>
               {argument => (
                 <>
@@ -326,19 +313,16 @@ export function CommandEntry(props: CommandEntryProps) {
                             argument.kind === ReflectionKind.number
                           }>{code`
                             const value = await text({
-                              message: 'Please provide a${
+                              message: "Please provide a${
                                 argument.kind === ReflectionKind.number
                                   ? " numeric"
                                   : ""
-                              } value for the "${argument.name}" argument${
+                              } value for the \\"${argument.name}\\" argument${
                                 argument.description
                                   ? ` (${lowerCaseFirst(argument.description).replace(/\.+$/, "")})`
                                   : ""
-                              }:',
+                              }",
                               validate(val) {
-                                if (isCancel(val)) {
-                                  return true;
-                                }
                                 if (!val || val.trim() === "") {
                                   return "A value must be provided for this argument";
                                 }
@@ -364,7 +348,7 @@ export function CommandEntry(props: CommandEntryProps) {
                           `}</Match>
                         <Match
                           when={argument.kind === ReflectionKind.boolean}>{code`
-                            ${camelCase(argument.name)} = await confirm({
+                            ${camelCase(argument.name)} = await toggle({
                               message: 'Please select a value for the "${argument.name}" argument${
                                 argument.description
                                   ? ` (${lowerCaseFirst(argument.description).replace(/\.+$/, "")})`
@@ -384,19 +368,16 @@ export function CommandEntry(props: CommandEntryProps) {
                         condition={code`${camelCase(argument.name)}.length === 0`}>
                         {code`
                             const value = await text({
-                              message: 'Please provide one or more${
+                              message: "Please provide one or more${
                                 argument.kind === ReflectionKind.number
                                   ? " numeric"
                                   : ""
-                              } values for the "${argument.name}" argument${
+                              } values for the \\"${argument.name}\\" argument${
                                 argument.description
                                   ? ` (${lowerCaseFirst(argument.description).replace(/\.+$/, "")})`
                                   : ""
-                              } - values are separated by a "," character:',
+                              } - values are separated by a \\",\\" character",
                               validate(val) {
-                                if (isCancel(val)) {
-                                  return true;
-                                }
                                 if (!val || val.trim() === "") {
                                   return "A value must be provided for this argument";
                                 }
@@ -431,11 +412,8 @@ export function CommandEntry(props: CommandEntryProps) {
                 </>
               )}
             </For>
-            {code`outro("Completed providing all required input parameters");
-
-            writeLine(""); `}
-            <hbr />
-            <hbr />
+            {code`writeLine(""); `}
+            <Spacing />
           </ElseIfClause>
         </CommandHandlerDeclaration>
       </EntryFile>

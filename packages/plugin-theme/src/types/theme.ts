@@ -64,8 +64,14 @@ export interface ThemeColorPromptLabelState {
   disabled: string;
 }
 
-export interface ThemeColorInputPromptState extends ThemeColorPromptLabelState {
+export interface ThemeColorDescriptionPromptState
+  extends ThemeColorPromptLabelState {
   inactive: string;
+}
+
+export interface ThemeColorInputPromptState
+  extends ThemeColorDescriptionPromptState {
+  placeholder: string;
 }
 
 export interface ThemeColorBannerSubItemUserConfig {
@@ -111,16 +117,16 @@ export interface ThemeColorUsageSubItem {
 
 export interface ThemeColorPromptSubItemUserConfig {
   icon: Partial<ThemeColorPromptLabelState> | string;
-  label: Partial<ThemeColorPromptLabelState> | string;
+  message: Partial<ThemeColorPromptLabelState> | string;
   input: Partial<ThemeColorInputPromptState> | string;
-  description: Partial<ThemeColorInputPromptState> | string;
+  description: Partial<ThemeColorDescriptionPromptState> | string;
 }
 
 export interface ThemeColorPromptSubItemResolvedConfig {
   icon: ThemeColorPromptLabelState;
-  label: ThemeColorPromptLabelState;
+  message: ThemeColorPromptLabelState;
   input: ThemeColorInputPromptState;
-  description: ThemeColorInputPromptState;
+  description: ThemeColorDescriptionPromptState;
 }
 
 export interface ThemeColorTextItemsUserConfig {

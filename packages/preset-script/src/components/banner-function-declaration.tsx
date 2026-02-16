@@ -17,8 +17,9 @@
  ------------------------------------------------------------------- */
 
 import type { Children } from "@alloy-js/core";
-import { code, computed } from "@alloy-js/core";
+import { code, computed, Show } from "@alloy-js/core";
 import { FunctionDeclaration } from "@alloy-js/typescript";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import {
   getAppDescription,
@@ -32,6 +33,7 @@ import type { ScriptPresetContext } from "../types";
 export interface BannerFunctionDeclarationProps {
   variant?: ThemeColorVariant;
   consoleFnName?: "log" | "info" | "warn" | "error" | "debug";
+  insertNewlineBeforeBanner?: boolean;
   command?: CommandTree;
   children?: Children;
 }
@@ -49,7 +51,8 @@ export function BannerFunctionDeclaration(
     consoleFnName = "log",
     variant = "primary",
     command,
-    children
+    children,
+    insertNewlineBeforeBanner = true
   } = props;
 
   const theme = useTheme();
@@ -92,7 +95,8 @@ export function BannerFunctionDeclaration(
           variant={variant}
           consoleFnName={consoleFnName}
           command={command}
-          insertNewlineBeforeCommand>
+          insertNewlineBeforeCommand
+          insertNewlineBeforeBanner={insertNewlineBeforeBanner}>
           {children}
         </BannerFunctionBodyDeclaration>
       </FunctionDeclaration>
@@ -100,12 +104,14 @@ export function BannerFunctionDeclaration(
   );
 }
 
-export interface BannerFunctionBodyDeclarationProps extends BannerFunctionDeclarationProps {
+export interface BannerFunctionBodyDeclarationProps
+  extends BannerFunctionDeclarationProps {
   title?: string;
   header?: string;
   footer?: string;
   description: string;
   insertNewlineBeforeCommand?: boolean;
+  insertNewlineBeforeBanner?: boolean;
 }
 
 /**
@@ -126,7 +132,8 @@ export function BannerFunctionBodyDeclaration(
     description,
     command,
     children,
-    insertNewlineBeforeCommand = false
+    insertNewlineBeforeCommand = false,
+    insertNewlineBeforeBanner = true
   } = props;
 
   const theme = useTheme();
@@ -149,12 +156,13 @@ export function BannerFunctionBodyDeclaration(
         }
 
         useApp().set("banner", true); `}
-      <hbr />
-      <hbr />
+      <Spacing />
       {children}
-      <hbr />
-      <hbr />
-      {code`writeLine(colors.border.banner.outline.${variant}("${
+      <Spacing />
+      <Show when={insertNewlineBeforeBanner}>{code`writeLine(""); `}</Show>
+      <Spacing />
+      {code`
+      writeLine(colors.border.banner.outline.${variant}("${
         theme.borderStyles.banner.outline[variant].topLeft
       }") + ${
         theme.icons.banner.header[variant]

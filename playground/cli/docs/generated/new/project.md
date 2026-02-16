@@ -12,30 +12,22 @@ The New - Project executable command-line interface.
 
 The project command can be executed using the following syntax:
 
-
 ```bash
 npx playground-cli new project [options]
 ```
-
 
 ```bash
 yarn exec playground-cli new project [options]
 ```
 
-
 ```bash
 pnpm exec playground-cli new project [options]
 ```
-
 
 ```bash
 bun x playground-cli new project [options]
 ```
 
-
 ## Options
 
 The following options are available for the project command:
-
-
-

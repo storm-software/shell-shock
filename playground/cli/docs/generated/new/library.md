@@ -12,30 +12,22 @@ The New - Library executable command-line interface.
 
 The library command can be executed using the following syntax:
 
-
 ```bash
 npx playground-cli new library [options]
 ```
-
 
 ```bash
 yarn exec playground-cli new library [options]
 ```
 
-
 ```bash
 pnpm exec playground-cli new library [options]
 ```
-
 
 ```bash
 bun x playground-cli new library [options]
 ```
 
-
 ## Options
 
 The following options are available for the library command:
-
-
-

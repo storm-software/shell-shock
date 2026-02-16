@@ -34,6 +34,7 @@ import type {
   ThemeIconTypeResolvedConfig,
   ThemeResolvedConfig
 } from "../types/theme";
+import { mergeThemes } from "./helpers";
 
 /**
  * Shell Shock - Theme Icons Preprocessor
@@ -266,7 +267,7 @@ export const icons = (context: ThemePluginContext): Preprocessor => ({
 
     // #endregion Missing token defaulting
 
-    context.theme = resolvedConfig;
+    mergeThemes(context, resolvedConfig);
 
     return dictionary;
   }

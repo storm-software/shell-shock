@@ -146,8 +146,8 @@
   "files": ["dist/**/*"],
   "keywords": ["eslint", "eslint-plugin", "shell-shock", "storm-software"],
   "peerDependencies": {
-    "eslint": "catalog:",
     "@powerlines/plugin-tsdown": ">=0.1.224",
+    "eslint": "catalog:",
     "powerlines": ">=0.38.38"
   },
   "peerDependenciesMeta": {

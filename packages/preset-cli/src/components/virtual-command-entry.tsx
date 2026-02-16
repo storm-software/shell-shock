@@ -32,10 +32,8 @@ import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { CommandEntry } from "./command-entry";
 import { CommandRouter } from "./command-router";
 
-export interface VirtualCommandEntryProps extends Omit<
-  EntryFileProps,
-  "path" | "typeDefinition"
-> {
+export interface VirtualCommandEntryProps
+  extends Omit<EntryFileProps, "path" | "typeDefinition"> {
   command: CommandTree;
 }
 
@@ -89,12 +87,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             "colors",
             "writeLine",
             "splitText",
-            "stripAnsi",
-            "intro",
-            "outro",
-            "text",
-            "select",
-            "isCancel"
+            "stripAnsi"
           ],
           utils: [
             "useApp",
@@ -104,7 +97,8 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             "isUnicodeSupported",
             "isInteractive",
             "isHelp"
-          ]
+          ],
+          prompts: ["text", "toggle", "select", "isCancel", "sleep"]
         })}>
         <BannerFunctionDeclaration command={command} />
         <hbr />

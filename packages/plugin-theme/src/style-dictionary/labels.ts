@@ -34,6 +34,7 @@ import type {
   ThemeLabelTypeUserConfig,
   ThemeResolvedConfig
 } from "../types/theme";
+import { mergeThemes } from "./helpers";
 
 /**
  * Shell Shock - Theme Labels Preprocessor
@@ -244,7 +245,7 @@ export const labels = (context: ThemePluginContext): Preprocessor => ({
 
     // #endregion Tiered token resolution
 
-    context.theme = resolvedConfig;
+    mergeThemes(context, resolvedConfig);
 
     return dictionary;
   }

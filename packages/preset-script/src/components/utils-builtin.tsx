@@ -24,6 +24,7 @@ import {
   InterfaceMember,
   VarDeclaration
 } from "@alloy-js/typescript";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
@@ -40,10 +41,8 @@ import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
 import { IsVerbose } from "./helpers";
 
-export interface UtilsBuiltinProps extends Omit<
-  BuiltinFileProps,
-  "id" | "description"
-> {}
+export interface UtilsBuiltinProps
+  extends Omit<BuiltinFileProps, "id" | "description"> {}
 
 /**
  * Generates utilities for detecting terminal color support.
@@ -59,8 +58,7 @@ export function EnvSupportUtilities() {
         doc="Detect if stdout.TTY is available"
         initializer={code`Boolean(process.stdout && process.stdout.isTTY);`}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <VarDeclaration
         export
         const
@@ -68,8 +66,7 @@ export function EnvSupportUtilities() {
         doc="Detect if the current environment is minimal (CI, non-TTY, etc.)"
         initializer={code` env.MINIMAL || isCI || isTest || !isTTY; `}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <VarDeclaration
         export
         const
@@ -97,8 +94,7 @@ export function ColorSupportUtilities() {
           doc="Indicates if the function should skip checking command-line flags for color support"
         />
       </InterfaceDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <TSDoc heading="Checks if a specific flag is present in the command line arguments.">
         <TSDocLink>
           {"https://github.com/sindresorhus/has-flag/blob/main/index.js"}
@@ -237,8 +233,7 @@ export function ColorSupportUtilities() {
 
   `}
       </FunctionDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <VarDeclaration
         export
         const
@@ -249,8 +244,7 @@ export function ColorSupportUtilities() {
     stderr: getColorSupportLevel(process.stderr),
   }; `}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <VarDeclaration
         export
         const
@@ -258,8 +252,7 @@ export function ColorSupportUtilities() {
         doc="Detect if terminal color is supported in the current environment"
         initializer={code` Boolean(colorSupportLevels.stdout); `}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <VarDeclaration
         export
         const
@@ -312,8 +305,7 @@ export function HyperlinkSupportUtilities() {
         patch: versionParts[2]
       }; `}
       </FunctionDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <TSDoc heading="Check if the current environment/terminal supports hyperlinks in the terminal.">
         <TSDocReturns>
           {"True if the current environment/terminal supports hyperlinks."}
@@ -416,8 +408,7 @@ export function ArgsUtilities() {
       <FunctionDeclaration export name="getArgs" returnType="string[]">
         {code`return ((globalThis as { Deno?: { args: string[] } })?.Deno?.args ?? process.argv ?? []) as string[];`}
       </FunctionDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <TSDoc heading="Checks if a specific flag is present in the command line arguments.">
         <TSDocLink>
           {"https://github.com/sindresorhus/has-flag/blob/main/index.js"}
@@ -459,8 +450,7 @@ export function ArgsUtilities() {
         <hbr />
         {code`return position !== -1 && argv.indexOf("--") === -1 || position < argv.indexOf("--");`}
       </FunctionDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <VarDeclaration
         export
         name="isHelp"
@@ -518,8 +508,7 @@ export function ExitFunctionDeclaration() {
           doc="A Date object representing the timestamp when the process started. This can be used to measure the duration of the shutdown process."
         />
       </InterfaceDeclaration>
-      <hbr />
-      <hbr />
+      <Spacing />
       <VarDeclaration
         let
         name="isExiting"
@@ -538,8 +527,7 @@ export function ExitFunctionDeclaration() {
         type="Array<(code: number | string) => void>"
         initializer={code`[];`}
       />
-      <hbr />
-      <hbr />
+      <Spacing />
       <FunctionDeclaration
         export
         async
@@ -723,26 +711,19 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
         console: ["error", "verbose", "writeLine"],
         env: ["env", "isCI", "isTest", "isWindows", "isDevelopment", "isDebug"]
       })}>
-      <hbr />
-      <hbr />
+      <Spacing />
       <ContextUtilities />
-      <hbr />
-      <hbr />
+      <Spacing />
       <ArgsUtilities />
-      <hbr />
-      <hbr />
+      <Spacing />
       <EnvSupportUtilities />
-      <hbr />
-      <hbr />
+      <Spacing />
       <HyperlinkSupportUtilities />
-      <hbr />
-      <hbr />
+      <Spacing />
       <ColorSupportUtilities />
-      <hbr />
-      <hbr />
+      <Spacing />
       <ExitFunctionDeclaration />
-      <hbr />
-      <hbr />
+      <Spacing />
       <Show when={Boolean(children)}>{children}</Show>
     </BuiltinFile>
   );
