@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.4](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.4) (02/16/2026)
+
+### Bug Fixes
+
+- **preset-script:** Resolve issues with `splitText` built-in helper function ([963f91d](https://github.com/storm-software/shell-shock/commit/963f91d))
+
+### Features
+
+- **preset-cli:** Added the `prompts` built-in module ([95119a6](https://github.com/storm-software/shell-shock/commit/95119a6))
+- **plugin-theme:** Added `prompt` node to theme configuration and split out preprocessors ([2858208](https://github.com/storm-software/shell-shock/commit/2858208))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.1.0**
+- Updated **core** to **v0.8.5**
+
 ## [0.6.3](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.3) (02/10/2026)
 
 ### Miscellaneous

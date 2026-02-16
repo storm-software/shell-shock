@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.0.18](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.18) (02/16/2026)
+
+### Features
+
+- **preset-cli:** Added the `prompts` built-in module ([95119a6](https://github.com/storm-software/shell-shock/commit/95119a6))
+- **plugin-theme:** Added `prompt` node to theme configuration and split out preprocessors ([2858208](https://github.com/storm-software/shell-shock/commit/2858208))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.8.5**
+
 ## [0.0.17](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.17) (02/10/2026)
 
 ### Miscellaneous

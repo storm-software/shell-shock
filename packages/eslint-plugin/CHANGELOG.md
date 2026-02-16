@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.17](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.17) (02/16/2026)
+
+### Features
+
+- **preset-cli:** Added the `prompts` built-in module ([95119a6](https://github.com/storm-software/shell-shock/commit/95119a6))
+
 ## [0.0.16](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.16) (02/10/2026)
 
 ### Miscellaneous

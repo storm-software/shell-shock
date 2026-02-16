@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.1.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.1.0) (02/16/2026)
+
+### Features
+
+- **preset-cli:** Added the `prompts` built-in module ([95119a6](https://github.com/storm-software/shell-shock/commit/95119a6))
+- **plugin-theme:** Added `prompt` node to theme configuration and split out preprocessors ([2858208](https://github.com/storm-software/shell-shock/commit/2858208))
+
 ## [0.0.21](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.0.21) (02/10/2026)
 
 ### Miscellaneous

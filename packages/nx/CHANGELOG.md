@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.22](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.22) (02/16/2026)
+
+### Features
+
+- **preset-cli:** Added the `prompts` built-in module ([95119a6](https://github.com/storm-software/shell-shock/commit/95119a6))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.8.5**
+
 ## [0.0.21](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.21) (02/10/2026)
 
 ### Updated Dependencies

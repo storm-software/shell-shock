@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.5](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.5) (02/16/2026)
+
+### Features
+
+- **preset-cli:** Added the `prompts` built-in module ([95119a6](https://github.com/storm-software/shell-shock/commit/95119a6))
+
 ## [0.8.4](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.4) (02/10/2026)
 
 ### Miscellaneous
