@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.4.1](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.4.1) (02/16/2026)
+
+### Bug Fixes
+
+- **preset-cli:** Resolved issue with validation message display ([e10bc9b](https://github.com/storm-software/shell-shock/commit/e10bc9b))
+
 ## [0.4.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.4.0) (02/16/2026)
 
 ### Bug Fixes
