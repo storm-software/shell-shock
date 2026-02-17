@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.6](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.6) (02/17/2026)
+
+### Bug Fixes
+
+- **preset-cli:** Resolved issue displaying description under prompts ([82d0683](https://github.com/storm-software/shell-shock/commit/82d0683))
+
 ## [0.8.5](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.5) (02/16/2026)
 
 ### Features

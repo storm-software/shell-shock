@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.0.19](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.19) (02/17/2026)
+
+### Bug Fixes
+
+- **preset-cli:** Resolved issue displaying description under prompts ([82d0683](https://github.com/storm-software/shell-shock/commit/82d0683))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.8.6**
+
 ## [0.0.18](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.0.18) (02/16/2026)
 
 ### Features

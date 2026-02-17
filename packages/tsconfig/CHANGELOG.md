@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.23](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.23) (02/17/2026)
+
+### Bug Fixes
+
+- **preset-cli:** Resolved issue displaying description under prompts ([82d0683](https://github.com/storm-software/shell-shock/commit/82d0683))
+
 ## [0.0.22](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.22) (02/16/2026)
 
 ### Features

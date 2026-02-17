@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.1.1) (02/17/2026)
+
+### Bug Fixes
+
+- **preset-cli:** Resolved issue displaying description under prompts ([82d0683](https://github.com/storm-software/shell-shock/commit/82d0683))
+
 ## [0.1.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.1.0) (02/16/2026)
 
 ### Features

@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.5](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.5) (02/17/2026)
+
+### Bug Fixes
+
+- **preset-cli:** Resolved issue displaying description under prompts ([82d0683](https://github.com/storm-software/shell-shock/commit/82d0683))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.1.1**
+- Updated **core** to **v0.8.6**
+
 ## [0.6.4](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.4) (02/16/2026)
 
 ### Bug Fixes

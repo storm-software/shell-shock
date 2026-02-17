@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.18](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.18) (02/17/2026)
+
+### Bug Fixes
+
+- **preset-cli:** Resolved issue displaying description under prompts ([82d0683](https://github.com/storm-software/shell-shock/commit/82d0683))
+
 ## [0.0.17](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.17) (02/16/2026)
 
 ### Features
