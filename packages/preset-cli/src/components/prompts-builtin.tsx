@@ -235,7 +235,7 @@ export function BasePromptDeclarations() {
         <InterfaceMember
           name="validate"
           optional
-          type="(value: TValue) => boolean | string | Promise<boolean | string>"
+          type="(value: TValue) => boolean | string | null | undefined | Promise<boolean | string | null | undefined>"
           doc="A validation function that returns true if the input is valid, false or a string error message if the input is invalid"
         />
         <Spacing />
@@ -341,7 +341,7 @@ export function BasePromptDeclarations() {
         <ClassField
           name="validator"
           protected
-          type="(value: TValue) => boolean | string | Promise<boolean | string>">
+          type="(value: TValue) => boolean | string | null | undefined | Promise<boolean | string | null | undefined>">
           {code`() => true; `}
         </ClassField>
         <hbr />
@@ -456,8 +456,7 @@ export function BasePromptDeclarations() {
           this.displayValue = this.formatter(updatedValue);
           this.#value = updatedValue;
           setTimeout(() => {
-            this.validate(updatedValue);
-            this.sync();
+            Promise.resolve(this.validate(updatedValue)).then(() => this.sync());
           }, 0);
 
           this.sync(); `}
@@ -545,14 +544,14 @@ export function BasePromptDeclarations() {
         <ClassMethod
           doc="A method to validate the prompt input using the provided validator function, which updates the error message and error state based on the validation result. This method is called whenever the prompt value changes and needs to be validated."
           name="validate"
+          async
           protected
           parameters={[
             {
               name: "value",
               type: "TValue"
             }
-          ]}
-          async>
+          ]}>
           {code`let result = await this.validator(value);
           if (typeof result === "string") {
             this.errorMessage = result;
