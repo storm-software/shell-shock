@@ -16,9 +16,14 @@
 
  ------------------------------------------------------------------- */
 
+import { render } from "@powerlines/plugin-alloy/render";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path/join";
 import type { Plugin } from "powerlines";
+import {
+  BashCompletionsCommandEntryFile,
+  ZshCompletionsCommandEntryFile
+} from "./components";
 import type {
   CompletionsPluginContext,
   CompletionsPluginOptions
@@ -120,6 +125,19 @@ export const plugin = <
             isVirtual: false
           });
         }
+      },
+      async prepare() {
+        this.debug(
+          "Rendering entry point modules for the Shell Shock `completions` plugin."
+        );
+
+        return render(
+          this,
+          <>
+            <BashCompletionsCommandEntryFile />
+            <ZshCompletionsCommandEntryFile />
+          </>
+        );
       }
     }
   ];

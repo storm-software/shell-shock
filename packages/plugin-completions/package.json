@@ -55,6 +55,48 @@
         "default": "./dist/index.mjs"
       }
     },
+    "./components": {
+      "require": {
+        "types": "./dist/components/index.d.cts",
+        "default": "./dist/components/index.cjs"
+      },
+      "import": {
+        "types": "./dist/components/index.d.mts",
+        "default": "./dist/components/index.mjs"
+      },
+      "default": {
+        "types": "./dist/components/index.d.mts",
+        "default": "./dist/components/index.mjs"
+      }
+    },
+    "./components/bash": {
+      "require": {
+        "types": "./dist/components/bash.d.cts",
+        "default": "./dist/components/bash.cjs"
+      },
+      "import": {
+        "types": "./dist/components/bash.d.mts",
+        "default": "./dist/components/bash.mjs"
+      },
+      "default": {
+        "types": "./dist/components/bash.d.mts",
+        "default": "./dist/components/bash.mjs"
+      }
+    },
+    "./components/zsh": {
+      "require": {
+        "types": "./dist/components/zsh.d.cts",
+        "default": "./dist/components/zsh.cjs"
+      },
+      "import": {
+        "types": "./dist/components/zsh.d.mts",
+        "default": "./dist/components/zsh.mjs"
+      },
+      "default": {
+        "types": "./dist/components/zsh.d.mts",
+        "default": "./dist/components/zsh.mjs"
+      }
+    },
     "./package.json": "./package.json",
     "./types": {
       "require": {
@@ -83,6 +125,20 @@
         "types": "./dist/types/plugin.d.mts",
         "default": "./dist/types/plugin.mjs"
       }
+    },
+    "./types/shell-type": {
+      "require": {
+        "types": "./dist/types/shell-type.d.cts",
+        "default": "./dist/types/shell-type.cjs"
+      },
+      "import": {
+        "types": "./dist/types/shell-type.d.mts",
+        "default": "./dist/types/shell-type.mjs"
+      },
+      "default": {
+        "types": "./dist/types/shell-type.d.mts",
+        "default": "./dist/types/shell-type.mjs"
+      }
     }
   },
   "types": "./dist/index.d.cts",
@@ -95,9 +151,18 @@
     "powerlines",
     "storm-software"
   ],
+  "peerDependencies": {
+    "@shell-shock/preset-script": "*"
+  },
+  "peerDependenciesMeta": {
+    "@shell-shock/preset-script": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/typescript": "catalog:",
+    "@powerlines/deepkit": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",

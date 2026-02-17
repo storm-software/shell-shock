@@ -6,7 +6,10 @@
     "jsxImportSource": "@alloy-js/core",
     "outDir": "./out-tsc"
   },
-  "references": [{ "path": "../core/tsconfig.lib.json" }],
+  "references": [
+    { "path": "../core/tsconfig.lib.json" },
+    { "path": "../preset-script/tsconfig.lib.json" }
+  ],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",

@@ -16,5 +16,6 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./plugin";
-export * from "./shell-type";
+export type ShellType = "bash" | "zsh";
+
+export const SHELL_TYPES: readonly ShellType[] = ["bash", "zsh"] as const;
