@@ -99,7 +99,7 @@ export function BannerFunctionDeclaration(
         doc={`Write the ${getAppTitle(context)} application banner ${
           command ? `for the ${command.title} command ` : ""
         }to the console.`}
-        parameters={[{ name: "pause", type: "number", default: 250 }]}>
+        parameters={[{ name: "pause", type: "number", default: 500 }]}>
         <BannerFunctionBodyDeclaration
           header={header.value}
           description={description.value}

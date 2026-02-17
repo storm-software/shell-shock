@@ -111,35 +111,6 @@ export function BasePromptDeclarations() {
         {code`return " ".repeat(input.length); `}
       </FunctionDeclaration>
       <Spacing />
-      {code`
-        const DEFAULT_ICONS = process.platform === "win32" ? {
-          arrowUp: "↑",
-          arrowDown: "↓",
-          arrowLeft: "←",
-          arrowRight: "→",
-          radioOn: "(*)",
-          radioOff: "( )",
-          tick: "√",
-          cross: "×",
-          ellipsis: "...",
-          pointerSmall: "»",
-          line: "─",
-          pointer: ">"
-        } : {
-          arrowUp: "↑",
-          arrowDown: "↓",
-          arrowLeft: "←",
-          arrowRight: "→",
-          radioOn: "◉",
-          radioOff: "◯",
-          tick: "✔",
-          cross: "✖",
-          ellipsis: "…",
-          pointerSmall: "›",
-          line: "─",
-          pointer: "❯"
-        }; `}
-      <Spacing />
       <InterfaceDeclaration
         export
         name="PromptState"
@@ -430,12 +401,12 @@ export function BasePromptDeclarations() {
         </ClassPropertyGet>
         <Spacing />
         <ClassPropertyGet protected name="status" type="string">
-          {code`return this.completed ? "" : \` \\n    \${
+          {code`return this.isCompleted ? "" : \` \\n    \${
               colors.italic(
                 this.isError
-                  ? colors.text.prompt.description.error(splitText(this.errorMessage, "1/3").join("\\n"))
-                  : this.isCompleted
-                    ? colors.text.prompt.description.active(this.description)
+                  ? colors.text.prompt.description.error(splitText(this.errorMessage, "3/4").join("\\n"))
+                  : this.description
+                    ? colors.text.prompt.description.active(splitText(this.description, "3/4").join("\\n"))
                     : ""
               )
             }\`; `}
@@ -746,22 +717,26 @@ export function BasePromptDeclarations() {
       <VarDeclaration
         export
         name="CANCEL_SYMBOL"
-        doc="A unique symbol used to indicate that a prompt was cancelled, which can be returned from a prompt factory function to signal that the prompt interaction should be cancelled and any pending promises should be rejected with this symbol. This allows for a consistent way to handle prompt cancellations across different prompt types and interactions.">
+        doc="A unique symbol used to indicate that a prompt was cancelled, which can be returned from a prompt function to signal that the prompt interaction should be cancelled and any pending promises should be rejected with this symbol. This allows for a consistent way to handle prompt cancellations across different prompt types and interactions.">
         {code`Symbol("shell-shock:prompts:cancel"); `}
       </VarDeclaration>
       <Spacing />
+      <TSDoc heading="A utility function to check if a given value is the {@link CANCEL_SYMBOL | cancel symbol}, which can be used to determine if a prompt interaction was cancelled based on the value returned from a prompt factory function. This function checks if the provided value is strictly equal to the {@link CANCEL_SYMBOL | CANCEL_SYMBOL}, allowing for a consistent way to handle prompt cancellations across different prompt types and interactions.">
+        <TSDocParam name="value">{`The value to check.`}</TSDocParam>
+        <TSDocReturns>
+          {`A boolean indicating whether the provided value is the {@link CANCEL_SYMBOL | cancel symbol}, which can be used to determine if a prompt interaction was cancelled.`}
+        </TSDocReturns>
+      </TSDoc>
       <FunctionDeclaration
         name="isCancel"
         export
-        doc="Checks if a given value is a {@link CANCEL_SYMBOL | cancel symbol}."
         parameters={[
           {
             name: "value",
-            type: "any",
-            doc: "The value to check"
+            type: "any"
           }
         ]}
-        returnType="boolean">
+        returnType="value is typeof CANCEL_SYMBOL">
         {code`return value === CANCEL_SYMBOL; `}
       </FunctionDeclaration>
     </>
@@ -801,7 +776,7 @@ export function TextPromptDeclarations() {
           {code`false; `}
         </ClassField>
         <hbr />
-        <ClassField name="initialValue" protected type="string">
+        <ClassField name="initialValue" protected override type="string">
           {code`""; `}
         </ClassField>
         <Spacing />
@@ -1035,7 +1010,7 @@ export function TextPromptDeclarations() {
           {code`This function can be used to easily create and run a text prompt without needing to manually create an instance of the TextPrompt class and handle its events. The function accepts a configuration object that extends the base PromptFactoryConfig with additional options specific to text prompts, such as the initial value and mask function. The returned promise allows for easy handling of the prompt result using async/await syntax or traditional promise chaining.`}
         </TSDocRemarks>
         <TSDocExample>
-          {`import { text, isCancel } from "shell-shock/prompts";
+          {`import { text, isCancel } from "shell-shock:prompts";
 
 async function run() {
   const name = await text({
@@ -1091,7 +1066,13 @@ export function SelectPromptDeclarations() {
     <>
       <InterfaceDeclaration
         name="PromptOptionConfig"
-        doc="Configuration for an option the user can select from the select prompt">
+        doc="Configuration for an option the user can select from the select prompt"
+        typeParameters={[
+          {
+            name: "TValue",
+            default: "string"
+          }
+        ]}>
         <InterfaceMember
           name="label"
           optional
@@ -1108,7 +1089,7 @@ export function SelectPromptDeclarations() {
         <Spacing />
         <InterfaceMember
           name="value"
-          type="any"
+          type="TValue"
           doc="The value of the option"
         />
         <Spacing />
@@ -1137,8 +1118,19 @@ export function SelectPromptDeclarations() {
       <InterfaceDeclaration
         export
         name="PromptOption"
-        extends="PromptOptionConfig"
-        doc="An option the user can select from the select prompt">
+        extends="PromptOptionConfig<TValue>"
+        doc="An option the user can select from the select prompt"
+        typeParameters={[
+          {
+            name: "TValue",
+            default: "string"
+          }
+        ]}>
+        <InterfaceMember
+          name="label"
+          type="string"
+          doc="The message label for the option"
+        />
         <InterfaceMember
           name="index"
           type="number"
@@ -1160,8 +1152,14 @@ export function SelectPromptDeclarations() {
       <Spacing />
       <InterfaceDeclaration
         name="SelectPromptConfig"
-        extends="PromptConfig<string>"
-        doc="An options object for configuring a select prompt">
+        extends="PromptConfig<TValue>"
+        doc="An options object for configuring a select prompt"
+        typeParameters={[
+          {
+            name: "TValue",
+            default: "string"
+          }
+        ]}>
         <InterfaceMember
           name="hint"
           optional
@@ -1171,7 +1169,7 @@ export function SelectPromptDeclarations() {
         <Spacing />
         <InterfaceMember
           name="options"
-          type="Array<string | PromptOptionConfig>"
+          type="Array<string | PromptOptionConfig<TValue>>"
           doc="The options available for the select prompt"
         />
         <Spacing />
@@ -1187,54 +1185,55 @@ export function SelectPromptDeclarations() {
         name="SelectPrompt"
         doc="A prompt for selecting an option from a list"
         extends="Prompt<TValue>"
-        typeParameters={[{ name: "TValue", default: "any" }]}>
-        <ClassField name="initialValue" protected type="TValue" />
+        typeParameters={[{ name: "TValue", default: "string" }]}>
+        <ClassField name="initialValue" protected override type="TValue" />
         <hbr />
         <ClassField name="optionsPerPage" protected type="number">
           {code`8; `}
         </ClassField>
         <hbr />
-        <ClassField name="options" protected type="PromptOption[]">
+        <ClassField name="options" protected type="PromptOption<TValue>[]">
           {code`[]; `}
         </ClassField>
         <Spacing />
-        {code`constructor(config: SelectPromptConfig) {
+        {code`constructor(config: SelectPromptConfig<TValue>) {
           super(config);
 
           if (config.initialValue) {
-            this.initialValue = config.initialValue;
+            this.initialValue = config.initialValue as TValue;
+          } else {
+            this.initialValue = undefined as unknown as TValue;
           }
 
-          this.options = config.options.map(opt => {
-            let option!: PromptOption;
+          this.options = config.options.map((opt, index) => {
+            let option = {} as Partial<PromptOption<TValue>>;
             if (typeof opt === "string") {
-              option = { index: -1, label: opt, value: opt, selected: false, disabled: false } as PromptOption;
+              option = { label: opt, value: opt as TValue, selected: false, disabled: false };
             } else if (typeof opt === "object") {
-              option = opt as PromptOption;
+              option = opt;
             } else {
               throw new Error(\`Invalid option provided to SelectPrompt at index #\${index}\`);
             }
 
             return {
-              label: String(option.value),
+              label: String(option.value) || "",
               ...option,
-              index: -1,
               description: option.description,
               selected: !!option.selected || (this.initialValue !== undefined && option.value === this.initialValue),
               disabled: !!option.disabled
-            };
+            } as PromptOption<TValue>;
           }).sort((a, b) => a.label.localeCompare(b.label)).map((option, index) => ({ ...option, index }));
 
           const selected = this.options.findIndex(option => option.selected);
           if (selected > -1) {
             this.cursor = selected;
             if (this.options[this.cursor]) {
-              this.initialValue = this.options[this.cursor].value;
+              this.initialValue = this.options[this.cursor].value as TValue;
             }
           }
 
           if (this.initialValue === undefined && this.options.length > 0 && this.options[0]) {
-            this.initialValue = this.options[0].value;
+            this.initialValue = this.options[0].value as TValue;
           }
 
           if (config.optionsPerPage) {
@@ -1247,9 +1246,9 @@ export function SelectPromptDeclarations() {
         <ClassPropertyGet
           doc="Returns the currently selected option"
           name="selectedOption"
-          type="PromptOption | null"
+          type="PromptOption<TValue> | null"
           protected>
-          {code`return this.options[this.cursor] ?? null; `}
+          {code`return this.options.find(option => option.selected) ?? null; `}
         </ClassPropertyGet>
         <Spacing />
         <ClassMethod
@@ -1367,6 +1366,7 @@ export function SelectPromptDeclarations() {
         <ClassMethod
           doc="A method to render the prompt"
           name="render"
+          override
           protected>
           {code`if (this.isInitial) {
             this.output.write(cursor.hide);
@@ -1413,7 +1413,7 @@ export function SelectPromptDeclarations() {
                   : this.cursor === index
                     ? colors.bold(colors.underline(colors.text.prompt.input.active(this.options[index]!.label)))
                     : colors.text.prompt.input.inactive(this.options[index]!.label)
-              } \${" ".repeat(spacing - this.options[index]!.label.length - (this.options[index]!.icon ? this.options[index]!.icon.length + 1 : 0))}\${
+              } \${" ".repeat(spacing - this.options[index]!.label.length - (this.options[index]!.icon ? this.options[index]!.icon!.length + 1 : 0))}\${
                 this.options[index]!.description && this.cursor === index
                     ? colors.italic(colors.text.prompt.description.active(this.options[index]!.description))
                     : ""
@@ -1439,7 +1439,7 @@ export function SelectPromptDeclarations() {
       <Spacing />
       <TSDoc heading="A function to create and run a select prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.">
         <TSDocExample>
-          {`import { select, isCancel } from "shell-shock/prompts";
+          {`import { select, isCancel } from "shell-shock:prompts";
 
 async function run() {
   const color = await select({
@@ -1543,7 +1543,7 @@ export function NumericPromptDeclarations() {
         name="NumberPrompt"
         doc="A prompt for selecting a number input"
         extends="Prompt<number>">
-        <ClassField name="initialValue" protected type="number">
+        <ClassField name="initialValue" protected override type="number">
           {code`0; `}
         </ClassField>
         <hbr />
@@ -1616,6 +1616,7 @@ export function NumericPromptDeclarations() {
         <ClassMethod
           doc="A method to reset the prompt input"
           name="reset"
+          override
           protected>
           {code`super.reset();
           this.currentInput = "";
@@ -1633,6 +1634,7 @@ export function NumericPromptDeclarations() {
         <ClassMethod
           doc="A method to handle keypress events and determine the corresponding action"
           name="keypress"
+          override
           protected
           parameters={[
             {
@@ -1739,7 +1741,7 @@ export function NumericPromptDeclarations() {
       <Spacing />
       <TSDoc heading="A function to create and run a numeric prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.">
         <TSDocExample>
-          {`import { numeric, isCancel } from "shell-shock/prompts";
+          {`import { numeric, isCancel } from "shell-shock:prompts";
 
 async function run() {
   const age = await numeric({
@@ -1819,7 +1821,7 @@ export function TogglePromptDeclarations() {
         name="TogglePrompt"
         doc="A prompt for selecting a boolean input"
         extends="Prompt<boolean>">
-        <ClassField name="initialValue" protected type="boolean">
+        <ClassField name="initialValue" protected override type="boolean">
           {code`false; `}
         </ClassField>
         <hbr />
@@ -1875,6 +1877,7 @@ export function TogglePromptDeclarations() {
         <ClassMethod
           doc="A method to handle keypress events and determine the corresponding action"
           name="keypress"
+          override
           protected
           parameters={[
             {
@@ -1955,7 +1958,7 @@ export function TogglePromptDeclarations() {
       <Spacing />
       <TSDoc heading="A function to create and run a toggle prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.">
         <TSDocExample>
-          {`import { toggle, isCancel } from "shell-shock/prompts";
+          {`import { toggle, isCancel } from "shell-shock:prompts";
 
 async function run() {
   const likesIceCream = await toggle({
@@ -2027,7 +2030,7 @@ export function PasswordPromptDeclaration() {
         </TSDocRemarks>
         <Spacing />
         <TSDocExample>
-          {`import { password, isCancel } from "shell-shock/prompts";
+          {`import { password, isCancel } from "shell-shock:prompts";
 
 async function run() {
   const userPassword = await password({

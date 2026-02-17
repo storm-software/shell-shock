@@ -33,7 +33,6 @@ import { findFilePath, relativePath } from "@stryke/path/find";
 import { joinPaths } from "@stryke/path/join";
 import { replaceExtension } from "@stryke/path/replace";
 import { camelCase } from "@stryke/string-format/camel-case";
-import { lowerCaseFirst } from "@stryke/string-format/lower-case-first";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { CLIPresetContext } from "../types/plugin";
@@ -182,14 +181,13 @@ export function CommandEntry(props: CommandEntryProps) {
                                 option.kind === ReflectionKind.number
                                   ? " numeric"
                                   : ""
-                              } value for the \\"${option.name}\\" option${
+                              } value for the \\"${option.name}\\" option",
+                              ${
                                 option.description
-                                  ? ` (${lowerCaseFirst(
-                                      option.description
-                                    ).replace(/\.+$/, "")})`
+                                  ? `description: "${option.description}",
+                              `
                                   : ""
-                              }",
-                              validate(val) {
+                              }validate(val) {
                                 if (!val || val.trim() === "") {
                                   return "A value must be provided for this option";
                                 }
@@ -226,13 +224,13 @@ export function CommandEntry(props: CommandEntryProps) {
                             } = await toggle({
                               message: "Please select a value for the "${
                                 option.name
-                              }" option${
-                                option.description
-                                  ? ` (${lowerCaseFirst(
-                                      option.description
-                                    ).replace(/\.+$/, "")})`
-                                  : ""
-                              }"
+                              }" option",
+                            ${
+                              option.description
+                                ? `description: "${option.description}",
+                              `
+                                : ""
+                            }
                             });
                           `}</Match>
                       </Switch>
@@ -255,14 +253,13 @@ export function CommandEntry(props: CommandEntryProps) {
                                 option.kind === ReflectionKind.number
                                   ? " numeric"
                                   : ""
-                              } values for the \\"${option.name}\\" option${
+                              } values for the \\"${option.name}\\" option (values are separated by a \\",\\" character)",
+                              ${
                                 option.description
-                                  ? ` (${lowerCaseFirst(
-                                      option.description
-                                    ).replace(/\.+$/, "")})`
+                                  ? `description: "${option.description}",
+                              `
                                   : ""
-                              } - values are separated by a \\",\\" character",
-                              validate(val) {
+                              }validate(val) {
                                 if (!val || val.trim() === "") {
                                   return "A value must be provided for this option";
                                 }
@@ -317,12 +314,13 @@ export function CommandEntry(props: CommandEntryProps) {
                                 argument.kind === ReflectionKind.number
                                   ? " numeric"
                                   : ""
-                              } value for the \\"${argument.name}\\" argument${
+                              } value for the \\"${argument.name}\\" argument",
+                              ${
                                 argument.description
-                                  ? ` (${lowerCaseFirst(argument.description).replace(/\.+$/, "")})`
+                                  ? `description: "${argument.description}",
+                              `
                                   : ""
-                              }",
-                              validate(val) {
+                              }validate(val) {
                                 if (!val || val.trim() === "") {
                                   return "A value must be provided for this argument";
                                 }
@@ -349,11 +347,13 @@ export function CommandEntry(props: CommandEntryProps) {
                         <Match
                           when={argument.kind === ReflectionKind.boolean}>{code`
                             ${camelCase(argument.name)} = await toggle({
-                              message: 'Please select a value for the "${argument.name}" argument${
+                              message: "Please select a value for the \\"${argument.name}\\" argument",
+                              ${
                                 argument.description
-                                  ? ` (${lowerCaseFirst(argument.description).replace(/\.+$/, "")})`
+                                  ? `description: "${argument.description}",
+                              `
                                   : ""
-                              }:'
+                              }
                             });
                           `}</Match>
                       </Switch>
@@ -372,12 +372,13 @@ export function CommandEntry(props: CommandEntryProps) {
                                 argument.kind === ReflectionKind.number
                                   ? " numeric"
                                   : ""
-                              } values for the \\"${argument.name}\\" argument${
+                              } (values are separated by a \\",\\" character)",
+                              ${
                                 argument.description
-                                  ? ` (${lowerCaseFirst(argument.description).replace(/\.+$/, "")})`
+                                  ? `description: "${argument.description}",
+                              `
                                   : ""
-                              } - values are separated by a \\",\\" character",
-                              validate(val) {
+                              }validate(val) {
                                 if (!val || val.trim() === "") {
                                   return "A value must be provided for this argument";
                                 }
