@@ -1248,7 +1248,7 @@ export function SelectPromptDeclarations() {
           name="selectedOption"
           type="PromptOption<TValue> | null"
           protected>
-          {code`return this.options.find(option => option.selected) ?? null; `}
+          {code`return this.options.find(option => option.value === this.value) ?? null; `}
         </ClassPropertyGet>
         <Spacing />
         <ClassMethod
