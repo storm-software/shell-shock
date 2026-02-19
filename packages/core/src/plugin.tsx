@@ -25,7 +25,7 @@ import tsdown from "@powerlines/plugin-tsdown";
 import { toArray } from "@stryke/convert/to-array";
 import { chmodX } from "@stryke/fs/chmod-x";
 import { appendPath } from "@stryke/path/append";
-import { findFilePath } from "@stryke/path/file-path-fns";
+import { findFilePath, relativePath } from "@stryke/path/file-path-fns";
 import { isParentPath } from "@stryke/path/is-parent-path";
 import { joinPaths } from "@stryke/path/join-paths";
 import { replacePath } from "@stryke/path/replace";
@@ -276,10 +276,11 @@ export const plugin = <TContext extends Context = Context>(
                 .filter(cmd => !cmd.isVirtual)
                 .map(
                   command =>
-                    ` - ${command.id}: ${replacePath(
-                      command.entry.file,
-                      this.commandsPath
-                    )}${command.isVirtual ? " (virtual)" : ""}`
+                    ` - ${command.id}: ${
+                      isParentPath(command.entry.file, this.commandsPath)
+                        ? replacePath(command.entry.file, this.commandsPath)
+                        : relativePath(command.entry.file, this.commandsPath)
+                    }${command.isVirtual ? " (virtual)" : ""}`
                 )
                 .join("\n")}`
             );
@@ -295,66 +296,66 @@ export const plugin = <TContext extends Context = Context>(
                 let parentPath = resolveParentPath(
                   findFilePath(command.entry.file)
                 );
-                while (parentPath !== this.commandsPath) {
-                  if (depth++ > MAX_DEPTH) {
-                    throw new Error(
-                      `Maximum command virtual parent depth of ${
-                        MAX_DEPTH
-                      } exceeded while processing command: ${command.name}`
-                    );
-                  }
-
-                  if (
-                    !ret.some(
-                      existing =>
-                        findFilePath(existing.entry.file) === parentPath
-                    )
-                  ) {
-                    const file = joinPaths(parentPath, "command.ts");
-                    const id = resolveCommandId(this, file);
-                    if (!ret.some(existing => existing.id === id)) {
-                      const name = resolveCommandName(file);
-
-                      let segments = resolveCommandPath(this, file)
-                        .split("/")
-                        .filter(Boolean);
-
-                      // Ensure unique segment names by appending an index suffix to duplicates
-                      segments = segments.map((segment, index) => {
-                        const found = segments.findIndex(
-                          existing => existing === segment
-                        );
-                        if (found !== -1 && found !== index) {
-                          segment += `_${
-                            segments.filter(
-                              segment =>
-                                isDynamicPathSegment(segment) &&
-                                getDynamicPathSegmentName(segment).replace(
-                                  /_\d+$/,
-                                  ""
-                                ) === segment
-                            ).length
-                          }`;
-                        }
-
-                        return segment;
-                      });
-
-                      ret.push({
-                        id,
-                        path: segments.join("/"),
-                        segments,
-                        name,
-                        alias: [],
-                        isVirtual: true,
-                        entry: {
-                          file
-                        }
-                      });
+                if (isParentPath(parentPath, this.commandsPath)) {
+                  while (parentPath !== this.commandsPath) {
+                    if (depth++ > MAX_DEPTH) {
+                      throw new Error(
+                        `Unable to process virtual commands for ${command.name} \n\nPlease ensure ${command.entry.file} is a valid command entry file and does not have an invalid path.`
+                      );
                     }
-                  }
 
-                  parentPath = resolveParentPath(parentPath);
+                    if (
+                      !ret.some(
+                        existing =>
+                          findFilePath(existing.entry.file) === parentPath
+                      )
+                    ) {
+                      const file = joinPaths(parentPath, "command.ts");
+                      const id = resolveCommandId(this, file);
+                      if (!ret.some(existing => existing.id === id)) {
+                        const name = resolveCommandName(file);
+
+                        let segments = resolveCommandPath(this, file)
+                          .split("/")
+                          .filter(Boolean);
+
+                        // Ensure unique segment names by appending an index suffix to duplicates
+                        segments = segments.map((segment, index) => {
+                          const found = segments.findIndex(
+                            existing => existing === segment
+                          );
+                          if (found !== -1 && found !== index) {
+                            segment += `_${
+                              segments.filter(
+                                segment =>
+                                  isDynamicPathSegment(segment) &&
+                                  getDynamicPathSegmentName(segment).replace(
+                                    /_\d+$/,
+                                    ""
+                                  ) === segment
+                              ).length
+                            }`;
+                          }
+
+                          return segment;
+                        });
+
+                        ret.push({
+                          id,
+                          path: segments.join("/"),
+                          segments,
+                          name,
+                          alias: [],
+                          isVirtual: true,
+                          entry: {
+                            file
+                          }
+                        });
+                      }
+                    }
+
+                    parentPath = resolveParentPath(parentPath);
+                  }
                 }
 
                 return ret;
