@@ -238,6 +238,12 @@ export function BasePromptDeclarations() {
           doc="The default error message to display when validation fails"
         />
         <Spacing />
+        <InterfaceMember
+          name="timeout"
+          optional
+          type="number"
+          doc="The timeout duration in milliseconds for the prompt. If none is provided, the prompt will not time out."
+        />
       </InterfaceDeclaration>
       <Spacing />
       <ClassDeclaration
@@ -258,7 +264,7 @@ export function BasePromptDeclarations() {
         <ClassField name="isClosed" isPrivateMember type="boolean">
           {code`false; `}
         </ClassField>
-        <hbr />
+        <Spacing />
         <ClassField name="initialValue" abstract protected type="TValue" />
         <hbr />
         <ClassField name="input" protected type="NodeJS.ReadStream">
@@ -359,6 +365,14 @@ export function BasePromptDeclarations() {
           }
           if (config.format) {
             this.formatter = config.format.bind(this);
+          }
+
+          if (config.timeout !== undefined && !Number.isNaN(config.timeout)) {
+            setTimeout(() => {
+              if (!this.isCompleted) {
+                this.cancel();
+              }
+            }, config.timeout);
           }
 
           this.message = config.message;
