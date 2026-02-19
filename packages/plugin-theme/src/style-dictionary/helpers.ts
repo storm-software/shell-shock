@@ -142,6 +142,7 @@ export function resolveBorderStyle(
         left: "►",
         right: "◄"
       };
+      break;
     case "outward-arrow":
       result = {
         topLeft: "↗",
