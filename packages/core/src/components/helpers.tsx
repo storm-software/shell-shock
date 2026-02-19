@@ -39,6 +39,8 @@ export function BooleanInputParserLogic(props: BooleanInputParserLogicProps) {
       name
     } !== "disable" && ${name}.toLowerCase() !== "disabled" && ${
       name
-    }.toLowerCase() !== "never"`}</>
+    }.toLowerCase() !== "never" && (Number.isNaN(Number.parseFloat(${
+      name
+    })) || Number.parseFloat(${name}) > 0) `}</>
   );
 }
