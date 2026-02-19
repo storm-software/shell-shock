@@ -3241,12 +3241,15 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
             <Spacing />
             <IfStatement condition={code`(err as Error)?.message`}>
               {code`message = (err as Error).message;`}
-              <IfStatement
-                condition={code`env.STACKTRACE && (err as Error)?.stack`}>
-                {code`message += " \\n\\n" + (err as Error).stack;`}
-              </IfStatement>
             </IfStatement>
             <ElseClause>{code`message = String(err);`}</ElseClause>
+            <Spacing />
+            <IfStatement condition={code`env.STACKTRACE`}>
+              <IfStatement condition={code`(err as Error)?.stack`}>
+                {code`message += " \\n\\n" + (err as Error).stack;`}
+              </IfStatement>
+              <ElseClause>{code`message += "\\n" + (new Error(" ")).stack.split("\\n").slice(2).map(line => line.trim()).join("\\n");`}</ElseClause>
+            </IfStatement>
           </>
         }
       />
