@@ -18,6 +18,7 @@
 
 import { code, Show, splitProps } from "@alloy-js/core";
 import { FunctionDeclaration, VarDeclaration } from "@alloy-js/typescript";
+import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
@@ -33,6 +34,7 @@ import {
 } from "@powerlines/plugin-alloy/typescript/components/interface-declaration";
 import {
   TSDoc,
+  TSDocDefaultValue,
   TSDocExample,
   TSDocParam,
   TSDocRemarks,
@@ -164,7 +166,7 @@ export function BasePromptDeclarations() {
       <Spacing />
       <InterfaceDeclaration
         name="PromptConfig"
-        doc="Configuration options for configuring a prompt"
+        doc="Configuration options for creating a prompt"
         typeParameters={[
           {
             name: "TValue",
@@ -208,7 +210,7 @@ export function BasePromptDeclarations() {
         <InterfaceMember
           name="validate"
           optional
-          type="(value: TValue) => boolean | string | null | undefined | Promise<boolean | string | null | undefined>"
+          type="(value: TValue) => boolean | string | { type: 'error' | 'warning'; message: string } | null | undefined | Promise<boolean | string | { type: 'error' | 'warning'; message: string } | null | undefined>"
           doc="A validation function that returns true if the input is valid, false or a string error message if the input is invalid"
         />
         <Spacing />
@@ -290,7 +292,7 @@ export function BasePromptDeclarations() {
         </ClassField>
         <hbr />
         <ClassField name="defaultErrorMessage" protected type="string">
-          {code`"Invalid value provided"; `}
+          {code`"An invalid value was provided"; `}
         </ClassField>
         <hbr />
         <ClassField name="isSubmitted" protected type="boolean">
@@ -342,6 +344,10 @@ export function BasePromptDeclarations() {
         <hbr />
         <ClassField name="cursorOffset" protected type="number">
           {code`0; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="cursorHidden" protected type="boolean">
+          {code`false; `}
         </ClassField>
         <Spacing />
         {code`constructor(protected config: PromptConfig<TValue>) {
@@ -651,6 +657,8 @@ export function BasePromptDeclarations() {
             }
 
             this.output.write(clear(this.consoleOutput, this.output.columns));
+          } else if (this.cursorHidden) {
+            this.output.write(cursor.hide);
           }
 
           this.consoleOutput = \` \${
@@ -731,9 +739,7 @@ export function BasePromptDeclarations() {
       </InterfaceDeclaration>
       <Spacing />
       <TSDoc heading="A unique symbol used to indicate that a prompt was cancelled, which can be returned from a prompt function to signal that the prompt interaction should be cancelled and any pending promises should be rejected with this symbol. This allows for a consistent way to handle prompt cancellations across different prompt types and interactions." />
-      <VarDeclaration
-        export
-        name="CANCEL_SYMBOL">
+      <VarDeclaration export name="CANCEL_SYMBOL">
         {code`Symbol("shell-shock:prompts:cancel"); `}
       </VarDeclaration>
       <Spacing />
@@ -768,7 +774,7 @@ export function TextPromptDeclarations() {
       <InterfaceDeclaration
         name="StringPromptConfig"
         extends="PromptConfig<string>"
-        doc="Configuration options for configuring a text-based prompt">
+        doc="Configuration options for creating a text-based prompt">
         <InterfaceMember
           name="initialValue"
           optional
@@ -1212,6 +1218,10 @@ export function SelectPromptDeclarations() {
         <ClassField name="options" protected type="PromptOption<TValue>[]">
           {code`[]; `}
         </ClassField>
+        <hbr />
+        <ClassField name="cursorHidden" protected override type="boolean">
+          {code`true; `}
+        </ClassField>
         <Spacing />
         {code`constructor(config: SelectPromptConfig<TValue>) {
           super(config);
@@ -1385,11 +1395,7 @@ export function SelectPromptDeclarations() {
           name="render"
           override
           protected>
-          {code`if (this.isInitial) {
-            this.output.write(cursor.hide);
-          }
-
-          const spacing = Math.max(...this.options.map(option => option.label?.length || 0)) + 2;
+          {code`const spacing = Math.max(...this.options.map(option => option.label?.length || 0)) + 2;
 
           const startIndex = Math.max(Math.min(this.options.length - this.optionsPerPage, this.cursor - Math.floor(this.optionsPerPage / 2)), 0);
           const endIndex = Math.min(startIndex + this.optionsPerPage, this.options.length);
@@ -1519,7 +1525,7 @@ export function NumericPromptDeclarations() {
       <InterfaceDeclaration
         name="NumberPromptConfig"
         extends="PromptConfig<number>"
-        doc="Configuration options for configuring a numeric prompt">
+        doc="Configuration options for creating a numeric prompt">
         <InterfaceMember
           name="isFloat"
           optional
@@ -1560,8 +1566,16 @@ export function NumericPromptDeclarations() {
         name="NumberPrompt"
         doc="A prompt for selecting a number input"
         extends="Prompt<number>">
+        <ClassField name="isInvalid" isPrivateMember type="boolean">
+          {code`false; `}
+        </ClassField>
+        <Spacing />
         <ClassField name="initialValue" protected override type="number">
           {code`0; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="defaultErrorMessage" protected override type="string">
+          {code`"A valid numeric value must be provided"; `}
         </ClassField>
         <hbr />
         <ClassField name="isFloat" protected type="boolean">
@@ -1628,6 +1642,7 @@ export function NumericPromptDeclarations() {
           }
 
           this.sync();
+          this.last();
         } `}
         <Spacing />
         <ClassMethod
@@ -1638,14 +1653,6 @@ export function NumericPromptDeclarations() {
           {code`super.reset();
           this.currentInput = "";
           `}
-        </ClassMethod>
-        <Spacing />
-        <ClassMethod
-          doc="A method to move the cursor to the end of the input"
-          name="next"
-          protected>
-          {code`this.changeValue(this.initialValue);
-          this.sync(); `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
@@ -1672,18 +1679,12 @@ export function NumericPromptDeclarations() {
             return this.bell();
           }
 
-          if (Date.now() - this.inputTimestamp > 1000) {
-            this.currentInput = "";
-          }
-
-          this.currentInput += char;
-          this.inputTimestamp = Date.now();
-
-          if (char === ".") {
+          this.displayValue += char;
+          if ((char === "-" || char === ".") && this.displayValue.length === 1) {
             return this.sync();
           }
 
-          let value = Math.min(this.parser(this.currentInput), this.max);
+          let value = Math.min(this.parser(this.displayValue), this.max);
           if (value > this.max) {
             value = this.max;
           }
@@ -1696,17 +1697,21 @@ export function NumericPromptDeclarations() {
         </ClassMethod>
         <Spacing />
         <ClassMethod
+          doc="A method to move the cursor to the end of the input"
+          name="next"
+          protected>
+          {code`this.changeValue(this.initialValue);
+          this.sync(); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
           doc="A method to move the cursor to the up"
           name="up"
           protected>
-          {code`this.currentInput = "";
-
-          let value = this.value;
+          {code`let value = this.value;
           if (this.displayValue === "") {
-            value = this.min === Number.NEGATIVE_INFINITY ? 0 - this.increment : this.min - this.increment;
-          }
-
-          if (value >= this.max) {
+            value = this.min < 0 ? 0 : this.min;
+          } else if (value >= this.max) {
             return this.bell();
           }
 
@@ -1718,36 +1723,136 @@ export function NumericPromptDeclarations() {
           doc="A method to move the cursor to the down"
           name="down"
           protected>
-          {code`this.currentInput = "";
-
-          let value = this.value;
-          if(this.displayValue === "") {
-            value = this.min === Number.NEGATIVE_INFINITY ? 0 + this.increment : this.min + this.increment;
-          }
-
-          if (value <= this.min) {
+          {code`let value = this.value;
+          if (this.displayValue === "") {
+            value = this.min < 0 ? 0 : this.min;
+          } else if (value <= this.min) {
             return this.bell();
           }
 
-          this.changeValue(value - this.increment);
+          this.changeValue(value === this.min ? this.min : value - this.increment);
           this.sync(); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to move the cursor to the left"
+          name="left"
+          protected>
+          {code`if (this.cursor <= 0 || this.isPlaceholder) {
+            return this.bell();
+          }
+
+          this.moveCursor(-1);
+          this.sync(); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to move the cursor to the right"
+          name="right"
+          protected>
+          {code`if (this.cursor >= this.displayValue.length || this.isPlaceholder) {
+            return this.bell();
+          }
+
+          this.moveCursor(1);
+          this.sync(); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to move the cursor to the left or right by a \`count\` of positions"
+          name="moveCursor"
+          parameters={[
+            {
+              name: "count",
+              type: "number"
+            }
+          ]}
+          protected>
+          {code`if (this.isPlaceholder) {
+            return;
+          }
+
+          this.cursor = this.cursor + count;
+          this.cursorOffset += count; `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
           doc="A method to delete the character backward of the cursor"
           name="delete"
           protected>
-          {code`if (this.displayValue === "") {
+          {code`if (this.isCursorAtStart()) {
             return this.bell();
           }
 
-          let value = this.parser(this.displayValue.slice(0, -1));
-          if (value < this.min) {
-            value = this.min === Number.NEGATIVE_INFINITY ? 0 : this.min;
+          if (this.displayValue === "") {
+            return this.bell();
           }
 
-          this.changeValue(value);
+          this.changeValue(\`\${this.displayValue.slice(0, this.cursor - 1)}\${this.displayValue.slice(this.cursor)}\`);
+          this.#isInvalid = false;
+
+          if (this.isCursorAtStart()) {
+            this.cursorOffset = 0
+          } else {
+            this.cursorOffset++;
+            this.moveCursor(-1);
+          }
+
           this.sync(); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to delete the character forward of the cursor"
+          name="deleteForward"
+          protected>
+          {code`if (this.cursor >= this.displayValue.length || this.isPlaceholder) {
+            return this.bell();
+          }
+
+          this.changeValue(\`\${
+            this.displayValue.slice(0, this.cursor)
+          }\${
+            this.displayValue.slice(this.cursor + 1)
+          }\`);
+          this.#isInvalid = false;
+
+          if (this.isCursorAtEnd()) {
+            this.cursorOffset = 0;
+          } else {
+            this.cursorOffset++;
+          }
+
+          this.sync(); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to move the cursor to the start"
+          name="first"
+          protected>
+          {code`this.cursor = 0;
+          this.sync(); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to move the cursor to the end"
+          name="last"
+          protected>
+          {code`this.cursor = this.displayValue.length;
+          this.sync(); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to check if the cursor is at the start"
+          name="isCursorAtStart"
+          protected>
+          {code`return this.cursor === 0 || (this.isPlaceholder && this.cursor === 1); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to check if the cursor is at the end"
+          name="isCursorAtEnd"
+          protected>
+          {code`return this.cursor === this.displayValue.length || (this.isPlaceholder && this.cursor === this.displayValue.length + 1); `}
         </ClassMethod>
       </ClassDeclaration>
       <Spacing />
@@ -1816,7 +1921,7 @@ export function TogglePromptDeclarations() {
         export
         name="TogglePromptConfig"
         extends="PromptConfig<boolean>"
-        doc="Configuration options for configuring a boolean toggle prompt">
+        doc="Configuration options for creating a boolean toggle prompt">
         <InterfaceMember
           name="trueMessage"
           optional
@@ -1836,7 +1941,7 @@ export function TogglePromptDeclarations() {
       <ClassDeclaration
         export
         name="TogglePrompt"
-        doc="A prompt for selecting a boolean input"
+        doc="A prompt for toggling a boolean input"
         extends="Prompt<boolean>">
         <ClassField name="initialValue" protected override type="boolean">
           {code`false; `}
@@ -1848,6 +1953,10 @@ export function TogglePromptDeclarations() {
         <hbr />
         <ClassField name="falseMessage" protected type="string">
           {code`"No"; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="cursorHidden" protected override type="boolean">
+          {code`true; `}
         </ClassField>
         <Spacing />
         {code`constructor(config: TogglePromptConfig) {
@@ -1966,6 +2075,23 @@ export function TogglePromptDeclarations() {
           {code`this.changeValue(!this.value);
           this.sync(); `}
         </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to render the prompt"
+          name="render"
+          override
+          protected
+          returnType="string">
+          {code`return this.isSubmitted
+              ? colors.text.prompt.input.submitted(this.value ? this.trueMessage : this.falseMessage)
+              : this.isCancelled
+                ? colors.text.prompt.input.cancelled(this.value ? this.trueMessage : this.falseMessage)
+            : \`\${
+                this.value ? colors.text.prompt.input.inactive(this.falseMessage) : colors.underline(colors.bold(colors.text.prompt.input.active(this.falseMessage)))
+            } \${colors.border.app.divider.tertiary("/")} \${
+                this.value ? colors.underline(colors.bold(colors.text.prompt.input.active(this.trueMessage))) : colors.text.prompt.input.inactive(this.trueMessage)
+            }\`; `}
+        </ClassMethod>
       </ClassDeclaration>
       <Spacing />
       <TSDoc heading="An object representing the configuration options for a toggle prompt, which extends the base PromptFactoryConfig with additional options specific to the toggle prompt." />
@@ -2016,6 +2142,196 @@ run(); `}
             prompt.on("submit", value => response(value));
             prompt.on("cancel", event => reject(CANCEL_SYMBOL));
           });`}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
+ * A component that renders the declarations for the built-in confirm prompt, which allows users to select a boolean value (true/false) with support for custom messages for the true and false states. This prompt type can be used for scenarios where the user needs to toggle a setting on or off, such as enabling or disabling a feature. The ConfirmPrompt class extends the base Prompt class and implements specific logic for handling boolean input and rendering interactions.
+ */
+export function ConfirmPromptDeclarations() {
+  return (
+    <>
+      <InterfaceDeclaration
+        export
+        name="ConfirmPromptConfig"
+        extends="PromptConfig<boolean>"
+        doc="Configuration options for creating a boolean confirm prompt">
+        <TSDoc heading="The message for the \`Yes\` state of the prompt">
+          <TSDocDefaultValue type={ReflectionKind.string} defaultValue="Yes" />
+        </TSDoc>
+        <InterfaceMember name="yesMessage" optional type="string" />
+        <Spacing />
+        <TSDoc heading="The \`Yes\` option when choosing between yes/no">
+          <TSDocDefaultValue type={ReflectionKind.string} defaultValue="1" />
+        </TSDoc>
+        <InterfaceMember name="yesOption" optional type="string" />
+        <Spacing />
+        <TSDoc heading="The message for the \`No\` state of the prompt">
+          <TSDocDefaultValue
+            type={ReflectionKind.string}
+            defaultValue="(Y/n)"
+          />
+        </TSDoc>
+        <InterfaceMember name="noMessage" optional type="string" />
+        <Spacing />
+        <TSDoc heading="The \`No\` option when choosing between yes/no">
+          <TSDocDefaultValue
+            type={ReflectionKind.string}
+            defaultValue="(y/N)"
+          />
+        </TSDoc>
+        <InterfaceMember name="noOption" optional type="string" />
+      </InterfaceDeclaration>
+      <Spacing />
+      <ClassDeclaration
+        export
+        name="ConfirmPrompt"
+        doc="A prompt for confirming a boolean input"
+        extends="Prompt<boolean>">
+        <ClassField name="initialValue" protected override type="boolean">
+          {code`false; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="yesMessage" protected type="string">
+          {code`"Yes"; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="yesOption" protected type="string">
+          {code`"(Y/n)"; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="noMessage" protected type="string">
+          {code`"No"; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="noOption" protected type="string">
+          {code`"(y/N)"; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="cursorHidden" protected override type="boolean">
+          {code`true; `}
+        </ClassField>
+        <Spacing />
+        {code`constructor(config: ConfirmPromptConfig) {
+          super(config);
+
+          if (config.initialValue) {
+            this.initialValue = config.initialValue;
+          }
+
+          if (config.yesMessage) {
+            this.yesMessage = config.yesMessage;
+          }
+          if (config.yesOption) {
+            this.yesOption = config.yesOption;
+          }
+          if (config.noMessage) {
+            this.noMessage = config.noMessage;
+          }
+          if (config.noOption) {
+            this.noOption = config.noOption;
+          }
+
+          this.sync();
+        } `}
+        <Spacing />
+        <ClassMethod
+          doc="A method to handle keypress events and determine the corresponding action"
+          name="keypress"
+          override
+          protected
+          parameters={[
+            {
+              name: "char",
+              type: "string"
+            },
+            {
+              name: "key",
+              type: "readline.Key"
+            }
+          ]}>
+          {code`const action = this.getAction(key);
+          if (action && typeof (this as any)[action] === "function") {
+            return (this as any)[action]();
+          }
+
+          if (char.toLowerCase() === "y" || char.toLowerCase() === "t" || char.toLowerCase() === "0") {
+            this.value = true;
+            return this.submit();
+          } else if (char.toLowerCase() === "n" || char.toLowerCase() === "f" || char.toLowerCase() === "1") {
+            this.value = false;
+            return this.submit();
+          } else {
+            return this.bell();
+          }
+
+          this.sync(); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to render the prompt"
+          name="render"
+          override
+          protected
+          returnType="string">
+          {code`return this.isSubmitted
+              ? colors.text.prompt.input.submitted(this.value ? this.yesMessage : this.noMessage)
+              : this.isCancelled
+                ? colors.text.prompt.input.cancelled(this.value ? this.yesMessage : this.noMessage)
+            : colors.text.prompt.input.inactive(this.initialValue ? this.yesOption : this.noOption); `}
+        </ClassMethod>
+      </ClassDeclaration>
+      <Spacing />
+      <TSDoc heading="An object representing the configuration options for a confirm prompt, which extends the base PromptFactoryConfig with additional options specific to the confirm prompt." />
+      <TypeDeclaration name="ConfirmConfig" export>
+        {code`PromptFactoryConfig<boolean> & ConfirmPromptConfig; `}
+      </TypeDeclaration>
+      <Spacing />
+      <TSDoc heading="A function to create and run a confirm prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.">
+        <TSDocExample>
+          {`import { confirm, isCancel } from "shell-shock:prompts";
+
+async function run() {
+  const likesIceCream = await confirm({
+    message: "Do you like ice cream?"
+  });
+  if (isCancel(likesIceCream)) {
+    console.log("Prompt was cancelled");
+    return;
+  }
+
+  console.log("You" + (likesIceCream ? " like ice cream" : " don't like ice cream") + "!");
+}
+
+run(); `}
+        </TSDocExample>
+        <Spacing />
+        <TSDocParam name="config">
+          {`The configuration options to pass to the confirm prompt, which extends the base PromptFactoryConfig with additional options specific to the confirm prompt`}
+        </TSDocParam>
+        <TSDocReturns>
+          {`A promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled`}
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        name="confirm"
+        export
+        parameters={[
+          {
+            name: "config",
+            type: "ConfirmConfig"
+          }
+        ]}
+        returnType="Promise<boolean | symbol>">
+        {code`return new Promise<boolean | symbol>((response, reject) => {
+            const prompt = new ConfirmPrompt(config);
+
+            prompt.on("state", state => config.onState?.(state));
+            prompt.on("submit", value => response(value));
+            prompt.on("cancel", event => reject(CANCEL_SYMBOL));
+          }); `}
       </FunctionDeclaration>
     </>
   );
@@ -2129,6 +2445,8 @@ export function PromptsBuiltin(props: PromptsBuiltinProps) {
       <TogglePromptDeclarations />
       <Spacing />
       <PasswordPromptDeclaration />
+      <Spacing />
+      <ConfirmPromptDeclarations />
       <Spacing />
       <Show when={Boolean(children)}>{children}</Show>
     </BuiltinFile>
