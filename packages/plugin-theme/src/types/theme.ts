@@ -207,7 +207,26 @@ export interface ThemeStyleBorderTypeConfig {
   bottom: string;
   left: string;
   right: string;
+  meta?: Record<string, any>;
 }
+
+export type ThemeStyleBorderBaseIdentifiers =
+  | "single"
+  | "double"
+  | "bold"
+  | "round"
+  | "single-double"
+  | "double-single"
+  | "classic"
+  | "diagonal"
+  | "diagonal-thick"
+  | "pointer"
+  | "arrow"
+  | "outward-arrow"
+  | "inward-arrow"
+  | "double-arrow"
+  | "outward-double-arrow"
+  | "inward-double-arrow";
 
 /**
  * The identifiers of border styles to use in the theme.
@@ -230,27 +249,29 @@ export interface ThemeStyleBorderTypeConfig {
  * - `"double-arrow"`: Double arrow style border
  * - `"outward-double-arrow"`: Outward double arrow style border
  * - `"inward-double-arrow"`: Inward double arrow style border (alias for `"double-arrow"`)
+ * - `"single-corners"`: Single line border with single line corners
+ * - `"double-corners"`: Double line border with double line corners
+ * - `"bold-corners"`: Bold line border with bold line corners
+ * - `"round-corners"`: Rounded corner border with rounded corners
+ * - `"diagonal-corners"`: Diagonal line border with diagonal corners
+ * - `"diagonal-thick-corners"`: Thick diagonal line border with diagonal corners
+ * - `"single-double-corners"`: Single line on top and bottom, double line on sides, with corners
+ * - `"double-single-corners"`: Double line on top and bottom, single line on sides, with corners
+ * - `"classic-corners"`: Classic ASCII style border with corners
+ * - `"pointer-corners"`: Pointer style border with corners
+ * - `"arrow-corners"`: Arrow style border with corners
+ * - `"outward-arrow-corners"`: Outward arrow style border with corners
+ * - `"inward-arrow-corners"`: Inward arrow style border with corners (alias for `"arrow-corners"`)
+ * - `"double-arrow-corners"`: Double arrow style border with corners
+ * - `"outward-double-arrow-corners"`: Outward double arrow style border with corners
+ * - `"inward-double-arrow-corners"`: Inward double arrow style border with corners (alias for `"double-arrow-corners"`)
  * - `"none"`: No border
  *
  * @see {@link https://www.npmjs.com/package/boxen | Boxen documentation}
  */
 export type ThemeStyleBorderIdentifiers =
-  | "single"
-  | "double"
-  | "bold"
-  | "round"
-  | "single-double"
-  | "double-single"
-  | "classic"
-  | "diagonal"
-  | "diagonal-thick"
-  | "pointer"
-  | "arrow"
-  | "outward-arrow"
-  | "inward-arrow"
-  | "double-arrow"
-  | "outward-double-arrow"
-  | "inward-double-arrow"
+  | ThemeStyleBorderBaseIdentifiers
+  | `${ThemeStyleBorderBaseIdentifiers}-corners`
   | "none";
 
 export type ThemeStyleBorderType =

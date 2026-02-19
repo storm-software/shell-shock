@@ -33,9 +33,10 @@ import type {
 export function resolveBorderStyle(
   identifier: ThemeStyleBorderIdentifiers
 ): ThemeStyleBorderTypeConfig {
-  switch (identifier) {
+  let result!: ThemeStyleBorderTypeConfig;
+  switch (identifier.replace(/-corners$/, "").toLowerCase()) {
     case "double":
-      return {
+      result = {
         topLeft: "╔",
         topRight: "╗",
         bottomLeft: "╚",
@@ -45,8 +46,9 @@ export function resolveBorderStyle(
         left: "║",
         right: "║"
       };
+      break;
     case "bold":
-      return {
+      result = {
         topLeft: "┏",
         topRight: "┓",
         bottomLeft: "┗",
@@ -56,8 +58,9 @@ export function resolveBorderStyle(
         left: "┃",
         right: "┃"
       };
+      break;
     case "round":
-      return {
+      result = {
         topLeft: "╭",
         topRight: "╮",
         bottomLeft: "╰",
@@ -67,8 +70,9 @@ export function resolveBorderStyle(
         left: "│",
         right: "│"
       };
+      break;
     case "single-double":
-      return {
+      result = {
         topLeft: "╓",
         topRight: "╖",
         bottomLeft: "╙",
@@ -78,8 +82,9 @@ export function resolveBorderStyle(
         left: "║",
         right: "║"
       };
+      break;
     case "double-single":
-      return {
+      result = {
         topLeft: "╒",
         topRight: "╕",
         bottomLeft: "╘",
@@ -89,8 +94,9 @@ export function resolveBorderStyle(
         left: "│",
         right: "│"
       };
+      break;
     case "classic":
-      return {
+      result = {
         topLeft: "+",
         topRight: "+",
         bottomLeft: "+",
@@ -100,8 +106,9 @@ export function resolveBorderStyle(
         left: "|",
         right: "|"
       };
+      break;
     case "diagonal":
-      return {
+      result = {
         topLeft: "╱╱",
         topRight: "╱╱",
         bottomLeft: "╱╱",
@@ -111,8 +118,9 @@ export function resolveBorderStyle(
         left: "╱╱",
         right: "╱╱"
       };
+      break;
     case "diagonal-thick":
-      return {
+      result = {
         topLeft: "🙼🙼",
         topRight: "🙼🙼",
         bottomLeft: "🙼🙼",
@@ -122,8 +130,9 @@ export function resolveBorderStyle(
         left: "🙼🙼",
         right: "🙼🙼"
       };
+      break;
     case "pointer":
-      return {
+      result = {
         topLeft: "▶",
         topRight: "◀",
         bottomLeft: "◀",
@@ -134,7 +143,7 @@ export function resolveBorderStyle(
         right: "◄"
       };
     case "outward-arrow":
-      return {
+      result = {
         topLeft: "↗",
         topRight: "↖",
         bottomLeft: "↙",
@@ -144,9 +153,10 @@ export function resolveBorderStyle(
         left: "←",
         right: "→"
       };
+      break;
     case "arrow":
     case "inward-arrow":
-      return {
+      result = {
         topLeft: "↘",
         topRight: "↙",
         bottomLeft: "↖",
@@ -156,8 +166,9 @@ export function resolveBorderStyle(
         left: "→",
         right: "←"
       };
+      break;
     case "outward-double-arrow":
-      return {
+      result = {
         topLeft: "⇗",
         topRight: "⇖",
         bottomLeft: "⇙",
@@ -167,9 +178,10 @@ export function resolveBorderStyle(
         left: "⇐",
         right: "⇒"
       };
+      break;
     case "double-arrow":
     case "inward-double-arrow":
-      return {
+      result = {
         topLeft: "⇘",
         topRight: "⇙",
         bottomLeft: "⇖",
@@ -179,8 +191,9 @@ export function resolveBorderStyle(
         left: "⇒",
         right: "⇐"
       };
+      break;
     case "none":
-      return {
+      result = {
         topLeft: " ",
         topRight: " ",
         bottomLeft: " ",
@@ -190,9 +203,10 @@ export function resolveBorderStyle(
         left: " ",
         right: " "
       };
+      break;
     case "single":
     default:
-      return {
+      result = {
         topLeft: "┌",
         topRight: "┐",
         bottomLeft: "└",
@@ -202,7 +216,16 @@ export function resolveBorderStyle(
         left: "│",
         right: "│"
       };
+      break;
   }
+
+  result.meta = identifier.endsWith("-corners")
+    ? {
+        corners: true
+      }
+    : {};
+
+  return result;
 }
 
 /**
