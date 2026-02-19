@@ -1250,6 +1250,19 @@ export function ColorsDeclaration() {
                               colors.ansi16m.theme.text.prompt.input.disabled
                             }
                           />
+                        )},
+                        placeholder: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.prompt.input.placeholder
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.prompt.input.placeholder
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.prompt.input.placeholder
+                            }
+                          />
                         )}
                       },
                       description: {

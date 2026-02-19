@@ -576,6 +576,10 @@ function buildThemeAnsiStyles(
           disabled: {
             open: wrapFn()(convertFn(theme.text.prompt.input.disabled)),
             close: wrapAnsi16()(39)
+          },
+          placeholder: {
+            open: wrapFn()(convertFn(theme.text.prompt.input.placeholder)),
+            close: wrapAnsi16()(39)
           }
         },
         description: {
