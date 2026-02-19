@@ -20,6 +20,7 @@ import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { render } from "@powerlines/plugin-alloy/render";
 import theme from "@shell-shock/plugin-theme";
+import upgrade from "@shell-shock/plugin-upgrade";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
 import { ConsoleBuiltin } from "@shell-shock/preset-script/components/console-builtin";
 import { VirtualHelp } from "@shell-shock/preset-script/components/help";
@@ -42,6 +43,9 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
   return [
     theme({
       theme: options.theme
+    }),
+    upgrade({
+      packageName: options.packageName
     }),
     {
       name: "shell-shock:cli-preset",

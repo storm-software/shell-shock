@@ -15,14 +15,12 @@ declare module "shell-shock:env" {
    *
    * @title Object
    *
-   *
    */
   export interface EnvBase {
     /**
      * The application's cached data directory.
      *
      * @title Cache Directory
-     *
      *
      */
     CACHE_DIR?: string;
@@ -32,14 +30,12 @@ declare module "shell-shock:env" {
      * @title Continuous Integration
      * @alias CONTINUOUS_INTEGRATION
      * @defaultValue false
-     *
      */
     CI: boolean;
     /**
      * The application's configuration data directory.
      *
      * @title Configuration Directory
-     *
      *
      */
     CONFIG_DIR?: string;
@@ -48,33 +44,28 @@ declare module "shell-shock:env" {
      *
      * @title Data Directory
      *
-     *
      */
     DATA_DIR?: string;
     /**
      * Indicates if the application is running in debug mode.
      *
      * @defaultValue false
-     *
      */
     DEBUG: boolean;
     /**
      * The default locale to be used in the application.
      *
      * @defaultValue "en_US"
-     *
      */
     DEFAULT_LOCALE: string;
     /**
      * The default timezone for the application.
      *
      * @defaultValue "America/New_York"
-     *
      */
     DEFAULT_TIMEZONE: string;
     /**
      * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
-     *
      *
      *
      */
@@ -83,7 +74,6 @@ declare module "shell-shock:env" {
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
      * @defaultValue "production"
-     *
      */
     ENVIRONMENT: string;
     /**
@@ -91,28 +81,24 @@ declare module "shell-shock:env" {
      *
      * @title Error Details URL
      *
-     *
      */
     ERROR_URL: string;
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
      * @defaultValue false
-     *
      */
     FORCE_COLOR: boolean | number;
     /**
      * An indicator that specifies the current runtime should force hyperlinks in terminal output.
      *
      * @defaultValue false
-     *
      */
     FORCE_HYPERLINK: boolean | number;
     /**
      * Indicates if error data should be included.
      *
      * @defaultValue false
-     *
      */
     INCLUDE_ERROR_DATA: boolean;
     /**
@@ -120,21 +106,18 @@ declare module "shell-shock:env" {
      *
      * @title Log Directory
      *
-     *
      */
     LOG_DIR?: string;
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
      * @defaultValue "info"
-     *
      */
     LOG_LEVEL?: "error" | "warn" | "info" | "debug" | null;
     /**
      * An indicator that specifies the current runtime is a minimal environment.
      *
      * @defaultValue false
-     *
      */
     MINIMAL: boolean;
     /**
@@ -144,14 +127,12 @@ declare module "shell-shock:env" {
      *
      * @alias VERCEL_ENV
      * @defaultValue "production"
-     *
      */
     MODE: "development" | "test" | "production";
     /**
      * An indicator that specifies the current runtime is a no color environment.
      *
      * @defaultValue false
-     *
      */
     NO_COLOR: boolean;
     /**
@@ -159,21 +140,18 @@ declare module "shell-shock:env" {
      *
      * @alias ORG
      *
-     *
      */
     ORGANIZATION: string;
     /**
      * The platform for which the application was built.
      *
      * @defaultValue "neutral"
-     *
      */
     PLATFORM: "node" | "neutral" | "browser";
     /**
      * Indicates if error stack traces should be captured.
      *
      * @defaultValue false
-     *
      */
     STACKTRACE: boolean;
     /**
@@ -181,21 +159,18 @@ declare module "shell-shock:env" {
      *
      * @title Temporary Directory
      *
-     *
      */
     TEMP_DIR?: string;
     /**
      * An indicator that specifies the current runtime is a test environment.
      *
      * @defaultValue false
-     *
      */
     TEST: boolean;
     /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly AC_APPCIRCLE?: string;
@@ -204,14 +179,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly AGENT_NAME?: string;
     /**
      * The agola git reference. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly AGOLA_GIT_REF?: string;
@@ -220,7 +193,6 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly APP_NAME: string;
     /**
@@ -228,14 +200,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      * @defaultValue "1.0.0"
-     *
      */
     readonly APP_VERSION: string;
     /**
      * The appcenter build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly APPCENTER_BUILD_ID?: string;
@@ -244,14 +214,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly APPDATA?: string;
     /**
      * The appveyor build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly APPVEYOR?: string;
@@ -260,14 +228,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly bamboo_planKey?: string;
     /**
      * The bitbucket commit. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly BITBUCKET_COMMIT?: string;
@@ -276,14 +242,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly BITRISE_IO?: string;
     /**
      * The buddy workspace ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly BUDDY_WORKSPACE_ID?: string;
@@ -292,14 +256,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     *
      *
      */
     readonly BUILD_ID: string;
@@ -308,14 +270,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly BUILD_TIMESTAMP: string;
     /**
      * The builder output build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly BUILDER_OUTPUT?: string;
@@ -324,14 +284,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly BUILDKITE?: string;
     /**
      * The cf build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly CF_BUILD_ID?: string;
@@ -340,14 +298,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly CI_NAME?: string;
     /**
      * The xcode project build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly CI_XCODE_PROJECT?: string;
@@ -356,14 +312,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly CIRCLECI?: string;
     /**
      * The cirrus-ci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly CIRRUS_CI?: string;
@@ -372,14 +326,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly CM_BUILD_ID?: string;
     /**
      * The codebuild build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly CODEBUILD?: string;
@@ -388,14 +340,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly COLORTERM?: string;
     /**
      * The ConEmu task name. This variable is set by certain terminal emulators.
      *
      * @readonly
-     *
      *
      */
     readonly ConEmuTask?: string;
@@ -404,14 +354,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly CURSOR_TRACE_ID?: string;
     /**
      * The drone build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly DRONE?: string;
@@ -420,14 +368,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly DSARI?: string;
     /**
      * The earthly build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly EARTHLY_CI?: string;
@@ -436,14 +382,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly EAS_BUILD?: string;
     /**
      * The gerrit project. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly GERRIT_PROJECT?: string;
@@ -452,14 +396,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly GITEA_ACTIONS?: string;
     /**
      * The github actions build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly GITHUB_ACTIONS?: string;
@@ -468,14 +410,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly GITLAB_CI?: string;
     /**
      * The go cd build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly GOCD?: string;
@@ -484,14 +424,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly HARNESS_BUILD_ID?: string;
     /**
      * The hudson build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly HUDSON?: string;
@@ -500,14 +438,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly JENKINS_URL?: string;
     /**
      * The layerci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly LAYERCI?: string;
@@ -516,14 +452,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly LOCALAPPDATA?: string;
     /**
      * The magnum build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly MAGNUM?: string;
@@ -532,14 +466,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly NETLIFY?: string;
     /**
      * The nevercode build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly NEVERCODE?: string;
@@ -548,14 +480,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly NOW_BUILDER?: string;
     /**
      * The prow job ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly PROW_JOB_ID?: string;
@@ -564,14 +494,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly RELEASE_BUILD_ID?: string;
     /**
      * The unique identifier for the release.
      *
      * @readonly
-     *
      *
      */
     readonly RELEASE_ID: string;
@@ -580,14 +508,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly RELEASE_TAG: string;
     /**
      * The render build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly RENDER?: string;
@@ -596,14 +522,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly RUN_ID?: string;
     /**
      * The sailci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly SAILCI?: string;
@@ -612,14 +536,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly SCREWDRIVER?: string;
     /**
      * The semaphore build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly SEMAPHORE?: string;
@@ -628,14 +550,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly SOURCEHUT?: string;
     /**
      * The spaceship build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly SPACESHIP_CI?: string;
@@ -644,14 +564,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly STRIDER?: string;
     /**
      * The task ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly TASK_ID?: string;
@@ -660,14 +578,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly TEAMCITY_VERSION?: string;
     /**
      * The terminal type. This variable is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly TERM?: string;
@@ -676,14 +592,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly TERM_PROGRAM?: string;
     /**
      * The terminal program version. This variable is set by certain terminal emulators.
      *
      * @readonly
-     *
      *
      */
     readonly TERM_PROGRAM_VERSION?: string;
@@ -692,14 +606,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly TERMINAL_EMULATOR?: string;
     /**
      * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
      *
      * @readonly
-     *
      *
      */
     readonly TERMINUS_SUBLIME?: boolean;
@@ -708,14 +620,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly TF_BUILD?: string;
     /**
      * The travis build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly TRAVIS?: string;
@@ -724,14 +634,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly VELA?: string;
     /**
      * The VTE version. This variable is set by certain terminal emulators.
      *
      * @readonly
-     *
      *
      */
     readonly VTE_VERSION?: string;
@@ -740,14 +648,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly WT_SESSION?: string;
     /**
      * The xcode server build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly XCS?: string;
@@ -756,14 +662,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly XDG_CACHE_HOME?: string;
     /**
      * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
-     *
      *
      */
     readonly XDG_CONFIG_HOME?: string;
@@ -772,7 +676,6 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly XDG_DATA_HOME?: string;
     /**
@@ -780,14 +683,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly XDG_RUNTIME_DIR?: string;
     /**
      * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
-     *
      *
      */
     readonly XDG_STATE_HOME?: string;
@@ -797,7 +698,6 @@ declare module "shell-shock:env" {
    *
    * @remarks
    * The `Env` type extends the `EnvBase` interface by including additional keys that are prefixed according to the project's configuration. This allows for flexibility in accessing environment variables with different naming conventions.
-   *
    */
   export type Env = {
     [Key in keyof EnvBase as
@@ -817,7 +717,6 @@ declare module "shell-shock:env" {
    *
    * @title Object
    *
-   *
    */
   export const initialEnv: Partial<EnvBase>;
   /**
@@ -829,7 +728,6 @@ declare module "shell-shock:env" {
    *
    * @remarks
    * This serializer is used to serialize and deserialize the Powerlines environment configuration.
-   *
    */
   export class EnvSerializer extends Serializer {
     /**
@@ -848,7 +746,6 @@ declare module "shell-shock:env" {
    * ```
    * @throws ValidationError when serialization or validation fails.
    *
-   *
    */
   export const serializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
     EnvBase,
@@ -865,7 +762,6 @@ declare module "shell-shock:env" {
    * ```
    * @throws ValidationError when deserialization fails.
    *
-   *
    */
   export const deserializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
     any,
@@ -881,7 +777,6 @@ declare module "shell-shock:env" {
    *   settings provided by the runtime.
    * @returns The initialized Powerlines configuration object.
    *
-   *
    */
   export function createEnv(environmentConfig?: Partial<Env>): Env;
   /**
@@ -889,7 +784,6 @@ declare module "shell-shock:env" {
    *
    * @remarks
    * This object provides access to the environment configuration parameters in the application runtime.
-   *
    */
   export const env: Env;
   /**
@@ -907,7 +801,6 @@ declare module "shell-shock:env" {
    * - `test`
    *
    * - `development`
-   *
    */
   export const mode: string;
   /**
@@ -943,12 +836,10 @@ declare module "shell-shock:env" {
    *
    * @remarks
    * These environment path types are accessed in the {@link EnvPaths} type.
-   *
    */
   export type EnvPathType = "data" | "config" | "cache" | "log" | "temp";
   /**
    * The environment paths for storing things like data, config, logs, and cache in the current runtime environment.
-   *
    */
   export type EnvPaths = Record<EnvPathType, string>;
   /**
@@ -962,7 +853,6 @@ declare module "shell-shock:env" {
    * - **Windows**: directories are generally created in `%AppData%/<name>`
    *
    * - **MacOS**: directories are generally created in `~/Library/Application Support/<name>`
-   *
    */
   export const paths: EnvPaths;
 }

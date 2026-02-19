@@ -117,64 +117,73 @@ export function CommandEntry(props: CommandEntryProps) {
           <IfStatement condition={code`!isInteractive`}>
             <CommandValidationLogic command={command} />
           </IfStatement>
-          <ElseIfClause
-            condition={code`!isHelp && (${Object.values(command.options ?? {})
-              .filter(option => !option.optional)
-              .map(option =>
-                (option.kind === ReflectionKind.string ||
-                  option.kind === ReflectionKind.number) &&
-                option.variadic
-                  ? `(!options${
-                      option.name.includes("?")
-                        ? `["${option.name}"]`
-                        : `.${camelCase(option.name)}`
-                    } || options${
-                      option.name.includes("?")
-                        ? `["${option.name}"]`
-                        : `.${camelCase(option.name)}`
-                    }.length === 0)`
-                  : `options${
-                      option.name.includes("?")
-                        ? `["${option.name}"]`
-                        : `.${camelCase(option.name)}`
-                    } === undefined`
-              )
-              .join(" || ")}${
+          <Show
+            when={
               Object.values(command.options ?? {}).filter(
                 option => !option.optional
-              ).length > 0 &&
+              ).length > 0 ||
               Object.values(command.arguments ?? {}).filter(
                 argument => !argument.optional
               ).length > 0
-                ? " || "
-                : ""
-            }${Object.values(command.arguments ?? {})
-              .filter(argument => !argument.optional)
-              .map(argument =>
-                (argument.kind === ReflectionKind.string ||
-                  argument.kind === ReflectionKind.number) &&
-                argument.variadic
-                  ? `(!${camelCase(
-                      argument.name
-                    )} || ${camelCase(argument.name)}.length === 0)`
-                  : `${camelCase(argument.name)} === undefined`
-              )
-              .join(" || ")}) `}>
-            {code`writeLine(""); `}
-            <Spacing />
-            <For each={Object.values(command.options ?? {})} doubleHardline>
-              {option => (
-                <>
-                  <Show when={!option.optional}>
-                    <IfStatement
-                      condition={code`!options${
+            }>
+            <ElseIfClause
+              condition={code`!isHelp && (${Object.values(command.options ?? {})
+                .filter(option => !option.optional)
+                .map(option =>
+                  (option.kind === ReflectionKind.string ||
+                    option.kind === ReflectionKind.number) &&
+                  option.variadic
+                    ? `(!options${
                         option.name.includes("?")
                           ? `["${option.name}"]`
                           : `.${camelCase(option.name)}`
-                      }`}>
-                      <Switch>
-                        <Match
-                          when={option.kind === ReflectionKind.string}>{code`
+                      } || options${
+                        option.name.includes("?")
+                          ? `["${option.name}"]`
+                          : `.${camelCase(option.name)}`
+                      }.length === 0)`
+                    : `options${
+                        option.name.includes("?")
+                          ? `["${option.name}"]`
+                          : `.${camelCase(option.name)}`
+                      } === undefined`
+                )
+                .join(" || ")}${
+                Object.values(command.options ?? {}).filter(
+                  option => !option.optional
+                ).length > 0 &&
+                Object.values(command.arguments ?? {}).filter(
+                  argument => !argument.optional
+                ).length > 0
+                  ? " || "
+                  : ""
+              }${Object.values(command.arguments ?? {})
+                .filter(argument => !argument.optional)
+                .map(argument =>
+                  (argument.kind === ReflectionKind.string ||
+                    argument.kind === ReflectionKind.number) &&
+                  argument.variadic
+                    ? `(!${camelCase(
+                        argument.name
+                      )} || ${camelCase(argument.name)}.length === 0)`
+                    : `${camelCase(argument.name)} === undefined`
+                )
+                .join(" || ")}) `}>
+              {code`writeLine(""); `}
+              <Spacing />
+              <For each={Object.values(command.options ?? {})} doubleHardline>
+                {option => (
+                  <>
+                    <Show when={!option.optional}>
+                      <IfStatement
+                        condition={code`!options${
+                          option.name.includes("?")
+                            ? `["${option.name}"]`
+                            : `.${camelCase(option.name)}`
+                        }`}>
+                        <Switch>
+                          <Match
+                            when={option.kind === ReflectionKind.string}>{code`
                             const value = await text({
                               message: "Please provide a value for the \\"${option.name}\\" option",
                               ${
@@ -200,8 +209,8 @@ export function CommandEntry(props: CommandEntryProps) {
                                 : `.${camelCase(option.name)}`
                             } = value;
                           `}</Match>
-                        <Match
-                          when={option.kind === ReflectionKind.number}>{code`
+                          <Match
+                            when={option.kind === ReflectionKind.number}>{code`
                             const value = await numeric({
                               message: "Please provide a numeric value for the \\"${option.name}\\" option",
                               ${
@@ -221,8 +230,8 @@ export function CommandEntry(props: CommandEntryProps) {
                                 : `.${camelCase(option.name)}`
                             } = value;
                           `}</Match>
-                        <Match
-                          when={option.kind === ReflectionKind.boolean}>{code`
+                          <Match
+                            when={option.kind === ReflectionKind.boolean}>{code`
                             const value = await toggle({
                               message: "Please select a value for the \\"${
                                 option.name
@@ -244,21 +253,21 @@ export function CommandEntry(props: CommandEntryProps) {
                                 : `.${camelCase(option.name)}`
                             } = value;
                           `}</Match>
-                      </Switch>
-                    </IfStatement>
-                    <Show
-                      when={
-                        (option.kind === ReflectionKind.string ||
-                          option.kind === ReflectionKind.number) &&
-                        option.variadic
-                      }>
-                      <ElseIfClause
-                        condition={code`options${
-                          option.name.includes("?")
-                            ? `["${option.name}"]`
-                            : `.${camelCase(option.name)}`
-                        }.length === 0`}>
-                        {code`
+                        </Switch>
+                      </IfStatement>
+                      <Show
+                        when={
+                          (option.kind === ReflectionKind.string ||
+                            option.kind === ReflectionKind.number) &&
+                          option.variadic
+                        }>
+                        <ElseIfClause
+                          condition={code`options${
+                            option.name.includes("?")
+                              ? `["${option.name}"]`
+                              : `.${camelCase(option.name)}`
+                          }.length === 0`}>
+                          {code`
                             const value = await text({
                               message: "Please provide one or more${
                                 option.kind === ReflectionKind.number
@@ -302,21 +311,24 @@ export function CommandEntry(props: CommandEntryProps) {
                                 : ""
                             } ;
                           `}
-                      </ElseIfClause>
+                        </ElseIfClause>
+                      </Show>
                     </Show>
-                  </Show>
-                </>
-              )}
-            </For>
-            <Spacing />
-            <For each={command.arguments} doubleHardline>
-              {argument => (
-                <>
-                  <Show when={!argument.optional}>
-                    <IfStatement condition={code`!${camelCase(argument.name)}`}>
-                      <Switch>
-                        <Match
-                          when={argument.kind === ReflectionKind.string}>{code`
+                  </>
+                )}
+              </For>
+              <Spacing />
+              <For each={command.arguments} doubleHardline>
+                {argument => (
+                  <>
+                    <Show when={!argument.optional}>
+                      <IfStatement
+                        condition={code`!${camelCase(argument.name)}`}>
+                        <Switch>
+                          <Match
+                            when={
+                              argument.kind === ReflectionKind.string
+                            }>{code`
                             const value = await text({
                               message: "Please provide a value for the \\"${argument.name}\\" argument",
                               ${
@@ -338,8 +350,10 @@ export function CommandEntry(props: CommandEntryProps) {
 
                             ${camelCase(argument.name)} = value;
                           `}</Match>
-                        <Match
-                          when={argument.kind === ReflectionKind.number}>{code`
+                          <Match
+                            when={
+                              argument.kind === ReflectionKind.number
+                            }>{code`
                             const value = await numeric({
                               message: "Please provide a numeric value for the \\"${argument.name}\\" argument",
                               ${
@@ -355,8 +369,10 @@ export function CommandEntry(props: CommandEntryProps) {
 
                             ${camelCase(argument.name)} = value;
                           `}</Match>
-                        <Match
-                          when={argument.kind === ReflectionKind.boolean}>{code`
+                          <Match
+                            when={
+                              argument.kind === ReflectionKind.boolean
+                            }>{code`
                             const value = await toggle({
                               message: "Please select a value for the \\"${argument.name}\\" argument",
                               ${
@@ -372,17 +388,17 @@ export function CommandEntry(props: CommandEntryProps) {
 
                             ${camelCase(argument.name)} = value;
                           `}</Match>
-                      </Switch>
-                    </IfStatement>
-                    <Show
-                      when={
-                        (argument.kind === ReflectionKind.string ||
-                          argument.kind === ReflectionKind.number) &&
-                        argument.variadic
-                      }>
-                      <ElseIfClause
-                        condition={code`${camelCase(argument.name)}.length === 0`}>
-                        {code`
+                        </Switch>
+                      </IfStatement>
+                      <Show
+                        when={
+                          (argument.kind === ReflectionKind.string ||
+                            argument.kind === ReflectionKind.number) &&
+                          argument.variadic
+                        }>
+                        <ElseIfClause
+                          condition={code`${camelCase(argument.name)}.length === 0`}>
+                          {code`
                             const value = await text({
                               message: "Please provide one or more${
                                 argument.kind === ReflectionKind.number
@@ -423,15 +439,16 @@ export function CommandEntry(props: CommandEntryProps) {
                                 : ""
                             } ;
                           `}
-                      </ElseIfClause>
+                        </ElseIfClause>
+                      </Show>
                     </Show>
-                  </Show>
-                </>
-              )}
-            </For>
-            {code`writeLine(""); `}
-            <Spacing />
-          </ElseIfClause>
+                  </>
+                )}
+              </For>
+              {code`writeLine(""); `}
+              <Spacing />
+            </ElseIfClause>
+          </Show>
         </CommandHandlerDeclaration>
       </EntryFile>
       <For each={Object.values(command.children)}>

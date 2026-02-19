@@ -2439,7 +2439,7 @@ export function PromptsBuiltin(props: PromptsBuiltinProps) {
   return (
     <BuiltinFile
       id="prompts"
-      description="A collection of prompts that allow for interactive input in command line applications."
+      description="A collection of prompts that allow for interactive input in command-line applications."
       {...rest}
       imports={defu(rest.imports ?? {}, {
         "node:events": "EventEmitter",

@@ -16,7 +16,6 @@
 
  ------------------------------------------------------------------- */
 
-import type { Children } from "@alloy-js/core";
 import type {
   CommandBase,
   CommandOption
@@ -24,60 +23,63 @@ import type {
 import type { Context } from "@shell-shock/core/types/context";
 import type { ThemePluginResolvedConfig } from "@shell-shock/plugin-theme/types/plugin";
 import type {
+  UpgradePluginContext,
+  UpgradePluginOptions,
+  UpgradePluginResolvedConfig,
+  UpgradePluginUserConfig
+} from "@shell-shock/plugin-upgrade/types/plugin";
+import type {
   ScriptPresetContext,
   ScriptPresetOptions,
   ScriptPresetResolvedConfig,
   ScriptPresetUserConfig
 } from "@shell-shock/preset-script/types/plugin";
 
-export interface CLIPresetOptions extends Omit<
-  ScriptPresetOptions,
-  "defaultOptions"
-> {
-  /**
-   * The default interactive mode to apply to commands.
-   *
-   * @remarks
-   * The following modes are available:
-   * - `true`: Enable interactivity when a TTY is detected and no explicit interactive flag is set (default).
-   * - `false`: Disable interactivity unless an explicit interactive flag is set.
-   * - `"never"`: Always disable interactivity, regardless of TTY presence or flags.
-   *
-   * @defaultValue `true`
-   */
-  interactive?: boolean | "never";
+export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> &
+  UpgradePluginOptions & {
+    /**
+     * The default interactive mode to apply to commands.
+     *
+     * @remarks
+     * The following modes are available:
+     * - `true`: Enable interactivity when a TTY is detected and no explicit interactive flag is set (default).
+     * - `false`: Disable interactivity unless an explicit interactive flag is set.
+     * - `"never"`: Always disable interactivity, regardless of TTY presence or flags.
+     *
+     * @defaultValue `true`
+     */
+    interactive?: boolean | "never";
 
-  /**
-   * A set of default command options to apply to each command.
-   *
-   * @remarks
-   * By default, Shell Shock adds the following set of default arguments to each command:
-   * - `--help` (`-h`, `-?`): Show help information.
-   * - `--version` (`-v`): Show the version of the application.
-   * - `--interactive` (`-i`, `--interact`): Enable interactive mode.
-   * - `--no-interactive`: Disable interactive mode.
-   * - `--no-banner`: Hide the banner displayed while running the CLI application.
-   * - `--verbose`: Enable verbose output.
-   *
-   * To disable the addition of these default options, set this property to `false`, or provide a custom set of options/a function that returns them.
-   */
-  defaultOptions?:
-    | CommandOption[]
-    | ((context: Context, input: CommandBase) => CommandOption[])
-    | false;
+    /**
+     * A set of default command options to apply to each command.
+     *
+     * @remarks
+     * By default, Shell Shock adds the following set of default arguments to each command:
+     * - `--help` (`-h`, `-?`): Show help information.
+     * - `--version` (`-v`): Show the version of the application.
+     * - `--interactive` (`-i`, `--interact`): Enable interactive mode.
+     * - `--no-interactive`: Disable interactive mode.
+     * - `--no-banner`: Hide the banner displayed while running the CLI application.
+     * - `--verbose`: Enable verbose output.
+     *
+     * To disable the addition of these default options, set this property to `false`, or provide a custom set of options/a function that returns them.
+     */
+    defaultOptions?:
+      | CommandOption[]
+      | ((context: Context, input: CommandBase) => CommandOption[])
+      | false;
+  };
 
-  /**
-   * An alloy-js component to render the banner that is displayed when the application starts.
-   */
-  banner?: Children;
-}
-
-export type CLIPresetUserConfig = ScriptPresetUserConfig & CLIPresetOptions;
+export type CLIPresetUserConfig = ScriptPresetUserConfig &
+  UpgradePluginUserConfig &
+  CLIPresetOptions;
 
 export type CLIPresetResolvedConfig = ScriptPresetResolvedConfig &
+  UpgradePluginResolvedConfig &
   Required<Omit<CLIPresetOptions, "theme">> &
   Pick<ThemePluginResolvedConfig, "theme">;
 
 export type CLIPresetContext<
   TResolvedConfig extends CLIPresetResolvedConfig = CLIPresetResolvedConfig
-> = ScriptPresetContext<TResolvedConfig>;
+> = ScriptPresetContext<TResolvedConfig> &
+  UpgradePluginContext<TResolvedConfig>;

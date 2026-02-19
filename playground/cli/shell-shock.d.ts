@@ -15,14 +15,12 @@ declare module "shell-shock:env" {
    *
    * @title Object
    *
-   *
    */
   export interface EnvBase {
     /**
      * The application's cached data directory.
      *
      * @title Cache Directory
-     *
      *
      */
     CACHE_DIR?: string;
@@ -32,14 +30,12 @@ declare module "shell-shock:env" {
      * @title Continuous Integration
      * @alias CONTINUOUS_INTEGRATION
      * @defaultValue false
-     *
      */
     CI: boolean;
     /**
      * The application's configuration data directory.
      *
      * @title Configuration Directory
-     *
      *
      */
     CONFIG_DIR?: string;
@@ -48,33 +44,28 @@ declare module "shell-shock:env" {
      *
      * @title Data Directory
      *
-     *
      */
     DATA_DIR?: string;
     /**
      * Indicates if the application is running in debug mode.
      *
      * @defaultValue false
-     *
      */
     DEBUG: boolean;
     /**
      * The default locale to be used in the application.
      *
      * @defaultValue "en_US"
-     *
      */
     DEFAULT_LOCALE: string;
     /**
      * The default timezone for the application.
      *
      * @defaultValue "America/New_York"
-     *
      */
     DEFAULT_TIMEZONE: string;
     /**
      * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
-     *
      *
      *
      */
@@ -83,7 +74,6 @@ declare module "shell-shock:env" {
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
      * @defaultValue "production"
-     *
      */
     ENVIRONMENT: string;
     /**
@@ -91,28 +81,24 @@ declare module "shell-shock:env" {
      *
      * @title Error Details URL
      *
-     *
      */
     ERROR_URL: string;
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
      * @defaultValue false
-     *
      */
     FORCE_COLOR: boolean | number;
     /**
      * An indicator that specifies the current runtime should force hyperlinks in terminal output.
      *
      * @defaultValue false
-     *
      */
     FORCE_HYPERLINK: boolean | number;
     /**
      * Indicates if error data should be included.
      *
      * @defaultValue false
-     *
      */
     INCLUDE_ERROR_DATA: boolean;
     /**
@@ -120,21 +106,18 @@ declare module "shell-shock:env" {
      *
      * @title Log Directory
      *
-     *
      */
     LOG_DIR?: string;
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
      * @defaultValue "info"
-     *
      */
     LOG_LEVEL?: "error" | "warn" | "info" | "debug" | null;
     /**
      * An indicator that specifies the current runtime is a minimal environment.
      *
      * @defaultValue false
-     *
      */
     MINIMAL: boolean;
     /**
@@ -144,14 +127,12 @@ declare module "shell-shock:env" {
      *
      * @alias VERCEL_ENV
      * @defaultValue "production"
-     *
      */
     MODE: "development" | "test" | "production";
     /**
      * An indicator that specifies the current runtime is a no color environment.
      *
      * @defaultValue false
-     *
      */
     NO_COLOR: boolean;
     /**
@@ -159,21 +140,18 @@ declare module "shell-shock:env" {
      *
      * @alias ORG
      *
-     *
      */
     ORGANIZATION: string;
     /**
      * The platform for which the application was built.
      *
      * @defaultValue "neutral"
-     *
      */
     PLATFORM: "node" | "neutral" | "browser";
     /**
      * Indicates if error stack traces should be captured.
      *
      * @defaultValue false
-     *
      */
     STACKTRACE: boolean;
     /**
@@ -181,21 +159,18 @@ declare module "shell-shock:env" {
      *
      * @title Temporary Directory
      *
-     *
      */
     TEMP_DIR?: string;
     /**
      * An indicator that specifies the current runtime is a test environment.
      *
      * @defaultValue false
-     *
      */
     TEST: boolean;
     /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly AC_APPCIRCLE?: string;
@@ -204,14 +179,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly AGENT_NAME?: string;
     /**
      * The agola git reference. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly AGOLA_GIT_REF?: string;
@@ -220,7 +193,6 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly APP_NAME: string;
     /**
@@ -228,14 +200,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      * @defaultValue "1.0.0"
-     *
      */
     readonly APP_VERSION: string;
     /**
      * The appcenter build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly APPCENTER_BUILD_ID?: string;
@@ -244,14 +214,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly APPDATA?: string;
     /**
      * The appveyor build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly APPVEYOR?: string;
@@ -260,14 +228,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly bamboo_planKey?: string;
     /**
      * The bitbucket commit. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly BITBUCKET_COMMIT?: string;
@@ -276,14 +242,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly BITRISE_IO?: string;
     /**
      * The buddy workspace ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly BUDDY_WORKSPACE_ID?: string;
@@ -292,14 +256,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     *
      *
      */
     readonly BUILD_ID: string;
@@ -308,14 +270,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly BUILD_TIMESTAMP: string;
     /**
      * The builder output build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly BUILDER_OUTPUT?: string;
@@ -324,14 +284,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly BUILDKITE?: string;
     /**
      * The cf build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly CF_BUILD_ID?: string;
@@ -340,14 +298,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly CI_NAME?: string;
     /**
      * The xcode project build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly CI_XCODE_PROJECT?: string;
@@ -356,14 +312,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly CIRCLECI?: string;
     /**
      * The cirrus-ci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly CIRRUS_CI?: string;
@@ -372,14 +326,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly CM_BUILD_ID?: string;
     /**
      * The codebuild build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly CODEBUILD?: string;
@@ -388,14 +340,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly COLORTERM?: string;
     /**
      * The ConEmu task name. This variable is set by certain terminal emulators.
      *
      * @readonly
-     *
      *
      */
     readonly ConEmuTask?: string;
@@ -404,14 +354,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly CURSOR_TRACE_ID?: string;
     /**
      * The drone build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly DRONE?: string;
@@ -420,14 +368,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly DSARI?: string;
     /**
      * The earthly build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly EARTHLY_CI?: string;
@@ -436,14 +382,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly EAS_BUILD?: string;
     /**
      * The gerrit project. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly GERRIT_PROJECT?: string;
@@ -452,14 +396,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly GITEA_ACTIONS?: string;
     /**
      * The github actions build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly GITHUB_ACTIONS?: string;
@@ -468,14 +410,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly GITLAB_CI?: string;
     /**
      * The go cd build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly GOCD?: string;
@@ -484,14 +424,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly HARNESS_BUILD_ID?: string;
     /**
      * The hudson build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly HUDSON?: string;
@@ -500,14 +438,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly JENKINS_URL?: string;
     /**
      * The layerci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly LAYERCI?: string;
@@ -516,14 +452,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly LOCALAPPDATA?: string;
     /**
      * The magnum build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly MAGNUM?: string;
@@ -532,14 +466,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly NETLIFY?: string;
     /**
      * The nevercode build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly NEVERCODE?: string;
@@ -548,14 +480,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly NOW_BUILDER?: string;
     /**
      * The prow job ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly PROW_JOB_ID?: string;
@@ -564,14 +494,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly RELEASE_BUILD_ID?: string;
     /**
      * The unique identifier for the release.
      *
      * @readonly
-     *
      *
      */
     readonly RELEASE_ID: string;
@@ -580,14 +508,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly RELEASE_TAG: string;
     /**
      * The render build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly RENDER?: string;
@@ -596,14 +522,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly RUN_ID?: string;
     /**
      * The sailci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly SAILCI?: string;
@@ -612,14 +536,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly SCREWDRIVER?: string;
     /**
      * The semaphore build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly SEMAPHORE?: string;
@@ -628,14 +550,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly SOURCEHUT?: string;
     /**
      * The spaceship build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly SPACESHIP_CI?: string;
@@ -644,14 +564,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly STRIDER?: string;
     /**
      * The task ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly TASK_ID?: string;
@@ -660,14 +578,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly TEAMCITY_VERSION?: string;
     /**
      * The terminal type. This variable is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly TERM?: string;
@@ -676,14 +592,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly TERM_PROGRAM?: string;
     /**
      * The terminal program version. This variable is set by certain terminal emulators.
      *
      * @readonly
-     *
      *
      */
     readonly TERM_PROGRAM_VERSION?: string;
@@ -692,14 +606,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly TERMINAL_EMULATOR?: string;
     /**
      * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
      *
      * @readonly
-     *
      *
      */
     readonly TERMINUS_SUBLIME?: boolean;
@@ -708,14 +620,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly TF_BUILD?: string;
     /**
      * The travis build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly TRAVIS?: string;
@@ -724,14 +634,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly VELA?: string;
     /**
      * The VTE version. This variable is set by certain terminal emulators.
      *
      * @readonly
-     *
      *
      */
     readonly VTE_VERSION?: string;
@@ -740,14 +648,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly WT_SESSION?: string;
     /**
      * The xcode server build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
-     *
      *
      */
     readonly XCS?: string;
@@ -756,14 +662,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly XDG_CACHE_HOME?: string;
     /**
      * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
-     *
      *
      */
     readonly XDG_CONFIG_HOME?: string;
@@ -772,7 +676,6 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly XDG_DATA_HOME?: string;
     /**
@@ -780,14 +683,12 @@ declare module "shell-shock:env" {
      *
      * @readonly
      *
-     *
      */
     readonly XDG_RUNTIME_DIR?: string;
     /**
      * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
-     *
      *
      */
     readonly XDG_STATE_HOME?: string;
@@ -797,7 +698,6 @@ declare module "shell-shock:env" {
    *
    * @remarks
    * The `Env` type extends the `EnvBase` interface by including additional keys that are prefixed according to the project's configuration. This allows for flexibility in accessing environment variables with different naming conventions.
-   *
    */
   export type Env = {
     [Key in keyof EnvBase as
@@ -817,7 +717,6 @@ declare module "shell-shock:env" {
    *
    * @title Object
    *
-   *
    */
   export const initialEnv: Partial<EnvBase>;
   /**
@@ -829,7 +728,6 @@ declare module "shell-shock:env" {
    *
    * @remarks
    * This serializer is used to serialize and deserialize the Powerlines environment configuration.
-   *
    */
   export class EnvSerializer extends Serializer {
     /**
@@ -848,7 +746,6 @@ declare module "shell-shock:env" {
    * ```
    * @throws ValidationError when serialization or validation fails.
    *
-   *
    */
   export const serializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
     EnvBase,
@@ -865,7 +762,6 @@ declare module "shell-shock:env" {
    * ```
    * @throws ValidationError when deserialization fails.
    *
-   *
    */
   export const deserializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
     any,
@@ -881,7 +777,6 @@ declare module "shell-shock:env" {
    *   settings provided by the runtime.
    * @returns The initialized Powerlines configuration object.
    *
-   *
    */
   export function createEnv(environmentConfig?: Partial<Env>): Env;
   /**
@@ -889,7 +784,6 @@ declare module "shell-shock:env" {
    *
    * @remarks
    * This object provides access to the environment configuration parameters in the application runtime.
-   *
    */
   export const env: Env;
   /**
@@ -907,7 +801,6 @@ declare module "shell-shock:env" {
    * - `test`
    *
    * - `development`
-   *
    */
   export const mode: string;
   /**
@@ -943,12 +836,10 @@ declare module "shell-shock:env" {
    *
    * @remarks
    * These environment path types are accessed in the {@link EnvPaths} type.
-   *
    */
   export type EnvPathType = "data" | "config" | "cache" | "log" | "temp";
   /**
    * The environment paths for storing things like data, config, logs, and cache in the current runtime environment.
-   *
    */
   export type EnvPaths = Record<EnvPathType, string>;
   /**
@@ -962,9 +853,212 @@ declare module "shell-shock:env" {
    * - **Windows**: directories are generally created in `%AppData%/<name>`
    *
    * - **MacOS**: directories are generally created in `~/Library/Application Support/<name>`
-   *
    */
   export const paths: EnvPaths;
+}
+
+/**
+ * A collection of application upgrade utility functions for Shell Shock.
+ *
+ * @module shell-shock:upgrade
+ */
+declare module "shell-shock:upgrade" {
+  /**
+   * Options for the `locateLockfile` handler function.
+   */
+  export interface LocateLockfileOptions {
+    /**
+     * The current working directory to use. If not provided, the process's current working directory will be used.
+     */
+    cwd?: string;
+  }
+  /**
+   * Locate the lockfile currently being used by the command-line/workspace.
+   *
+   * @remarks
+   * This function is used to determine the lockfile currently being used by the command-line/workspace. It can be used in the CLI upgrade command to check if the application is using npm, yarn, or another package manager.
+   *
+   *
+   * @param options - The options for the `locateLockfile` function. Currently,
+   *   there are no options available, but this parameter is included for future
+   *   extensibility.
+   * @returns A promise that resolves to the lockfile currently being used by the
+   *   command-line/workspace as a string.
+   *
+   */
+  export function locateLockfile(
+    options?: LocateLockfileOptions
+  ): Promise<string | undefined>;
+  /**
+   * Options for the `getPackageManager` handler function.
+   */
+  export type GetPackageManagerOptions = LocateLockfileOptions;
+  /**
+   * Get the package manager currently being used by the command-line/workspace.
+   *
+   * @remarks
+   * This function is used to determine the package manager currently being used by the command-line/workspace. It can be used in the CLI upgrade command to check if the application is using npm, yarn, or another package manager.
+   *
+   *
+   * @param options - The options for the `getPackageManager` function. Currently,
+   *   there are no options available, but this parameter is included for future
+   *   extensibility.
+   * @returns A promise that resolves to the package manager currently being used
+   *   by the command-line/workspace as a string.
+   *
+   */
+  export function getPackageManager(
+    options?: GetPackageManagerOptions
+  ): Promise<Promise<"npm" | "yarn" | "deno" | "pnpm" | "bun">>;
+  /**
+   * Represents a maintainer of an npm package.
+   */
+  export interface NpmPackageMaintainer {
+    /**
+     * The email of the npm package maintainer.
+     */
+    email: string;
+    /**
+     * The username of the npm package maintainer.
+     */
+    username: string;
+  }
+  /**
+   * Represents the links of an npm package.
+   */
+  export interface NpmPackageLinks {
+    /**
+     * The homepage of the npm package.
+     */
+    homepage?: string;
+    /**
+     * The repository of the npm package.
+     */
+    repository?: string;
+    /**
+     * The bugs page of the npm package.
+     */
+    bugs?: string;
+    /**
+     * The npm page of the npm package.
+     */
+    npm?: string;
+  }
+  /**
+   * Represents an npm package.
+   */
+  export interface NpmPackage {
+    /**
+     * The name of the npm package.
+     */
+    name: string;
+    /**
+     * The date when the npm package was last updated.
+     */
+    date: Date;
+    /**
+     * The version of the npm package.
+     */
+    version: string;
+    /**
+     * The description of the npm package.
+     */
+    description?: string;
+    /**
+     * A list of keywords associated with the npm package.
+     */
+    keywords: string[];
+    /**
+     * The license of the npm package.
+     */
+    license?: string;
+    /**
+     * The maintainers of the npm package.
+     */
+    maintainers: NpmPackageMaintainer[];
+    /**
+     * The links of the npm package.
+     */
+    links: NpmPackageLinks;
+  }
+  /**
+   * Represents an npm package search result item.
+   */
+  export interface NpmPackageSearchResultItem {
+    /**
+     * The npm package details.
+     */
+    package: NpmPackage;
+  }
+  /**
+   * Represents an npm package search result.
+   */
+  export interface NpmPackageSearchResult {
+    /**
+     * The list of npm package search result items.
+     */
+    objects: NpmPackageSearchResultItem[];
+  }
+  /**
+   * Fetch details of an npm package.
+   *
+   * @remarks
+   * This function is used to fetch an npm package. It can be used in the CLI upgrade command to check if the application is using npm, yarn, or another package manager.
+   *
+   *
+   * @param packageName - The name of the npm package to fetch.
+   * @returns A promise that resolves to the npm package details or undefined if
+   *   the package is not found.
+   *
+   */
+  export function fetchNpmPackage(
+    packageName: string
+  ): Promise<Promise<NpmPackage | undefined>>;
+  /**
+   * Get the latest version of the application from the npm registry.
+   *
+   * @remarks
+   * This function is used to retrieve the latest version of the application from the npm registry. It can be used in the CLI upgrade command to check if there is a newer version of the application available.
+   *
+   *
+   * @param packageName - The name of the npm package to fetch.
+   * @returns A promise that resolves to the latest version of the specified npm
+   *   package as a string.
+   *
+   */
+  export function getLatest(packageName: string): Promise<string | undefined>;
+  /**
+   * Options for the `install` handler function.
+   */
+  export interface InstallOptions {
+    /**
+     * A callback function that is called with the stdout output of the command.
+     */
+    stdout?: (string: any) => void;
+    /**
+     * A callback function that is called with the stderr output of the command.
+     */
+    stderr?: (string: any) => void;
+    /**
+     * Whether to enable color output in the command. If not provided, color output will be enabled by default.
+     */
+    color?: boolean;
+  }
+  /**
+   * Install the application dependencies.
+   *
+   * @remarks
+   * This function is used to install the application dependencies. It can be used in the CLI upgrade command to ensure that all necessary dependencies are installed.
+   *
+   *
+   * @param options - The options for the `install` function. Currently, there are
+   *   no options available, but this parameter is included for future
+   *   extensibility.
+   * @returns A promise that resolves when the installation of dependencies is
+   *   complete.
+   *
+   */
+  export function install(options?: InstallOptions): Promise<Promise<string>>;
 }
 
 /**
@@ -990,7 +1084,7 @@ declare module "shell-shock:utils" {
   /**
    * A utility hook function to get the command line arguments from the application context.
    *
-   * @returns An array of command line arguments from the application context.
+   * @returns An array of command-line arguments from the application context.
    * @throws If the application context is not available.
    */
   export function useArgs(): string[];
@@ -1030,7 +1124,7 @@ declare module "shell-shock:utils" {
    */
   export function usePath(): string;
   /**
-   * Retrieves the command line arguments from Deno or Node.js environments.
+   * Retrieves the command-line arguments from Deno or Node.js environments.
    *
    * @remarks
    * This function is only intended for internal use. Please use `useArgs()` instead.
@@ -1040,23 +1134,21 @@ declare module "shell-shock:utils" {
    *
    *
    *
-   * @returns An array of command line arguments from Deno or Node.js
+   * @returns An array of command-line arguments from Deno or Node.js
    *   environments.
-   *
    *
    */
   export function getArgs(): string[];
   /**
-   * Checks if a specific flag is present in the command line arguments.
+   * Checks if a specific flag is present in the command-line arguments.
    *
    * @see https://github.com/sindresorhus/has-flag/blob/main/index.js
    *
    * @param flag - The flag (or an array of flags/aliases) to check for, e.g.,
    *   "color", "no-color".
-   * @param argv - The command line arguments to check against. Defaults to global
+   * @param argv - The command-line arguments to check against. Defaults to global
    *   Deno args or process args.
    * @returns True if the flag is present, false otherwise.
-   *
    *
    */
   export function hasFlag(flag: string | string[], argv?: string[]): boolean;
@@ -1078,7 +1170,6 @@ declare module "shell-shock:utils" {
    *
    * @returns True if the current environment/terminal supports hyperlinks.
    *
-   *
    */
   export function isHyperlinkSupported(): boolean;
   /**
@@ -1091,15 +1182,14 @@ declare module "shell-shock:utils" {
     ignoreFlags: boolean;
   }
   /**
-   * Checks if a specific flag is present in the command line arguments.
+   * Checks if a specific flag is present in the command-line arguments.
    *
    * @see https://github.com/sindresorhus/has-flag/blob/main/index.js
    *
    * @param flag - The flag to check for, e.g., "color", "no-color".
-   * @param argv - The command line arguments to check against. Defaults to global
+   * @param argv - The command-line arguments to check against. Defaults to global
    *   Deno args or process args.
    * @returns True if the flag is present, false otherwise.
-   *
    *
    */
   export function getColorSupportLevel(
@@ -1242,7 +1332,6 @@ declare module "shell-shock:console" {
    * @param text - The text to strip ANSI codes from.
    * @returns The text with ANSI codes removed.
    *
-   *
    */
   export function stripAnsi(text: string | number): string;
   /**
@@ -1312,7 +1401,6 @@ declare module "shell-shock:console" {
     ThemeColors<ThemeColorsResolvedConfig>;
   /**
    * An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link Colors} for available colors.
-   *
    */
   export const colors: Colors;
   /**
@@ -1323,7 +1411,6 @@ declare module "shell-shock:console" {
    *
    * @param text - The text to split into multiple lines.
    * @param maxLength - The maximum length of each line.
-   *
    */
   export function splitText(
     text: string,
@@ -1338,7 +1425,6 @@ declare module "shell-shock:console" {
      *
      * @remarks
      * The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.
-     *
      */
     padding?: number;
     /**
@@ -1348,7 +1434,6 @@ declare module "shell-shock:console" {
      * The console function to use for writing the line. If not specified, the default console function `console.log` will be used.
      *
      * @defaultValue `console.log`
-     *
      */
     consoleFn?: (text: string) => void;
     /**
@@ -1356,7 +1441,6 @@ declare module "shell-shock:console" {
      *
      * @remarks
      * The color to apply to the line text when writing to the console. This can be one of the predefined color themes: "primary", "secondary", or "tertiary". If not specified, no specific coloring will be applied to the text (the default/system terminal text color will likely be used).
-     *
      *
      */
     color?: "primary" | "secondary" | "tertiary";
@@ -1369,7 +1453,6 @@ declare module "shell-shock:console" {
    *
    * @param text - The line text to write to the console.
    * @param options - The options to apply when writing the line to the console.
-   *
    */
   export function writeLine(
     text?: string | number | boolean | null,
@@ -1382,7 +1465,6 @@ declare module "shell-shock:console" {
    * @param text - The text to display for the link. If not provided, the URL will
    *   be used as the text.
    * @returns The formatted hyperlink string.
-   *
    *
    */
   export function link(url: string, text?: string): string;
@@ -1400,7 +1482,6 @@ declare module "shell-shock:console" {
      * @remarks
      * The value provided will determine the border style and color based on the current theme configuration.
      * @defaultValue "primary"
-     *
      */
     /**
      * The border style/color of the divider line. Can be 'primary', 'secondary', 'tertiary', or 'none'. If not specified, the default border style will be used.
@@ -1412,7 +1493,6 @@ declare module "shell-shock:console" {
      * @remarks
      * The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.
      * @defaultValue 0
-     *
      */
     padding?: number;
   }
@@ -1424,7 +1504,6 @@ declare module "shell-shock:console" {
    * divider({ width: 50, border: "primary" }); // Writes a divider line of width 50 with primary border.
    * ```
    * @param options - Options for formatting the divider line.
-   *
    */
   export function divider(options: DividerOptions): void;
   /**
@@ -1434,7 +1513,6 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   *
    */
   export function help(message: string): void;
   /**
@@ -1444,7 +1522,6 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   *
    */
   export function success(message: string): void;
   /**
@@ -1454,7 +1531,6 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   *
    */
   export function info(message: string): void;
   /**
@@ -1464,7 +1540,6 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   *
    */
   export function debug(message: string): void;
   /**
@@ -1474,7 +1549,6 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   *
    */
   export function verbose(message: string): void;
   /**
@@ -1484,7 +1558,6 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   *
    */
   export function warn(message: string): void;
   /**
@@ -1494,7 +1567,6 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   *
    */
   export function danger(message: string): void;
   /**
@@ -1504,7 +1576,6 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
-   *
    */
   export function error(err: string | Error): void;
   /**
@@ -1536,7 +1607,6 @@ declare module "shell-shock:console" {
    * @param value - The value to check for being a valid size token.
    * @returns True if the value is a valid size token, false otherwise.
    *
-   *
    */
   /**
    * Determines if the provided value is a valid size token.
@@ -1552,7 +1622,6 @@ declare module "shell-shock:console" {
    * @param size - The width size to calculate. This can be a predefined string
    *   (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%").
    * @returns The calculated width in characters.
-   *
    *
    */
   export function calculateWidth(size: SizeToken): number; /**
@@ -1575,7 +1644,6 @@ declare module "shell-shock:console" {
      * The border variant to use for the table cell. This determines the color and style of the border around the cell.
      *
      * @defaultValue primary
-     *
      */
     border?:
       | BorderOption
@@ -1596,7 +1664,6 @@ declare module "shell-shock:console" {
      * The amount of padding (in spaces) to apply to the table cell. This value is applied to both the left and right sides of the cell. If not specified, the default table padding defined in the current theme configuration will be used.
      *
      * @defaultValue `1`
-     *
      */
     padding?: number;
     /**
@@ -1606,7 +1673,6 @@ declare module "shell-shock:console" {
      * The alignment for the table cell. This determines how the text within the cell is aligned. If not specified, the default alignment is "left".
      *
      * @defaultValue left
-     *
      */
     align?: "left" | "right" | "center";
   }
@@ -1623,7 +1689,6 @@ declare module "shell-shock:console" {
      *
      * @remarks
      * The width of the table cell (where 1 is a single character in the terminal). If not specified, the width will be determined based on the content of the cell and the available space in the console.
-     *
      */
     maxWidth: number | SizeToken | undefined;
   }
@@ -1652,7 +1717,6 @@ declare module "shell-shock:console" {
    * This function writes a table to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
    *
    * @param options - Options to customize the table output.
-   *
    */
   export function table(
     options:
@@ -1665,7 +1729,7 @@ declare module "shell-shock:console" {
 }
 
 /**
- * A collection of prompts that allow for interactive input in command line applications.
+ * A collection of prompts that allow for interactive input in command-line applications.
  *
  * @module shell-shock:prompts
  */
@@ -1679,12 +1743,10 @@ declare module "shell-shock:prompts" {
    * @returns A promise that resolves after the specified duration, allowing for
    *   asynchronous delays in prompt interactions.
    *
-   *
    */
   export function sleep(duration: number): Promise<void>;
   /**
    * A type for a custom prompt input parser, which can be used to create custom input styles for prompts. The function should return the parsed value for the given input string.
-   *
    */
   export type PromptParser<TValue = string> = (
     this: Prompt<TValue>,
@@ -1692,7 +1754,6 @@ declare module "shell-shock:prompts" {
   ) => TValue;
   /**
    * A type for a custom prompt input formatter, which can be used to create custom display styles for prompts. The function should return the formatted string to display for the given input value.
-   *
    */
   export type PromptFormatter<TValue = string> = (
     this: Prompt<TValue>,
@@ -1713,73 +1774,59 @@ declare module "shell-shock:prompts" {
   export function invisibleMask(input: string): string;
   /**
    * The current state of a prompt
-   *
    */
   export interface PromptState<TValue = string> {
     /**
      * The current value of the prompt
-     *
      */
     value: TValue;
     /**
      * Indicates whether the prompt is in an error state
-     *
      */
     isError: boolean;
     /**
      * If the prompt is in an error state, this will contain the error message to display
-     *
      */
     errorMessage?: string;
     /**
      * Indicates whether the prompt is submitted
-     *
      */
     isSubmitted: boolean;
     /**
      * Indicates whether the prompt is cancelled
-     *
      */
     isCancelled: boolean;
     /**
      * Indicates whether the prompt is completed, which can be used to indicate that the prompt interaction is finished regardless of whether it was submitted or cancelled
-     *
      */
     isCompleted: boolean;
   }
   /**
    * Configuration options for creating a prompt
-   *
    */
   interface PromptConfig<TValue = string> {
     /**
      * The readable stream to use for prompt input, defaults to process.stdin
-     *
      */
     input?: NodeJS.ReadStream;
     /**
      * The writable stream to use for prompt output, defaults to process.stdout
-     *
      */
     output?: NodeJS.WriteStream;
     /**
      * The prompt message to display
-     *
      */
     message: string;
     /**
      * The prompt description message to display
-     *
      */
     description?: string;
     /**
      * The initial value of the prompt
-     *
      */
     initialValue?: TValue;
     /**
      * A validation function that returns true if the input is valid, false or a string error message if the input is invalid
-     *
      */
     validate?: (value: TValue) =>
       | boolean
@@ -1802,33 +1849,31 @@ declare module "shell-shock:prompts" {
         >;
     /**
      * A function that parses the input value and returns the parsed result or throws an error if the input is invalid
-     *
      */
     parse?: PromptParser<TValue>;
     /**
      * A function that formats the input value and returns the formatted result or throws an error if the input is invalid
-     *
      */
     format?: PromptFormatter<TValue>;
     /**
-     * A function that masks the input value and returns the masked result or throws an error if the input is invalid
-     *
+     * A function that masks the input value and returns the masked result. This can be used to create password inputs or other sensitive input types where the actual input value should not be displayed. If not provided, the prompt will display the input as is without masking.
      */
     mask?: (input: string) => string;
     /**
+     * A function that masks the value submitted by the user so that it can then be used in the console output or elsewhere without exposing sensitive information. If not provided, the prompt will use the same mask function for both input and submitted value masking.
+     */
+    maskSubmitted?: (input: string) => string;
+    /**
      * The default error message to display when validation fails
-     *
      */
     defaultErrorMessage?: string;
     /**
      * The timeout duration in milliseconds for the prompt. If none is provided, the prompt will not time out.
-     *
      */
     timeout?: number;
   }
   /**
    * Base prompt class that other prompt types can extend from
-   *
    */
   abstract class Prompt<TValue = string> extends EventEmitter {
     protected config: PromptConfig<TValue>;
@@ -1841,7 +1886,7 @@ declare module "shell-shock:prompts" {
     protected defaultErrorMessage: string;
     protected isSubmitted: boolean;
     protected isCancelled: boolean;
-    isInitial: boolean;
+    protected isInitial: boolean;
     protected consoleOutput: string;
     protected consoleStatus: string;
     protected displayValue: string;
@@ -1856,13 +1901,13 @@ declare module "shell-shock:prompts" {
     protected parser: PromptParser<TValue>;
     protected formatter: PromptFormatter<TValue>;
     protected mask: (input: string) => string;
+    protected maskSubmitted: (input: string) => string;
     protected cursor: number;
     protected cursorOffset: number;
     protected cursorHidden: boolean;
     constructor(config: PromptConfig<TValue>);
     /**
      * A getter for the prompt value that returns the current value or the initial value if the current value is not set
-     *
      */
     get value(): TValue;
     get isError(): boolean;
@@ -1874,17 +1919,14 @@ declare module "shell-shock:prompts" {
      * A method to change the prompt value, which also updates the display value and fires a state update event. This method can be called by subclasses whenever the prompt value needs to be updated based on user input or other interactions.
      *
      * @param value
-     *
      */
     protected changeValue(value: TValue): void;
     /**
      * A method to emit the current state
-     *
      */
     protected sync(): void;
     /**
      * A method to ring the bell
-     *
      */
     protected bell(): void;
     /**
@@ -1892,7 +1934,6 @@ declare module "shell-shock:prompts" {
      *
      * @param char
      * @param key
-     *
      */
     protected onKeypress(char: string, key: readline.Key): void;
     /**
@@ -1900,78 +1941,64 @@ declare module "shell-shock:prompts" {
      *
      * @param char
      * @param key
-     *
      */
     protected keypress(char: string, key: readline.Key): void;
     /**
      * A method to close the prompt and clean up resources, which also emits a submit or cancel event based on the prompt state. This method should be called when the prompt interaction is finished and the prompt needs to be closed.
-     *
      */
     protected close(): Promise<void>;
     /**
      * A method to validate the prompt input using the provided validator function, which updates the error message and error state based on the validation result. This method is called whenever the prompt value changes and needs to be validated.
      *
      * @param value
-     *
      */
     protected validate(value: TValue): Promise<void>;
     /**
      * A method to route keypress events to specific prompt actions based on the key pressed. This method maps various key combinations and keys to corresponding actions that can be handled by the prompt, such as submitting, cancelling, navigating, etc.
      *
      * @param key
-     *
      */
     protected getAction(key: readline.Key): string | false;
     /**
      * A method to reset the prompt input
-     *
      */
     protected reset(): void;
     /**
      * A method to cancel the prompt input
-     *
      */
     protected cancel(): void;
     /**
      * A method to submit the prompt input
-     *
      */
     protected submit(): Promise<void>;
     /**
      * A method to render the prompt
-     *
      */
     protected invokeRender(): void;
     /**
      * A method to render the prompt
-     *
      */
     protected render(): string;
   }
   /**
    * Configuration options for creating a prompt with a prompt factory function
-   *
    */
   interface PromptFactoryConfig<TValue = string> extends PromptConfig<TValue> {
     /**
      * A function that is called when the prompt state changes, useful for updating the prompt message or other properties dynamically
-     *
      */
     onState?: (state: PromptState<TValue>) => any;
     /**
      * A function that is called when the prompt is submitted, useful for handling the submitted value or performing actions based on the prompt state
-     *
      */
     onSubmit?: (value: TValue) => any;
     /**
      * A function that is called when the prompt is canceled, useful for handling the canceled value or performing actions based on the prompt state
-     *
      */
     onCancel?: (event: any) => any;
   }
   /**
    * A unique symbol used to indicate that a prompt was cancelled, which can be returned from a prompt function to signal that the prompt interaction should be cancelled and any pending promises should be rejected with this symbol. This allows for a consistent way to handle prompt cancellations across different prompt types and interactions.
-   *
    */
   export const CANCEL_SYMBOL: unique symbol;
   /**
@@ -1982,28 +2009,23 @@ declare module "shell-shock:prompts" {
    *   CANCEL_SYMBOL | cancel symbol}, which can be used to determine if a prompt
    *   interaction was cancelled.
    *
-   *
    */
   export function isCancel(value: any): value is typeof CANCEL_SYMBOL;
   /**
    * Configuration options for creating a text-based prompt
-   *
    */
   interface StringPromptConfig extends PromptConfig<string> {
     /**
      * The initial value of the prompt
-     *
      */
     initialValue?: string;
     /**
      * A function that masks the input value and returns the masked result
-     *
      */
     mask?: (input: string) => string;
   }
   /**
    * A type definition for the configuration options to pass to the text prompt, which extends the base PromptConfig with additional options specific to text prompts. This type can be used when creating a text prompt using the {@link text | text prompt factory function} or when manually creating an instance of the TextPrompt class. The TextConfig type includes all the properties of the base PromptConfig, such as message, description, initialValue, validate, parse, format, mask, etc., as well as any additional properties that are specific to text prompts.
-   *
    */
   export type TextConfig = PromptFactoryConfig<string> & StringPromptConfig;
   /**
@@ -2039,90 +2061,73 @@ declare module "shell-shock:prompts" {
    * @returns A promise that resolves with the submitted value or rejects with a
    *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
    *
-   *
    */
   export function text(config: TextConfig): Promise<string | symbol>;
   /**
    * Configuration for an option the user can select from the select prompt
-   *
    */
   interface PromptOptionConfig<TValue = string> {
     /**
      * The message label for the option
-     *
      */
     label?: string;
     /**
      * An icon for the option
-     *
      */
     icon?: string;
     /**
      * The value of the option
-     *
      */
     value: TValue;
     /**
      * The description of the option
-     *
      */
     description?: string;
     /**
      * Whether the option is selected
-     *
      */
     selected?: boolean;
     /**
      * Whether the option is disabled
-     *
      */
     disabled?: boolean;
   }
   /**
    * An option the user can select from the select prompt
-   *
    */
   export interface PromptOption<
     TValue = string
   > extends PromptOptionConfig<TValue> {
     /**
      * The message label for the option
-     *
      */
     label: string; /**
      * The index of the option
-     *
      */
     index: number;
     /**
      * Whether the option is selected
-     *
      */
     selected: boolean;
     /**
      * Whether the option is disabled
-     *
      */
     disabled: boolean;
   }
   /**
    * An options object for configuring a select prompt
-   *
    */
   interface SelectPromptConfig<TValue = string> extends PromptConfig<TValue> {
     /**
      * A hint to display to the user
-     *
      */
     hint?: string;
     /**
      * The options available for the select prompt
-     *
      */
     options: Array<string | PromptOptionConfig<TValue>>;
     /**
      * The number of options to display per page, defaults to 8
-     *
      */
     optionsPerPage?: number;
   }
@@ -2131,7 +2136,6 @@ declare module "shell-shock:prompts" {
    *
    * @remarks
    * The Select Config type includes all the properties of the base PromptConfig, such as message, description, initialValue, validate, parse, format, etc., as well as any additional properties that are specific to select prompts, such as the list of options and pagination settings.
-   *
    */
   export type SelectConfig = PromptFactoryConfig<string> & SelectPromptConfig;
   /**
@@ -2171,43 +2175,35 @@ declare module "shell-shock:prompts" {
    * @returns A promise that resolves with the submitted value or rejects with a
    *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
    *
-   *
    */
   export function select(config: SelectConfig): Promise<string | symbol>;
   /**
    * Configuration options for creating a numeric prompt
-   *
    */
   interface NumberPromptConfig extends PromptConfig<number> {
     /**
      * Whether the prompt should accept floating point numbers
-     *
      */
     isFloat?: boolean;
     /**
      * The number of decimal places to round the input to, defaults to 2
-     *
      */
     precision?: number;
     /**
      * The increment value for the number prompt, defaults to 1
-     *
      */
     increment?: number;
     /**
      * The minimum value for the number prompt, defaults to -Infinity
-     *
      */
     min?: number;
     /**
      * The maximum value for the number prompt, defaults to Infinity
-     *
      */
     max?: number;
   }
   /**
    * An object representing the configuration options for a numeric prompt.
-   *
    */
   export type NumericConfig = PromptFactoryConfig<number> & NumberPromptConfig;
   /**
@@ -2241,28 +2237,23 @@ declare module "shell-shock:prompts" {
    * @returns A promise that resolves with the submitted value or rejects with a
    *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
    *
-   *
    */
   export function numeric(config: NumericConfig): Promise<number | symbol>;
   /**
    * Configuration options for creating a boolean toggle prompt
-   *
    */
   export interface TogglePromptConfig extends PromptConfig<boolean> {
     /**
      * The message for the true state of the prompt
-     *
      */
     trueMessage?: string;
     /**
      * The message for the false state of the prompt
-     *
      */
     falseMessage?: string;
   }
   /**
    * A prompt for toggling a boolean input
-   *
    */
   export class TogglePrompt extends Prompt<boolean> {
     protected initialValue: boolean;
@@ -2272,12 +2263,10 @@ declare module "shell-shock:prompts" {
     constructor(config: TogglePromptConfig);
     /**
      * Update the toggle value to a checked state based on user input
-     *
      */
     protected check(): void;
     /**
      * Update the toggle value to an unchecked state based on user input
-     *
      */
     protected uncheck(): void;
     /**
@@ -2285,48 +2274,39 @@ declare module "shell-shock:prompts" {
      *
      * @param char
      * @param key
-     *
      */
     protected keypress(char: string, key: readline.Key): any;
     /**
      * A method to delete the character backward of the cursor
-     *
      */
     protected delete(): void;
     /**
      * A method to move the cursor to the left
-     *
      */
     protected left(): void;
     /**
      * A method to move the cursor to the right
-     *
      */
     protected right(): void;
     /**
      * A method to move the cursor to down
-     *
      */
     protected down(): void;
     /**
      * A method to move the cursor to up
-     *
      */
     protected up(): void;
     /**
      * A method to move to the next value
-     *
      */
     protected next(): void;
     /**
      * A method to render the prompt
-     *
      */
     protected render(): string;
   }
   /**
    * An object representing the configuration options for a toggle prompt, which extends the base PromptFactoryConfig with additional options specific to the toggle prompt.
-   *
    */
   export type ToggleConfig = PromptFactoryConfig<boolean> & TogglePromptConfig;
   /**
@@ -2358,7 +2338,6 @@ declare module "shell-shock:prompts" {
    * @returns A promise that resolves with the submitted value or rejects with a
    *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
    *
-   *
    */
   export function toggle(config: ToggleConfig): Promise<boolean | symbol>;
   /**
@@ -2369,9 +2348,8 @@ declare module "shell-shock:prompts" {
   export function passwordMask(input: string): string;
   /**
    * An object representing the configuration options for a password prompt, which extends the base PromptFactoryConfig with additional options specific to password prompts.
-   *
    */
-  export type PasswordConfig = Omit<TextConfig, "mask">;
+  export type PasswordConfig = Omit<TextConfig, "mask" | "maskSubmitted">;
   /**
    * A function to create and run a password prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
    *
@@ -2405,46 +2383,39 @@ declare module "shell-shock:prompts" {
    * @returns A promise that resolves with the submitted value or rejects with a
    *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
    *
-   *
    */
   export function password(config: PasswordConfig): Promise<string | symbol>;
   /**
    * Configuration options for creating a boolean confirm prompt
-   *
    */
   export interface ConfirmPromptConfig extends PromptConfig<boolean> {
     /**
      * The message for the \`Yes\` state of the prompt
      *
      * @defaultValue "Yes"
-     *
      */
     yesMessage?: string;
     /**
      * The \`Yes\` option when choosing between yes/no
      *
      * @defaultValue "1"
-     *
      */
     yesOption?: string;
     /**
      * The message for the \`No\` state of the prompt
      *
      * @defaultValue "(Y/n)"
-     *
      */
     noMessage?: string;
     /**
      * The \`No\` option when choosing between yes/no
      *
      * @defaultValue "(y/N)"
-     *
      */
     noOption?: string;
   }
   /**
    * A prompt for confirming a boolean input
-   *
    */
   export class ConfirmPrompt extends Prompt<boolean> {
     protected initialValue: boolean;
@@ -2459,18 +2430,15 @@ declare module "shell-shock:prompts" {
      *
      * @param char
      * @param key
-     *
      */
     protected keypress(char: string, key: readline.Key): any;
     /**
      * A method to render the prompt
-     *
      */
     protected render(): string;
   }
   /**
    * An object representing the configuration options for a confirm prompt, which extends the base PromptFactoryConfig with additional options specific to the confirm prompt.
-   *
    */
   export type ConfirmConfig = PromptFactoryConfig<boolean> &
     ConfirmPromptConfig;
@@ -2502,7 +2470,6 @@ declare module "shell-shock:prompts" {
    *   to the confirm prompt
    * @returns A promise that resolves with the submitted value or rejects with a
    *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
-   *
    *
    */
   export function confirm(config: ConfirmConfig): Promise<boolean | symbol>;

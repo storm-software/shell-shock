@@ -96,7 +96,7 @@ export function ColorSupportUtilities() {
         />
       </InterfaceDeclaration>
       <Spacing />
-      <TSDoc heading="Checks if a specific flag is present in the command line arguments.">
+      <TSDoc heading="Checks if a specific flag is present in the command-line arguments.">
         <TSDocLink>
           {"https://github.com/sindresorhus/has-flag/blob/main/index.js"}
         </TSDocLink>
@@ -105,7 +105,7 @@ export function ColorSupportUtilities() {
         </TSDocParam>
         <TSDocParam name="argv">
           {
-            "The command line arguments to check against. Defaults to global Deno args or process args."
+            "The command-line arguments to check against. Defaults to global Deno args or process args."
           }
         </TSDocParam>
         <TSDocReturns>
@@ -389,7 +389,7 @@ export function HyperlinkSupportUtilities() {
 export function ArgsUtilities() {
   return (
     <>
-      <TSDoc heading="Retrieves the command line arguments from Deno or Node.js environments.">
+      <TSDoc heading="Retrieves the command-line arguments from Deno or Node.js environments.">
         <TSDocRemarks>
           {
             "This function is only intended for internal use. Please use `useArgs()` instead."
@@ -402,7 +402,7 @@ export function ArgsUtilities() {
         <hbr />
         <TSDocReturns>
           {
-            "An array of command line arguments from Deno or Node.js environments."
+            "An array of command-line arguments from Deno or Node.js environments."
           }
         </TSDocReturns>
       </TSDoc>
@@ -410,7 +410,7 @@ export function ArgsUtilities() {
         {code`return ((globalThis as { Deno?: { args: string[] } })?.Deno?.args ?? process.argv ?? []) as string[];`}
       </FunctionDeclaration>
       <Spacing />
-      <TSDoc heading="Checks if a specific flag is present in the command line arguments.">
+      <TSDoc heading="Checks if a specific flag is present in the command-line arguments.">
         <TSDocLink>
           {"https://github.com/sindresorhus/has-flag/blob/main/index.js"}
         </TSDocLink>
@@ -421,7 +421,7 @@ export function ArgsUtilities() {
         </TSDocParam>
         <TSDocParam name="argv">
           {
-            "The command line arguments to check against. Defaults to global Deno args or process args."
+            "The command-line arguments to check against. Defaults to global Deno args or process args."
           }
         </TSDocParam>
         <TSDocReturns>
@@ -631,7 +631,7 @@ export function ContextUtilities() {
   /**
    * A utility hook function to get the command line arguments from the application context.
    *
-   * @returns An array of command line arguments from the application context.
+   * @returns An array of command-line arguments from the application context.
    * @throws If the application context is not available.
    */
   export function useArgs(): string[] {

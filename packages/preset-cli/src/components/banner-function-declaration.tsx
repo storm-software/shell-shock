@@ -43,28 +43,23 @@ export function BannerFunctionDeclaration(
 
   const header = computed(
     () =>
-      `${theme.labels.banner.header[variant] || getAppTitle(context)} v${context.packageJson.version || "1.0.0"}`
+      `${theme.labels.banner.header[variant] || getAppTitle(context, false)} v${
+        context.packageJson.version || "1.0.0"
+      }`
+  );
+  const footer = computed(() => theme.labels.banner.footer[variant]);
+  const title = computed(() =>
+    getAppTitle(context, true).replace(
+      `v${context.packageJson.version || "1.0.0"}`,
+      ""
+    )
   );
   const description = computed(
     () => command?.description || getAppDescription(context)
   );
-  const footer = computed(() => theme.labels.banner.footer[variant]);
-
-  const title = computed(() =>
-    getAppTitle(context) ||
-    /(?:cli|command-line|command line)\s+(?:application|app)?$/.test(
-      header.value.toLowerCase()
-    )
-      ? header.value
-          .replace(`v${context.packageJson.version || "1.0.0"}`, "")
-          .trim()
-      : `${header.value
-          .replace(`v${context.packageJson.version || "1.0.0"}`, "")
-          .trim()} Command-Line Application`
-  );
 
   const titleLines = computed(() => {
-    const result = render(getAppTitle(context), {
+    const result = render(getAppTitle(context, true), {
       font: "tiny",
       align: "left",
       background: "transparent",
@@ -75,7 +70,7 @@ export function BannerFunctionDeclaration(
       env: "node"
     });
     if (!result) {
-      return [getAppTitle(context)];
+      return [`${getAppTitle(context, true)} Command-Line Interface`];
     }
 
     return result.array;
@@ -96,7 +91,7 @@ export function BannerFunctionDeclaration(
       <FunctionDeclaration
         async
         name="banner"
-        doc={`Write the ${getAppTitle(context)} application banner ${
+        doc={`Write the ${getAppTitle(context, true)} application banner ${
           command ? `for the ${command.title} command ` : ""
         }to the console.`}
         parameters={[{ name: "pause", type: "number", default: 500 }]}>

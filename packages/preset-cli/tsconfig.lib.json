@@ -9,8 +9,9 @@
     "outDir": "./out-tsc"
   },
   "references": [
-    { "path": "../plugin-theme/tsconfig.lib.json" },
+    { "path": "../plugin-upgrade/tsconfig.lib.json" },
     { "path": "../preset-script/tsconfig.lib.json" },
+    { "path": "../plugin-theme/tsconfig.lib.json" },
     { "path": "../core/tsconfig.lib.json" }
   ],
   "include": [

@@ -332,7 +332,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
         )}
       </For>
       <IfStatement condition={code`failures.length > 0`}>
-        {code`error("The following validation failures were found while processing the user provided input, and must be corrected before the command line process can be executed: \\n\\n" + failures.map(failure => " - " + failure).join("\\n"));
+        {code`error("The following validation failures were found while processing the user provided input, and must be corrected before the command-line process can be executed: \\n\\n" + failures.map(failure => " - " + failure).join("\\n"));
         options.help = true; `}
       </IfStatement>
     </>
