@@ -174,9 +174,7 @@ export function CommandEntry(props: CommandEntryProps) {
                       }`}>
                       <Switch>
                         <Match
-                          when={
-                            option.kind === ReflectionKind.string
-                          }>{code`
+                          when={option.kind === ReflectionKind.string}>{code`
                             const value = await text({
                               message: "Please provide a value for the \\"${option.name}\\" option",
                               ${
@@ -202,10 +200,8 @@ export function CommandEntry(props: CommandEntryProps) {
                                 : `.${camelCase(option.name)}`
                             } = value;
                           `}</Match>
-                          <Match
-                          when={
-                            option.kind === ReflectionKind.number
-                          }>{code`
+                        <Match
+                          when={option.kind === ReflectionKind.number}>{code`
                             const value = await numeric({
                               message: "Please provide a numeric value for the \\"${option.name}\\" option",
                               ${
@@ -213,15 +209,6 @@ export function CommandEntry(props: CommandEntryProps) {
                                   ? `description: "${option.description}",
                               `
                                   : ""
-                              }validate(val) {
-                                if (val === undefined || String(val).trim() === "") {
-                                  return "A value must be provided for this option";
-                                }
-                                if (Number.isNaN(Number(val))) {
-                                  return "The value provided must be a valid number";
-                                }
-
-                                return null;
                               }
                             });
                             if (isCancel(value)) {
@@ -237,9 +224,9 @@ export function CommandEntry(props: CommandEntryProps) {
                         <Match
                           when={option.kind === ReflectionKind.boolean}>{code`
                             const value = await toggle({
-                              message: "Please select a value for the "${
+                              message: "Please select a value for the \\"${
                                 option.name
-                              }" option",
+                              }\\" option",
                             ${
                               option.description
                                 ? `description: "${option.description}",
@@ -328,10 +315,8 @@ export function CommandEntry(props: CommandEntryProps) {
                   <Show when={!argument.optional}>
                     <IfStatement condition={code`!${camelCase(argument.name)}`}>
                       <Switch>
-                          <Match
-                          when={
-                            argument.kind === ReflectionKind.string
-                          }>{code`
+                        <Match
+                          when={argument.kind === ReflectionKind.string}>{code`
                             const value = await text({
                               message: "Please provide a value for the \\"${argument.name}\\" argument",
                               ${
@@ -353,10 +338,8 @@ export function CommandEntry(props: CommandEntryProps) {
 
                             ${camelCase(argument.name)} = value;
                           `}</Match>
-                          <Match
-                          when={
-                            argument.kind === ReflectionKind.number
-                          }>{code`
+                        <Match
+                          when={argument.kind === ReflectionKind.number}>{code`
                             const value = await numeric({
                               message: "Please provide a numeric value for the \\"${argument.name}\\" argument",
                               ${
@@ -364,15 +347,6 @@ export function CommandEntry(props: CommandEntryProps) {
                                   ? `description: "${argument.description}",
                               `
                                   : ""
-                              }validate(val) {
-                                if (val === undefined || String(val).trim() === "") {
-                                  return "A value must be provided for this argument";
-                                }
-                                if (Number.isNaN(Number(val))) {
-                                  return "The value provided must be a valid number";
-                                }
-
-                                return null;
                               }
                             });
                             if (isCancel(value)) {
