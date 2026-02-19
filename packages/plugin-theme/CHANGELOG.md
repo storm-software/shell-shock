@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.2.1) (02/19/2026)
+
+### Bug Fixes
+
+- **plugin-theme:** Resolve issues with missing `break` in switch statement ([6ea33b7](https://github.com/storm-software/shell-shock/commit/6ea33b7))
+
 ## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.2.0) (02/19/2026)
 
 ### Miscellaneous

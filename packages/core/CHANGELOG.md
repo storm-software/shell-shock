@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.10](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.10) (02/19/2026)
+
+### Miscellaneous
+
+- **core:** Cleaned up the application title parsing logic ([d75b0f7](https://github.com/storm-software/shell-shock/commit/d75b0f7))
+
+### Bug Fixes
+
+- **core:** Resolve virtual command issue for command files added in plugins ([b1bc783](https://github.com/storm-software/shell-shock/commit/b1bc783))
+
 ## [0.8.9](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.9) (02/19/2026)
 
 ### Bug Fixes

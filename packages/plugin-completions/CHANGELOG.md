@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.1.4) (02/19/2026)
+
+### Miscellaneous
+
+- **plugin-completions:** Update comments in generated source files ([42dffe3](https://github.com/storm-software/shell-shock/commit/42dffe3))
+- **plugin-completions:** Rename command components and clean up plugin logic ([1cf8af6](https://github.com/storm-software/shell-shock/commit/1cf8af6))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.6.9**
+- Updated **core** to **v0.8.10**
+
 ## [0.1.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.1.3) (02/19/2026)
 
 ### Updated Dependencies

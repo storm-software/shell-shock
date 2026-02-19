@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.9](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.9) (02/19/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat workspace package source files ([f2b0a7a](https://github.com/storm-software/shell-shock/commit/f2b0a7a))
+- **preset-script:** Update `exit` function to terminate on next process tick ([4936da9](https://github.com/storm-software/shell-shock/commit/4936da9))
+
+### Bug Fixes
+
+- **preset-script:** Resolved typescript compiler issue with missing `placeholder` color ([d2efd09](https://github.com/storm-software/shell-shock/commit/d2efd09))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.2.1**
+- Updated **core** to **v0.8.10**
+
 ## [0.6.8](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.8) (02/19/2026)
 
 ### Miscellaneous

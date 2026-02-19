@@ -2,6 +2,27 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.7.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.7.0) (02/19/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat workspace package source files ([f2b0a7a](https://github.com/storm-software/shell-shock/commit/f2b0a7a))
+
+### Bug Fixes
+
+- **preset-cli:** Added missing access modifier to `isInitial` field ([897bf6f](https://github.com/storm-software/shell-shock/commit/897bf6f))
+
+### Features
+
+- **preset-cli:** Added the `maskSubmitted` option to the base prompt configuration ([8f20f29](https://github.com/storm-software/shell-shock/commit/8f20f29))
+
+### Updated Dependencies
+
+- Updated **plugin-upgrade** to **v0.1.0**
+- Updated **preset-script** to **v0.6.9**
+- Updated **plugin-theme** to **v0.2.1**
+- Updated **core** to **v0.8.10**
+
 ## [0.6.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.6.0) (02/19/2026)
 
 ### Miscellaneous
