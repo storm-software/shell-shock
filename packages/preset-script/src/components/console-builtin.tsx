@@ -3248,7 +3248,7 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
               <IfStatement condition={code`(err as Error)?.stack`}>
                 {code`message += " \\n\\n" + (err as Error).stack;`}
               </IfStatement>
-              <ElseClause>{code`message += "\\n" + (new Error(" ")).stack.split("\\n").slice(2).map(line => line.trim()).join("\\n");`}</ElseClause>
+              <ElseClause>{code`message += " \\n\\n" + (new Error(" ")).stack.split("\\n").slice(2).map(line => line.trim()).join("\\n");`}</ElseClause>
             </IfStatement>
           </>
         }
