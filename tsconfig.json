@@ -22,6 +22,9 @@
       "path": "./packages/plugin-completions"
     },
     {
+      "path": "./packages/plugin-upgrade"
+    },
+    {
       "path": "./packages/preset-script"
     },
     {
