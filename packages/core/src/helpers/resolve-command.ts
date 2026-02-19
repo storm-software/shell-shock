@@ -81,7 +81,7 @@ export function resolveCommandOptionDescription(
   title?: string,
   defaultValue?: any
 ): string {
-  return `A${optional && !defaultValue ? "n optional" : ""} command line ${
+  return `A${optional && !defaultValue ? "n optional" : ""} command-line ${
     kind === ReflectionKind.boolean ? "flag" : "option"
   } that allows the user to ${
     kind === ReflectionKind.boolean
@@ -494,7 +494,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
     tree.description ??=
       command.description ||
       type.description ||
-      `The ${tree.title.replace(/(?:c|C)ommands?$/, "").trim()} executable command line interface.`;
+      `The ${tree.title.replace(/(?:c|C)ommands?$/, "").trim()} executable command-line interface.`;
 
     const parameters = tree.reflection.getParameters();
     if (parameters.length > 0 && parameters[0]) {
@@ -552,7 +552,7 @@ export async function reflectCommandTree<TContext extends Context = Context>(
       tree.title.replace(/(?:c|C)ommands?$/, "").trim() || titleCase(tree.name)
     } commands that are included in the ${getAppTitle(
       context
-    )} command line application.`;
+    )} command-line application.`;
   }
 
   if (context.env) {

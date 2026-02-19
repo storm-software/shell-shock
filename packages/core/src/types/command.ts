@@ -171,36 +171,47 @@ export interface CommandBase {
    * The command id.
    */
   id: string | null;
+
   /**
    * The command name.
    */
   name: string;
+
   /**
    * The full command path value.
    */
   path: string | null;
+
   /**
    * The path segments.
    */
   segments: string[];
+
   /**
    * The display title.
    */
   title?: string;
+
   /**
    * The command description.
    */
   description?: string;
+
   /**
    * Alternative command names.
    */
   alias?: string[];
+
   /**
    * The command icon.
    */
   icon?: string;
+
   /**
    * Whether the command is virtual.
+   *
+   * @remarks
+   * Virtual commands are considered forks in the command tree and are not directly executable. They are used to group related subcommands together without having an actual command handler or entry point.
    */
   isVirtual: boolean;
 }
@@ -210,6 +221,7 @@ export interface CommandInput extends CommandBase {
    * The command id.
    */
   id: string;
+
   /**
    * The resolved entry definition.
    */

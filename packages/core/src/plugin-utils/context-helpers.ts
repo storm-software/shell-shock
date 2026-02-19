@@ -70,13 +70,23 @@ export function getAppName(context: UnresolvedContext | Context): string {
  * Retrieves the application title from the context and configuration.
  *
  * @param context - The build context containing workspace and package information.
+ * @param replaceCLI - Whether to replace CLI-related terms in the title with the application name.
  * @returns The application title in title-case format.
  */
-export function getAppTitle(context: UnresolvedContext | Context): string {
-  return (
+export function getAppTitle(
+  context: UnresolvedContext | Context,
+  replaceCLI = false
+): string {
+  const title =
     context.config.title ||
-    titleCase(context.config.name || getAppName(context))
-  );
+    titleCase(context.config.name || getAppName(context));
+
+  return replaceCLI
+    ? title.replace(
+        /(?:cli|command-line|command line)\s*(?:interface\s*)?(?:application|app)?$/gi,
+        ""
+      )
+    : title;
 }
 
 /**
@@ -91,7 +101,7 @@ export function getAppDescription(
   return (
     context.config.description ||
     context.packageJson?.description ||
-    `The ${getAppTitle(context)} command-line interface application.`
+    `The ${getAppTitle(context, true)} command-line interface application.`
   );
 }
 
