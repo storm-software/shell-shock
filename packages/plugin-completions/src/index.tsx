@@ -18,6 +18,7 @@
 
 import { render } from "@powerlines/plugin-alloy/render";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
+import { relativePath } from "@stryke/path";
 import { joinPaths } from "@stryke/path/join";
 import type { Plugin } from "powerlines";
 import { BashCompletionsCommand, ZshCompletionsCommand } from "./components";
@@ -111,11 +112,9 @@ export const plugin = <
             segments: ["completions", "zsh"],
             title: "CLI Completions - Zsh Shell",
             entry: {
-              file: joinPaths(
-                this.entryPath,
-                "completions",
-                "zsh",
-                "command.ts"
+              file: relativePath(
+                this.commandsPath,
+                joinPaths(this.entryPath, "completions", "zsh", "command.ts")
               )
             },
             isVirtual: false

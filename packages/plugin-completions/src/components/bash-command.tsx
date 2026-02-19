@@ -82,7 +82,7 @@ export function BashCompletionsCommand() {
         <InterfaceMember name="config" optional type="string | true" />
       </InterfaceDeclaration>
       <Spacing />
-      <TSDoc heading="Entry point for the Bash completions command."></TSDoc>
+      <TSDoc heading="Handler logic for the \`completions bash\` command."></TSDoc>
       <FunctionDeclaration
         export
         default

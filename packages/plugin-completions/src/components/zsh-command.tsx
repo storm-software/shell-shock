@@ -82,7 +82,7 @@ export function ZshCompletionsCommand() {
         <InterfaceMember name="config" optional type="string | true" />
       </InterfaceDeclaration>
       <Spacing />
-      <TSDoc heading="Entry point for the Zsh completions command."></TSDoc>
+      <TSDoc heading="Handler logic for the \`completions zsh\` command."></TSDoc>
       <FunctionDeclaration
         export
         default

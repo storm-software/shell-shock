@@ -69,32 +69,32 @@
         "default": "./dist/components/index.mjs"
       }
     },
-    "./components/bash": {
+    "./components/bash-command": {
       "require": {
-        "types": "./dist/components/bash.d.cts",
-        "default": "./dist/components/bash.cjs"
+        "types": "./dist/components/bash-command.d.cts",
+        "default": "./dist/components/bash-command.cjs"
       },
       "import": {
-        "types": "./dist/components/bash.d.mts",
-        "default": "./dist/components/bash.mjs"
+        "types": "./dist/components/bash-command.d.mts",
+        "default": "./dist/components/bash-command.mjs"
       },
       "default": {
-        "types": "./dist/components/bash.d.mts",
-        "default": "./dist/components/bash.mjs"
+        "types": "./dist/components/bash-command.d.mts",
+        "default": "./dist/components/bash-command.mjs"
       }
     },
-    "./components/zsh": {
+    "./components/zsh-command": {
       "require": {
-        "types": "./dist/components/zsh.d.cts",
-        "default": "./dist/components/zsh.cjs"
+        "types": "./dist/components/zsh-command.d.cts",
+        "default": "./dist/components/zsh-command.cjs"
       },
       "import": {
-        "types": "./dist/components/zsh.d.mts",
-        "default": "./dist/components/zsh.mjs"
+        "types": "./dist/components/zsh-command.d.mts",
+        "default": "./dist/components/zsh-command.mjs"
       },
       "default": {
-        "types": "./dist/components/zsh.d.mts",
-        "default": "./dist/components/zsh.mjs"
+        "types": "./dist/components/zsh-command.d.mts",
+        "default": "./dist/components/zsh-command.mjs"
       }
     },
     "./package.json": "./package.json",
