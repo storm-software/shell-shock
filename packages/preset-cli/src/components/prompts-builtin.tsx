@@ -805,6 +805,7 @@ export function TextPromptDeclarations() {
 
           this.cursor = 0;
           this.sync();
+          this.first();
         } `}
         <Spacing />
         <ClassMethod
