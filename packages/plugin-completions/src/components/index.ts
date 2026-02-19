@@ -16,5 +16,5 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./bash";
-export * from "./zsh";
+export * from "./bash-command";
+export * from "./zsh-command";

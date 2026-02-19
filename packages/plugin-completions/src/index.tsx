@@ -20,17 +20,11 @@ import { render } from "@powerlines/plugin-alloy/render";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path/join";
 import type { Plugin } from "powerlines";
-import {
-  BashCompletionsCommandEntryFile,
-  ZshCompletionsCommandEntryFile
-} from "./components";
+import { BashCompletionsCommand, ZshCompletionsCommand } from "./components";
 import type {
   CompletionsPluginContext,
   CompletionsPluginOptions
 } from "./types/plugin";
-
-export * from "./components";
-export * from "./types";
 
 /**
  * The Completions - Shell Shock plugin to add completion commands to a Shell Shock application.
@@ -53,7 +47,9 @@ export const plugin = <
         };
       },
       configResolved() {
-        this.debug("Adding the CLI completion commands to the entry points.");
+        this.debug(
+          "Adding the CLI completion commands to the application context."
+        );
 
         this.inputs ??= [];
         if (this.inputs.some(input => input.id === "completions")) {
@@ -128,14 +124,14 @@ export const plugin = <
       },
       async prepare() {
         this.debug(
-          "Rendering entry point modules for the Shell Shock `completions` plugin."
+          "Rendering command handling modules for the Shell Shock `completions` plugin."
         );
 
         return render(
           this,
           <>
-            <BashCompletionsCommandEntryFile />
-            <ZshCompletionsCommandEntryFile />
+            <BashCompletionsCommand />
+            <ZshCompletionsCommand />
           </>
         );
       }

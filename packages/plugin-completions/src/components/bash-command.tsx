@@ -26,8 +26,10 @@ import {
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { Spacing } from "@powerlines/plugin-alloy/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import { InterfaceMember } from "@powerlines/plugin-alloy/typescript";
-import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
+import {
+  InterfaceMember,
+  TypescriptFile
+} from "@powerlines/plugin-alloy/typescript";
 import {
   TSDoc,
   TSDocDefaultValue,
@@ -38,14 +40,14 @@ import { joinPaths } from "@stryke/path";
 import type { CompletionsPluginContext } from "../types/plugin";
 
 /**
- * The Zsh Completions commands' handler wrapper for the Shell Shock project.
+ * The Bash Completions commands' handler wrapper for the Shell Shock project.
  */
-export function ZshCompletionsCommandEntryFile() {
+export function BashCompletionsCommand() {
   const context = usePowerlines<CompletionsPluginContext>();
 
   return (
-    <EntryFile
-      path={joinPaths(context.entryPath, "completions", "zsh", "command.ts")}
+    <TypescriptFile
+      path={joinPaths(context.entryPath, "completions", "bash", "command.ts")}
       imports={{
         "node:os": ["os"],
         "node:fs/promises": ["readFile", "writeFile"]
@@ -59,68 +61,68 @@ export function ZshCompletionsCommandEntryFile() {
           "stripAnsi"
         ]
       }}>
-      <TSDoc heading="Options for the Zsh completions command." />
-      <InterfaceDeclaration export name="ZshCompletionsOptions">
+      <TSDoc heading="Options for the Bash completions command." />
+      <InterfaceDeclaration export name="BashCompletionsOptions">
         <TSDoc heading="The path to write the completion script to.">
-          <TSDocRemarks>{`If no extension is provided, the \`.zsh\` extension will be used.`}</TSDocRemarks>
+          <TSDocRemarks>{`If no extension is provided, the \`.bash\` extension will be used.`}</TSDocRemarks>
           <TSDocDefaultValue
             type={ReflectionKind.string}
-            defaultValue={`${getAppBin(context)}-completions.zsh`}
+            defaultValue={`${getAppBin(context)}-completions.bash`}
           />
         </TSDoc>
         <InterfaceMember name="script" optional type="string | true" />
         <Spacing />
-        <TSDoc heading="The Zsh configuration file to append the completion script to.">
-          <TSDocRemarks>{`The generated completion script will be appended to the specified configuration file. Possible values for the Zsh configuration file include: \\n- \`~/.zshrc\` \\n- \`~/.zprofile\``}</TSDocRemarks>
+        <TSDoc heading="The Bash configuration file to append the completion script to.">
+          <TSDocRemarks>{`The generated completion script will be appended to the specified configuration file. Possible values for the Bash configuration file include: \\n- \`~/.bashrc\` \\n- \`~/.bash_profile\``}</TSDocRemarks>
           <TSDocDefaultValue
             type={ReflectionKind.string}
-            defaultValue="~/.zshrc"
+            defaultValue="~/.bashrc"
           />
         </TSDoc>
         <InterfaceMember name="config" optional type="string | true" />
       </InterfaceDeclaration>
       <Spacing />
-      <TSDoc heading="Entry point for the Zsh completions command."></TSDoc>
+      <TSDoc heading="Entry point for the Bash completions command."></TSDoc>
       <FunctionDeclaration
         export
         default
         async
         name="handler"
-        parameters={[{ name: "options", type: "ZshCompletionsOptions" }]}>
+        parameters={[{ name: "options", type: "BashCompletionsOptions" }]}>
         <VarDeclaration
           const
           name="completions"
           type="string"
-          initializer={code`colors.white(\`\${colors.gray(\`#compdef \${colors.bold("${getAppBin(context)}")}\`)}
-\${colors.gray("###-begin-${getAppBin(context)}-completions-###")}
+          initializer={code`colors.white(\`\${colors.gray("###-begin-${getAppBin(context)}-completions-###")}
 
 \${colors.gray(\`
-# \${colors.bold("${getAppTitle(context)} Zsh CLI command completion script")}
+# \${colors.bold("${getAppTitle(context)} Bash CLI command completion script")}
 #
-# \${colors.bold("Installation:")} ${getAppBin(context)} completions zsh --config ~/.zshrc or ${getAppBin(context)} completions zsh --script or ${getAppBin(context)} completions zsh >> ~/.zshrc or ${getAppBin(context)} completions zsh >> ~/.zprofile on OSX. \`
+# \${colors.bold("Installation:")} ${getAppBin(context)} completions bash --config ~/.bashrc or ${getAppBin(context)} completions bash --script or  ${getAppBin(context)} completions bash >> ~/.bashrc or ${getAppBin(context)} completions bash >> ~/.bash_profile on OSX. \`
 )}
 \${colors.cyan("_${getAppBin(context)}_completions()")}
 {
-  local reply
-  local si=$IFS
-  IFS=$'\\n' reply=($(COMP_CWORD="$((CURRENT-1))" COMP_LINE="$BUFFER" COMP_POINT="$CURSOR" ${getAppBin(context)} --get-completions "\\\${words[@]}"))
-  IFS=$si
-  if [[ \\\${#reply} -gt 0 ]]; then
-    _describe 'values' reply
-  else
-    _default
-  fi
-}
+    local cur_word args type_list
 
-if [[ "\\\${zsh_eval_context[-1]}" == "loadautofunc" ]]; then
-  _${getAppBin(context)}_completions "$@"
-else
-  compdef _${getAppBin(context)}_completions ${getAppBin(context)}
-fi
+    cur_word="\\\${COMP_WORDS[COMP_CWORD]}"
+    args=("\\\${COMP_WORDS[@]}")
+
+    \${colors.gray("# Ask ${getAppTitle(context)} CLI to generate completions.")}
+    mapfile -t type_list < <(${getAppBin(context)} --get-completions "\\\${args[@]}")
+    mapfile -t COMPREPLY < <(compgen -W "$( printf '%q ' "\\\${type_list[@]}" )" -- "\\\${cur_word}" |
+        awk '/ / { print "\\\\""$0"\\\\"" } /^[^ ]+$/ { print $0 }')
+
+    \${colors.gray("# if no match was found, fall back to filename completion")}
+    if [ \\\${#COMPREPLY[@]} -eq 0 ]; then
+      COMPREPLY=()
+    fi
+
+    return 0
+}
 complete -o bashdefault -o default -F _${getAppBin(context)}_completions ${getAppBin(context)}
 
 \${colors.gray("###-end-${getAppBin(context)}-completions-###")}
-\`);`}
+\`); `}
         />
         <Spacing />
         <IfStatement condition={code`options.config`}>
@@ -128,7 +130,7 @@ complete -o bashdefault -o default -F _${getAppBin(context)}_completions ${getAp
             let
             name="configFilePath"
             type="string"
-            initializer={code`options.config === true ? "~/.zshrc" : options.config`}
+            initializer={code`options.config === true ? "~/.bashrc" : options.config`}
           />
           <Spacing />
           <IfStatement condition={code`configFilePath.startsWith("~")`}>
@@ -155,14 +157,14 @@ complete -o bashdefault -o default -F _${getAppBin(context)}_completions ${getAp
 
           await writeFile(configFilePath, \`\${configFileContent}\\n\\n\${stripAnsi(completions)}\`);
 
-          success(\`${getAppTitle(context)} Zsh completion script has been generated and appended to \${colors.bold(configFilePath)}. Please restart your terminal or run \`source \${configFilePath}\` to apply the changes.\`); `}
+          success(\`${getAppTitle(context)} Bash completion script has been generated and appended to \${colors.bold(configFilePath)}. Please restart your terminal or run \`source \${configFilePath}\` to apply the changes.\`); `}
         </IfStatement>
         <Spacing />
         <IfStatement condition={code`options.script`}>
-          {code`const outputPath = options.script === true ? "${getAppBin(context)}-completions.zsh" : options.script;
+          {code`const outputPath = options.script === true ? "${getAppBin(context)}-completions.bash" : options.script;
           await writeFile(outputPath, stripAnsi(completions));
 
-          success(\`${getAppTitle(context)} Zsh completion script has been generated at \${colors.bold(outputPath)}.\`);`}
+          success(\`${getAppTitle(context)} Bash completion script has been generated at \${colors.bold(outputPath)}.\`);`}
         </IfStatement>
         <Spacing />
         <IfStatement condition={code`!options.config && !options.script`}>
@@ -171,6 +173,6 @@ complete -o bashdefault -o default -F _${getAppBin(context)}_completions ${getAp
           writeLine(" ------------------------------------------------- ");`}
         </IfStatement>
       </FunctionDeclaration>
-    </EntryFile>
+    </TypescriptFile>
   );
 }
