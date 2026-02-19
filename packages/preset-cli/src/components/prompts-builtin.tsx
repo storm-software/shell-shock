@@ -310,7 +310,7 @@ export function BasePromptDeclarations() {
           {code`false; `}
         </ClassField>
         <hbr />
-        <ClassField name="isInitial" type="boolean">
+        <ClassField name="isInitial" protected type="boolean">
           {code`true; `}
         </ClassField>
         <hbr />
