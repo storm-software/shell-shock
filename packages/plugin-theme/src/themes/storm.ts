@@ -56,7 +56,7 @@ export const theme: ThemeUserConfig = {
           error: "#d8314a",
           submitted: "#45b27e",
           cancelled: "#d8314a",
-          disabled: "#d8314a"
+          disabled: "#4f4f50"
         },
         message: {
           active: "#ffffff",
@@ -128,14 +128,14 @@ export const theme: ThemeUserConfig = {
       }
     },
     banner: {
-      header: "⬤" // 🗲 🗱 ⬤
+      header: "⬤" // 🗲 🗱 ⏺ ⬤
     },
     prompt: {
       active: "✱",
       error: "✘",
       warning: "🛆",
       submitted: "✔",
-      cancelled: "✘",
+      cancelled: "🛇",
       disabled: "🛇"
     }
   },
