@@ -232,7 +232,14 @@ export function BasePromptDeclarations() {
           name="mask"
           optional
           type="(input: string) => string"
-          doc="A function that masks the input value and returns the masked result or throws an error if the input is invalid"
+          doc="A function that masks the input value and returns the masked result. This can be used to create password inputs or other sensitive input types where the actual input value should not be displayed. If not provided, the prompt will display the input as is without masking."
+        />
+        <Spacing />
+        <InterfaceMember
+          name="maskSubmitted"
+          optional
+          type="(input: string) => string"
+          doc="A function that masks the value submitted by the user so that it can then be used in the console output or elsewhere without exposing sensitive information. If not provided, the prompt will use the same mask function for both input and submitted value masking."
         />
         <Spacing />
         <InterfaceMember
@@ -338,6 +345,12 @@ export function BasePromptDeclarations() {
           {code`noMask; `}
         </ClassField>
         <hbr />
+        <ClassField
+          name="maskSubmitted"
+          protected
+          type="(input: string) => string"
+        />
+        <hbr />
         <ClassField name="cursor" protected type="number">
           {code`0; `}
         </ClassField>
@@ -373,6 +386,16 @@ export function BasePromptDeclarations() {
           }
           if (config.format) {
             this.formatter = config.format.bind(this);
+          }
+
+          if (config.maskSubmitted) {
+            this.maskSubmitted = config.maskSubmitted;
+          }
+          if (config.mask) {
+            this.mask = config.mask;
+          }
+          if (!this.maskSubmitted) {
+            this.maskSubmitted = this.mask;
           }
 
           if (config.timeout !== undefined && !Number.isNaN(config.timeout)) {
@@ -446,7 +469,7 @@ export function BasePromptDeclarations() {
             updatedValue = value;
           }
 
-          this.displayValue = this.formatter(updatedValue);
+          this.displayValue = this.mask(this.formatter(updatedValue));
           this.#value = updatedValue;
           setTimeout(() => {
             Promise.resolve(this.validate(updatedValue)).then(() => this.sync());
@@ -704,7 +727,7 @@ export function BasePromptDeclarations() {
             : this.isError
               ? colors.text.prompt.input.error(this.displayValue)
               : this.isSubmitted
-                ? colors.text.prompt.input.submitted(this.displayValue)
+                ? colors.text.prompt.input.submitted(this.maskSubmitted(this.displayValue))
                 : this.isCancelled
                   ? colors.text.prompt.input.cancelled(this.displayValue)
               : colors.bold(colors.text.prompt.input.active(this.displayValue)); `}
@@ -2354,7 +2377,7 @@ export function PasswordPromptDeclaration() {
       <Spacing />
       <TSDoc heading="An object representing the configuration options for a password prompt, which extends the base PromptFactoryConfig with additional options specific to password prompts." />
       <TypeDeclaration name="PasswordConfig" export>
-        {code`Omit<TextConfig, "mask">; `}
+        {code`Omit<TextConfig, "mask" | "maskSubmitted">; `}
       </TypeDeclaration>
       <Spacing />
       <TSDoc heading="A function to create and run a password prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.">
@@ -2399,7 +2422,8 @@ run(); `}
         returnType="Promise<string | symbol>">
         {code`return text({
             ...config,
-            mask: passwordMask
+            mask: passwordMask,
+            maskSubmitted: () => "*******"
           });`}
       </FunctionDeclaration>
     </>
