@@ -128,7 +128,7 @@ export const theme: ThemeUserConfig = {
       }
     },
     banner: {
-      header: "⏺" // 🗲 🗱 ⬤
+      header: "⬤" // 🗲 🗱 ⬤
     },
     prompt: {
       active: "✱",
