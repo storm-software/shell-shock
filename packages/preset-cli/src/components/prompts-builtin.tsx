@@ -730,10 +730,10 @@ export function BasePromptDeclarations() {
         />
       </InterfaceDeclaration>
       <Spacing />
+      <TSDoc heading="A unique symbol used to indicate that a prompt was cancelled, which can be returned from a prompt function to signal that the prompt interaction should be cancelled and any pending promises should be rejected with this symbol. This allows for a consistent way to handle prompt cancellations across different prompt types and interactions." />
       <VarDeclaration
         export
-        name="CANCEL_SYMBOL"
-        doc="A unique symbol used to indicate that a prompt was cancelled, which can be returned from a prompt function to signal that the prompt interaction should be cancelled and any pending promises should be rejected with this symbol. This allows for a consistent way to handle prompt cancellations across different prompt types and interactions.">
+        name="CANCEL_SYMBOL">
         {code`Symbol("shell-shock:prompts:cancel"); `}
       </VarDeclaration>
       <Spacing />

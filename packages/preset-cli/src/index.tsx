@@ -106,7 +106,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                     "isInteractive",
                     "isHelp"
                   ],
-                  prompts: ["text", "toggle", "select", "isCancel", "sleep"]
+                  prompts: ["text", "numeric", "toggle", "select", "isCancel", "sleep"]
                 }}
                 prefix={
                   <>

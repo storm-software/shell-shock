@@ -106,7 +106,7 @@ export function CommandEntry(props: CommandEntryProps) {
             "isUnicodeSupported",
             "internal_commandContext"
           ],
-          prompts: ["text", "toggle", "select", "isCancel", "sleep"]
+          prompts: ["text", "numeric", "toggle", "select", "isCancel", "sleep"]
         })}>
         <BannerFunctionDeclaration command={command} />
         <hbr />
@@ -175,15 +175,10 @@ export function CommandEntry(props: CommandEntryProps) {
                       <Switch>
                         <Match
                           when={
-                            option.kind === ReflectionKind.string ||
-                            option.kind === ReflectionKind.number
+                            option.kind === ReflectionKind.string
                           }>{code`
                             const value = await text({
-                              message: "Please provide a${
-                                option.kind === ReflectionKind.number
-                                  ? " numeric"
-                                  : ""
-                              } value for the \\"${option.name}\\" option",
+                              message: "Please provide a value for the \\"${option.name}\\" option",
                               ${
                                 option.description
                                   ? `description: "${option.description}",
@@ -193,14 +188,8 @@ export function CommandEntry(props: CommandEntryProps) {
                                 if (!val || val.trim() === "") {
                                   return "A value must be provided for this option";
                                 }
-                                ${
-                                  option.kind === ReflectionKind.number
-                                    ? `if (Number.isNaN(Number(val))) {
-                                  return "The value provided must be a valid number";
-                                }`
-                                    : ""
-                                }
-                                return undefined;
+
+                                return null;
                               }
                             });
                             if (isCancel(value)) {
@@ -211,19 +200,43 @@ export function CommandEntry(props: CommandEntryProps) {
                               option.name.includes("?")
                                 ? `["${option.name}"]`
                                 : `.${camelCase(option.name)}`
-                            } = ${
-                              option.kind === ReflectionKind.number
-                                ? `Number(value)`
-                                : "value"
-                            };
+                            } = value;
                           `}</Match>
-                        <Match
-                          when={option.kind === ReflectionKind.boolean}>{code`
+                          <Match
+                          when={
+                            option.kind === ReflectionKind.number
+                          }>{code`
+                            const value = await numeric({
+                              message: "Please provide a numeric value for the \\"${option.name}\\" option",
+                              ${
+                                option.description
+                                  ? `description: "${option.description}",
+                              `
+                                  : ""
+                              }validate(val) {
+                                if (val === undefined || String(val).trim() === "") {
+                                  return "A value must be provided for this option";
+                                }
+                                if (Number.isNaN(Number(val))) {
+                                  return "The value provided must be a valid number";
+                                }
+
+                                return null;
+                              }
+                            });
+                            if (isCancel(value)) {
+                              return;
+                            }
+
                             options${
                               option.name.includes("?")
                                 ? `["${option.name}"]`
                                 : `.${camelCase(option.name)}`
-                            } = await toggle({
+                            } = value;
+                          `}</Match>
+                        <Match
+                          when={option.kind === ReflectionKind.boolean}>{code`
+                            const value = await toggle({
                               message: "Please select a value for the "${
                                 option.name
                               }" option",
@@ -234,6 +247,15 @@ export function CommandEntry(props: CommandEntryProps) {
                                 : ""
                             }
                             });
+                            if (isCancel(value)) {
+                              return;
+                            }
+
+                            options${
+                              option.name.includes("?")
+                                ? `["${option.name}"]`
+                                : `.${camelCase(option.name)}`
+                            } = value;
                           `}</Match>
                       </Switch>
                     </IfStatement>
@@ -306,17 +328,12 @@ export function CommandEntry(props: CommandEntryProps) {
                   <Show when={!argument.optional}>
                     <IfStatement condition={code`!${camelCase(argument.name)}`}>
                       <Switch>
-                        <Match
+                          <Match
                           when={
-                            argument.kind === ReflectionKind.string ||
-                            argument.kind === ReflectionKind.number
+                            argument.kind === ReflectionKind.string
                           }>{code`
                             const value = await text({
-                              message: "Please provide a${
-                                argument.kind === ReflectionKind.number
-                                  ? " numeric"
-                                  : ""
-                              } value for the \\"${argument.name}\\" argument",
+                              message: "Please provide a value for the \\"${argument.name}\\" argument",
                               ${
                                 argument.description
                                   ? `description: "${argument.description}",
@@ -326,29 +343,47 @@ export function CommandEntry(props: CommandEntryProps) {
                                 if (!val || val.trim() === "") {
                                   return "A value must be provided for this argument";
                                 }
-                                ${
-                                  argument.kind === ReflectionKind.number
-                                    ? `if (Number.isNaN(Number(val))) {
-                                  return "The provided value must be a valid number";
-                                }`
-                                    : ""
-                                }
-                                return undefined;
+
+                                return null;
                               }
                             });
                             if (isCancel(value)) {
                               return;
                             }
 
-                            ${camelCase(argument.name)} = ${
-                              argument.kind === ReflectionKind.number
-                                ? `Number(value)`
-                                : "value"
-                            };
+                            ${camelCase(argument.name)} = value;
+                          `}</Match>
+                          <Match
+                          when={
+                            argument.kind === ReflectionKind.number
+                          }>{code`
+                            const value = await numeric({
+                              message: "Please provide a numeric value for the \\"${argument.name}\\" argument",
+                              ${
+                                argument.description
+                                  ? `description: "${argument.description}",
+                              `
+                                  : ""
+                              }validate(val) {
+                                if (val === undefined || String(val).trim() === "") {
+                                  return "A value must be provided for this argument";
+                                }
+                                if (Number.isNaN(Number(val))) {
+                                  return "The value provided must be a valid number";
+                                }
+
+                                return null;
+                              }
+                            });
+                            if (isCancel(value)) {
+                              return;
+                            }
+
+                            ${camelCase(argument.name)} = value;
                           `}</Match>
                         <Match
                           when={argument.kind === ReflectionKind.boolean}>{code`
-                            ${camelCase(argument.name)} = await toggle({
+                            const value = await toggle({
                               message: "Please select a value for the \\"${argument.name}\\" argument",
                               ${
                                 argument.description
@@ -357,6 +392,11 @@ export function CommandEntry(props: CommandEntryProps) {
                                   : ""
                               }
                             });
+                            if (isCancel(value)) {
+                              return;
+                            }
+
+                            ${camelCase(argument.name)} = value;
                           `}</Match>
                       </Switch>
                     </IfStatement>
