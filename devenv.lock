@@ -109,10 +109,10 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1771177547,
+        "lastModified": 1771207753,
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "ac055f38c798b0d87695240c7b761b82fc7e5bc2",
+        "rev": "d1c15b7d5806069da59e819999d70e1cec0760bf",
         "type": "github"
       },
       "original": {
@@ -137,10 +137,10 @@
     "storm-ops": {
       "flake": false,
       "locked": {
-        "lastModified": 1771464759,
+        "lastModified": 1771471644,
         "owner": "storm-software",
         "repo": "storm-ops",
-        "rev": "ddb34f72b2d32fc5198a1d3a94829441d951bc82",
+        "rev": "7014616da7ed2c944e649659ce5675768d9c6887",
         "type": "github"
       },
       "original": {
