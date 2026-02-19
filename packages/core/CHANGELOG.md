@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.8](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.8) (02/18/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat workspace source files ([3919976](https://github.com/storm-software/shell-shock/commit/3919976))
+
 ## [0.8.7](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.7) (02/18/2026)
 
 ### Miscellaneous

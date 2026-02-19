@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.20](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.20) (02/18/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat workspace source files ([3919976](https://github.com/storm-software/shell-shock/commit/3919976))
+
 ## [0.0.18](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.18) (02/17/2026)
 
 ### Bug Fixes

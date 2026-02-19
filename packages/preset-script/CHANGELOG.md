@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.7](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.7) (02/18/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat workspace source files ([3919976](https://github.com/storm-software/shell-shock/commit/3919976))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.1.3**
+- Updated **core** to **v0.8.8**
+
 ## [0.6.6](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.6) (02/18/2026)
 
 ### Updated Dependencies

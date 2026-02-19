@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.25](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.25) (02/18/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat workspace source files ([3919976](https://github.com/storm-software/shell-shock/commit/3919976))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.8.8**
+
 ## [0.0.24](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.24) (02/18/2026)
 
 ### Updated Dependencies

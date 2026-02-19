@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.1.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.1.3) (02/18/2026)
+
+### Miscellaneous
+
+- **monorepo:** Reformat workspace source files ([3919976](https://github.com/storm-software/shell-shock/commit/3919976))
+
 ## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.1.1) (02/17/2026)
 
 ### Bug Fixes
