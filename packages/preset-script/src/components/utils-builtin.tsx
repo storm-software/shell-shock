@@ -570,7 +570,7 @@ export function ExitFunctionDeclaration() {
                 context
               )} application exited \${options.exception ? \`early due to an exception\` : "successfully"}\${options.startDate ? \`. Total processing time is \${Date.now() - options.startDate.getTime() > 5000 ? Math.floor((Date.now() - options.startDate.getTime()) / 1000) : Date.now() - options.startDate.getTime()} \${Date.now() - options.startDate.getTime() > 5000 ? "seconds" : "milliseconds"}\` : ""}...\`);
               if (!options.skipProcessExit) {
-                process.exit(exitCode);
+                process.nextTick(() => process.exit(exitCode));
               }
             };
 
@@ -600,7 +600,7 @@ export function ExitFunctionDeclaration() {
             )} support team.\`);
 
             if (!options.skipProcessExit) {
-              process.exit(1);
+              process.nextTick(() => process.exit(1));
             }
           }
         `}
