@@ -4,12 +4,8 @@
   "type": "module",
   "description": "A playground package containing a script command-line application and project setup.",
   "private": true,
-  "bin": {
-    "playground-script": "./dist/bin.mjs"
-  },
-  "dependencies": {
-    "@shell-shock/core": "workspace:*"
-  },
+  "bin": { "playground-script": "./dist/bin.mjs" },
+  "dependencies": { "@shell-shock/core": "workspace:*" },
   "devDependencies": {
     "@shell-shock/core": "workspace:*",
     "@shell-shock/nx": "workspace:*",

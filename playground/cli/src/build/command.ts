@@ -36,6 +36,16 @@ interface BuildOptions {
    * Specific build targets to build.
    */
   targets: string[];
+
+  /**
+   * The number of concurrent build processes to run.
+   */
+  concurrency: number;
+
+  /**
+   * Whether to clean the build directory before building.
+   */
+  clean: boolean;
 }
 
 /**
@@ -43,7 +53,9 @@ interface BuildOptions {
  */
 function build(options: BuildOptions) {
   info(
-    `Building at ${options.root} with targets=${options.targets.join(", ")}`
+    `Building at ${options.root} with targets=${options.targets.join(
+      ", "
+    )} and concurrency=${options.concurrency} and clean=${options.clean}`
   );
 }
 

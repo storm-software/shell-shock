@@ -31,7 +31,11 @@
       "title": "Mode",
       "type": "string",
       "description": "The build mode",
-      "enum": ["development", "test", "production"],
+      "enum": [
+        "development",
+        "test",
+        "production"
+      ],
       "id": "#mode"
     },
     "autoInstall": {
