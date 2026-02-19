@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.5.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.5.0) (02/18/2026)
+
+### Bug Fixes
+
+- **preset-cli:** Resolve issue displaying selected value after prompt is submitted ([482f6e0](https://github.com/storm-software/shell-shock/commit/482f6e0))
+
+### Features
+
+- **preset-cli:** Added the `timeout` option to prompt configuration ([681095d](https://github.com/storm-software/shell-shock/commit/681095d))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.6.6**
+- Updated **plugin-theme** to **v0.1.2**
+- Updated **core** to **v0.8.7**
+
 ## [0.4.2](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.4.2) (02/17/2026)
 
 ### Bug Fixes

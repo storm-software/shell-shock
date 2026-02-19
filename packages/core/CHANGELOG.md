@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.7](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.7) (02/18/2026)
+
+### Miscellaneous
+
+- **core:** Update boolean parsing option to include all positive numbers ([f0f9ce1](https://github.com/storm-software/shell-shock/commit/f0f9ce1))
+
 ## [0.8.6](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.6) (02/17/2026)
 
 ### Bug Fixes
