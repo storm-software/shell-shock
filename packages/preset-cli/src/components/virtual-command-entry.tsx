@@ -32,8 +32,10 @@ import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { CommandEntry } from "./command-entry";
 import { CommandRouter } from "./command-router";
 
-export interface VirtualCommandEntryProps
-  extends Omit<EntryFileProps, "path" | "typeDefinition"> {
+export interface VirtualCommandEntryProps extends Omit<
+  EntryFileProps,
+  "path" | "typeDefinition"
+> {
   command: CommandTree;
 }
 

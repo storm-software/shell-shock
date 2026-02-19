@@ -42,8 +42,10 @@ import { TypeDeclaration } from "@powerlines/plugin-alloy/typescript/components/
 import { useTheme } from "@shell-shock/preset-script/contexts/theme";
 import defu from "defu";
 
-export interface PromptsBuiltinProps
-  extends Omit<BuiltinFileProps, "id" | "description"> {}
+export interface PromptsBuiltinProps extends Omit<
+  BuiltinFileProps,
+  "id" | "description"
+> {}
 
 /**
  * A component that generates TypeScript declarations for built-in prompt types and related utilities, such as the base Prompt class, specific prompt types like TextPrompt and SelectPrompt, and utility functions for handling prompt cancellations. This component serves as a central place to define the types and interfaces for prompts used in the Shell Shock CLI, providing a consistent API for creating and managing prompts throughout the application.

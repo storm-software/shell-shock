@@ -112,8 +112,10 @@ export function RunApplication() {
   );
 }
 
-export interface BinEntryProps
-  extends Omit<EntryFileProps, "path" | "hashbang"> {
+export interface BinEntryProps extends Omit<
+  EntryFileProps,
+  "path" | "hashbang"
+> {
   prefix?: Children;
   postfix?: Children;
   children: Children;

@@ -104,8 +104,7 @@ export function BannerFunctionDeclaration(
   );
 }
 
-export interface BannerFunctionBodyDeclarationProps
-  extends BannerFunctionDeclarationProps {
+export interface BannerFunctionBodyDeclarationProps extends BannerFunctionDeclarationProps {
   title?: string;
   header?: string;
   footer?: string;

@@ -339,8 +339,10 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
   );
 }
 
-export interface CommandEntryProps
-  extends Omit<EntryFileProps, "path" | "typeDefinition"> {
+export interface CommandEntryProps extends Omit<
+  EntryFileProps,
+  "path" | "typeDefinition"
+> {
   command: CommandTree;
 }
 

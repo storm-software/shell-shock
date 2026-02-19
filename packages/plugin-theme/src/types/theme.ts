@@ -64,13 +64,11 @@ export interface ThemeColorPromptLabelState {
   disabled: string;
 }
 
-export interface ThemeColorDescriptionPromptState
-  extends ThemeColorPromptLabelState {
+export interface ThemeColorDescriptionPromptState extends ThemeColorPromptLabelState {
   inactive: string;
 }
 
-export interface ThemeColorInputPromptState
-  extends ThemeColorDescriptionPromptState {
+export interface ThemeColorInputPromptState extends ThemeColorDescriptionPromptState {
   placeholder: string;
 }
 

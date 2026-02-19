@@ -99,8 +99,10 @@ export function VirtualCommandHandlerDeclaration(
   );
 }
 
-export interface VirtualCommandEntryProps
-  extends Omit<EntryFileProps, "path" | "typeDefinition"> {
+export interface VirtualCommandEntryProps extends Omit<
+  EntryFileProps,
+  "path" | "typeDefinition"
+> {
   command: CommandTree;
 }
 

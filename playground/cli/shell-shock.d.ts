@@ -1576,8 +1576,9 @@ declare module "shell-shock:prompts" {
   }
   /**
    * Configuration options for creating a prompt with a prompt factory function
-   * */ interface PromptFactoryConfig<TValue = string>
-    extends PromptConfig<TValue> {
+   * */ interface PromptFactoryConfig<
+    TValue = string
+  > extends PromptConfig<TValue> {
     /**
      * A function that is called when the prompt state changes, useful for updating the prompt message or other properties dynamically
      * */ onState?: (state: PromptState<TValue>) => any;

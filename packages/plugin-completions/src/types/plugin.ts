@@ -39,6 +39,6 @@ export type CompletionsPluginResolvedConfig = ResolvedConfig & {
 };
 
 export type CompletionsPluginContext<
-  TResolvedConfig extends
-    CompletionsPluginResolvedConfig = CompletionsPluginResolvedConfig
+  TResolvedConfig extends CompletionsPluginResolvedConfig =
+    CompletionsPluginResolvedConfig
 > = Context<TResolvedConfig>;

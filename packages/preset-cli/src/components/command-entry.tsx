@@ -39,8 +39,10 @@ import type { CLIPresetContext } from "../types/plugin";
 import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { VirtualCommandEntry } from "./virtual-command-entry";
 
-export interface CommandEntryProps
-  extends Omit<EntryFileProps, "path" | "typeDefinition"> {
+export interface CommandEntryProps extends Omit<
+  EntryFileProps,
+  "path" | "typeDefinition"
+> {
   command: CommandTree;
 }
 

@@ -41,13 +41,14 @@ import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
 import { IsVerbose } from "./helpers";
 
-export interface UtilsBuiltinProps
-  extends Omit<BuiltinFileProps, "id" | "description"> {}
+export interface UtilsBuiltinProps extends Omit<
+  BuiltinFileProps,
+  "id" | "description"
+> {}
 
 /**
  * Generates utilities for detecting terminal color support.
  */
-
 export function EnvSupportUtilities() {
   return (
     <>
