@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/nx",
-  "version": "0.0.25",
+  "version": "0.0.26",
   "description": "A Nx plugin to support Shell Shock development in Nx monorepos.",
   "repository": {
     "type": "github",

@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.26](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.26) (02/19/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate playground and generated files ([4dbcc81](https://github.com/storm-software/shell-shock/commit/4dbcc81))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.8.9**
+
 ## [0.0.25](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.25) (02/18/2026)
 
 ### Miscellaneous

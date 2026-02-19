@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.2.0) (02/19/2026)
+
+### Miscellaneous
+
+- **plugin-theme:** Clean up default theme options ([a52b047](https://github.com/storm-software/shell-shock/commit/a52b047))
+- **plugin-theme:** Use larger icon for banner header display ([4398d8e](https://github.com/storm-software/shell-shock/commit/4398d8e))
+
+### Features
+
+- **plugin-theme:** Added the `corners` option to border styles ([83b772a](https://github.com/storm-software/shell-shock/commit/83b772a))
+
 ## [0.1.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.1.3) (02/18/2026)
 
 ### Miscellaneous

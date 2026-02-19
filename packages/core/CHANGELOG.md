@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.9](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.9) (02/19/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with missing typescript import ([319919f](https://github.com/storm-software/shell-shock/commit/319919f))
+
 ## [0.8.8](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.8) (02/18/2026)
 
 ### Miscellaneous

@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.8](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.8) (02/19/2026)
+
+### Miscellaneous
+
+- **preset-script:** Improve style of error display in `exit` function ([18be86d](https://github.com/storm-software/shell-shock/commit/18be86d))
+
+### Bug Fixes
+
+- **preset-script:** Clean up error display in `exit` function ([50986ac](https://github.com/storm-software/shell-shock/commit/50986ac))
+- **preset-script:** Resolve issue displaying stacktrace in messages ([cc99f25](https://github.com/storm-software/shell-shock/commit/cc99f25))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.2.0**
+- Updated **core** to **v0.8.9**
+
 ## [0.6.7](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.7) (02/18/2026)
 
 ### Miscellaneous

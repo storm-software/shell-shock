@@ -2,6 +2,27 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.6.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.6.0) (02/19/2026)
+
+### Miscellaneous
+
+- **preset-cli:** Clean up command entry files ([b6a520a](https://github.com/storm-software/shell-shock/commit/b6a520a))
+- **preset-cli:** Added `numeric` prompts for numeric command options/arguments ([0d674d9](https://github.com/storm-software/shell-shock/commit/0d674d9))
+
+### Bug Fixes
+
+- **preset-cli:** Resolve issue with cursor placement in text prompts ([ae3c909](https://github.com/storm-software/shell-shock/commit/ae3c909))
+
+### Features
+
+- **preset-cli:** Added the `confirm` prompt for booleans ([3a51f31](https://github.com/storm-software/shell-shock/commit/3a51f31))
+
+### Updated Dependencies
+
+- Updated **preset-script** to **v0.6.8**
+- Updated **plugin-theme** to **v0.2.0**
+- Updated **core** to **v0.8.9**
+
 ## [0.5.1](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.5.1) (02/18/2026)
 
 ### Miscellaneous
