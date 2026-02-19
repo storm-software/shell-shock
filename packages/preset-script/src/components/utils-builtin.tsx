@@ -558,7 +558,7 @@ export function ExitFunctionDeclaration() {
             if (options.exception) {
               error(\`A fatal error occured while running the application - please contact the ${getAppTitle(
                 context
-              )} support team: \\n\\n\${typeof options.exception === "string" ? options.exception : options.exception.message}\`);
+              )} support team\${options.exception && typeof options.exception !== "symbol" ? \`: \\n\\n\${typeof options.exception === "string" ? options.exception : options.exception.message}\` : "."}\`);
             }
 
             const terminate = (force = false) => { `}
