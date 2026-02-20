@@ -2,7 +2,7 @@
   "name": "@shell-shock-playground/cli",
   "version": "0.0.1",
   "type": "module",
-  "description": "A playground package containing a cli command-line application and project setup.",
+  "description": "A playground package containing an example command-line application and project setup.",
   "private": true,
   "bin": { "playground-cli": "./dist/bin.mjs" },
   "dependencies": { "@shell-shock/core": "workspace:*" },

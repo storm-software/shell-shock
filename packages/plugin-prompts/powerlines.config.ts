@@ -16,28 +16,20 @@
 
  ------------------------------------------------------------------- */
 
-import type { UserConfig } from "@shell-shock/core";
-import { defineConfig } from "@shell-shock/core";
-import cli from "@shell-shock/preset-cli";
+import alloy from "@powerlines/plugin-alloy";
+import plugin from "@powerlines/plugin-plugin";
+import type { UserConfig } from "powerlines";
+import { defineConfig } from "powerlines";
 
 const config: UserConfig = defineConfig({
   skipCache: true,
-  name: "playground-cli",
-  output: {
-    storage: "fs"
-  },
-  plugins: [
-    cli({
-      theme: {
-        labels: {
-          banner: {
-            header: "Shell Shock Playground",
-            footer: "https://stormsoftware.com"
-          }
-        }
-      }
-    })
-  ]
+  entry: [
+    "./src/index.tsx",
+    "./src/types/*.ts",
+    "./src/components/**/*.tsx",
+    "./src/components/**/*.ts"
+  ],
+  plugins: [plugin(), alloy()]
 });
 
 export default config;

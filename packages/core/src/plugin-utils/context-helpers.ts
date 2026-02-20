@@ -81,12 +81,14 @@ export function getAppTitle(
     context.config.title ||
     titleCase(context.config.name || getAppName(context));
 
-  return replaceCLI
-    ? title.replace(
-        /(?:cli|command-line|command line)\s*(?:interface\s*)?(?:application|app)?$/gi,
-        ""
-      )
-    : title;
+  return (
+    replaceCLI
+      ? title.replace(
+          /(?:cli|command-line|command line)\s*(?:interface\s*)?(?:application|app)?$/gi,
+          ""
+        )
+      : title
+  ).trim();
 }
 
 /**

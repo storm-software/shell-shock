@@ -16,28 +16,25 @@
 
  ------------------------------------------------------------------- */
 
-import type { UserConfig } from "@shell-shock/core";
-import { defineConfig } from "@shell-shock/core";
-import cli from "@shell-shock/preset-cli";
+import type { AlloyPluginContext } from "@powerlines/plugin-alloy/types";
+import type { ResolvedConfig } from "@shell-shock/core/types/config";
+import type { Context } from "@shell-shock/core/types/context";
+import type {
+  ThemePluginContext,
+  ThemePluginResolvedConfig,
+  ThemePluginUserConfig
+} from "@shell-shock/plugin-theme/types/plugin";
 
-const config: UserConfig = defineConfig({
-  skipCache: true,
-  name: "playground-cli",
-  output: {
-    storage: "fs"
-  },
-  plugins: [
-    cli({
-      theme: {
-        labels: {
-          banner: {
-            header: "Shell Shock Playground",
-            footer: "https://stormsoftware.com"
-          }
-        }
-      }
-    })
-  ]
-});
+export interface PromptsPluginOptions {}
 
-export default config;
+export type PromptsPluginUserConfig = ThemePluginUserConfig & {};
+
+export type PromptsPluginResolvedConfig = ResolvedConfig &
+  ThemePluginResolvedConfig;
+
+export type PromptsPluginContext<
+  TResolvedConfig extends PromptsPluginResolvedConfig =
+    PromptsPluginResolvedConfig
+> = AlloyPluginContext<TResolvedConfig> &
+  ThemePluginContext<TResolvedConfig> &
+  Context<TResolvedConfig>;

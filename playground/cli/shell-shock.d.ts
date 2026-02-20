@@ -858,6 +858,754 @@ declare module "shell-shock:env" {
 }
 
 /**
+ * A collection of prompts that allow for interactive input in command-line applications.
+ *
+ * @module shell-shock:prompts
+ */
+declare module "shell-shock:prompts" {
+  import EventEmitter from "node:events";
+  import readline from "node:readline";
+  /**
+   * A utility function to pause execution for a specified duration, which can be used in prompt interactions to create delays or timeouts. The function returns a promise that resolves after the specified duration in milliseconds, allowing it to be used with async/await syntax for easier handling of asynchronous prompt logic.
+   *
+   * @param duration - The duration to sleep in milliseconds.
+   * @returns A promise that resolves after the specified duration, allowing for
+   *   asynchronous delays in prompt interactions.
+   *
+   */
+  export function sleep(duration: number): Promise<void>;
+  /**
+   * A type for a custom prompt input parser, which can be used to create custom input styles for prompts. The function should return the parsed value for the given input string.
+   */
+  export type PromptParser<TValue = string> = (
+    this: Prompt<TValue>,
+    input: string
+  ) => TValue;
+  /**
+   * A type for a custom prompt input formatter, which can be used to create custom display styles for prompts. The function should return the formatted string to display for the given input value.
+   */
+  export type PromptFormatter<TValue = string> = (
+    this: Prompt<TValue>,
+    input: TValue
+  ) => string;
+  /**
+   * A built-in prompt mask function that just returns the input as is, making it
+   * invisible
+   *
+   * @param {string} input
+   */
+  export function noMask(input: string): string;
+  /**
+   * A built-in prompt mask function that makes input invisible
+   *
+   * @param {string} input
+   */
+  export function invisibleMask(input: string): string;
+  /**
+   * The current state of a prompt
+   */
+  export interface PromptState<TValue = string> {
+    /**
+     * The current value of the prompt
+     */
+    value: TValue;
+    /**
+     * Indicates whether the prompt is in an error state
+     */
+    isError: boolean;
+    /**
+     * If the prompt is in an error state, this will contain the error message to display
+     */
+    errorMessage?: string;
+    /**
+     * Indicates whether the prompt is submitted
+     */
+    isSubmitted: boolean;
+    /**
+     * Indicates whether the prompt is cancelled
+     */
+    isCancelled: boolean;
+    /**
+     * Indicates whether the prompt is completed, which can be used to indicate that the prompt interaction is finished regardless of whether it was submitted or cancelled
+     */
+    isCompleted: boolean;
+  }
+  /**
+   * Configuration options for creating a prompt
+   */
+  interface PromptConfig<TValue = string> {
+    /**
+     * The readable stream to use for prompt input, defaults to process.stdin
+     */
+    input?: NodeJS.ReadStream;
+    /**
+     * The writable stream to use for prompt output, defaults to process.stdout
+     */
+    output?: NodeJS.WriteStream;
+    /**
+     * The prompt message to display
+     */
+    message: string;
+    /**
+     * The prompt description message to display
+     */
+    description?: string;
+    /**
+     * The initial value of the prompt
+     */
+    initialValue?: TValue;
+    /**
+     * A validation function that returns true if the input is valid, false or a string error message if the input is invalid
+     */
+    validate?: (value: TValue) =>
+      | boolean
+      | string
+      | {
+          type: "error" | "warning";
+          message: string;
+        }
+      | null
+      | undefined
+      | Promise<
+          | boolean
+          | string
+          | {
+              type: "error" | "warning";
+              message: string;
+            }
+          | null
+          | undefined
+        >;
+    /**
+     * A function that parses the input value and returns the parsed result or throws an error if the input is invalid
+     */
+    parse?: PromptParser<TValue>;
+    /**
+     * A function that formats the input value and returns the formatted result or throws an error if the input is invalid
+     */
+    format?: PromptFormatter<TValue>;
+    /**
+     * A function that masks the input value and returns the masked result. This can be used to create password inputs or other sensitive input types where the actual input value should not be displayed. If not provided, the prompt will display the input as is without masking.
+     */
+    mask?: (input: string) => string;
+    /**
+     * A function that masks the value submitted by the user so that it can then be used in the console output or elsewhere without exposing sensitive information. If not provided, the prompt will use the same mask function for both input and submitted value masking.
+     */
+    maskSubmitted?: (input: string) => string;
+    /**
+     * The default error message to display when validation fails
+     */
+    defaultErrorMessage?: string;
+    /**
+     * The timeout duration in milliseconds for the prompt. If none is provided, the prompt will not time out.
+     */
+    timeout?: number;
+  }
+  /**
+   * Base prompt class that other prompt types can extend from
+   */
+  abstract class Prompt<TValue = string> extends EventEmitter {
+    protected config: PromptConfig<TValue>;
+    protected abstract initialValue: TValue;
+    protected input: NodeJS.ReadStream;
+    protected output: NodeJS.WriteStream;
+    protected message: string;
+    protected description: string;
+    protected errorMessage: string | null;
+    protected defaultErrorMessage: string;
+    protected isSubmitted: boolean;
+    protected isCancelled: boolean;
+    protected isInitial: boolean;
+    protected consoleOutput: string;
+    protected consoleStatus: string;
+    protected displayValue: string;
+    protected validator: (
+      value: TValue
+    ) =>
+      | boolean
+      | string
+      | null
+      | undefined
+      | Promise<boolean | string | null | undefined>;
+    protected parser: PromptParser<TValue>;
+    protected formatter: PromptFormatter<TValue>;
+    protected mask: (input: string) => string;
+    protected maskSubmitted: (input: string) => string;
+    protected cursor: number;
+    protected cursorOffset: number;
+    protected cursorHidden: boolean;
+    constructor(config: PromptConfig<TValue>);
+    /**
+     * A getter for the prompt value that returns the current value or the initial value if the current value is not set
+     */
+    get value(): TValue;
+    get isError(): boolean;
+    protected get isSelect(): boolean;
+    protected get isCompleted(): boolean;
+    protected get isPlaceholder(): boolean;
+    protected get status(): string;
+    /**
+     * A method to change the prompt value, which also updates the display value and fires a state update event. This method can be called by subclasses whenever the prompt value needs to be updated based on user input or other interactions.
+     *
+     * @param value
+     */
+    protected changeValue(value: TValue): void;
+    /**
+     * A method to emit the current state
+     */
+    protected sync(): void;
+    /**
+     * A method to ring the bell
+     */
+    protected bell(): void;
+    /**
+     * A method to handle keypress events and determine the corresponding action
+     *
+     * @param char
+     * @param key
+     */
+    protected onKeypress(char: string, key: readline.Key): void;
+    /**
+     * A method to handle keypress events and determine the corresponding action
+     *
+     * @param char
+     * @param key
+     */
+    protected keypress(char: string, key: readline.Key): void;
+    /**
+     * A method to close the prompt and clean up resources, which also emits a submit or cancel event based on the prompt state. This method should be called when the prompt interaction is finished and the prompt needs to be closed.
+     */
+    protected close(): Promise<void>;
+    /**
+     * A method to validate the prompt input using the provided validator function, which updates the error message and error state based on the validation result. This method is called whenever the prompt value changes and needs to be validated.
+     *
+     * @param value
+     */
+    protected validate(value: TValue): Promise<void>;
+    /**
+     * A method to route keypress events to specific prompt actions based on the key pressed. This method maps various key combinations and keys to corresponding actions that can be handled by the prompt, such as submitting, cancelling, navigating, etc.
+     *
+     * @param key
+     */
+    protected getAction(key: readline.Key): string | false;
+    /**
+     * A method to reset the prompt input
+     */
+    protected reset(): void;
+    /**
+     * A method to cancel the prompt input
+     */
+    protected cancel(): void;
+    /**
+     * A method to submit the prompt input
+     */
+    protected submit(): Promise<void>;
+    /**
+     * A method to render the prompt
+     */
+    protected invokeRender(): void;
+    /**
+     * A method to render the prompt
+     */
+    protected render(): string;
+  }
+  /**
+   * Configuration options for creating a prompt with a prompt factory function
+   */
+  interface PromptFactoryConfig<TValue = string> extends PromptConfig<TValue> {
+    /**
+     * A function that is called when the prompt state changes, useful for updating the prompt message or other properties dynamically
+     */
+    onState?: (state: PromptState<TValue>) => any;
+    /**
+     * A function that is called when the prompt is submitted, useful for handling the submitted value or performing actions based on the prompt state
+     */
+    onSubmit?: (value: TValue) => any;
+    /**
+     * A function that is called when the prompt is canceled, useful for handling the canceled value or performing actions based on the prompt state
+     */
+    onCancel?: (event: any) => any;
+  }
+  /**
+   * A unique symbol used to indicate that a prompt was cancelled, which can be returned from a prompt function to signal that the prompt interaction should be cancelled and any pending promises should be rejected with this symbol. This allows for a consistent way to handle prompt cancellations across different prompt types and interactions.
+   */
+  export const CANCEL_SYMBOL: unique symbol;
+  /**
+   * A utility function to check if a given value is the {@link CANCEL_SYMBOL | cancel symbol}, which can be used to determine if a prompt interaction was cancelled based on the value returned from a prompt factory function. This function checks if the provided value is strictly equal to the {@link CANCEL_SYMBOL | CANCEL_SYMBOL}, allowing for a consistent way to handle prompt cancellations across different prompt types and interactions.
+   *
+   * @param value - The value to check.
+   * @returns A boolean indicating whether the provided value is the {@link
+   *   CANCEL_SYMBOL | cancel symbol}, which can be used to determine if a prompt
+   *   interaction was cancelled.
+   *
+   */
+  export function isCancel(value: any): value is typeof CANCEL_SYMBOL;
+  /**
+   * Configuration options for creating a text-based prompt
+   */
+  interface StringPromptConfig extends PromptConfig<string> {
+    /**
+     * The initial value of the prompt
+     */
+    initialValue?: string;
+    /**
+     * A function that masks the input value and returns the masked result
+     */
+    mask?: (input: string) => string;
+  }
+  /**
+   * A type definition for the configuration options to pass to the text prompt, which extends the base PromptConfig with additional options specific to text prompts. This type can be used when creating a text prompt using the {@link text | text prompt factory function} or when manually creating an instance of the TextPrompt class. The TextConfig type includes all the properties of the base PromptConfig, such as message, description, initialValue, validate, parse, format, mask, etc., as well as any additional properties that are specific to text prompts.
+   */
+  export type TextConfig = PromptFactoryConfig<string> & StringPromptConfig;
+  /**
+   * A function to create and run a text prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @remarks
+   * This function can be used to easily create and run a text prompt without needing to manually create an instance of the TextPrompt class and handle its events. The function accepts a configuration object that extends the base PromptFactoryConfig with additional options specific to text prompts, such as the initial value and mask function. The returned promise allows for easy handling of the prompt result using async/await syntax or traditional promise chaining.
+   * @example
+   * ```ts
+   * import { text, isCancel } from "shell-shock:prompts";
+   *
+   * async function run() {
+   *   const name = await text({
+   *     message: "What is your name?",
+   *     description: "Please enter your full name",
+   *     validate: value => value.trim().length > 0 || "Name cannot be empty"
+   *   });
+   *   if (isCancel(name)) {
+   *     console.log("Prompt was cancelled");
+   *     return;
+   *   }
+   *
+   *   console.log("Hello, " + name + "!");
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param config - The configuration options to pass to the text prompt, which
+   *   extends the base PromptConfig with additional options specific to text
+   *   prompts
+   * @returns A promise that resolves with the submitted value or rejects with a
+   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
+   *
+   */
+  export function text(config: TextConfig): Promise<string | symbol>;
+  /**
+   * Configuration for an option the user can select from the select prompt
+   */
+  interface PromptOptionConfig<TValue = string> {
+    /**
+     * The message label for the option
+     */
+    label?: string;
+    /**
+     * An icon for the option
+     */
+    icon?: string;
+    /**
+     * The value of the option
+     */
+    value: TValue;
+    /**
+     * The description of the option
+     */
+    description?: string;
+    /**
+     * Whether the option is selected
+     */
+    selected?: boolean;
+    /**
+     * Whether the option is disabled
+     */
+    disabled?: boolean;
+  }
+  /**
+   * An option the user can select from the select prompt
+   */
+  export interface PromptOption<
+    TValue = string
+  > extends PromptOptionConfig<TValue> {
+    /**
+     * The message label for the option
+     */
+    label: string; /**
+     * The index of the option
+     */
+    index: number;
+    /**
+     * Whether the option is selected
+     */
+    selected: boolean;
+    /**
+     * Whether the option is disabled
+     */
+    disabled: boolean;
+  }
+  /**
+   * An options object for configuring a select prompt
+   */
+  interface SelectPromptConfig<TValue = string> extends PromptConfig<TValue> {
+    /**
+     * A hint to display to the user
+     */
+    hint?: string;
+    /**
+     * The options available for the select prompt
+     */
+    options: Array<string | PromptOptionConfig<TValue>>;
+    /**
+     * The number of options to display per page, defaults to 8
+     */
+    optionsPerPage?: number;
+  }
+  /**
+   * A type definition for the configuration options to pass to the select prompt, which extends the base PromptConfig with additional options specific to select prompts. This type can be used when creating a select prompt using the {@link select | select prompt factory function}.
+   *
+   * @remarks
+   * The Select Config type includes all the properties of the base PromptConfig, such as message, description, initialValue, validate, parse, format, etc., as well as any additional properties that are specific to select prompts, such as the list of options and pagination settings.
+   */
+  export type SelectConfig = PromptFactoryConfig<string> & SelectPromptConfig;
+  /**
+   * A function to create and run a select prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @example
+   * ```ts
+   * import { select, isCancel } from "shell-shock:prompts";
+   *
+   * async function run() {
+   *   const color = await select({
+   *     message: "What is your favorite color?",
+   *     description: "Please select your favorite color",
+   *     validate: value => value.trim().length > 0 || "Color cannot be empty",
+   *     options: [
+   *       { label: "Red", value: "red", description: "The color of fire and blood" },
+   *       { label: "Green", value: "green", description: "The color of nature and growth" },
+   *       { label: "Blue", value: "blue", description: "The color of the sky and sea" },
+   *       { label: "Yellow", value: "yellow", description: "The color of sunshine and happiness" }
+   *     ]
+   *   });
+   *   if (isCancel(color)) {
+   *     console.log("Prompt was cancelled");
+   *     return;
+   *   }
+   *
+   *   console.log("Your favorite color is " + color + "!");
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param config - The configuration options to pass to the select prompt, which
+   *   extends the base PromptConfig with additional options specific to select
+   *   prompts
+   * @returns A promise that resolves with the submitted value or rejects with a
+   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
+   *
+   */
+  export function select(config: SelectConfig): Promise<string | symbol>;
+  /**
+   * Configuration options for creating a numeric prompt
+   */
+  interface NumberPromptConfig extends PromptConfig<number> {
+    /**
+     * Whether the prompt should accept floating point numbers
+     */
+    isFloat?: boolean;
+    /**
+     * The number of decimal places to round the input to, defaults to 2
+     */
+    precision?: number;
+    /**
+     * The increment value for the number prompt, defaults to 1
+     */
+    increment?: number;
+    /**
+     * The minimum value for the number prompt, defaults to -Infinity
+     */
+    min?: number;
+    /**
+     * The maximum value for the number prompt, defaults to Infinity
+     */
+    max?: number;
+  }
+  /**
+   * An object representing the configuration options for a numeric prompt.
+   */
+  export type NumericConfig = PromptFactoryConfig<number> & NumberPromptConfig;
+  /**
+   * A function to create and run a numeric prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @example
+   * ```ts
+   * import { numeric, isCancel } from "shell-shock:prompts";
+   *
+   * async function run() {
+   *   const age = await numeric({
+   *     message: "How old are you?",
+   *     description: "Please enter your age in years",
+   *     validate: value => value < 21 ? "You must be at least 21 years old" : true,
+   *   });
+   *   if (isCancel(age)) {
+   *     console.log("Prompt was cancelled");
+   *     return;
+   *   }
+   *
+   *   console.log("Your age is " + age + "!");
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param config - The configuration options to pass to the numeric prompt,
+   *   which extends the base PromptFactoryConfig with additional options specific
+   *   to numeric prompts
+   * @returns A promise that resolves with the submitted value or rejects with a
+   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
+   *
+   */
+  export function numeric(config: NumericConfig): Promise<number | symbol>;
+  /**
+   * Configuration options for creating a boolean toggle prompt
+   */
+  export interface TogglePromptConfig extends PromptConfig<boolean> {
+    /**
+     * The message for the true state of the prompt
+     */
+    trueMessage?: string;
+    /**
+     * The message for the false state of the prompt
+     */
+    falseMessage?: string;
+  }
+  /**
+   * A prompt for toggling a boolean input
+   */
+  export class TogglePrompt extends Prompt<boolean> {
+    protected initialValue: boolean;
+    protected trueMessage: string;
+    protected falseMessage: string;
+    protected cursorHidden: boolean;
+    constructor(config: TogglePromptConfig);
+    /**
+     * Update the toggle value to a checked state based on user input
+     */
+    protected check(): void;
+    /**
+     * Update the toggle value to an unchecked state based on user input
+     */
+    protected uncheck(): void;
+    /**
+     * A method to handle keypress events and determine the corresponding action
+     *
+     * @param char
+     * @param key
+     */
+    protected keypress(char: string, key: readline.Key): any;
+    /**
+     * A method to delete the character backward of the cursor
+     */
+    protected delete(): void;
+    /**
+     * A method to move the cursor to the left
+     */
+    protected left(): void;
+    /**
+     * A method to move the cursor to the right
+     */
+    protected right(): void;
+    /**
+     * A method to move the cursor to down
+     */
+    protected down(): void;
+    /**
+     * A method to move the cursor to up
+     */
+    protected up(): void;
+    /**
+     * A method to move to the next value
+     */
+    protected next(): void;
+    /**
+     * A method to render the prompt
+     */
+    protected render(): string;
+  }
+  /**
+   * An object representing the configuration options for a toggle prompt, which extends the base PromptFactoryConfig with additional options specific to the toggle prompt.
+   */
+  export type ToggleConfig = PromptFactoryConfig<boolean> & TogglePromptConfig;
+  /**
+   * A function to create and run a toggle prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @example
+   * ```ts
+   * import { toggle, isCancel } from "shell-shock:prompts";
+   *
+   * async function run() {
+   *   const likesIceCream = await toggle({
+   *     message: "Do you like ice cream?"
+   *   });
+   *   if (isCancel(likesIceCream)) {
+   *     console.log("Prompt was cancelled");
+   *     return;
+   *   }
+   *
+   *   console.log("You" + (likesIceCream ? " like ice cream" : " don't like ice cream") + "!");
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param config - The configuration options to pass to the toggle prompt, which
+   *   extends the base PromptFactoryConfig with additional options specific to
+   *   the toggle prompt
+   * @returns A promise that resolves with the submitted value or rejects with a
+   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
+   *
+   */
+  export function toggle(config: ToggleConfig): Promise<boolean | symbol>;
+  /**
+   * A built-in prompt mask function that masks input with asterisks
+   *
+   * @param {string} input
+   */
+  export function passwordMask(input: string): string;
+  /**
+   * An object representing the configuration options for a password prompt, which extends the base PromptFactoryConfig with additional options specific to password prompts.
+   */
+  export type PasswordConfig = Omit<TextConfig, "mask" | "maskSubmitted">;
+  /**
+   * A function to create and run a password prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @remarks
+   * This function creates an instance of the TextPrompt class with the provided configuration options and a custom mask function to handle password input. It sets up event listeners for state updates, submission, and cancellation to handle the prompt interactions and return the appropriate results. The password prompt allows users to input text that is masked for privacy, making it suitable for scenarios like entering passwords or sensitive information.
+   *
+   *
+   * @example
+   * ```ts
+   * import { password, isCancel } from "shell-shock:prompts";
+   *
+   * async function run() {
+   *   const userPassword = await password({
+   *     message: "Enter your password"
+   *   });
+   *   if (isCancel(userPassword)) {
+   *     console.log("Prompt was cancelled");
+   *     return;
+   *   }
+   *
+   *   console.log("You entered a password!");
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param config - The configuration options to pass to the password prompt,
+   *   which extends the base PromptConfig with additional options specific to
+   *   password prompts
+   * @returns A promise that resolves with the submitted value or rejects with a
+   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
+   *
+   */
+  export function password(config: PasswordConfig): Promise<string | symbol>;
+  /**
+   * Configuration options for creating a boolean confirm prompt
+   */
+  export interface ConfirmPromptConfig extends PromptConfig<boolean> {
+    /**
+     * The message for the \`Yes\` state of the prompt
+     *
+     * @defaultValue "Yes"
+     */
+    yesMessage?: string;
+    /**
+     * The \`Yes\` option when choosing between yes/no
+     *
+     * @defaultValue "1"
+     */
+    yesOption?: string;
+    /**
+     * The message for the \`No\` state of the prompt
+     *
+     * @defaultValue "(Y/n)"
+     */
+    noMessage?: string;
+    /**
+     * The \`No\` option when choosing between yes/no
+     *
+     * @defaultValue "(y/N)"
+     */
+    noOption?: string;
+  }
+  /**
+   * A prompt for confirming a boolean input
+   */
+  export class ConfirmPrompt extends Prompt<boolean> {
+    protected initialValue: boolean;
+    protected yesMessage: string;
+    protected yesOption: string;
+    protected noMessage: string;
+    protected noOption: string;
+    protected cursorHidden: boolean;
+    constructor(config: ConfirmPromptConfig);
+    /**
+     * A method to handle keypress events and determine the corresponding action
+     *
+     * @param char
+     * @param key
+     */
+    protected keypress(char: string, key: readline.Key): any;
+    /**
+     * A method to render the prompt
+     */
+    protected render(): string;
+  }
+  /**
+   * An object representing the configuration options for a confirm prompt, which extends the base PromptFactoryConfig with additional options specific to the confirm prompt.
+   */
+  export type ConfirmConfig = PromptFactoryConfig<boolean> &
+    ConfirmPromptConfig;
+  /**
+   * A function to create and run a confirm prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @example
+   * ```ts
+   * import { confirm, isCancel } from "shell-shock:prompts";
+   *
+   * async function run() {
+   *   const likesIceCream = await confirm({
+   *     message: "Do you like ice cream?"
+   *   });
+   *   if (isCancel(likesIceCream)) {
+   *     console.log("Prompt was cancelled");
+   *     return;
+   *   }
+   *
+   *   console.log("You" + (likesIceCream ? " like ice cream" : " don't like ice cream") + "!");
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param config - The configuration options to pass to the confirm prompt,
+   *   which extends the base PromptFactoryConfig with additional options specific
+   *   to the confirm prompt
+   * @returns A promise that resolves with the submitted value or rejects with a
+   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
+   *
+   */
+  export function confirm(config: ConfirmConfig): Promise<boolean | symbol>;
+  export {};
+}
+
+/**
  * A collection of application upgrade utility functions for Shell Shock.
  *
  * @module shell-shock:upgrade
@@ -1726,752 +2474,4 @@ declare module "shell-shock:console" {
       | string[]
       | string[][]
   ): void;
-}
-
-/**
- * A collection of prompts that allow for interactive input in command-line applications.
- *
- * @module shell-shock:prompts
- */
-declare module "shell-shock:prompts" {
-  import EventEmitter from "node:events";
-  import readline from "node:readline";
-  /**
-   * A utility function to pause execution for a specified duration, which can be used in prompt interactions to create delays or timeouts. The function returns a promise that resolves after the specified duration in milliseconds, allowing it to be used with async/await syntax for easier handling of asynchronous prompt logic.
-   *
-   * @param duration - The duration to sleep in milliseconds.
-   * @returns A promise that resolves after the specified duration, allowing for
-   *   asynchronous delays in prompt interactions.
-   *
-   */
-  export function sleep(duration: number): Promise<void>;
-  /**
-   * A type for a custom prompt input parser, which can be used to create custom input styles for prompts. The function should return the parsed value for the given input string.
-   */
-  export type PromptParser<TValue = string> = (
-    this: Prompt<TValue>,
-    input: string
-  ) => TValue;
-  /**
-   * A type for a custom prompt input formatter, which can be used to create custom display styles for prompts. The function should return the formatted string to display for the given input value.
-   */
-  export type PromptFormatter<TValue = string> = (
-    this: Prompt<TValue>,
-    input: TValue
-  ) => string;
-  /**
-   * A built-in prompt mask function that just returns the input as is, making it
-   * invisible
-   *
-   * @param {string} input
-   */
-  export function noMask(input: string): string;
-  /**
-   * A built-in prompt mask function that makes input invisible
-   *
-   * @param {string} input
-   */
-  export function invisibleMask(input: string): string;
-  /**
-   * The current state of a prompt
-   */
-  export interface PromptState<TValue = string> {
-    /**
-     * The current value of the prompt
-     */
-    value: TValue;
-    /**
-     * Indicates whether the prompt is in an error state
-     */
-    isError: boolean;
-    /**
-     * If the prompt is in an error state, this will contain the error message to display
-     */
-    errorMessage?: string;
-    /**
-     * Indicates whether the prompt is submitted
-     */
-    isSubmitted: boolean;
-    /**
-     * Indicates whether the prompt is cancelled
-     */
-    isCancelled: boolean;
-    /**
-     * Indicates whether the prompt is completed, which can be used to indicate that the prompt interaction is finished regardless of whether it was submitted or cancelled
-     */
-    isCompleted: boolean;
-  }
-  /**
-   * Configuration options for creating a prompt
-   */
-  interface PromptConfig<TValue = string> {
-    /**
-     * The readable stream to use for prompt input, defaults to process.stdin
-     */
-    input?: NodeJS.ReadStream;
-    /**
-     * The writable stream to use for prompt output, defaults to process.stdout
-     */
-    output?: NodeJS.WriteStream;
-    /**
-     * The prompt message to display
-     */
-    message: string;
-    /**
-     * The prompt description message to display
-     */
-    description?: string;
-    /**
-     * The initial value of the prompt
-     */
-    initialValue?: TValue;
-    /**
-     * A validation function that returns true if the input is valid, false or a string error message if the input is invalid
-     */
-    validate?: (value: TValue) =>
-      | boolean
-      | string
-      | {
-          type: "error" | "warning";
-          message: string;
-        }
-      | null
-      | undefined
-      | Promise<
-          | boolean
-          | string
-          | {
-              type: "error" | "warning";
-              message: string;
-            }
-          | null
-          | undefined
-        >;
-    /**
-     * A function that parses the input value and returns the parsed result or throws an error if the input is invalid
-     */
-    parse?: PromptParser<TValue>;
-    /**
-     * A function that formats the input value and returns the formatted result or throws an error if the input is invalid
-     */
-    format?: PromptFormatter<TValue>;
-    /**
-     * A function that masks the input value and returns the masked result. This can be used to create password inputs or other sensitive input types where the actual input value should not be displayed. If not provided, the prompt will display the input as is without masking.
-     */
-    mask?: (input: string) => string;
-    /**
-     * A function that masks the value submitted by the user so that it can then be used in the console output or elsewhere without exposing sensitive information. If not provided, the prompt will use the same mask function for both input and submitted value masking.
-     */
-    maskSubmitted?: (input: string) => string;
-    /**
-     * The default error message to display when validation fails
-     */
-    defaultErrorMessage?: string;
-    /**
-     * The timeout duration in milliseconds for the prompt. If none is provided, the prompt will not time out.
-     */
-    timeout?: number;
-  }
-  /**
-   * Base prompt class that other prompt types can extend from
-   */
-  abstract class Prompt<TValue = string> extends EventEmitter {
-    protected config: PromptConfig<TValue>;
-    protected abstract initialValue: TValue;
-    protected input: NodeJS.ReadStream;
-    protected output: NodeJS.WriteStream;
-    protected message: string;
-    protected description: string;
-    protected errorMessage: string | null;
-    protected defaultErrorMessage: string;
-    protected isSubmitted: boolean;
-    protected isCancelled: boolean;
-    protected isInitial: boolean;
-    protected consoleOutput: string;
-    protected consoleStatus: string;
-    protected displayValue: string;
-    protected validator: (
-      value: TValue
-    ) =>
-      | boolean
-      | string
-      | null
-      | undefined
-      | Promise<boolean | string | null | undefined>;
-    protected parser: PromptParser<TValue>;
-    protected formatter: PromptFormatter<TValue>;
-    protected mask: (input: string) => string;
-    protected maskSubmitted: (input: string) => string;
-    protected cursor: number;
-    protected cursorOffset: number;
-    protected cursorHidden: boolean;
-    constructor(config: PromptConfig<TValue>);
-    /**
-     * A getter for the prompt value that returns the current value or the initial value if the current value is not set
-     */
-    get value(): TValue;
-    get isError(): boolean;
-    protected get isSelect(): boolean;
-    protected get isCompleted(): boolean;
-    protected get isPlaceholder(): boolean;
-    protected get status(): string;
-    /**
-     * A method to change the prompt value, which also updates the display value and fires a state update event. This method can be called by subclasses whenever the prompt value needs to be updated based on user input or other interactions.
-     *
-     * @param value
-     */
-    protected changeValue(value: TValue): void;
-    /**
-     * A method to emit the current state
-     */
-    protected sync(): void;
-    /**
-     * A method to ring the bell
-     */
-    protected bell(): void;
-    /**
-     * A method to handle keypress events and determine the corresponding action
-     *
-     * @param char
-     * @param key
-     */
-    protected onKeypress(char: string, key: readline.Key): void;
-    /**
-     * A method to handle keypress events and determine the corresponding action
-     *
-     * @param char
-     * @param key
-     */
-    protected keypress(char: string, key: readline.Key): void;
-    /**
-     * A method to close the prompt and clean up resources, which also emits a submit or cancel event based on the prompt state. This method should be called when the prompt interaction is finished and the prompt needs to be closed.
-     */
-    protected close(): Promise<void>;
-    /**
-     * A method to validate the prompt input using the provided validator function, which updates the error message and error state based on the validation result. This method is called whenever the prompt value changes and needs to be validated.
-     *
-     * @param value
-     */
-    protected validate(value: TValue): Promise<void>;
-    /**
-     * A method to route keypress events to specific prompt actions based on the key pressed. This method maps various key combinations and keys to corresponding actions that can be handled by the prompt, such as submitting, cancelling, navigating, etc.
-     *
-     * @param key
-     */
-    protected getAction(key: readline.Key): string | false;
-    /**
-     * A method to reset the prompt input
-     */
-    protected reset(): void;
-    /**
-     * A method to cancel the prompt input
-     */
-    protected cancel(): void;
-    /**
-     * A method to submit the prompt input
-     */
-    protected submit(): Promise<void>;
-    /**
-     * A method to render the prompt
-     */
-    protected invokeRender(): void;
-    /**
-     * A method to render the prompt
-     */
-    protected render(): string;
-  }
-  /**
-   * Configuration options for creating a prompt with a prompt factory function
-   */
-  interface PromptFactoryConfig<TValue = string> extends PromptConfig<TValue> {
-    /**
-     * A function that is called when the prompt state changes, useful for updating the prompt message or other properties dynamically
-     */
-    onState?: (state: PromptState<TValue>) => any;
-    /**
-     * A function that is called when the prompt is submitted, useful for handling the submitted value or performing actions based on the prompt state
-     */
-    onSubmit?: (value: TValue) => any;
-    /**
-     * A function that is called when the prompt is canceled, useful for handling the canceled value or performing actions based on the prompt state
-     */
-    onCancel?: (event: any) => any;
-  }
-  /**
-   * A unique symbol used to indicate that a prompt was cancelled, which can be returned from a prompt function to signal that the prompt interaction should be cancelled and any pending promises should be rejected with this symbol. This allows for a consistent way to handle prompt cancellations across different prompt types and interactions.
-   */
-  export const CANCEL_SYMBOL: unique symbol;
-  /**
-   * A utility function to check if a given value is the {@link CANCEL_SYMBOL | cancel symbol}, which can be used to determine if a prompt interaction was cancelled based on the value returned from a prompt factory function. This function checks if the provided value is strictly equal to the {@link CANCEL_SYMBOL | CANCEL_SYMBOL}, allowing for a consistent way to handle prompt cancellations across different prompt types and interactions.
-   *
-   * @param value - The value to check.
-   * @returns A boolean indicating whether the provided value is the {@link
-   *   CANCEL_SYMBOL | cancel symbol}, which can be used to determine if a prompt
-   *   interaction was cancelled.
-   *
-   */
-  export function isCancel(value: any): value is typeof CANCEL_SYMBOL;
-  /**
-   * Configuration options for creating a text-based prompt
-   */
-  interface StringPromptConfig extends PromptConfig<string> {
-    /**
-     * The initial value of the prompt
-     */
-    initialValue?: string;
-    /**
-     * A function that masks the input value and returns the masked result
-     */
-    mask?: (input: string) => string;
-  }
-  /**
-   * A type definition for the configuration options to pass to the text prompt, which extends the base PromptConfig with additional options specific to text prompts. This type can be used when creating a text prompt using the {@link text | text prompt factory function} or when manually creating an instance of the TextPrompt class. The TextConfig type includes all the properties of the base PromptConfig, such as message, description, initialValue, validate, parse, format, mask, etc., as well as any additional properties that are specific to text prompts.
-   */
-  export type TextConfig = PromptFactoryConfig<string> & StringPromptConfig;
-  /**
-   * A function to create and run a text prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
-   *
-   * @remarks
-   * This function can be used to easily create and run a text prompt without needing to manually create an instance of the TextPrompt class and handle its events. The function accepts a configuration object that extends the base PromptFactoryConfig with additional options specific to text prompts, such as the initial value and mask function. The returned promise allows for easy handling of the prompt result using async/await syntax or traditional promise chaining.
-   * @example
-   * ```ts
-   * import { text, isCancel } from "shell-shock:prompts";
-   *
-   * async function run() {
-   *   const name = await text({
-   *     message: "What is your name?",
-   *     description: "Please enter your full name",
-   *     validate: value => value.trim().length > 0 || "Name cannot be empty"
-   *   });
-   *   if (isCancel(name)) {
-   *     console.log("Prompt was cancelled");
-   *     return;
-   *   }
-   *
-   *   console.log("Hello, " + name + "!");
-   * }
-   *
-   * run();
-   * ```
-   *
-   *
-   * @param config - The configuration options to pass to the text prompt, which
-   *   extends the base PromptConfig with additional options specific to text
-   *   prompts
-   * @returns A promise that resolves with the submitted value or rejects with a
-   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
-   *
-   */
-  export function text(config: TextConfig): Promise<string | symbol>;
-  /**
-   * Configuration for an option the user can select from the select prompt
-   */
-  interface PromptOptionConfig<TValue = string> {
-    /**
-     * The message label for the option
-     */
-    label?: string;
-    /**
-     * An icon for the option
-     */
-    icon?: string;
-    /**
-     * The value of the option
-     */
-    value: TValue;
-    /**
-     * The description of the option
-     */
-    description?: string;
-    /**
-     * Whether the option is selected
-     */
-    selected?: boolean;
-    /**
-     * Whether the option is disabled
-     */
-    disabled?: boolean;
-  }
-  /**
-   * An option the user can select from the select prompt
-   */
-  export interface PromptOption<
-    TValue = string
-  > extends PromptOptionConfig<TValue> {
-    /**
-     * The message label for the option
-     */
-    label: string; /**
-     * The index of the option
-     */
-    index: number;
-    /**
-     * Whether the option is selected
-     */
-    selected: boolean;
-    /**
-     * Whether the option is disabled
-     */
-    disabled: boolean;
-  }
-  /**
-   * An options object for configuring a select prompt
-   */
-  interface SelectPromptConfig<TValue = string> extends PromptConfig<TValue> {
-    /**
-     * A hint to display to the user
-     */
-    hint?: string;
-    /**
-     * The options available for the select prompt
-     */
-    options: Array<string | PromptOptionConfig<TValue>>;
-    /**
-     * The number of options to display per page, defaults to 8
-     */
-    optionsPerPage?: number;
-  }
-  /**
-   * A type definition for the configuration options to pass to the select prompt, which extends the base PromptConfig with additional options specific to select prompts. This type can be used when creating a select prompt using the {@link select | select prompt factory function}.
-   *
-   * @remarks
-   * The Select Config type includes all the properties of the base PromptConfig, such as message, description, initialValue, validate, parse, format, etc., as well as any additional properties that are specific to select prompts, such as the list of options and pagination settings.
-   */
-  export type SelectConfig = PromptFactoryConfig<string> & SelectPromptConfig;
-  /**
-   * A function to create and run a select prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
-   *
-   * @example
-   * ```ts
-   * import { select, isCancel } from "shell-shock:prompts";
-   *
-   * async function run() {
-   *   const color = await select({
-   *     message: "What is your favorite color?",
-   *     description: "Please select your favorite color",
-   *     validate: value => value.trim().length > 0 || "Color cannot be empty",
-   *     options: [
-   *       { label: "Red", value: "red", description: "The color of fire and blood" },
-   *       { label: "Green", value: "green", description: "The color of nature and growth" },
-   *       { label: "Blue", value: "blue", description: "The color of the sky and sea" },
-   *       { label: "Yellow", value: "yellow", description: "The color of sunshine and happiness" }
-   *     ]
-   *   });
-   *   if (isCancel(color)) {
-   *     console.log("Prompt was cancelled");
-   *     return;
-   *   }
-   *
-   *   console.log("Your favorite color is " + color + "!");
-   * }
-   *
-   * run();
-   * ```
-   *
-   *
-   * @param config - The configuration options to pass to the select prompt, which
-   *   extends the base PromptConfig with additional options specific to select
-   *   prompts
-   * @returns A promise that resolves with the submitted value or rejects with a
-   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
-   *
-   */
-  export function select(config: SelectConfig): Promise<string | symbol>;
-  /**
-   * Configuration options for creating a numeric prompt
-   */
-  interface NumberPromptConfig extends PromptConfig<number> {
-    /**
-     * Whether the prompt should accept floating point numbers
-     */
-    isFloat?: boolean;
-    /**
-     * The number of decimal places to round the input to, defaults to 2
-     */
-    precision?: number;
-    /**
-     * The increment value for the number prompt, defaults to 1
-     */
-    increment?: number;
-    /**
-     * The minimum value for the number prompt, defaults to -Infinity
-     */
-    min?: number;
-    /**
-     * The maximum value for the number prompt, defaults to Infinity
-     */
-    max?: number;
-  }
-  /**
-   * An object representing the configuration options for a numeric prompt.
-   */
-  export type NumericConfig = PromptFactoryConfig<number> & NumberPromptConfig;
-  /**
-   * A function to create and run a numeric prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
-   *
-   * @example
-   * ```ts
-   * import { numeric, isCancel } from "shell-shock:prompts";
-   *
-   * async function run() {
-   *   const age = await numeric({
-   *     message: "How old are you?",
-   *     description: "Please enter your age in years",
-   *     validate: value => value < 21 ? "You must be at least 21 years old" : true,
-   *   });
-   *   if (isCancel(age)) {
-   *     console.log("Prompt was cancelled");
-   *     return;
-   *   }
-   *
-   *   console.log("Your age is " + age + "!");
-   * }
-   *
-   * run();
-   * ```
-   *
-   *
-   * @param config - The configuration options to pass to the numeric prompt,
-   *   which extends the base PromptFactoryConfig with additional options specific
-   *   to numeric prompts
-   * @returns A promise that resolves with the submitted value or rejects with a
-   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
-   *
-   */
-  export function numeric(config: NumericConfig): Promise<number | symbol>;
-  /**
-   * Configuration options for creating a boolean toggle prompt
-   */
-  export interface TogglePromptConfig extends PromptConfig<boolean> {
-    /**
-     * The message for the true state of the prompt
-     */
-    trueMessage?: string;
-    /**
-     * The message for the false state of the prompt
-     */
-    falseMessage?: string;
-  }
-  /**
-   * A prompt for toggling a boolean input
-   */
-  export class TogglePrompt extends Prompt<boolean> {
-    protected initialValue: boolean;
-    protected trueMessage: string;
-    protected falseMessage: string;
-    protected cursorHidden: boolean;
-    constructor(config: TogglePromptConfig);
-    /**
-     * Update the toggle value to a checked state based on user input
-     */
-    protected check(): void;
-    /**
-     * Update the toggle value to an unchecked state based on user input
-     */
-    protected uncheck(): void;
-    /**
-     * A method to handle keypress events and determine the corresponding action
-     *
-     * @param char
-     * @param key
-     */
-    protected keypress(char: string, key: readline.Key): any;
-    /**
-     * A method to delete the character backward of the cursor
-     */
-    protected delete(): void;
-    /**
-     * A method to move the cursor to the left
-     */
-    protected left(): void;
-    /**
-     * A method to move the cursor to the right
-     */
-    protected right(): void;
-    /**
-     * A method to move the cursor to down
-     */
-    protected down(): void;
-    /**
-     * A method to move the cursor to up
-     */
-    protected up(): void;
-    /**
-     * A method to move to the next value
-     */
-    protected next(): void;
-    /**
-     * A method to render the prompt
-     */
-    protected render(): string;
-  }
-  /**
-   * An object representing the configuration options for a toggle prompt, which extends the base PromptFactoryConfig with additional options specific to the toggle prompt.
-   */
-  export type ToggleConfig = PromptFactoryConfig<boolean> & TogglePromptConfig;
-  /**
-   * A function to create and run a toggle prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
-   *
-   * @example
-   * ```ts
-   * import { toggle, isCancel } from "shell-shock:prompts";
-   *
-   * async function run() {
-   *   const likesIceCream = await toggle({
-   *     message: "Do you like ice cream?"
-   *   });
-   *   if (isCancel(likesIceCream)) {
-   *     console.log("Prompt was cancelled");
-   *     return;
-   *   }
-   *
-   *   console.log("You" + (likesIceCream ? " like ice cream" : " don't like ice cream") + "!");
-   * }
-   *
-   * run();
-   * ```
-   *
-   *
-   * @param config - The configuration options to pass to the toggle prompt, which
-   *   extends the base PromptFactoryConfig with additional options specific to
-   *   the toggle prompt
-   * @returns A promise that resolves with the submitted value or rejects with a
-   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
-   *
-   */
-  export function toggle(config: ToggleConfig): Promise<boolean | symbol>;
-  /**
-   * A built-in prompt mask function that masks input with asterisks
-   *
-   * @param {string} input
-   */
-  export function passwordMask(input: string): string;
-  /**
-   * An object representing the configuration options for a password prompt, which extends the base PromptFactoryConfig with additional options specific to password prompts.
-   */
-  export type PasswordConfig = Omit<TextConfig, "mask" | "maskSubmitted">;
-  /**
-   * A function to create and run a password prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
-   *
-   * @remarks
-   * This function creates an instance of the TextPrompt class with the provided configuration options and a custom mask function to handle password input. It sets up event listeners for state updates, submission, and cancellation to handle the prompt interactions and return the appropriate results. The password prompt allows users to input text that is masked for privacy, making it suitable for scenarios like entering passwords or sensitive information.
-   *
-   *
-   * @example
-   * ```ts
-   * import { password, isCancel } from "shell-shock:prompts";
-   *
-   * async function run() {
-   *   const userPassword = await password({
-   *     message: "Enter your password"
-   *   });
-   *   if (isCancel(userPassword)) {
-   *     console.log("Prompt was cancelled");
-   *     return;
-   *   }
-   *
-   *   console.log("You entered a password!");
-   * }
-   *
-   * run();
-   * ```
-   *
-   *
-   * @param config - The configuration options to pass to the password prompt,
-   *   which extends the base PromptConfig with additional options specific to
-   *   password prompts
-   * @returns A promise that resolves with the submitted value or rejects with a
-   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
-   *
-   */
-  export function password(config: PasswordConfig): Promise<string | symbol>;
-  /**
-   * Configuration options for creating a boolean confirm prompt
-   */
-  export interface ConfirmPromptConfig extends PromptConfig<boolean> {
-    /**
-     * The message for the \`Yes\` state of the prompt
-     *
-     * @defaultValue "Yes"
-     */
-    yesMessage?: string;
-    /**
-     * The \`Yes\` option when choosing between yes/no
-     *
-     * @defaultValue "1"
-     */
-    yesOption?: string;
-    /**
-     * The message for the \`No\` state of the prompt
-     *
-     * @defaultValue "(Y/n)"
-     */
-    noMessage?: string;
-    /**
-     * The \`No\` option when choosing between yes/no
-     *
-     * @defaultValue "(y/N)"
-     */
-    noOption?: string;
-  }
-  /**
-   * A prompt for confirming a boolean input
-   */
-  export class ConfirmPrompt extends Prompt<boolean> {
-    protected initialValue: boolean;
-    protected yesMessage: string;
-    protected yesOption: string;
-    protected noMessage: string;
-    protected noOption: string;
-    protected cursorHidden: boolean;
-    constructor(config: ConfirmPromptConfig);
-    /**
-     * A method to handle keypress events and determine the corresponding action
-     *
-     * @param char
-     * @param key
-     */
-    protected keypress(char: string, key: readline.Key): any;
-    /**
-     * A method to render the prompt
-     */
-    protected render(): string;
-  }
-  /**
-   * An object representing the configuration options for a confirm prompt, which extends the base PromptFactoryConfig with additional options specific to the confirm prompt.
-   */
-  export type ConfirmConfig = PromptFactoryConfig<boolean> &
-    ConfirmPromptConfig;
-  /**
-   * A function to create and run a confirm prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
-   *
-   * @example
-   * ```ts
-   * import { confirm, isCancel } from "shell-shock:prompts";
-   *
-   * async function run() {
-   *   const likesIceCream = await confirm({
-   *     message: "Do you like ice cream?"
-   *   });
-   *   if (isCancel(likesIceCream)) {
-   *     console.log("Prompt was cancelled");
-   *     return;
-   *   }
-   *
-   *   console.log("You" + (likesIceCream ? " like ice cream" : " don't like ice cream") + "!");
-   * }
-   *
-   * run();
-   * ```
-   *
-   *
-   * @param config - The configuration options to pass to the confirm prompt,
-   *   which extends the base PromptFactoryConfig with additional options specific
-   *   to the confirm prompt
-   * @returns A promise that resolves with the submitted value or rejects with a
-   *   {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
-   *
-   */
-  export function confirm(config: ConfirmConfig): Promise<boolean | symbol>;
-  export {};
 }

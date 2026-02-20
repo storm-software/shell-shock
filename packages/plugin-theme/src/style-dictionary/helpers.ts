@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { defu } from "defu";
+import { mergeConfig } from "powerlines/plugin-utils/merge";
 import type { ThemePluginContext } from "../types/plugin";
 import type {
   ThemeResolvedConfig,
@@ -240,7 +240,7 @@ export function mergeThemes<TContext extends ThemePluginContext>(
   context: TContext,
   resolvedConfig: Partial<ThemeResolvedConfig>
 ) {
-  context.theme = defu(context.theme, resolvedConfig);
+  context.theme = mergeConfig(context.theme, resolvedConfig);
 
   return context.theme;
 }

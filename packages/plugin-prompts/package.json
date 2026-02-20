@@ -1,12 +1,12 @@
 {
-  "name": "@shell-shock/plugin-completions",
-  "version": "0.1.4",
+  "name": "@shell-shock/plugin-prompts",
+  "version": "0.1.3",
   "type": "module",
-  "description": "A package containing a Shell Shock plugin to generate source code given a list design tokens.",
+  "description": "A package containing a Shell Shock plugin to generate the `prompts` built-in module.",
   "repository": {
     "type": "github",
     "url": "https://github.com/storm-software/shell-shock.git",
-    "directory": "packages/plugin-completions"
+    "directory": "packages/plugin-prompts"
   },
   "homepage": "https://stormsoftware.com",
   "bugs": {
@@ -69,32 +69,18 @@
         "default": "./dist/components/index.mjs"
       }
     },
-    "./components/bash-command": {
+    "./components/prompts-builtin": {
       "require": {
-        "types": "./dist/components/bash-command.d.cts",
-        "default": "./dist/components/bash-command.cjs"
+        "types": "./dist/components/prompts-builtin.d.cts",
+        "default": "./dist/components/prompts-builtin.cjs"
       },
       "import": {
-        "types": "./dist/components/bash-command.d.mts",
-        "default": "./dist/components/bash-command.mjs"
+        "types": "./dist/components/prompts-builtin.d.mts",
+        "default": "./dist/components/prompts-builtin.mjs"
       },
       "default": {
-        "types": "./dist/components/bash-command.d.mts",
-        "default": "./dist/components/bash-command.mjs"
-      }
-    },
-    "./components/zsh-command": {
-      "require": {
-        "types": "./dist/components/zsh-command.d.cts",
-        "default": "./dist/components/zsh-command.cjs"
-      },
-      "import": {
-        "types": "./dist/components/zsh-command.d.mts",
-        "default": "./dist/components/zsh-command.mjs"
-      },
-      "default": {
-        "types": "./dist/components/zsh-command.d.mts",
-        "default": "./dist/components/zsh-command.mjs"
+        "types": "./dist/components/prompts-builtin.d.mts",
+        "default": "./dist/components/prompts-builtin.mjs"
       }
     },
     "./package.json": "./package.json",
@@ -125,20 +111,6 @@
         "types": "./dist/types/plugin.d.mts",
         "default": "./dist/types/plugin.mjs"
       }
-    },
-    "./types/shell-type": {
-      "require": {
-        "types": "./dist/types/shell-type.d.cts",
-        "default": "./dist/types/shell-type.cjs"
-      },
-      "import": {
-        "types": "./dist/types/shell-type.d.mts",
-        "default": "./dist/types/shell-type.mjs"
-      },
-      "default": {
-        "types": "./dist/types/shell-type.d.mts",
-        "default": "./dist/types/shell-type.mjs"
-      }
     }
   },
   "types": "./dist/index.d.cts",
@@ -158,7 +130,9 @@
     "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
-    "@stryke/path": "catalog:",
+    "@shell-shock/plugin-theme": "workspace:*",
+    "@shell-shock/preset-script": "workspace:*",
+    "defu": "catalog:",
     "powerlines": "catalog:"
   },
   "devDependencies": {

@@ -5,11 +5,26 @@
       "name": "Preset Script",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/rsqvnapfwyal6iw70p5nrk3vng3qdprw-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/q182xhmnqzff17cdg90hcp44ljgvqqr7-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",
         "preset-script:build:development",
+        "--outputStyle=dynamic-legacy",
+        "--skipNxCache"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Playground - CLI Build",
+      "type": "node",
+      "request": "launch",
+      "program": "/nix/store/q182xhmnqzff17cdg90hcp44ljgvqqr7-pnpm-10.28.0/bin/pnpm",
+      "args": [
+        "nx",
+        "run",
+        "playground-cli:build:development",
         "--outputStyle=dynamic-legacy",
         "--skipNxCache"
       ],
@@ -26,10 +41,10 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "Playground - Script",
+      "name": "Playground - Script Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/rsqvnapfwyal6iw70p5nrk3vng3qdprw-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/q182xhmnqzff17cdg90hcp44ljgvqqr7-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -52,7 +67,7 @@
       "name": "Playground - Script Docs",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/rsqvnapfwyal6iw70p5nrk3vng3qdprw-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/q182xhmnqzff17cdg90hcp44ljgvqqr7-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -67,7 +82,7 @@
       "name": "Playground - Powerlines",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/rsqvnapfwyal6iw70p5nrk3vng3qdprw-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/q182xhmnqzff17cdg90hcp44ljgvqqr7-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",

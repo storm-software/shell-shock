@@ -22,6 +22,9 @@
       "path": "./packages/plugin-completions"
     },
     {
+      "path": "./packages/plugin-prompts"
+    },
+    {
       "path": "./packages/plugin-upgrade"
     },
     {

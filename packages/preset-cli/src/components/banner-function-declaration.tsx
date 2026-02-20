@@ -43,7 +43,7 @@ export function BannerFunctionDeclaration(
 
   const header = computed(
     () =>
-      `${theme.labels.banner.header[variant] || getAppTitle(context, false)} v${
+      `${theme.labels.banner.header[variant] || getAppTitle(context)} v${
         context.packageJson.version || "1.0.0"
       }`
   );

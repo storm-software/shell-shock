@@ -51,7 +51,7 @@ export const plugin = <
         );
 
         return {
-          // theme: options.theme,
+          theme: options.theme,
           styleDictionary: {
             customPreprocessors: (context: TContext) => ({
               "shell-shock/colors": colors(context),

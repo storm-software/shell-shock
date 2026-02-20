@@ -19,6 +19,7 @@
 import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { render } from "@powerlines/plugin-alloy/render";
+import prompts from "@shell-shock/plugin-prompts";
 import theme from "@shell-shock/plugin-theme";
 import upgrade from "@shell-shock/plugin-upgrade";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
@@ -26,7 +27,6 @@ import { ConsoleBuiltin } from "@shell-shock/preset-script/components/console-bu
 import { VirtualHelp } from "@shell-shock/preset-script/components/help";
 import { UtilsBuiltin } from "@shell-shock/preset-script/components/utils-builtin";
 import type { Plugin } from "powerlines/types/plugin";
-import { PromptsBuiltin } from "./components";
 import { BannerFunctionDeclaration } from "./components/banner-function-declaration";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
@@ -44,6 +44,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
     theme({
       theme: options.theme
     }),
+    prompts(options),
     upgrade({
       packageName: options.packageName
     }),
@@ -73,7 +74,6 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           <>
             <UtilsBuiltin />
             <ConsoleBuiltin />
-            <PromptsBuiltin />
           </>
         );
       }
