@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.3.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.0) (02/20/2026)
+
+### Features
+
+- **plugin-theme:** Split out the `console` built-in module and theme context into their own packages ([ee167e8](https://github.com/storm-software/shell-shock/commit/ee167e8))
+
 ## [0.2.2](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.2.2) (02/19/2026)
 
 ### Features

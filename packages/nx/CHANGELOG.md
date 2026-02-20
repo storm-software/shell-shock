@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.29](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.29) (02/20/2026)
+
+### Features
+
+- **plugin-theme:** Split out the `console` built-in module and theme context into their own packages ([ee167e8](https://github.com/storm-software/shell-shock/commit/ee167e8))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.8.12**
+
 ## [0.0.28](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.28) (02/19/2026)
 
 ### Updated Dependencies

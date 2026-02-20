@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.11](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.11) (02/20/2026)
+
+### Features
+
+- **plugin-theme:** Split out the `console` built-in module and theme context into their own packages ([ee167e8](https://github.com/storm-software/shell-shock/commit/ee167e8))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.0.2**
+- Updated **plugin-theme** to **v0.3.0**
+- Updated **core** to **v0.8.12**
+
 ## [0.6.10](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.10) (02/19/2026)
 
 ### Updated Dependencies

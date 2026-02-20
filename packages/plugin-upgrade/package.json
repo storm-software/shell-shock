@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/plugin-upgrade",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "description": "A package containing a Shell Shock plugin to manage upgrading the local application's version.",
   "repository": {

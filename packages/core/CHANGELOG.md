@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.12](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.12) (02/20/2026)
+
+### Source Code Improvements
+
+- **core:** Move the `utils` built-in module to the `core` package ([1d83714](https://github.com/storm-software/shell-shock/commit/1d83714))
+
 ## [0.8.11](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.11) (02/19/2026)
 
 ### Features
