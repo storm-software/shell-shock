@@ -3,10 +3,10 @@
     "devenv": {
       "locked": {
         "dir": "src/modules",
-        "lastModified": 1771608487,
+        "lastModified": 1771610023,
         "owner": "cachix",
         "repo": "devenv",
-        "rev": "671942ed8d0c1ddd305c729fa2358c726e43e56e",
+        "rev": "3631489b8b3b8a7b4948824b621d02a420b58cc7",
         "type": "github"
       },
       "original": {
@@ -137,10 +137,10 @@
     "storm-ops": {
       "flake": false,
       "locked": {
-        "lastModified": 1771480872,
+        "lastModified": 1771622733,
         "owner": "storm-software",
         "repo": "storm-ops",
-        "rev": "cc7301f689667de21c36e1b937613d402a8355dc",
+        "rev": "f938fc76cbd436a2b4a392be5860843797629f4a",
         "type": "github"
       },
       "original": {

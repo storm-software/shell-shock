@@ -858,6 +858,647 @@ declare module "shell-shock:env" {
 }
 
 /**
+ * A collection of helper utilities that ease command-line application development.
+ *
+ * @module shell-shock:utils
+ */
+declare module "shell-shock:utils" {
+  import { AsyncLocalStorage } from "node:async_hooks";
+  /**
+   * The global Shell Shock - Application context instance.
+   *
+   * @internal
+   */
+  export let internal_appContext: AsyncLocalStorage<Map<string, any>>;
+  /**
+   * Get the Shell Shock - Application context for the current application.
+   *
+   * @param options - The options to use when getting the context.
+   * @returns The Shell Shock - Application context for the current application or undefined if the context is not available.
+   */
+  export function useApp(): Map<string, any> | undefined;
+  /**
+   * A utility hook function to get the command line arguments from the application context.
+   *
+   * @returns An array of command-line arguments from the application context.
+   * @throws If the application context is not available.
+   */
+  export function useArgs(): string[];
+  /**
+   * The context object for the current command execution, containing the command path and segments.
+   */
+  export interface CommandContext {
+    path: string;
+    segments: string[];
+  }
+  /**
+   * The global Shell Shock - Command context instance.
+   *
+   * @internal
+   */
+  export let internal_commandContext: AsyncLocalStorage<CommandContext>;
+  /**
+   * Get the Shell Shock - Command context for the current application.
+   *
+   * @param options - The options to use when getting the context.
+   * @returns The Shell Shock - Command context for the current application.
+   * @throws If the Shell Shock - Command context is not available.
+   */
+  export function useCommand(): CommandContext;
+  /**
+   * A utility hook function to get the individual segments of the current command path.
+   *
+   * @returns An array of command path segments.
+   * @throws If the command context is not available.
+   */
+  export function useSegments(): string[];
+  /**
+   * A utility hook function to get the full command path as a string.
+   *
+   * @returns The full command path as a string.
+   * @throws If the command context is not available.
+   */
+  export function usePath(): string;
+  /**
+   * Retrieves the command-line arguments from Deno or Node.js environments.
+   *
+   * @remarks
+   * This function is only intended for internal use. Please use `useArgs()` instead.
+   *
+   *
+   * @internal
+   *
+   *
+   *
+   * @returns An array of command-line arguments from Deno or Node.js
+   *   environments.
+   *
+   */
+  export function getArgs(): string[];
+  /**
+   * Checks if a specific flag is present in the command-line arguments.
+   *
+   * @see https://github.com/sindresorhus/has-flag/blob/main/index.js
+   *
+   * @param flag - The flag (or an array of flags/aliases) to check for, e.g.,
+   *   "color", "no-color".
+   * @param argv - The command-line arguments to check against. Defaults to global
+   *   Deno args or process args.
+   * @returns True if the flag is present, false otherwise.
+   *
+   */
+  export function hasFlag(flag: string | string[], argv?: string[]): boolean;
+  export const isHelp: boolean;
+  /**
+   * Detect if stdout.TTY is available
+   */
+  export const isTTY: boolean;
+  /**
+   * Detect if the current environment is minimal (CI, non-TTY, etc.)
+   */
+  export const isMinimal: any;
+  /**
+   * Detect if the current environment is interactive
+   */
+  export const isInteractive: boolean;
+  /**
+   * Check if the current environment/terminal supports hyperlinks in the terminal.
+   *
+   * @returns True if the current environment/terminal supports hyperlinks.
+   *
+   */
+  export function isHyperlinkSupported(): boolean;
+  /**
+   * Options for the getColorSupportLevel function
+   */
+  export interface GetColorSupportLevelOptions {
+    /**
+     * Indicates if the function should skip checking command-line flags for color support
+     */
+    ignoreFlags: boolean;
+  }
+  /**
+   * Checks if a specific flag is present in the command-line arguments.
+   *
+   * @see https://github.com/sindresorhus/has-flag/blob/main/index.js
+   *
+   * @param flag - The flag to check for, e.g., "color", "no-color".
+   * @param argv - The command-line arguments to check against. Defaults to global
+   *   Deno args or process args.
+   * @returns True if the flag is present, false otherwise.
+   *
+   */
+  export function getColorSupportLevel(
+    stream: NodeJS.WriteStream & {
+      fd: 1 | 2;
+    },
+    options?: GetColorSupportLevelOptions
+  ):
+    | false
+    | 0
+    | 2
+    | 3
+    | {
+        level: number;
+        hasBasic: boolean;
+        has256: boolean;
+        has16m: boolean;
+      };
+  /**
+   * Detect the terminal color support level in the current environment
+   */
+  export const colorSupportLevels: {
+    stdout:
+      | number
+      | boolean
+      | {
+          level: number;
+          hasBasic: boolean;
+          has256: boolean;
+          has16m: boolean;
+        };
+    stderr:
+      | number
+      | boolean
+      | {
+          level: number;
+          hasBasic: boolean;
+          has256: boolean;
+          has16m: boolean;
+        };
+  };
+  /**
+   * Detect if terminal color is supported in the current environment
+   */
+  export const isColorSupported: boolean;
+  /**
+   * Detect if Unicode characters are supported in the current environment
+   */
+  export const isUnicodeSupported: boolean;
+}
+
+/**
+ * A collection of helper utilities to assist in generating content meant for display in the console.
+ *
+ * @module shell-shock:console
+ */
+declare module "shell-shock:console" {
+  /**
+   * The ASCII Bell character, which can be used to trigger a beep sound in the console.
+   */
+  export const beep = "\u0007";
+  /**
+   * An object containing ANSI escape codes for controlling the console cursor.
+   */
+  export const cursor: {
+    to(x: any, y: any): string;
+    move(x: any, y: any): string;
+    up: (count?: number) => string;
+    down: (count?: number) => string;
+    forward: (count?: number) => string;
+    backward: (count?: number) => string;
+    nextLine: (count?: number) => string;
+    prevLine: (count?: number) => string;
+    left: string;
+    hide: string;
+    show: string;
+    save: string;
+    restore: string;
+  };
+  /**
+   * An object containing ANSI escape codes for erasing parts of the console.
+   */
+  export const erase: {
+    screen: string;
+    up: (count?: number) => string;
+    down: (count?: number) => string;
+    line: string;
+    lineEnd: string;
+    lineStart: string;
+    lines(count: any): string;
+  };
+  /**
+   * An object containing ANSI escape codes for scrolling the console.
+   */
+  export const scroll: {
+    up: (count?: number) => string;
+    down: (count?: number) => string;
+  };
+  /**
+   * A helper function to clear the console based on a count of lines
+   *
+   * @param {string} current - The current console output to be cleared
+   * @param {number} consoleWidth - The number of characters per line in the
+   *   console
+   */
+  export function clear(current: string, consoleWidth: number): string;
+  /**
+   * Removes ANSI escape codes from a string.
+   *
+   * @example
+   * ```ts
+   * const result = stripAnsi("Hello\\x1b[31mWorld\\x1b[0mAgain"); // "HelloWorldAgain"
+   * ```
+   * @param text - The text to strip ANSI codes from.
+   * @returns The text with ANSI codes removed.
+   *
+   */
+  export function stripAnsi(text: string | number): string;
+  /**
+   * The available ANSI colors for console text.
+   */
+  export type AnsiColor =
+    | "reset"
+    | "bold"
+    | "dim"
+    | "italic"
+    | "underline"
+    | "overline"
+    | "inverse"
+    | "hidden"
+    | "strikethrough"
+    | "black"
+    | "red"
+    | "green"
+    | "yellow"
+    | "blue"
+    | "magenta"
+    | "cyan"
+    | "white"
+    | "blackBright"
+    | "gray"
+    | "grey"
+    | "redBright"
+    | "greenBright"
+    | "yellowBright"
+    | "blueBright"
+    | "magentaBright"
+    | "cyanBright"
+    | "whiteBright"
+    | "bgBlack"
+    | "bgRed"
+    | "bgGreen"
+    | "bgYellow"
+    | "bgBlue"
+    | "bgMagenta"
+    | "bgCyan"
+    | "bgWhite"
+    | "bgBlackBright"
+    | "bgGray"
+    | "bgGrey"
+    | "bgRedBright"
+    | "bgGreenBright"
+    | "bgYellowBright"
+    | "bgBlueBright"
+    | "bgMagentaBright"
+    | "bgCyanBright"
+    | "bgWhiteBright";
+  /**
+   * A recursive type that defines theme colors for console text.
+   *
+   * @remarks
+   * This type allows for nested theme color definitions, enabling complex theming structures for console applications.
+   */
+  export type ThemeColors<T> = T extends object
+    ? {
+        [K in keyof T]: ThemeColors<T[K]>;
+      }
+    : (text: string) => string;
+  /**
+   * An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link AnsiColor} for available colors.
+   */
+  export type Colors = Record<AnsiColor, (text: string) => string> &
+    ThemeColors<ThemeColorsResolvedConfig>;
+  /**
+   * An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link Colors} for available colors.
+   */
+  export const colors: Colors;
+  /**
+   * Split text into multiple lines based on a maximum length.
+   *
+   * @remarks
+   * This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.
+   *
+   * @param text - The text to split into multiple lines.
+   * @param maxLength - The maximum length of each line.
+   */
+  export function splitText(
+    text: string,
+    maxLength: number | SizeToken
+  ): string[];
+  /**
+   * Options for writing a line to the console.
+   */
+  export interface WriteLineOptions {
+    /**
+     * Padding to apply to the line
+     *
+     * @remarks
+     * The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.
+     */
+    padding?: number;
+    /**
+     * Console function to use for writing the line
+     *
+     * @remarks
+     * The console function to use for writing the line. If not specified, the default console function `console.log` will be used.
+     *
+     * @defaultValue `console.log`
+     */
+    consoleFn?: (text: string) => void;
+    /**
+     * Color of the line text
+     *
+     * @remarks
+     * The color to apply to the line text when writing to the console. This can be one of the predefined color themes: "primary", "secondary", or "tertiary". If not specified, no specific coloring will be applied to the text (the default/system terminal text color will likely be used).
+     *
+     */
+    color?: "primary" | "secondary" | "tertiary";
+  }
+  /**
+   * Write a line to the console.
+   *
+   * @remarks
+   * This function writes a line to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
+   *
+   * @param text - The line text to write to the console.
+   * @param options - The options to apply when writing the line to the console.
+   */
+  export function writeLine(
+    text?: string | number | boolean | null,
+    options?: WriteLineOptions
+  ): void;
+  /**
+   * Render a hyperlink in the console.
+   *
+   * @param url - The URL to render as a hyperlink.
+   * @param text - The text to display for the link. If not provided, the URL will
+   *   be used as the text.
+   * @returns The formatted hyperlink string.
+   *
+   */
+  export function link(url: string, text?: string): string;
+  /**
+   * Options for formatting the divider line written to console.
+   */
+  export interface DividerOptions {
+    /**
+     * The width of the divider line. If not specified, the divider will span the full width of the console, minus the padding.
+     */
+    width?: number;
+    /**
+     * The border of the divider line. Can be 'primary', 'secondary', 'tertiary', or 'none'. If not specified, the default border style will be used.
+     *
+     * @remarks
+     * The value provided will determine the border style and color based on the current theme configuration.
+     * @defaultValue "primary"
+     */
+    /**
+     * The border style/color of the divider line. Can be 'primary', 'secondary', 'tertiary', or 'none'. If not specified, the default border style will be used.
+     */
+    border?: "primary" | "secondary" | "tertiary";
+    /**
+     * Padding to apply to the line
+     *
+     * @remarks
+     * The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.
+     * @defaultValue 0
+     */
+    padding?: number;
+  }
+  /**
+   * Write a divider line to the console.
+   *
+   * @example
+   * ```ts
+   * divider({ width: 50, border: "primary" }); // Writes a divider line of width 50 with primary border.
+   * ```
+   * @param options - Options for formatting the divider line.
+   */
+  export function divider(options: DividerOptions): void;
+  /**
+   * Write a help message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   */
+  export function help(message: string): void;
+  /**
+   * Write a success message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   */
+  export function success(message: string): void;
+  /**
+   * Write an informational message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   */
+  export function info(message: string): void;
+  /**
+   * Write a debug message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   */
+  export function debug(message: string): void;
+  /**
+   * Write a verbose message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   */
+  export function verbose(message: string): void;
+  /**
+   * Write a warning message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   */
+  export function warn(message: string): void;
+  /**
+   * Write a destructive/danger message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   */
+  export function danger(message: string): void;
+  /**
+   * Write an error message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   */
+  export function error(err: string | Error): void;
+  /**
+   * A type representing the width size of an item in the console.
+   */
+  export type SizeToken =
+    | "full"
+    | "1/1"
+    | "1/2"
+    | "1/3"
+    | "1/4"
+    | "1/5"
+    | "1/6"
+    | "1/12"
+    | "1/24"
+    | "100%"
+    | "50%"
+    | "33.33%"
+    | "25%"
+    | "20%"
+    | "10%"
+    | "5%"
+    | "2.5%";
+  /**
+   * Determine if a value is a valid size token.
+   *
+   * @remarks
+   * This function checks if the provided value is a valid size token, which can be one of the predefined strings representing common width sizes (e.g., "full", "1/2", "1/3", etc.) or percentage strings (e.g., "50%").
+   * @param value - The value to check for being a valid size token.
+   * @returns True if the value is a valid size token, false otherwise.
+   *
+   */
+  /**
+   * Determines if the provided value is a valid size token.
+   *
+   * @param {any} value
+   */
+  export function isSizeToken(value: any): value is SizeToken;
+  /**
+   * Calculate the width in characters based on the provided width size.
+   *
+   * @remarks
+   * This function calculates the width in characters based on the provided width size, which can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%"). The calculation is based on the current width of the console (process.stdout.columns).
+   * @param size - The width size to calculate. This can be a predefined string
+   *   (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%").
+   * @returns The calculated width in characters.
+   *
+   */
+  export function calculateWidth(size: SizeToken): number; /**
+   * The border options applied to table cells.
+   */
+  export type BorderOption =
+    | "primary"
+    | "secondary"
+    | "tertiary"
+    | "none"
+    | string;
+  /**
+   * Options to customize the output of the {@link table} function.
+   */
+  export interface TableOutputOptions {
+    /**
+     * Border variant for the table cell.
+     *
+     * @remarks
+     * The border variant to use for the table cell. This determines the color and style of the border around the cell.
+     *
+     * @defaultValue primary
+     */
+    border?:
+      | BorderOption
+      | {
+          top?: BorderOption;
+          right?: BorderOption;
+          bottom?: BorderOption;
+          left?: BorderOption;
+          topLeft?: BorderOption;
+          topRight?: BorderOption;
+          bottomLeft?: BorderOption;
+          bottomRight?: BorderOption;
+        };
+    /**
+     * Padding for the table cell.
+     *
+     * @remarks
+     * The amount of padding (in spaces) to apply to the table cell. This value is applied to both the left and right sides of the cell. If not specified, the default table padding defined in the current theme configuration will be used.
+     *
+     * @defaultValue `1`
+     */
+    padding?: number;
+    /**
+     * Alignment for the table cell.
+     *
+     * @remarks
+     * The alignment for the table cell. This determines how the text within the cell is aligned. If not specified, the default alignment is "left".
+     *
+     * @defaultValue left
+     */
+    align?: "left" | "right" | "center";
+  }
+  /**
+   * Options for a specific table cell provided to the {@link table} function.
+   */
+  export interface TableCellOptions extends TableOutputOptions {
+    /**
+     * The actual string value of the table cell.
+     */
+    value?: string;
+    /**
+     * Width of the table cell.
+     *
+     * @remarks
+     * The width of the table cell (where 1 is a single character in the terminal). If not specified, the width will be determined based on the content of the cell and the available space in the console.
+     */
+    maxWidth: number | SizeToken | undefined;
+  }
+  /**
+   * Options for a specific table row provided to the {@link table} function.
+   */
+  export interface TableRowOptions extends TableOutputOptions {
+    /**
+     * The actual string values of the table row's cells.
+     */
+    values?: (string | TableCellOptions)[];
+  }
+  /**
+   * Options for a specific table cell provided to the {@link table} function.
+   */
+  export interface TableOptions extends TableOutputOptions {
+    /**
+     * The actual string values of the table's rows' cells.
+     */
+    values?: (string | TableCellOptions)[][];
+  }
+  /**
+   * Write a table to the console.
+   *
+   * @remarks
+   * This function writes a table to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
+   *
+   * @param options - Options to customize the table output.
+   */
+  export function table(
+    options:
+      | TableOptions
+      | TableRowOptions[]
+      | TableCellOptions[][]
+      | string[]
+      | string[][]
+  ): void;
+}
+
+/**
  * A collection of prompts that allow for interactive input in command-line applications.
  *
  * @module shell-shock:prompts
@@ -1807,671 +2448,4 @@ declare module "shell-shock:upgrade" {
    *
    */
   export function install(options?: InstallOptions): Promise<Promise<string>>;
-}
-
-/**
- * A collection of helper utilities that ease command-line application development.
- *
- * @module shell-shock:utils
- */
-declare module "shell-shock:utils" {
-  import { AsyncLocalStorage } from "node:async_hooks";
-  /**
-   * The global Shell Shock - Application context instance.
-   *
-   * @internal
-   */
-  export let internal_appContext: AsyncLocalStorage<Map<string, any>>;
-  /**
-   * Get the Shell Shock - Application context for the current application.
-   *
-   * @param options - The options to use when getting the context.
-   * @returns The Shell Shock - Application context for the current application or undefined if the context is not available.
-   */
-  export function useApp(): Map<string, any> | undefined;
-  /**
-   * A utility hook function to get the command line arguments from the application context.
-   *
-   * @returns An array of command-line arguments from the application context.
-   * @throws If the application context is not available.
-   */
-  export function useArgs(): string[];
-  /**
-   * The context object for the current command execution, containing the command path and segments.
-   */
-  export interface CommandContext {
-    path: string;
-    segments: string[];
-  }
-  /**
-   * The global Shell Shock - Command context instance.
-   *
-   * @internal
-   */
-  export let internal_commandContext: AsyncLocalStorage<CommandContext>;
-  /**
-   * Get the Shell Shock - Command context for the current application.
-   *
-   * @param options - The options to use when getting the context.
-   * @returns The Shell Shock - Command context for the current application.
-   * @throws If the Shell Shock - Command context is not available.
-   */
-  export function useCommand(): CommandContext;
-  /**
-   * A utility hook function to get the individual segments of the current command path.
-   *
-   * @returns An array of command path segments.
-   * @throws If the command context is not available.
-   */
-  export function useSegments(): string[];
-  /**
-   * A utility hook function to get the full command path as a string.
-   *
-   * @returns The full command path as a string.
-   * @throws If the command context is not available.
-   */
-  export function usePath(): string;
-  /**
-   * Retrieves the command-line arguments from Deno or Node.js environments.
-   *
-   * @remarks
-   * This function is only intended for internal use. Please use `useArgs()` instead.
-   *
-   *
-   * @internal
-   *
-   *
-   *
-   * @returns An array of command-line arguments from Deno or Node.js
-   *   environments.
-   *
-   */
-  export function getArgs(): string[];
-  /**
-   * Checks if a specific flag is present in the command-line arguments.
-   *
-   * @see https://github.com/sindresorhus/has-flag/blob/main/index.js
-   *
-   * @param flag - The flag (or an array of flags/aliases) to check for, e.g.,
-   *   "color", "no-color".
-   * @param argv - The command-line arguments to check against. Defaults to global
-   *   Deno args or process args.
-   * @returns True if the flag is present, false otherwise.
-   *
-   */
-  export function hasFlag(flag: string | string[], argv?: string[]): boolean;
-  export const isHelp: boolean;
-  /**
-   * Detect if stdout.TTY is available
-   */
-  export const isTTY: boolean;
-  /**
-   * Detect if the current environment is minimal (CI, non-TTY, etc.)
-   */
-  export const isMinimal: any;
-  /**
-   * Detect if the current environment is interactive
-   */
-  export const isInteractive: boolean;
-  /**
-   * Check if the current environment/terminal supports hyperlinks in the terminal.
-   *
-   * @returns True if the current environment/terminal supports hyperlinks.
-   *
-   */
-  export function isHyperlinkSupported(): boolean;
-  /**
-   * Options for the getColorSupportLevel function
-   */
-  export interface GetColorSupportLevelOptions {
-    /**
-     * Indicates if the function should skip checking command-line flags for color support
-     */
-    ignoreFlags: boolean;
-  }
-  /**
-   * Checks if a specific flag is present in the command-line arguments.
-   *
-   * @see https://github.com/sindresorhus/has-flag/blob/main/index.js
-   *
-   * @param flag - The flag to check for, e.g., "color", "no-color".
-   * @param argv - The command-line arguments to check against. Defaults to global
-   *   Deno args or process args.
-   * @returns True if the flag is present, false otherwise.
-   *
-   */
-  export function getColorSupportLevel(
-    stream: NodeJS.WriteStream & {
-      fd: 1 | 2;
-    },
-    options?: GetColorSupportLevelOptions
-  ):
-    | false
-    | 0
-    | 2
-    | 3
-    | {
-        level: number;
-        hasBasic: boolean;
-        has256: boolean;
-        has16m: boolean;
-      };
-  /**
-   * Detect the terminal color support level in the current environment
-   */
-  export const colorSupportLevels: {
-    stdout:
-      | number
-      | boolean
-      | {
-          level: number;
-          hasBasic: boolean;
-          has256: boolean;
-          has16m: boolean;
-        };
-    stderr:
-      | number
-      | boolean
-      | {
-          level: number;
-          hasBasic: boolean;
-          has256: boolean;
-          has16m: boolean;
-        };
-  };
-  /**
-   * Detect if terminal color is supported in the current environment
-   */
-  export const isColorSupported: boolean;
-  /**
-   * Detect if Unicode characters are supported in the current environment
-   */
-  export const isUnicodeSupported: boolean;
-  /**
-   * Options for the exit handler function.
-   */
-  export interface ExitOptions {
-    /**
-     * An optional exception that caused the exit. This can be a string message or an Error object.
-     */
-    exception?: string | Error;
-    /**
-     * Indicates whether the exit function should manually exit the process or not. If set to true, the exit function will not call process.exit() and will allow the application to continue running. If set to false or not specified, the exit function will call process.exit() to terminate the application.
-     */
-    skipProcessExit?: boolean;
-    /**
-     * Indicates whether the exit function should perform synchronous operations only. If set to true, the exit function will avoid any asynchronous operations during exit. If set to false or not specified, the exit function may perform asynchronous operations as needed.
-     */
-    isSynchronous?: boolean;
-    /**
-     * The signal number that triggered the exit. This is typically used when the shutdown is initiated by a system signal (e.g., SIGINT, SIGTERM).
-     */
-    signal?: number;
-    /**
-     * A Date object representing the timestamp when the process started. This can be used to measure the duration of the shutdown process.
-     */
-    startDate?: Date;
-  }
-  export function exit(options?: ExitOptions): Promise<void>;
-}
-
-/**
- * A collection of helper utilities to assist in generating content meant for display in the console.
- *
- * @module shell-shock:console
- */
-declare module "shell-shock:console" {
-  /**
-   * The ASCII Bell character, which can be used to trigger a beep sound in the console.
-   */
-  export const beep = "\u0007";
-  /**
-   * An object containing ANSI escape codes for controlling the console cursor.
-   */
-  export const cursor: {
-    to(x: any, y: any): string;
-    move(x: any, y: any): string;
-    up: (count?: number) => string;
-    down: (count?: number) => string;
-    forward: (count?: number) => string;
-    backward: (count?: number) => string;
-    nextLine: (count?: number) => string;
-    prevLine: (count?: number) => string;
-    left: string;
-    hide: string;
-    show: string;
-    save: string;
-    restore: string;
-  };
-  /**
-   * An object containing ANSI escape codes for erasing parts of the console.
-   */
-  export const erase: {
-    screen: string;
-    up: (count?: number) => string;
-    down: (count?: number) => string;
-    line: string;
-    lineEnd: string;
-    lineStart: string;
-    lines(count: any): string;
-  };
-  /**
-   * An object containing ANSI escape codes for scrolling the console.
-   */
-  export const scroll: {
-    up: (count?: number) => string;
-    down: (count?: number) => string;
-  };
-  /**
-   * A helper function to clear the console based on a count of lines
-   *
-   * @param {string} current - The current console output to be cleared
-   * @param {number} consoleWidth - The number of characters per line in the
-   *   console
-   */
-  export function clear(current: string, consoleWidth: number): string;
-  /**
-   * Removes ANSI escape codes from a string.
-   *
-   * @example
-   * ```ts
-   * const result = stripAnsi("Hello\\x1b[31mWorld\\x1b[0mAgain"); // "HelloWorldAgain"
-   * ```
-   * @param text - The text to strip ANSI codes from.
-   * @returns The text with ANSI codes removed.
-   *
-   */
-  export function stripAnsi(text: string | number): string;
-  /**
-   * The available ANSI colors for console text.
-   */
-  export type AnsiColor =
-    | "reset"
-    | "bold"
-    | "dim"
-    | "italic"
-    | "underline"
-    | "overline"
-    | "inverse"
-    | "hidden"
-    | "strikethrough"
-    | "black"
-    | "red"
-    | "green"
-    | "yellow"
-    | "blue"
-    | "magenta"
-    | "cyan"
-    | "white"
-    | "blackBright"
-    | "gray"
-    | "grey"
-    | "redBright"
-    | "greenBright"
-    | "yellowBright"
-    | "blueBright"
-    | "magentaBright"
-    | "cyanBright"
-    | "whiteBright"
-    | "bgBlack"
-    | "bgRed"
-    | "bgGreen"
-    | "bgYellow"
-    | "bgBlue"
-    | "bgMagenta"
-    | "bgCyan"
-    | "bgWhite"
-    | "bgBlackBright"
-    | "bgGray"
-    | "bgGrey"
-    | "bgRedBright"
-    | "bgGreenBright"
-    | "bgYellowBright"
-    | "bgBlueBright"
-    | "bgMagentaBright"
-    | "bgCyanBright"
-    | "bgWhiteBright";
-  /**
-   * A recursive type that defines theme colors for console text.
-   *
-   * @remarks
-   * This type allows for nested theme color definitions, enabling complex theming structures for console applications.
-   */
-  export type ThemeColors<T> = T extends object
-    ? {
-        [K in keyof T]: ThemeColors<T[K]>;
-      }
-    : (text: string) => string;
-  /**
-   * An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link AnsiColor} for available colors.
-   */
-  export type Colors = Record<AnsiColor, (text: string) => string> &
-    ThemeColors<ThemeColorsResolvedConfig>;
-  /**
-   * An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link Colors} for available colors.
-   */
-  export const colors: Colors;
-  /**
-   * Split text into multiple lines based on a maximum length.
-   *
-   * @remarks
-   * This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.
-   *
-   * @param text - The text to split into multiple lines.
-   * @param maxLength - The maximum length of each line.
-   */
-  export function splitText(
-    text: string,
-    maxLength: number | SizeToken
-  ): string[];
-  /**
-   * Options for writing a line to the console.
-   */
-  export interface WriteLineOptions {
-    /**
-     * Padding to apply to the line
-     *
-     * @remarks
-     * The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.
-     */
-    padding?: number;
-    /**
-     * Console function to use for writing the line
-     *
-     * @remarks
-     * The console function to use for writing the line. If not specified, the default console function `console.log` will be used.
-     *
-     * @defaultValue `console.log`
-     */
-    consoleFn?: (text: string) => void;
-    /**
-     * Color of the line text
-     *
-     * @remarks
-     * The color to apply to the line text when writing to the console. This can be one of the predefined color themes: "primary", "secondary", or "tertiary". If not specified, no specific coloring will be applied to the text (the default/system terminal text color will likely be used).
-     *
-     */
-    color?: "primary" | "secondary" | "tertiary";
-  }
-  /**
-   * Write a line to the console.
-   *
-   * @remarks
-   * This function writes a line to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
-   *
-   * @param text - The line text to write to the console.
-   * @param options - The options to apply when writing the line to the console.
-   */
-  export function writeLine(
-    text?: string | number | boolean | null,
-    options?: WriteLineOptions
-  ): void;
-  /**
-   * Render a hyperlink in the console.
-   *
-   * @param url - The URL to render as a hyperlink.
-   * @param text - The text to display for the link. If not provided, the URL will
-   *   be used as the text.
-   * @returns The formatted hyperlink string.
-   *
-   */
-  export function link(url: string, text?: string): string;
-  /**
-   * Options for formatting the divider line written to console.
-   */
-  export interface DividerOptions {
-    /**
-     * The width of the divider line. If not specified, the divider will span the full width of the console, minus the padding.
-     */
-    width?: number;
-    /**
-     * The border of the divider line. Can be 'primary', 'secondary', 'tertiary', or 'none'. If not specified, the default border style will be used.
-     *
-     * @remarks
-     * The value provided will determine the border style and color based on the current theme configuration.
-     * @defaultValue "primary"
-     */
-    /**
-     * The border style/color of the divider line. Can be 'primary', 'secondary', 'tertiary', or 'none'. If not specified, the default border style will be used.
-     */
-    border?: "primary" | "secondary" | "tertiary";
-    /**
-     * Padding to apply to the line
-     *
-     * @remarks
-     * The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.
-     * @defaultValue 0
-     */
-    padding?: number;
-  }
-  /**
-   * Write a divider line to the console.
-   *
-   * @example
-   * ```ts
-   * divider({ width: 50, border: "primary" }); // Writes a divider line of width 50 with primary border.
-   * ```
-   * @param options - Options for formatting the divider line.
-   */
-  export function divider(options: DividerOptions): void;
-  /**
-   * Write a help message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   */
-  export function help(message: string): void;
-  /**
-   * Write a success message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   */
-  export function success(message: string): void;
-  /**
-   * Write an informational message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   */
-  export function info(message: string): void;
-  /**
-   * Write a debug message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   */
-  export function debug(message: string): void;
-  /**
-   * Write a verbose message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   */
-  export function verbose(message: string): void;
-  /**
-   * Write a warning message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   */
-  export function warn(message: string): void;
-  /**
-   * Write a destructive/danger message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   */
-  export function danger(message: string): void;
-  /**
-   * Write an error message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   */
-  export function error(err: string | Error): void;
-  /**
-   * A type representing the width size of an item in the console.
-   */
-  export type SizeToken =
-    | "full"
-    | "1/1"
-    | "1/2"
-    | "1/3"
-    | "1/4"
-    | "1/5"
-    | "1/6"
-    | "1/12"
-    | "1/24"
-    | "100%"
-    | "50%"
-    | "33.33%"
-    | "25%"
-    | "20%"
-    | "10%"
-    | "5%"
-    | "2.5%";
-  /**
-   * Determine if a value is a valid size token.
-   *
-   * @remarks
-   * This function checks if the provided value is a valid size token, which can be one of the predefined strings representing common width sizes (e.g., "full", "1/2", "1/3", etc.) or percentage strings (e.g., "50%").
-   * @param value - The value to check for being a valid size token.
-   * @returns True if the value is a valid size token, false otherwise.
-   *
-   */
-  /**
-   * Determines if the provided value is a valid size token.
-   *
-   * @param {any} value
-   */
-  export function isSizeToken(value: any): value is SizeToken;
-  /**
-   * Calculate the width in characters based on the provided width size.
-   *
-   * @remarks
-   * This function calculates the width in characters based on the provided width size, which can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%"). The calculation is based on the current width of the console (process.stdout.columns).
-   * @param size - The width size to calculate. This can be a predefined string
-   *   (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%").
-   * @returns The calculated width in characters.
-   *
-   */
-  export function calculateWidth(size: SizeToken): number; /**
-   * The border options applied to table cells.
-   */
-  export type BorderOption =
-    | "primary"
-    | "secondary"
-    | "tertiary"
-    | "none"
-    | string;
-  /**
-   * Options to customize the output of the {@link table} function.
-   */
-  export interface TableOutputOptions {
-    /**
-     * Border variant for the table cell.
-     *
-     * @remarks
-     * The border variant to use for the table cell. This determines the color and style of the border around the cell.
-     *
-     * @defaultValue primary
-     */
-    border?:
-      | BorderOption
-      | {
-          top?: BorderOption;
-          right?: BorderOption;
-          bottom?: BorderOption;
-          left?: BorderOption;
-          topLeft?: BorderOption;
-          topRight?: BorderOption;
-          bottomLeft?: BorderOption;
-          bottomRight?: BorderOption;
-        };
-    /**
-     * Padding for the table cell.
-     *
-     * @remarks
-     * The amount of padding (in spaces) to apply to the table cell. This value is applied to both the left and right sides of the cell. If not specified, the default table padding defined in the current theme configuration will be used.
-     *
-     * @defaultValue `1`
-     */
-    padding?: number;
-    /**
-     * Alignment for the table cell.
-     *
-     * @remarks
-     * The alignment for the table cell. This determines how the text within the cell is aligned. If not specified, the default alignment is "left".
-     *
-     * @defaultValue left
-     */
-    align?: "left" | "right" | "center";
-  }
-  /**
-   * Options for a specific table cell provided to the {@link table} function.
-   */
-  export interface TableCellOptions extends TableOutputOptions {
-    /**
-     * The actual string value of the table cell.
-     */
-    value?: string;
-    /**
-     * Width of the table cell.
-     *
-     * @remarks
-     * The width of the table cell (where 1 is a single character in the terminal). If not specified, the width will be determined based on the content of the cell and the available space in the console.
-     */
-    maxWidth: number | SizeToken | undefined;
-  }
-  /**
-   * Options for a specific table row provided to the {@link table} function.
-   */
-  export interface TableRowOptions extends TableOutputOptions {
-    /**
-     * The actual string values of the table row's cells.
-     */
-    values?: (string | TableCellOptions)[];
-  }
-  /**
-   * Options for a specific table cell provided to the {@link table} function.
-   */
-  export interface TableOptions extends TableOutputOptions {
-    /**
-     * The actual string values of the table's rows' cells.
-     */
-    values?: (string | TableCellOptions)[][];
-  }
-  /**
-   * Write a table to the console.
-   *
-   * @remarks
-   * This function writes a table to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
-   *
-   * @param options - Options to customize the table output.
-   */
-  export function table(
-    options:
-      | TableOptions
-      | TableRowOptions[]
-      | TableCellOptions[][]
-      | string[]
-      | string[][]
-  ): void;
 }

@@ -856,3 +856,183 @@ declare module "shell-shock:env" {
    */
   export const paths: EnvPaths;
 }
+
+/**
+ * A collection of helper utilities that ease command-line application development.
+ *
+ * @module shell-shock:utils
+ */
+declare module "shell-shock:utils" {
+  import { AsyncLocalStorage } from "node:async_hooks";
+  /**
+   * The global Shell Shock - Application context instance.
+   *
+   * @internal
+   */
+  export let internal_appContext: AsyncLocalStorage<Map<string, any>>;
+  /**
+   * Get the Shell Shock - Application context for the current application.
+   *
+   * @param options - The options to use when getting the context.
+   * @returns The Shell Shock - Application context for the current application or undefined if the context is not available.
+   */
+  export function useApp(): Map<string, any> | undefined;
+  /**
+   * A utility hook function to get the command line arguments from the application context.
+   *
+   * @returns An array of command-line arguments from the application context.
+   * @throws If the application context is not available.
+   */
+  export function useArgs(): string[];
+  /**
+   * The context object for the current command execution, containing the command path and segments.
+   */
+  export interface CommandContext {
+    path: string;
+    segments: string[];
+  }
+  /**
+   * The global Shell Shock - Command context instance.
+   *
+   * @internal
+   */
+  export let internal_commandContext: AsyncLocalStorage<CommandContext>;
+  /**
+   * Get the Shell Shock - Command context for the current application.
+   *
+   * @param options - The options to use when getting the context.
+   * @returns The Shell Shock - Command context for the current application.
+   * @throws If the Shell Shock - Command context is not available.
+   */
+  export function useCommand(): CommandContext;
+  /**
+   * A utility hook function to get the individual segments of the current command path.
+   *
+   * @returns An array of command path segments.
+   * @throws If the command context is not available.
+   */
+  export function useSegments(): string[];
+  /**
+   * A utility hook function to get the full command path as a string.
+   *
+   * @returns The full command path as a string.
+   * @throws If the command context is not available.
+   */
+  export function usePath(): string;
+  /**
+   * Retrieves the command-line arguments from Deno or Node.js environments.
+   *
+   * @remarks
+   * This function is only intended for internal use. Please use `useArgs()` instead.
+   *
+   *
+   * @internal
+   *
+   *
+   *
+   * @returns An array of command-line arguments from Deno or Node.js
+   *   environments.
+   *
+   */
+  export function getArgs(): string[];
+  /**
+   * Checks if a specific flag is present in the command-line arguments.
+   *
+   * @see https://github.com/sindresorhus/has-flag/blob/main/index.js
+   *
+   * @param flag - The flag (or an array of flags/aliases) to check for, e.g.,
+   *   "color", "no-color".
+   * @param argv - The command-line arguments to check against. Defaults to global
+   *   Deno args or process args.
+   * @returns True if the flag is present, false otherwise.
+   *
+   */
+  export function hasFlag(flag: string | string[], argv?: string[]): boolean;
+  export const isHelp: boolean;
+  /**
+   * Detect if stdout.TTY is available
+   */
+  export const isTTY: boolean;
+  /**
+   * Detect if the current environment is minimal (CI, non-TTY, etc.)
+   */
+  export const isMinimal: any;
+  /**
+   * Detect if the current environment is interactive
+   */
+  export const isInteractive: boolean;
+  /**
+   * Check if the current environment/terminal supports hyperlinks in the terminal.
+   *
+   * @returns True if the current environment/terminal supports hyperlinks.
+   *
+   */
+  export function isHyperlinkSupported(): boolean;
+  /**
+   * Options for the getColorSupportLevel function
+   */
+  export interface GetColorSupportLevelOptions {
+    /**
+     * Indicates if the function should skip checking command-line flags for color support
+     */
+    ignoreFlags: boolean;
+  }
+  /**
+   * Checks if a specific flag is present in the command-line arguments.
+   *
+   * @see https://github.com/sindresorhus/has-flag/blob/main/index.js
+   *
+   * @param flag - The flag to check for, e.g., "color", "no-color".
+   * @param argv - The command-line arguments to check against. Defaults to global
+   *   Deno args or process args.
+   * @returns True if the flag is present, false otherwise.
+   *
+   */
+  export function getColorSupportLevel(
+    stream: NodeJS.WriteStream & {
+      fd: 1 | 2;
+    },
+    options?: GetColorSupportLevelOptions
+  ):
+    | false
+    | 0
+    | 2
+    | 3
+    | {
+        level: number;
+        hasBasic: boolean;
+        has256: boolean;
+        has16m: boolean;
+      };
+  /**
+   * Detect the terminal color support level in the current environment
+   */
+  export const colorSupportLevels: {
+    stdout:
+      | number
+      | boolean
+      | {
+          level: number;
+          hasBasic: boolean;
+          has256: boolean;
+          has16m: boolean;
+        };
+    stderr:
+      | number
+      | boolean
+      | {
+          level: number;
+          hasBasic: boolean;
+          has256: boolean;
+          has16m: boolean;
+        };
+  };
+  /**
+   * Detect if terminal color is supported in the current environment
+   */
+  export const isColorSupported: boolean;
+  /**
+   * Detect if Unicode characters are supported in the current environment
+   */
+  export const isUnicodeSupported: boolean;
+}

@@ -32,6 +32,7 @@ import { replaceExtension } from "@stryke/path/replace";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
+import { ExitFunctionDeclaration } from "./exit-function-declaration";
 
 /**
  * Runs the application main logic with proper exit handling.
@@ -163,12 +164,13 @@ export function BinEntry(props: BinEntryProps) {
             console: ["error", "verbose", "table", "writeLine"],
             utils: [
               "hasFlag",
-              "exit",
               "isUnicodeSupported",
               "internal_appContext",
               "getArgs"
             ]
           })}>
+          <ExitFunctionDeclaration />
+          <Spacing />
           <Show when={Boolean(prefix)}>
             {prefix}
             <Spacing />

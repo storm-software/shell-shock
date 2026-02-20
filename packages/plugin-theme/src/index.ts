@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import alloy from "@powerlines/plugin-alloy";
 import styleDictionary from "@powerlines/plugin-style-dictionary";
 import { omit } from "@stryke/helpers/omit";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
@@ -43,6 +44,7 @@ export const plugin = <
 ): Plugin<TContext>[] => {
   return [
     styleDictionary(defu({ skipBuild: false }, omit(options, ["theme"]))),
+    ...alloy(options),
     {
       name: "shell-shock:theme",
       config() {
@@ -109,7 +111,7 @@ export const plugin = <
         }
       }
     }
-  ];
+  ] as Plugin<TContext>[];
 };
 
 export default plugin;

@@ -23,9 +23,9 @@ import {
   getAppDescription,
   getAppTitle
 } from "@shell-shock/core/plugin-utils/context-helpers";
+import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import type { BannerFunctionDeclarationProps } from "@shell-shock/preset-script/components/banner-function-declaration";
 import { BannerFunctionBodyDeclaration } from "@shell-shock/preset-script/components/banner-function-declaration";
-import { useTheme } from "@shell-shock/preset-script/contexts/theme";
 import { render } from "cfonts";
 import type { CLIPresetContext } from "../types/plugin";
 

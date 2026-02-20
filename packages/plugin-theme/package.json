@@ -55,6 +55,62 @@
         "default": "./dist/index.mjs"
       }
     },
+    "./contexts": {
+      "require": {
+        "types": "./dist/contexts/index.d.cts",
+        "default": "./dist/contexts/index.cjs"
+      },
+      "import": {
+        "types": "./dist/contexts/index.d.mts",
+        "default": "./dist/contexts/index.mjs"
+      },
+      "default": {
+        "types": "./dist/contexts/index.d.mts",
+        "default": "./dist/contexts/index.mjs"
+      }
+    },
+    "./contexts/theme": {
+      "require": {
+        "types": "./dist/contexts/theme.d.cts",
+        "default": "./dist/contexts/theme.cjs"
+      },
+      "import": {
+        "types": "./dist/contexts/theme.d.mts",
+        "default": "./dist/contexts/theme.mjs"
+      },
+      "default": {
+        "types": "./dist/contexts/theme.d.mts",
+        "default": "./dist/contexts/theme.mjs"
+      }
+    },
+    "./helpers": {
+      "require": {
+        "types": "./dist/helpers/index.d.cts",
+        "default": "./dist/helpers/index.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/index.d.mts",
+        "default": "./dist/helpers/index.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/index.d.mts",
+        "default": "./dist/helpers/index.mjs"
+      }
+    },
+    "./helpers/ansi-utils": {
+      "require": {
+        "types": "./dist/helpers/ansi-utils.d.cts",
+        "default": "./dist/helpers/ansi-utils.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/ansi-utils.d.mts",
+        "default": "./dist/helpers/ansi-utils.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/ansi-utils.d.mts",
+        "default": "./dist/helpers/ansi-utils.mjs"
+      }
+    },
     "./package.json": "./package.json",
     "./types": {
       "require": {
@@ -116,7 +172,9 @@
     "@stryke/type-checks": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:",
-    "style-dictionary": "catalog:"
+    "style-dictionary": "catalog:",
+    "@powerlines/plugin-alloy": "catalog:",
+    "@alloy-js/core": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-deepkit": "catalog:",

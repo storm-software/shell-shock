@@ -30,9 +30,9 @@ import type {
   CommandOption,
   CommandTree
 } from "@shell-shock/core/types/command";
+import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { snakeCase } from "@stryke/string-format/snake-case";
-import { useTheme } from "../contexts";
 import type { ScriptPresetContext } from "../types/plugin";
 
 export interface HelpUsageProps {

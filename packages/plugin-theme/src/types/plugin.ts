@@ -17,35 +17,46 @@
  ------------------------------------------------------------------- */
 
 import type {
+  AlloyPluginContext,
+  AlloyPluginOptions,
+  AlloyPluginResolvedConfig
+} from "@powerlines/plugin-alloy/types";
+import type {
   StyleDictionaryPluginContext,
   StyleDictionaryPluginOptions,
   StyleDictionaryPluginResolvedConfig,
   StyleDictionaryPluginUserConfig
 } from "@powerlines/plugin-style-dictionary/types";
+import type { Context } from "powerlines/types/context";
 import type { ThemeResolvedConfig, ThemeUserConfig } from "./theme";
 
-export type ThemePluginOptions = StyleDictionaryPluginOptions & {
-  /**
-   * Theme configuration for the plugin.
-   */
-  theme?: ThemeUserConfig;
-};
+export type ThemePluginOptions = StyleDictionaryPluginOptions &
+  AlloyPluginOptions & {
+    /**
+     * Theme configuration for the plugin.
+     */
+    theme?: ThemeUserConfig;
+  };
 
 export type ThemePluginUserConfig = StyleDictionaryPluginUserConfig &
+  AlloyPluginOptions &
   ThemePluginOptions;
 
-export type ThemePluginResolvedConfig = StyleDictionaryPluginResolvedConfig & {
-  /**
-   * Resolved theme configuration for the plugin.
-   */
-  theme: ThemeResolvedConfig;
-};
+export type ThemePluginResolvedConfig = StyleDictionaryPluginResolvedConfig &
+  AlloyPluginResolvedConfig & {
+    /**
+     * Resolved theme configuration for the plugin.
+     */
+    theme: ThemeResolvedConfig;
+  };
 
 export type ThemePluginContext<
   TResolvedConfig extends ThemePluginResolvedConfig = ThemePluginResolvedConfig
-> = StyleDictionaryPluginContext<TResolvedConfig> & {
-  /**
-   * Resolved theme configuration.
-   */
-  theme: ThemeResolvedConfig;
-};
+> = AlloyPluginContext<TResolvedConfig> &
+  StyleDictionaryPluginContext<TResolvedConfig> &
+  Context<TResolvedConfig> & {
+    /**
+     * Resolved theme configuration.
+     */
+    theme: ThemeResolvedConfig;
+  };

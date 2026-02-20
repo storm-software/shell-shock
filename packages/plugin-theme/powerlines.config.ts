@@ -16,14 +16,20 @@
 
  ------------------------------------------------------------------- */
 
+import alloy from "@powerlines/plugin-alloy";
 import plugin from "@powerlines/plugin-plugin";
 import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines";
 
 const config: UserConfig = defineConfig({
   skipCache: true,
-  entry: ["./src/index.ts", "./src/types/*.ts"],
-  plugins: [plugin()],
+  entry: [
+    "./src/index.ts",
+    "./src/types/*.ts",
+    "./src/helpers/*.ts",
+    "./src/contexts/*.ts"
+  ],
+  plugins: [plugin(), alloy()],
   build: {
     external: ["style-dictionary"]
   }

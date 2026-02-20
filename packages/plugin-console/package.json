@@ -1,12 +1,12 @@
 {
-  "name": "@shell-shock/plugin-prompts",
-  "version": "0.2.0",
+  "name": "@shell-shock/plugin-console",
+  "version": "0.0.1",
   "type": "module",
-  "description": "A package containing a Shell Shock plugin to generate the `prompts` built-in module.",
+  "description": "A package containing a Shell Shock plugin to generate the `console` built-in module.",
   "repository": {
     "type": "github",
     "url": "https://github.com/storm-software/shell-shock.git",
-    "directory": "packages/plugin-prompts"
+    "directory": "packages/plugin-console"
   },
   "homepage": "https://stormsoftware.com",
   "bugs": {
@@ -69,18 +69,18 @@
         "default": "./dist/components/index.mjs"
       }
     },
-    "./components/prompts-builtin": {
+    "./components/console-builtin": {
       "require": {
-        "types": "./dist/components/prompts-builtin.d.cts",
-        "default": "./dist/components/prompts-builtin.cjs"
+        "types": "./dist/components/console-builtin.d.cts",
+        "default": "./dist/components/console-builtin.cjs"
       },
       "import": {
-        "types": "./dist/components/prompts-builtin.d.mts",
-        "default": "./dist/components/prompts-builtin.mjs"
+        "types": "./dist/components/console-builtin.d.mts",
+        "default": "./dist/components/console-builtin.mjs"
       },
       "default": {
-        "types": "./dist/components/prompts-builtin.d.mts",
-        "default": "./dist/components/prompts-builtin.mjs"
+        "types": "./dist/components/console-builtin.d.mts",
+        "default": "./dist/components/console-builtin.mjs"
       }
     },
     "./package.json": "./package.json",
@@ -131,6 +131,7 @@
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@shell-shock/plugin-theme": "workspace:*",
+    "@stryke/string-format": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:"
   },

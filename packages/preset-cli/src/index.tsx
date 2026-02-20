@@ -19,13 +19,11 @@
 import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { render } from "@powerlines/plugin-alloy/render";
+import console from "@shell-shock/plugin-console";
 import prompts from "@shell-shock/plugin-prompts";
-import theme from "@shell-shock/plugin-theme";
 import upgrade from "@shell-shock/plugin-upgrade";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
-import { ConsoleBuiltin } from "@shell-shock/preset-script/components/console-builtin";
 import { VirtualHelp } from "@shell-shock/preset-script/components/help";
-import { UtilsBuiltin } from "@shell-shock/preset-script/components/utils-builtin";
 import type { Plugin } from "powerlines/types/plugin";
 import { BannerFunctionDeclaration } from "./components/banner-function-declaration";
 import { CommandEntry } from "./components/command-entry";
@@ -35,15 +33,16 @@ import { getDefaultOptions } from "./helpers/get-default-options";
 import type { CLIPresetContext, CLIPresetOptions } from "./types/plugin";
 
 /**
- * The Shell Shock base plugin.
+ * The Shell Shock CLI Preset plugin.
+ *
+ * @remarks
+ * This preset includes a set of built-in modules and commands to create a CLI application, as well as configuration options to customize the generated code. It also includes the `prompts` plugin to provide interactive prompts in the CLI application, and the `upgrade` plugin to manage upgrading the local application's version.
  */
 export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
   options: CLIPresetOptions = {}
 ) => {
   return [
-    theme({
-      theme: options.theme
-    }),
+    console(options),
     prompts(options),
     upgrade({
       packageName: options.packageName
@@ -63,19 +62,6 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
       },
       configResolved() {
         this.dependencies.didyoumean2 = "^7.0.4";
-      },
-      async prepare() {
-        this.debug(
-          "Rendering built-in modules for the Shell Shock `cli` preset."
-        );
-
-        return render(
-          this,
-          <>
-            <UtilsBuiltin />
-            <ConsoleBuiltin />
-          </>
-        );
       }
     },
     {

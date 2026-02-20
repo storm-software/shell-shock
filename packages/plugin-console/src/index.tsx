@@ -19,39 +19,39 @@
 import { render } from "@powerlines/plugin-alloy/render";
 import theme from "@shell-shock/plugin-theme";
 import type { Plugin } from "powerlines";
-import { PromptsBuiltin } from "./components";
+import { ConsoleBuiltin } from "./components";
 import type {
-  PromptsPluginContext,
-  PromptsPluginOptions
+  ConsolePluginContext,
+  ConsolePluginOptions
 } from "./types/plugin";
 
 /**
- * A Shell Shock plugin to generate the `prompts` built-in module, which provides a set of commands for interacting with the user through prompts. This plugin is designed to be used in conjunction with the `script` preset, but can also be used independently in any Shell Shock application.
+ * A Shell Shock plugin to generate the `console` built-in module, which provides a set of commands for logging messages to the console and inspecting values. This plugin is designed to be used in conjunction with the `script` preset, but can also be used independently in any Shell Shock application.
  */
 export const plugin = <
-  TContext extends PromptsPluginContext = PromptsPluginContext
+  TContext extends ConsolePluginContext = ConsolePluginContext
 >(
-  options: PromptsPluginOptions = {}
+  options: ConsolePluginOptions = {}
 ): Plugin<TContext>[] => {
   return [
     ...theme({
       theme: options.theme
     }),
     {
-      name: "shell-shock:prompts",
+      name: "shell-shock:console",
       config() {
         this.debug(
-          "Providing default configuration for the Shell Shock `prompts` plugin."
+          "Providing default configuration for the Shell Shock `console` plugin."
         );
 
         return options;
       },
       async prepare() {
         this.debug(
-          "Rendering command handling modules for the Shell Shock `prompts` plugin."
+          "Rendering command handling modules for the Shell Shock `console` plugin."
         );
 
-        return render(this, <PromptsBuiltin />);
+        return render(this, <ConsoleBuiltin />);
       }
     }
   ] as Plugin<TContext>[];

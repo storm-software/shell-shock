@@ -125,18 +125,18 @@
         "default": "./dist/components/command-router.mjs"
       }
     },
-    "./components/console-builtin": {
+    "./components/exit-function-declaration": {
       "require": {
-        "types": "./dist/components/console-builtin.d.cts",
-        "default": "./dist/components/console-builtin.cjs"
+        "types": "./dist/components/exit-function-declaration.d.cts",
+        "default": "./dist/components/exit-function-declaration.cjs"
       },
       "import": {
-        "types": "./dist/components/console-builtin.d.mts",
-        "default": "./dist/components/console-builtin.mjs"
+        "types": "./dist/components/exit-function-declaration.d.mts",
+        "default": "./dist/components/exit-function-declaration.mjs"
       },
       "default": {
-        "types": "./dist/components/console-builtin.d.mts",
-        "default": "./dist/components/console-builtin.mjs"
+        "types": "./dist/components/exit-function-declaration.d.mts",
+        "default": "./dist/components/exit-function-declaration.mjs"
       }
     },
     "./components/help": {
@@ -167,20 +167,6 @@
         "default": "./dist/components/helpers.mjs"
       }
     },
-    "./components/utils-builtin": {
-      "require": {
-        "types": "./dist/components/utils-builtin.d.cts",
-        "default": "./dist/components/utils-builtin.cjs"
-      },
-      "import": {
-        "types": "./dist/components/utils-builtin.d.mts",
-        "default": "./dist/components/utils-builtin.mjs"
-      },
-      "default": {
-        "types": "./dist/components/utils-builtin.d.mts",
-        "default": "./dist/components/utils-builtin.mjs"
-      }
-    },
     "./components/virtual-command-entry": {
       "require": {
         "types": "./dist/components/virtual-command-entry.d.cts",
@@ -193,48 +179,6 @@
       "default": {
         "types": "./dist/components/virtual-command-entry.d.mts",
         "default": "./dist/components/virtual-command-entry.mjs"
-      }
-    },
-    "./contexts": {
-      "require": {
-        "types": "./dist/contexts/index.d.cts",
-        "default": "./dist/contexts/index.cjs"
-      },
-      "import": {
-        "types": "./dist/contexts/index.d.mts",
-        "default": "./dist/contexts/index.mjs"
-      },
-      "default": {
-        "types": "./dist/contexts/index.d.mts",
-        "default": "./dist/contexts/index.mjs"
-      }
-    },
-    "./contexts/theme": {
-      "require": {
-        "types": "./dist/contexts/theme.d.cts",
-        "default": "./dist/contexts/theme.cjs"
-      },
-      "import": {
-        "types": "./dist/contexts/theme.d.mts",
-        "default": "./dist/contexts/theme.mjs"
-      },
-      "default": {
-        "types": "./dist/contexts/theme.d.mts",
-        "default": "./dist/contexts/theme.mjs"
-      }
-    },
-    "./helpers/ansi-utils": {
-      "require": {
-        "types": "./dist/helpers/ansi-utils.d.cts",
-        "default": "./dist/helpers/ansi-utils.cjs"
-      },
-      "import": {
-        "types": "./dist/helpers/ansi-utils.d.mts",
-        "default": "./dist/helpers/ansi-utils.mjs"
-      },
-      "default": {
-        "types": "./dist/helpers/ansi-utils.d.mts",
-        "default": "./dist/helpers/ansi-utils.mjs"
       }
     },
     "./helpers/get-default-options": {
@@ -302,7 +246,8 @@
     "@stryke/path": "catalog:",
     "@stryke/string-format": "catalog:",
     "defu": "catalog:",
-    "powerlines": "catalog:"
+    "powerlines": "catalog:",
+    "@shell-shock/plugin-console": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "catalog:",

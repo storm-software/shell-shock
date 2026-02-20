@@ -26,8 +26,8 @@ import {
   getAppTitle
 } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { CommandTree } from "@shell-shock/core/types/command";
+import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import type { ThemeColorVariant } from "@shell-shock/plugin-theme/types/theme";
-import { useTheme } from "../contexts";
 import type { ScriptPresetContext } from "../types";
 
 export interface BannerFunctionDeclarationProps {

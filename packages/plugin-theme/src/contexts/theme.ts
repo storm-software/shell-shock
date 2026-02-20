@@ -18,10 +18,10 @@
 
 import { computed } from "@alloy-js/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import type { ThemeResolvedConfig } from "@shell-shock/plugin-theme/types/theme";
 import type { AnsiStyles } from "../helpers/ansi-utils";
 import { getAnsiStyles } from "../helpers/ansi-utils";
-import type { ScriptPresetContext } from "../types/plugin";
+import type { ThemePluginContext } from "../types/plugin";
+import type { ThemeResolvedConfig } from "../types/theme";
 
 /**
  * Hook to access the current application's theme configuration.
@@ -29,7 +29,7 @@ import type { ScriptPresetContext } from "../types/plugin";
  * @returns The resolved theme configuration.
  */
 export function useTheme(): ThemeResolvedConfig {
-  const context = usePowerlines<ScriptPresetContext>();
+  const context = usePowerlines<ThemePluginContext>();
   const theme = computed(() => context.theme);
 
   return theme.value;

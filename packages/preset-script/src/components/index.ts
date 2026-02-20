@@ -20,7 +20,6 @@ export * from "./banner-function-declaration";
 export * from "./bin-entry";
 export * from "./command-entry";
 export * from "./command-router";
-export * from "./console-builtin";
+export * from "./exit-function-declaration";
 export * from "./help";
-export * from "./utils-builtin";
 export * from "./virtual-command-entry";

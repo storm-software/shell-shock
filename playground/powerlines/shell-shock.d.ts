@@ -1034,32 +1034,6 @@ declare module "shell-shock:utils" {
    * Detect if Unicode characters are supported in the current environment
    */
   export const isUnicodeSupported: boolean;
-  /**
-   * Options for the exit handler function.
-   */
-  export interface ExitOptions {
-    /**
-     * An optional exception that caused the exit. This can be a string message or an Error object.
-     */
-    exception?: string | Error;
-    /**
-     * Indicates whether the exit function should manually exit the process or not. If set to true, the exit function will not call process.exit() and will allow the application to continue running. If set to false or not specified, the exit function will call process.exit() to terminate the application.
-     */
-    skipProcessExit?: boolean;
-    /**
-     * Indicates whether the exit function should perform synchronous operations only. If set to true, the exit function will avoid any asynchronous operations during exit. If set to false or not specified, the exit function may perform asynchronous operations as needed.
-     */
-    isSynchronous?: boolean;
-    /**
-     * The signal number that triggered the exit. This is typically used when the shutdown is initiated by a system signal (e.g., SIGINT, SIGTERM).
-     */
-    signal?: number;
-    /**
-     * A Date object representing the timestamp when the process started. This can be used to measure the duration of the shutdown process.
-     */
-    startDate?: Date;
-  }
-  export function exit(options?: ExitOptions): Promise<void>;
 }
 
 /**

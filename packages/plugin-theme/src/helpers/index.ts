@@ -16,24 +16,4 @@
 
  ------------------------------------------------------------------- */
 
-import alloy from "@powerlines/plugin-alloy";
-import plugin from "@powerlines/plugin-plugin";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines";
-
-const config: UserConfig = defineConfig({
-  skipCache: true,
-  entry: [
-    "./src/index.tsx",
-    "./src/types/*.ts",
-    "./src/helpers/**/*.ts",
-    "./src/components/**/*.ts",
-    "./src/components/**/*.tsx"
-  ],
-  plugins: [plugin(), alloy()],
-  build: {
-    sourcemap: true
-  }
-});
-
-export default config;
+export * from "./ansi-utils";

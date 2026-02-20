@@ -41,7 +41,7 @@ import {
   TSDocReturns
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { TypeDeclaration } from "@powerlines/plugin-alloy/typescript/components/type-declaration";
-import { useTheme } from "@shell-shock/preset-script/contexts/theme";
+import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import defu from "defu";
 
 export interface PromptsBuiltinProps extends Omit<

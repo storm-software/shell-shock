@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import type { ThemeColorsResolvedConfig } from "@shell-shock/plugin-theme/types/theme";
+import type { ThemeColorsResolvedConfig } from "../types/theme";
 
 const ANSI_BACKGROUND_OFFSET = 10;
 

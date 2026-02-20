@@ -26,16 +26,16 @@ import type {
   ThemePluginUserConfig
 } from "@shell-shock/plugin-theme/types/plugin";
 
-export interface PromptsPluginOptions extends ThemePluginOptions {}
+export interface ConsolePluginOptions extends ThemePluginOptions {}
 
-export type PromptsPluginUserConfig = ThemePluginUserConfig & {};
+export type ConsolePluginUserConfig = ThemePluginUserConfig & {};
 
-export type PromptsPluginResolvedConfig = ResolvedConfig &
+export type ConsolePluginResolvedConfig = ResolvedConfig &
   ThemePluginResolvedConfig;
 
-export type PromptsPluginContext<
-  TResolvedConfig extends PromptsPluginResolvedConfig =
-    PromptsPluginResolvedConfig
+export type ConsolePluginContext<
+  TResolvedConfig extends ConsolePluginResolvedConfig =
+    ConsolePluginResolvedConfig
 > = AlloyPluginContext<TResolvedConfig> &
   ThemePluginContext<TResolvedConfig> &
   Context<TResolvedConfig>;

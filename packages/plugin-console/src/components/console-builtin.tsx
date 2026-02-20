@@ -41,15 +41,18 @@ import {
   TSDocRemarks,
   TSDocReturns
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+import { IsNotDebug, IsNotVerbose } from "@shell-shock/core/components/helpers";
+import { useColors, useTheme } from "@shell-shock/plugin-theme/contexts/theme";
+import type {
+  AnsiWrappers,
+  BaseAnsiStylesKeys
+} from "@shell-shock/plugin-theme/helpers/ansi-utils";
 import type {
   ThemeMessageVariant,
   ThemeResolvedConfig
 } from "@shell-shock/plugin-theme/types/theme";
 import { getIndefiniteArticle } from "@stryke/string-format/vowels";
 import { defu } from "defu";
-import { useColors, useTheme } from "../contexts/theme";
-import type { AnsiWrappers, BaseAnsiStylesKeys } from "../helpers/ansi-utils";
-import { IsNotDebug, IsNotVerbose } from "./helpers";
 
 export function AnsiHelpersDeclarations() {
   return (

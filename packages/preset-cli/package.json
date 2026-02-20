@@ -171,6 +171,7 @@
     "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
+    "@shell-shock/plugin-console": "workspace:*",
     "@shell-shock/plugin-prompts": "workspace:*",
     "@shell-shock/plugin-theme": "workspace:*",
     "@shell-shock/plugin-upgrade": "workspace:*",

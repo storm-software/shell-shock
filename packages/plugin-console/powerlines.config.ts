@@ -26,14 +26,10 @@ const config: UserConfig = defineConfig({
   entry: [
     "./src/index.tsx",
     "./src/types/*.ts",
-    "./src/helpers/**/*.ts",
-    "./src/components/**/*.ts",
-    "./src/components/**/*.tsx"
+    "./src/components/**/*.tsx",
+    "./src/components/**/*.ts"
   ],
-  plugins: [plugin(), alloy()],
-  build: {
-    sourcemap: true
-  }
+  plugins: [plugin(), alloy()]
 });
 
 export default config;

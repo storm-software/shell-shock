@@ -19,14 +19,12 @@
 import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { render } from "@powerlines/plugin-alloy/render";
-import theme from "@shell-shock/plugin-theme";
+import console from "@shell-shock/plugin-console";
 import type { Plugin } from "powerlines/types/plugin";
 import { BannerFunctionDeclaration, VirtualHelp } from "./components";
 import { BinEntry } from "./components/bin-entry";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
-import { ConsoleBuiltin } from "./components/console-builtin";
-import { UtilsBuiltin } from "./components/utils-builtin";
 import { VirtualCommandEntry } from "./components/virtual-command-entry";
 import { getDefaultOptions } from "./helpers/get-default-options";
 import type { ScriptPresetContext, ScriptPresetOptions } from "./types/plugin";
@@ -40,9 +38,7 @@ export const plugin = <
   options: ScriptPresetOptions = {}
 ) => {
   return [
-    theme({
-      theme: options.theme
-    }),
+    console(options),
     {
       name: "shell-shock:script-preset",
       config() {
@@ -58,19 +54,6 @@ export const plugin = <
       },
       configResolved() {
         this.dependencies.didyoumean2 = "^7.0.4";
-      },
-      async prepare() {
-        this.debug(
-          "Rendering built-in modules for the Shell Shock `script` preset."
-        );
-
-        return render(
-          this,
-          <>
-            <UtilsBuiltin />
-            <ConsoleBuiltin />
-          </>
-        );
       }
     },
     {
