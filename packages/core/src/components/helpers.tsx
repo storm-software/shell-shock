@@ -44,3 +44,55 @@ export function BooleanInputParserLogic(props: BooleanInputParserLogicProps) {
     })) || Number.parseFloat(${name}) > 0) `}</>
   );
 }
+
+/**
+ * Write the logic to determine if the application is running in debug mode.
+ *
+ * @remarks
+ * This is used to conditionally include debug-only logic in the generated application, such as additional logging or development tools. The logic should check for common indicators of debug mode, such as environment variables or the presence of a debugger.
+ */
+export function IsDebug() {
+  return code`isDevelopment || isDebug || env.LOG_LEVEL === "debug"`;
+}
+
+/**
+ * Write the logic to determine if the application is **not** running in debug mode.
+ */
+export function IsNotDebug() {
+  return (
+    <>
+      {code`!(`}
+      <IsDebug />
+      {code`)`}
+    </>
+  );
+}
+
+/**
+ * Write the logic to determine if the application is running in verbose mode.
+ *
+ * @remarks
+ * This is used to conditionally include verbose-only logic in the generated application, such as additional logging or detailed output. The logic should check for common indicators of verbose mode, such as environment variables or command-line flags.
+ */
+export function IsVerbose() {
+  return (
+    <>
+      {code`( `}
+      <IsDebug />
+      {code`|| hasFlag(["verbose", "verbose=true", "verbose=always"]))`}
+    </>
+  );
+}
+
+/**
+ * Write the logic to determine if the application is **not** running in verbose mode.
+ */
+export function IsNotVerbose() {
+  return (
+    <>
+      {code`!(`}
+      <IsVerbose />
+      {code`)`}
+    </>
+  );
+}

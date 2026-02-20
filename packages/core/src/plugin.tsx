@@ -40,6 +40,7 @@ import type { Plugin } from "powerlines";
 import { resolveEntries } from "powerlines/lib/entry";
 import type { OutputOptions, RenderedChunk } from "rolldown";
 import { CommandDocsFile } from "./components/docs";
+import { UtilsBuiltin } from "./components/utils-builtin";
 import { commands } from "./helpers/automd";
 import {
   getCommandsPersistencePath,
@@ -258,6 +259,18 @@ export const plugin = <TContext extends Context = Context>(
                 )}`
             )
             .join("\n")}`
+        );
+      },
+      async prepare() {
+        this.debug(
+          "Rendering base built-in modules for the Shell Shock application."
+        );
+
+        return render(
+          this,
+          <>
+            <UtilsBuiltin />
+          </>
         );
       }
     },

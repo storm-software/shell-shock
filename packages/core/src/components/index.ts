@@ -20,3 +20,4 @@ export * from "./docs";
 export * from "./helpers";
 export * from "./options-parser-logic";
 export * from "./usage";
+export * from "./utils-builtin";

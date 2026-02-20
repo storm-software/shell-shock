@@ -139,6 +139,20 @@
         "default": "./dist/components/usage.mjs"
       }
     },
+    "./components/utils-builtin": {
+      "require": {
+        "types": "./dist/components/utils-builtin.d.cts",
+        "default": "./dist/components/utils-builtin.cjs"
+      },
+      "import": {
+        "types": "./dist/components/utils-builtin.d.mts",
+        "default": "./dist/components/utils-builtin.mjs"
+      },
+      "default": {
+        "types": "./dist/components/utils-builtin.d.mts",
+        "default": "./dist/components/utils-builtin.mjs"
+      }
+    },
     "./config": {
       "require": {
         "types": "./dist/config.d.cts",
