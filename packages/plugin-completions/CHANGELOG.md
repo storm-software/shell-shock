@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.1.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.1.5) (02/19/2026)
+
+### Features
+
+- **plugin-prompts:** Split `prompts` out into separate plugin ([b640c65](https://github.com/storm-software/shell-shock/commit/b640c65))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.8.11**
+
 ## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.1.4) (02/19/2026)
 
 ### Miscellaneous

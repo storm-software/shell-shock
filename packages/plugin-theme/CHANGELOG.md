@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.2.2](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.2.2) (02/19/2026)
+
+### Features
+
+- **plugin-prompts:** Split `prompts` out into separate plugin ([b640c65](https://github.com/storm-software/shell-shock/commit/b640c65))
+
 ## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.2.1) (02/19/2026)
 
 ### Bug Fixes

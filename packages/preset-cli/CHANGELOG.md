@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.7.1](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.7.1) (02/19/2026)
+
+### Features
+
+- **plugin-prompts:** Split `prompts` out into separate plugin ([b640c65](https://github.com/storm-software/shell-shock/commit/b640c65))
+
+### Updated Dependencies
+
+- Updated **plugin-prompts** to **v0.2.0**
+- Updated **plugin-upgrade** to **v0.1.1**
+- Updated **preset-script** to **v0.6.10**
+- Updated **plugin-theme** to **v0.2.2**
+- Updated **core** to **v0.8.11**
+
 ## [0.7.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.7.0) (02/19/2026)
 
 ### Miscellaneous

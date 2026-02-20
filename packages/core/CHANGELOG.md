@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.8.11](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.11) (02/19/2026)
+
+### Features
+
+- **plugin-prompts:** Split `prompts` out into separate plugin ([b640c65](https://github.com/storm-software/shell-shock/commit/b640c65))
+
 ## [0.8.10](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.10) (02/19/2026)
 
 ### Miscellaneous
