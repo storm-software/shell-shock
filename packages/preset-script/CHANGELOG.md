@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.12](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.12) (02/20/2026)
+
+### Bug Fixes
+
+- **preset-script:** Resolve issue with missing `env` built-in module imports ([a436b5e](https://github.com/storm-software/shell-shock/commit/a436b5e))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.0.3**
+- Updated **plugin-theme** to **v0.3.1**
+- Updated **core** to **v0.8.13**
+
 ## [0.6.11](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.11) (02/20/2026)
 
 ### Features

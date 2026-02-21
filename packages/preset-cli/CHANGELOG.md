@@ -2,6 +2,21 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.7.3](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.7.3) (02/20/2026)
+
+### Bug Fixes
+
+- **preset-script:** Resolve issue with missing `env` built-in module imports ([a436b5e](https://github.com/storm-software/shell-shock/commit/a436b5e))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.0.3**
+- Updated **plugin-prompts** to **v0.2.2**
+- Updated **plugin-upgrade** to **v0.1.3**
+- Updated **preset-script** to **v0.6.12**
+- Updated **plugin-theme** to **v0.3.1**
+- Updated **core** to **v0.8.13**
+
 ## [0.7.2](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.7.2) (02/20/2026)
 
 ### Features

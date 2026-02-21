@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.2.2](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.2.2) (02/20/2026)
+
+### Bug Fixes
+
+- **plugin-prompts:** Resolve issue with `numeric` input and cancelling prompts ([e303fb0](https://github.com/storm-software/shell-shock/commit/e303fb0))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.1**
+- Updated **core** to **v0.8.13**
+
 ## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.2.1) (02/20/2026)
 
 ### Features
