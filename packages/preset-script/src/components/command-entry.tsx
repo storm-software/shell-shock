@@ -36,6 +36,7 @@ import {
   TSDocRemarks,
   TSDocTitle
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+import { IsDebug } from "@shell-shock/core/components/helpers";
 import {
   CommandParserLogic,
   OptionsInterfaceDeclaration
@@ -61,7 +62,6 @@ import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
 import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { CommandHelp } from "./help";
-import { IsDebug } from "./helpers";
 import { VirtualCommandEntry } from "./virtual-command-entry";
 
 export function CommandInvocation(props: { command: CommandTree }) {

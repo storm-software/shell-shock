@@ -26,9 +26,9 @@ import {
 } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
+import { IsVerbose } from "@shell-shock/core/components/helpers";
 import { getAppTitle } from "@shell-shock/core/plugin-utils/context-helpers";
 import type { ScriptPresetContext } from "../types/plugin";
-import { IsVerbose } from "./helpers";
 
 /**
  * The `exit` handler function declaration code for the Shell Shock project.

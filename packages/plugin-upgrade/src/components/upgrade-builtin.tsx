@@ -555,8 +555,7 @@ export function InstallFunctionDeclaration() {
   return (
     <>
       <InterfaceDeclaration
-        export
-        name="InstallOptions"
+        name="InstallBaseOptions"
         doc="Options for the `install` handler function.">
         <InterfaceMember
           name="stdout"
@@ -571,14 +570,12 @@ export function InstallFunctionDeclaration() {
           type="(string) => void"
           doc="A callback function that is called with the stderr output of the command."
         />
-        <hbr />
-        <InterfaceMember
-          name="color"
-          optional
-          type="boolean"
-          doc="Whether to enable color output in the command. If not provided, color output will be enabled by default."
-        />
       </InterfaceDeclaration>
+      <Spacing />
+      <TypeDeclaration
+        export
+        name="InstallOptions"
+        doc="Options for the `install` handler function.">{code`InstallBaseOptions & Parameters<typeof spawn>[2];`}</TypeDeclaration>
       <Spacing />
       <TSDoc heading="Install the application dependencies.">
         <TSDocRemarks>
@@ -602,49 +599,33 @@ export function InstallFunctionDeclaration() {
             type: "InstallOptions",
             default: "{}"
           }
-        ]}
-        returnType="Promise<string>">
+        ]}>
         <VarDeclaration
           const
           name="packageManager"
           initializer={code`getPackageManager(); `}
         />
-        <hbr />
+        <Spacing />
         <VarDeclaration let name="output" initializer={code`""; `} />
         <hbr />
-        {code`try {
-            // await spawn(
-            //   \`\${packageManager}\${isWindows && packageManager !== "bun" ? ".cmd" : ""}\`,
-            //   ["install"],
-            //   {
-            //     stdout: (data: string) => {
-            //       options.stdout?.(data);
-            //       output += data;
-            //     },
-            //     stderr: (data: string) => {
-            //       options.stderr?.(data);
-            //     },
-            //   },
-            //   {
-            //     cwd: options.cwd ?? process.cwd(),
-            //     env: {
-            //       ...process.env,
-            //       ...(options.color !== false ? { FORCE_COLOR: true } : null),
-            //       // With spawn, pnpm install will fail with ERR_PNPM_PEER_DEP_ISSUES  Unmet peer dependencies.
-            //       // When pnpm install is run directly from the terminal, this error does not occur.
-            //       // When pnpm install is run from a simple spawn script, this error does not occur.
-            //       // The issue only seems to be when pnpm install is executed from npm-check-updates, but it's not clear what configuration or environmental factors are causing this.
-            //       // For now, turn off strict-peer-dependencies on pnpm auto-install.
-            //       // See: https://github.com/raineorshine/npm-check-updates/issues/1191
-            //       ...(packageManager === 'pnpm' ? { npm_config_strict_peer_dependencies: false } : null),
-            //     },
-            //   },
-            // );
-          } catch (err) {
-            console.error("Error executing install command:", err);
-            throw err;
-          }
-          `}
+        {code`await spawn(
+          \`\${packageManager}\${isWindows && packageManager !== "bun" ? ".cmd" : ""}\`,
+          ["install"],
+          {
+            ...options
+            env: {
+              ...options.env,
+              ...(packageManager === "pnpm" ? { npm_config_strict_peer_dependencies: false } : null),
+            },
+            stdout: (data: string) => {
+              options.stdout?.(data);
+              output += data;
+            },
+            stderr: (data: string) => {
+              options.stderr?.(data);
+            },
+          },
+        ); `}
       </FunctionDeclaration>
     </>
   );
@@ -675,7 +656,8 @@ export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
         console: ["error", "verbose", "writeLine"],
-        env: ["paths", "isWindows"]
+        env: ["paths", "isWindows"],
+        utils: ["isColorSupported", "spawn"]
       })}>
       <VarDeclaration
         const

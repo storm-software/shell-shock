@@ -16,26 +16,17 @@
 
  ------------------------------------------------------------------- */
 
-import alloy from "@powerlines/plugin-alloy";
-import deepkit from "@powerlines/plugin-deepkit";
-import plugin from "@powerlines/plugin-plugin";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines";
+export interface ShellShockEnv {
+  /**
+   * The system PATHEXT variable, used to determine which file extensions are considered executable on Windows.
+   *
+   * @remarks
+   * If not provided, it will default to '.EXE;.CMD;.BAT;.COM' on Windows, and will be ignored on other platforms. This variable is used to locate executable files when running commands, and is only relevant on Windows platforms. On non-Windows platforms, the system's executable file resolution will be used, and this variable will have no effect.
+   */
+  PATHEXT?: string;
 
-const config: UserConfig = defineConfig({
-  skipCache: true,
-  entry: [
-    "./src/*.ts",
-    "./src/*.tsx",
-    "./src/types/*.ts",
-    "./src/components/*.{ts,tsx}",
-    "./src/contexts/*.{ts,tsx}",
-    "./src/plugin-utils/*.ts"
-  ],
-  plugins: [plugin(), deepkit(), alloy()],
-  build: {
-    sourcemap: true
-  }
-});
-
-export default config;
+  /**
+   * The system PATH variable, used to locate executable files.
+   */
+  PATH?: string;
+}

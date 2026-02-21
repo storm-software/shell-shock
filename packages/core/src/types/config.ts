@@ -17,7 +17,11 @@
  ------------------------------------------------------------------- */
 
 import type { AutoMDPluginResolvedConfig } from "@powerlines/plugin-automd/types/plugin";
-import type { NodeJsPluginResolvedConfig } from "@powerlines/plugin-nodejs/types/plugin";
+import type {
+  NodeJsPluginOptions,
+  NodeJsPluginResolvedConfig,
+  NodeJsPluginUserConfig
+} from "@powerlines/plugin-nodejs/types/plugin";
 import type {
   TsdownPluginResolvedConfig,
   TsdownPluginUserConfig
@@ -26,7 +30,7 @@ import type { OutputConfig as PowerlinesOutputConfig } from "powerlines/types/co
 import type { CommandBase, CommandOption } from "./command";
 import type { Context } from "./context";
 
-export type BaseConfig = Pick<
+type BuildOptions = Pick<
   TsdownPluginUserConfig,
   | "root"
   | "name"
@@ -42,10 +46,7 @@ export type BaseConfig = Pick<
   | "tsconfigRaw"
 >;
 
-/**
- * The plugin options for Shell Shock.
- */
-export type Options = Partial<BaseConfig> & {
+type BaseOptions = Partial<BuildOptions> & {
   /**
    * A set of default command options to apply to each command.
    *
@@ -89,6 +90,11 @@ export type Options = Partial<BaseConfig> & {
 };
 
 /**
+ * The plugin options for Shell Shock.
+ */
+export type Options = BaseOptions & NodeJsPluginOptions;
+
+/**
  * The output configuration options for Shell Shock.
  */
 export type OutputConfig = Pick<
@@ -104,19 +110,20 @@ export type OutputConfig = Pick<
 /**
  * The user configuration options for Shell Shock.
  */
-export type UserConfig = Options & {
-  /**
-   * Configuration for the output of the build process
-   */
-  output?: OutputConfig;
-};
+export type UserConfig = BaseOptions &
+  NodeJsPluginUserConfig & {
+    /**
+     * Configuration for the output of the build process
+     */
+    output?: OutputConfig;
+  };
 
 /**
  * The resolved configuration options for Shell Shock.
  */
 export type ResolvedConfig = TsdownPluginResolvedConfig &
-  NodeJsPluginResolvedConfig &
   AutoMDPluginResolvedConfig &
+  NodeJsPluginResolvedConfig &
   Required<Omit<Options, "bin">> & {
     /**
      * The name of the binary (the {@link https://docs.npmjs.com/cli/v11/configuring-npm/package-json#bin | "bin" field} in package.json) that will be used to run the application through NodeJs package managers (e.g., npm, yarn, pnpm).
@@ -133,5 +140,5 @@ export type ResolvedConfig = TsdownPluginResolvedConfig &
     /**
      * The user configuration for the Shell Shock process.
      */
-    userConfig: UserConfig & NodeJsPluginResolvedConfig;
+    userConfig: UserConfig;
   };

@@ -143,6 +143,18 @@ declare module "shell-shock:env" {
      */
     ORGANIZATION: string;
     /**
+     *
+     *
+     *
+     */
+    PATH?: string;
+    /**
+     *
+     *
+     *
+     */
+    PATHEXT?: string;
+    /**
      * The platform for which the application was built.
      *
      * @defaultValue "neutral"
@@ -1035,6 +1047,23 @@ declare module "shell-shock:utils" {
    * Detect if Unicode characters are supported in the current environment
    */
   export const isUnicodeSupported: boolean;
+  export type SpawnOptions = "SpawnBaseOptions & Parameters<typeof _spawn>[1]";
+  /**
+   * A function to spawn child processes with proper color support and environment variable handling.
+   *
+   * @param command - The command to execute.
+   * @param args - The command-line arguments to pass to the command. Defaults to
+   *   an empty array.
+   * @param options - Additional options for spawning the process, such as the
+   *   current working directory (`cwd`).
+   * @returns The result of the spawned process.
+   *
+   */
+  export function spawn(
+    command: string,
+    args?: string[] | SpawnOptions,
+    options?: SpawnOptions
+  ): Promise<unknown>;
 }
 
 /**
@@ -2281,6 +2310,7 @@ declare module "shell-shock:prompts" {
  * @module shell-shock:upgrade
  */
 declare module "shell-shock:upgrade" {
+  import { spawn } from "shell-shock:utils";
   /**
    * Options for the `locateLockfile` handler function.
    */
@@ -2448,7 +2478,7 @@ declare module "shell-shock:upgrade" {
   /**
    * Options for the `install` handler function.
    */
-  export interface InstallOptions {
+  interface InstallBaseOptions {
     /**
      * A callback function that is called with the stdout output of the command.
      */
@@ -2457,11 +2487,11 @@ declare module "shell-shock:upgrade" {
      * A callback function that is called with the stderr output of the command.
      */
     stderr?: (string: any) => void;
-    /**
-     * Whether to enable color output in the command. If not provided, color output will be enabled by default.
-     */
-    color?: boolean;
   }
+  /**
+   * Options for the `install` handler function.
+   */
+  export type InstallOptions = InstallBaseOptions & Parameters<typeof spawn>[2];
   /**
    * Install the application dependencies.
    *
@@ -2476,5 +2506,6 @@ declare module "shell-shock:upgrade" {
    *   complete.
    *
    */
-  export function install(options?: InstallOptions): Promise<Promise<string>>;
+  export function install(options?: InstallOptions): Promise<void>;
+  export {};
 }

@@ -143,6 +143,18 @@ declare module "shell-shock:env" {
      */
     ORGANIZATION: string;
     /**
+     *
+     *
+     *
+     */
+    PATH?: string;
+    /**
+     *
+     *
+     *
+     */
+    PATHEXT?: string;
+    /**
      * The platform for which the application was built.
      *
      * @defaultValue "neutral"
@@ -1035,4 +1047,21 @@ declare module "shell-shock:utils" {
    * Detect if Unicode characters are supported in the current environment
    */
   export const isUnicodeSupported: boolean;
+  export type SpawnOptions = "SpawnBaseOptions & Parameters<typeof _spawn>[1]";
+  /**
+   * A function to spawn child processes with proper color support and environment variable handling.
+   *
+   * @param command - The command to execute.
+   * @param args - The command-line arguments to pass to the command. Defaults to
+   *   an empty array.
+   * @param options - Additional options for spawning the process, such as the
+   *   current working directory (`cwd`).
+   * @returns The result of the spawned process.
+   *
+   */
+  export function spawn(
+    command: string,
+    args?: string[] | SpawnOptions,
+    options?: SpawnOptions
+  ): Promise<unknown>;
 }

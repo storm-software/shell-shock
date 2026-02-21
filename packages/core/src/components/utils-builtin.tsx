@@ -21,6 +21,7 @@ import {
   FunctionDeclaration,
   InterfaceDeclaration,
   InterfaceMember,
+  TypeDeclaration,
   VarDeclaration
 } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
@@ -457,6 +458,315 @@ export function ArgsUtilities() {
   );
 }
 
+/**
+ * Generates the `spawn` function declaration, which is a cross-platform utility for spawning child processes with proper color support and environment variable handling.
+ */
+export function SpawnFunctionDeclaration() {
+  return (
+    <>
+      <FunctionDeclaration
+        async
+        name="resolveCommand"
+        parameters={[
+          {
+            name: "command",
+            type: "string"
+          },
+          {
+            name: "options",
+            type: "Record<string, any>",
+            default: "{}"
+          },
+          {
+            name: "pathExt",
+            type: "string",
+            default:
+              'process.env.PATHEXT || [".EXE", ".CMD", ".BAT", ".COM"].join(delimiter)'
+          }
+        ]}>
+        {code`const env = options.env || process.env;
+        const cwd = process.cwd();
+        if (!!options.cwd && process.chdir !== undefined && !(process.chdir as any).disabled) {
+          try {
+            process.chdir(options.cwd);
+          } catch (err) {
+            // Do nothing
+          }
+        }
+
+        let resolved;
+        try {
+          let extensions = [""];
+          if (isWindows) {
+            extensions = pathExt.split(delimiter).flatMap((item) => [item, item.toLowerCase()]);
+            if (command.includes(".") && extensions[0] !== "") {
+              extensions.unshift("");
+            }
+          }
+
+          for (const envPart of (command.match(new RegExp(\`[\${posix.sep}\${sep === posix.sep ? "" : sep}]\`.replace(/(\\\\)/g, "\\\\$1"))))
+            ? [...(isWindows ? [process.cwd()] : []), ...(process.env.PATH || "").split(delimiter)]
+            : [""]
+          ) {
+            const part =  \`\${!(/^".*"$/.test(envPart) ? envPart.slice(1, -1) : envPart) && new RegExp(\`^\\.\${new RegExp(\`[\${posix.sep}\${sep === posix.sep ? "" : sep}]\`.replace(/(\\\\)/g, "\\\\$1")).source}\`).test(command) ? command.slice(0, 2) : ""}\${join(/^".*"$/.test(envPart) ? envPart.slice(1, -1) : envPart, command)}\`;
+            for (const extension of extensions) {
+              if (isWindows) {
+                const filePath = part + extension;
+                if ((await stat(filePath)).isFile() && extensions.some((ext) => filePath.substring(filePath.length - ext.length).toLowerCase() === ext.toLowerCase())) {
+                  resolved = filePath;
+                  break;
+                }
+              } else {
+                const file = await stat(part + extension);
+                if (file.isFile() && (file.mode & 0o111) !== 0) {
+                  resolved = part + extension;
+                  break;
+                }
+              }
+            }
+          }
+        } catch (err) {
+          // Do nothing
+        } finally {
+          if (!!options.cwd && process.chdir !== undefined && !(process.chdir as any).disabled) {
+            process.chdir(cwd);
+          }
+        }
+
+
+        if (resolved) {
+          resolved = resolve(
+            options.cwd ? options.cwd : "",
+            resolved
+          );
+        }
+
+        return resolved; `}
+      </FunctionDeclaration>
+      <Spacing />
+      <InterfaceDeclaration
+        name="SpawnBaseOptions"
+        doc="Options for the `spawn` handler function.">
+        <InterfaceMember
+          name="stdout"
+          optional
+          type="(data: string) => void"
+          doc="The writable stream to use for prompt output, defaults to process.stdout"
+        />
+        <hbr />
+        <InterfaceMember
+          name="stderr"
+          optional
+          type="(data: string) => void"
+          doc="The writable stream to use for prompt error output, defaults to process.stderr"
+        />
+        <hbr />
+        <InterfaceMember
+          name="rejectOnError"
+          optional
+          type="boolean"
+          doc="Whether to reject the promise on error. Defaults to false."
+        />
+        <hbr />
+        <InterfaceMember
+          name="file"
+          optional
+          type="string"
+          doc="The file to execute."
+        />
+        <hbr />
+        <InterfaceMember
+          name="shell"
+          optional
+          type="boolean | string"
+          doc="If true, runs command inside of a shell. Uses '/bin/sh' on UNIX, and process.env.ComSpec on Windows. If a string is provided, it specifies the shell to use."
+        />
+        <hbr />
+        <InterfaceMember
+          name="forceShell"
+          optional
+          type="boolean"
+          doc="If true, forces the command to run inside of a shell, even if the command is a file."
+        />
+      </InterfaceDeclaration>
+      <Spacing />
+      <TypeDeclaration export name="SpawnOptions">
+        {code`SpawnBaseOptions & Parameters<typeof _spawn>[1]`}
+      </TypeDeclaration>
+      <Spacing />
+      <TSDoc heading="A function to spawn child processes with proper color support and environment variable handling.">
+        <TSDocParam name="command">{`The command to execute.`}</TSDocParam>
+        <TSDocParam name="args">
+          {`The command-line arguments to pass to the command. Defaults to an empty array.`}
+        </TSDocParam>
+        <TSDocParam name="options">
+          {`Additional options for spawning the process, such as the current working directory (\`cwd\`).`}
+        </TSDocParam>
+        <TSDocReturns>{`The result of the spawned process.`}</TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        async
+        name="spawn"
+        parameters={[
+          { name: "command", type: "string" },
+          {
+            name: "args",
+            type: "string[] | SpawnOptions",
+            default: "{} as SpawnOptions"
+          },
+          {
+            name: "options",
+            type: "SpawnOptions",
+            default: "{} as SpawnOptions"
+          }
+        ]}>
+        {code`const normalized = {
+          command,
+          args: [] as string[],
+          options: options as SpawnOptions | any,
+          file: undefined as string | undefined,
+          original: {
+            command,
+            args,
+          },
+        };
+
+        if (args) {
+          if (Array.isArray(args)) {
+            if (args.length > 0) {
+              normalized.args = args.slice(0);
+            }
+          } else {
+            normalized.options = { ...args } as SpawnOptions | any;
+            normalized.args = [];
+          }
+        }
+
+        if (!normalized.options.shell && isWindows) {
+          normalized.file = (await resolveCommand(normalized.command, normalized.options)) || (await resolveCommand(normalized.command, normalized.options, delimiter));
+
+          let commandFile = normalized.file;
+          if (normalized.file) {
+            let shebang: string | undefined;
+            const buffer = Buffer.alloc(150);
+
+            try {
+              const fd = openSync(normalized.file, "r");
+              await read(fd, buffer, 0, 150, 0);
+              closeSync(fd);
+            } catch (err) {
+              // Do nothing
+            }
+
+            const matched = buffer.toString().match(/^#!(.*)/);
+            if (matched) {
+              const [path, argument] = matched[0].replace(/#! ?/, "").split(" ");
+	            const binary = path.split("/").pop();
+              if (binary === "env") {
+                shebang = argument;
+              } else {
+                shebang = argument ? \`\${binary} \${argument}\` : binary;
+              }
+            }
+
+            if (shebang) {
+              normalized.args.unshift(normalized.file);
+              normalized.command = shebang;
+
+              commandFile = await resolveCommand(normalized.command, normalized.options);
+            }
+          }
+
+          if (commandFile && (normalized.options.forceShell || /\\.(?:com|exe)$/i.test(commandFile))) {
+            normalized.command = normalize(normalized.command).replace(/([()\\][%!^"\`<>&|;, *?])/g, "^$1");
+
+            normalized.args = ["/d", "/s", "/c", \`"\${normalized.command} \${normalized.args.map(arg =>
+              \`\${arg}\`.replace(/(?=(\\\\+?)?)\\1"/g, "$1$1\\"").replace(/(?=(\\\\+?)?)\\1$/, "$1$1")
+            ).map(arg =>
+              \`"\${arg}"\`.replace(/([()\\][%!^"\`<>&|;, *?])/g, "^$1")
+            ).map(arg =>
+              /node_modules[\\\\/].bin[\\\\/][^\\\\/]+\\.cmd$/i.test(commandFile) ? arg.replace(/([()\\][%!^"\`<>&|;, *?])/g, "^$1") : arg
+            ).join(" ")}"\`];
+            normalized.command = process.env.comspec || "cmd.exe";
+            normalized.options.windowsVerbatimArguments = true;
+          }
+        }
+
+        let stdout = "";
+        let stderr = "";
+
+        const child = _spawn(normalized.command, normalized.args, {
+          cwd: process.cwd(),
+          env: {
+            ...process.env,
+            FORCE_COLOR: isColorSupported ? "1" : "0",
+          },
+          ...normalized.options,
+        }) as ReturnType<typeof _spawn>;
+
+        if (isWindows) {
+          const emit = child.emit;
+          child.emit = (eventName: string | symbol, ...eventArgs: any[]) => {
+            if (eventName === "exit") {
+              let err: Error | null = null;
+              if (eventArgs[0] === 1 && !normalized.file) {
+                err = Object.assign(new Error(\`spawn \${normalized.original.command} ENOENT\`), {
+                  code: "ENOENT",
+                  errno: "ENOENT",
+                  syscall: \`spawn \${normalized.original.command}\`,
+                  path: normalized.original.command,
+                  spawnargs: normalized.original.args,
+                });
+              }
+
+              if (err) {
+                return emit.call(child, "error", err);
+              }
+            }
+
+            return emit.apply(child, [eventName, ...eventArgs]);
+          };
+        }
+
+        return new Promise((resolve, reject) => {
+          if (normalized.options.stdin !== undefined) {
+            child.stdin?.write(normalized.options.stdin);
+          }
+
+          child.stdin?.end();
+
+          child.stdout?.on("data", data => {
+            stdout += data;
+            if (normalized.options.stdout) {
+              normalized.options.stdout(data);
+            }
+          });
+
+          child.stderr?.on("data", data => {
+            stderr += data;
+            if (normalized.options.stderr) {
+              normalized.options.stderr(data);
+            }
+          });
+
+          if (normalized.options.rejectOnError) {
+            child.addListener("error", reject);
+          }
+
+          child.on("close", code => {
+            if (code !== 0 && normalized.options.rejectOnError) {
+              reject(stderr);
+            } else {
+              resolve({ stdout, stderr });
+            }
+          });
+        }); `}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
 export function ContextUtilities() {
   return code`
   /**
@@ -554,6 +864,17 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
       imports={defu(rest.imports ?? {}, {
         "node:os": "os",
         "node:process": "process",
+        "node:path": [
+          "resolve",
+          "delimiter",
+          "normalize",
+          "join",
+          "posix",
+          "sep"
+        ],
+        "node:fs": ["openSync", "closeSync"],
+        "node:fs/promises": ["stat", "read"],
+        "node:child_process": [{ name: "spawn", alias: "_spawn" }],
         "node:async_hooks": ["AsyncLocalStorage"]
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
@@ -570,6 +891,8 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
       <HyperlinkSupportUtilities />
       <Spacing />
       <ColorSupportUtilities />
+      <Spacing />
+      <SpawnFunctionDeclaration />
       <Spacing />
       <Show when={Boolean(children)}>{children}</Show>
     </BuiltinFile>

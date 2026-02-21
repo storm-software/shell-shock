@@ -133,6 +133,10 @@ export const plugin = <TContext extends Context = Context>(
             framework: "shell-shock"
           }
         );
+
+        if (!result.env.prefix || !Array.isArray(result.env.prefix)) {
+          result.env.prefix = toArray(result.env.prefix);
+        }
         if (!result.env.prefix.includes(result.envPrefix)) {
           result.env.prefix.push(result.envPrefix);
         }
@@ -168,7 +172,14 @@ export const plugin = <TContext extends Context = Context>(
         }
       }
     },
-    ...nodejs<TContext>(),
+    ...nodejs<TContext>(
+      defu(options ?? {}, {
+        env: {
+          types: "@shell-shock/core/types/env#ShellShockEnv",
+          validate: false
+        }
+      })
+    ),
     {
       name: "shell-shock:inputs",
       async configResolved() {
