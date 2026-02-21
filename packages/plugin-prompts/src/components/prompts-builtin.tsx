@@ -236,7 +236,7 @@ export function BasePromptDeclarations() {
         />
         <Spacing />
         <InterfaceMember
-          name="maskSubmitted"
+          name="maskCompleted"
           optional
           type="(input: string) => string"
           doc="A function that masks the value submitted by the user so that it can then be used in the console output or elsewhere without exposing sensitive information. If not provided, the prompt will use the same mask function for both input and submitted value masking."
@@ -271,6 +271,14 @@ export function BasePromptDeclarations() {
         <ClassField name="readline" isPrivateMember type="readline.Interface" />
         <hbr />
         <ClassField name="value" isPrivateMember optional type="TValue" />
+        <hbr />
+        <ClassField name="isKeyPressed" isPrivateMember type="boolean">
+          {code`false; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="isDirty" isPrivateMember type="boolean">
+          {code`false; `}
+        </ClassField>
         <hbr />
         <ClassField name="isClosed" isPrivateMember type="boolean">
           {code`false; `}
@@ -346,7 +354,7 @@ export function BasePromptDeclarations() {
         </ClassField>
         <hbr />
         <ClassField
-          name="maskSubmitted"
+          name="maskCompleted"
           protected
           type="(input: string) => string"
         />
@@ -388,14 +396,14 @@ export function BasePromptDeclarations() {
             this.formatter = config.format.bind(this);
           }
 
-          if (config.maskSubmitted) {
-            this.maskSubmitted = config.maskSubmitted;
+          if (config.maskCompleted) {
+            this.maskCompleted = config.maskCompleted;
           }
           if (config.mask) {
             this.mask = config.mask;
           }
-          if (!this.maskSubmitted) {
-            this.maskSubmitted = this.mask;
+          if (!this.maskCompleted) {
+            this.maskCompleted = this.mask;
           }
 
           if (config.timeout !== undefined && !Number.isNaN(config.timeout)) {
@@ -418,7 +426,11 @@ export function BasePromptDeclarations() {
             this.input.setRawMode(true);
           }
 
-          this.input.on("keypress", this.onKeypress.bind(this));
+          this.input.on("keypress", this.keypress.bind(this));
+        }
+
+        [Symbol.dispose]() {
+          this.close();
         } `}
         <Spacing />
         <ClassPropertyGet
@@ -442,19 +454,37 @@ export function BasePromptDeclarations() {
         </ClassPropertyGet>
         <Spacing />
         <ClassPropertyGet protected name="isPlaceholder" type="boolean">
-          {code`return this.config.initialValue !== undefined && this.displayValue === this.formatter(this.initialValue); `}
+          {code`return (this.displayValue === this.formatter(this.parser(this.initialValue)) && !this.#isDirty) || !this.#isKeyPressed; `}
         </ClassPropertyGet>
         <Spacing />
         <ClassPropertyGet protected name="status" type="string">
-          {code`return this.isCompleted ? "" : \` \\n    \${
+          {code`return this.isSubmitted ? "" : \` \\n    \${
               colors.italic(
                 this.isError
                   ? colors.text.prompt.description.error(splitText(this.errorMessage, "3/4").join("\\n"))
-                  : this.description
-                    ? colors.text.prompt.description.active(splitText(this.description, "3/4").join("\\n"))
-                    : ""
+                  : this.isCancelled
+                    ? colors.text.prompt.description.cancelled(splitText("Input was cancelled by user", "3/4").join("\\n"))
+                    : this.description
+                      ? colors.text.prompt.description.active(splitText(this.description, "3/4").join("\\n"))
+                      : ""
               )
             }\`; `}
+        </ClassPropertyGet>
+        <Spacing />
+        <ClassPropertyGet
+          doc="A property to check if the cursor is at the start"
+          name="isCursorAtStart"
+          protected
+          type="boolean">
+          {code`return this.cursor === 0 || (this.isPlaceholder && this.cursor === 1); `}
+        </ClassPropertyGet>
+        <Spacing />
+        <ClassPropertyGet
+          doc="A property to check if the cursor is at the end"
+          name="isCursorAtEnd"
+          protected
+          type="boolean">
+          {code`return this.cursor === this.displayValue.length || (this.isPlaceholder && this.cursor === this.displayValue.length - 1); `}
         </ClassPropertyGet>
         <Spacing />
         <ClassMethod
@@ -462,7 +492,9 @@ export function BasePromptDeclarations() {
           name="changeValue"
           protected
           parameters={[{ name: "value", type: "TValue" }]}>
-          {code`let updatedValue = value;
+          {code`const previousValue = this.value;
+
+          let updatedValue = value;
           if (value === undefined || value === "") {
             updatedValue = this.initialValue;
           } else {
@@ -471,6 +503,12 @@ export function BasePromptDeclarations() {
 
           this.displayValue = this.mask(this.formatter(updatedValue));
           this.#value = updatedValue;
+
+          if (!this.#isDirty && this.#value !== this.initialValue) {
+            this.#isDirty = true;
+          }
+
+          this.onChange(previousValue);
           setTimeout(() => {
             Promise.resolve(this.validate(updatedValue)).then(() => this.sync());
           }, 0);
@@ -490,7 +528,7 @@ export function BasePromptDeclarations() {
             isCancelled: this.isCancelled,
             isCompleted: this.isCompleted
           });
-          this.invokeRender(); `}
+          this.render(); `}
         </ClassMethod>
         <Spacing />
         <ClassMethod doc="A method to ring the bell" name="bell" protected>
@@ -498,29 +536,37 @@ export function BasePromptDeclarations() {
         </ClassMethod>
         <Spacing />
         <ClassMethod
-          doc="A method to handle keypress events and determine the corresponding action"
-          name="onKeypress"
+          doc="A method to render the prompt"
+          name="onRender"
           protected
-          parameters={[
-            {
-              name: "char",
-              type: "string"
-            },
-            {
-              name: "key",
-              type: "readline.Key"
-            }
-          ]}>
-          {code`if (this.#isClosed) {
-            return;
-          }
-
-          return this.keypress(char, key); `}
+          returnType="string">
+          {code`return this.isPlaceholder
+            ? colors.text.prompt.input.disabled(this.displayValue)
+            : this.isError
+              ? colors.text.prompt.input.error(this.displayValue)
+              : this.isSubmitted
+                ? colors.text.prompt.input.submitted(this.maskCompleted(this.displayValue))
+                : this.isCancelled
+                  ? colors.text.prompt.input.cancelled(this.maskCompleted(this.displayValue))
+              : colors.bold(colors.text.prompt.input.active(this.displayValue)); `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
-          doc="A method to handle keypress events and determine the corresponding action"
-          name="keypress"
+          doc="A method to handle changes in the prompt value"
+          name="onChange"
+          protected
+          parameters={[
+            {
+              name: "previousValue",
+              type: "TValue"
+            }
+          ]}>
+          {code` // can be implemented by subclasses to handle value changes if needed, this method is called whenever the prompt value changes and receives the previous value as an argument for reference`}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to handle key press events and determine the corresponding action"
+          name="onKeyPress"
           protected
           parameters={[
             {
@@ -533,11 +579,11 @@ export function BasePromptDeclarations() {
             }
           ]}>
           {code`const action = this.getAction(key);
-            if (!action) {
-              this.bell();
-            } else if (typeof (this as any)[action] === "function") {
-              (this as any)[action](key);
-            } `}
+          if (!action) {
+            this.bell();
+          } else if (typeof (this as any)[action] === "function") {
+            (this as any)[action](key);
+          } `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
@@ -545,8 +591,12 @@ export function BasePromptDeclarations() {
           name="close"
           async
           protected>
-          {code`this.output.write(cursor.show);
-          this.input.removeListener("keypress", this.onKeypress);
+          {code`if (this.#isClosed) {
+            return;
+          }
+
+          this.output.write(cursor.show);
+          this.input.removeListener("keypress", this.keypress);
 
           if (this.input.isTTY) {
             this.input.setRawMode(false);
@@ -579,7 +629,7 @@ export function BasePromptDeclarations() {
         </ClassMethod>
         <Spacing />
         <ClassMethod
-          doc="A method to route keypress events to specific prompt actions based on the key pressed. This method maps various key combinations and keys to corresponding actions that can be handled by the prompt, such as submitting, cancelling, navigating, etc."
+          doc="A method to route key press events to specific prompt actions based on the key pressed. This method maps various key combinations and keys to corresponding actions that can be handled by the prompt, such as submitting, cancelling, navigating, etc."
           name="getAction"
           protected
           parameters={[{ name: "key", type: "readline.Key" }]}
@@ -615,6 +665,72 @@ export function BasePromptDeclarations() {
           if (key.name === "left") action = "left";
 
           return action || false; `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to move the cursor to the left or right by a \`count\` of positions"
+          name="moveCursor"
+          parameters={[
+            {
+              name: "count",
+              type: "number"
+            }
+          ]}
+          protected>
+          {code`
+          this.cursor += count;
+          this.cursorOffset += count; `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to delete the character backward of the cursor"
+          name="delete"
+          protected>
+          {code`if (this.isCursorAtStart) {
+            return this.bell();
+          }
+
+          if (this.displayValue === "") {
+            return this.bell();
+          }
+
+          this.changeValue(\`\${
+            this.displayValue.slice(0, this.cursor - 1)
+          }\${
+            this.displayValue.slice(this.cursor)
+          }\`);
+
+          if (this.isCursorAtStart) {
+            this.cursorOffset = 0;
+          } else {
+            this.cursorOffset++;
+            this.moveCursor(-1);
+          }
+
+          this.sync(); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to delete the character forward of the cursor"
+          name="deleteForward"
+          protected>
+          {code`if (this.cursor >= this.displayValue.length) {
+            return this.bell();
+          }
+
+          this.changeValue(\`\${
+            this.displayValue.slice(0, this.cursor)
+          }\${
+            this.displayValue.slice(this.cursor + 1)
+          }\`);
+
+          if (this.isCursorAtEnd) {
+            this.cursorOffset = 0;
+          } else {
+            this.cursorOffset++;
+          }
+
+          this.sync(); `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
@@ -666,10 +782,7 @@ export function BasePromptDeclarations() {
           } `}
         </ClassMethod>
         <Spacing />
-        <ClassMethod
-          doc="A method to render the prompt"
-          name="invokeRender"
-          protected>
+        <ClassMethod doc="A method to render the prompt" name="render" private>
           {code`if (this.#isClosed) {
             return;
           }
@@ -707,7 +820,7 @@ export function BasePromptDeclarations() {
                 : (process.platform === "win32" ? "»" : "›")
             )
           } \`;
-          this.consoleOutput += this.render();
+          this.consoleOutput += this.onRender();
 
           if (this.isInitial) {
             this.isInitial = false;
@@ -718,19 +831,28 @@ export function BasePromptDeclarations() {
         </ClassMethod>
         <Spacing />
         <ClassMethod
-          doc="A method to render the prompt"
-          name="render"
-          protected
-          returnType="string">
-          {code`return this.isPlaceholder
-            ? colors.text.prompt.input.disabled(this.displayValue)
-            : this.isError
-              ? colors.text.prompt.input.error(this.displayValue)
-              : this.isSubmitted
-                ? colors.text.prompt.input.submitted(this.maskSubmitted(this.displayValue))
-                : this.isCancelled
-                  ? colors.text.prompt.input.cancelled(this.displayValue)
-              : colors.bold(colors.text.prompt.input.active(this.displayValue)); `}
+          doc="A method to handle key press events and determine the corresponding action"
+          name="keypress"
+          private
+          parameters={[
+            {
+              name: "char",
+              type: "string"
+            },
+            {
+              name: "key",
+              type: "readline.Key"
+            }
+          ]}>
+          {code`if (this.#isClosed) {
+            return;
+          }
+
+          if (!this.#isKeyPressed) {
+            this.#isKeyPressed = true;
+          }
+
+          return this.onKeyPress(char, key); `}
         </ClassMethod>
       </ClassDeclaration>
       <Spacing />
@@ -838,8 +960,8 @@ export function TextPromptDeclarations() {
         } `}
         <Spacing />
         <ClassMethod
-          doc="A method to handle keypress events and determine the corresponding action"
-          name="keypress"
+          doc="A method to handle onKeyPress events and determine the corresponding action"
+          name="onKeyPress"
           override
           protected
           parameters={[
@@ -861,12 +983,31 @@ export function TextPromptDeclarations() {
             return this.bell();
           }
 
-          const value = \`\${this.value.slice(0, this.cursor)}\${char}\${this.value.slice(this.cursor)}\`;
-          this.#isInvalid = false;
-          this.cursor = this.isPlaceholder ? 0 : this.value.slice(0, this.cursor).length + 1;
+          const value = \`\${
+            this.value.slice(0, this.cursor)
+          }\${
+            char
+          }\${
+            this.value.slice(this.cursor)
+          }\`;
 
           this.changeValue(value);
           this.sync(); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to handle changes in the prompt value"
+          name="onChange"
+          override
+          protected
+          parameters={[
+            {
+              name: "previousValue",
+              type: "TValue"
+            }
+          ]}>
+          {code`this.#isInvalid = false;
+          this.cursor = this.displayValue.slice(0, this.cursor).length + 1; `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
@@ -874,18 +1015,8 @@ export function TextPromptDeclarations() {
           name="reset"
           override
           protected>
-          {code`this.#isInvalid = false;
-          this.cursor = Number(!!this.initialValue);
+          {code`this.cursor = Number(!!this.initialValue);
           super.reset(); `}
-        </ClassMethod>
-        <Spacing />
-        <ClassMethod
-          doc="A method to cancel the prompt input"
-          name="cancel"
-          override
-          protected>
-          {code`this.#isInvalid = false;
-          super.cancel(); `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
@@ -902,75 +1033,8 @@ export function TextPromptDeclarations() {
           doc="A method to move the cursor to the end of the input"
           name="next"
           protected>
-          {code`if (!this.isPlaceholder) {
-            return this.bell();
-          }
-
-          this.changeValue(this.initialValue);
+          {code`this.changeValue(this.initialValue);
           this.cursor = this.displayValue.length;
-          this.sync(); `}
-        </ClassMethod>
-        <Spacing />
-        <ClassMethod
-          doc="A method to move the cursor to the left or right by a \`count\` of positions"
-          name="moveCursor"
-          parameters={[
-            {
-              name: "count",
-              type: "number"
-            }
-          ]}
-          protected>
-          {code`if (this.isPlaceholder) {
-            return;
-          }
-
-          this.cursor = this.cursor + count;
-          this.cursorOffset += count; `}
-        </ClassMethod>
-        <Spacing />
-        <ClassMethod
-          doc="A method to delete the character backward of the cursor"
-          name="delete"
-          protected>
-          {code`if (this.isCursorAtStart()) {
-            return this.bell();
-          }
-
-          this.changeValue(\`\${this.value.slice(0, this.cursor - 1)}\${this.value.slice(this.cursor)}\`);
-          this.#isInvalid = false;
-
-          if (this.isCursorAtStart()) {
-            this.cursorOffset = 0
-          } else {
-            this.cursorOffset++;
-            this.moveCursor(-1);
-          }
-
-          this.sync(); `}
-        </ClassMethod>
-        <Spacing />
-        <ClassMethod
-          doc="A method to delete the character forward of the cursor"
-          name="deleteForward"
-          protected>
-          {code`if (this.cursor >= this.displayValue.length || this.isPlaceholder) {
-            return this.bell();
-          }
-
-          this.changeValue(\`\${
-            this.value.slice(0, this.cursor)
-          }\${
-            this.value.slice(this.cursor + 1)
-          }\`);
-          this.#isInvalid = false;
-
-          if (this.isCursorAtEnd()) {
-            this.cursorOffset = 0;
-          } else {
-            this.cursorOffset++;
-          }
-
           this.sync(); `}
         </ClassMethod>
         <Spacing />
@@ -994,7 +1058,7 @@ export function TextPromptDeclarations() {
           doc="A method to move the cursor to the left"
           name="left"
           protected>
-          {code`if (this.cursor <= 0 || this.isPlaceholder) {
+          {code`if (this.cursor <= 0) {
             return this.bell();
           }
 
@@ -1006,7 +1070,7 @@ export function TextPromptDeclarations() {
           doc="A method to move the cursor to the right"
           name="right"
           protected>
-          {code`if (this.cursor >= this.displayValue.length || this.isPlaceholder) {
+          {code`if (this.cursor >= this.displayValue.length) {
             return this.bell();
           }
 
@@ -1015,22 +1079,8 @@ export function TextPromptDeclarations() {
         </ClassMethod>
         <Spacing />
         <ClassMethod
-          doc="A method to check if the cursor is at the start"
-          name="isCursorAtStart"
-          protected>
-          {code`return this.cursor === 0 || (this.isPlaceholder && this.cursor === 1); `}
-        </ClassMethod>
-        <Spacing />
-        <ClassMethod
-          doc="A method to check if the cursor is at the end"
-          name="isCursorAtEnd"
-          protected>
-          {code`return this.cursor === this.displayValue.length || (this.isPlaceholder && this.cursor === this.displayValue.length + 1); `}
-        </ClassMethod>
-        <Spacing />
-        <ClassMethod
           doc="A method to render the prompt"
-          name="render"
+          name="onRender"
           override
           protected
           returnType="string">
@@ -1097,7 +1147,7 @@ run(); `}
 
             prompt.on("state", state => config.onState?.(state));
             prompt.on("submit", value => response(value));
-            prompt.on("cancel", event => reject(CANCEL_SYMBOL));
+            prompt.on("cancel", event => response(CANCEL_SYMBOL));
           });`}
       </FunctionDeclaration>
     </>
@@ -1302,7 +1352,7 @@ export function SelectPromptDeclarations() {
         </ClassPropertyGet>
         <Spacing />
         <ClassMethod
-          doc="A method to route keypress events to specific prompt actions based on the key pressed. This method maps various key combinations and keys to corresponding actions that can be handled by the prompt, such as submitting, cancelling, navigating, etc."
+          doc="A method to route key press events to specific prompt actions based on the key pressed. This method maps various key combinations and keys to corresponding actions that can be handled by the prompt, such as submitting, cancelling, navigating, etc."
           name="getAction"
           override
           protected
@@ -1356,6 +1406,7 @@ export function SelectPromptDeclarations() {
               type: "number"
             }
           ]}
+          override
           protected>
           {code`this.cursor = count;
 
@@ -1415,7 +1466,7 @@ export function SelectPromptDeclarations() {
         <Spacing />
         <ClassMethod
           doc="A method to render the prompt"
-          name="render"
+          name="onRender"
           override
           protected>
           {code`const spacing = Math.max(...this.options.map(option => option.label?.length || 0)) + 2;
@@ -1467,7 +1518,7 @@ export function SelectPromptDeclarations() {
             }
           } else {
             this.displayValue = this.selectedOption?.label || String(this.value);
-            output += super.render();
+            output += super.onRender();
           }
 
           return output; `}
@@ -1532,7 +1583,7 @@ run(); `}
 
             prompt.on("state", state => config.onState?.(state));
             prompt.on("submit", value => response(value));
-            prompt.on("cancel", event => reject(CANCEL_SYMBOL));
+            prompt.on("cancel", event => response(CANCEL_SYMBOL));
           });`}
       </FunctionDeclaration>
     </>
@@ -1620,14 +1671,6 @@ export function NumericPromptDeclarations() {
         <ClassField name="max" protected type="number">
           {code`Number.POSITIVE_INFINITY; `}
         </ClassField>
-        <hbr />
-        <ClassField name="currentInput" protected type="string">
-          {code`""; `}
-        </ClassField>
-        <hbr />
-        <ClassField name="inputTimestamp" protected type="number">
-          {code`0; `}
-        </ClassField>
         <Spacing />
         {code`constructor(config: NumberPromptConfig) {
           super(config);
@@ -1664,23 +1707,13 @@ export function NumericPromptDeclarations() {
             this.validator = validator.bind(this);
           }
 
+          this.changeValue(this.initialValue);
           this.sync();
-          this.last();
         } `}
         <Spacing />
         <ClassMethod
-          doc="A method to reset the prompt input"
-          name="reset"
-          override
-          protected>
-          {code`super.reset();
-          this.currentInput = "";
-          `}
-        </ClassMethod>
-        <Spacing />
-        <ClassMethod
-          doc="A method to handle keypress events and determine the corresponding action"
-          name="keypress"
+          doc="A method to handle key press events and determine the corresponding action"
+          name="onKeyPress"
           override
           protected
           parameters={[
@@ -1698,25 +1731,57 @@ export function NumericPromptDeclarations() {
             return (this as any)[action]();
           }
 
-          if (char !== "-" && !(char === "." && this.isFloat) && !/[0-9]/.test(char)) {
+          if ((char !== "-" || (char === "-" && this.cursor !== 0)) && !(char === "." && this.isFloat) && !/[0-9]/.test(char)) {
             return this.bell();
           }
 
-          this.displayValue += char;
-          if ((char === "-" || char === ".") && this.displayValue.length === 1) {
-            return this.sync();
-          }
+          const displayValue = \`\${
+            this.displayValue.slice(0, this.cursor)
+          }\${
+            char
+          }\${
+            this.displayValue.slice(this.cursor)
+          }\`;
 
-          let value = Math.min(this.parser(this.displayValue), this.max);
-          if (value > this.max) {
-            value = this.max;
-          }
-          if (value < this.min) {
-            value = this.min;
+          let value = this.parser(displayValue);
+          if (!Number.isNaN(value)) {
+
+            value = Math.min(value, this.max);
+            if (value > this.max) {
+              value = this.max;
+            }
+            if (value < this.min) {
+              value = this.min;
+            }
           }
 
           this.changeValue(value);
           this.sync(); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to handle changes in the prompt value"
+          name="onChange"
+          override
+          protected
+          parameters={[
+            {
+              name: "previousValue",
+              type: "TValue"
+            }
+          ]}>
+          {code`this.#isInvalid = false;
+          this.cursor = this.displayValue.slice(0, this.cursor).length + 1; `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          doc="A method to validate the prompt input"
+          name="validate"
+          override
+          async
+          protected>
+          {code`await super.validate(this.value);
+          this.#isInvalid = this.isError; `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
@@ -1761,7 +1826,7 @@ export function NumericPromptDeclarations() {
           doc="A method to move the cursor to the left"
           name="left"
           protected>
-          {code`if (this.cursor <= 0 || this.isPlaceholder) {
+          {code`if (this.cursor <= 0) {
             return this.bell();
           }
 
@@ -1773,78 +1838,11 @@ export function NumericPromptDeclarations() {
           doc="A method to move the cursor to the right"
           name="right"
           protected>
-          {code`if (this.cursor >= this.displayValue.length || this.isPlaceholder) {
+          {code`if (this.cursor >= this.displayValue.length) {
             return this.bell();
           }
 
           this.moveCursor(1);
-          this.sync(); `}
-        </ClassMethod>
-        <Spacing />
-        <ClassMethod
-          doc="A method to move the cursor to the left or right by a \`count\` of positions"
-          name="moveCursor"
-          parameters={[
-            {
-              name: "count",
-              type: "number"
-            }
-          ]}
-          protected>
-          {code`if (this.isPlaceholder) {
-            return;
-          }
-
-          this.cursor = this.cursor + count;
-          this.cursorOffset += count; `}
-        </ClassMethod>
-        <Spacing />
-        <ClassMethod
-          doc="A method to delete the character backward of the cursor"
-          name="delete"
-          protected>
-          {code`if (this.isCursorAtStart()) {
-            return this.bell();
-          }
-
-          if (this.displayValue === "") {
-            return this.bell();
-          }
-
-          this.changeValue(\`\${this.displayValue.slice(0, this.cursor - 1)}\${this.displayValue.slice(this.cursor)}\`);
-          this.#isInvalid = false;
-
-          if (this.isCursorAtStart()) {
-            this.cursorOffset = 0
-          } else {
-            this.cursorOffset++;
-            this.moveCursor(-1);
-          }
-
-          this.sync(); `}
-        </ClassMethod>
-        <Spacing />
-        <ClassMethod
-          doc="A method to delete the character forward of the cursor"
-          name="deleteForward"
-          protected>
-          {code`if (this.cursor >= this.displayValue.length || this.isPlaceholder) {
-            return this.bell();
-          }
-
-          this.changeValue(\`\${
-            this.displayValue.slice(0, this.cursor)
-          }\${
-            this.displayValue.slice(this.cursor + 1)
-          }\`);
-          this.#isInvalid = false;
-
-          if (this.isCursorAtEnd()) {
-            this.cursorOffset = 0;
-          } else {
-            this.cursorOffset++;
-          }
-
           this.sync(); `}
         </ClassMethod>
         <Spacing />
@@ -1865,17 +1863,20 @@ export function NumericPromptDeclarations() {
         </ClassMethod>
         <Spacing />
         <ClassMethod
-          doc="A method to check if the cursor is at the start"
-          name="isCursorAtStart"
-          protected>
-          {code`return this.cursor === 0 || (this.isPlaceholder && this.cursor === 1); `}
-        </ClassMethod>
-        <Spacing />
-        <ClassMethod
-          doc="A method to check if the cursor is at the end"
-          name="isCursorAtEnd"
-          protected>
-          {code`return this.cursor === this.displayValue.length || (this.isPlaceholder && this.cursor === this.displayValue.length + 1); `}
+          doc="A method to render the prompt"
+          name="onRender"
+          override
+          protected
+          returnType="string">
+          {code`return this.isPlaceholder
+            ? colors.text.prompt.input.disabled(this.displayValue)
+            : this.#isInvalid
+              ? colors.text.prompt.input.error(this.displayValue)
+              : this.isSubmitted
+                ? colors.text.prompt.input.submitted(this.displayValue)
+                : this.isCancelled
+                  ? colors.text.prompt.input.cancelled(this.displayValue)
+              : colors.bold(colors.text.prompt.input.active(this.displayValue)); `}
         </ClassMethod>
       </ClassDeclaration>
       <Spacing />
@@ -1927,7 +1928,7 @@ run(); `}
 
             prompt.on("state", state => config.onState?.(state));
             prompt.on("submit", value => response(value));
-            prompt.on("cancel", event => reject(CANCEL_SYMBOL));
+            prompt.on("cancel", event => response(CANCEL_SYMBOL));
           });`}
       </FunctionDeclaration>
     </>
@@ -2024,8 +2025,8 @@ export function TogglePromptDeclarations() {
         </ClassMethod>
         <Spacing />
         <ClassMethod
-          doc="A method to handle keypress events and determine the corresponding action"
-          name="keypress"
+          doc="A method to handle key press events and determine the corresponding action"
+          name="onKeyPress"
           override
           protected
           parameters={[
@@ -2101,7 +2102,7 @@ export function TogglePromptDeclarations() {
         <Spacing />
         <ClassMethod
           doc="A method to render the prompt"
-          name="render"
+          name="onRender"
           override
           protected
           returnType="string">
@@ -2163,7 +2164,7 @@ run(); `}
 
             prompt.on("state", state => config.onState?.(state));
             prompt.on("submit", value => response(value));
-            prompt.on("cancel", event => reject(CANCEL_SYMBOL));
+            prompt.on("cancel", event => response(CANCEL_SYMBOL));
           });`}
       </FunctionDeclaration>
     </>
@@ -2261,8 +2262,8 @@ export function ConfirmPromptDeclarations() {
         } `}
         <Spacing />
         <ClassMethod
-          doc="A method to handle keypress events and determine the corresponding action"
-          name="keypress"
+          doc="A method to handle key press events and determine the corresponding action"
+          name="onKeyPress"
           override
           protected
           parameters={[
@@ -2295,7 +2296,7 @@ export function ConfirmPromptDeclarations() {
         <Spacing />
         <ClassMethod
           doc="A method to render the prompt"
-          name="render"
+          name="onRender"
           override
           protected
           returnType="string">
@@ -2353,7 +2354,7 @@ run(); `}
 
             prompt.on("state", state => config.onState?.(state));
             prompt.on("submit", value => response(value));
-            prompt.on("cancel", event => reject(CANCEL_SYMBOL));
+            prompt.on("cancel", event => response(CANCEL_SYMBOL));
           }); `}
       </FunctionDeclaration>
     </>
@@ -2377,7 +2378,7 @@ export function PasswordPromptDeclaration() {
       <Spacing />
       <TSDoc heading="An object representing the configuration options for a password prompt, which extends the base PromptFactoryConfig with additional options specific to password prompts." />
       <TypeDeclaration name="PasswordConfig" export>
-        {code`Omit<TextConfig, "mask" | "maskSubmitted">; `}
+        {code`Omit<TextConfig, "mask" | "maskCompleted">; `}
       </TypeDeclaration>
       <Spacing />
       <TSDoc heading="A function to create and run a password prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.">
@@ -2423,7 +2424,7 @@ run(); `}
         {code`return text({
             ...config,
             mask: passwordMask,
-            maskSubmitted: () => "*******"
+            maskCompleted: () => "*******"
           });`}
       </FunctionDeclaration>
     </>

@@ -1742,6 +1742,12 @@ declare module "shell-shock:prompts" {
      */
     protected getAction(key: readline.Key): string | false;
     /**
+     * A method to move the cursor to the left or right by a \`count\` of positions
+     *
+     * @param count
+     */
+    protected moveCursor(count: number): void;
+    /**
      * A method to delete the character backward of the cursor
      */
     protected delete(): void;
