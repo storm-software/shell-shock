@@ -13,43 +13,43 @@ catalog:
   "@eslint/config-inspector": ^1.4.2
   "@ls-lint/ls-lint": ^2.3.1
   "@microsoft/api-extractor": ^7.49.2
-  "@nx/devkit": 22.5.1
-  "@nx/eslint-plugin": 22.5.1
-  "@nx/jest": 22.5.1
-  "@nx/js": 22.5.1
-  "@nx/plugin": 22.5.1
-  "@nx/workspace": 22.5.1
-  "@powerlines/deepkit": ^0.6.66
-  "@powerlines/nx": ^0.11.213
-  "@powerlines/plugin-alloy": 0.23.16
-  "@powerlines/plugin-automd": ^0.1.286
-  "@powerlines/plugin-deepkit": ^0.11.165
-  "@powerlines/plugin-env": ^0.15.205
-  "@powerlines/plugin-nodejs": ^0.1.200
-  "@powerlines/plugin-plugin": ^0.12.237
-  "@powerlines/plugin-style-dictionary": ^0.3.187
-  "@powerlines/plugin-tsdown": ^0.1.239
-  "@powerlines/plugin-tsup": ^0.12.296
-  "@powerlines/plugin-untyped": ^0.2.239
-  "@powerlines/plugin-vite": ^0.14.288
-  "@powerlines/tsconfig": ^0.2.208
-  "@storm-software/build-tools": ^0.158.87
-  "@storm-software/config": ^1.135.7
-  "@storm-software/config-tools": ^1.189.6
-  "@storm-software/cspell": ^0.45.82
-  "@storm-software/esbuild": ^0.53.87
-  "@storm-software/eslint": ^0.169.91
-  "@storm-software/git-tools": ^2.124.72
-  "@storm-software/linting-tools": ^1.132.88
-  "@storm-software/markdownlint": ^0.30.81
-  "@storm-software/pnpm-tools": ^0.6.89
-  "@storm-software/prettier": ^0.58.5
-  "@storm-software/testing-tools": ^1.119.81
-  "@storm-software/tsconfig": ^0.47.81
-  "@storm-software/tsdoc": ^0.13.81
-  "@storm-software/unbuild": ^0.57.87
-  "@storm-software/untyped": ^0.24.68
-  "@storm-software/workspace-tools": ^1.294.38
+  "@nx/devkit": 22.5.2
+  "@nx/eslint-plugin": 22.5.2
+  "@nx/jest": 22.5.2
+  "@nx/js": 22.5.2
+  "@nx/plugin": 22.5.2
+  "@nx/workspace": 22.5.2
+  "@powerlines/deepkit": ^0.6.67
+  "@powerlines/nx": ^0.11.214
+  "@powerlines/plugin-alloy": ^0.23.17
+  "@powerlines/plugin-automd": ^0.1.287
+  "@powerlines/plugin-deepkit": ^0.11.166
+  "@powerlines/plugin-env": ^0.16.4
+  "@powerlines/plugin-nodejs": ^0.1.205
+  "@powerlines/plugin-plugin": ^0.12.238
+  "@powerlines/plugin-style-dictionary": ^0.3.188
+  "@powerlines/plugin-tsdown": ^0.1.240
+  "@powerlines/plugin-tsup": ^0.12.297
+  "@powerlines/plugin-untyped": ^0.2.240
+  "@powerlines/plugin-vite": ^0.14.289
+  "@powerlines/tsconfig": ^0.2.209
+  "@storm-software/build-tools": ^0.158.88
+  "@storm-software/config": ^1.135.8
+  "@storm-software/config-tools": ^1.189.7
+  "@storm-software/cspell": ^0.45.83
+  "@storm-software/esbuild": ^0.53.89
+  "@storm-software/eslint": ^0.169.92
+  "@storm-software/git-tools": ^2.124.74
+  "@storm-software/linting-tools": ^1.132.90
+  "@storm-software/markdownlint": ^0.30.82
+  "@storm-software/pnpm-tools": ^0.6.91
+  "@storm-software/prettier": ^0.58.6
+  "@storm-software/testing-tools": ^1.119.82
+  "@storm-software/tsconfig": ^0.47.82
+  "@storm-software/tsdoc": ^0.13.82
+  "@storm-software/unbuild": ^0.57.89
+  "@storm-software/untyped": ^0.24.70
+  "@storm-software/workspace-tools": ^1.294.40
   "@stryke/capnp": ^0.12.68
   "@stryke/cli": ^0.13.15
   "@stryke/convert": ^0.6.40
@@ -68,7 +68,7 @@ catalog:
   "@types/eslint": ^9.6.1
   "@types/eslint__js": ^9.14.0
   "@types/jest": ^29.5.14
-  "@types/node": ^22.19.11
+  "@types/node": ^25.3.0
   "@types/react": ^19.2.14
   "@types/react-dom": ^19.2.3
   "@typescript-eslint/scope-manager": ^8.54.0
@@ -95,8 +95,8 @@ catalog:
   jsonc-eslint-parser: ^2.4.2
   lefthook: ^1.13.6
   log4brains: ^1.1.0
-  nx: 22.5.1
-  powerlines: ^0.38.53
+  nx: 22.5.2
+  powerlines: ^0.38.54
   prettier: ^3.8.1
   react: ^19.2.3
   react-dom: ^19.2.3
@@ -158,4 +158,4 @@ overrides:
   shell-quote: ">=1.8.2"
   simple-git: ">=3.27.0"
 shamefullyHoist: true
-useNodeVersion: 24.11.1
+useNodeVersion: 25.5.0
