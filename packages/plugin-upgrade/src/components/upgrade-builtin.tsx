@@ -70,7 +70,6 @@ export function LocatePackageJsonFunctionDeclaration() {
       </TSDoc>
       <FunctionDeclaration
         export
-        async
         name="locatePackageJson"
         parameters={[
           {
@@ -99,7 +98,7 @@ export function LocatePackageJsonFunctionDeclaration() {
           {code`return join(currentPath, "package.json"); `}
         </IfStatement>
         <ElseClause>
-          {code`currentPath = pathParent;
+          {code`currentPath = parentPath;
           parentPath = resolve(currentPath, ".."); `}
         </ElseClause>
         {code` }
@@ -142,7 +141,6 @@ export function LocateLockfileFunctionDeclaration() {
       </TSDoc>
       <FunctionDeclaration
         export
-        async
         name="locateLockfile"
         parameters={[
           {
@@ -187,7 +185,7 @@ export function LocateLockfileFunctionDeclaration() {
           {code`return lockfile; `}
         </IfStatement>
         <ElseClause>
-          {code`currentPath = pathParent;
+          {code`currentPath = parentPath;
           parentPath = resolve(currentPath, ".."); `}
         </ElseClause>
         {code` }
@@ -204,6 +202,15 @@ export function LocateLockfileFunctionDeclaration() {
 export function GetPackageManagerFunctionDeclaration() {
   return (
     <>
+      {code`declare global {
+        var Bun: any;
+        namespace NodeJS {
+          interface ProcessVersions {
+            bun?: string;
+          }
+        }
+      } `}
+      <Spacing />
       <TypeDeclaration
         export
         name="GetPackageManagerOptions"
@@ -538,11 +545,11 @@ export function GetLatestFunctionDeclaration() {
         ]}>
         <VarDeclaration
           const
-          name="package"
+          name="result"
           initializer={code`await fetchNpmPackage(packageName); `}
         />
         <Spacing />
-        {code`return package?.version; `}
+        {code`return result?.version; `}
       </FunctionDeclaration>
     </>
   );
@@ -560,14 +567,14 @@ export function InstallFunctionDeclaration() {
         <InterfaceMember
           name="stdout"
           optional
-          type="(string) => void"
+          type="(data: string) => void"
           doc="A callback function that is called with the stdout output of the command."
         />
         <hbr />
         <InterfaceMember
           name="stderr"
           optional
-          type="(string) => void"
+          type="(err: string) => void"
           doc="A callback function that is called with the stderr output of the command."
         />
       </InterfaceDeclaration>
@@ -603,7 +610,7 @@ export function InstallFunctionDeclaration() {
         <VarDeclaration
           const
           name="packageManager"
-          initializer={code`getPackageManager(); `}
+          initializer={code`await getPackageManager(); `}
         />
         <Spacing />
         <VarDeclaration let name="output" initializer={code`""; `} />
@@ -612,7 +619,7 @@ export function InstallFunctionDeclaration() {
           \`\${packageManager}\${isWindows && packageManager !== "bun" ? ".cmd" : ""}\`,
           ["install"],
           {
-            ...options
+            ...options,
             env: {
               ...options.env,
               ...(packageManager === "pnpm" ? { npm_config_strict_peer_dependencies: false } : null),
@@ -672,6 +679,8 @@ export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
         type="string"
         initializer={code`os.tmpdir(); `}
       />
+      <Spacing />
+      <LocatePackageJsonFunctionDeclaration />
       <Spacing />
       <LocateLockfileFunctionDeclaration />
       <Spacing />

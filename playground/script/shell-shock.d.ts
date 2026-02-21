@@ -876,6 +876,7 @@ declare module "shell-shock:env" {
  */
 declare module "shell-shock:utils" {
   import { AsyncLocalStorage } from "node:async_hooks";
+  import { spawn as _spawn } from "node:child_process";
   /**
    * The global Shell Shock - Application context instance.
    *
@@ -1047,7 +1048,36 @@ declare module "shell-shock:utils" {
    * Detect if Unicode characters are supported in the current environment
    */
   export const isUnicodeSupported: boolean;
-  export type SpawnOptions = "SpawnBaseOptions & Parameters<typeof _spawn>[1]";
+  /**
+   * Options for the `spawn` handler function.
+   */
+  interface SpawnBaseOptions {
+    /**
+     * The writable stream to use for prompt output, defaults to process.stdout
+     */
+    stdout?: (data: string) => void;
+    /**
+     * The writable stream to use for prompt error output, defaults to process.stderr
+     */
+    stderr?: (data: string) => void;
+    /**
+     * Whether to reject the promise on error. Defaults to false.
+     */
+    rejectOnError?: boolean;
+    /**
+     * The file to execute.
+     */
+    file?: string;
+    /**
+     * If true, runs command inside of a shell. Uses '/bin/sh' on UNIX, and process.env.ComSpec on Windows. If a string is provided, it specifies the shell to use.
+     */
+    shell?: boolean | string;
+    /**
+     * If true, forces the command to run inside of a shell, even if the command is a file.
+     */
+    forceShell?: boolean;
+  }
+  export type SpawnOptions = SpawnBaseOptions & Parameters<typeof _spawn>[1];
   /**
    * A function to spawn child processes with proper color support and environment variable handling.
    *
@@ -1064,6 +1094,7 @@ declare module "shell-shock:utils" {
     args?: string[] | SpawnOptions,
     options?: SpawnOptions
   ): Promise<unknown>;
+  export {};
 }
 
 /**
