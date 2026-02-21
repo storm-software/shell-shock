@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/plugin-completions",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "type": "module",
   "description": "A package containing a Shell Shock plugin to generate source code given a list design tokens.",
   "repository": {

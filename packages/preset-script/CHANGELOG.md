@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.13](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.13) (02/21/2026)
+
+### Features
+
+- **core:** Added the `spawn` method to `utils` built-in module ([b87aa6a](https://github.com/storm-software/shell-shock/commit/b87aa6a))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.0.4**
+- Updated **plugin-theme** to **v0.3.2**
+- Updated **core** to **v0.9.0**
+
 ## [0.6.12](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.12) (02/20/2026)
 
 ### Bug Fixes

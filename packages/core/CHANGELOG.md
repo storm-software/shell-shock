@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.9.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.9.0) (02/21/2026)
+
+### Features
+
+- **core:** Added the `spawn` method to `utils` built-in module ([b87aa6a](https://github.com/storm-software/shell-shock/commit/b87aa6a))
+
 ## [0.8.12](https://github.com/storm-software/shell-shock/releases/tag/core%400.8.12) (02/20/2026)
 
 ### Source Code Improvements

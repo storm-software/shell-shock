@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.4) (02/21/2026)
+
+### Features
+
+- **core:** Added the `spawn` method to `utils` built-in module ([b87aa6a](https://github.com/storm-software/shell-shock/commit/b87aa6a))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.9.0**
+
 ## [0.1.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.3) (02/20/2026)
 
 ### Updated Dependencies
