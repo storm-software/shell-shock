@@ -148,6 +148,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             }, {} as TypescriptFileImports)
         )}
         builtinImports={defu(builtinImports ?? {}, {
+          env: ["isDevelopment", "isDebug"],
           console: [
             "help",
             "warn",

@@ -1632,7 +1632,7 @@ declare module "shell-shock:prompts" {
     /**
      * A function that masks the value submitted by the user so that it can then be used in the console output or elsewhere without exposing sensitive information. If not provided, the prompt will use the same mask function for both input and submitted value masking.
      */
-    maskSubmitted?: (input: string) => string;
+    maskCompleted?: (input: string) => string;
     /**
      * The default error message to display when validation fails
      */
@@ -1671,11 +1671,12 @@ declare module "shell-shock:prompts" {
     protected parser: PromptParser<TValue>;
     protected formatter: PromptFormatter<TValue>;
     protected mask: (input: string) => string;
-    protected maskSubmitted: (input: string) => string;
+    protected maskCompleted: (input: string) => string;
     protected cursor: number;
     protected cursorOffset: number;
     protected cursorHidden: boolean;
     constructor(config: PromptConfig<TValue>);
+    [Symbol.dispose](): void;
     /**
      * A getter for the prompt value that returns the current value or the initial value if the current value is not set
      */
@@ -1685,6 +1686,14 @@ declare module "shell-shock:prompts" {
     protected get isCompleted(): boolean;
     protected get isPlaceholder(): boolean;
     protected get status(): string;
+    /**
+     * A property to check if the cursor is at the start
+     */
+    protected get isCursorAtStart(): boolean;
+    /**
+     * A property to check if the cursor is at the end
+     */
+    protected get isCursorAtEnd(): boolean;
     /**
      * A method to change the prompt value, which also updates the display value and fires a state update event. This method can be called by subclasses whenever the prompt value needs to be updated based on user input or other interactions.
      *
@@ -1700,19 +1709,22 @@ declare module "shell-shock:prompts" {
      */
     protected bell(): void;
     /**
-     * A method to handle keypress events and determine the corresponding action
-     *
-     * @param char
-     * @param key
+     * A method to render the prompt
      */
-    protected onKeypress(char: string, key: readline.Key): void;
+    protected onRender(): string;
     /**
-     * A method to handle keypress events and determine the corresponding action
+     * A method to handle changes in the prompt value
+     *
+     * @param previousValue
+     */
+    protected onChange(previousValue: TValue): void;
+    /**
+     * A method to handle key press events and determine the corresponding action
      *
      * @param char
      * @param key
      */
-    protected keypress(char: string, key: readline.Key): void;
+    protected onKeyPress(char: string, key: readline.Key): void;
     /**
      * A method to close the prompt and clean up resources, which also emits a submit or cancel event based on the prompt state. This method should be called when the prompt interaction is finished and the prompt needs to be closed.
      */
@@ -1724,11 +1736,19 @@ declare module "shell-shock:prompts" {
      */
     protected validate(value: TValue): Promise<void>;
     /**
-     * A method to route keypress events to specific prompt actions based on the key pressed. This method maps various key combinations and keys to corresponding actions that can be handled by the prompt, such as submitting, cancelling, navigating, etc.
+     * A method to route key press events to specific prompt actions based on the key pressed. This method maps various key combinations and keys to corresponding actions that can be handled by the prompt, such as submitting, cancelling, navigating, etc.
      *
      * @param key
      */
     protected getAction(key: readline.Key): string | false;
+    /**
+     * A method to delete the character backward of the cursor
+     */
+    protected delete(): void;
+    /**
+     * A method to delete the character forward of the cursor
+     */
+    protected deleteForward(): void;
     /**
      * A method to reset the prompt input
      */
@@ -1744,11 +1764,14 @@ declare module "shell-shock:prompts" {
     /**
      * A method to render the prompt
      */
-    protected invokeRender(): void;
+    private render;
     /**
-     * A method to render the prompt
+     * A method to handle key press events and determine the corresponding action
+     *
+     * @param char
+     * @param key
      */
-    protected render(): string;
+    private keypress;
   }
   /**
    * Configuration options for creating a prompt with a prompt factory function
@@ -2040,12 +2063,12 @@ declare module "shell-shock:prompts" {
      */
     protected uncheck(): void;
     /**
-     * A method to handle keypress events and determine the corresponding action
+     * A method to handle key press events and determine the corresponding action
      *
      * @param char
      * @param key
      */
-    protected keypress(char: string, key: readline.Key): any;
+    protected onKeyPress(char: string, key: readline.Key): any;
     /**
      * A method to delete the character backward of the cursor
      */
@@ -2073,7 +2096,7 @@ declare module "shell-shock:prompts" {
     /**
      * A method to render the prompt
      */
-    protected render(): string;
+    protected onRender(): string;
   }
   /**
    * An object representing the configuration options for a toggle prompt, which extends the base PromptFactoryConfig with additional options specific to the toggle prompt.
@@ -2119,7 +2142,7 @@ declare module "shell-shock:prompts" {
   /**
    * An object representing the configuration options for a password prompt, which extends the base PromptFactoryConfig with additional options specific to password prompts.
    */
-  export type PasswordConfig = Omit<TextConfig, "mask" | "maskSubmitted">;
+  export type PasswordConfig = Omit<TextConfig, "mask" | "maskCompleted">;
   /**
    * A function to create and run a password prompt, which returns a promise that resolves with the submitted value or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
    *
@@ -2196,16 +2219,16 @@ declare module "shell-shock:prompts" {
     protected cursorHidden: boolean;
     constructor(config: ConfirmPromptConfig);
     /**
-     * A method to handle keypress events and determine the corresponding action
+     * A method to handle key press events and determine the corresponding action
      *
      * @param char
      * @param key
      */
-    protected keypress(char: string, key: readline.Key): any;
+    protected onKeyPress(char: string, key: readline.Key): any;
     /**
      * A method to render the prompt
      */
-    protected render(): string;
+    protected onRender(): string;
   }
   /**
    * An object representing the configuration options for a confirm prompt, which extends the base PromptFactoryConfig with additional options specific to the confirm prompt.

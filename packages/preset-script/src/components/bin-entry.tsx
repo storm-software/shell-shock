@@ -161,6 +161,7 @@ export function BinEntry(props: BinEntryProps) {
               }, {} as TypescriptFileImports)
           )}
           builtinImports={defu(builtinImports ?? {}, {
+            env: ["env", "isDevelopment", "isDebug"],
             console: ["error", "verbose", "table", "writeLine"],
             utils: [
               "hasFlag",

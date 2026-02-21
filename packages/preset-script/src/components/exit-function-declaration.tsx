@@ -163,7 +163,7 @@ export function ExitFunctionDeclaration() {
 
             terminate();
           } catch (err) {
-            error(\`The exit process failed to complete\${(err as Error).message ? \` - (err as Error).message\` : ""}. Please contact the ${getAppTitle(
+            error(\`The exit process failed to complete\${(err as Error)?.message ? \` - \${(err as Error).message}\` : ""}. Please contact the ${getAppTitle(
               context
             )} support team.\`);
 
