@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/plugin-prompts",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "type": "module",
   "description": "A package containing a Shell Shock plugin to generate the `prompts` built-in module.",
   "repository": {

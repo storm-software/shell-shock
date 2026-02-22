@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.0) (02/21/2026)
+
+### Features
+
+- **plugin-prompts:** Added the `checkForUpdates` utility function ([f60762a](https://github.com/storm-software/shell-shock/commit/f60762a))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.3**
+- Updated **core** to **v0.9.1**
+
 ## [0.2.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.2.3) (02/21/2026)
 
 ### Updated Dependencies

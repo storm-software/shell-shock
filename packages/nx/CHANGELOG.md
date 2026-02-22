@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.32](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.32) (02/21/2026)
+
+### Features
+
+- **plugin-prompts:** Added the `checkForUpdates` utility function ([f60762a](https://github.com/storm-software/shell-shock/commit/f60762a))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.9.1**
+
 ## [0.0.31](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.31) (02/21/2026)
 
 ### Updated Dependencies

@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/tsconfig",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "type": "module",
   "description": "A package containing shared TypeScript configuration files (tsconfig.json) used in Shell Shock projects.",
   "repository": {

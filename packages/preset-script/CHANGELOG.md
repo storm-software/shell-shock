@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.14](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.14) (02/21/2026)
+
+### Features
+
+- **plugin-prompts:** Added the `checkForUpdates` utility function ([f60762a](https://github.com/storm-software/shell-shock/commit/f60762a))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.0.5**
+- Updated **plugin-theme** to **v0.3.3**
+- Updated **core** to **v0.9.1**
+
 ## [0.6.13](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.13) (02/21/2026)
 
 ### Features

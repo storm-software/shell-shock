@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.5) (02/21/2026)
+
+### Bug Fixes
+
+- **plugin-upgrade:** Resolve issues with generated `upgrade` built-in module ([7920ca7](https://github.com/storm-software/shell-shock/commit/7920ca7))
+
+### Features
+
+- **plugin-prompts:** Added the `checkForUpdates` utility function ([f60762a](https://github.com/storm-software/shell-shock/commit/f60762a))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.9.1**
+
 ## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.4) (02/21/2026)
 
 ### Features
