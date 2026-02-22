@@ -85,6 +85,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
           console: [
             "warn",
             "error",
+            "info",
             "help",
             "table",
             "colors",

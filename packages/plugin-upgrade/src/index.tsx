@@ -19,6 +19,7 @@
 import { render } from "@powerlines/plugin-alloy/render";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path/join";
+import defu from "defu";
 import type { Plugin } from "powerlines";
 import { UpgradeBuiltin, UpgradeCommand } from "./components";
 import type {
@@ -42,7 +43,10 @@ export const plugin = <
       );
 
       return {
-        upgrade: options
+        upgrade: defu(options, {
+          type: "confirm",
+          staleTime: 36 * 60 * 60 * 1000 // 36 hours
+        })
       };
     },
     configResolved() {

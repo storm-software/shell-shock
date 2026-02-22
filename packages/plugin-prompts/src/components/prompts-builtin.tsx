@@ -210,7 +210,7 @@ export function BasePromptDeclarations() {
         <InterfaceMember
           name="validate"
           optional
-          type="(value: TValue) => boolean | string | { type: 'error' | 'warning'; message: string } | null | undefined | Promise<boolean | string | { type: 'error' | 'warning'; message: string } | null | undefined>"
+          type="(value: TValue) => boolean | string | null | undefined | Promise<boolean | string | null | undefined>"
           doc="A validation function that returns true if the input is valid, false or a string error message if the input is invalid"
         />
         <Spacing />
@@ -356,8 +356,9 @@ export function BasePromptDeclarations() {
         <ClassField
           name="maskCompleted"
           protected
-          type="(input: string) => string"
-        />
+          type="(input: string) => string">
+          {code`this.mask; `}
+        </ClassField>
         <hbr />
         <ClassField name="cursor" protected type="number">
           {code`0; `}
@@ -401,9 +402,6 @@ export function BasePromptDeclarations() {
           }
           if (config.mask) {
             this.mask = config.mask;
-          }
-          if (!this.maskCompleted) {
-            this.maskCompleted = this.mask;
           }
 
           if (config.timeout !== undefined && !Number.isNaN(config.timeout)) {

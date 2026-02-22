@@ -21,7 +21,10 @@ import type {
   CommandOption
 } from "@shell-shock/core/types/command";
 import type { Context } from "@shell-shock/core/types/context";
-import type { ThemePluginResolvedConfig } from "@shell-shock/plugin-theme/types/plugin";
+import type {
+  ThemePluginResolvedConfig,
+  ThemePluginUserConfig
+} from "@shell-shock/plugin-theme/types/plugin";
 import type {
   UpgradePluginContext,
   UpgradePluginOptions,
@@ -35,49 +38,57 @@ import type {
   ScriptPresetUserConfig
 } from "@shell-shock/preset-script/types/plugin";
 
-export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> &
-  UpgradePluginOptions & {
-    /**
-     * The default interactive mode to apply to commands.
-     *
-     * @remarks
-     * The following modes are available:
-     * - `true`: Enable interactivity when a TTY is detected and no explicit interactive flag is set (default).
-     * - `false`: Disable interactivity unless an explicit interactive flag is set.
-     * - `"never"`: Always disable interactivity, regardless of TTY presence or flags.
-     *
-     * @defaultValue `true`
-     */
-    interactive?: boolean | "never";
+export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> & {
+  /**
+   * The default interactive mode to apply to commands.
+   *
+   * @remarks
+   * The following modes are available:
+   * - `true`: Enable interactivity when a TTY is detected and no explicit interactive flag is set (default).
+   * - `false`: Disable interactivity unless an explicit interactive flag is set.
+   * - `"never"`: Always disable interactivity, regardless of TTY presence or flags.
+   *
+   * @defaultValue `true`
+   */
+  interactive?: boolean | "never";
 
-    /**
-     * A set of default command options to apply to each command.
-     *
-     * @remarks
-     * By default, Shell Shock adds the following set of default arguments to each command:
-     * - `--help` (`-h`, `-?`): Show help information.
-     * - `--version` (`-v`): Show the version of the application.
-     * - `--interactive` (`-i`, `--interact`): Enable interactive mode.
-     * - `--no-interactive`: Disable interactive mode.
-     * - `--no-banner`: Hide the banner displayed while running the CLI application.
-     * - `--verbose`: Enable verbose output.
-     *
-     * To disable the addition of these default options, set this property to `false`, or provide a custom set of options/a function that returns them.
-     */
-    defaultOptions?:
-      | CommandOption[]
-      | ((context: Context, input: CommandBase) => CommandOption[])
-      | false;
-  };
+  /**
+   * A set of default command options to apply to each command.
+   *
+   * @remarks
+   * By default, Shell Shock adds the following set of default arguments to each command:
+   * - `--help` (`-h`, `-?`): Show help information.
+   * - `--version` (`-v`): Show the version of the application.
+   * - `--interactive` (`-i`, `--interact`): Enable interactive mode.
+   * - `--no-interactive`: Disable interactive mode.
+   * - `--no-banner`: Hide the banner displayed while running the CLI application.
+   * - `--verbose`: Enable verbose output.
+   *
+   * To disable the addition of these default options, set this property to `false`, or provide a custom set of options/a function that returns them.
+   */
+  defaultOptions?:
+    | CommandOption[]
+    | ((context: Context, input: CommandBase) => CommandOption[])
+    | false;
+
+  /**
+   * Whether to include the upgrade process provided by the `@shell-shock/plugin-upgrade` package. If set to `true`, the upgrade command will be included with default options. If set to an object, the provided options will be used to configure the upgrade command. If set to `false`, the upgrade command will not be included.
+   *
+   * @remarks
+   * The upgrade command allows users to check for and perform upgrades to the latest version of the application. If you would like to include the upgrade command in your CLI application, but manage its configuration separately, you can set this field to `true` and configure the upgrade plugin directly in your application's configuration.
+   */
+  upgrade?: UpgradePluginOptions | false;
+};
 
 export type CLIPresetUserConfig = ScriptPresetUserConfig &
+  ThemePluginUserConfig &
   UpgradePluginUserConfig &
-  CLIPresetOptions;
+  Omit<CLIPresetOptions, "upgrade">;
 
 export type CLIPresetResolvedConfig = ScriptPresetResolvedConfig &
   UpgradePluginResolvedConfig &
-  Required<Omit<CLIPresetOptions, "theme">> &
-  Pick<ThemePluginResolvedConfig, "theme">;
+  ThemePluginResolvedConfig &
+  Required<Pick<CLIPresetOptions, "interactive" | "defaultOptions">>;
 
 export type CLIPresetContext<
   TResolvedConfig extends CLIPresetResolvedConfig = CLIPresetResolvedConfig

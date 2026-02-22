@@ -88,6 +88,7 @@ export function CommandEntry(props: CommandEntryProps) {
           env: ["env", "isDevelopment", "isDebug"],
           console: [
             "debug",
+            "info",
             "warn",
             "error",
             "table",
@@ -106,7 +107,8 @@ export function CommandEntry(props: CommandEntryProps) {
             "isUnicodeSupported",
             "internal_commandContext"
           ],
-          prompts: ["text", "numeric", "toggle", "select", "isCancel", "sleep"]
+          prompts: ["text", "numeric", "toggle", "select", "isCancel", "sleep"],
+          upgrade: ["checkForUpdates"]
         })}>
         <BannerFunctionDeclaration command={command} />
         <hbr />

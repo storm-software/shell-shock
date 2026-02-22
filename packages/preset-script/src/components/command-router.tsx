@@ -190,7 +190,7 @@ export function CommandRouterBody(props: CommandRouterProps) {
       )
         .map(
           cmd =>
-            `"${cmd.name}"${(cmd.alias ?? []).map((alias, i) => (i === 0 ? `, "${alias}"` : ` "${alias}"`)).join("")}`
+            `"${cmd.name}"${(cmd.alias ?? []).map(alias => `, "${alias}"`).join("")}`
         )
         .join(", ")}], {
           caseSensitive: ${JSON.stringify(context.config.isCaseSensitive)},

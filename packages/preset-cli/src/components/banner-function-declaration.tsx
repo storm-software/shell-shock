@@ -94,7 +94,17 @@ export function BannerFunctionDeclaration(
         doc={`Write the ${getAppTitle(context, true)} application banner ${
           command ? `for the ${command.title} command ` : ""
         }to the console.`}
-        parameters={[{ name: "pause", type: "number", default: 500 }]}>
+        parameters={[
+          { name: "pause", type: "number", default: 500 },
+          {
+            name: "upgradeCheck",
+            default:
+              context.config.upgrade?.type === "auto" ||
+              context.config.upgrade?.type === "confirm"
+                ? "true"
+                : "false"
+          }
+        ]}>
         <BannerFunctionBodyDeclaration
           header={header.value}
           description={description.value}
@@ -111,6 +121,17 @@ export function BannerFunctionDeclaration(
         </BannerFunctionBodyDeclaration>
         <IfStatement condition={code`isInteractive && !isHelp`}>
           {code`await sleep(pause);`}
+        </IfStatement>
+        <IfStatement condition={code`upgradeCheck`}>
+          {code`const result = await checkForUpdates();`}
+          <IfStatement condition={code`result?.updateAvailable`}>
+            {code`
+            info(\`A new version of ${getAppTitle(
+              context,
+              true
+            )} is available: \${colors.red(\`v\${result.currentVersion}\`)} \${colors.text.body.tertiary("➜")} \${colors.green(\`v\${result.latestVersion}\`)}\${result.package.date ? colors.text.body.tertiary(\` (updated on \${result.package.date})\`) : ""}\`);
+            `}
+          </IfStatement>
         </IfStatement>
       </FunctionDeclaration>
     </>

@@ -22,14 +22,32 @@ import type {
 } from "@shell-shock/core/types/config";
 import type { Context } from "@shell-shock/core/types/context";
 
+export type UpgradeType = "confirm" | "auto" | "display" | "command";
+
 export interface UpgradePluginOptions {
   /**
-   * Optionally specify the name of the package in npm to check for upgrades.
+   * The type of upgrade to perform. This option determines how the upgrade process will be handled.
    *
    * @remarks
-   * This option is used to determine which package's version to check for upgrades. If not specified, it will default to the value detected in the `package.json` file of the project, or the name of the package that the plugin is a part of if it is being used within a package context. This option is primarily intended for use when the plugin is being used in a non-package context, such as a global installation, where there may not be a `package.json` file to reference.
+   * The upgrade logic will behave differently based on the value of this field:
+   * - `"confirm"` - the user will be prompted to confirm the upgrade before it is performed. This is the default behavior and is recommended for most users, as it provides an extra layer of safety against unintended upgrades.
+   * - `"auto"` - the upgrade will be performed automatically without any user confirmation. This option is suitable for advanced users who want a seamless upgrade experience and are confident in the stability of new versions.
+   * - `"display"` - the command will only display the latest available version without performing any upgrade. This option is useful for users who want to check for updates without making any changes to their system.
+   * - `"command"` - the upgrade will be triggered by a specific command. This option allows users to manually initiate the upgrade process through a dedicated command.
+   *
+   * @defaultValue "confirm"
    */
-  packageName?: string;
+  type?: UpgradeType;
+
+  /**
+   * The time in milliseconds after which previously retrieved version data is considered stale.
+   *
+   * @remarks
+   * This field will control how often the application will check for new versions. If set, the application will check for new versions at the specified interval and notify the user if an update is available. If set to `-1`, the application will only check for updates when the command is executed.
+   *
+   * @defaultValue 2 * 60 * 60 * 1000 (2 hours)
+   */
+  staleTime?: number;
 }
 
 export type UpgradePluginUserConfig = UserConfig & {
@@ -43,7 +61,7 @@ export type UpgradePluginResolvedConfig = ResolvedConfig & {
   /**
    * Resolved upgrade configuration for the plugin.
    */
-  upgrade: UpgradePluginOptions;
+  upgrade: Required<UpgradePluginOptions>;
 };
 
 export type UpgradePluginContext<

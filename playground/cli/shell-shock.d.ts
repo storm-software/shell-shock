@@ -1658,25 +1658,14 @@ declare module "shell-shock:prompts" {
     /**
      * A validation function that returns true if the input is valid, false or a string error message if the input is invalid
      */
-    validate?: (value: TValue) =>
+    validate?: (
+      value: TValue
+    ) =>
       | boolean
       | string
-      | {
-          type: "error" | "warning";
-          message: string;
-        }
       | null
       | undefined
-      | Promise<
-          | boolean
-          | string
-          | {
-              type: "error" | "warning";
-              message: string;
-            }
-          | null
-          | undefined
-        >;
+      | Promise<boolean | string | null | undefined>;
     /**
      * A function that parses the input value and returns the parsed result or throws an error if the input is invalid
      */
@@ -2350,6 +2339,10 @@ declare module "shell-shock:upgrade" {
      * The current working directory to use. If not provided, the process's current working directory will be used.
      */
     cwd?: string;
+    /**
+     * Whether to only locate a package.json file if it contains the application as a dependency. If set to `true`, the function will check if the located package.json file has the application listed as a dependency in its dependencies, devDependencies, peerDependencies, or optionalDependencies before returning its path. This can be useful in monorepo setups where multiple package.json files may exist, but only the one that includes the application as a dependency is relevant for upgrade purposes.
+     */
+    isDependencyRequired?: boolean;
   }
   /**
    * Locate the package.json file currently being used by the command-line/workspace.
@@ -2367,7 +2360,7 @@ declare module "shell-shock:upgrade" {
    */
   export function locatePackageJson(
     options?: LocatePackageJsonOptions
-  ): string | undefined;
+  ): Promise<string | undefined>;
   /**
    * Options for the `locateLockfile` handler function.
    */
@@ -2539,11 +2532,35 @@ declare module "shell-shock:upgrade" {
    *   package as a string.
    *
    */
-  export function getLatest(packageName: string): Promise<string | undefined>;
+  export function getLatestVersion(
+    packageName?: string
+  ): Promise<Promise<string | undefined>>;
   /**
-   * Options for the `install` handler function.
+   * A function to get the upgrade command for a specific package manager.
+   *
+   * @remarks
+   * This function is used to get the appropriate upgrade command for a specific package manager. It can be used in the CLI upgrade command to determine which command to run based on the package manager being used by the application.
+   *
+   *
+   * @param packageManager - The name of the package manager to get the upgrade
+   *   command for. This should be one of "npm", "yarn", "pnpm", "deno", or "bun".
+   * @param cwd - The current working directory to use when determining the
+   *   upgrade command. This can be used to locate the appropriate package.json
+   *   and lockfile to determine how to run the upgrade command. If not provided,
+   *   the process's current working directory will be used.
+   * @returns An array of strings representing the command and its arguments to
+   *   run in order to upgrade the application dependencies using the specified
+   *   package manager.
+   *
    */
-  interface InstallBaseOptions {
+  export function getUpgradeCommand(
+    packageManager: string,
+    cwd?: string
+  ): Promise<Promise<string[]>>;
+  /**
+   * Options for the `upgrade` handler function.
+   */
+  interface UpgradeBaseOptions {
     /**
      * A callback function that is called with the stdout output of the command.
      */
@@ -2554,23 +2571,71 @@ declare module "shell-shock:upgrade" {
     stderr?: (err: string) => void;
   }
   /**
-   * Options for the `install` handler function.
+   * Options for the `upgrade` handler function.
    */
-  export type InstallOptions = InstallBaseOptions & Parameters<typeof spawn>[2];
+  export type UpgradeOptions = UpgradeBaseOptions &
+    GetPackageManagerOptions &
+    Parameters<typeof spawn>[2];
   /**
-   * Install the application dependencies.
+   * Upgrade the application dependencies.
    *
    * @remarks
-   * This function is used to install the application dependencies. It can be used in the CLI upgrade command to ensure that all necessary dependencies are installed.
+   * This function is used to upgrade the application dependencies. It can be used in the CLI upgrade command to ensure that all necessary dependencies are up-to-date.
    *
    *
-   * @param options - The options for the `install` function. Currently, there are
+   * @param options - The options for the `upgrade` function. Currently, there are
    *   no options available, but this parameter is included for future
    *   extensibility.
-   * @returns A promise that resolves when the installation of dependencies is
+   * @returns A promise that resolves when the upgrade of dependencies is
    *   complete.
    *
    */
-  export function install(options?: InstallOptions): Promise<void>;
+  export function upgrade(options?: UpgradeOptions): Promise<void>;
+  /**
+   * Options for the `checkForUpdates` handler function.
+   */
+  export interface CheckForUpdatesOptions extends GetPackageManagerOptions {}
+  /**
+   * The result for the `checkForUpdates` handler function.
+   */
+  export interface CheckForUpdatesResult {
+    /**
+     * The latest version of the application dependencies.
+     */
+    latestVersion: string;
+    /**
+     * The current version of the application dependencies.
+     */
+    currentVersion: string;
+    /**
+     * Indicates whether the application dependencies are up-to-date.
+     */
+    isUpToDate: boolean;
+    /**
+     * The npm package that was checked for updates.
+     */
+    package: NpmPackage;
+    /**
+     * The package manager used to check for updates.
+     */
+    packageManager: "npm" | "yarn" | "pnpm" | "deno" | "bun";
+  }
+  /**
+   * Check for updates to the application dependencies.
+   *
+   * @remarks
+   * This function is used to check for updates to the application dependencies. It can be used in the CLI upgrade command to ensure that all necessary dependencies are up-to-date.
+   *
+   *
+   * @param options - The options for the `checkForUpdates` function. Currently,
+   *   there are no options available, but this parameter is included for future
+   *   extensibility.
+   * @returns A promise that resolves when the check for updates is complete or
+   *   undefined if the check was not performed.
+   *
+   */
+  export function checkForUpdates(
+    options?: CheckForUpdatesOptions
+  ): Promise<Promise<CheckForUpdatesResult | undefined>>;
   export {};
 }

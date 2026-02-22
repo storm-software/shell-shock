@@ -44,9 +44,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
   return [
     console(options),
     prompts(options),
-    upgrade({
-      packageName: options.packageName
-    }),
+    options.upgrade !== false && upgrade(options.upgrade),
     {
       name: "shell-shock:cli-preset",
       config() {
@@ -79,6 +77,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
               <BinEntry
                 builtinImports={{
                   console: [
+                    "info",
                     "divider",
                     "stripAnsi",
                     "writeLine",
@@ -103,7 +102,8 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                     "select",
                     "isCancel",
                     "sleep"
-                  ]
+                  ],
+                  upgrade: ["checkForUpdates"]
                 }}
                 prefix={
                   <>
@@ -124,7 +124,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                   <hbr />
                 </Show>
                 <hbr />
-                {code`await banner(0);`}
+                {code`await banner(0, false);`}
                 <hbr />
                 <hbr />
                 <VirtualHelp

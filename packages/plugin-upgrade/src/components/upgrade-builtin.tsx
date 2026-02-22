@@ -26,6 +26,7 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import {
   InterfaceMember,
   TSDoc,
@@ -37,11 +38,14 @@ import {
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import defu from "defu";
+import type { UpgradePluginContext } from "../types/plugin";
 
 /**
  * The `locatePackageJson` handler function declaration code for the Shell Shock project.
  */
 export function LocatePackageJsonFunctionDeclaration() {
+  const context = usePowerlines<UpgradePluginContext>();
+
   return (
     <>
       <InterfaceDeclaration
@@ -53,6 +57,13 @@ export function LocatePackageJsonFunctionDeclaration() {
           optional
           type="string"
           doc="The current working directory to use. If not provided, the process's current working directory will be used."
+        />
+        <Spacing />
+        <InterfaceMember
+          name="isDependencyRequired"
+          optional
+          type="boolean"
+          doc="Whether to only locate a package.json file if it contains the application as a dependency. If set to `true`, the function will check if the located package.json file has the application listed as a dependency in its dependencies, devDependencies, peerDependencies, or optionalDependencies before returning its path. This can be useful in monorepo setups where multiple package.json files may exist, but only the one that includes the application as a dependency is relevant for upgrade purposes."
         />
       </InterfaceDeclaration>
       <Spacing />
@@ -70,6 +81,7 @@ export function LocatePackageJsonFunctionDeclaration() {
       </TSDoc>
       <FunctionDeclaration
         export
+        async
         name="locatePackageJson"
         parameters={[
           {
@@ -93,9 +105,24 @@ export function LocatePackageJsonFunctionDeclaration() {
         />
         <Spacing />
         {code`while (parentPath !== currentPath && currentPath !== homePath && currentPath !== tempPath) { `}
-        <IfStatement
-          condition={code`existsSync(join(currentPath, "package.json"))`}>
-          {code`return join(currentPath, "package.json"); `}
+        <VarDeclaration
+          const
+          name="packageJsonPath"
+          initializer={code`join(currentPath, "package.json"); `}
+        />
+        <IfStatement condition={code`existsSync(packageJsonPath)`}>
+          <IfStatement condition={code`options.isDependencyRequired`}>
+            <VarDeclaration
+              const
+              name="packageJson"
+              initializer={code`JSON.parse(await readFile(packageJsonPath, "utf8")); `}
+            />
+            <IfStatement
+              condition={code`Object.keys(packageJson.dependencies || {}).concat(Object.keys(packageJson.devDependencies || {})).concat(Object.keys(packageJson.peerDependencies || {})).concat(Object.keys(packageJson.optionalDependencies || {})).some(dep => dep === "${context.packageJson.name}" || dep.startsWith("${context.packageJson.name}@"))`}>
+              {code`return packageJsonPath; `}
+            </IfStatement>
+          </IfStatement>
+          <ElseClause>{code`return packageJsonPath; `}</ElseClause>
         </IfStatement>
         <ElseClause>
           {code`currentPath = parentPath;
@@ -292,7 +319,7 @@ export function GetPackageManagerFunctionDeclaration() {
             <VarDeclaration
               const
               name="packageJsonPath"
-              initializer={code`locatePackageJson(options); `}
+              initializer={code`await locatePackageJson(options); `}
             />
             <IfStatement
               condition={code`packageJsonPath && existsSync(packageJsonPath)`}>
@@ -516,9 +543,11 @@ export function FetchNpmPackageFunctionDeclaration() {
 }
 
 /**
- * The `getLatest` handler function declaration code for the Shell Shock project.
+ * The `getLatestVersion` handler function declaration code for the Shell Shock project.
  */
-export function GetLatestFunctionDeclaration() {
+export function GetLatestVersionFunctionDeclaration() {
+  const context = usePowerlines<UpgradePluginContext>();
+
   return (
     <>
       <TSDoc heading="Get the latest version of the application from the npm registry.">
@@ -536,13 +565,14 @@ export function GetLatestFunctionDeclaration() {
       <FunctionDeclaration
         export
         async
-        name="getLatest"
+        name="getLatestVersion"
         parameters={[
           {
             name: "packageName",
-            type: "string"
+            default: `"${context.packageJson.name}"`
           }
-        ]}>
+        ]}
+        returnType={code`Promise<string | undefined>`}>
         <VarDeclaration
           const
           name="result"
@@ -556,14 +586,87 @@ export function GetLatestFunctionDeclaration() {
 }
 
 /**
- * The `install` handler function declaration code for the Shell Shock project.
+ * The `upgrade` handler function declaration code for the Shell Shock project.
  */
-export function InstallFunctionDeclaration() {
+export function GetUpgradeCommandFunctionDeclaration() {
+  const context = usePowerlines<UpgradePluginContext>();
+
+  return (
+    <>
+      <TSDoc heading="A function to get the upgrade command for a specific package manager.">
+        <TSDocRemarks>
+          {`This function is used to get the appropriate upgrade command for a specific package manager. It can be used in the CLI upgrade command to determine which command to run based on the package manager being used by the application.`}
+        </TSDocRemarks>
+        <Spacing />
+        <TSDocParam name="packageManager">
+          {`The name of the package manager to get the upgrade command for. This should be one of "npm", "yarn", "pnpm", "deno", or "bun".`}
+        </TSDocParam>
+        <TSDocParam name="cwd">
+          {`The current working directory to use when determining the upgrade command. This can be used to locate the appropriate package.json and lockfile to determine how to run the upgrade command. If not provided, the process's current working directory will be used.`}
+        </TSDocParam>
+        <TSDocReturns>
+          {`An array of strings representing the command and its arguments to run in order to upgrade the application dependencies using the specified package manager.`}
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        async
+        name="getUpgradeCommand"
+        parameters={[
+          {
+            name: "packageManager",
+            type: "string"
+          },
+          {
+            name: "cwd",
+            type: "string",
+            default: "process.cwd()"
+          }
+        ]}
+        returnType="Promise<string[]>">
+        <VarDeclaration
+          const
+          name="version"
+          initializer={code`(await getLatestVersion("${context.packageJson.name}")) || "latest"; `}
+        />
+        <Spacing />
+        <IfStatement condition={code`packageManager === "yarn"`}>
+          {code`return ["upgrade", \`${
+            context.packageJson.name
+          }@\${version}\`]; `}
+        </IfStatement>
+        <ElseIfClause condition={code`packageManager === "pnpm"`}>
+          {code`return ["update", \`${
+            context.packageJson.name
+          }@\${version}\`]; `}
+        </ElseIfClause>
+        <ElseIfClause condition={code`packageManager === "deno"`}>
+          {code`return ["outdated", "--update", \`${
+            context.packageJson.name
+          }@\${version}\`]; `}
+        </ElseIfClause>
+        <ElseIfClause condition={code`packageManager === "bun"`}>
+          {code`return ["update", "--save",  \`${
+            context.packageJson.name
+          }@\${version}\`]; `}
+        </ElseIfClause>
+        <ElseClause>{code`return ["update", "--save", "--bin-links", \`${
+          context.packageJson.name
+        }@\${version}\`]; `}</ElseClause>
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
+ * The `upgrade` handler function declaration code for the Shell Shock project.
+ */
+export function UpgradeFunctionDeclaration() {
   return (
     <>
       <InterfaceDeclaration
-        name="InstallBaseOptions"
-        doc="Options for the `install` handler function.">
+        name="UpgradeBaseOptions"
+        doc="Options for the `upgrade` handler function.">
         <InterfaceMember
           name="stdout"
           optional
@@ -581,43 +684,49 @@ export function InstallFunctionDeclaration() {
       <Spacing />
       <TypeDeclaration
         export
-        name="InstallOptions"
-        doc="Options for the `install` handler function.">{code`InstallBaseOptions & Parameters<typeof spawn>[2];`}</TypeDeclaration>
+        name="UpgradeOptions"
+        doc="Options for the `upgrade` handler function.">{code`UpgradeBaseOptions & GetPackageManagerOptions & Parameters<typeof spawn>[2];`}</TypeDeclaration>
       <Spacing />
-      <TSDoc heading="Install the application dependencies.">
+      <TSDoc heading="Upgrade the application dependencies.">
         <TSDocRemarks>
-          {`This function is used to install the application dependencies. It can be used in the CLI upgrade command to ensure that all necessary dependencies are installed.`}
+          {`This function is used to upgrade the application dependencies. It can be used in the CLI upgrade command to ensure that all necessary dependencies are up-to-date.`}
         </TSDocRemarks>
         <Spacing />
         <TSDocParam name="options">
-          {`The options for the \`install\` function. Currently, there are no options available, but this parameter is included for future extensibility.`}
+          {`The options for the \`upgrade\` function. Currently, there are no options available, but this parameter is included for future extensibility.`}
         </TSDocParam>
         <TSDocReturns>
-          {`A promise that resolves when the installation of dependencies is complete.`}
+          {`A promise that resolves when the upgrade of dependencies is complete.`}
         </TSDocReturns>
       </TSDoc>
       <FunctionDeclaration
         export
         async
-        name="install"
+        name="upgrade"
         parameters={[
           {
             name: "options",
-            type: "InstallOptions",
+            type: "UpgradeOptions",
             default: "{}"
           }
         ]}>
         <VarDeclaration
           const
           name="packageManager"
-          initializer={code`await getPackageManager(); `}
+          initializer={code`await getPackageManager(options); `}
         />
         <Spacing />
+        <VarDeclaration
+          const
+          name="args"
+          initializer={code`await getUpgradeCommand(packageManager, options.cwd); `}
+        />
+        <hbr />
         <VarDeclaration let name="output" initializer={code`""; `} />
         <hbr />
         {code`await spawn(
           \`\${packageManager}\${isWindows && packageManager !== "bun" ? ".cmd" : ""}\`,
-          ["install"],
+          [args.join(" ")],
           {
             ...options,
             env: {
@@ -633,6 +742,137 @@ export function InstallFunctionDeclaration() {
             },
           },
         ); `}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
+ * The `checkForUpdates` handler function declaration code for the Shell Shock project.
+ */
+export function CheckForUpdatesFunctionDeclaration() {
+  const context = usePowerlines<UpgradePluginContext>();
+
+  return (
+    <>
+      <InterfaceDeclaration
+        export
+        name="CheckForUpdatesOptions"
+        extends="GetPackageManagerOptions"
+        doc="Options for the `checkForUpdates` handler function."></InterfaceDeclaration>
+      <Spacing />
+      <InterfaceDeclaration
+        export
+        name="CheckForUpdatesResult"
+        doc="The result for the `checkForUpdates` handler function.">
+        <InterfaceMember
+          name="latestVersion"
+          type="string"
+          doc="The latest version of the application dependencies."
+        />
+        <hbr />
+        <InterfaceMember
+          name="currentVersion"
+          type="string"
+          doc="The current version of the application dependencies."
+        />
+        <hbr />
+        <InterfaceMember
+          name="isUpToDate"
+          type="boolean"
+          doc="Indicates whether the application dependencies are up-to-date."
+        />
+        <hbr />
+        <InterfaceMember
+          name="package"
+          type="NpmPackage"
+          doc="The npm package that was checked for updates."
+        />
+        <hbr />
+        <InterfaceMember
+          name="packageManager"
+          type="'npm' | 'yarn' | 'pnpm' | 'deno' | 'bun'"
+          doc="The package manager used to check for updates."
+        />
+      </InterfaceDeclaration>
+      <Spacing />
+      <TSDoc heading="Check for updates to the application dependencies.">
+        <TSDocRemarks>
+          {`This function is used to check for updates to the application dependencies. It can be used in the CLI upgrade command to ensure that all necessary dependencies are up-to-date.`}
+        </TSDocRemarks>
+        <Spacing />
+        <TSDocParam name="options">
+          {`The options for the \`checkForUpdates\` function. Currently, there are no options available, but this parameter is included for future extensibility.`}
+        </TSDocParam>
+        <TSDocReturns>
+          {`A promise that resolves when the check for updates is complete or undefined if the check was not performed.`}
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        async
+        name="checkForUpdates"
+        parameters={[
+          {
+            name: "options",
+            type: "CheckForUpdatesOptions",
+            default: "{}"
+          }
+        ]}
+        returnType="Promise<CheckForUpdatesResult | undefined>">
+        <VarDeclaration
+          const
+          name="filePath"
+          initializer={code`join(paths.data, "version-check.json"); `}
+        />
+        <IfStatement condition={code`existsSync(filePath)`}>
+          <VarDeclaration
+            const
+            name="file"
+            type="{ timestamp: number; }"
+            initializer={code` JSON.parse(await readFile(filePath, "utf8")); `}
+          />
+          <IfStatement condition={code`!file.timestamp`}>
+            {code`await writeFile(filePath, JSON.stringify({ timestamp: new Date().getTime() }), "utf8");
+            return undefined; `}
+          </IfStatement>
+          <ElseIfClause
+            condition={code`new Date().getTime() - file.timestamp < ${
+              context.config.upgrade.staleTime
+            }`}>
+            {code`return undefined; `}
+          </ElseIfClause>
+        </IfStatement>
+        <ElseClause>
+          {code`await writeFile(filePath, JSON.stringify({ timestamp: new Date().getTime() }), "utf8");
+              return undefined; `}
+        </ElseClause>
+        <Spacing />
+        <VarDeclaration
+          const
+          name="packageManager"
+          initializer={code`await getPackageManager(options); `}
+        />
+        <Spacing />
+        <VarDeclaration
+          const
+          name="pkg"
+          initializer={code`await fetchNpmPackage(); `}
+        />
+        <Spacing />
+        <IfStatement condition={code`!pkg`}>
+          {code`return undefined; `}
+        </IfStatement>
+        <Spacing />
+        {code`await writeFile(filePath, JSON.stringify({ timestamp: new Date().getTime() }), "utf8");
+
+          return {
+          latestVersion: pkg?.version ?? "0.0.0",
+          currentVersion: "${context.packageJson.version}",
+          isUpToDate: pkg ? "${context.packageJson.version}" === pkg.version : true,
+          package: pkg,
+          packageManager,
+        }; `}
       </FunctionDeclaration>
     </>
   );
@@ -688,9 +928,13 @@ export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
       <Spacing />
       <FetchNpmPackageFunctionDeclaration />
       <Spacing />
-      <GetLatestFunctionDeclaration />
+      <GetLatestVersionFunctionDeclaration />
       <Spacing />
-      <InstallFunctionDeclaration />
+      <GetUpgradeCommandFunctionDeclaration />
+      <Spacing />
+      <UpgradeFunctionDeclaration />
+      <Spacing />
+      <CheckForUpdatesFunctionDeclaration />
       <Spacing />
       <Show when={Boolean(children)}>{children}</Show>
     </BuiltinFile>

@@ -47,7 +47,7 @@ export function RunApplication() {
         try {
           process.on("exit", () => exit({
             startDate,
-            skipExit: true,
+            skipProcessExit: true,
             isSynchronous: true,
             signal: 0
           }));
