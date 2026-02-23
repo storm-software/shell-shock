@@ -2,6 +2,21 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.7.6](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.7.6) (02/23/2026)
+
+### Features
+
+- **plugin-console:** Added the `spinner` function to built-in module/theme ([e68cce3](https://github.com/storm-software/shell-shock/commit/e68cce3))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.0**
+- Updated **plugin-prompts** to **v0.3.1**
+- Updated **plugin-upgrade** to **v0.1.6**
+- Updated **preset-script** to **v0.6.15**
+- Updated **plugin-theme** to **v0.3.4**
+- Updated **core** to **v0.9.2**
+
 ## [0.7.5](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.7.5) (02/21/2026)
 
 ### Features

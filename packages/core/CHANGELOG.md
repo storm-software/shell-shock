@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.9.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.9.2) (02/23/2026)
+
+### Features
+
+- **plugin-console:** Added the `spinner` function to built-in module/theme ([e68cce3](https://github.com/storm-software/shell-shock/commit/e68cce3))
+
 ## [0.9.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.9.0) (02/21/2026)
 
 ### Features

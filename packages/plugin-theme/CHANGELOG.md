@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.3.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.4) (02/23/2026)
+
+### Features
+
+- **plugin-console:** Added the `spinner` function to built-in module/theme ([e68cce3](https://github.com/storm-software/shell-shock/commit/e68cce3))
+
 ## [0.3.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.0) (02/20/2026)
 
 ### Features

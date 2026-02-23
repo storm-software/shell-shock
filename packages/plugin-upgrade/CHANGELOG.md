@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.6](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.6) (02/23/2026)
+
+### Features
+
+- **plugin-console:** Added the `spinner` function to built-in module/theme ([e68cce3](https://github.com/storm-software/shell-shock/commit/e68cce3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.9.2**
+
 ## [0.1.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.5) (02/21/2026)
 
 ### Bug Fixes
