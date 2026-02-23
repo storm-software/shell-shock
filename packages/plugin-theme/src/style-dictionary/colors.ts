@@ -24,6 +24,7 @@ import type {
   PreprocessedTokens,
   Preprocessor
 } from "style-dictionary/types";
+import { mergeThemes } from "../helpers/merge";
 import type { ThemePluginContext } from "../types/plugin";
 import type {
   ThemeColorBannerSubItemResolvedConfig,
@@ -33,6 +34,7 @@ import type {
   ThemeColorMessageState,
   ThemeColorMessageSubItemResolvedConfig,
   ThemeColorPromptSubItemResolvedConfig,
+  ThemeColorSpinnerSubItemResolvedConfig,
   ThemeColorsResolvedConfig,
   ThemeColorSubItem,
   ThemeColorTextItemsResolvedConfig,
@@ -40,7 +42,6 @@ import type {
   ThemeColorUsageSubItem,
   ThemeResolvedConfig
 } from "../types/theme";
-import { mergeThemes } from "./helpers";
 
 /**
  * Shell Shock - Theme Colors Preprocessor
@@ -204,6 +205,24 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
               error: colors,
               submitted: colors,
               disabled: colors
+            }
+          },
+          spinner: {
+            icon: {
+              active: colors,
+              error: colors,
+              success: colors,
+              help: colors,
+              info: colors,
+              warning: colors
+            },
+            message: {
+              active: colors,
+              error: colors,
+              success: colors,
+              help: colors,
+              info: colors,
+              warning: colors
             }
           }
         },
@@ -389,6 +408,24 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
               error: text,
               submitted: text,
               disabled: text
+            }
+          },
+          spinner: {
+            icon: {
+              active: text,
+              error: text,
+              success: text,
+              help: text,
+              info: text,
+              warning: text
+            },
+            message: {
+              active: text,
+              error: text,
+              success: text,
+              help: text,
+              info: text,
+              warning: text
             }
           }
         };
@@ -1070,6 +1107,105 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
             if (isSetString(prompt.description.disabled)) {
               resolvedConfig.colors.text.prompt.description.disabled =
                 prompt.description.disabled;
+            }
+          }
+        }
+
+        resolvedConfig.colors.text.spinner ??= {
+          icon: {},
+          message: {}
+        } as ThemeColorSpinnerSubItemResolvedConfig;
+        const spinner = text.spinner;
+
+        if (isSetString(spinner)) {
+          resolvedConfig.colors.text.spinner = {
+            icon: {
+              active: spinner,
+              error: spinner,
+              success: spinner,
+              help: spinner,
+              info: spinner,
+              warning: spinner
+            },
+            message: {
+              active: spinner,
+              error: spinner,
+              success: spinner,
+              help: spinner,
+              info: spinner,
+              warning: spinner
+            }
+          };
+        } else if (isSetObject(spinner)) {
+          if (isSetString(spinner.icon)) {
+            const icon = spinner.icon;
+            resolvedConfig.colors.text.spinner.icon = {
+              active: icon,
+              error: icon,
+              success: icon,
+              help: icon,
+              info: icon,
+              warning: icon
+            };
+          } else if (isSetObject(spinner.icon)) {
+            if (isSetString(spinner.icon.active)) {
+              resolvedConfig.colors.text.spinner.icon.active =
+                spinner.icon.active;
+            }
+            if (isSetString(spinner.icon.error)) {
+              resolvedConfig.colors.text.spinner.icon.error =
+                spinner.icon.error;
+            }
+            if (isSetString(spinner.icon.success)) {
+              resolvedConfig.colors.text.spinner.icon.success =
+                spinner.icon.success;
+            }
+            if (isSetString(spinner.icon.help)) {
+              resolvedConfig.colors.text.spinner.icon.help = spinner.icon.help;
+            }
+            if (isSetString(spinner.icon.info)) {
+              resolvedConfig.colors.text.spinner.icon.info = spinner.icon.info;
+            }
+            if (isSetString(spinner.icon.warning)) {
+              resolvedConfig.colors.text.spinner.icon.warning =
+                spinner.icon.warning;
+            }
+          }
+
+          if (isSetString(spinner.message)) {
+            const message = spinner.message;
+            resolvedConfig.colors.text.spinner.message = {
+              active: message,
+              error: message,
+              success: message,
+              help: message,
+              info: message,
+              warning: message
+            };
+          } else if (isSetObject(spinner.message)) {
+            if (isSetString(spinner.message.active)) {
+              resolvedConfig.colors.text.spinner.message.active =
+                spinner.message.active;
+            }
+            if (isSetString(spinner.message.error)) {
+              resolvedConfig.colors.text.spinner.message.error =
+                spinner.message.error;
+            }
+            if (isSetString(spinner.message.success)) {
+              resolvedConfig.colors.text.spinner.message.success =
+                spinner.message.success;
+            }
+            if (isSetString(spinner.message.help)) {
+              resolvedConfig.colors.text.spinner.message.help =
+                spinner.message.help;
+            }
+            if (isSetString(spinner.message.info)) {
+              resolvedConfig.colors.text.spinner.message.info =
+                spinner.message.info;
+            }
+            if (isSetString(spinner.message.warning)) {
+              resolvedConfig.colors.text.spinner.message.warning =
+                spinner.message.warning;
             }
           }
         }
@@ -2320,6 +2456,135 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
     ) {
       resolvedConfig.colors.text.prompt.input.disabled =
         resolvedConfig.colors.text.prompt.input.placeholder;
+    }
+
+    if (
+      !resolvedConfig.colors.text.spinner.icon?.active &&
+      resolvedConfig.colors.text.spinner.message?.active
+    ) {
+      resolvedConfig.colors.text.spinner.icon.active =
+        resolvedConfig.colors.text.spinner.message.active;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.icon?.success &&
+      resolvedConfig.colors.text.spinner.message?.success
+    ) {
+      resolvedConfig.colors.text.spinner.icon.success =
+        resolvedConfig.colors.text.spinner.message.success;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.icon?.error &&
+      resolvedConfig.colors.text?.spinner?.message?.error
+    ) {
+      resolvedConfig.colors.text.spinner.icon.error =
+        resolvedConfig.colors.text.spinner.message.error;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.icon?.help &&
+      resolvedConfig.colors.text.spinner.message?.help
+    ) {
+      resolvedConfig.colors.text.spinner.icon.help =
+        resolvedConfig.colors.text.spinner.message.help;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.icon?.info &&
+      resolvedConfig.colors.text.spinner.message?.info
+    ) {
+      resolvedConfig.colors.text.spinner.icon.info =
+        resolvedConfig.colors.text.spinner.message.info;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.icon?.warning &&
+      resolvedConfig.colors.text.spinner.message?.warning
+    ) {
+      resolvedConfig.colors.text.spinner.icon.warning =
+        resolvedConfig.colors.text.spinner.message.warning;
+    }
+
+    if (
+      !resolvedConfig.colors.text.spinner.icon?.active &&
+      resolvedConfig.colors.text?.banner?.title?.primary
+    ) {
+      resolvedConfig.colors.text.spinner.icon.active =
+        resolvedConfig.colors.text.banner.title.primary;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.icon?.success &&
+      resolvedConfig.colors.text?.message?.header?.success
+    ) {
+      resolvedConfig.colors.text.spinner.icon.success =
+        resolvedConfig.colors.text.message.header.success;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.icon?.error &&
+      resolvedConfig.colors.text?.message?.header?.error
+    ) {
+      resolvedConfig.colors.text.spinner.icon.error =
+        resolvedConfig.colors.text.message.header.error;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.icon?.help &&
+      resolvedConfig.colors.text?.message?.header?.help
+    ) {
+      resolvedConfig.colors.text.spinner.icon.help =
+        resolvedConfig.colors.text.message.header.help;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.icon?.info &&
+      resolvedConfig.colors.text?.message?.header?.info
+    ) {
+      resolvedConfig.colors.text.spinner.icon.info =
+        resolvedConfig.colors.text.message.header.info;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.icon?.warning &&
+      resolvedConfig.colors.text?.message?.header?.warning
+    ) {
+      resolvedConfig.colors.text.spinner.icon.warning =
+        resolvedConfig.colors.text.message.header.warning;
+    }
+
+    if (
+      !resolvedConfig.colors.text.spinner.message?.active &&
+      resolvedConfig.colors.text?.spinner?.icon?.active
+    ) {
+      resolvedConfig.colors.text.spinner.message.active =
+        resolvedConfig.colors.text.spinner.icon.active;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.message?.success &&
+      resolvedConfig.colors.text?.spinner?.icon?.success
+    ) {
+      resolvedConfig.colors.text.spinner.message.success =
+        resolvedConfig.colors.text.spinner.icon.success;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.message?.error &&
+      resolvedConfig.colors.text?.spinner?.icon?.error
+    ) {
+      resolvedConfig.colors.text.spinner.message.error =
+        resolvedConfig.colors.text.spinner.icon.error;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.message?.help &&
+      resolvedConfig.colors.text?.spinner?.icon?.help
+    ) {
+      resolvedConfig.colors.text.spinner.message.help =
+        resolvedConfig.colors.text.spinner.icon.help;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.message?.info &&
+      resolvedConfig.colors.text?.spinner?.icon?.info
+    ) {
+      resolvedConfig.colors.text.spinner.message.info =
+        resolvedConfig.colors.text.spinner.icon.info;
+    }
+    if (
+      !resolvedConfig.colors.text.spinner.message?.warning &&
+      resolvedConfig.colors.text?.spinner?.icon?.warning
+    ) {
+      resolvedConfig.colors.text.spinner.message.warning =
+        resolvedConfig.colors.text.spinner.icon.warning;
     }
 
     // #endregion Missing token defaulting

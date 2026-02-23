@@ -1336,6 +1336,93 @@ declare module "shell-shock:console" {
    * @param options - Options for formatting the divider line.
    */
   export function divider(options: DividerOptions): void;
+  type WriteStream = NodeJS.WriteStream;
+  /**
+   * Options for configuring the spinner.
+   */
+  export interface SpinnerOptions {
+    /**
+     * The message text to display next to the spinner. Defaults to an empty string.
+     */
+    message?: string;
+    /**
+     * The output stream to write the spinner to. Defaults to process.stderr.
+     */
+    stream?: WriteStream;
+    /**
+     * The spinner animation to use. Should be an object with a 'frames' property (an array of strings representing each frame of the animation) and an 'interval' property (the time in milliseconds between each frame). If not specified, a default spinner animation will be used.
+     */
+    spinner?: ThemeSpinnerResolvedConfig | SpinnerPreset;
+  }
+  class Spinner {
+    constructor(options?: SpinnerOptions);
+    get isSpinning(): boolean;
+    /**
+     * Set the message displayed by the spinner.
+     */
+    set message(value: string);
+    /**
+     * Get the message displayed by the spinner.
+     */
+    get message(): string;
+    /**
+     * Start the spinner animation.
+     *
+     * @param message
+     */
+    start(message: string): this;
+    /**
+     * Stop the spinner animation.
+     *
+     * @param [finalMessage]
+     */
+    stop(finalMessage?: string): this;
+    /**
+     * Clear the spinner animation.
+     */
+    clear(): this;
+    /**
+     * Mark the spinner as successful.
+     *
+     * @param message
+     */
+    success(message: string): this;
+    /**
+     * Mark the spinner as failed.
+     *
+     * @param message
+     */
+    error(message: string): this;
+    /**
+     * Mark the spinner as warning.
+     *
+     * @param message
+     */
+    warning(message: string): this;
+    /**
+     * Mark the spinner as informational.
+     *
+     * @param message
+     */
+    info(message: string): this;
+    /**
+     * Mark the spinner as help.
+     *
+     * @param message
+     */
+    help(message: string): this;
+  }
+  /**
+   * Render a spinner in the console.
+   *
+   * @param options - Options for configuring the spinner, including the message
+   *   to display, the output stream to write to, and the spinner animation to
+   *   use.
+   * @returns An instance of the Spinner class, which can be used to control the
+   *   spinner animation (e.g., start, stop, mark as success/error, etc.).
+   *
+   */
+  export function createSpinner(options?: SpinnerOptions): Spinner;
   /**
    * Write a help message to the console.
    *
@@ -1556,6 +1643,7 @@ declare module "shell-shock:console" {
       | string[]
       | string[][]
   ): void;
+  export {};
 }
 
 /**
@@ -1709,7 +1797,7 @@ declare module "shell-shock:prompts" {
     protected consoleOutput: string;
     protected consoleStatus: string;
     protected displayValue: string;
-    protected validator: (
+    protected validate: (
       value: TValue
     ) =>
       | boolean
@@ -1717,8 +1805,8 @@ declare module "shell-shock:prompts" {
       | null
       | undefined
       | Promise<boolean | string | null | undefined>;
-    protected parser: PromptParser<TValue>;
-    protected formatter: PromptFormatter<TValue>;
+    protected parse: PromptParser<TValue>;
+    protected format: PromptFormatter<TValue>;
     protected mask: (input: string) => string;
     protected maskCompleted: (input: string) => string;
     protected cursor: number;
@@ -1783,7 +1871,7 @@ declare module "shell-shock:prompts" {
      *
      * @param value
      */
-    protected validate(value: TValue): Promise<void>;
+    protected checkValidations(value: TValue): Promise<void>;
     /**
      * A method to route key press events to specific prompt actions based on the key pressed. This method maps various key combinations and keys to corresponding actions that can be handled by the prompt, such as submitting, cancelling, navigating, etc.
      *
@@ -2321,6 +2409,32 @@ declare module "shell-shock:prompts" {
    *
    */
   export function confirm(config: ConfirmConfig): Promise<boolean | symbol>;
+  /**
+   * A function to create and run a wait-for-key-press prompt, which returns a promise that resolves when any key is pressed or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @remarks
+   * This function creates an instance of the Prompt class with a custom onKeyPress handler that resolves the promise when any key is pressed. It sets up event listeners for state updates and cancellation to handle the prompt interactions and return the appropriate results. The wait-for-key-press prompt is useful for scenarios where you want to pause execution until the user presses any key, such as waiting for user input before proceeding with a task.
+   *
+   *
+   * @example
+   * ```ts
+   * import { waitForKeyPress } from "shell-shock:prompts";
+   *
+   * async function run() {
+   *   const result = await waitForKeyPress();
+   *   console.log("A key was pressed!");
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param timeout - The amount of time in milliseconds to wait before
+   *   automatically resolving the prompt, defaults to 2 hours (7200000 ms)
+   * @returns A promise that resolves when any key is pressed
+   *
+   */
+  export function waitForKeyPress(timeout?: number): Promise<unknown>;
   export {};
 }
 
@@ -2415,7 +2529,7 @@ declare module "shell-shock:upgrade" {
    */
   export function getPackageManager(
     options?: GetPackageManagerOptions
-  ): Promise<Promise<"npm" | "yarn" | "deno" | "pnpm" | "bun">>;
+  ): Promise<"npm" | "yarn" | "deno" | "pnpm" | "bun">;
   /**
    * Represents a maintainer of an npm package.
    */
@@ -2519,7 +2633,7 @@ declare module "shell-shock:upgrade" {
    */
   export function fetchNpmPackage(
     packageName: string
-  ): Promise<Promise<NpmPackage | undefined>>;
+  ): Promise<NpmPackage | undefined>;
   /**
    * Get the latest version of the application from the npm registry.
    *
@@ -2534,7 +2648,7 @@ declare module "shell-shock:upgrade" {
    */
   export function getLatestVersion(
     packageName?: string
-  ): Promise<Promise<string | undefined>>;
+  ): Promise<string | undefined>;
   /**
    * A function to get the upgrade command for a specific package manager.
    *
@@ -2556,7 +2670,7 @@ declare module "shell-shock:upgrade" {
   export function getUpgradeCommand(
     packageManager: string,
     cwd?: string
-  ): Promise<Promise<string[]>>;
+  ): Promise<string[]>;
   /**
    * Options for the `upgrade` handler function.
    */
@@ -2594,11 +2708,19 @@ declare module "shell-shock:upgrade" {
   /**
    * Options for the `checkForUpdates` handler function.
    */
-  export interface CheckForUpdatesOptions extends GetPackageManagerOptions {}
-  /**
-   * The result for the `checkForUpdates` handler function.
-   */
-  export interface CheckForUpdatesResult {
+  export interface CheckForUpdatesOptions extends GetPackageManagerOptions {
+    /**
+     * Whether to force a check for updates regardless of the last check timestamp. If set to `true`, the function will bypass the timestamp check and perform a check for updates, updating the timestamp in the process. This can be useful if you want to ensure that a check for updates is performed even if one was recently done, such as when the user explicitly requests it or when certain conditions are met that warrant an immediate check.
+     */
+    force?: boolean;
+  }
+  interface CheckForUpdatesBaseResult {
+    /**
+     * Indicates whether an error occurred while checking for updates.
+     */
+    isError?: boolean;
+  }
+  interface CheckForUpdatesSuccessResult extends CheckForUpdatesBaseResult {
     /**
      * The latest version of the application dependencies.
      */
@@ -2614,12 +2736,20 @@ declare module "shell-shock:upgrade" {
     /**
      * The npm package that was checked for updates.
      */
-    package: NpmPackage;
-    /**
-     * The package manager used to check for updates.
-     */
-    packageManager: "npm" | "yarn" | "pnpm" | "deno" | "bun";
+    package?: NpmPackage;
   }
+  interface CheckForUpdatesErrorResult extends CheckForUpdatesBaseResult {
+    /**
+     * The error that occurred while checking for updates.
+     */
+    error: Error;
+  }
+  /**
+   * The result for the `checkForUpdates` handler function.
+   */
+  export type CheckForUpdatesResult =
+    | CheckForUpdatesSuccessResult
+    | CheckForUpdatesErrorResult;
   /**
    * Check for updates to the application dependencies.
    *
@@ -2636,6 +2766,30 @@ declare module "shell-shock:upgrade" {
    */
   export function checkForUpdates(
     options?: CheckForUpdatesOptions
-  ): Promise<Promise<CheckForUpdatesResult | undefined>>;
+  ): Promise<CheckForUpdatesResult>;
+  /**
+   * A helper function that verifies if a check for updates is required.
+   *
+   * @remarks
+   * This function is used to determine if a check for updates is required based on the last time a check was performed. It can be used in the CLI upgrade command to avoid unnecessary checks for updates if one was recently performed. The function checks for the existence of a "version-check.json" file in the data directory, which contains a timestamp of the last check for updates. If the file does not exist or if the timestamp is older than a specified stale time, the function will return true, indicating that a check for updates is required. Otherwise, it will return false.
+   *
+   *
+   * @returns A promise that resolves to a boolean indicating whether a check for
+   *   updates is required.
+   *
+   */
+  export function isCheckForUpdatesRequired(): Promise<boolean | undefined>;
+  /**
+   * A helper function that updates the version check file.
+   *
+   * @remarks
+   * This function is used to update the version check file with the current timestamp. It can be used in the CLI upgrade command to record the last time a check for updates was performed. The function writes a "version-check.json" file in the data directory, which contains a timestamp of the last check for updates.
+   *
+   *
+   * @returns A promise that resolves to a boolean indicating whether a check for
+   *   updates is required.
+   *
+   */
+  export function updateVersionCheckFile(): Promise<void>;
   export {};
 }

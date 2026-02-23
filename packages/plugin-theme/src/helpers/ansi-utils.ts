@@ -612,6 +612,60 @@ function buildThemeAnsiStyles(
             close: wrapAnsi16()(39)
           }
         }
+      },
+      spinner: {
+        icon: {
+          active: {
+            open: wrapFn()(convertFn(theme.text.spinner.icon.active)),
+            close: wrapAnsi16()(39)
+          },
+          warning: {
+            open: wrapFn()(convertFn(theme.text.spinner.icon.warning)),
+            close: wrapAnsi16()(39)
+          },
+          error: {
+            open: wrapFn()(convertFn(theme.text.spinner.icon.error)),
+            close: wrapAnsi16()(39)
+          },
+          success: {
+            open: wrapFn()(convertFn(theme.text.spinner.icon.success)),
+            close: wrapAnsi16()(39)
+          },
+          info: {
+            open: wrapFn()(convertFn(theme.text.spinner.icon.info)),
+            close: wrapAnsi16()(39)
+          },
+          help: {
+            open: wrapFn()(convertFn(theme.text.spinner.icon.help)),
+            close: wrapAnsi16()(39)
+          }
+        },
+        message: {
+          active: {
+            open: wrapFn()(convertFn(theme.text.spinner.message.active)),
+            close: wrapAnsi16()(39)
+          },
+          warning: {
+            open: wrapFn()(convertFn(theme.text.spinner.message.warning)),
+            close: wrapAnsi16()(39)
+          },
+          error: {
+            open: wrapFn()(convertFn(theme.text.spinner.message.error)),
+            close: wrapAnsi16()(39)
+          },
+          success: {
+            open: wrapFn()(convertFn(theme.text.spinner.message.success)),
+            close: wrapAnsi16()(39)
+          },
+          info: {
+            open: wrapFn()(convertFn(theme.text.spinner.message.info)),
+            close: wrapAnsi16()(39)
+          },
+          help: {
+            open: wrapFn()(convertFn(theme.text.spinner.message.help)),
+            close: wrapAnsi16()(39)
+          }
+        }
       }
     },
     border: {

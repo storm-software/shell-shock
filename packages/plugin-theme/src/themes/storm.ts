@@ -85,6 +85,24 @@ export const theme: ThemeUserConfig = {
           cancelled: "#d8314a",
           disabled: "#4f4f50"
         }
+      },
+      spinner: {
+        icon: {
+          active: "#3be4be",
+          error: "#d8314a",
+          success: "#45b27e",
+          help: "#818cf8",
+          info: "#38bdf8",
+          warning: "#f3d371"
+        },
+        message: {
+          active: "#ffffff",
+          error: "#d8314a",
+          success: "#9ca3af",
+          help: "#9ca3af",
+          info: "#9ca3af",
+          warning: "#9ca3af"
+        }
       }
     },
     border: {
@@ -151,5 +169,6 @@ export const theme: ThemeUserConfig = {
         error: "Error"
       }
     }
-  }
+  },
+  spinner: "dotsCircle"
 } as const;

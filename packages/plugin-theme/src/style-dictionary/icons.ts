@@ -24,17 +24,18 @@ import type {
   PreprocessedTokens,
   Preprocessor
 } from "style-dictionary/types";
+import { mergeThemes } from "../helpers/merge";
 import type { ThemePluginContext } from "../types/plugin";
 import type {
   ThemeIconMessageStateConfig,
-  ThemeIconPromptState,
+  ThemeIconPromptStateConfig,
+  ThemeIconSpinnerStateConfig,
   ThemeIconsResolvedConfig,
   ThemeIconSubItemConfig,
   ThemeIconsUserConfig,
   ThemeIconTypeResolvedConfig,
   ThemeResolvedConfig
 } from "../types/theme";
-import { mergeThemes } from "./helpers";
 
 /**
  * Shell Shock - Theme Icons Preprocessor
@@ -90,6 +91,13 @@ export const icons = (context: ThemePluginContext): Preprocessor => ({
           error: icons,
           submitted: icons,
           disabled: icons
+        },
+        spinner: {
+          help: icons,
+          success: icons,
+          info: icons,
+          warning: icons,
+          error: icons
         }
       };
     } else if (isSetObject(icons)) {
@@ -189,7 +197,7 @@ export const icons = (context: ThemePluginContext): Preprocessor => ({
         }
       }
 
-      resolvedConfig.icons.prompt ??= {} as ThemeIconPromptState;
+      resolvedConfig.icons.prompt ??= {} as ThemeIconPromptStateConfig;
       const prompt = icons.prompt;
 
       if (isSetString(prompt)) {
@@ -219,6 +227,35 @@ export const icons = (context: ThemePluginContext): Preprocessor => ({
         }
         if (isSetString(prompt.disabled)) {
           resolvedConfig.icons.prompt.disabled = prompt.disabled;
+        }
+      }
+
+      resolvedConfig.icons.spinner ??= {} as ThemeIconSpinnerStateConfig;
+      const spinner = icons.spinner;
+
+      if (isSetString(spinner)) {
+        resolvedConfig.icons.spinner = {
+          help: spinner,
+          success: spinner,
+          info: spinner,
+          warning: spinner,
+          error: spinner
+        };
+      } else if (isSetObject(spinner)) {
+        if (isSetString(spinner.help)) {
+          resolvedConfig.icons.spinner.help = spinner.help;
+        }
+        if (isSetString(spinner.success)) {
+          resolvedConfig.icons.spinner.success = spinner.success;
+        }
+        if (isSetString(spinner.info)) {
+          resolvedConfig.icons.spinner.info = spinner.info;
+        }
+        if (isSetString(spinner.warning)) {
+          resolvedConfig.icons.spinner.warning = spinner.warning;
+        }
+        if (isSetString(spinner.error)) {
+          resolvedConfig.icons.spinner.error = spinner.error;
         }
       }
     }
@@ -263,6 +300,42 @@ export const icons = (context: ThemePluginContext): Preprocessor => ({
     ) {
       resolvedConfig.icons.prompt.cancelled =
         resolvedConfig.icons.message.header.error;
+    }
+
+    if (
+      !resolvedConfig.icons.spinner?.success &&
+      resolvedConfig.icons.message?.header?.success
+    ) {
+      resolvedConfig.icons.spinner.success =
+        resolvedConfig.icons.message.header.success;
+    }
+    if (
+      !resolvedConfig.icons.spinner?.warning &&
+      resolvedConfig.icons.message?.header?.warning
+    ) {
+      resolvedConfig.icons.spinner.warning =
+        resolvedConfig.icons.message.header.warning;
+    }
+    if (
+      !resolvedConfig.icons.spinner?.error &&
+      resolvedConfig.icons.message?.header?.error
+    ) {
+      resolvedConfig.icons.spinner.error =
+        resolvedConfig.icons.message.header.error;
+    }
+    if (
+      !resolvedConfig.icons.spinner?.info &&
+      resolvedConfig.icons.message?.header?.info
+    ) {
+      resolvedConfig.icons.spinner.info =
+        resolvedConfig.icons.message.header.info;
+    }
+    if (
+      !resolvedConfig.icons.spinner?.help &&
+      resolvedConfig.icons.message?.header?.help
+    ) {
+      resolvedConfig.icons.spinner.help =
+        resolvedConfig.icons.message.header.help;
     }
 
     // #endregion Missing token defaulting

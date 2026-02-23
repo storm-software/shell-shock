@@ -111,6 +111,48 @@
         "default": "./dist/helpers/ansi-utils.mjs"
       }
     },
+    "./helpers/border-styles": {
+      "require": {
+        "types": "./dist/helpers/border-styles.d.cts",
+        "default": "./dist/helpers/border-styles.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/border-styles.d.mts",
+        "default": "./dist/helpers/border-styles.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/border-styles.d.mts",
+        "default": "./dist/helpers/border-styles.mjs"
+      }
+    },
+    "./helpers/merge": {
+      "require": {
+        "types": "./dist/helpers/merge.d.cts",
+        "default": "./dist/helpers/merge.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/merge.d.mts",
+        "default": "./dist/helpers/merge.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/merge.d.mts",
+        "default": "./dist/helpers/merge.mjs"
+      }
+    },
+    "./helpers/spinners": {
+      "require": {
+        "types": "./dist/helpers/spinners.d.cts",
+        "default": "./dist/helpers/spinners.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/spinners.d.mts",
+        "default": "./dist/helpers/spinners.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/spinners.d.mts",
+        "default": "./dist/helpers/spinners.mjs"
+      }
+    },
     "./package.json": "./package.json",
     "./types": {
       "require": {

@@ -29,6 +29,7 @@ import { icons } from "./style-dictionary/icons";
 import { labels } from "./style-dictionary/labels";
 import { padding } from "./style-dictionary/padding";
 import { settings } from "./style-dictionary/settings";
+import { spinners } from "./style-dictionary/spinners";
 import { theme as defaultTheme } from "./themes/storm";
 import type { ThemePluginContext, ThemePluginOptions } from "./types/plugin";
 
@@ -44,7 +45,8 @@ export const plugin = <
 ): Plugin<TContext>[] => {
   return [
     styleDictionary(defu({ skipBuild: false }, omit(options, ["theme"]))),
-    ...alloy(options),
+    // eslint-disable-next-line ts/no-unnecessary-type-assertion
+    ...(alloy(options) as Plugin<TContext>[]),
     {
       name: "shell-shock:theme",
       config() {
@@ -61,6 +63,7 @@ export const plugin = <
               "shell-shock/padding": padding(context),
               "shell-shock/icons": icons(context),
               "shell-shock/labels": labels(context),
+              "shell-shock/spinners": spinners(context),
               "shell-shock/settings": settings(context)
             })
           }
@@ -83,6 +86,7 @@ export const plugin = <
                   "shell-shock/padding",
                   "shell-shock/icons",
                   "shell-shock/labels",
+                  "shell-shock/spinners",
                   "shell-shock/settings"
                 ],
                 transformGroup: "js",

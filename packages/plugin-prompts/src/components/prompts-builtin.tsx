@@ -335,17 +335,17 @@ export function BasePromptDeclarations() {
         </ClassField>
         <hbr />
         <ClassField
-          name="validator"
+          name="validate"
           protected
           type="(value: TValue) => boolean | string | null | undefined | Promise<boolean | string | null | undefined>">
           {code`() => true; `}
         </ClassField>
         <hbr />
-        <ClassField name="parser" protected type="PromptParser<TValue>">
+        <ClassField name="parse" protected type="PromptParser<TValue>">
           {code`(value: string) => value as TValue; `}
         </ClassField>
         <hbr />
-        <ClassField name="formatter" protected type="PromptFormatter<TValue>">
+        <ClassField name="format" protected type="PromptFormatter<TValue>">
           {code`(value: TValue) => String(value); `}
         </ClassField>
         <hbr />
@@ -388,13 +388,13 @@ export function BasePromptDeclarations() {
             this.description = config.description;
           }
           if (config.validate) {
-            this.validator = config.validate;
+            this.validate = config.validate;
           }
           if (config.parse) {
-            this.parser = config.parse.bind(this);
+            this.parse = config.parse.bind(this);
           }
           if (config.format) {
-            this.formatter = config.format.bind(this);
+            this.format = config.format.bind(this);
           }
 
           if (config.maskCompleted) {
@@ -452,7 +452,7 @@ export function BasePromptDeclarations() {
         </ClassPropertyGet>
         <Spacing />
         <ClassPropertyGet protected name="isPlaceholder" type="boolean">
-          {code`return (this.displayValue === this.formatter(this.parser(this.initialValue)) && !this.#isDirty) || !this.#isKeyPressed; `}
+          {code`return (this.displayValue === this.format(this.initialValue) && !this.#isDirty) || !this.#isKeyPressed; `}
         </ClassPropertyGet>
         <Spacing />
         <ClassPropertyGet protected name="status" type="string">
@@ -499,7 +499,7 @@ export function BasePromptDeclarations() {
             updatedValue = value;
           }
 
-          this.displayValue = this.mask(this.formatter(updatedValue));
+          this.displayValue = this.mask(this.format(updatedValue));
           this.#value = updatedValue;
 
           if (!this.#isDirty && this.#value !== this.initialValue) {
@@ -508,7 +508,7 @@ export function BasePromptDeclarations() {
 
           this.onChange(previousValue);
           setTimeout(() => {
-            Promise.resolve(this.validate(updatedValue)).then(() => this.sync());
+            Promise.resolve(this.checkValidations(updatedValue)).then(() => this.sync());
           }, 0);
 
           this.sync(); `}
@@ -607,7 +607,7 @@ export function BasePromptDeclarations() {
         <Spacing />
         <ClassMethod
           doc="A method to validate the prompt input using the provided validator function, which updates the error message and error state based on the validation result. This method is called whenever the prompt value changes and needs to be validated."
-          name="validate"
+          name="checkValidations"
           async
           protected
           parameters={[
@@ -616,7 +616,7 @@ export function BasePromptDeclarations() {
               type: "TValue"
             }
           ]}>
-          {code`let result = await this.validator(value);
+          {code`let result = await this.validate(value);
           if (typeof result === "string") {
             this.errorMessage = result;
           } else if (typeof result === "boolean") {
@@ -692,11 +692,11 @@ export function BasePromptDeclarations() {
             return this.bell();
           }
 
-          this.changeValue(\`\${
+          this.changeValue(this.parse(\`\${
             this.displayValue.slice(0, this.cursor - 1)
           }\${
             this.displayValue.slice(this.cursor)
-          }\`);
+          }\`));
 
           if (this.isCursorAtStart) {
             this.cursorOffset = 0;
@@ -716,11 +716,11 @@ export function BasePromptDeclarations() {
             return this.bell();
           }
 
-          this.changeValue(\`\${
+          this.changeValue(this.parse(\`\${
             this.displayValue.slice(0, this.cursor)
           }\${
             this.displayValue.slice(this.cursor + 1)
-          }\`);
+          }\`));
 
           if (this.isCursorAtEnd) {
             this.cursorOffset = 0;
@@ -766,7 +766,7 @@ export function BasePromptDeclarations() {
           {code`this.cursorOffset = 0;
           this.cursor = this.displayValue.length;
 
-          await this.validate(this.value);
+          await this.checkValidations(this.value);
           if (this.isError) {
             this.sync();
             this.bell();
@@ -1001,7 +1001,7 @@ export function TextPromptDeclarations() {
           parameters={[
             {
               name: "previousValue",
-              type: "TValue"
+              type: "string"
             }
           ]}>
           {code`this.#isInvalid = false;
@@ -1019,11 +1019,11 @@ export function TextPromptDeclarations() {
         <Spacing />
         <ClassMethod
           doc="A method to validate the prompt input"
-          name="validate"
+          name="checkValidations"
           override
           async
           protected>
-          {code`await super.validate(this.value);
+          {code`await super.checkValidations(this.value);
           this.#isInvalid = this.isError; `}
         </ClassMethod>
         <Spacing />
@@ -1692,17 +1692,17 @@ export function NumericPromptDeclarations() {
           }
 
           if (config.parse) {
-            this.parser = config.parse.bind(this);
+            this.parse = config.parse.bind(this);
           } else {
-            const parser = (value: string) => this.isFloat ? Math.round(Math.pow(10, this.precision) * Number.parseFloat(value)) / Math.pow(10, this.precision) : Number.parseInt(value);
-            this.parser = parser.bind(this);
+            const parse = (value: string) => this.isFloat ? Math.round(Math.pow(10, this.precision) * Number.parseFloat(value)) / Math.pow(10, this.precision) : Number.parseInt(value);
+            this.parse = parse.bind(this);
           }
 
           if (config.validate) {
-            this.validator = config.validate.bind(this);
+            this.validate = config.validate.bind(this);
           } else {
-            const validator = (value: number) => !Number.isNaN(value) && value >= this.min && value <= this.max;
-            this.validator = validator.bind(this);
+            const validate = (value: number) => !Number.isNaN(value) && value >= this.min && value <= this.max;
+            this.validate = validate.bind(this);
           }
 
           this.changeValue(this.initialValue);
@@ -1741,7 +1741,7 @@ export function NumericPromptDeclarations() {
             this.displayValue.slice(this.cursor)
           }\`;
 
-          let value = this.parser(displayValue);
+          let value = this.parse(displayValue);
           if (!Number.isNaN(value)) {
 
             value = Math.min(value, this.max);
@@ -1765,7 +1765,7 @@ export function NumericPromptDeclarations() {
           parameters={[
             {
               name: "previousValue",
-              type: "TValue"
+              type: "number"
             }
           ]}>
           {code`this.#isInvalid = false;
@@ -1774,11 +1774,11 @@ export function NumericPromptDeclarations() {
         <Spacing />
         <ClassMethod
           doc="A method to validate the prompt input"
-          name="validate"
+          name="checkValidations"
           override
           async
           protected>
-          {code`await super.validate(this.value);
+          {code`await super.checkValidations(this.value);
           this.#isInvalid = this.isError; `}
         </ClassMethod>
         <Spacing />
@@ -2280,16 +2280,14 @@ export function ConfirmPromptDeclarations() {
           }
 
           if (char.toLowerCase() === "y" || char.toLowerCase() === "t" || char.toLowerCase() === "0") {
-            this.value = true;
+            this.changeValue(true);
             return this.submit();
           } else if (char.toLowerCase() === "n" || char.toLowerCase() === "f" || char.toLowerCase() === "1") {
-            this.value = false;
+            this.changeValue(false);
             return this.submit();
           } else {
             return this.bell();
-          }
-
-          this.sync(); `}
+          } `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
@@ -2429,6 +2427,58 @@ run(); `}
   );
 }
 
+export function WaitForKeyPressDeclaration() {
+  return (
+    <>
+      <TSDoc heading="A function to create and run a wait-for-key-press prompt, which returns a promise that resolves when any key is pressed or rejects with a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.">
+        <TSDocRemarks>
+          {code`This function creates an instance of the Prompt class with a custom onKeyPress handler that resolves the promise when any key is pressed. It sets up event listeners for state updates and cancellation to handle the prompt interactions and return the appropriate results. The wait-for-key-press prompt is useful for scenarios where you want to pause execution until the user presses any key, such as waiting for user input before proceeding with a task.`}
+        </TSDocRemarks>
+        <Spacing />
+        <TSDocExample>
+          {`import { waitForKeyPress } from "shell-shock:prompts";
+
+async function run() {
+  const result = await waitForKeyPress();
+  console.log("A key was pressed!");
+}
+
+run(); `}
+        </TSDocExample>
+        <Spacing />
+        <TSDocParam name="timeout">
+          {`The amount of time in milliseconds to wait before automatically resolving the prompt, defaults to 2 hours (7200000 ms)`}
+        </TSDocParam>
+        <TSDocReturns>
+          {`A promise that resolves when any key is pressed`}
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        name="waitForKeyPress"
+        export
+        parameters={[
+          {
+            name: "timeout",
+            default: "7200000"
+          }
+        ]}>
+        {code`process.stdin.setRawMode(true);
+        return new Promise(resolve => process.stdin.once("data", () => {
+          if (timeout >= 0) {
+            setTimeout(() => {
+              process.stdin.setRawMode(false);
+              resolve(void 0);
+            }, timeout);
+          }
+
+          process.stdin.setRawMode(false);
+          resolve(void 0);
+        })); `}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
 /**
  * A built-in prompts module for Shell Shock.
  */
@@ -2470,6 +2520,8 @@ export function PromptsBuiltin(props: PromptsBuiltinProps) {
       <PasswordPromptDeclaration />
       <Spacing />
       <ConfirmPromptDeclarations />
+      <Spacing />
+      <WaitForKeyPressDeclaration />
       <Spacing />
       <Show when={Boolean(children)}>{children}</Show>
     </BuiltinFile>

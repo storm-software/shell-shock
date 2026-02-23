@@ -31,6 +31,13 @@ import {
 } from "@alloy-js/typescript";
 import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import {
+  ClassDeclaration,
+  ClassField,
+  ClassMethod,
+  ClassPropertyGet,
+  ClassPropertySet
+} from "@powerlines/plugin-alloy/typescript";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import {
@@ -1378,6 +1385,162 @@ export function ColorsDeclaration() {
                           />
                         )}
                       }
+                    },
+                    spinner: {
+                      icon: {
+                        active: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.spinner.icon.active
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.spinner.icon.active
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.spinner.icon.active
+                            }
+                          />
+                        )},
+                        warning: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.spinner.icon.warning
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.spinner.icon.warning
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.spinner.icon.warning
+                            }
+                          />
+                        )},
+                        error: ${(
+                          <ColorFunction
+                            ansi16={colors.ansi16.theme.text.spinner.icon.error}
+                            ansi256={
+                              colors.ansi256.theme.text.spinner.icon.error
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.spinner.icon.error
+                            }
+                          />
+                        )},
+                        success: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.spinner.icon.success
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.spinner.icon.success
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.spinner.icon.success
+                            }
+                          />
+                        )},
+                        info: ${(
+                          <ColorFunction
+                            ansi16={colors.ansi16.theme.text.spinner.icon.info}
+                            ansi256={
+                              colors.ansi256.theme.text.spinner.icon.info
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.spinner.icon.info
+                            }
+                          />
+                        )},
+                        help: ${(
+                          <ColorFunction
+                            ansi16={colors.ansi16.theme.text.spinner.icon.help}
+                            ansi256={
+                              colors.ansi256.theme.text.spinner.icon.help
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.spinner.icon.help
+                            }
+                          />
+                        )}
+                      },
+                      message: {
+                        active: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.spinner.message.active
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.spinner.message.active
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.spinner.message.active
+                            }
+                          />
+                        )},
+                        warning: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.spinner.message.warning
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.spinner.message.warning
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.spinner.message.warning
+                            }
+                          />
+                        )},
+                        error: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.spinner.message.error
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.spinner.message.error
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.spinner.message.error
+                            }
+                          />
+                        )},
+                        success: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.spinner.message.success
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.spinner.message.success
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.spinner.message.success
+                            }
+                          />
+                        )},
+                        info: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.spinner.message.info
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.spinner.message.info
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.spinner.message.info
+                            }
+                          />
+                        )},
+                        help: ${(
+                          <ColorFunction
+                            ansi16={
+                              colors.ansi16.theme.text.spinner.message.help
+                            }
+                            ansi256={
+                              colors.ansi256.theme.text.spinner.message.help
+                            }
+                            ansi16m={
+                              colors.ansi16m.theme.text.spinner.message.help
+                            }
+                          />
+                        )}
+                      }
                     }
                   },
                   border: {
@@ -2438,6 +2601,500 @@ export function LinkFunctionDeclaration() {
   );
 }
 
+/**
+ * A component to generate the `spinner` function in the `shell-shock:console` builtin module.
+ */
+export function SpinnerFunctionDeclaration() {
+  const theme = useTheme();
+
+  return (
+    <>
+      <TypeDeclaration name="WriteStream">
+        {`NodeJS.WriteStream;`}
+      </TypeDeclaration>
+      <Spacing />
+      <VarDeclaration
+        const
+        name="activeHooksPerStream"
+        initializer="new Set();"
+      />
+      <Spacing />
+      <InterfaceDeclaration
+        export
+        name="SpinnerOptions"
+        doc="Options for configuring the spinner.">
+        <InterfaceMember
+          name="message"
+          optional
+          type="string"
+          doc="The message text to display next to the spinner. Defaults to an empty string."
+        />
+        <hbr />
+        <InterfaceMember
+          name="stream"
+          optional
+          type="WriteStream"
+          doc="The output stream to write the spinner to. Defaults to process.stderr."
+        />
+        <hbr />
+        <InterfaceMember
+          name="spinner"
+          optional
+          type="ThemeSpinnerResolvedConfig | SpinnerPreset"
+          doc="The spinner animation to use. Should be an object with a 'frames' property (an array of strings representing each frame of the animation) and an 'interval' property (the time in milliseconds between each frame). If not specified, a default spinner animation will be used."
+        />
+      </InterfaceDeclaration>
+
+      <Spacing />
+      <ClassDeclaration name="Spinner">
+        <ClassField name="frames" isPrivateMember type="string[]" />
+        <hbr />
+        <ClassField name="interval" isPrivateMember type="number" />
+        <hbr />
+        <ClassField name="currentFrame" isPrivateMember type="number">
+          {code`-1`}
+        </ClassField>
+        <hbr />
+        <ClassField
+          name="timer"
+          isPrivateMember
+          optional
+          type="NodeJS.Timeout"
+        />
+        <hbr />
+        <ClassField name="message" isPrivateMember type="string">
+          {code`""`}
+        </ClassField>
+        <hbr />
+        <ClassField name="stream" isPrivateMember type="WriteStream">
+          {code`process.stderr`}
+        </ClassField>
+        <hbr />
+        <ClassField name="lines" isPrivateMember type="number">
+          {code`0`}
+        </ClassField>
+        <hbr />
+        <ClassField
+          name="exitHandlerBound"
+          isPrivateMember
+          type="(signal: any) => void">
+          {code`() => {}`}
+        </ClassField>
+        <hbr />
+        <ClassField name="lastSpinnerFrameTime" isPrivateMember type="number">
+          {code`0`}
+        </ClassField>
+        <hbr />
+        <ClassField name="isSpinning" isPrivateMember type="boolean">
+          {code`false`}
+        </ClassField>
+        <hbr />
+        <ClassField
+          name="hookedStreams"
+          isPrivateMember
+          type='Map<WriteStream, { write?: WriteStream["write"]; originalWrite: WriteStream["write"]; hookedWrite: WriteStream["write"] }>'>
+          {code`new Map()`}
+        </ClassField>
+        <hbr />
+        <ClassField name="isInternalWrite" isPrivateMember type="boolean">
+          {code`false`}
+        </ClassField>
+        <hbr />
+        <ClassField name="isDeferringRender" isPrivateMember type="boolean">
+          {code`false`}
+        </ClassField>
+        <Spacing />
+        {code`constructor(options: SpinnerOptions = {}) {
+          const spinner = (typeof options.spinner === "string" ? resolveSpinner(options.spinner as SpinnerPreset) : options.spinner) ?? ${JSON.stringify(
+            theme.spinner
+          )};
+          this.#frames = spinner.frames;
+          this.#interval = spinner.interval;
+
+          if (options.message) {
+            this.#message = options.message;
+          }
+          if (options.stream) {
+            this.#stream = options.stream;
+          }
+
+          this.#exitHandlerBound = this.#exitHandler.bind(this);
+        }
+
+        #internalWrite(action: () => unknown) {
+          this.#isInternalWrite = true;
+          try {
+            return action();
+          } finally {
+            this.#isInternalWrite = false;
+          }
+        }
+
+        #stringifyChunk(chunk: string | Uint8Array<ArrayBufferLike> | ArrayBufferLike) {
+          if (chunk === undefined || chunk === null) {
+            return "";
+          }
+
+          if (typeof chunk === "string") {
+            return chunk;
+          }
+
+          if (Buffer.isBuffer(chunk) || ArrayBuffer.isView(chunk)) {
+            return Buffer.from(chunk).toString("utf8");
+          }
+
+          return String(chunk);
+        }
+
+        #withSynchronizedOutput(action: () => unknown) {
+          if (!isInteractive) {
+            return action();
+          }
+
+          try {
+            this.#write("\\u001B[?2026h");
+            return action();
+          } finally {
+            this.#write("\\u001B[?2026l");
+          }
+        }
+
+        #hookStream(stream: WriteStream) {
+          if (!stream || this.#hookedStreams.has(stream) || typeof stream.write !== "function") {
+            return;
+          }
+
+          if (activeHooksPerStream.has(stream)) {
+            return;
+          }
+
+          const originalWrite = stream.write;
+          const hookedWrite = ((...writeArguments: Parameters<WriteStream["write"]>) => this.#hookedWrite(stream, originalWrite, writeArguments)) as WriteStream["write"];
+
+          this.#hookedStreams.set(stream, {originalWrite, hookedWrite});
+          activeHooksPerStream.add(stream);
+          stream.write = hookedWrite;
+        }
+
+        #installHook() {
+          if (!isInteractive || this.#hookedStreams.size > 0) {
+            return;
+          }
+
+          const streamsToHook = new Set([this.#stream]);
+          if (this.#stream === process.stdout || this.#stream === process.stderr) {
+            if (isInteractive(process.stdout)) {
+              streamsToHook.add(process.stdout);
+            }
+
+            if (isInteractive(process.stderr)) {
+              streamsToHook.add(process.stderr);
+            }
+          }
+
+          for (const stream of streamsToHook) {
+            this.#hookStream(stream);
+          }
+        }
+
+        #uninstallHook() {
+          for (const [stream, hookInfo] of this.#hookedStreams) {
+            if (stream.write === hookInfo.hookedWrite) {
+              stream.write = hookInfo.originalWrite;
+            }
+
+            activeHooksPerStream.delete(stream);
+          }
+
+          this.#hookedStreams.clear();
+        }
+
+        #hookedWrite(stream: WriteStream, originalWrite: typeof stream.write, writeArguments: Parameters<typeof stream.write>) {
+          const [chunk, callback] = writeArguments;
+
+          if (this.#isInternalWrite || !this.isSpinning) {
+            return originalWrite.call(stream, chunk);
+          }
+
+          if (this.#lines > 0) {
+            this.clear();
+          }
+
+          const chunkString = this.#stringifyChunk(chunk);
+          const chunkTerminatesLine = chunkString.at(-1) === "\\n";
+          const writeResult = originalWrite.call(stream, chunk);
+
+          if (chunkTerminatesLine) {
+            this.#isDeferringRender = false;
+          } else if (chunkString !== "") {
+            this.#isDeferringRender = true;
+          }
+
+          if (this.isSpinning && !this.#isDeferringRender) {
+            this.#render();
+          }
+
+          return writeResult;
+        }
+
+        #stopWithIcon(icon: string, message: string) {
+          return this.stop(\`\${icon} \${message ?? this.#message}\`);
+        }
+
+        #render() {
+          if (this.#isDeferringRender) {
+            return;
+          }
+
+          const useSynchronizedOutput = isInteractive;
+          if (this.#currentFrame === -1 || Date.now() - this.#lastSpinnerFrameTime >= this.#interval) {
+            this.#currentFrame = ++this.#currentFrame % this.#frames.length;
+            this.#lastSpinnerFrameTime = Date.now();
+          }
+
+          let display = \`\${colors.text.spinner.icon.active(this.#frames[this.#currentFrame])} \${colors.text.spinner.message.active(this.#message)}\`;
+          if (!isInteractive) {
+            display += "\\n";
+          }
+
+          if (useSynchronizedOutput) {
+            this.#withSynchronizedOutput(() => {
+              this.clear();
+              this.#write(display);
+            });
+          } else {
+            this.#write(display);
+          }
+
+          if (isInteractive) {
+            this.#lines = this.#lineCount(display);
+          }
+        }
+
+        #write(message: string) {
+          this.#internalWrite(() => {
+            this.#stream.write(message);
+          });
+        }
+
+        #lineCount(message: string) {
+          const width = this.#stream.columns ?? 80;
+          const lines = stripVTControlCharacters(message).split("\\n");
+
+          let lineCount = 0;
+          for (const line of lines) {
+            lineCount += Math.max(1, Math.ceil(line.length / width));
+          }
+
+          return lineCount;
+        }
+
+        #hideCursor() {
+          if (isInteractive) {
+            this.#write("\\u001B[?25l");
+          }
+        }
+
+        #showCursor() {
+          if (isInteractive) {
+            this.#write("\\u001B[?25h");
+          }
+        }
+
+        #subscribeToProcessEvents() {
+          process.once("SIGINT", this.#exitHandlerBound);
+          process.once("SIGTERM", this.#exitHandlerBound);
+        }
+
+        #unsubscribeFromProcessEvents() {
+          process.off("SIGINT", this.#exitHandlerBound);
+          process.off("SIGTERM", this.#exitHandlerBound);
+        }
+
+        #exitHandler(signal: any) {
+          if (this.isSpinning) {
+            this.stop();
+          }
+
+          process.exit(signal === "SIGINT" ? 130 : (signal === "SIGTERM" ? 143 : 1));
+        } `}
+        <ClassPropertyGet
+          public
+          name="isSpinning"
+          type="boolean"
+          doc="Whether the spinner is currently active and spinning.">
+          {code`return this.#isSpinning;`}
+        </ClassPropertyGet>
+        <Spacing />
+        <ClassPropertySet
+          public
+          name="message"
+          type="string"
+          doc="Set the message displayed by the spinner.">
+          {code`this.#message = value;`}
+        </ClassPropertySet>
+        <Spacing />
+        <ClassPropertyGet
+          public
+          name="message"
+          type="string"
+          doc="Get the message displayed by the spinner.">
+          {code`return this.#message;`}
+        </ClassPropertyGet>
+        <Spacing />
+        <ClassMethod
+          name="start"
+          doc="Start the spinner animation."
+          parameters={[{ name: "message", type: "string" }]}>
+          <IfStatement condition={code`message !== undefined`}>
+            {code`this.#message = message;`}
+          </IfStatement>
+          <IfStatement condition={code`this.isSpinning`}>
+            {code`return this;`}
+          </IfStatement>
+          {code`this.#isSpinning = true;
+          this.#hideCursor();
+          this.#installHook();
+          this.#render();
+          this.#subscribeToProcessEvents();
+
+          if (isInteractive) {
+            this.#timer = setInterval(() => {
+              this.#render();
+            }, this.#interval);
+          }
+
+          return this;
+          `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          name="stop"
+          doc="Stop the spinner animation."
+          parameters={[
+            { name: "finalMessage", optional: true, type: "string" }
+          ]}>
+          {code`if (!this.isSpinning) {
+            return this;
+          }
+
+          const shouldWriteNewline = this.#isDeferringRender;
+          this.#isSpinning = false;
+          if (this.#timer) {
+            clearInterval(this.#timer);
+            this.#timer = undefined;
+          }
+
+          this.#isDeferringRender = false;
+          this.#uninstallHook();
+          this.#showCursor();
+          this.clear();
+          this.#unsubscribeFromProcessEvents();
+
+          if (finalMessage) {
+            const prefix = shouldWriteNewline ? "\\n" : "";
+            this.#stream.write(\`\${prefix}\${finalMessage}\\n\`);
+          }
+
+          return this;
+
+          `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod name="clear" doc="Clear the spinner animation.">
+          {code`if (!isInteractive) {
+            return this;
+          }
+
+          if (this.#lines === 0) {
+            return this;
+          }
+
+          this.#internalWrite(() => {
+            this.#stream.cursorTo(0);
+
+            for (let index = 0; index < this.#lines; index++) {
+              if (index > 0) {
+                this.#stream.moveCursor(0, -1);
+              }
+
+              this.#stream.clearLine(1);
+            }
+          });
+
+          this.#lines = 0;
+          return this; `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          name="success"
+          doc="Mark the spinner as successful."
+          parameters={[{ name: "message", type: "string" }]}>
+          {code`return this.#stopWithIcon(colors.text.spinner.icon.success("${
+            theme.icons.spinner.success
+          }"), colors.text.spinner.message.success(message)); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          name="error"
+          doc="Mark the spinner as failed."
+          parameters={[{ name: "message", type: "string" }]}>
+          {code`return this.#stopWithIcon(colors.text.spinner.icon.error("${
+            theme.icons.spinner.error
+          }"), colors.text.spinner.message.error(message)); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          name="warning"
+          doc="Mark the spinner as warning."
+          parameters={[{ name: "message", type: "string" }]}>
+          {code`return this.#stopWithIcon(colors.text.spinner.icon.warning("${
+            theme.icons.spinner.warning
+          }"), colors.text.spinner.message.warning(message)); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          name="info"
+          doc="Mark the spinner as informational."
+          parameters={[{ name: "message", type: "string" }]}>
+          {code`return this.#stopWithIcon(colors.text.spinner.icon.info("${
+            theme.icons.spinner.info
+          }"), colors.text.spinner.message.info(message)); `}
+        </ClassMethod>
+        <Spacing />
+        <ClassMethod
+          name="help"
+          doc="Mark the spinner as help."
+          parameters={[{ name: "message", type: "string" }]}>
+          {code`return this.#stopWithIcon(colors.text.spinner.icon.help("${
+            theme.icons.spinner.help
+          }"), colors.text.spinner.message.help(message)); `}
+        </ClassMethod>
+        <Spacing />
+      </ClassDeclaration>
+      <Spacing />
+      <TSDoc heading="Render a spinner in the console.">
+        <TSDocParam name="options">
+          {`Options for configuring the spinner, including the message to display, the output stream to write to, and the spinner animation to use.`}
+        </TSDocParam>
+        <TSDocReturns>{`An instance of the Spinner class, which can be used to control the spinner animation (e.g., start, stop, mark as success/error, etc.).`}</TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        name="createSpinner"
+        parameters={[
+          {
+            name: "options",
+            type: "SpinnerOptions",
+            optional: true
+          }
+        ]}>
+        {code`return new Spinner(options);`}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
 function extractBorderOptionsObject(
   direction:
     | "top"
@@ -3152,13 +3809,21 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
       description="A collection of helper utilities to assist in generating content meant for display in the console."
       imports={defu(imports, {
         "@shell-shock/plugin-theme/types/theme": [
-          { name: "ThemeColorsResolvedConfig", type: true }
-        ]
+          { name: "ThemeColorsResolvedConfig", type: true },
+          { name: "ThemeSpinnerResolvedConfig", type: true }
+        ],
+        "@shell-shock/plugin-theme/helpers/spinners": [
+          { name: "SpinnerPreset", type: true },
+          { name: "resolveSpinner" }
+        ],
+        "node:buffer": ["WithImplicitCoercion"],
+        "node:util": ["stripVTControlCharacters"]
       })}
       builtinImports={defu(builtinImports, {
         utils: [
           "hasFlag",
           "isMinimal",
+          "isInteractive",
           "isColorSupported",
           "colorSupportLevels",
           "isHyperlinkSupported"
@@ -3178,6 +3843,8 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
       <LinkFunctionDeclaration />
       <Spacing />
       <DividerFunctionDeclaration />
+      <Spacing />
+      <SpinnerFunctionDeclaration />
       <Spacing />
       <MessageFunctionDeclaration
         type="help"
@@ -3262,9 +3929,9 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
             <Spacing />
             <IfStatement condition={code`env.STACKTRACE`}>
               <IfStatement condition={code`(err as Error)?.stack`}>
-                {code`message += " \\n\\n" + (err as Error).stack;`}
+                {code`message += " \\n\\n" + ((err as Error).stack || "");`}
               </IfStatement>
-              <ElseClause>{code`message += " \\n\\n" + (new Error(" ")).stack.split("\\n").slice(2).map(line => line.trim()).join("\\n");`}</ElseClause>
+              <ElseClause>{code`message += " \\n\\n" + ((new Error(" ")).stack || "").split("\\n").slice(2).map(line => line.trim()).join("\\n");`}</ElseClause>
             </IfStatement>
           </>
         }

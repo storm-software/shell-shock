@@ -1335,6 +1335,93 @@ declare module "shell-shock:console" {
    * @param options - Options for formatting the divider line.
    */
   export function divider(options: DividerOptions): void;
+  type WriteStream = NodeJS.WriteStream;
+  /**
+   * Options for configuring the spinner.
+   */
+  export interface SpinnerOptions {
+    /**
+     * The message text to display next to the spinner. Defaults to an empty string.
+     */
+    message?: string;
+    /**
+     * The output stream to write the spinner to. Defaults to process.stderr.
+     */
+    stream?: WriteStream;
+    /**
+     * The spinner animation to use. Should be an object with a 'frames' property (an array of strings representing each frame of the animation) and an 'interval' property (the time in milliseconds between each frame). If not specified, a default spinner animation will be used.
+     */
+    spinner?: ThemeSpinnerResolvedConfig | SpinnerPreset;
+  }
+  class Spinner {
+    constructor(options?: SpinnerOptions);
+    get isSpinning(): boolean;
+    /**
+     * Set the message displayed by the spinner.
+     */
+    set message(value: string);
+    /**
+     * Get the message displayed by the spinner.
+     */
+    get message(): string;
+    /**
+     * Start the spinner animation.
+     *
+     * @param message
+     */
+    start(message: string): this;
+    /**
+     * Stop the spinner animation.
+     *
+     * @param [finalMessage]
+     */
+    stop(finalMessage?: string): this;
+    /**
+     * Clear the spinner animation.
+     */
+    clear(): this;
+    /**
+     * Mark the spinner as successful.
+     *
+     * @param message
+     */
+    success(message: string): this;
+    /**
+     * Mark the spinner as failed.
+     *
+     * @param message
+     */
+    error(message: string): this;
+    /**
+     * Mark the spinner as warning.
+     *
+     * @param message
+     */
+    warning(message: string): this;
+    /**
+     * Mark the spinner as informational.
+     *
+     * @param message
+     */
+    info(message: string): this;
+    /**
+     * Mark the spinner as help.
+     *
+     * @param message
+     */
+    help(message: string): this;
+  }
+  /**
+   * Render a spinner in the console.
+   *
+   * @param options - Options for configuring the spinner, including the message
+   *   to display, the output stream to write to, and the spinner animation to
+   *   use.
+   * @returns An instance of the Spinner class, which can be used to control the
+   *   spinner animation (e.g., start, stop, mark as success/error, etc.).
+   *
+   */
+  export function createSpinner(options?: SpinnerOptions): Spinner;
   /**
    * Write a help message to the console.
    *
@@ -1555,4 +1642,5 @@ declare module "shell-shock:console" {
       | string[]
       | string[][]
   ): void;
+  export {};
 }

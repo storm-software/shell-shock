@@ -92,7 +92,7 @@ type BaseOptions = Partial<BuildOptions> & {
 /**
  * The plugin options for Shell Shock.
  */
-export type Options = BaseOptions & NodeJsPluginOptions;
+export type Options = BaseOptions & Partial<NodeJsPluginOptions>;
 
 /**
  * The output configuration options for Shell Shock.
@@ -111,7 +111,7 @@ export type OutputConfig = Pick<
  * The user configuration options for Shell Shock.
  */
 export type UserConfig = BaseOptions &
-  NodeJsPluginUserConfig & {
+  Partial<NodeJsPluginUserConfig> & {
     /**
      * Configuration for the output of the build process
      */

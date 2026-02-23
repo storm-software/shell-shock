@@ -653,7 +653,7 @@ export function SpawnFunctionDeclaration() {
 
             try {
               const fd = openSync(normalized.file, "r");
-              await read(fd, buffer, 0, 150, 0);
+              await promisify(read)(fd, buffer, 0, 150, 0);
               closeSync(fd);
             } catch (err) {
               // Do nothing
@@ -872,8 +872,9 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
           "posix",
           "sep"
         ],
-        "node:fs": ["openSync", "closeSync"],
-        "node:fs/promises": ["stat", "read"],
+        "node:fs": ["openSync", "closeSync", "read"],
+        "node:fs/promises": ["stat"],
+        "node:util": ["promisify"],
         "node:child_process": [{ name: "spawn", alias: "_spawn" }],
         "node:async_hooks": ["AsyncLocalStorage"]
       })}

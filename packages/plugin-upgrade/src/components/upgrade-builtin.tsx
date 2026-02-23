@@ -266,7 +266,7 @@ export function GetPackageManagerFunctionDeclaration() {
             default: "{}"
           }
         ]}
-        returnType={code`Promise<"npm" | "yarn" | "deno" | "pnpm" | "bun">`}>
+        returnType={code`"npm" | "yarn" | "deno" | "pnpm" | "bun"`}>
         <VarDeclaration
           const
           name="userAgent"
@@ -525,7 +525,7 @@ export function FetchNpmPackageFunctionDeclaration() {
             type: "string"
           }
         ]}
-        returnType={code`Promise<NpmPackage | undefined>`}>
+        returnType={code`NpmPackage | undefined`}>
         <VarDeclaration
           const
           name="result"
@@ -572,7 +572,7 @@ export function GetLatestVersionFunctionDeclaration() {
             default: `"${context.packageJson.name}"`
           }
         ]}
-        returnType={code`Promise<string | undefined>`}>
+        returnType={code`string | undefined`}>
         <VarDeclaration
           const
           name="result"
@@ -623,7 +623,7 @@ export function GetUpgradeCommandFunctionDeclaration() {
             default: "process.cwd()"
           }
         ]}
-        returnType="Promise<string[]>">
+        returnType="string[]">
         <VarDeclaration
           const
           name="version"
@@ -748,6 +748,90 @@ export function UpgradeFunctionDeclaration() {
 }
 
 /**
+ * The `updateVersionCheckFile` handler function declaration code for the Shell Shock project.
+ */
+export function UpdateVersionCheckFileFunctionDeclaration() {
+  return (
+    <>
+      <TSDoc heading="A helper function that updates the version check file.">
+        <TSDocRemarks>
+          {`This function is used to update the version check file with the current timestamp. It can be used in the CLI upgrade command to record the last time a check for updates was performed. The function writes a "version-check.json" file in the data directory, which contains a timestamp of the last check for updates.`}
+        </TSDocRemarks>
+        <Spacing />
+        <TSDocReturns>
+          {`A promise that resolves to a boolean indicating whether a check for updates is required.`}
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        async
+        name="updateVersionCheckFile"
+        returnType="void">
+        <IfStatement condition={code`!existsSync(paths.data)`}>
+          {code`await mkdir(paths.data, { recursive: true }); `}
+        </IfStatement>
+        {code`await writeFile(join(paths.data, "version-check.json"), JSON.stringify({ timestamp: new Date().getTime() }), "utf8"); `}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
+ * The `isCheckForUpdatesRequired` handler function declaration code for the Shell Shock project.
+ */
+export function IsCheckForUpdatesRequiredFunctionDeclaration() {
+  const context = usePowerlines<UpgradePluginContext>();
+
+  return (
+    <>
+      <TSDoc heading="A helper function that verifies if a check for updates is required.">
+        <TSDocRemarks>
+          {`This function is used to determine if a check for updates is required based on the last time a check was performed. It can be used in the CLI upgrade command to avoid unnecessary checks for updates if one was recently performed. The function checks for the existence of a "version-check.json" file in the data directory, which contains a timestamp of the last check for updates. If the file does not exist or if the timestamp is older than a specified stale time, the function will return true, indicating that a check for updates is required. Otherwise, it will return false.`}
+        </TSDocRemarks>
+        <Spacing />
+        <TSDocReturns>
+          {`A promise that resolves to a boolean indicating whether a check for updates is required.`}
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration export async name="isCheckForUpdatesRequired">
+        <IfStatement
+          condition={code`!isInteractive || isCI || env.SKIP_VERSION_CHECK`}>
+          {code`return false; `}
+        </IfStatement>
+        <Spacing />
+        <VarDeclaration
+          const
+          name="filePath"
+          initializer={code`join(paths.data, "version-check.json"); `}
+        />
+        <IfStatement condition={code`existsSync(filePath)`}>
+          <VarDeclaration
+            const
+            name="file"
+            type="{ timestamp: number; }"
+            initializer={code` JSON.parse(await readFile(filePath, "utf8")); `}
+          />
+          <IfStatement condition={code`!file.timestamp`}>
+            {code`await updateVersionCheckFile();
+            return true; `}
+          </IfStatement>
+          <ElseIfClause
+            condition={code`new Date().getTime() - file.timestamp < ${
+              context.config.upgrade.staleTime
+            }`}>
+            {code`return false; `}
+          </ElseIfClause>
+        </IfStatement>
+        <ElseClause>
+          {code`await updateVersionCheckFile();
+          return true; `}
+        </ElseClause>
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
  * The `checkForUpdates` handler function declaration code for the Shell Shock project.
  */
 export function CheckForUpdatesFunctionDeclaration() {
@@ -759,12 +843,27 @@ export function CheckForUpdatesFunctionDeclaration() {
         export
         name="CheckForUpdatesOptions"
         extends="GetPackageManagerOptions"
-        doc="Options for the `checkForUpdates` handler function."></InterfaceDeclaration>
+        doc="Options for the `checkForUpdates` handler function.">
+        <InterfaceMember
+          name="force"
+          optional
+          type="boolean"
+          doc="Whether to force a check for updates regardless of the last check timestamp. If set to `true`, the function will bypass the timestamp check and perform a check for updates, updating the timestamp in the process. This can be useful if you want to ensure that a check for updates is performed even if one was recently done, such as when the user explicitly requests it or when certain conditions are met that warrant an immediate check."
+        />
+      </InterfaceDeclaration>
+      <Spacing />
+      <InterfaceDeclaration name="CheckForUpdatesBaseResult">
+        <InterfaceMember
+          name="isError"
+          type="boolean"
+          optional
+          doc="Indicates whether an error occurred while checking for updates."
+        />
+      </InterfaceDeclaration>
       <Spacing />
       <InterfaceDeclaration
-        export
-        name="CheckForUpdatesResult"
-        doc="The result for the `checkForUpdates` handler function.">
+        name="CheckForUpdatesSuccessResult"
+        extends="CheckForUpdatesBaseResult">
         <InterfaceMember
           name="latestVersion"
           type="string"
@@ -786,15 +885,27 @@ export function CheckForUpdatesFunctionDeclaration() {
         <InterfaceMember
           name="package"
           type="NpmPackage"
+          optional
           doc="The npm package that was checked for updates."
         />
-        <hbr />
+      </InterfaceDeclaration>
+      <Spacing />
+      <InterfaceDeclaration
+        name="CheckForUpdatesErrorResult"
+        extends="CheckForUpdatesBaseResult">
         <InterfaceMember
-          name="packageManager"
-          type="'npm' | 'yarn' | 'pnpm' | 'deno' | 'bun'"
-          doc="The package manager used to check for updates."
+          name="error"
+          type="Error"
+          doc="The error that occurred while checking for updates."
         />
       </InterfaceDeclaration>
+      <Spacing />
+      <TypeDeclaration
+        export
+        name="CheckForUpdatesResult"
+        doc="The result for the `checkForUpdates` handler function.">
+        {code`CheckForUpdatesSuccessResult | CheckForUpdatesErrorResult;`}
+      </TypeDeclaration>
       <Spacing />
       <TSDoc heading="Check for updates to the application dependencies.">
         <TSDocRemarks>
@@ -819,60 +930,37 @@ export function CheckForUpdatesFunctionDeclaration() {
             default: "{}"
           }
         ]}
-        returnType="Promise<CheckForUpdatesResult | undefined>">
-        <VarDeclaration
-          const
-          name="filePath"
-          initializer={code`join(paths.data, "version-check.json"); `}
-        />
-        <IfStatement condition={code`existsSync(filePath)`}>
-          <VarDeclaration
-            const
-            name="file"
-            type="{ timestamp: number; }"
-            initializer={code` JSON.parse(await readFile(filePath, "utf8")); `}
-          />
-          <IfStatement condition={code`!file.timestamp`}>
-            {code`await writeFile(filePath, JSON.stringify({ timestamp: new Date().getTime() }), "utf8");
-            return undefined; `}
-          </IfStatement>
-          <ElseIfClause
-            condition={code`new Date().getTime() - file.timestamp < ${
-              context.config.upgrade.staleTime
-            }`}>
-            {code`return undefined; `}
-          </ElseIfClause>
+        returnType="CheckForUpdatesResult">
+        <IfStatement
+          condition={code`!options.force && !(await isCheckForUpdatesRequired())`}>
+          {code`return {
+            latestVersion: "${context.packageJson.version}",
+            currentVersion: "${context.packageJson.version}",
+            isUpToDate: true,
+            isError: false,
+          }; `}
         </IfStatement>
-        <ElseClause>
-          {code`await writeFile(filePath, JSON.stringify({ timestamp: new Date().getTime() }), "utf8");
-              return undefined; `}
-        </ElseClause>
         <Spacing />
-        <VarDeclaration
-          const
-          name="packageManager"
-          initializer={code`await getPackageManager(options); `}
-        />
-        <Spacing />
+        {code`try { `}
         <VarDeclaration
           const
           name="pkg"
-          initializer={code`await fetchNpmPackage(); `}
+          initializer={code`await fetchNpmPackage("${
+            context.packageJson.name
+          }"); `}
         />
         <Spacing />
-        <IfStatement condition={code`!pkg`}>
-          {code`return undefined; `}
-        </IfStatement>
-        <Spacing />
-        {code`await writeFile(filePath, JSON.stringify({ timestamp: new Date().getTime() }), "utf8");
-
+        {code`
           return {
-          latestVersion: pkg?.version ?? "0.0.0",
-          currentVersion: "${context.packageJson.version}",
-          isUpToDate: pkg ? "${context.packageJson.version}" === pkg.version : true,
-          package: pkg,
-          packageManager,
-        }; `}
+            latestVersion: pkg?.version || "${context.packageJson.version}",
+            currentVersion: "${context.packageJson.version}",
+            isUpToDate: pkg ? "${context.packageJson.version}" === pkg.version : true,
+            package: pkg,
+            isError: false,
+          };
+        } catch (err) {
+          return { isError: true, error: err instanceof Error ? err : new Error(String(err)) };
+        } `}
       </FunctionDeclaration>
     </>
   );
@@ -898,13 +986,13 @@ export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
         "node:os": "os",
         "node:path": ["join", "resolve"],
         "node:fs": ["existsSync"],
-        "node:fs/promises": ["readFile", "writeFile"],
+        "node:fs/promises": ["readFile", "writeFile", "mkdir"],
         "node:process": "process"
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
         console: ["error", "verbose", "writeLine"],
-        env: ["paths", "isWindows"],
-        utils: ["isColorSupported", "spawn"]
+        env: ["paths", "isWindows", "isCI", "env"],
+        utils: ["isColorSupported", "isInteractive", "spawn"]
       })}>
       <VarDeclaration
         const
@@ -935,6 +1023,10 @@ export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
       <UpgradeFunctionDeclaration />
       <Spacing />
       <CheckForUpdatesFunctionDeclaration />
+      <Spacing />
+      <IsCheckForUpdatesRequiredFunctionDeclaration />
+      <Spacing />
+      <UpdateVersionCheckFileFunctionDeclaration />
       <Spacing />
       <Show when={Boolean(children)}>{children}</Show>
     </BuiltinFile>

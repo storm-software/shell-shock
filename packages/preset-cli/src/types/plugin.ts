@@ -21,22 +21,35 @@ import type {
   CommandOption
 } from "@shell-shock/core/types/command";
 import type { Context } from "@shell-shock/core/types/context";
+import type { PromptsPluginContext } from "@shell-shock/plugin-prompts/types/plugin";
 import type {
   ThemePluginResolvedConfig,
   ThemePluginUserConfig
 } from "@shell-shock/plugin-theme/types/plugin";
-import type {
-  UpgradePluginContext,
-  UpgradePluginOptions,
-  UpgradePluginResolvedConfig,
-  UpgradePluginUserConfig
-} from "@shell-shock/plugin-upgrade/types/plugin";
+import type { UpgradePluginOptions } from "@shell-shock/plugin-upgrade/types/plugin";
 import type {
   ScriptPresetContext,
   ScriptPresetOptions,
   ScriptPresetResolvedConfig,
   ScriptPresetUserConfig
 } from "@shell-shock/preset-script/types/plugin";
+
+export type UpgradeType = "confirm" | "auto" | "manual";
+
+export interface CLIPresetUpgradeOptions extends UpgradePluginOptions {
+  /**
+   * The type of upgrade to perform. This option determines how the upgrade process will be handled.
+   *
+   * @remarks
+   * The upgrade logic will behave differently based on the value of this field:
+   * - `"confirm"` - the user will be prompted to confirm the upgrade before it is performed. This is the default behavior and is recommended for most users, as it provides an extra layer of safety against unintended upgrades.
+   * - `"auto"` - the upgrade will be performed automatically without any user confirmation. This option is suitable for advanced users who want a seamless upgrade experience and are confident in the stability of new versions.
+   * - `"manual"` - the command will only display the latest available version without performing any upgrade. This option is useful for users who want to check for updates without making any changes to their system.
+   *
+   * @defaultValue "confirm"
+   */
+  type?: UpgradeType;
+}
 
 export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> & {
   /**
@@ -77,20 +90,25 @@ export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> & {
    * @remarks
    * The upgrade command allows users to check for and perform upgrades to the latest version of the application. If you would like to include the upgrade command in your CLI application, but manage its configuration separately, you can set this field to `true` and configure the upgrade plugin directly in your application's configuration.
    */
-  upgrade?: UpgradePluginOptions | false;
+  upgrade?: CLIPresetUpgradeOptions | false;
 };
 
 export type CLIPresetUserConfig = ScriptPresetUserConfig &
   ThemePluginUserConfig &
-  UpgradePluginUserConfig &
-  Omit<CLIPresetOptions, "upgrade">;
+  CLIPresetOptions;
 
 export type CLIPresetResolvedConfig = ScriptPresetResolvedConfig &
-  UpgradePluginResolvedConfig &
   ThemePluginResolvedConfig &
-  Required<Pick<CLIPresetOptions, "interactive" | "defaultOptions">>;
+  Required<Pick<CLIPresetOptions, "interactive" | "defaultOptions">> & {
+    /**
+     * Whether to include the upgrade process provided by the `@shell-shock/plugin-upgrade` package. If not set to `false`, the upgrade command will be included with default options. If set to an object, the provided options will be used to configure the upgrade command. If set to `false`, the upgrade command will not be included.
+     *
+     * @remarks
+     * The upgrade command allows users to check for and perform upgrades to the latest version of the application. If you would like to include the upgrade command in your CLI application, but manage its configuration separately, you can set this field to `true` and configure the upgrade plugin directly in your application's configuration.
+     */
+    upgrade: Required<CLIPresetUpgradeOptions> | false;
+  };
 
 export type CLIPresetContext<
   TResolvedConfig extends CLIPresetResolvedConfig = CLIPresetResolvedConfig
-> = ScriptPresetContext<TResolvedConfig> &
-  UpgradePluginContext<TResolvedConfig>;
+> = PromptsPluginContext & ScriptPresetContext<TResolvedConfig>;

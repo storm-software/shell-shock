@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { isSetObject } from "@stryke/type-checks/is-set-object";
+import { isSetString } from "@stryke/type-checks/is-set-string";
 import type { Config, PlatformConfig } from "style-dictionary";
 import type {
   DesignToken,
@@ -24,17 +25,23 @@ import type {
   Preprocessor
 } from "style-dictionary/types";
 import { mergeThemes } from "../helpers/merge";
+import type { SpinnerPreset } from "../helpers/spinners";
+import { resolveSpinner } from "../helpers/spinners";
 import type { ThemePluginContext } from "../types/plugin";
-import type { ThemeResolvedConfig } from "../types/theme";
+import type {
+  ThemeResolvedConfig,
+  ThemeSpinnerResolvedConfig,
+  ThemeSpinnerUserConfig
+} from "../types/theme";
 
 /**
- * Shell Shock - Theme Settings Preprocessor
+ * Shell Shock - Theme Spinners Preprocessor
  *
  * @remarks
  * This preprocessor applies custom value transformations to design tokens based on the provided configuration options.
  */
-export const settings = (context: ThemePluginContext): Preprocessor => ({
-  name: "shell-shock/settings",
+export const spinners = (context: ThemePluginContext): Preprocessor => ({
+  name: "shell-shock/spinners",
   preprocessor: (
     dictionary: PreprocessedTokens,
     _options: Config | PlatformConfig
@@ -45,18 +52,24 @@ export const settings = (context: ThemePluginContext): Preprocessor => ({
 
     // #region Tiered token resolution
 
-    // #region Settings
+    // #region Spinners
 
-    resolvedConfig.settings ??= {};
-    const settings = dictionary.settings;
+    const spinner = dictionary.spinner as
+      | ThemeSpinnerUserConfig
+      | SpinnerPreset;
 
-    if (isSetObject(settings)) {
-      resolvedConfig.settings = {
-        ...settings
-      };
+    if (isSetString(spinner)) {
+      resolvedConfig.spinner = resolveSpinner(
+        spinner
+      ) as ThemeSpinnerResolvedConfig;
+    } else if (isSetObject(spinner)) {
+      resolvedConfig.spinner = {
+        interval: 80,
+        ...spinner
+      } as ThemeSpinnerResolvedConfig;
     }
 
-    // #endregion Settings
+    // #endregion Spinners
 
     // #endregion Tiered token resolution
 

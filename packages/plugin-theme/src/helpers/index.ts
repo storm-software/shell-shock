@@ -17,3 +17,6 @@
  ------------------------------------------------------------------- */
 
 export * from "./ansi-utils";
+export * from "./border-styles";
+export * from "./merge";
+export * from "./spinners";

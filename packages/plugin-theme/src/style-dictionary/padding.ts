@@ -25,6 +25,8 @@ import type {
   PreprocessedTokens,
   Preprocessor
 } from "style-dictionary/types";
+import { resolveBorderStyle } from "../helpers/border-styles";
+import { mergeThemes } from "../helpers/merge";
 import type { ThemePluginContext } from "../types/plugin";
 import type {
   ThemeBorderStyleAppSubItemUserConfig,
@@ -37,7 +39,6 @@ import type {
   ThemeResolvedConfig,
   ThemeStyleBorderIdentifiers
 } from "../types/theme";
-import { mergeThemes, resolveBorderStyle } from "./helpers";
 
 /**
  * Shell Shock - Theme Padding Preprocessor

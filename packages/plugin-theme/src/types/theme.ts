@@ -16,6 +16,8 @@
 
  ------------------------------------------------------------------- */
 
+import type { SpinnerPreset } from "../helpers/spinners";
+
 export type ThemeMessageVariant =
   | "help"
   | "success"
@@ -62,6 +64,15 @@ export interface ThemeColorPromptLabelState {
   submitted: string;
   cancelled: string;
   disabled: string;
+}
+
+export interface ThemeColorSpinnerState {
+  active: string;
+  error: string;
+  success: string;
+  help: string;
+  info: string;
+  warning: string;
 }
 
 export interface ThemeColorDescriptionPromptState extends ThemeColorPromptLabelState {
@@ -127,6 +138,16 @@ export interface ThemeColorPromptSubItemResolvedConfig {
   description: ThemeColorDescriptionPromptState;
 }
 
+export interface ThemeColorSpinnerSubItemUserConfig {
+  icon: Partial<ThemeColorSpinnerState> | string;
+  message: Partial<ThemeColorSpinnerState> | string;
+}
+
+export interface ThemeColorSpinnerSubItemResolvedConfig {
+  icon: ThemeColorSpinnerState;
+  message: ThemeColorSpinnerState;
+}
+
 export interface ThemeColorTextItemsUserConfig {
   banner: Partial<ThemeColorBannerSubItemUserConfig> | string;
   heading: Partial<ThemeColorSubItem> | string;
@@ -134,6 +155,7 @@ export interface ThemeColorTextItemsUserConfig {
   message: Partial<ThemeColorMessageSubItemUserConfig> | string;
   usage: Partial<ThemeColorUsageSubItem> | string;
   prompt: Partial<ThemeColorPromptSubItemUserConfig> | string;
+  spinner: Partial<ThemeColorSpinnerSubItemUserConfig> | string;
 }
 
 export interface ThemeColorTextItemsResolvedConfig {
@@ -143,6 +165,7 @@ export interface ThemeColorTextItemsResolvedConfig {
   message: ThemeColorMessageSubItemResolvedConfig;
   usage: ThemeColorUsageSubItem;
   prompt: ThemeColorPromptSubItemResolvedConfig;
+  spinner: ThemeColorSpinnerSubItemResolvedConfig;
 }
 
 export interface ThemeColorBorderSubItemUserConfig<TState extends object> {
@@ -380,13 +403,21 @@ export interface ThemeIconSubItemConfig {
   tertiary: string;
 }
 
-export interface ThemeIconPromptState {
+export interface ThemeIconPromptStateConfig {
   active: string;
   warning: string;
   error: string;
   submitted: string;
   cancelled: string;
   disabled: string;
+}
+
+export interface ThemeIconSpinnerStateConfig {
+  help: string;
+  success: string;
+  info: string;
+  warning: string;
+  error: string;
 }
 
 export interface ThemeIconTypeUserConfig<TState extends object> {
@@ -400,13 +431,15 @@ export interface ThemeIconTypeResolvedConfig<TState extends object> {
 export interface ThemeIconsUserConfig {
   message: ThemeIconTypeUserConfig<ThemeIconMessageStateConfig> | string;
   banner: ThemeIconTypeUserConfig<ThemeIconSubItemConfig> | string;
-  prompt: Partial<ThemeIconPromptState> | string;
+  prompt: Partial<ThemeIconPromptStateConfig> | string;
+  spinner: Partial<ThemeIconSpinnerStateConfig> | string;
 }
 
 export interface ThemeIconsResolvedConfig {
   message: ThemeIconTypeResolvedConfig<ThemeIconMessageStateConfig>;
   banner: ThemeIconTypeResolvedConfig<ThemeIconSubItemConfig>;
-  prompt: ThemeIconPromptState;
+  prompt: ThemeIconPromptStateConfig;
+  spinner: ThemeIconSpinnerStateConfig;
 }
 
 export interface ThemeLabelMessageStateConfig {
@@ -445,6 +478,22 @@ export interface ThemeLabelsResolvedConfig {
   banner: ThemeLabelTypeResolvedConfig<ThemeLabelBannerSubItemConfig>;
 }
 
+export interface ThemeSpinnerUserConfig {
+  /**
+   * The interval in milliseconds between each frame of the spinner animation.
+   *
+   * @defaultValue 80
+   */
+  interval?: number;
+
+  /**
+   * An array of strings representing the frames of the spinner animation. Each string is a frame that will be displayed in sequence to create the animation effect.
+   */
+  frames: string[];
+}
+
+export type ThemeSpinnerResolvedConfig = Required<ThemeSpinnerUserConfig>;
+
 export interface ThemeUserConfig {
   $theme?: string;
   colors?: Partial<ThemeColorTypesUserConfig> | string;
@@ -452,6 +501,7 @@ export interface ThemeUserConfig {
   padding?: Partial<ThemePaddingUserConfig> | number;
   icons?: Partial<ThemeIconsUserConfig> | string;
   labels?: Partial<ThemeLabelsUserConfig> | string;
+  spinner?: ThemeSpinnerUserConfig | SpinnerPreset;
   settings?: Record<string, unknown>;
 }
 
@@ -462,6 +512,7 @@ export interface ThemeResolvedConfig {
   padding: ThemePaddingResolvedConfig;
   icons: ThemeIconsResolvedConfig;
   labels: ThemeLabelsResolvedConfig;
+  spinner: ThemeSpinnerResolvedConfig;
   settings: Record<string, unknown>;
   [key: string]: unknown;
 }

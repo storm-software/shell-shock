@@ -22,23 +22,7 @@ import type {
 } from "@shell-shock/core/types/config";
 import type { Context } from "@shell-shock/core/types/context";
 
-export type UpgradeType = "confirm" | "auto" | "display" | "command";
-
 export interface UpgradePluginOptions {
-  /**
-   * The type of upgrade to perform. This option determines how the upgrade process will be handled.
-   *
-   * @remarks
-   * The upgrade logic will behave differently based on the value of this field:
-   * - `"confirm"` - the user will be prompted to confirm the upgrade before it is performed. This is the default behavior and is recommended for most users, as it provides an extra layer of safety against unintended upgrades.
-   * - `"auto"` - the upgrade will be performed automatically without any user confirmation. This option is suitable for advanced users who want a seamless upgrade experience and are confident in the stability of new versions.
-   * - `"display"` - the command will only display the latest available version without performing any upgrade. This option is useful for users who want to check for updates without making any changes to their system.
-   * - `"command"` - the upgrade will be triggered by a specific command. This option allows users to manually initiate the upgrade process through a dedicated command.
-   *
-   * @defaultValue "confirm"
-   */
-  type?: UpgradeType;
-
   /**
    * The time in milliseconds after which previously retrieved version data is considered stale.
    *

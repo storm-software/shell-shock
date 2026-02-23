@@ -24,6 +24,7 @@ import type {
   PreprocessedTokens,
   Preprocessor
 } from "style-dictionary/types";
+import { mergeThemes } from "../helpers/merge";
 import type { ThemePluginContext } from "../types/plugin";
 import type {
   ThemeLabelBannerSubItemConfig,
@@ -34,7 +35,6 @@ import type {
   ThemeLabelTypeUserConfig,
   ThemeResolvedConfig
 } from "../types/theme";
-import { mergeThemes } from "./helpers";
 
 /**
  * Shell Shock - Theme Labels Preprocessor

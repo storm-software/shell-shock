@@ -46,7 +46,12 @@ export const plugin = <
         upgrade: defu(options, {
           type: "confirm",
           staleTime: 36 * 60 * 60 * 1000 // 36 hours
-        })
+        }),
+        env: {
+          types:
+            "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradePluginEnv",
+          validate: false
+        }
       };
     },
     configResolved() {
