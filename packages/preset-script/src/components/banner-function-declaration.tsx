@@ -106,6 +106,7 @@ export interface BannerFunctionBodyDeclarationProps extends BannerFunctionDeclar
   description: string;
   insertNewlineBeforeCommand?: boolean;
   insertNewlineBeforeBanner?: boolean;
+  insertNewlineAfterDescription?: boolean;
 }
 
 /**
@@ -127,7 +128,8 @@ export function BannerFunctionBodyDeclaration(
     command,
     children,
     insertNewlineBeforeCommand = false,
-    insertNewlineBeforeBanner = true
+    insertNewlineBeforeBanner = true,
+    insertNewlineAfterDescription = false
   } = props;
 
   const theme = useTheme();
@@ -255,7 +257,17 @@ export function BannerFunctionBodyDeclaration(
             theme.borderStyles.banner.outline[variant].right
           }"), { consoleFn: console.${consoleFnName} });
         });
-
+        ${
+          insertNewlineAfterDescription
+            ? `writeLine(colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].left
+              }") + " ".repeat(Math.max(process.stdout.columns - ${
+                bannerPadding.value
+              })) + colors.border.banner.outline.${variant}("${
+                theme.borderStyles.banner.outline[variant].right
+              }"), { consoleFn: console.${consoleFnName} });`
+            : ""
+        }
         writeLine(colors.border.banner.outline.${variant}("${
           theme.borderStyles.banner.outline[variant].bottomLeft
         }") + ${

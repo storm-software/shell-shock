@@ -115,7 +115,8 @@ export function BannerFunctionDeclaration(
           footer={footer.value}
           variant={variant}
           consoleFnName={consoleFnName}
-          command={command}>
+          command={command}
+          insertNewlineAfterDescription>
           {code`const titleLines = [${titleLines.value
             .map(line => JSON.stringify(line.trim()))
             .join(", ")}];
@@ -242,7 +243,9 @@ export function BannerFunctionDeclaration(
             <ElseClause>{code`spinner.success("Currently running the latest version of ${getAppTitle(
               context,
               true
-            )}.");`}</ElseClause>
+            )}.");
+            writeLine("");
+            `}</ElseClause>
           </IfStatement>
         </Show>
       </FunctionDeclaration>

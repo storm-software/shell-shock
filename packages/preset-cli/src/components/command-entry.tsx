@@ -85,7 +85,7 @@ export function CommandEntry(props: CommandEntryProps) {
           prompts: "prompts"
         })}
         builtinImports={defu(builtinImports ?? {}, {
-          env: ["env", "isDevelopment", "isDebug"],
+          env: ["env", "isDevelopment", "isDebug", "paths"],
           console: [
             "debug",
             "info",
@@ -96,7 +96,8 @@ export function CommandEntry(props: CommandEntryProps) {
             "colors",
             "stripAnsi",
             "writeLine",
-            "splitText"
+            "splitText",
+            "createSpinner"
           ],
           utils: [
             "useApp",

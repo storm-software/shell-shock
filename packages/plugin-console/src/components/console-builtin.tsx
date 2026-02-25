@@ -2527,7 +2527,6 @@ export function DividerFunctionDeclaration() {
         <TSDocExample>
           {`divider({ width: 50, border: "primary" }); // Writes a divider line of width 50 with primary border.`}
         </TSDocExample>
-
         <TSDocParam name="options">
           {`Options for formatting the divider line.`}
         </TSDocParam>
@@ -2782,14 +2781,9 @@ export function SpinnerFunctionDeclaration() {
           }
 
           const streamsToHook = new Set([this.#stream]);
-          if (this.#stream === process.stdout || this.#stream === process.stderr) {
-            if (isInteractive(process.stdout)) {
-              streamsToHook.add(process.stdout);
-            }
-
-            if (isInteractive(process.stderr)) {
-              streamsToHook.add(process.stderr);
-            }
+          if (isInteractive && (this.#stream === process.stdout || this.#stream === process.stderr)) {
+            streamsToHook.add(process.stdout);
+            streamsToHook.add(process.stderr);
           }
 
           for (const stream of streamsToHook) {
@@ -2838,7 +2832,7 @@ export function SpinnerFunctionDeclaration() {
         }
 
         #stopWithIcon(icon: string, message: string) {
-          return this.stop(\`\${icon} \${message ?? this.#message}\`);
+          return this.stop(\` \${icon}  \${message ?? this.#message}\`);
         }
 
         #render() {
@@ -2846,7 +2840,6 @@ export function SpinnerFunctionDeclaration() {
             return;
           }
 
-          const useSynchronizedOutput = isInteractive;
           if (this.#currentFrame === -1 || Date.now() - this.#lastSpinnerFrameTime >= this.#interval) {
             this.#currentFrame = ++this.#currentFrame % this.#frames.length;
             this.#lastSpinnerFrameTime = Date.now();
@@ -2857,7 +2850,7 @@ export function SpinnerFunctionDeclaration() {
             display += "\\n";
           }
 
-          if (useSynchronizedOutput) {
+          if (isInteractive) {
             this.#withSynchronizedOutput(() => {
               this.clear();
               this.#write(display);

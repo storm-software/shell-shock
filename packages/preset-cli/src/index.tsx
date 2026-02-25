@@ -78,6 +78,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                 builtinImports={{
                   console: [
                     "info",
+                    "debug",
                     "warn",
                     "help",
                     "error",
@@ -88,7 +89,8 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                     "colors",
                     "writeLine",
                     "splitText",
-                    "stripAnsi"
+                    "stripAnsi",
+                    "createSpinner"
                   ],
                   utils: [
                     "useApp",
@@ -111,7 +113,8 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                     "checkForUpdates",
                     "isCheckForUpdatesRequired",
                     "upgrade"
-                  ]
+                  ],
+                  env: ["env", "paths"]
                 }}
                 prefix={
                   <>
