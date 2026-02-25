@@ -82,6 +82,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                     "warn",
                     "help",
                     "error",
+                    "cursor",
                     "divider",
                     "stripAnsi",
                     "writeLine",

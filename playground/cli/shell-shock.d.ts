@@ -1111,8 +1111,8 @@ declare module "shell-shock:console" {
    * An object containing ANSI escape codes for controlling the console cursor.
    */
   export const cursor: {
-    to(x: any, y: any): string;
-    move(x: any, y: any): string;
+    to(x: number, y?: number): string;
+    move(x: number, y: number): string;
     up: (count?: number) => string;
     down: (count?: number) => string;
     forward: (count?: number) => string;
@@ -1885,13 +1885,13 @@ declare module "shell-shock:prompts" {
      */
     protected moveCursor(count: number): void;
     /**
-     * A method to delete the character backward of the cursor
+     * A method to remove the character backward of the cursor
+     */
+    protected backspace(): void;
+    /**
+     * A method to remove the character forward of the cursor
      */
     protected delete(): void;
-    /**
-     * A method to delete the character forward of the cursor
-     */
-    protected deleteForward(): void;
     /**
      * A method to reset the prompt input
      */
@@ -2213,9 +2213,9 @@ declare module "shell-shock:prompts" {
      */
     protected onKeyPress(char: string, key: readline.Key): any;
     /**
-     * A method to delete the character backward of the cursor
+     * A method to remove the character backward of the cursor
      */
-    protected delete(): void;
+    protected backspace(): void;
     /**
      * A method to move the cursor to the left
      */

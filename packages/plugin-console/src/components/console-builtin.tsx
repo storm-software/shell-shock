@@ -78,14 +78,14 @@ export function AnsiHelpersDeclarations() {
         name="cursor"
         doc="An object containing ANSI escape codes for controlling the console cursor.">
         {code` {
-          to(x, y) {
+          to(x: number, y?: number) {
             if (!y) {
               return \`\\x1B[\${x + 1}G\`;
             }
 
             return \`\\x1B[\${y + 1};\${x + 1}H\`;
           },
-          move(x, y) {
+          move(x: number, y: number) {
             let ret = '';
 
             if (x < 0) {

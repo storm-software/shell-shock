@@ -94,6 +94,7 @@ export function CommandEntry(props: CommandEntryProps) {
             "error",
             "table",
             "colors",
+            "cursor",
             "stripAnsi",
             "writeLine",
             "splitText",

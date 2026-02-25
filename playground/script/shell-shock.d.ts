@@ -1111,8 +1111,8 @@ declare module "shell-shock:console" {
    * An object containing ANSI escape codes for controlling the console cursor.
    */
   export const cursor: {
-    to(x: any, y: any): string;
-    move(x: any, y: any): string;
+    to(x: number, y?: number): string;
+    move(x: number, y: number): string;
     up: (count?: number) => string;
     down: (count?: number) => string;
     forward: (count?: number) => string;

@@ -647,8 +647,8 @@ export function BasePromptDeclarations() {
 
           if (key.name === "return") action = "submit";
           if (key.name === "enter") action = "submit";
-          if (key.name === "backspace") action = "delete";
-          if (key.name === "delete") action = "deleteForward";
+          if (key.name === "backspace") action = "backspace";
+          if (key.name === "delete") action = "delete";
           if (key.name === "cancel") action = "cancel";
           if (key.name === "escape") action = "cancel";
           if (key.name === "tab") action = "next";
@@ -681,8 +681,8 @@ export function BasePromptDeclarations() {
         </ClassMethod>
         <Spacing />
         <ClassMethod
-          doc="A method to delete the character backward of the cursor"
-          name="delete"
+          doc="A method to remove the character backward of the cursor"
+          name="backspace"
           protected>
           {code`if (this.isCursorAtStart) {
             return this.bell();
@@ -701,7 +701,7 @@ export function BasePromptDeclarations() {
           if (this.isCursorAtStart) {
             this.cursorOffset = 0;
           } else {
-            this.cursorOffset++;
+            this.cursorOffset += 2;
             this.moveCursor(-1);
           }
 
@@ -709,8 +709,8 @@ export function BasePromptDeclarations() {
         </ClassMethod>
         <Spacing />
         <ClassMethod
-          doc="A method to delete the character forward of the cursor"
-          name="deleteForward"
+          doc="A method to remove the character forward of the cursor"
+          name="delete"
           protected>
           {code`if (this.cursor >= this.displayValue.length) {
             return this.bell();
@@ -725,7 +725,7 @@ export function BasePromptDeclarations() {
           if (this.isCursorAtEnd) {
             this.cursorOffset = 0;
           } else {
-            this.cursorOffset++;
+            this.cursorOffset += 2;
           }
 
           this.sync(); `}
@@ -2056,8 +2056,8 @@ export function TogglePromptDeclarations() {
         </ClassMethod>
         <Spacing />
         <ClassMethod
-          doc="A method to delete the character backward of the cursor"
-          name="delete"
+          doc="A method to remove the character backward of the cursor"
+          name="backspace"
           protected>
           {code`this.uncheck(); `}
         </ClassMethod>
