@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/plugin-theme",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "type": "module",
   "description": "A package containing a Shell Shock plugin to generate source code given a list design tokens.",
   "repository": {

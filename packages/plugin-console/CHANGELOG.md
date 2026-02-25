@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.1) (02/25/2026)
+
+### Bug Fixes
+
+- **preset-cli:** Clean up logic to display upgrade checks in console ([6ca46d2](https://github.com/storm-software/shell-shock/commit/6ca46d2))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.5**
+- Updated **core** to **v0.9.3**
+
 ## [0.1.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.0) (02/23/2026)
 
 ### Features

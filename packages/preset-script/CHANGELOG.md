@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.16](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.16) (02/25/2026)
+
+### Bug Fixes
+
+- **preset-cli:** Clean up logic to display upgrade checks in console ([6ca46d2](https://github.com/storm-software/shell-shock/commit/6ca46d2))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.1**
+- Updated **plugin-theme** to **v0.3.5**
+- Updated **core** to **v0.9.3**
+
 ## [0.6.15](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.15) (02/23/2026)
 
 ### Updated Dependencies
