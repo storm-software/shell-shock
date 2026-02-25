@@ -2,6 +2,21 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.7.8](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.7.8) (02/25/2026)
+
+### Bug Fixes
+
+- **plugin-prompts:** Resolve issue with backspace and delete keys ([42710a7](https://github.com/storm-software/shell-shock/commit/42710a7))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.2**
+- Updated **plugin-prompts** to **v0.3.3**
+- Updated **plugin-upgrade** to **v0.1.8**
+- Updated **preset-script** to **v0.6.17**
+- Updated **plugin-theme** to **v0.3.6**
+- Updated **core** to **v0.9.4**
+
 ## [0.7.7](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.7.7) (02/25/2026)
 
 ### Bug Fixes

@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.3) (02/25/2026)
+
+### Bug Fixes
+
+- **plugin-prompts:** Resolve issue with backspace and delete keys ([42710a7](https://github.com/storm-software/shell-shock/commit/42710a7))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.6**
+- Updated **core** to **v0.9.4**
+
 ## [0.3.2](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.2) (02/25/2026)
 
 ### Updated Dependencies

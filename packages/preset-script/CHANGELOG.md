@@ -2,6 +2,14 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.17](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.17) (02/25/2026)
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.2**
+- Updated **plugin-theme** to **v0.3.6**
+- Updated **core** to **v0.9.4**
+
 ## [0.6.16](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.16) (02/25/2026)
 
 ### Bug Fixes
