@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.5) (02/26/2026)
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.9**
+- Updated **core** to **v0.9.7**
+
 ## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.4) (02/26/2026)
 
 ### Updated Dependencies

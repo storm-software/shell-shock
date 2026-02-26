@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.0) (02/26/2026)
+
+### Features
+
+- **plugin-completions:** Added the `powershell` and `fish` shell types ([44dcf3a](https://github.com/storm-software/shell-shock/commit/44dcf3a))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.9.7**
+
 ## [0.1.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.1.14) (02/26/2026)
 
 ### Updated Dependencies
