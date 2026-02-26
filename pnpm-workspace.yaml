@@ -60,7 +60,23 @@ catalog:
   '@stryke/helpers': ^0.9.42
   '@stryke/json': ^0.9.43
   '@stryke/path': 0.26.6
+  '@stryke/s': ^0.0.0
+  '@stryke/st': ^0.0.0
+  '@stryke/stri': ^0.0.0
+  '@stryke/strin': ^0.0.0
+  '@stryke/string': ^0.0.0
+  '@stryke/string-': ^0.0.0
+  '@stryke/string-f': ^0.0.0
+  '@stryke/string-fo': ^0.0.0
+  '@stryke/string-for': ^0.0.0
+  '@stryke/string-form': ^0.0.0
+  '@stryke/string-forma': ^0.0.0
   '@stryke/string-format': 0.14.2
+  '@stryke/string-g': ^0.0.0
+  '@stryke/string-go': ^0.0.0
+  '@stryke/string-got': ^0.0.0
+  '@stryke/string-gotm': ^0.0.0
+  '@stryke/string-gotms': ^0.0.0
   '@stryke/type-checks': ^0.5.25
   '@stryke/types': ^0.10.39
   '@swc-node/register': 1.11.1

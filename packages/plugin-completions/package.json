@@ -83,6 +83,34 @@
         "default": "./dist/components/bash-command.mjs"
       }
     },
+    "./components/fish-command": {
+      "require": {
+        "types": "./dist/components/fish-command.d.cts",
+        "default": "./dist/components/fish-command.cjs"
+      },
+      "import": {
+        "types": "./dist/components/fish-command.d.mts",
+        "default": "./dist/components/fish-command.mjs"
+      },
+      "default": {
+        "types": "./dist/components/fish-command.d.mts",
+        "default": "./dist/components/fish-command.mjs"
+      }
+    },
+    "./components/powershell-command": {
+      "require": {
+        "types": "./dist/components/powershell-command.d.cts",
+        "default": "./dist/components/powershell-command.cjs"
+      },
+      "import": {
+        "types": "./dist/components/powershell-command.d.mts",
+        "default": "./dist/components/powershell-command.mjs"
+      },
+      "default": {
+        "types": "./dist/components/powershell-command.d.mts",
+        "default": "./dist/components/powershell-command.mjs"
+      }
+    },
     "./components/zsh-command": {
       "require": {
         "types": "./dist/components/zsh-command.d.cts",
@@ -95,6 +123,48 @@
       "default": {
         "types": "./dist/components/zsh-command.d.mts",
         "default": "./dist/components/zsh-command.mjs"
+      }
+    },
+    "./helpers": {
+      "require": {
+        "types": "./dist/helpers/index.d.cts",
+        "default": "./dist/helpers/index.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/index.d.mts",
+        "default": "./dist/helpers/index.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/index.d.mts",
+        "default": "./dist/helpers/index.mjs"
+      }
+    },
+    "./helpers/complete-command": {
+      "require": {
+        "types": "./dist/helpers/complete-command.d.cts",
+        "default": "./dist/helpers/complete-command.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/complete-command.d.mts",
+        "default": "./dist/helpers/complete-command.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/complete-command.d.mts",
+        "default": "./dist/helpers/complete-command.mjs"
+      }
+    },
+    "./helpers/completion-directive-constants": {
+      "require": {
+        "types": "./dist/helpers/completion-directive-constants.d.cts",
+        "default": "./dist/helpers/completion-directive-constants.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/completion-directive-constants.d.mts",
+        "default": "./dist/helpers/completion-directive-constants.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/completion-directive-constants.d.mts",
+        "default": "./dist/helpers/completion-directive-constants.mjs"
       }
     },
     "./package.json": "./package.json",
@@ -159,6 +229,7 @@
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@stryke/path": "catalog:",
+    "@stryke/string-format": "catalog:",
     "powerlines": "catalog:"
   },
   "devDependencies": {

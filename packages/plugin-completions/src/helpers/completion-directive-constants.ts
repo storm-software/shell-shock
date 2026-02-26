@@ -16,11 +16,13 @@
 
  ------------------------------------------------------------------- */
 
-export type ShellType = "bash" | "fish" | "zsh" | "powershell";
-
-export const SHELL_TYPES: readonly ShellType[] = [
-  "bash",
-  "fish",
-  "zsh",
-  "powershell"
-] as const;
+export const CompletionDirective = {
+  CompletionDirectiveError: 1 << 0,
+  CompletionDirectiveNoSpace: 1 << 1,
+  CompletionDirectiveNoFileComp: 1 << 2,
+  CompletionDirectiveFilterFileExt: 1 << 3,
+  CompletionDirectiveFilterDirs: 1 << 4,
+  CompletionDirectiveKeepOrder: 1 << 5,
+  CompletionDirectiveMaxValue: 1 << 6,
+  CompletionDirectiveDefault: 0
+};

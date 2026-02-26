@@ -37,6 +37,9 @@ import {
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { getAppBin, getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
+import { snakeCase } from "@stryke/string-format/snake-case";
+import { CompletionDirective } from "../helpers";
+import { exec } from "../helpers/complete-command";
 import type { CompletionsPluginContext } from "../types/plugin";
 
 /**
@@ -93,35 +96,117 @@ export function BashCompletionsCommand() {
           const
           name="completions"
           type="string"
-          initializer={code`colors.white(\`\${colors.gray("###-begin-${getAppBin(context)}-completions-###")}
+          initializer={code`# bash completion for ${getAppTitle(context)}
 
-\${colors.gray(\`
-# \${colors.bold("${getAppTitle(context)} Bash CLI command completion script")}
-#
-# \${colors.bold("Installation:")} ${getAppBin(context)} completions bash --config ~/.bashrc or ${getAppBin(context)} completions bash --script or  ${getAppBin(context)} completions bash >> ~/.bashrc or ${getAppBin(context)} completions bash >> ~/.bash_profile on OSX. \`
-)}
-\${colors.cyan("_${getAppBin(context)}_completions()")}
-{
-    local cur_word args type_list
+# Define shell completion directives
+readonly ShellCompDirectiveError=${CompletionDirective.CompletionDirectiveError}
+readonly ShellCompDirectiveNoSpace=${
+            CompletionDirective.CompletionDirectiveNoSpace
+          }
+readonly ShellCompDirectiveNoFileComp=${
+            CompletionDirective.CompletionDirectiveNoFileComp
+          }
+readonly ShellCompDirectiveFilterFileExt=${
+            CompletionDirective.CompletionDirectiveFilterFileExt
+          }
+readonly ShellCompDirectiveFilterDirs=${
+            CompletionDirective.CompletionDirectiveFilterDirs
+          }
+readonly ShellCompDirectiveKeepOrder=${
+            CompletionDirective.CompletionDirectiveKeepOrder
+          }
 
-    cur_word="\\\${COMP_WORDS[COMP_CWORD]}"
-    args=("\\\${COMP_WORDS[@]}")
+# Function to debug completion
+__${snakeCase(getAppBin(context))}_debug() {
+    if [[ -n \${BASH_COMP_DEBUG_FILE:-} ]]; then
+        echo "$*" >> "\${BASH_COMP_DEBUG_FILE}"
+    fi
+}
 
-    \${colors.gray("# Ask ${getAppTitle(context)} CLI to generate completions.")}
-    mapfile -t type_list < <(${getAppBin(context)} --get-completions "\\\${args[@]}")
-    mapfile -t COMPREPLY < <(compgen -W "$( printf '%q ' "\\\${type_list[@]}" )" -- "\\\${cur_word}" |
-        awk '/ / { print "\\\\""$0"\\\\"" } /^[^ ]+$/ { print $0 }')
+# Function to handle completions
+__${snakeCase(getAppBin(context))}_complete() {
+    local cur prev words cword
+    _get_comp_words_by_ref -n "=:" cur prev words cword
 
-    \${colors.gray("# if no match was found, fall back to filename completion")}
-    if [ \\\${#COMPREPLY[@]} -eq 0 ]; then
-      COMPREPLY=()
+    local requestComp out directive
+
+    # Build the command to get completions
+    requestComp="${exec} complete -- \${words[@]:1}"
+
+    # Add an empty parameter if the last parameter is complete
+    if [[ -z "$cur" ]]; then
+        requestComp="$requestComp ''"
     fi
 
-    return 0
-}
-complete -o bashdefault -o default -F _${getAppBin(context)}_completions ${getAppBin(context)}
+    # Get completions from the program
+    out=$(eval "$requestComp" 2>/dev/null)
 
-\${colors.gray("###-end-${getAppBin(context)}-completions-###")}
+    # Extract directive if present
+    directive=0
+    if [[ "$out" == *:* ]]; then
+        directive=\${out##*:}
+        out=\${out%:*}
+    fi
+
+    # Process completions based on directive
+    if [[ $((directive & $ShellCompDirectiveError)) -ne 0 ]]; then
+        # Error, no completion
+        return
+    fi
+
+    # Apply directives
+    if [[ $((directive & $ShellCompDirectiveNoSpace)) -ne 0 ]]; then
+        compopt -o nospace
+    fi
+    if [[ $((directive & $ShellCompDirectiveKeepOrder)) -ne 0 ]]; then
+        compopt -o nosort
+    fi
+    if [[ $((directive & $ShellCompDirectiveNoFileComp)) -ne 0 ]]; then
+        compopt +o default
+    fi
+
+    # Handle file extension filtering
+    if [[ $((directive & $ShellCompDirectiveFilterFileExt)) -ne 0 ]]; then
+        local filter=""
+        for ext in $out; do
+            filter="$filter|$ext"
+        done
+        filter="\\.($filter)"
+        compopt -o filenames
+        COMPREPLY=( $(compgen -f -X "!$filter" -- "$cur") )
+        return
+    fi
+
+    # Handle directory filtering
+    if [[ $((directive & $ShellCompDirectiveFilterDirs)) -ne 0 ]]; then
+        compopt -o dirnames
+        COMPREPLY=( $(compgen -d -- "$cur") )
+        return
+    fi
+
+    # Process completions
+    local IFS=$'\\n'
+    local tab=$(printf '\\t')
+
+    # Parse completions with descriptions
+    local completions=()
+    while read -r comp; do
+        if [[ "$comp" == *$tab* ]]; then
+            # Split completion and description
+            local value=\${comp%%$tab*}
+            local desc=\${comp#*$tab}
+            completions+=("$value")
+        else
+            completions+=("$comp")
+        fi
+    done <<< "$out"
+
+    # Return completions
+    COMPREPLY=( $(compgen -W "\${completions[*]}" -- "$cur") )
+}
+
+# Register completion function
+complete -F __${snakeCase(getAppBin(context))}_complete ${getAppBin(context)}
 \`); `}
         />
         <Spacing />

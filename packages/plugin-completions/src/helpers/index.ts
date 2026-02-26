@@ -16,11 +16,5 @@
 
  ------------------------------------------------------------------- */
 
-export type ShellType = "bash" | "fish" | "zsh" | "powershell";
-
-export const SHELL_TYPES: readonly ShellType[] = [
-  "bash",
-  "fish",
-  "zsh",
-  "powershell"
-] as const;
+export * from "./complete-command";
+export * from "./completion-directive-constants";

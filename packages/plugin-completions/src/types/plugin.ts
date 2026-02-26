@@ -21,21 +21,34 @@ import type {
   UserConfig
 } from "@shell-shock/core/types/config";
 import type { Context } from "@shell-shock/core/types/context";
+import type { ShellType } from "./shell-type";
 
-export interface CompletionsPluginOptions {}
+export interface CompletionsPluginOptions {
+  /**
+   * The shell types to generate completion scripts for. If not specified, completions will be generated for all supported shell types.
+   *
+   * @remarks
+   * The currently supported shell types include:
+   * - `bash`
+   * - `fish`
+   * - `zsh`
+   * - `powershell`
+   */
+  shells?: ShellType[];
+}
 
 export type CompletionsPluginUserConfig = UserConfig & {
   /**
    * Resolved completions configuration for the plugin.
    */
-  completions: CompletionsPluginOptions;
+  completions: Required<CompletionsPluginOptions>;
 };
 
 export type CompletionsPluginResolvedConfig = ResolvedConfig & {
   /**
    * Resolved completions configuration for the plugin.
    */
-  completions: CompletionsPluginOptions;
+  completions: Required<CompletionsPluginOptions>;
 };
 
 export type CompletionsPluginContext<

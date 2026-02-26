@@ -17,4 +17,6 @@
  ------------------------------------------------------------------- */
 
 export * from "./bash-command";
+export * from "./fish-command";
+export * from "./powershell-command";
 export * from "./zsh-command";

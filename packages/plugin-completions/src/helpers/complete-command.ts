@@ -16,11 +16,16 @@
 
  ------------------------------------------------------------------- */
 
-export type ShellType = "bash" | "fish" | "zsh" | "powershell";
+function quoteIfNeeded(path: string): string {
+  return path.includes(" ") ? `'${path}'` : path;
+}
 
-export const SHELL_TYPES: readonly ShellType[] = [
-  "bash",
-  "fish",
-  "zsh",
-  "powershell"
-] as const;
+const execPath = process.execPath;
+const processArgs = process.argv.slice(1);
+const quotedExecPath = quoteIfNeeded(execPath);
+const quotedProcessArgs = processArgs.map(quoteIfNeeded);
+const quotedProcessExecArgs = process.execArgv.map(quoteIfNeeded);
+
+export const exec = `${quotedExecPath} ${quotedProcessExecArgs.join(" ")} ${
+  quotedProcessArgs[0]
+}`;

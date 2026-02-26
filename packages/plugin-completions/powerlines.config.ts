@@ -26,6 +26,7 @@ const config: UserConfig = defineConfig({
   entry: [
     "./src/index.tsx",
     "./src/types/*.ts",
+    "./src/helpers/*.ts",
     "./src/components/**/*.tsx",
     "./src/components/**/*.ts"
   ],
