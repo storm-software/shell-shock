@@ -364,10 +364,6 @@ export function BasePromptDeclarations() {
           {code`0; `}
         </ClassField>
         <hbr />
-        <ClassField name="cursorOffset" protected type="number">
-          {code`0; `}
-        </ClassField>
-        <hbr />
         <ClassField name="cursorHidden" protected type="boolean">
           {code`false; `}
         </ClassField>
@@ -474,7 +470,7 @@ export function BasePromptDeclarations() {
           name="isCursorAtStart"
           protected
           type="boolean">
-          {code`return this.cursor === 0 || (this.isPlaceholder && this.cursor === 1); `}
+          {code`return this.cursor <= 0 || (this.isPlaceholder && this.cursor <= 1); `}
         </ClassPropertyGet>
         <Spacing />
         <ClassPropertyGet
@@ -482,7 +478,7 @@ export function BasePromptDeclarations() {
           name="isCursorAtEnd"
           protected
           type="boolean">
-          {code`return this.cursor === this.displayValue.length || (this.isPlaceholder && this.cursor === this.displayValue.length - 1); `}
+          {code`return this.cursor >= this.displayValue.length || (this.isPlaceholder && this.cursor >= this.displayValue.length - 1); `}
         </ClassPropertyGet>
         <Spacing />
         <ClassMethod
@@ -675,9 +671,15 @@ export function BasePromptDeclarations() {
             }
           ]}
           protected>
-          {code`
-          this.cursor += count;
-          this.cursorOffset += count; `}
+          {code`if (this.cursor + count < 0) {
+            this.cursor = 0;
+          } else if (this.cursor + count > this.displayValue.length) {
+            this.cursor = this.displayValue.length;
+          } else {
+            this.cursor += count;
+          }
+
+           `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
@@ -692,18 +694,15 @@ export function BasePromptDeclarations() {
             return this.bell();
           }
 
+          const isCursorAtEnd = this.isCursorAtEnd && this.displayValue.length === this.cursor;
+
           this.changeValue(this.parse(\`\${
             this.displayValue.slice(0, this.cursor - 1)
           }\${
             this.displayValue.slice(this.cursor)
           }\`));
 
-          if (this.isCursorAtStart) {
-            this.cursorOffset = 0;
-          } else {
-            this.cursorOffset += 2;
-            this.moveCursor(-1);
-          }
+          this.moveCursor(isCursorAtEnd ? -1 : -2);
 
           this.sync(); `}
         </ClassMethod>
@@ -712,7 +711,7 @@ export function BasePromptDeclarations() {
           doc="A method to remove the character forward of the cursor"
           name="delete"
           protected>
-          {code`if (this.cursor >= this.displayValue.length) {
+          {code`if (this.isCursorAtEnd) {
             return this.bell();
           }
 
@@ -722,10 +721,8 @@ export function BasePromptDeclarations() {
             this.displayValue.slice(this.cursor + 1)
           }\`));
 
-          if (this.isCursorAtEnd) {
-            this.cursorOffset = 0;
-          } else {
-            this.cursorOffset += 2;
+          if (!this.isCursorAtStart) {
+            this.moveCursor(-1);
           }
 
           this.sync(); `}
@@ -736,7 +733,7 @@ export function BasePromptDeclarations() {
           name="reset"
           protected>
           {code`this.changeValue(this.initialValue);
-          this.cursorOffset = 0;
+          this.cursor = 0;
 
           this.errorMessage = null;
           this.isCancelled = false;
@@ -763,8 +760,7 @@ export function BasePromptDeclarations() {
           name="submit"
           async
           protected>
-          {code`this.cursorOffset = 0;
-          this.cursor = this.displayValue.length;
+          {code`this.cursor = this.displayValue.length;
 
           await this.checkValidations(this.value);
           if (this.isError) {
@@ -824,7 +820,7 @@ export function BasePromptDeclarations() {
             this.isInitial = false;
           }
 
-          this.output.write(erase.line + cursor.to(0) + this.consoleOutput + (this.status ? cursor.save + this.status + cursor.restore + cursor.move(this.cursorOffset, 0) : cursor.save));
+          this.output.write(erase.line + cursor.to(0) + this.consoleOutput + (this.status ? cursor.save + this.status + cursor.restore + cursor.move(this.displayValue.length - (this.displayValue.length - this.cursor) - this.displayValue.length, 0) : cursor.save));
           this.consoleStatus = this.status; `}
         </ClassMethod>
         <Spacing />
@@ -952,9 +948,13 @@ export function TextPromptDeclarations() {
             this.initialValue = config.initialValue;
           }
 
+          if (this.initialValue) {
+            this.changeValue(this.initialValue);
+          }
+
           this.cursor = 0;
           this.sync();
-          this.first();
+          this.last();
         } `}
         <Spacing />
         <ClassMethod
@@ -981,15 +981,11 @@ export function TextPromptDeclarations() {
             return this.bell();
           }
 
-          const value = \`\${
-            this.value.slice(0, this.cursor)
-          }\${
-            char
-          }\${
-            this.value.slice(this.cursor)
-          }\`;
-
-          this.changeValue(value);
+          this.changeValue(\`\${
+            this.displayValue.slice(0, this.cursor)
+          }\${char}\${
+            this.displayValue.slice(this.cursor)
+          }\`);
           this.sync(); `}
         </ClassMethod>
         <Spacing />
@@ -1048,7 +1044,7 @@ export function TextPromptDeclarations() {
           doc="A method to move the cursor to the end"
           name="last"
           protected>
-          {code`this.cursor = this.value.length;
+          {code`this.cursor = this.displayValue.length;
           this.sync(); `}
         </ClassMethod>
         <Spacing />
@@ -1706,7 +1702,10 @@ export function NumericPromptDeclarations() {
           }
 
           this.changeValue(this.initialValue);
+
+          this.cursor = 0;
           this.sync();
+          this.last();
         } `}
         <Spacing />
         <ClassMethod
@@ -1735,9 +1734,7 @@ export function NumericPromptDeclarations() {
 
           const displayValue = \`\${
             this.displayValue.slice(0, this.cursor)
-          }\${
-            char
-          }\${
+          }\${char}\${
             this.displayValue.slice(this.cursor)
           }\`;
 
@@ -1765,7 +1762,7 @@ export function NumericPromptDeclarations() {
           parameters={[
             {
               name: "previousValue",
-              type: "number"
+              type: "string"
             }
           ]}>
           {code`this.#isInvalid = false;
@@ -1795,14 +1792,16 @@ export function NumericPromptDeclarations() {
           name="up"
           protected>
           {code`let value = this.value;
-          if (this.displayValue === "") {
+          if (this.isPlaceholder) {
             value = this.min < 0 ? 0 : this.min;
           } else if (value >= this.max) {
             return this.bell();
           }
 
           this.changeValue(value + this.increment);
-          this.sync(); `}
+
+          this.sync();
+          this.last(); `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
@@ -1810,14 +1809,15 @@ export function NumericPromptDeclarations() {
           name="down"
           protected>
           {code`let value = this.value;
-          if (this.displayValue === "") {
+          if (this.isPlaceholder) {
             value = this.min < 0 ? 0 : this.min;
           } else if (value <= this.min) {
             return this.bell();
           }
 
           this.changeValue(value === this.min ? this.min : value - this.increment);
-          this.sync(); `}
+          this.sync();
+          this.last(); `}
         </ClassMethod>
         <Spacing />
         <ClassMethod

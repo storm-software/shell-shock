@@ -118,6 +118,7 @@
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "files.associations": {
+    "*.json": "jsonc",
     "*.hbs": "handlebars",
     "*.acid": "acidic",
     "*.acidic": "acidic"

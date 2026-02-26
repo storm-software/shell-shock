@@ -199,7 +199,7 @@ export function CommandEntry(props: CommandEntryProps) {
                           <Match
                             when={option.kind === ReflectionKind.string}>{code`
                             const value = await text({
-                              message: "Please provide a value for the \\"${option.name}\\" option",
+                              message: \`Please provide a value for the \${colors.italic("${option.name}")} option\`,
                               ${
                                 option.description
                                   ? `description: "${option.description}",
@@ -226,7 +226,7 @@ export function CommandEntry(props: CommandEntryProps) {
                           <Match
                             when={option.kind === ReflectionKind.number}>{code`
                             const value = await numeric({
-                              message: "Please provide a numeric value for the \\"${option.name}\\" option",
+                              message: \`Please provide a numeric value for the \${colors.italic("${option.name}")} option\`,
                               ${
                                 option.description
                                   ? `description: "${option.description}",
@@ -247,9 +247,7 @@ export function CommandEntry(props: CommandEntryProps) {
                           <Match
                             when={option.kind === ReflectionKind.boolean}>{code`
                             const value = await toggle({
-                              message: "Please select a value for the \\"${
-                                option.name
-                              }\\" option",
+                              message: \`Please select a value for the \${colors.italic("${option.name}")} option\`,
                             ${
                               option.description
                                 ? `description: "${option.description}",
@@ -283,11 +281,11 @@ export function CommandEntry(props: CommandEntryProps) {
                           }.length === 0`}>
                           {code`
                             const value = await text({
-                              message: "Please provide one or more${
+                              message: \`Please provide one or more${
                                 option.kind === ReflectionKind.number
                                   ? " numeric"
                                   : ""
-                              } values for the \\"${option.name}\\" option (values are separated by a \\",\\" character)",
+                              } values for the \${colors.italic("${option.name}")} option (values are separated by a \\",\\" character)\`,
                               ${
                                 option.description
                                   ? `description: "${option.description}",
@@ -344,7 +342,7 @@ export function CommandEntry(props: CommandEntryProps) {
                               argument.kind === ReflectionKind.string
                             }>{code`
                             const value = await text({
-                              message: "Please provide a value for the \\"${argument.name}\\" argument",
+                              message: \`Please provide a value for the \${colors.italic("${argument.name}")} argument\`,
                               ${
                                 argument.description
                                   ? `description: "${argument.description}",
@@ -369,7 +367,7 @@ export function CommandEntry(props: CommandEntryProps) {
                               argument.kind === ReflectionKind.number
                             }>{code`
                             const value = await numeric({
-                              message: "Please provide a numeric value for the \\"${argument.name}\\" argument",
+                              message: \`Please provide a numeric value for the \${colors.italic("${argument.name}")} argument\`,
                               ${
                                 argument.description
                                   ? `description: "${argument.description}",
@@ -388,7 +386,7 @@ export function CommandEntry(props: CommandEntryProps) {
                               argument.kind === ReflectionKind.boolean
                             }>{code`
                             const value = await toggle({
-                              message: "Please select a value for the \\"${argument.name}\\" argument",
+                              message: \`Please select a value for the \${colors.italic("${argument.name}")} argument\`,
                               ${
                                 argument.description
                                   ? `description: "${argument.description}",
@@ -414,11 +412,11 @@ export function CommandEntry(props: CommandEntryProps) {
                           condition={code`${camelCase(argument.name)}.length === 0`}>
                           {code`
                             const value = await text({
-                              message: "Please provide one or more${
+                              message: \`Please provide one or more${
                                 argument.kind === ReflectionKind.number
                                   ? " numeric"
                                   : ""
-                              } (values are separated by a \\",\\" character)",
+                              } values for the \${colors.italic("${argument.name}")} argument (values are separated by a \\",\\" character)\`,
                               ${
                                 argument.description
                                   ? `description: "${argument.description}",

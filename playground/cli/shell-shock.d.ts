@@ -1810,7 +1810,6 @@ declare module "shell-shock:prompts" {
     protected mask: (input: string) => string;
     protected maskCompleted: (input: string) => string;
     protected cursor: number;
-    protected cursorOffset: number;
     protected cursorHidden: boolean;
     constructor(config: PromptConfig<TValue>);
     [Symbol.dispose](): void;
