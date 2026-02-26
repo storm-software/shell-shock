@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/eslint-plugin",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "type": "module",
   "description": "An ESLint Plugin with linting rules that ensure a Shell Shock project is following the best practices.",
   "repository": {

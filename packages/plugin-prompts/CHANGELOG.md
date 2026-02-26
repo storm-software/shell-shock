@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.4) (02/26/2026)
+
+### Bug Fixes
+
+- **plugin-prompts:** Simplify and resolve issues moving cursor in text input fields ([1c64650](https://github.com/storm-software/shell-shock/commit/1c64650))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.7**
+- Updated **core** to **v0.9.5**
+
 ## [0.3.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.3) (02/25/2026)
 
 ### Bug Fixes

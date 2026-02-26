@@ -2,6 +2,21 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.7.9](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.7.9) (02/26/2026)
+
+### Bug Fixes
+
+- **plugin-prompts:** Simplify and resolve issues moving cursor in text input fields ([1c64650](https://github.com/storm-software/shell-shock/commit/1c64650))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.3**
+- Updated **plugin-prompts** to **v0.3.4**
+- Updated **plugin-upgrade** to **v0.1.9**
+- Updated **preset-script** to **v0.6.18**
+- Updated **plugin-theme** to **v0.3.7**
+- Updated **core** to **v0.9.5**
+
 ## [0.7.8](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.7.8) (02/25/2026)
 
 ### Bug Fixes
