@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.6](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.6) (03/02/2026)
+
+### Features
+
+- **core:** Update packages to align with latest `powerlines` project structure ([ce44312](https://github.com/storm-software/shell-shock/commit/ce44312))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.10**
+- Updated **core** to **v0.10.0**
+
 ## [0.1.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.5) (02/26/2026)
 
 ### Updated Dependencies

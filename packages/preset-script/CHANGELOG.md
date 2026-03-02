@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.21](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.21) (03/02/2026)
+
+### Features
+
+- **core:** Update packages to align with latest `powerlines` project structure ([ce44312](https://github.com/storm-software/shell-shock/commit/ce44312))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.6**
+- Updated **plugin-theme** to **v0.3.10**
+- Updated **core** to **v0.10.0**
+
 ## [0.6.20](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.20) (02/26/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.3.10](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.10) (03/02/2026)
+
+### Features
+
+- **core:** Update packages to align with latest `powerlines` project structure ([ce44312](https://github.com/storm-software/shell-shock/commit/ce44312))
+
 ## [0.3.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.4) (02/23/2026)
 
 ### Features

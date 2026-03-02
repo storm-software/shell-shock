@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.12](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.12) (03/02/2026)
+
+### Features
+
+- **core:** Update packages to align with latest `powerlines` project structure ([ce44312](https://github.com/storm-software/shell-shock/commit/ce44312))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.10.0**
+
 ## [0.1.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.11) (02/26/2026)
 
 ### Updated Dependencies

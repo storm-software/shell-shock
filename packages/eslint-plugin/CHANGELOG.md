@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.34](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.34) (03/02/2026)
+
+### Features
+
+- **core:** Update packages to align with latest `powerlines` project structure ([ce44312](https://github.com/storm-software/shell-shock/commit/ce44312))
+
 ## [0.0.20](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.20) (02/18/2026)
 
 ### Miscellaneous

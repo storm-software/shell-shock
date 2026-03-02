@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.39](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.39) (03/02/2026)
+
+### Features
+
+- **core:** Update packages to align with latest `powerlines` project structure ([ce44312](https://github.com/storm-software/shell-shock/commit/ce44312))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.10.0**
+
 ## [0.0.38](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.38) (02/26/2026)
 
 ### Updated Dependencies

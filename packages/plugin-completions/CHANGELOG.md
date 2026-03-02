@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.1) (03/02/2026)
+
+### Features
+
+- **core:** Update packages to align with latest `powerlines` project structure ([ce44312](https://github.com/storm-software/shell-shock/commit/ce44312))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.10.0**
+
 ## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.0) (02/26/2026)
 
 ### Features

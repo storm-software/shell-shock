@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.10.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.10.0) (03/02/2026)
+
+### Features
+
+- **core:** Update packages to align with latest `powerlines` project structure ([ce44312](https://github.com/storm-software/shell-shock/commit/ce44312))
+
 ## [0.9.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.9.2) (02/23/2026)
 
 ### Features
