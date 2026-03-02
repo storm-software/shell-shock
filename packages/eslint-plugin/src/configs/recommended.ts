@@ -16,12 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-import type { UserConfig } from "@shell-shock/core";
-import { defineConfig } from "@shell-shock/core/config";
+import type { Linter } from "eslint";
+import { plugin } from "../plugin";
 
-const config: UserConfig = defineConfig({
-  name: "playground-minimal",
-  skipCache: true
-});
+const config: Linter.Config = {
+  files: ["**/*.{,c,m}{j,t}s{,x}"],
+  name: "shell-shock:recommended",
+  plugins: {
+    "shell-shock": plugin
+  },
+  ignores: [".shell-shock"],
+  rules: {
+    "shell-shock/duplicate-command-path": "warn",
+    "shell-shock/invalid-command-export": "error",
+    "shell-shock/invalid-handler-params": "error"
+  }
+};
 
 export default config;

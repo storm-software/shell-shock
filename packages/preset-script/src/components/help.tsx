@@ -208,7 +208,7 @@ export function HelpOptions(props: HelpOptionsProps) {
                     : ""
                 }${
                   option.default !== undefined
-                    ? `default: ${JSON.stringify(option.default)}`
+                    ? `default: ${JSON.stringify(option.default).replace(/"/g, '\\"')}`
                     : ""
                 })`
               : ""

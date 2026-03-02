@@ -30,7 +30,7 @@ import { labels } from "./style-dictionary/labels";
 import { padding } from "./style-dictionary/padding";
 import { settings } from "./style-dictionary/settings";
 import { spinners } from "./style-dictionary/spinners";
-import { theme as defaultTheme } from "./themes/storm";
+import { theme as defaultTheme } from "./themes/default";
 import type { ThemePluginContext, ThemePluginOptions } from "./types/plugin";
 
 export * from "./types";

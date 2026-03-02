@@ -32,7 +32,7 @@ try {
   }
 
   echo`${chalk.whiteBright(
-    `📋  Type-checking the monorepo in ${configuration} mode...`
+    ` 📋  Type-checking the monorepo in ${configuration} mode...`
   )}`;
 
   let proc = $`pnpm bootstrap`.timeout(`${1 * 60}s`);

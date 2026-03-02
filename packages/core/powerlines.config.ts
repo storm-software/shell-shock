@@ -20,11 +20,11 @@ import alloy from "@powerlines/plugin-alloy";
 import deepkit from "@powerlines/plugin-deepkit";
 import plugin from "@powerlines/plugin-plugin";
 import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines";
+import { defineConfig } from "powerlines/config";
 
 const config: UserConfig = defineConfig({
   skipCache: true,
-  entry: [
+  input: [
     "./src/*.ts",
     "./src/*.tsx",
     "./src/types/*.ts",
@@ -33,7 +33,7 @@ const config: UserConfig = defineConfig({
     "./src/plugin-utils/*.ts"
   ],
   plugins: [plugin(), deepkit(), alloy()],
-  build: {
+  tsdown: {
     sourcemap: true
   }
 });

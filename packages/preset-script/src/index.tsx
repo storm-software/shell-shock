@@ -20,7 +20,7 @@ import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { render } from "@powerlines/plugin-alloy/render";
 import console from "@shell-shock/plugin-console";
-import type { Plugin } from "powerlines/types/plugin";
+import type { Plugin } from "powerlines";
 import { BannerFunctionDeclaration, VirtualHelp } from "./components";
 import { BinEntry } from "./components/bin-entry";
 import { CommandEntry } from "./components/command-entry";
@@ -51,9 +51,6 @@ export const plugin = <
           isCaseSensitive: false,
           ...options
         };
-      },
-      configResolved() {
-        this.dependencies.didyoumean2 = "^7.0.4";
       }
     },
     {

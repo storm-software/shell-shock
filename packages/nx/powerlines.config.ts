@@ -16,27 +16,33 @@
 
  ------------------------------------------------------------------- */
 
-import tsdown from "@powerlines/plugin-tsdown";
 import untyped from "@powerlines/plugin-untyped";
-import { defineConfig } from "powerlines";
+import type { UserConfig } from "powerlines";
+import { defineConfig } from "powerlines/config";
+import { tsdown } from "powerlines/tsdown";
 
-export default defineConfig({
+const config: UserConfig = defineConfig({
   name: "nx",
-  entry: [
+  input: [
     "./src/index.ts",
     "./src/plugin/index.ts",
-    "./src/executors.ts",
     "./src/executors/*/executor.ts"
   ],
   output: {
     buildPath: "./packages/nx/dist/src"
   },
   plugins: [untyped(), tsdown()],
-  build: {
+  resolve: {
+    skipNodeModulesBundle: true
+  },
+  tsdown: {
     clean: false,
     silent: true,
     minify: false,
-    sourcemap: true,
-    shimMissingExports: true
+    unbundle: false,
+    exports: false,
+    fixedExtension: false
   }
 });
+
+export default config;

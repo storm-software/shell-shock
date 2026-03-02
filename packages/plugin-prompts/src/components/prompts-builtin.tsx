@@ -1762,7 +1762,7 @@ export function NumericPromptDeclarations() {
           parameters={[
             {
               name: "previousValue",
-              type: "string"
+              type: "number"
             }
           ]}>
           {code`this.#isInvalid = false;

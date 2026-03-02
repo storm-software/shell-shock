@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { UserConfig } from "@shell-shock/core";
-import { defineConfig } from "@shell-shock/core";
+import { defineConfig } from "@shell-shock/core/config";
 import script from "@shell-shock/preset-script";
 
 const config: UserConfig = defineConfig({

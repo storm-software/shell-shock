@@ -20,7 +20,7 @@ import type { PromiseExecutor } from "@nx/devkit";
 import type { ShellShockAPI } from "@shell-shock/core/api";
 import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
 import defu from "defu";
-import type { BuildInlineConfig } from "powerlines/types";
+import type { BuildInlineConfig } from "powerlines";
 import type { ShellShockExecutorContext } from "../../base/base-executor";
 import { withExecutor } from "../../base/base-executor";
 import type { BuildExecutorSchema } from "./schema";
@@ -33,16 +33,8 @@ export async function executorFn(
     defu(
       {
         command: "build",
-        entry: context.options.entry,
         skipCache: context.options.skipCache,
-        autoInstall: context.options.autoInstall,
-        mode: context.options.mode,
-        tsconfig: context.options.tsconfig,
-        configFile: context.options.configFile,
-        logLevel: context.options.logLevel,
-        output: {
-          outputPath: context.options.outputPath
-        }
+        autoInstall: context.options.autoInstall
       },
       context.inlineConfig
     ) as BuildInlineConfig

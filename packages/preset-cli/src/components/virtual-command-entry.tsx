@@ -62,13 +62,6 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
         {...rest}
         path={filePath.value}
         imports={defu(
-          {
-            didyoumean2: [
-              { name: "didYouMean", default: true },
-              { name: "ReturnTypeEnums" },
-              { name: "ThresholdTypeEnums" }
-            ]
-          },
           imports ?? {},
           Object.entries(command.children)
             .filter(([, child]) => child.isVirtual)
@@ -100,7 +93,8 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             "isMinimal",
             "isUnicodeSupported",
             "isInteractive",
-            "isHelp"
+            "isHelp",
+            "findSuggestions"
           ],
           prompts: ["text", "numeric", "toggle", "select", "isCancel", "sleep"]
         })}>

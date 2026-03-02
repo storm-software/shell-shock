@@ -19,11 +19,14 @@
 import core from "@shell-shock/core/plugin";
 import script from "@shell-shock/preset-script";
 import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines";
+import { defineConfig } from "powerlines/config";
 
 const config: UserConfig = defineConfig({
   name: "playground-powerlines",
   skipCache: true,
+  output: {
+    storage: "fs"
+  },
   plugins: [core(), script()]
 });
 

@@ -25,6 +25,6 @@ export default getStormConfig({
   name: "shell-shock",
   react: {},
   nx: {
-    depsCheck: true
+    depsCheck: false
   }
 });

@@ -26,5 +26,5 @@ import type { Context } from "../types/context";
  * @returns The output path for the generated documentation.
  */
 export function getDocsOutputPath(context: Context): string {
-  return joinPaths(context.config.projectRoot, "docs", "generated");
+  return joinPaths(context.config.root, "docs", "generated");
 }

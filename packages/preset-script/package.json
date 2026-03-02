@@ -1,18 +1,29 @@
 {
   "name": "@shell-shock/preset-script",
   "version": "0.6.20",
-  "type": "module",
+  "private": false,
   "description": "A Shell Shock preset that generates a fully-featured script application.",
-  "repository": {
-    "type": "github",
-    "url": "https://github.com/storm-software/shell-shock.git",
-    "directory": "packages/preset-script"
-  },
+  "keywords": [
+    "shell-shock",
+    "shell-shock-plugin",
+    "powerlines",
+    "storm-software"
+  ],
   "homepage": "https://stormsoftware.com",
   "bugs": {
     "url": "https://stormsoftware.com/support",
     "email": "support@stormsoftware.com"
   },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/shell-shock.git",
+    "directory": "packages/preset-script"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
   "author": {
     "name": "Storm Software",
     "email": "contact@stormsoftware.com",
@@ -32,14 +43,7 @@
       "url": "https://stormsoftware.com"
     }
   ],
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/storm-software"
-  },
-  "license": "Apache-2.0",
-  "private": false,
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "type": "module",
   "exports": {
     ".": {
       "require": {
@@ -55,6 +59,7 @@
         "default": "./dist/index.mjs"
       }
     },
+    "./*": "./*",
     "./components": {
       "require": {
         "types": "./dist/components/index.d.cts",
@@ -195,7 +200,6 @@
         "default": "./dist/helpers/get-default-options.mjs"
       }
     },
-    "./package.json": "./package.json",
     "./types": {
       "require": {
         "types": "./dist/types/index.d.cts",
@@ -225,15 +229,11 @@
       }
     }
   },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
   "files": ["dist/**/*"],
-  "keywords": [
-    "shell-shock",
-    "shell-shock-plugin",
-    "powerlines",
-    "storm-software"
-  ],
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/typescript": "catalog:",
@@ -241,13 +241,13 @@
     "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
+    "@shell-shock/plugin-console": "workspace:*",
     "@shell-shock/plugin-theme": "workspace:*",
     "@stryke/helpers": "catalog:",
     "@stryke/path": "catalog:",
     "@stryke/string-format": "catalog:",
     "defu": "catalog:",
-    "powerlines": "catalog:",
-    "@shell-shock/plugin-console": "workspace:*"
+    "powerlines": "catalog:"
   },
   "devDependencies": {
     "@babel/core": "catalog:",

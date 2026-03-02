@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { mergeConfig } from "powerlines/plugin-utils/merge";
+import { mergeConfig } from "powerlines/plugin-utils";
 import type { ThemePluginContext } from "../types/plugin";
 import type { ThemeResolvedConfig } from "../types/theme";
 
@@ -31,7 +31,10 @@ export function mergeThemes<TContext extends ThemePluginContext>(
   context: TContext,
   resolvedConfig: Partial<ThemeResolvedConfig>
 ) {
-  context.theme = mergeConfig(context.theme, resolvedConfig);
+  context.theme = mergeConfig(
+    context.theme,
+    resolvedConfig
+  ) as unknown as ThemeResolvedConfig;
 
   return context.theme;
 }

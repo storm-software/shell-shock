@@ -10,11 +10,6 @@ out-tsc
 out
 .nx
 .rolldown
-**/.storm
-**/.shell-shock
-# \!examples/**/.storm
-
-# build
 
 # dependencies
 node_modules
@@ -52,15 +47,15 @@ tools/**/out-test/**
 tools/openapi/**/target/**
 tools/**/*.properties
 
-# Generated Docusaurus files
+# Generated files
 .docusaurus/
 .cache-loader/
-
-**/__generated__/**
-
+.storm
+.shell-shock
+.powerlines
+__generated__
 .next
 .stoplight
-
 .cspellcache
 
 ####### Tool Specific #######

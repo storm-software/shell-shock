@@ -26,7 +26,7 @@ import type {
   TsdownPluginResolvedConfig,
   TsdownPluginUserConfig
 } from "@powerlines/plugin-tsdown/types/plugin";
-import type { OutputConfig as PowerlinesOutputConfig } from "powerlines/types/config";
+import type { OutputConfig as PowerlinesOutputConfig } from "powerlines";
 import type { CommandBase, CommandOption } from "./command";
 import type { Context } from "./context";
 
@@ -40,7 +40,6 @@ type BuildOptions = Pick<
   | "mode"
   | "skipCache"
   | "autoInstall"
-  | "entry"
   | "plugins"
   | "tsconfig"
   | "tsconfigRaw"

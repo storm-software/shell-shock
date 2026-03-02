@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
+import baseExecutorSchema from "@powerlines/nx/executors/prepare/untyped";
 import { defineUntypedSchema } from "untyped";
-import baseExecutorSchema from "../../base/base-executor.untyped";
 
 export default defineUntypedSchema({
   ...baseExecutorSchema,
@@ -27,26 +27,5 @@ export default defineUntypedSchema({
     description:
       "A type definition for the Powerlines - Prepare executor schema",
     required: []
-  },
-  entry: {
-    $schema: {
-      title: "Entry Path(s)",
-      description: "The entry path(s) for the package",
-      oneOf: [{ type: "string" }, { type: "array", items: { type: "string" } }]
-    }
-  },
-  skipCache: {
-    $schema: {
-      title: "Skip Cache",
-      type: "boolean",
-      description: "Skip the cache when building"
-    }
-  },
-  autoInstall: {
-    $schema: {
-      title: "Auto Install",
-      type: "boolean",
-      description: "Automatically install dependencies before building"
-    }
   }
 });

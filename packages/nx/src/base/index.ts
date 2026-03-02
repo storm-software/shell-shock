@@ -16,13 +16,5 @@
 
  ------------------------------------------------------------------- */
 
-export { default as build } from "./executors/build/executor";
-export type { BuildExecutorSchema } from "./executors/build/schema";
-export { default as clean } from "./executors/clean/executor";
-export type { CleanExecutorSchema } from "./executors/clean/schema";
-export { default as docs } from "./executors/docs/executor";
-export type { DocsExecutorSchema } from "./executors/docs/schema";
-export { default as lint } from "./executors/lint/executor";
-export type { LintExecutorSchema } from "./executors/lint/schema";
-export { default as prepare } from "./executors/prepare/executor";
-export type { PrepareExecutorSchema } from "./executors/prepare/schema";
+export * from "./base-executor";
+export * from "./base-executor.untyped";

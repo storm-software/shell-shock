@@ -25,7 +25,7 @@ import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
 import { isError } from "@stryke/type-checks/is-error";
 import defu from "defu";
 import { createJiti } from "jiti";
-import type { InlineConfig, PowerlinesCommand } from "powerlines/types/config";
+import type { InlineConfig, PowerlinesCommand } from "powerlines";
 import type { BaseExecutorSchema } from "./base-executor.schema";
 
 export type ShellShockExecutorContext<
@@ -92,8 +92,8 @@ export function withExecutor<
 
       const jiti = createJiti(context.root, { cache: false });
       const { createShellShock } = await jiti.import<{
-        createShellShock: typeof import("@shell-shock/core/api").createShellShock;
-      }>("@shell-shock/core/api");
+        createShellShock: typeof import("@shell-shock/core").createShellShock;
+      }>("@shell-shock/core");
 
       const api = await createShellShock(
         defu(
@@ -104,10 +104,8 @@ export function withExecutor<
             tsconfig: options.tsconfig,
             logLevel: options.logLevel,
             description: projectConfig.metadata?.description,
-            type: projectConfig.projectType,
+            projectType: projectConfig.projectType,
             mode: options.mode,
-            skipCache: options.skipCache,
-            autoInstall: options.autoInstall,
             output: {
               outputPath:
                 options.outputPath ??

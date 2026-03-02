@@ -142,13 +142,6 @@ export function BinEntry(props: BinEntryProps) {
             output: "bin"
           }}
           imports={defu(
-            {
-              didyoumean2: [
-                { name: "didYouMean", default: true },
-                { name: "ReturnTypeEnums" },
-                { name: "ThresholdTypeEnums" }
-              ]
-            },
             imports ?? {},
             Object.entries(context.commands)
               .filter(([, command]) => command.isVirtual)
@@ -167,7 +160,8 @@ export function BinEntry(props: BinEntryProps) {
               "hasFlag",
               "isUnicodeSupported",
               "internal_appContext",
-              "getArgs"
+              "getArgs",
+              "findSuggestions"
             ]
           })}>
           <ExitFunctionDeclaration />

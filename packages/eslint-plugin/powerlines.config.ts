@@ -16,21 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-import tsdown from "@powerlines/plugin-tsdown";
 import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines";
+import { defineConfig } from "powerlines/config";
+import { tsdown } from "powerlines/tsdown";
 
 const config: UserConfig = defineConfig({
   skipCache: true,
-  entry: [
+  input: [
     "./src/index.ts",
     "./src/plugin.ts",
     "./src/configs/*.ts",
     "./src/rules/*.ts"
   ],
   plugins: [tsdown()],
-  build: {
-    platform: "node",
+  platform: "node",
+  tsdown: {
     unbundle: true,
     target: "es2022",
     module: "esnext",

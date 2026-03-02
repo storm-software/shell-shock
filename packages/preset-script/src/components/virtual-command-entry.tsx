@@ -129,13 +129,6 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
         {...rest}
         path={filePath.value}
         imports={defu(
-          {
-            didyoumean2: [
-              { name: "didYouMean", default: true },
-              { name: "ReturnTypeEnums" },
-              { name: "ThresholdTypeEnums" }
-            ]
-          },
           imports ?? {},
           Object.entries(command.children)
             .filter(([, child]) => child.isVirtual)
@@ -159,7 +152,13 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             "splitText",
             "stripAnsi"
           ],
-          utils: ["useArgs", "hasFlag", "isMinimal", "isUnicodeSupported"]
+          utils: [
+            "useArgs",
+            "hasFlag",
+            "isMinimal",
+            "isUnicodeSupported",
+            "findSuggestions"
+          ]
         })}>
         <BannerFunctionDeclaration command={command} />
         <hbr />

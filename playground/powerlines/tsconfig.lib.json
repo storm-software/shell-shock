@@ -2,20 +2,23 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
-    "outDir": "./out-tsc",
     "jsx": "preserve",
-    "jsxImportSource": "@alloy-js/core"
+    "jsxImportSource": "@alloy-js/core",
+    "outDir": "./out-tsc"
   },
   "references": [
-    { "path": "../../packages/preset-script/tsconfig.lib.json" },
-    { "path": "../../packages/core/tsconfig.lib.json" }
+    {
+      "path": "../../packages/preset-script/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/core/tsconfig.lib.json"
+    }
   ],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
     "powerlines.config.ts",
-    "powerlines.d.ts",
-    "shell-shock.d.ts"
+    "powerlines.d.ts"
   ],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
   "reflection": "default",

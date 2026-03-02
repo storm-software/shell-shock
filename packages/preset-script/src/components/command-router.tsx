@@ -185,19 +185,14 @@ export function CommandRouterBody(props: CommandRouterProps) {
         )}
       </For>
       <ElseIfClause
-        condition={code`Boolean(command) && !command.startsWith("-")`}>{code`const suggestions = didYouMean(command, [${Object.values(
+        condition={code`Boolean(command) && !command.startsWith("-")`}>{code`const suggestions = findSuggestions(command, [${Object.values(
         commands ?? {}
       )
         .map(
           cmd =>
             `"${cmd.name}"${(cmd.alias ?? []).map(alias => `, "${alias}"`).join("")}`
         )
-        .join(", ")}], {
-          caseSensitive: ${JSON.stringify(context.config.isCaseSensitive)},
-          returnType: ReturnTypeEnums.ALL_CLOSEST_MATCHES,
-          thresholdType: ThresholdTypeEnums.SIMILARITY,
-          threshold: 0.25
-        });
+        .join(", ")}]).slice(0, 3);
         error(\`Unknown command: "\${command}"\${suggestions && suggestions.length > 0 ? \`, did you mean: \${suggestions.length === 1 ? \`"\${suggestions[0]}"\` : suggestions.map((suggestion, i) => i < suggestions.length - 1 ? \`"\${suggestion}", \` : \`or "\${suggestion}"\`)}?\` : ""} \`);`}</ElseIfClause>
     </Show>
   );

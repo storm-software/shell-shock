@@ -16,5 +16,4 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./executors";
-export * from "./plugin";
+export * from "./base";

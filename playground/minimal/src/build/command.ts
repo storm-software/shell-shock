@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-export const meta = {
+export const metadata = {
   name: "build",
   description: "Build the project."
 };
@@ -44,6 +44,7 @@ interface BuildOptions {
  * Build the project.
  */
 function build(options: BuildOptions) {
+  // eslint-disable-next-line no-console
   console.log(
     `Building at ${options.root} with verbose=${
       options.verbose ?? false

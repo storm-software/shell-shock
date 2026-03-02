@@ -229,14 +229,6 @@ export function LocateLockfileFunctionDeclaration() {
 export function GetPackageManagerFunctionDeclaration() {
   return (
     <>
-      {code`declare global {
-        var Bun: any;
-        namespace NodeJS {
-          interface ProcessVersions {
-            bun?: string;
-          }
-        }
-      } `}
       <Spacing />
       <TypeDeclaration
         export

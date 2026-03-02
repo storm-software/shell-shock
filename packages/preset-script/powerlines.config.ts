@@ -19,11 +19,11 @@
 import alloy from "@powerlines/plugin-alloy";
 import plugin from "@powerlines/plugin-plugin";
 import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines";
+import { defineConfig } from "powerlines/config";
 
 const config: UserConfig = defineConfig({
   skipCache: true,
-  entry: [
+  input: [
     "./src/index.tsx",
     "./src/types/*.ts",
     "./src/helpers/**/*.ts",
@@ -31,7 +31,7 @@ const config: UserConfig = defineConfig({
     "./src/components/**/*.tsx"
   ],
   plugins: [plugin(), alloy()],
-  build: {
+  tsdown: {
     sourcemap: true
   }
 });

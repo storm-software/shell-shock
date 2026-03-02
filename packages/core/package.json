@@ -55,6 +55,7 @@
         "default": "./dist/index.mjs"
       }
     },
+    "./*": "./*",
     "./api": {
       "require": {
         "types": "./dist/api.d.cts",
@@ -209,7 +210,6 @@
         "default": "./dist/contexts/options.mjs"
       }
     },
-    "./package.json": "./package.json",
     "./plugin": {
       "require": {
         "types": "./dist/plugin.d.cts",
@@ -397,6 +397,14 @@
   "typings": "dist/index.d.mts",
   "files": ["dist/**/*"],
   "keywords": ["shell-shock", "powerlines", "storm-software"],
+  "peerDependencies": {
+    "zod": "^3.25.0 || ^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/markdown": "catalog:",
@@ -406,7 +414,6 @@
     "@powerlines/plugin-automd": "catalog:",
     "@powerlines/plugin-deepkit": "catalog:",
     "@powerlines/plugin-nodejs": "catalog:",
-    "@powerlines/plugin-plugin": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
     "@stryke/cli": "catalog:",
     "@stryke/convert": "catalog:",
@@ -423,8 +430,10 @@
     "rolldown": "catalog:"
   },
   "devDependencies": {
+    "@powerlines/plugin-plugin": "catalog:",
     "@types/node": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "zod": "catalog:"
   },
   "publishConfig": {
     "access": "public"

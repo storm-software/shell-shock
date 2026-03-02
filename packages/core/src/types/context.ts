@@ -18,7 +18,7 @@
 
 import type { NodeJsPluginContext } from "@powerlines/plugin-nodejs/types/plugin";
 import type { TsdownPluginContext } from "@powerlines/plugin-tsdown/types/plugin";
-import type { UnresolvedContext as PowerlinesUnresolvedContext } from "powerlines/types/context";
+import type { UnresolvedContext as PowerlinesUnresolvedContext } from "powerlines";
 import type { CommandInput, CommandOption, CommandTree } from "./command";
 import type { ResolvedConfig } from "./config";
 

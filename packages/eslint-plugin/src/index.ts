@@ -41,6 +41,8 @@ const eslintPlugin: ESLint.Plugin = {
 
 export default eslintPlugin;
 
+export { configs };
+
 type RuleDefinitions = (typeof plugin)["rules"];
 
 export type RuleOptions = {

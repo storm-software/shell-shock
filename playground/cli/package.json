@@ -5,7 +5,10 @@
   "description": "A playground package containing an example command-line application and project setup.",
   "private": true,
   "bin": { "playground-cli": "./dist/bin.mjs" },
-  "dependencies": { "@shell-shock/core": "workspace:*" },
+  "dependencies": {
+    "@shell-shock/core": "workspace:*",
+    "@shell-shock/plugin-theme": "workspace:*"
+  },
   "devDependencies": {
     "@shell-shock/nx": "workspace:*",
     "@shell-shock/preset-cli": "workspace:*",

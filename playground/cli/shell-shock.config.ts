@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { UserConfig } from "@shell-shock/core";
-import { defineConfig } from "@shell-shock/core";
+import { defineConfig } from "@shell-shock/core/config";
 import cli from "@shell-shock/preset-cli";
 
 const config: UserConfig = defineConfig({

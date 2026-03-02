@@ -30,10 +30,12 @@ import {
   ReflectionVisibility,
   stringifyType
 } from "@powerlines/deepkit/vendor/type";
+import { resolveModule } from "@powerlines/plugin-esbuild/helpers/resolve";
 import { toArray } from "@stryke/convert/to-array";
 import { appendPath } from "@stryke/path/append";
 import { commonPath } from "@stryke/path/common";
 import { findFilePath, findFolderName } from "@stryke/path/file-path-fns";
+import { joinPaths } from "@stryke/path/join-paths";
 import { stripStars } from "@stryke/path/normalize";
 import { replacePath } from "@stryke/path/replace";
 import { resolveParentPath } from "@stryke/path/resolve-parent-path";
@@ -41,7 +43,8 @@ import { constantCase } from "@stryke/string-format/constant-case";
 import { titleCase } from "@stryke/string-format/title-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import { resolveModule } from "powerlines/lib/utilities/resolve";
+import { existsSync } from "node:fs";
+import { isTypeDefinition } from "powerlines/utils";
 import {
   getAppTitle,
   getDynamicPathSegmentName,
@@ -186,43 +189,69 @@ export function resolveCommandDynamicPathSegments(
 }
 
 export function findCommandsRoot(context: Context): string {
-  if (isSetString(context.config.entry)) {
+  if (isSetString(context.config.input)) {
     return appendPath(
-      appendPath(stripStars(context.config.entry), context.config.projectRoot),
+      appendPath(stripStars(context.config.input), context.config.root),
+      context.workspaceConfig.workspaceRoot
+    );
+  } else if (isTypeDefinition(context.config.input)) {
+    return appendPath(
+      appendPath(stripStars(context.config.input.file), context.config.root),
       context.workspaceConfig.workspaceRoot
     );
   } else if (
-    isSetObject(context.config.entry) &&
-    "file" in context.config.entry
-  ) {
-    return appendPath(
-      appendPath(
-        stripStars(context.config.entry.file),
-        context.config.projectRoot
-      ),
-      context.workspaceConfig.workspaceRoot
-    );
-  } else if (
-    Array.isArray(context.config.entry) &&
-    context.config.entry.length > 0
+    Array.isArray(context.config.input) &&
+    context.config.input.length > 0
   ) {
     return commonPath(
-      context.config.entry.map(entry =>
+      context.config.input.map(input =>
         appendPath(
           appendPath(
-            stripStars(isSetString(entry) ? entry : entry.file),
-            context.config.projectRoot
+            stripStars(isSetString(input) ? input : input.file),
+            context.config.root
           ),
           context.workspaceConfig.workspaceRoot
         )
       )
     );
+  } else if (isSetObject(context.config.input)) {
+    return commonPath(
+      Object.values(context.config.input).map(input =>
+        Array.isArray(input)
+          ? commonPath(
+              input.map(i =>
+                appendPath(
+                  appendPath(
+                    stripStars(isSetString(i) ? i : i.file),
+                    context.config.root
+                  ),
+                  context.workspaceConfig.workspaceRoot
+                )
+              )
+            )
+          : appendPath(
+              appendPath(
+                stripStars(isSetString(input) ? input : input.file),
+                context.config.root
+              ),
+              context.workspaceConfig.workspaceRoot
+            )
+      )
+    );
   }
 
-  return appendPath(
-    context.config.sourceRoot || context.config.projectRoot,
-    context.workspaceConfig.workspaceRoot
-  );
+  let commandsPath = joinPaths(context.config.root, "src/commands");
+  if (!existsSync(commandsPath)) {
+    commandsPath = joinPaths(context.config.root, "commands");
+    if (!existsSync(commandsPath)) {
+      commandsPath = joinPaths(context.config.root, "src");
+      if (!existsSync(commandsPath)) {
+        commandsPath = context.config.root;
+      }
+    }
+  }
+
+  return appendPath(commandsPath, context.workspaceConfig.workspaceRoot);
 }
 
 /**

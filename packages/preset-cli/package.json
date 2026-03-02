@@ -1,18 +1,29 @@
 {
   "name": "@shell-shock/preset-cli",
   "version": "0.7.11",
-  "type": "module",
+  "private": false,
   "description": "A package containing a Shell Shock plugin to generate source code given a list design tokens.",
-  "repository": {
-    "type": "github",
-    "url": "https://github.com/storm-software/shell-shock.git",
-    "directory": "packages/preset-cli"
-  },
+  "keywords": [
+    "shell-shock",
+    "shell-shock-plugin",
+    "powerlines",
+    "storm-software"
+  ],
   "homepage": "https://stormsoftware.com",
   "bugs": {
     "url": "https://stormsoftware.com/support",
     "email": "support@stormsoftware.com"
   },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/shell-shock.git",
+    "directory": "packages/preset-cli"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
   "author": {
     "name": "Storm Software",
     "email": "contact@stormsoftware.com",
@@ -32,14 +43,7 @@
       "url": "https://stormsoftware.com"
     }
   ],
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/storm-software"
-  },
-  "license": "Apache-2.0",
-  "private": false,
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "type": "module",
   "exports": {
     ".": {
       "require": {
@@ -55,6 +59,7 @@
         "default": "./dist/index.mjs"
       }
     },
+    "./*": "./*",
     "./components": {
       "require": {
         "types": "./dist/components/index.d.cts",
@@ -125,7 +130,6 @@
         "default": "./dist/components/virtual-command-entry.mjs"
       }
     },
-    "./package.json": "./package.json",
     "./types": {
       "require": {
         "types": "./dist/types/index.d.cts",
@@ -155,15 +159,11 @@
       }
     }
   },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
   "files": ["dist/**/*"],
-  "keywords": [
-    "shell-shock",
-    "shell-shock-plugin",
-    "powerlines",
-    "storm-software"
-  ],
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/typescript": "catalog:",

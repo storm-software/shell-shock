@@ -1,18 +1,24 @@
 {
   "name": "@shell-shock/eslint-plugin",
   "version": "0.0.33",
-  "type": "module",
+  "private": false,
   "description": "An ESLint Plugin with linting rules that ensure a Shell Shock project is following the best practices.",
-  "repository": {
-    "type": "github",
-    "url": "https://github.com/storm-software/shell-shock.git",
-    "directory": "packages/eslint-plugin"
-  },
+  "keywords": ["eslint", "eslint-plugin", "shell-shock", "storm-software"],
   "homepage": "https://stormsoftware.com",
   "bugs": {
     "url": "https://stormsoftware.com/support",
     "email": "support@stormsoftware.com"
   },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/shell-shock.git",
+    "directory": "packages/eslint-plugin"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
   "author": {
     "name": "Storm Software",
     "email": "contact@stormsoftware.com",
@@ -32,14 +38,7 @@
       "url": "https://stormsoftware.com"
     }
   ],
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/storm-software"
-  },
-  "license": "Apache-2.0",
-  "private": false,
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "type": "module",
   "exports": {
     ".": {
       "require": {
@@ -81,6 +80,20 @@
       "default": {
         "types": "./dist/configs/base.d.mts",
         "default": "./dist/configs/base.mjs"
+      }
+    },
+    "./configs/recommended": {
+      "require": {
+        "types": "./dist/configs/recommended.d.cts",
+        "default": "./dist/configs/recommended.cjs"
+      },
+      "import": {
+        "types": "./dist/configs/recommended.d.mts",
+        "default": "./dist/configs/recommended.mjs"
+      },
+      "default": {
+        "types": "./dist/configs/recommended.d.mts",
+        "default": "./dist/configs/recommended.mjs"
       }
     },
     "./package.json": "./package.json",
@@ -141,40 +154,43 @@
       }
     }
   },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
   "files": ["dist/**/*"],
-  "keywords": ["eslint", "eslint-plugin", "shell-shock", "storm-software"],
-  "peerDependencies": {
-    "@powerlines/plugin-tsdown": ">=0.1.224",
-    "eslint": "catalog:",
-    "powerlines": ">=0.38.38"
-  },
-  "peerDependenciesMeta": {
-    "eslint": {
-      "optional": false
-    }
-  },
   "dependencies": {
     "@stryke/fs": "catalog:",
     "@stryke/path": "catalog:",
     "@typescript-eslint/utils": "catalog:",
-    "defu": "catalog:"
+    "defu": "catalog:",
+    "@storm-software/testing-tools": "catalog:",
+    "powerlines": "catalog:"
   },
   "devDependencies": {
+    "@eslint/compat": "catalog:",
     "@eslint/config-inspector": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
-    "@storm-software/eslint": "catalog:",
+    "@storm-software/testing-tools": "catalog:",
     "@types/eslint": "catalog:",
     "@types/eslint__js": "catalog:",
     "@types/node": "catalog:",
     "eslint": "catalog:",
     "eslint-doc-generator": "catalog:",
+    "eslint-flat-config-utils": "catalog:",
     "eslint-plugin-eslint-plugin": "catalog:",
     "eslint-plugin-i18n-text": "catalog:",
     "eslint-rule-documentation": "catalog:",
     "eslint-typegen": "catalog:",
     "powerlines": "catalog:"
+  },
+  "peerDependencies": {
+    "eslint": ">=9.39.3"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": false
+    }
   },
   "publishConfig": {
     "access": "public",

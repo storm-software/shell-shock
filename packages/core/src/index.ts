@@ -18,9 +18,6 @@
 
 import { ShellShockAPI, createShellShock } from "./api";
 
-export * from "./config";
-
-export { plugin, shellShock } from "./plugin";
 export * from "./types";
 
 // eslint-disable-next-line perfectionist/sort-named-exports

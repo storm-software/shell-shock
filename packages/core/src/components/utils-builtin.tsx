@@ -25,6 +25,7 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { usePowerlines } from "@powerlines/plugin-alloy/dist/core/contexts/context.mjs";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import {
@@ -36,11 +37,216 @@ import {
   TSDocReturns
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import defu from "defu";
+import type { Context } from "../types/context";
 
 export interface UtilsBuiltinProps extends Omit<
   BuiltinFileProps,
   "id" | "description"
 > {}
+
+/**
+ * Generates the `findSuggestions` function for suggesting corrections for potentially misspelled options or commands.
+ */
+export function FindSuggestionsDeclaration() {
+  const context = usePowerlines<Context>();
+
+  return (
+    <>
+      <VarDeclaration
+        const
+        name="deburred"
+        initializer={code` {
+          "\\xc0": "A",  "\\xc1": "A", "\\xc2": "A", "\\xc3": "A", "\\xc4": "A", "\\xc5": "A",
+          "\\xe0": "a",  "\\xe1": "a", "\\xe2": "a", "\\xe3": "a", "\\xe4": "a", "\\xe5": "a",
+          "\\xc7": "C",  "\\xe7": "c",
+          "\\xd0": "D",  "\\xf0": "d",
+          "\\xc8": "E",  "\\xc9": "E", "\\xca": "E", "\\xcb": "E",
+          "\\xe8": "e",  "\\xe9": "e", "\\xea": "e", "\\xeb": "e",
+          "\\xcc": "I",  "\\xcd": "I", "\\xce": "I", "\\xcf": "I",
+          "\\xec": "i",  "\\xed": "i", "\\xee": "i", "\\xef": "i",
+          "\\xd1": "N",  "\\xf1": "n",
+          "\\xd2": "O",  "\\xd3": "O", "\\xd4": "O", "\\xd5": "O", "\\xd6": "O", "\\xd8": "O",
+          "\\xf2": "o",  "\\xf3": "o", "\\xf4": "o", "\\xf5": "o", "\\xf6": "o", "\\xf8": "o",
+          "\\xd9": "U",  "\\xda": "U", "\\xdb": "U", "\\xdc": "U",
+          "\\xf9": "u",  "\\xfa": "u", "\\xfb": "u", "\\xfc": "u",
+          "\\xdd": "Y",  "\\xfd": "y", "\\xff": "y",
+          "\\xc6": "Ae", "\\xe6": "ae",
+          "\\xde": "Th", "\\xfe": "th",
+          "\\xdf": "ss",
+          "\\u0100": "A",  "\\u0102": "A", "\\u0104": "A",
+          "\\u0101": "a",  "\\u0103": "a", "\\u0105": "a",
+          "\\u0106": "C",  "\\u0108": "C", "\\u010a": "C", "\\u010c": "C",
+          "\\u0107": "c",  "\\u0109": "c", "\\u010b": "c", "\\u010d": "c",
+          "\\u010e": "D",  "\\u0110": "D", "\\u010f": "d", "\\u0111": "d",
+          "\\u0112": "E",  "\\u0114": "E", "\\u0116": "E", "\\u0118": "E", "\\u011a": "E",
+          "\\u0113": "e",  "\\u0115": "e", "\\u0117": "e", "\\u0119": "e", "\\u011b": "e",
+          "\\u011c": "G",  "\\u011e": "G", "\\u0120": "G", "\\u0122": "G",
+          "\\u011d": "g",  "\\u011f": "g", "\\u0121": "g", "\\u0123": "g",
+          "\\u0124": "H",  "\\u0126": "H", "\\u0125": "h", "\\u0127": "h",
+          "\\u0128": "I",  "\\u012a": "I", "\\u012c": "I", "\\u012e": "I", "\\u0130": "I",
+          "\\u0129": "i",  "\\u012b": "i", "\\u012d": "i", "\\u012f": "i", "\\u0131": "i",
+          "\\u0134": "J",  "\\u0135": "j",
+          "\\u0136": "K",  "\\u0137": "k", "\\u0138": "k",
+          "\\u0139": "L",  "\\u013b": "L", "\\u013d": "L", "\\u013f": "L", "\\u0141": "L",
+          "\\u013a": "l",  "\\u013c": "l", "\\u013e": "l", "\\u0140": "l", "\\u0142": "l",
+          "\\u0143": "N",  "\\u0145": "N", "\\u0147": "N", "\\u014a": "N",
+          "\\u0144": "n",  "\\u0146": "n", "\\u0148": "n", "\\u014b": "n",
+          "\\u014c": "O",  "\\u014e": "O", "\\u0150": "O",
+          "\\u014d": "o",  "\\u014f": "o", "\\u0151": "o",
+          "\\u0154": "R",  "\\u0156": "R", "\\u0158": "R",
+          "\\u0155": "r",  "\\u0157": "r", "\\u0159": "r",
+          "\\u015a": "S",  "\\u015c": "S", "\\u015e": "S", "\\u0160": "S",
+          "\\u015b": "s",  "\\u015d": "s", "\\u015f": "s", "\\u0161": "s",
+          "\\u0162": "T",  "\\u0164": "T", "\\u0166": "T",
+          "\\u0163": "t",  "\\u0165": "t", "\\u0167": "t",
+          "\\u0168": "U",  "\\u016a": "U", "\\u016c": "U", "\\u016e": "U", "\\u0170": "U", "\\u0172": "U",
+          "\\u0169": "u",  "\\u016b": "u", "\\u016d": "u", "\\u016f": "u", "\\u0171": "u", "\\u0173": "u",
+          "\\u0174": "W",  "\\u0175": "w",
+          "\\u0176": "Y",  "\\u0177": "y", "\\u0178": "Y",
+          "\\u0179": "Z",  "\\u017b": "Z", "\\u017d": "Z",
+          "\\u017a": "z",  "\\u017c": "z", "\\u017e": "z",
+          "\\u0132": "IJ", "\\u0133": "ij",
+          "\\u0152": "Oe", "\\u0153": "oe",
+          "\\u0149": "n", "\\u017f": "s"
+        } as Record<string, string>; `}
+      />
+      <Spacing />
+      <TSDoc heading="A utility function that takes an input string and a list of possible matches, and returns a list of suggested matches based on the Levenshtein distance between the input and the possible matches.">
+        <TSDocRemarks>
+          {
+            "This function is intended to be used to suggest corrections for potentially misspelled options or commands."
+          }
+        </TSDocRemarks>
+        <hbr />
+        <hbr />
+        <TSDocInternal />
+        <hbr />
+        <hbr />
+        <TSDocParam name="input">
+          {"The input string to check for potential matches."}
+        </TSDocParam>
+        <TSDocParam name="options">
+          {"A list of possible matches to compare against the input."}
+        </TSDocParam>
+        <TSDocReturns>
+          {"A list of suggested matches based on the Levenshtein distance."}
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        name="findSuggestions"
+        parameters={[
+          {
+            name: "input",
+            type: "string"
+          },
+          {
+            name: "options",
+            type: "string[]"
+          }
+        ]}
+        returnType="string[]">
+        <VarDeclaration
+          const
+          name="normalizedInput"
+          initializer={code`String(input ?? "")${
+            context.config.isCaseSensitive ? "" : ".toLowerCase()"
+          }.trim().replaceAll(/(\\s|_|-|,|\\.)+/gu, " ").replace(/[\\\\xc0-\\\\xd6\\\\xd8-\\\\xf6\\\\xf8-\\\\xff\\\\u0100-\\\\u017f]/g, key => deburred[key]).replace(/[\\\\u0300-\\\\u036f\\\\ufe20-\\\\ufe2f\\\\u20d0-\\\\u20ff]/g, ""); `}
+        />
+        <Spacing />
+        {code`
+        if (!normalizedInput || options.length === 0) {
+          return [];
+        }
+
+        const threshold = Math.ceil(normalizedInput.length * 0.25) || 1;
+        const results: Array<{ option: string; distance: number }> = [];
+
+        for (const option of options) {
+          const normalizedOption = String(option ?? "")${
+            context.config.isCaseSensitive ? "" : ".toLowerCase()"
+          }.trim().replaceAll(/(\\s|_|-|,|\\.)+/gu, " ").replace(/[\\\\xc0-\\\\xd6\\\\xd8-\\\\xf6\\\\xf8-\\\\xff\\\\u0100-\\\\u017f]/g, key => deburred[key]).replace(/[\\\\u0300-\\\\u036f\\\\ufe20-\\\\ufe2f\\\\u20d0-\\\\u20ff]/g, "");
+
+          if (!normalizedOption) {
+            continue;
+          }
+
+          const lenA = normalizedInput.length;
+          const lenB = normalizedOption.length;
+
+          if (Math.abs(lenA - lenB) > threshold) {
+            continue;
+          }
+
+          let distance: number;
+          if (lenA === 0) {
+            distance = lenB;
+          } else if (lenB === 0) {
+            distance = lenA;
+          } else if (lenA <= 32) {
+            const peq: Record<string, number> = {};
+            for (let i = 0; i < lenA; i++) {
+              const c = normalizedInput[i]!;
+              peq[c] = (peq[c] || 0) | (1 << i);
+            }
+
+            let pv = -1;
+            let mv = 0;
+            let score = lenA;
+
+            for (let j = 0; j < lenB; j++) {
+              const eq = peq[normalizedOption[j]!] || 0;
+              const xv = eq | mv;
+              const xh = ((eq & pv) + pv) ^ pv ^ eq;
+              let ph = mv | ~(xh | pv);
+              let mh = pv & xh;
+
+              if ((ph >>> (lenA - 1)) & 1) {
+                score++;
+              }
+              if ((mh >>> (lenA - 1)) & 1) {
+                score--;
+              }
+
+              ph = (ph << 1) | 1;
+              mh = mh << 1;
+              pv = mh | ~(xv | ph);
+              mv = ph & xv;
+            }
+
+            distance = score;
+          } else {
+            const row = new Array(lenB + 1);
+            for (let j = 0; j <= lenB; j++) {
+              row[j] = j;
+            }
+
+            for (let i = 1; i <= lenA; i++) {
+              let prev = i;
+              for (let j = 1; j <= lenB; j++) {
+                const val = normalizedInput[i - 1] === normalizedOption[j - 1]
+                  ? row[j - 1]
+                  : Math.min(row[j - 1], prev, row[j]) + 1;
+                row[j - 1] = prev;
+                prev = val;
+              }
+              row[lenB] = prev;
+            }
+
+            distance = row[lenB];
+          }
+
+          if (distance <= threshold) {
+            results.push({ option, distance });
+          }
+        }
+
+        return results.sort((a, b) => a.distance - b.distance).map(r => r.option);
+        `}
+      </FunctionDeclaration>
+    </>
+  );
+}
 
 /**
  * Generates utilities for detecting terminal color support.
@@ -894,6 +1100,8 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
       <ColorSupportUtilities />
       <Spacing />
       <SpawnFunctionDeclaration />
+      <Spacing />
+      <FindSuggestionsDeclaration />
       <Spacing />
       <Show when={Boolean(children)}>{children}</Show>
     </BuiltinFile>

@@ -21,7 +21,6 @@ import { render } from "@powerlines/plugin-alloy/render";
 import automd from "@powerlines/plugin-automd";
 import deepkit from "@powerlines/plugin-deepkit";
 import nodejs from "@powerlines/plugin-nodejs";
-import tsdown from "@powerlines/plugin-tsdown";
 import { toArray } from "@stryke/convert/to-array";
 import { chmodX } from "@stryke/fs/chmod-x";
 import { appendPath } from "@stryke/path/append";
@@ -33,11 +32,13 @@ import { resolveParentPath } from "@stryke/path/resolve-parent-path";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { kebabCase } from "@stryke/string-format/kebab-case";
+import { isObject } from "@stryke/type-checks/is-object";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { defu } from "defu";
 import type { Plugin } from "powerlines";
-import { resolveEntries } from "powerlines/lib/entry";
+import { tsdown } from "powerlines/tsdown";
+import { resolveInputs } from "powerlines/utils";
 import type { OutputOptions, RenderedChunk } from "rolldown";
 import { CommandDocsFile } from "./components/docs";
 import { UtilsBuiltin } from "./components/utils-builtin";
@@ -96,7 +97,7 @@ export const plugin = <TContext extends Context = Context>(
         const result = defu(
           {
             output: {
-              buildPath: joinPaths(this.config.projectRoot, "dist")
+              buildPath: joinPaths(this.config.root, "dist")
             }
           },
           options,
@@ -104,6 +105,8 @@ export const plugin = <TContext extends Context = Context>(
             name: getAppName(this),
             title: getAppTitle(this),
             description: getAppDescription(this),
+            platform: "node",
+            projectType: "application",
             envPrefix: constantCase(getAppName(this)),
             env: {
               prefix: [] as string[]
@@ -113,24 +116,25 @@ export const plugin = <TContext extends Context = Context>(
               format: "esm",
               dts: true
             },
-            entry:
-              !this.config.entry ||
-              (Array.isArray(this.config.entry) &&
-                this.config.entry.length === 0)
+            input:
+              !this.config.input ||
+              (Array.isArray(this.config.input) &&
+                this.config.input.length === 0) ||
+              (isObject(this.config.input) &&
+                Object.keys(this.config.input).length === 0)
                 ? [
-                    joinPaths(this.config.sourceRoot, "**/*.ts"),
-                    joinPaths(this.config.sourceRoot, "**/*.tsx")
+                    joinPaths(this.config.root, "src/**/command.ts"),
+                    joinPaths(this.config.root, "src/**/command.tsx")
                   ]
                 : undefined,
-            build: {
-              dts: false,
-              platform: "node",
-              nodeProtocol: true,
-              unbundle: false,
-              noExternal: ["@powerlines/deepkit"]
+            resolve: {
+              external: ["@powerlines/deepkit"]
             },
-            type: "application",
-            framework: "shell-shock"
+            tsdown: {
+              dts: true,
+              nodeProtocol: true,
+              unbundle: false
+            }
           }
         );
 
@@ -186,19 +190,19 @@ export const plugin = <TContext extends Context = Context>(
         this.debug("Finding command entry point files.");
 
         this.commandsPath = findCommandsRoot(this);
-        const entries = await resolveEntries(
-          this,
-          toArray(this.config.entry || [])
-        );
+        const inputs = await resolveInputs(this, this.config.input);
 
         this.debug(
           `Found ${
-            entries.length
+            inputs.length
           } entry points specified in the configuration options.`
         );
 
-        this.inputs = entries.reduce((ret, entry) => {
-          if (!isParentPath(entry.file, this.commandsPath)) {
+        this.inputs = inputs.reduce((ret, entry) => {
+          if (
+            entry.file !== this.commandsPath &&
+            !isParentPath(entry.file, this.commandsPath)
+          ) {
             throw new Error(
               `Command entry point "${
                 entry.file
@@ -494,26 +498,30 @@ export const plugin = <TContext extends Context = Context>(
     {
       name: "shell-shock:chmod+x",
       configResolved() {
-        this.config.build.outputOptions ??= {} as OutputOptions;
-        (this.config.build.outputOptions as OutputOptions).banner = (
-          chunk: RenderedChunk
-        ) => {
-          if (
-            chunk.isEntry &&
-            joinPaths(this.entryPath, "bin.ts") === chunk.facadeModuleId
-          ) {
-            this.debug(
-              `Adding hashbang to binary executable output file: ${chunk.fileName}`
-            );
+        this.config.tsdown.outputOptions ??= {} as any;
+        if (isObject(this.config.tsdown.outputOptions)) {
+          (
+            this.config.tsdown.outputOptions as NonNullable<OutputOptions>
+          ).banner = (chunk: RenderedChunk) => {
+            if (
+              chunk.isEntry &&
+              joinPaths(this.entryPath, "bin.ts") === chunk.facadeModuleId
+            ) {
+              this.debug(
+                `Adding hashbang to binary executable output file: ${
+                  chunk.fileName
+                }`
+              );
 
-            return `#!/usr/bin/env ${
-              this.config.mode === "development"
-                ? "-S NODE_OPTIONS=--enable-source-maps"
-                : ""
-            } node\n`;
-          }
-          return "";
-        };
+              return `#!/usr/bin/env ${
+                this.config.mode === "development"
+                  ? "-S NODE_OPTIONS=--enable-source-maps"
+                  : ""
+              } node\n`;
+            }
+            return "";
+          };
+        }
       },
       async buildEnd() {
         if (!isSetObject(this.config.bin)) {
@@ -527,10 +535,7 @@ export const plugin = <TContext extends Context = Context>(
             Object.values(this.config.bin).map(async bin => {
               const path = appendPath(
                 bin,
-                joinPaths(
-                  this.workspaceConfig.workspaceRoot,
-                  this.config.projectRoot
-                )
+                joinPaths(this.workspaceConfig.workspaceRoot, this.config.root)
               );
 
               if (this.fs.existsSync(path)) {

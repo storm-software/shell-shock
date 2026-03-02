@@ -40,7 +40,7 @@ export async function updatePackageJsonBinary(
 ): Promise<void> {
   const packageJsonPath = joinPaths(
     context.workspaceConfig.workspaceRoot,
-    context.config.projectRoot,
+    context.config.root,
     "package.json"
   );
   if (

@@ -27,7 +27,7 @@ import type {
   StyleDictionaryPluginResolvedConfig,
   StyleDictionaryPluginUserConfig
 } from "@powerlines/plugin-style-dictionary/types";
-import type { Context } from "powerlines/types/context";
+import type { Context } from "powerlines";
 import type { ThemeResolvedConfig, ThemeUserConfig } from "./theme";
 
 export type ThemePluginOptions = StyleDictionaryPluginOptions &

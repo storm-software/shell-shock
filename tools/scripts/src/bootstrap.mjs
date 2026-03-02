@@ -20,7 +20,7 @@
 import { $, chalk, echo } from "zx";
 
 try {
-  echo`${chalk.whiteBright("⚙️  Bootstrapping the monorepo...")}`;
+  echo`${chalk.whiteBright(" ⚙️  Bootstrapping the monorepo...")}`;
 
   const proc = $`pnpm nx sync`.timeout(`${2 * 60}s`);
   proc.stdout.on("data", data => {

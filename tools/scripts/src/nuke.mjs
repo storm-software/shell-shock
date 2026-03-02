@@ -20,7 +20,7 @@
 import { $, chalk, echo } from "zx";
 
 try {
-  echo`${chalk.whiteBright("💣  Nuking the monorepo...")}`;
+  echo`${chalk.whiteBright(" 💣  Nuking the monorepo...")}`;
 
   // let proc =
   //   $`pnpm nx run-many --target=clean --all --exclude="@shell-shock/monorepo" --outputStyle=dynamic-legacy --parallel=5`.timeout(

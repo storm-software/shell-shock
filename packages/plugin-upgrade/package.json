@@ -1,18 +1,30 @@
 {
   "name": "@shell-shock/plugin-upgrade",
   "version": "0.1.11",
-  "type": "module",
+  "private": false,
   "description": "A package containing a Shell Shock plugin to manage upgrading the local application's version.",
-  "repository": {
-    "type": "github",
-    "url": "https://github.com/storm-software/shell-shock.git",
-    "directory": "packages/plugin-upgrade"
-  },
+  "keywords": [
+    "style-dictionary",
+    "shell-shock",
+    "shell-shock-plugin",
+    "powerlines",
+    "storm-software"
+  ],
   "homepage": "https://stormsoftware.com",
   "bugs": {
     "url": "https://stormsoftware.com/support",
     "email": "support@stormsoftware.com"
   },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/shell-shock.git",
+    "directory": "packages/plugin-upgrade"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
   "author": {
     "name": "Storm Software",
     "email": "contact@stormsoftware.com",
@@ -32,14 +44,7 @@
       "url": "https://stormsoftware.com"
     }
   ],
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/storm-software"
-  },
-  "license": "Apache-2.0",
-  "private": false,
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "type": "module",
   "exports": {
     ".": {
       "require": {
@@ -55,6 +60,7 @@
         "default": "./dist/index.mjs"
       }
     },
+    "./*": "./*",
     "./components": {
       "require": {
         "types": "./dist/components/index.d.cts",
@@ -97,7 +103,6 @@
         "default": "./dist/components/upgrade-command.mjs"
       }
     },
-    "./package.json": "./package.json",
     "./types": {
       "require": {
         "types": "./dist/types/index.d.cts",
@@ -155,16 +160,11 @@
       }
     }
   },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
   "files": ["dist/**/*"],
-  "keywords": [
-    "style-dictionary",
-    "shell-shock",
-    "shell-shock-plugin",
-    "powerlines",
-    "storm-software"
-  ],
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/typescript": "catalog:",
@@ -173,8 +173,8 @@
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@stryke/path": "catalog:",
-    "powerlines": "catalog:",
-    "defu": "catalog:"
+    "defu": "catalog:",
+    "powerlines": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-deepkit": "catalog:",

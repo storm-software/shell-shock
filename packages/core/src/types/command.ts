@@ -24,7 +24,9 @@ import type {
   SerializedTypes
 } from "@powerlines/deepkit/vendor/type";
 import type { AnyFunction } from "@stryke/types/base";
-import type { ResolvedEntryTypeDefinition } from "powerlines/types/resolved";
+import type { ResolvedEntryTypeDefinition } from "powerlines";
+import type * as z3 from "zod/v3";
+import type * as z4 from "zod/v4/core";
 
 export interface BaseCommandParameter {
   /**
@@ -70,6 +72,11 @@ export interface StringCommandParameter extends BaseCommandParameter {
    * Whether the option accepts multiple values.
    */
   variadic: boolean;
+
+  /**
+   * The allowed choices for the option value.
+   */
+  choices?: string[];
 }
 
 export interface NumberCommandParameter extends BaseCommandParameter {
@@ -85,6 +92,11 @@ export interface NumberCommandParameter extends BaseCommandParameter {
    * Whether the option accepts multiple values.
    */
   variadic: boolean;
+
+  /**
+   * The allowed choices for the option value.
+   */
+  choices?: number[];
 }
 
 export interface BooleanCommandParameter extends BaseCommandParameter {
@@ -324,7 +336,11 @@ export interface Metadata {
   icon?: string;
 }
 
+export type CommandParameterSchema = z3.ZodTypeAny | z4.$ZodType;
+
 export interface CommandModule {
   metadata?: Metadata;
+  options?: Record<string, CommandParameterSchema>;
+  arguments?: CommandParameterSchema[];
   default?: AnyFunction;
 }

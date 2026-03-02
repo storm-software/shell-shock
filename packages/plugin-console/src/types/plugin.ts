@@ -17,8 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { AlloyPluginContext } from "@powerlines/plugin-alloy/types";
-import type { ResolvedConfig } from "@shell-shock/core/types/config";
-import type { Context } from "@shell-shock/core/types/context";
+import type { Context, ResolvedConfig } from "@shell-shock/core";
 import type {
   ThemePluginContext,
   ThemePluginOptions,

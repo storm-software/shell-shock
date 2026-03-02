@@ -16,16 +16,16 @@
 
  ------------------------------------------------------------------- */
 
-import { createPowerlines } from "powerlines";
-import type { PowerlinesAPI } from "powerlines/api";
 import type {
   BuildInlineConfig,
   CleanInlineConfig,
   DocsInlineConfig,
   LintInlineConfig,
   PluginConfig,
+  PowerlinesAPI,
   PrepareInlineConfig
-} from "powerlines/types/config";
+} from "powerlines";
+import { createPowerlines } from "powerlines";
 import { plugin } from "./plugin";
 import type { UserConfig } from "./types/config";
 

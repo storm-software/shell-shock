@@ -24,7 +24,7 @@ import prompts from "@shell-shock/plugin-prompts";
 import upgrade from "@shell-shock/plugin-upgrade";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
 import { VirtualHelp } from "@shell-shock/preset-script/components/help";
-import type { Plugin } from "powerlines/types/plugin";
+import type { Plugin } from "powerlines";
 import { BannerFunctionDeclaration } from "./components/banner-function-declaration";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
@@ -57,9 +57,6 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           isCaseSensitive: false,
           ...options
         };
-      },
-      configResolved() {
-        this.dependencies.didyoumean2 = "^7.0.4";
       }
     },
     {

@@ -19,7 +19,7 @@
 import type { ThemeUserConfig } from "../types/theme";
 
 export const theme: ThemeUserConfig = {
-  $theme: "storm",
+  $theme: "default",
   colors: {
     text: {
       banner: {
@@ -146,7 +146,7 @@ export const theme: ThemeUserConfig = {
       }
     },
     banner: {
-      header: "⬤" // 🗲 🗱 ⏺ ⬤
+      header: "⏺"
     },
     prompt: {
       active: "✱",
@@ -170,5 +170,5 @@ export const theme: ThemeUserConfig = {
       }
     }
   },
-  spinner: "dotsCircle"
+  spinner: "dots"
 } as const;

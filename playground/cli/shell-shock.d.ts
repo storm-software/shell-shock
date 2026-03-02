@@ -143,18 +143,6 @@ declare module "shell-shock:env" {
      */
     ORGANIZATION: string;
     /**
-     *
-     *
-     *
-     */
-    PATH?: string;
-    /**
-     *
-     *
-     *
-     */
-    PATHEXT?: string;
-    /**
      * The platform for which the application was built.
      *
      * @defaultValue "neutral"
@@ -1094,6 +1082,23 @@ declare module "shell-shock:utils" {
     args?: string[] | SpawnOptions,
     options?: SpawnOptions
   ): Promise<unknown>;
+  /**
+   * A utility function that takes an input string and a list of possible matches, and returns a list of suggested matches based on the Levenshtein distance between the input and the possible matches.
+   *
+   * @remarks
+   * This function is intended to be used to suggest corrections for potentially misspelled options or commands.
+   *
+   *
+   * @internal
+   *
+   *
+   *
+   * @param input - The input string to check for potential matches.
+   * @param options - A list of possible matches to compare against the input.
+   * @returns A list of suggested matches based on the Levenshtein distance.
+   *
+   */
+  export function findSuggestions(input: string, options: string[]): string[];
   export {};
 }
 
@@ -2030,15 +2035,14 @@ declare module "shell-shock:prompts" {
   /**
    * An option the user can select from the select prompt
    */
-  export interface PromptOption<
-    TValue = string
-  > extends PromptOptionConfig<TValue> {
+  export interface PromptOption<TValue = string>
+    extends PromptOptionConfig<TValue> {
     /**
      * The message label for the option
      */
-    label: string; /**
+    label: string /**
      * The index of the option
-     */
+     */;
     index: number;
     /**
      * Whether the option is selected
@@ -2500,14 +2504,6 @@ declare module "shell-shock:upgrade" {
   export function locateLockfile(
     options?: LocateLockfileOptions
   ): string | undefined;
-  global {
-    var Bun: any;
-    namespace NodeJS {
-      interface ProcessVersions {
-        bun?: string;
-      }
-    }
-  }
   /**
    * Options for the `getPackageManager` handler function.
    */
