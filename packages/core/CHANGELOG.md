@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.11.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.11.0) (03/03/2026)
+
+### Features
+
+- **core:** Added `options` and `args` schema exports ([b37cfd9](https://github.com/storm-software/shell-shock/commit/b37cfd9))
+
 ## [0.10.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.10.0) (03/02/2026)
 
 ### Features

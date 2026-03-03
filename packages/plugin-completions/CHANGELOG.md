@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.2.2](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.2) (03/03/2026)
+
+### Features
+
+- **core:** Added `options` and `args` schema exports ([b37cfd9](https://github.com/storm-software/shell-shock/commit/b37cfd9))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.11.0**
+
 ## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.1) (03/02/2026)
 
 ### Features

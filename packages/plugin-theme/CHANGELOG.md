@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.3.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.11) (03/03/2026)
+
+### Features
+
+- **core:** Added `options` and `args` schema exports ([b37cfd9](https://github.com/storm-software/shell-shock/commit/b37cfd9))
+
 ## [0.3.10](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.10) (03/02/2026)
 
 ### Features

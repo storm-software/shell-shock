@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.22](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.22) (03/03/2026)
+
+### Features
+
+- **core:** Added `options` and `args` schema exports ([b37cfd9](https://github.com/storm-software/shell-shock/commit/b37cfd9))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.7**
+- Updated **plugin-theme** to **v0.3.11**
+- Updated **core** to **v0.11.0**
+
 ## [0.6.21](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.21) (03/02/2026)
 
 ### Features

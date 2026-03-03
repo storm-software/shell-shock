@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.7](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.7) (03/03/2026)
+
+### Features
+
+- **core:** Added `options` and `args` schema exports ([b37cfd9](https://github.com/storm-software/shell-shock/commit/b37cfd9))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.11**
+- Updated **core** to **v0.11.0**
+
 ## [0.1.6](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.6) (03/02/2026)
 
 ### Features
