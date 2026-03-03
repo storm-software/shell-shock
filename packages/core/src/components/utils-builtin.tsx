@@ -151,7 +151,7 @@ export function FindSuggestionsDeclaration() {
           name="normalizedInput"
           initializer={code`String(input ?? "")${
             context.config.isCaseSensitive ? "" : ".toLowerCase()"
-          }.trim().replaceAll(/(\\s|_|-|,|\\.)+/gu, " ").replace(/[\\\\xc0-\\\\xd6\\\\xd8-\\\\xf6\\\\xf8-\\\\xff\\\\u0100-\\\\u017f]/g, key => deburred[key]).replace(/[\\\\u0300-\\\\u036f\\\\ufe20-\\\\ufe2f\\\\u20d0-\\\\u20ff]/g, ""); `}
+          }.trim().replaceAll(/[\\s\\-_\\.]+/gu, " ").replace(/[\\\\xc0-\\\\xd6\\\\xd8-\\\\xf6\\\\xf8-\\\\xff\\\\u0100-\\\\u017f]/g, key => deburred[key]).replace(/[\\\\u0300-\\\\u036f\\\\ufe20-\\\\ufe2f\\\\u20d0-\\\\u20ff]/g, ""); `}
         />
         <Spacing />
         {code`
@@ -165,7 +165,7 @@ export function FindSuggestionsDeclaration() {
         for (const option of options) {
           const normalizedOption = String(option ?? "")${
             context.config.isCaseSensitive ? "" : ".toLowerCase()"
-          }.trim().replaceAll(/(\\s|_|-|,|\\.)+/gu, " ").replace(/[\\\\xc0-\\\\xd6\\\\xd8-\\\\xf6\\\\xf8-\\\\xff\\\\u0100-\\\\u017f]/g, key => deburred[key]).replace(/[\\\\u0300-\\\\u036f\\\\ufe20-\\\\ufe2f\\\\u20d0-\\\\u20ff]/g, "");
+          }.trim().replaceAll(/[\\s\\-_\\.]+/gu, " ").replace(/[\\\\xc0-\\\\xd6\\\\xd8-\\\\xf6\\\\xf8-\\\\xff\\\\u0100-\\\\u017f]/g, key => deburred[key]).replace(/[\\\\u0300-\\\\u036f\\\\ufe20-\\\\ufe2f\\\\u20d0-\\\\u20ff]/g, "");
 
           if (!normalizedOption) {
             continue;

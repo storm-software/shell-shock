@@ -18,13 +18,13 @@
 
 import { code, computed, For, Match, Show, Switch } from "@alloy-js/core";
 import { ElseIfClause, IfStatement } from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
-import { isDynamicPathSegment } from "@shell-shock/core/plugin-utils/context-helpers";
-import type { CommandTree } from "@shell-shock/core/types/command";
+import type { CommandTree } from "@shell-shock/core";
+import { CommandParameterKinds } from "@shell-shock/core";
+import { isDynamicPathSegment } from "@shell-shock/core/plugin-utils";
 import {
   CommandHandlerDeclaration,
   CommandValidationLogic
@@ -61,13 +61,14 @@ export function CommandEntry(props: CommandEntryProps) {
       "index.ts"
     )
   );
-  const commandSourcePath = computed(() =>
-    replaceExtension(
-      relativePath(
-        joinPaths(context.entryPath, findFilePath(filePath.value)),
-        command.entry.input?.file || command.entry.file
-      )
-    )
+  const commandSourcePath = computed(
+    () =>
+      `./${replaceExtension(
+        relativePath(
+          joinPaths(context.entryPath, findFilePath(filePath.value)),
+          command.entry.input?.file || command.entry.file
+        )
+      )}`
   );
   const typeDefinition = computed(() => ({
     ...command.entry,
@@ -136,16 +137,15 @@ export function CommandEntry(props: CommandEntryProps) {
               Object.values(command.options ?? {}).filter(
                 option => !option.optional
               ).length > 0 ||
-              Object.values(command.arguments ?? {}).filter(
-                argument => !argument.optional
-              ).length > 0
+              Object.values(command.args ?? {}).filter(arg => !arg.optional)
+                .length > 0
             }>
             <ElseIfClause
               condition={code`!isHelp && (${Object.values(command.options ?? {})
                 .filter(option => !option.optional)
                 .map(option =>
-                  (option.kind === ReflectionKind.string ||
-                    option.kind === ReflectionKind.number) &&
+                  (option.kind === CommandParameterKinds.string ||
+                    option.kind === CommandParameterKinds.number) &&
                   option.variadic
                     ? `(!options${
                         option.name.includes("?")
@@ -166,21 +166,20 @@ export function CommandEntry(props: CommandEntryProps) {
                 Object.values(command.options ?? {}).filter(
                   option => !option.optional
                 ).length > 0 &&
-                Object.values(command.arguments ?? {}).filter(
-                  argument => !argument.optional
-                ).length > 0
+                Object.values(command.args ?? {}).filter(arg => !arg.optional)
+                  .length > 0
                   ? " || "
                   : ""
-              }${Object.values(command.arguments ?? {})
-                .filter(argument => !argument.optional)
-                .map(argument =>
-                  (argument.kind === ReflectionKind.string ||
-                    argument.kind === ReflectionKind.number) &&
-                  argument.variadic
+              }${Object.values(command.args ?? {})
+                .filter(arg => !arg.optional)
+                .map(arg =>
+                  (arg.kind === CommandParameterKinds.string ||
+                    arg.kind === CommandParameterKinds.number) &&
+                  arg.variadic
                     ? `(!${camelCase(
-                        argument.name
-                      )} || ${camelCase(argument.name)}.length === 0)`
-                    : `${camelCase(argument.name)} === undefined`
+                        arg.name
+                      )} || ${camelCase(arg.name)}.length === 0)`
+                    : `${camelCase(arg.name)} === undefined`
                 )
                 .join(" || ")}) `}>
               {code`writeLine(""); `}
@@ -197,7 +196,9 @@ export function CommandEntry(props: CommandEntryProps) {
                         }`}>
                         <Switch>
                           <Match
-                            when={option.kind === ReflectionKind.string}>{code`
+                            when={
+                              option.kind === CommandParameterKinds.string
+                            }>{code`
                             const value = await text({
                               message: \`Please provide a value for the \${colors.italic("${option.name}")} option\`,
                               ${
@@ -224,7 +225,9 @@ export function CommandEntry(props: CommandEntryProps) {
                             } = value;
                           `}</Match>
                           <Match
-                            when={option.kind === ReflectionKind.number}>{code`
+                            when={
+                              option.kind === CommandParameterKinds.number
+                            }>{code`
                             const value = await numeric({
                               message: \`Please provide a numeric value for the \${colors.italic("${option.name}")} option\`,
                               ${
@@ -245,7 +248,9 @@ export function CommandEntry(props: CommandEntryProps) {
                             } = value;
                           `}</Match>
                           <Match
-                            when={option.kind === ReflectionKind.boolean}>{code`
+                            when={
+                              option.kind === CommandParameterKinds.boolean
+                            }>{code`
                             const value = await toggle({
                               message: \`Please select a value for the \${colors.italic("${option.name}")} option\`,
                             ${
@@ -269,8 +274,8 @@ export function CommandEntry(props: CommandEntryProps) {
                       </IfStatement>
                       <Show
                         when={
-                          (option.kind === ReflectionKind.string ||
-                            option.kind === ReflectionKind.number) &&
+                          (option.kind === CommandParameterKinds.string ||
+                            option.kind === CommandParameterKinds.number) &&
                           option.variadic
                         }>
                         <ElseIfClause
@@ -282,7 +287,7 @@ export function CommandEntry(props: CommandEntryProps) {
                           {code`
                             const value = await text({
                               message: \`Please provide one or more${
-                                option.kind === ReflectionKind.number
+                                option.kind === CommandParameterKinds.number
                                   ? " numeric"
                                   : ""
                               } values for the \${colors.italic("${option.name}")} option (values are separated by a \\",\\" character)\`,
@@ -299,7 +304,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                   return "At least one value must be provided for this option";
                                 }
                                 ${
-                                  option.kind === ReflectionKind.number
+                                  option.kind === CommandParameterKinds.number
                                     ? `const invalidIndex = val.split(",").map(v => v.trim()).filter(Boolean).findIndex(v => Number.isNaN(Number(v));
                                     if (invalidIndex !== -1) {
                                       return \`Invalid numeric value provided for item #\${invalidIndex + 1} - all provided items must be a valid number\`;
@@ -318,7 +323,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                 ? `["${option.name}"]`
                                 : `.${camelCase(option.name)}`
                             } = value.split(",").map(value => value.trim()).filter(Boolean)${
-                              option.kind === ReflectionKind.number
+                              option.kind === CommandParameterKinds.number
                                 ? `.map(Number)`
                                 : ""
                             } ;
@@ -330,22 +335,21 @@ export function CommandEntry(props: CommandEntryProps) {
                 )}
               </For>
               <Spacing />
-              <For each={command.arguments} doubleHardline>
-                {argument => (
+              <For each={command.args} doubleHardline>
+                {arg => (
                   <>
-                    <Show when={!argument.optional}>
-                      <IfStatement
-                        condition={code`!${camelCase(argument.name)}`}>
+                    <Show when={!arg.optional}>
+                      <IfStatement condition={code`!${camelCase(arg.name)}`}>
                         <Switch>
                           <Match
                             when={
-                              argument.kind === ReflectionKind.string
+                              arg.kind === CommandParameterKinds.string
                             }>{code`
                             const value = await text({
-                              message: \`Please provide a value for the \${colors.italic("${argument.name}")} argument\`,
+                              message: \`Please provide a value for the \${colors.italic("${arg.name}")} argument\`,
                               ${
-                                argument.description
-                                  ? `description: "${argument.description}",
+                                arg.description
+                                  ? `description: "${arg.description}",
                               `
                                   : ""
                               }validate(val) {
@@ -360,17 +364,17 @@ export function CommandEntry(props: CommandEntryProps) {
                               return;
                             }
 
-                            ${camelCase(argument.name)} = value;
+                            ${camelCase(arg.name)} = value;
                           `}</Match>
                           <Match
                             when={
-                              argument.kind === ReflectionKind.number
+                              arg.kind === CommandParameterKinds.number
                             }>{code`
                             const value = await numeric({
-                              message: \`Please provide a numeric value for the \${colors.italic("${argument.name}")} argument\`,
+                              message: \`Please provide a numeric value for the \${colors.italic("${arg.name}")} argument\`,
                               ${
-                                argument.description
-                                  ? `description: "${argument.description}",
+                                arg.description
+                                  ? `description: "${arg.description}",
                               `
                                   : ""
                               }
@@ -379,17 +383,17 @@ export function CommandEntry(props: CommandEntryProps) {
                               return;
                             }
 
-                            ${camelCase(argument.name)} = value;
+                            ${camelCase(arg.name)} = value;
                           `}</Match>
                           <Match
                             when={
-                              argument.kind === ReflectionKind.boolean
+                              arg.kind === CommandParameterKinds.boolean
                             }>{code`
                             const value = await toggle({
-                              message: \`Please select a value for the \${colors.italic("${argument.name}")} argument\`,
+                              message: \`Please select a value for the \${colors.italic("${arg.name}")} argument\`,
                               ${
-                                argument.description
-                                  ? `description: "${argument.description}",
+                                arg.description
+                                  ? `description: "${arg.description}",
                               `
                                   : ""
                               }
@@ -398,28 +402,28 @@ export function CommandEntry(props: CommandEntryProps) {
                               return;
                             }
 
-                            ${camelCase(argument.name)} = value;
+                            ${camelCase(arg.name)} = value;
                           `}</Match>
                         </Switch>
                       </IfStatement>
                       <Show
                         when={
-                          (argument.kind === ReflectionKind.string ||
-                            argument.kind === ReflectionKind.number) &&
-                          argument.variadic
+                          (arg.kind === CommandParameterKinds.string ||
+                            arg.kind === CommandParameterKinds.number) &&
+                          arg.variadic
                         }>
                         <ElseIfClause
-                          condition={code`${camelCase(argument.name)}.length === 0`}>
+                          condition={code`${camelCase(arg.name)}.length === 0`}>
                           {code`
                             const value = await text({
                               message: \`Please provide one or more${
-                                argument.kind === ReflectionKind.number
+                                arg.kind === CommandParameterKinds.number
                                   ? " numeric"
                                   : ""
-                              } values for the \${colors.italic("${argument.name}")} argument (values are separated by a \\",\\" character)\`,
+                              } values for the \${colors.italic("${arg.name}")} argument (values are separated by a \\",\\" character)\`,
                               ${
-                                argument.description
-                                  ? `description: "${argument.description}",
+                                arg.description
+                                  ? `description: "${arg.description}",
                               `
                                   : ""
                               }validate(val) {
@@ -430,7 +434,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                   return "At least one value must be provided for this argument";
                                 }
                                 ${
-                                  argument.kind === ReflectionKind.number
+                                  arg.kind === CommandParameterKinds.number
                                     ? `const invalidIndex = val.split(",").map(v => v.trim()).filter(Boolean).findIndex(v => Number.isNaN(Number(v));
                                     if (invalidIndex !== -1) {
                                       return \`Invalid numeric value provided for item #\${invalidIndex + 1} - all provided items must be a valid number\`;
@@ -445,8 +449,8 @@ export function CommandEntry(props: CommandEntryProps) {
                               return;
                             }
 
-                            ${camelCase(argument.name)} = value.split(",").map(value => value.trim()).filter(Boolean)${
-                              argument.kind === ReflectionKind.number
+                            ${camelCase(arg.name)} = value.split(",").map(value => value.trim()).filter(Boolean)${
+                              arg.kind === CommandParameterKinds.number
                                 ? `.map(Number)`
                                 : ""
                             } ;

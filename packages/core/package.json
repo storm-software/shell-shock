@@ -238,62 +238,6 @@
         "default": "./dist/plugin-utils/index.mjs"
       }
     },
-    "./plugin-utils/context-helpers": {
-      "require": {
-        "types": "./dist/plugin-utils/context-helpers.d.cts",
-        "default": "./dist/plugin-utils/context-helpers.cjs"
-      },
-      "import": {
-        "types": "./dist/plugin-utils/context-helpers.d.mts",
-        "default": "./dist/plugin-utils/context-helpers.mjs"
-      },
-      "default": {
-        "types": "./dist/plugin-utils/context-helpers.d.mts",
-        "default": "./dist/plugin-utils/context-helpers.mjs"
-      }
-    },
-    "./plugin-utils/get-command-tree": {
-      "require": {
-        "types": "./dist/plugin-utils/get-command-tree.d.cts",
-        "default": "./dist/plugin-utils/get-command-tree.cjs"
-      },
-      "import": {
-        "types": "./dist/plugin-utils/get-command-tree.d.mts",
-        "default": "./dist/plugin-utils/get-command-tree.mjs"
-      },
-      "default": {
-        "types": "./dist/plugin-utils/get-command-tree.d.mts",
-        "default": "./dist/plugin-utils/get-command-tree.mjs"
-      }
-    },
-    "./plugin-utils/reflect": {
-      "require": {
-        "types": "./dist/plugin-utils/reflect.d.cts",
-        "default": "./dist/plugin-utils/reflect.cjs"
-      },
-      "import": {
-        "types": "./dist/plugin-utils/reflect.d.mts",
-        "default": "./dist/plugin-utils/reflect.mjs"
-      },
-      "default": {
-        "types": "./dist/plugin-utils/reflect.d.mts",
-        "default": "./dist/plugin-utils/reflect.mjs"
-      }
-    },
-    "./plugin-utils/traverse-command-tree": {
-      "require": {
-        "types": "./dist/plugin-utils/traverse-command-tree.d.cts",
-        "default": "./dist/plugin-utils/traverse-command-tree.cjs"
-      },
-      "import": {
-        "types": "./dist/plugin-utils/traverse-command-tree.d.mts",
-        "default": "./dist/plugin-utils/traverse-command-tree.mjs"
-      },
-      "default": {
-        "types": "./dist/plugin-utils/traverse-command-tree.d.mts",
-        "default": "./dist/plugin-utils/traverse-command-tree.mjs"
-      }
-    },
     "./types": {
       "require": {
         "types": "./dist/types/index.d.cts",
@@ -415,6 +359,8 @@
     "@powerlines/plugin-deepkit": "catalog:",
     "@powerlines/plugin-nodejs": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
+    "@standard-schema/spec": "catalog:",
+    "@standard-schema/utils": "catalog:",
     "@stryke/cli": "catalog:",
     "@stryke/convert": "catalog:",
     "@stryke/fs": "catalog:",
@@ -424,13 +370,16 @@
     "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",
     "@stryke/types": "catalog:",
+    "@stryke/zod": "catalog:",
     "automd": "catalog:",
     "defu": "catalog:",
+    "json-schema": "catalog:",
     "powerlines": "catalog:",
     "rolldown": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-plugin": "catalog:",
+    "@types/json-schema": "catalog:",
     "@types/node": "catalog:",
     "typescript": "catalog:",
     "zod": "catalog:"

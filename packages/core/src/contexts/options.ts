@@ -18,7 +18,6 @@
 
 import type { ComponentContext } from "@alloy-js/core";
 import { createNamedContext, useContext } from "@alloy-js/core";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
@@ -26,7 +25,8 @@ import type {
   BooleanCommandOption,
   CommandOption,
   CommandTree
-} from "../types";
+} from "../types/command";
+import { CommandParameterKinds } from "../types/command";
 
 /**
  * The reflection parameter context used in template rendering.
@@ -57,7 +57,10 @@ export function computedOptions(command: CommandTree) {
         option
       ) as CommandOption;
 
-      if (option.kind === ReflectionKind.boolean && option.isNegativeOf) {
+      if (
+        option.kind === CommandParameterKinds.boolean &&
+        option.isNegativeOf
+      ) {
         ret[camelCase(option.isNegativeOf)] = defu(
           {
             name: camelCase(option.isNegativeOf)

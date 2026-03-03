@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import type { CommandOption } from "@shell-shock/core";
+import { CommandParameterKinds } from "@shell-shock/core";
 
 /**
  * Get the default command options.
@@ -32,7 +32,7 @@ export function getDefaultOptions(): CommandOption[] {
       description: "Show help information.",
       env: false,
       alias: ["h", "?"],
-      kind: ReflectionKind.boolean,
+      kind: CommandParameterKinds.boolean,
       optional: true,
       default: false,
       skipAddingNegative: true
@@ -43,7 +43,7 @@ export function getDefaultOptions(): CommandOption[] {
       description: "Show the version of the application.",
       env: false,
       alias: ["v"],
-      kind: ReflectionKind.boolean,
+      kind: CommandParameterKinds.boolean,
       optional: true,
       default: false,
       skipAddingNegative: true
@@ -54,7 +54,7 @@ export function getDefaultOptions(): CommandOption[] {
       description: "Enable verbose output.",
       env: "VERBOSE",
       alias: ["V"],
-      kind: ReflectionKind.boolean,
+      kind: CommandParameterKinds.boolean,
       optional: true,
       default: false,
       skipAddingNegative: true
@@ -65,7 +65,7 @@ export function getDefaultOptions(): CommandOption[] {
       description: "Enable colored terminal output.",
       env: "COLOR",
       alias: ["colors"],
-      kind: ReflectionKind.boolean,
+      kind: CommandParameterKinds.boolean,
       optional: true,
       skipAddingNegative: false
     },
@@ -76,7 +76,7 @@ export function getDefaultOptions(): CommandOption[] {
         "Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.",
       env: "NO_BANNER",
       alias: ["hide-banner"],
-      kind: ReflectionKind.boolean,
+      kind: CommandParameterKinds.boolean,
       optional: true,
       default: false
     }

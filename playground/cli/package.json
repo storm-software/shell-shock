@@ -7,7 +7,8 @@
   "bin": { "playground-cli": "./dist/bin.mjs" },
   "dependencies": {
     "@shell-shock/core": "workspace:*",
-    "@shell-shock/plugin-theme": "workspace:*"
+    "@shell-shock/plugin-theme": "workspace:*",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@shell-shock/nx": "workspace:*",

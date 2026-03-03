@@ -25,7 +25,7 @@ import type { TypescriptFileImports } from "@powerlines/plugin-alloy/types/compo
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { TSDoc } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
-import { getAppTitle } from "@shell-shock/core/plugin-utils/context-helpers";
+import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { getUnique } from "@stryke/helpers/get-unique";
 import { findFileName } from "@stryke/path/file-path-fns";
 import { replaceExtension } from "@stryke/path/replace";
@@ -157,6 +157,7 @@ export function BinEntry(props: BinEntryProps) {
             env: ["env", "isDevelopment", "isDebug"],
             console: ["error", "verbose", "table", "writeLine"],
             utils: [
+              "useApp",
               "hasFlag",
               "isUnicodeSupported",
               "internal_appContext",

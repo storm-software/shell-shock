@@ -1,3 +1,4 @@
 codeship
 truecolor
 pathext
+colorterm

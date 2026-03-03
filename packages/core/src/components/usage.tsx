@@ -17,13 +17,13 @@
  ------------------------------------------------------------------- */
 
 import { code, Match, Show, Switch } from "@alloy-js/core";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { snakeCase } from "@stryke/string-format/snake-case";
 import {
   getDynamicPathSegmentName,
   isDynamicPathSegment
 } from "../plugin-utils/context-helpers";
 import type { CommandTree } from "../types/command";
+import { CommandParameterKinds } from "../types/command";
 
 export interface UsageProps {
   /**
@@ -71,13 +71,13 @@ export function Usage(props: UsageProps) {
               .join(" ")}`
           : ""
       }${Object.values(command.children).length > 0 ? " [commands]" : ""}${
-        command.arguments.length > 0
-          ? ` ${command.arguments
+        command.args.length > 0
+          ? ` ${command.args
               .map(
                 param =>
                   `<${snakeCase(param.name)}${
-                    (param.kind === ReflectionKind.string ||
-                      param.kind === ReflectionKind.number) &&
+                    (param.kind === CommandParameterKinds.string ||
+                      param.kind === CommandParameterKinds.number) &&
                     param.variadic
                       ? "..."
                       : ""
@@ -86,7 +86,7 @@ export function Usage(props: UsageProps) {
               .join(" ")}`
           : ""
       } [options]`}
-      <Show when={command.arguments.length > 0}>
+      <Show when={command.args.length > 0}>
         <hbr />
         {code`$ `}
         <Switch>
@@ -106,13 +106,13 @@ export function Usage(props: UsageProps) {
                 .join(" ")}`
             : ""
         }${Object.values(command.children).length > 0 ? " [commands]" : ""} [options] ${
-          command.arguments.length > 0
-            ? ` ${command.arguments
+          command.args.length > 0
+            ? ` ${command.args
                 .map(
                   param =>
                     `<${snakeCase(param.name)}${
-                      (param.kind === ReflectionKind.string ||
-                        param.kind === ReflectionKind.number) &&
+                      (param.kind === CommandParameterKinds.string ||
+                        param.kind === CommandParameterKinds.number) &&
                       param.variadic
                         ? "..."
                         : ""

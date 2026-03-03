@@ -25,6 +25,8 @@ import type {
   ConsolePluginOptions
 } from "./types/plugin";
 
+export type * from "./types";
+
 /**
  * A Shell Shock plugin to generate the `console` built-in module, which provides a set of commands for logging messages to the console and inspecting values. This plugin is designed to be used in conjunction with the `script` preset, but can also be used independently in any Shell Shock application.
  */
@@ -34,9 +36,7 @@ export const plugin = <
   options: ConsolePluginOptions = {}
 ): Plugin<TContext>[] => {
   return [
-    ...theme({
-      theme: options.theme
-    }),
+    ...theme(options),
     {
       name: "shell-shock:console",
       config() {

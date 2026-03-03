@@ -17,19 +17,16 @@
  ------------------------------------------------------------------- */
 
 import { code, computed, For, Show } from "@alloy-js/core";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
+import type { CommandOption, CommandTree } from "@shell-shock/core";
+import { CommandParameterKinds } from "@shell-shock/core";
 import {
   getAppBin,
   getDynamicPathSegmentName,
-  isDynamicPathSegment
-} from "@shell-shock/core/plugin-utils/context-helpers";
-import { sortOptions } from "@shell-shock/core/plugin-utils/reflect";
-import type {
-  CommandOption,
-  CommandTree
-} from "@shell-shock/core/types/command";
+  isDynamicPathSegment,
+  sortOptions
+} from "@shell-shock/core/plugin-utils";
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { snakeCase } from "@stryke/string-format/snake-case";
@@ -82,14 +79,24 @@ export function HelpUsage(props: HelpUsageProps) {
                 .join(" ")}`
             : ""
         }${Object.values(command.children).length > 0 ? ` \${colors.text.usage.dynamic("[command]")}` : ""}${
-          command.arguments.length > 0
-            ? ` ${command.arguments
+          command.args.length > 0
+            ? ` ${command.args
                 .map(
-                  argument =>
-                    `\${colors.text.usage.arguments("<${snakeCase(argument.name)}${
-                      (argument.kind === ReflectionKind.string ||
-                        argument.kind === ReflectionKind.number) &&
-                      argument.variadic
+                  arg =>
+                    `\${colors.text.usage.args("<${snakeCase(
+                      (arg.kind === CommandParameterKinds.string ||
+                        arg.kind === CommandParameterKinds.number) &&
+                        arg.choices &&
+                        arg.choices.length > 0
+                        ? arg.choices.join("|")
+                        : arg.kind === CommandParameterKinds.string &&
+                            arg.format
+                          ? arg.format
+                          : arg.name
+                    )}${
+                      (arg.kind === CommandParameterKinds.string ||
+                        arg.kind === CommandParameterKinds.number) &&
+                      arg.variadic
                         ? "..."
                         : ""
                     }>")}`
@@ -102,7 +109,7 @@ export function HelpUsage(props: HelpUsageProps) {
           </>
         )}
       </For>
-      <Show when={command.arguments.length > 0}>
+      <Show when={command.args.length > 0}>
         <hbr />
         <For each={Object.keys(context.config.bin)} hardline>
           {bin => (
@@ -123,14 +130,24 @@ export function HelpUsage(props: HelpUsageProps) {
                 .join(" ")}`
             : ""
         }${Object.values(command.children).length > 0 ? ` \${colors.text.usage.dynamic("[command]")}` : ""} \${colors.text.usage.options("[options]")}${
-          command.arguments.length > 0
-            ? ` ${command.arguments
+          command.args.length > 0
+            ? ` ${command.args
                 .map(
-                  argument =>
-                    `\${colors.text.usage.arguments("<${snakeCase(argument.name)}${
-                      (argument.kind === ReflectionKind.string ||
-                        argument.kind === ReflectionKind.number) &&
-                      argument.variadic
+                  arg =>
+                    `\${colors.text.usage.args("<${snakeCase(
+                      (arg.kind === CommandParameterKinds.string ||
+                        arg.kind === CommandParameterKinds.number) &&
+                        arg.choices &&
+                        arg.choices.length > 0
+                        ? arg.choices.join("|")
+                        : arg.kind === CommandParameterKinds.string &&
+                            arg.format
+                          ? arg.format
+                          : arg.name
+                    )}${
+                      (arg.kind === CommandParameterKinds.string ||
+                        arg.kind === CommandParameterKinds.number) &&
+                      arg.variadic
                         ? "..."
                         : ""
                     }>")}`
@@ -190,10 +207,20 @@ export function HelpOptions(props: HelpOptionsProps) {
               ? `${flags.sort().join(", ")}${names.length > 0 ? ", " : ""}`
               : ""
           }${names.length > 0 ? names.sort().join(", ") : ""}${
-            option.kind === ReflectionKind.string
-              ? ` <${snakeCase(option.name)}${option.variadic ? "..." : ""}>`
-              : option.kind === ReflectionKind.number
-                ? ` <${snakeCase(option.name)}${option.variadic ? "..." : ""}>`
+            option.kind === CommandParameterKinds.string
+              ? ` <${snakeCase(
+                  option.choices && option.choices.length > 0
+                    ? option.choices.join("|")
+                    : option.format
+                      ? option.format
+                      : option.name
+                )}${option.variadic ? "..." : ""}>`
+              : option.kind === CommandParameterKinds.number
+                ? ` <${snakeCase(
+                    option.choices && option.choices.length > 0
+                      ? option.choices.join("|")
+                      : option.name
+                  )}${option.variadic ? "..." : ""}>`
                 : ""
           }"), align: "right", border: "none", maxWidth: "1/3" }, { value: colors.text.body.tertiary("${option.description.replace(
             /\.+$/,

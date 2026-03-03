@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import type { CommandTree } from "../types";
+import { CommandParameterKinds } from "../types";
 
 export interface ValidationFailure {
   code: string;
@@ -28,10 +28,10 @@ export function validateArguments(command: CommandTree): ValidationFailure[] {
   const failures: ValidationFailure[] = [];
 
   let sequential = false;
-  for (const argument of command.arguments ?? []) {
+  for (const argument of command.args ?? []) {
     if (
-      (argument.kind === ReflectionKind.string ||
-        argument.kind === ReflectionKind.number) &&
+      (argument.kind === CommandParameterKinds.string ||
+        argument.kind === CommandParameterKinds.number) &&
       argument.variadic
     ) {
       if (!sequential) {

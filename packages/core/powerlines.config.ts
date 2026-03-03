@@ -30,7 +30,7 @@ const config: UserConfig = defineConfig({
     "./src/types/*.ts",
     "./src/components/*.{ts,tsx}",
     "./src/contexts/*.{ts,tsx}",
-    "./src/plugin-utils/*.ts"
+    "./src/plugin-utils/index.ts"
   ],
   plugins: [plugin(), deepkit(), alloy()],
   tsdown: {

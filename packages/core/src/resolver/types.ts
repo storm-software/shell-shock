@@ -16,25 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-import type { AlloyPluginContext } from "@powerlines/plugin-alloy/types";
-import type { Context, ResolvedConfig } from "@shell-shock/core";
 import type {
-  ThemePluginContext,
-  ThemePluginOptions,
-  ThemePluginResolvedConfig,
-  ThemePluginUserConfig
-} from "@shell-shock/plugin-theme";
+  CommandConfig,
+  CommandModule,
+  CommandTree,
+  Context
+} from "../types";
 
-export interface ConsolePluginOptions extends ThemePluginOptions {}
+export interface ResolverInput<TContext extends Context = Context> {
+  context: TContext;
+  command: CommandConfig;
+  parent?: CommandTree;
+}
 
-export type ConsolePluginUserConfig = ThemePluginUserConfig & {};
-
-export type ConsolePluginResolvedConfig = ResolvedConfig &
-  ThemePluginResolvedConfig;
-
-export type ConsolePluginContext<
-  TResolvedConfig extends ConsolePluginResolvedConfig =
-    ConsolePluginResolvedConfig
-> = AlloyPluginContext<TResolvedConfig> &
-  ThemePluginContext<TResolvedConfig> &
-  Context<TResolvedConfig>;
+export interface ResolverContext<TContext extends Context = Context> {
+  input: ResolverInput<TContext>;
+  module?: CommandModule;
+  output: CommandTree;
+}

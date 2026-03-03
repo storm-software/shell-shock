@@ -19,12 +19,12 @@
 import { code, For } from "@alloy-js/core";
 import { IfStatement } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
-import type { CommandTree } from "@shell-shock/core/types/command";
-import type { CommandRouterProps } from "@shell-shock/preset-script/components/command-router";
+import type { CommandTree } from "@shell-shock/core";
+import type { CommandRouterProps } from "@shell-shock/preset-script/components";
 import {
   CommandRouter as BaseCommandRouter,
   CommandRouterBody
-} from "@shell-shock/preset-script/components/command-router";
+} from "@shell-shock/preset-script/components";
 
 export interface CommandRouterSelectOptionsProps {
   commands?: Record<string, CommandTree>;

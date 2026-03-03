@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import type { CommandBase, CommandOption } from "@shell-shock/core";
+import { CommandParameterKinds } from "@shell-shock/core";
 import { getDefaultOptions as getDefaultOptionsBase } from "@shell-shock/preset-script/helpers/get-default-options";
 import type { CLIPresetContext } from "../types";
 
@@ -41,7 +41,7 @@ export function getDefaultOptions(
         description:
           "Enable interactive mode - will be set to false if running in a CI pipeline.",
         alias: ["i", "interact"],
-        kind: ReflectionKind.boolean,
+        kind: CommandParameterKinds.boolean,
         optional: true,
         default: context.config.interactive !== false
       },
@@ -52,7 +52,7 @@ export function getDefaultOptions(
         description:
           "Disable interactive mode - will be set to true if running in a CI pipeline.",
         alias: ["no-interactive"],
-        kind: ReflectionKind.boolean,
+        kind: CommandParameterKinds.boolean,
         optional: true,
         default: false,
         isNegativeOf: "interactive"

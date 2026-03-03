@@ -167,7 +167,7 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
             command: colors,
             dynamic: colors,
             options: colors,
-            arguments: colors,
+            args: colors,
             description: colors
           },
           prompt: {
@@ -370,7 +370,7 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
             command: text,
             dynamic: text,
             options: text,
-            arguments: text,
+            args: text,
             description: text
           },
           prompt: {
@@ -664,7 +664,7 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
             command: text.usage,
             dynamic: text.usage,
             options: text.usage,
-            arguments: text.usage,
+            args: text.usage,
             description: text.usage
           };
         } else if (isSetObject(text.usage)) {
@@ -680,8 +680,8 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
           if (isSetString(text.usage.options)) {
             resolvedConfig.colors.text.usage.options = text.usage.options;
           }
-          if (isSetString(text.usage.arguments)) {
-            resolvedConfig.colors.text.usage.arguments = text.usage.arguments;
+          if (isSetString(text.usage.args)) {
+            resolvedConfig.colors.text.usage.args = text.usage.args;
           }
           if (isSetString(text.usage.description)) {
             resolvedConfig.colors.text.usage.description =
@@ -1714,10 +1714,10 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
         resolvedConfig.colors.text.body.tertiary;
     }
     if (
-      !resolvedConfig.colors.text?.usage?.arguments &&
+      !resolvedConfig.colors.text?.usage?.args &&
       resolvedConfig.colors.text?.body?.tertiary
     ) {
-      resolvedConfig.colors.text.usage.arguments =
+      resolvedConfig.colors.text.usage.args =
         resolvedConfig.colors.text.body.tertiary;
     }
     if (

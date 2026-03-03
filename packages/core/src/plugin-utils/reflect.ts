@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import type { CommandOption } from "../types/command";
+import { CommandParameterKinds } from "../types/command";
 
 /**
  * Sort command options alphabetically by name, placing boolean options with negatives appropriately.
@@ -31,15 +31,19 @@ export function sortOptions(options: CommandOption[]): CommandOption[] {
   }
 
   return options
-    .filter(arg => arg.kind !== ReflectionKind.boolean || !arg.isNegativeOf)
+    .filter(
+      arg => arg.kind !== CommandParameterKinds.boolean || !arg.isNegativeOf
+    )
     .sort((a, b) => a.name.localeCompare(b.name))
     .reduce((ret, arg) => {
       ret.push(arg);
 
-      if (arg.kind === ReflectionKind.boolean) {
+      if (arg.kind === CommandParameterKinds.boolean) {
         // Add the negative argument if it exists
         const negativeArg = options.find(
-          a => a.kind === ReflectionKind.boolean && a.isNegativeOf === arg.name
+          a =>
+            a.kind === CommandParameterKinds.boolean &&
+            a.isNegativeOf === arg.name
         );
         if (negativeArg) {
           ret.push(negativeArg);

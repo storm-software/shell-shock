@@ -19,7 +19,7 @@
 import type { NodeJsPluginContext } from "@powerlines/plugin-nodejs/types/plugin";
 import type { TsdownPluginContext } from "@powerlines/plugin-tsdown/types/plugin";
 import type { UnresolvedContext as PowerlinesUnresolvedContext } from "powerlines";
-import type { CommandInput, CommandOption, CommandTree } from "./command";
+import type { CommandConfig, CommandOption, CommandTree } from "./command";
 import type { ResolvedConfig } from "./config";
 
 export type Context<TResolvedConfig extends ResolvedConfig = ResolvedConfig> =
@@ -38,7 +38,7 @@ export type Context<TResolvedConfig extends ResolvedConfig = ResolvedConfig> =
       /**
        * The list of commands discovered in the project.
        */
-      inputs: CommandInput[];
+      inputs: CommandConfig[];
 
       /**
        * The command-line application structure.

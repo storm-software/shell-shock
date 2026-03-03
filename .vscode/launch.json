@@ -5,7 +5,7 @@
       "name": "Preset Script",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q182xhmnqzff17cdg90hcp44ljgvqqr7-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/f2fcs5sgi5jd8gpds8axpwhbg183ifmz-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -20,7 +20,7 @@
       "name": "Playground - CLI Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q182xhmnqzff17cdg90hcp44ljgvqqr7-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/f2fcs5sgi5jd8gpds8axpwhbg183ifmz-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -44,7 +44,7 @@
       "name": "Playground - Script Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q182xhmnqzff17cdg90hcp44ljgvqqr7-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/f2fcs5sgi5jd8gpds8axpwhbg183ifmz-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -67,7 +67,7 @@
       "name": "Playground - Script Docs",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q182xhmnqzff17cdg90hcp44ljgvqqr7-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/f2fcs5sgi5jd8gpds8axpwhbg183ifmz-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -82,7 +82,7 @@
       "name": "Playground - Powerlines",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q182xhmnqzff17cdg90hcp44ljgvqqr7-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/f2fcs5sgi5jd8gpds8axpwhbg183ifmz-pnpm-10.28.0/bin/pnpm",
       "args": [
         "nx",
         "run",

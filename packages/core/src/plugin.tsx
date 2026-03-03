@@ -44,17 +44,16 @@ import { CommandDocsFile } from "./components/docs";
 import { UtilsBuiltin } from "./components/utils-builtin";
 import { commands } from "./helpers/automd";
 import {
+  findCommandsRoot,
+  resolveCommandId,
+  resolveCommandName,
+  resolveCommandPath
+} from "./helpers/paths";
+import {
   getCommandsPersistencePath,
   readCommandsPersistence,
   writeCommandsPersistence
 } from "./helpers/persistence";
-import {
-  findCommandsRoot,
-  reflectCommandTree,
-  resolveCommandId,
-  resolveCommandName,
-  resolveCommandPath
-} from "./helpers/resolve-command";
 import {
   formatBinaryPath,
   updatePackageJsonBinary
@@ -71,6 +70,7 @@ import {
 } from "./plugin-utils/context-helpers";
 import { getCommandTree } from "./plugin-utils/get-command-tree";
 import { traverseCommands } from "./plugin-utils/traverse-command-tree";
+import { resolve } from "./resolver/resolve";
 import type { CommandOption, CommandTree } from "./types/command";
 import type { Options } from "./types/config";
 import type { Context } from "./types/context";
@@ -406,7 +406,7 @@ export const plugin = <TContext extends Context = Context>(
       }
     },
     {
-      name: "shell-shock:reflect-commands",
+      name: "shell-shock:resolve-commands",
       prepare: {
         order: "post",
         async handler() {
@@ -420,7 +420,7 @@ export const plugin = <TContext extends Context = Context>(
             this.fs.existsSync(getCommandsPersistencePath(this))
           ) {
             this.debug(
-              `Skipping reflection initialization as the meta checksum has not changed.`
+              `Skipping command resolution as the meta checksum has not changed.`
             );
 
             await readCommandsPersistence(this);
@@ -433,7 +433,10 @@ export const plugin = <TContext extends Context = Context>(
                     !isPathSegmentGroup(segment)
                 ).length === 1
             )) {
-              this.commands[input.name] = await reflectCommandTree(this, input);
+              this.commands[input.name] = await resolve({
+                context: this,
+                command: input
+              });
             }
 
             this.debug("Post-processing commands to ensure proper reflection.");

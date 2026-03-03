@@ -33,7 +33,7 @@ import {
   getAppBin,
   getDynamicPathSegmentName,
   isDynamicPathSegment
-} from "@shell-shock/core/plugin-utils/context-helpers";
+} from "@shell-shock/core/plugin-utils";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { joinPaths } from "@stryke/path/join";
 import { constantCase } from "@stryke/string-format/constant-case";
@@ -153,6 +153,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             "stripAnsi"
           ],
           utils: [
+            "useApp",
             "useArgs",
             "hasFlag",
             "isMinimal",

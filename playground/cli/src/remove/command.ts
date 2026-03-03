@@ -16,21 +16,35 @@
 
  ------------------------------------------------------------------- */
 
-interface RemoveOptions {
-  /**
-   * The root directory of the removal operation.
-   */
-  root: string;
-}
+import type { CommandMetadata } from "@shell-shock/core";
+import * as z from "zod";
+
+export const metadata: CommandMetadata = {
+  title: "Remove Files",
+  description: "A command to remove specified files from the project.",
+  alias: "rm",
+  icon: "🗑"
+};
+
+export const options = z.object({
+  root: z.string().describe("The root directory of the removal operation.")
+});
+
+export const args = z.tuple([
+  z.array(z.string()).describe("The files to remove.")
+]);
 
 /**
  * Remove specified files.
  *
- * @param options - The removal arguments.
+ * @param opts - The removal arguments.
  * @param files - The files to remove.
  */
-function removeFiles(options: RemoveOptions, files: string[]) {
-  console.log("Removing files:", files, "at", options.root);
+function removeFiles(
+  opts: z.input<typeof options>,
+  files: z.input<typeof args>[0]
+) {
+  console.log("Removing files:", files[0], "at", opts.root);
 }
 
 export default removeFiles;

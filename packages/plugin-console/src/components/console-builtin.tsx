@@ -49,15 +49,15 @@ import {
   TSDocReturns
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { IsNotDebug, IsNotVerbose } from "@shell-shock/core/components/helpers";
+import type {
+  ThemeMessageVariant,
+  ThemeResolvedConfig
+} from "@shell-shock/plugin-theme";
 import { useColors, useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import type {
   AnsiWrappers,
   BaseAnsiStylesKeys
 } from "@shell-shock/plugin-theme/helpers/ansi-utils";
-import type {
-  ThemeMessageVariant,
-  ThemeResolvedConfig
-} from "@shell-shock/plugin-theme/types/theme";
 import { getIndefiniteArticle } from "@stryke/string-format/vowels";
 import { defu } from "defu";
 
@@ -1001,9 +1001,9 @@ export function ColorsDeclaration() {
                       )},
                       arguments: ${(
                         <ColorFunction
-                          ansi16={colors.ansi16.theme.text.usage.arguments}
-                          ansi256={colors.ansi256.theme.text.usage.arguments}
-                          ansi16m={colors.ansi16m.theme.text.usage.arguments}
+                          ansi16={colors.ansi16.theme.text.usage.args}
+                          ansi256={colors.ansi256.theme.text.usage.args}
+                          ansi16m={colors.ansi16m.theme.text.usage.args}
                         />
                       )},
                       description: ${(
@@ -2373,7 +2373,7 @@ export function WrapAnsiFunction() {
     <>
       <TSDoc heading="Applies ANSI escape codes to a string.">
         <TSDocRemarks>
-          {`Split text by /\\\\x1b[\\[|\\]][0-9;]*m/ and wrap non-ANSI parts with open/closeing tags.`}
+          {`Split text by /\\\\x1b[\\[|\\]][0-9;]*m/ and wrap non-ANSI parts with open/closing tags.`}
         </TSDocRemarks>
 
         <TSDocExample>

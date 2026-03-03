@@ -25,7 +25,6 @@ import {
   IfStatement,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
@@ -36,6 +35,8 @@ import {
   TSDocRemarks,
   TSDocTitle
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+import type { CommandTree, NumberCommandParameter } from "@shell-shock/core";
+import { CommandParameterKinds } from "@shell-shock/core";
 import { IsDebug } from "@shell-shock/core/components/helpers";
 import {
   CommandParserLogic,
@@ -45,12 +46,7 @@ import {
   getAppBin,
   getDynamicPathSegmentName,
   isDynamicPathSegment
-} from "@shell-shock/core/plugin-utils/context-helpers";
-import type {
-  CommandTree,
-  NumberCommandArgument,
-  NumberCommandOption
-} from "@shell-shock/core/types/command";
+} from "@shell-shock/core/plugin-utils";
 import { findFilePath, relativePath } from "@stryke/path/find";
 import { joinPaths } from "@stryke/path/join";
 import { replaceExtension } from "@stryke/path/replace";
@@ -92,10 +88,8 @@ export function CommandInvocation(props: { command: CommandTree }) {
         return Promise.resolve(Reflect.apply(handle${pascalCase(
           command.name
         )}, __context, [options${
-          command.arguments.length > 0
-            ? `, ${command.arguments
-                .map(argument => camelCase(argument.name))
-                .join(", ")}`
+          command.args.length > 0
+            ? `, ${command.args.map(arg => camelCase(arg.name)).join(", ")}`
             : ""
         }]));
       });
@@ -173,14 +167,14 @@ export function CommandHandlerDeclaration(
                 )})}`
             )
             .join("\\n")}${
-            command.arguments.length > 0
-              ? ` \\n\\nArguments: \\n${command.arguments
+            command.args.length > 0
+              ? ` \\n\\nArguments: \\n${command.args
                   .map(
-                    argument =>
-                      ` - ${kebabCase(argument.name)}: \${${camelCase(
-                        argument.name
+                    arg =>
+                      ` - ${kebabCase(arg.name)}: \${${camelCase(
+                        arg.name
                       )} === undefined ? "" : JSON.stringify(${camelCase(
-                        argument.name
+                        arg.name
                       )})}`
                   )
                   .join("\\n")}`
@@ -233,8 +227,8 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
               </IfStatement>
               <Show
                 when={
-                  (option.kind === ReflectionKind.string ||
-                    option.kind === ReflectionKind.number) &&
+                  (option.kind === CommandParameterKinds.string ||
+                    option.kind === CommandParameterKinds.number) &&
                   option.variadic
                 }>
                 <ElseIfClause
@@ -249,9 +243,9 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                 </ElseIfClause>
               </Show>
             </Show>
-            <Show when={option.kind === ReflectionKind.number}>
+            <Show when={option.kind === CommandParameterKinds.number}>
               <Show
-                when={(option as NumberCommandOption).variadic}
+                when={(option as NumberCommandParameter).variadic}
                 fallback={
                   <IfStatement
                     condition={code`options${
@@ -284,7 +278,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
         )}
       </For>
       <Spacing />
-      <For each={command.arguments} doubleHardline>
+      <For each={command.args} doubleHardline>
         {argument => (
           <>
             <Show when={!argument.optional}>
@@ -295,8 +289,8 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
               </IfStatement>
               <Show
                 when={
-                  (argument.kind === ReflectionKind.string ||
-                    argument.kind === ReflectionKind.number) &&
+                  (argument.kind === CommandParameterKinds.string ||
+                    argument.kind === CommandParameterKinds.number) &&
                   argument.variadic
                 }>
                 <ElseIfClause
@@ -307,9 +301,9 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                 </ElseIfClause>
               </Show>
             </Show>
-            <Show when={argument.kind === ReflectionKind.number}>
+            <Show when={argument.kind === CommandParameterKinds.number}>
               <Show
-                when={(argument as NumberCommandArgument).variadic}
+                when={(argument as NumberCommandParameter).variadic}
                 fallback={
                   <IfStatement
                     condition={code`${camelCase(
@@ -361,13 +355,14 @@ export function CommandEntry(props: CommandEntryProps) {
       "index.ts"
     )
   );
-  const commandSourcePath = computed(() =>
-    replaceExtension(
-      relativePath(
-        joinPaths(context.entryPath, findFilePath(filePath.value)),
-        command.entry.input?.file || command.entry.file
-      )
-    )
+  const commandSourcePath = computed(
+    () =>
+      `./${replaceExtension(
+        relativePath(
+          joinPaths(context.entryPath, findFilePath(filePath.value)),
+          command.entry.input?.file || command.entry.file
+        )
+      )}`
   );
   const typeDefinition = computed(() => ({
     ...command.entry,

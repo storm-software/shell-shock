@@ -21,10 +21,7 @@ import { code, computed, Show } from "@alloy-js/core";
 import { FunctionDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import {
-  getAppDescription,
-  getAppTitle
-} from "@shell-shock/core/plugin-utils/context-helpers";
+import { getAppDescription, getAppTitle } from "@shell-shock/core/plugin-utils";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import type { ThemeColorVariant } from "@shell-shock/plugin-theme/types/theme";

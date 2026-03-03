@@ -2035,14 +2035,15 @@ declare module "shell-shock:prompts" {
   /**
    * An option the user can select from the select prompt
    */
-  export interface PromptOption<TValue = string>
-    extends PromptOptionConfig<TValue> {
+  export interface PromptOption<
+    TValue = string
+  > extends PromptOptionConfig<TValue> {
     /**
      * The message label for the option
      */
-    label: string /**
+    label: string; /**
      * The index of the option
-     */;
+     */
     index: number;
     /**
      * Whether the option is selected

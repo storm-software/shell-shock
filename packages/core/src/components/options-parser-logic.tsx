@@ -25,7 +25,6 @@ import {
   InterfaceMember,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { constantCase } from "@stryke/string-format/constant-case";
@@ -40,9 +39,10 @@ import type {
   BooleanCommandOption,
   CommandOption,
   CommandTree,
-  NumberCommandOption,
-  StringCommandOption
+  NumberCommandParameter,
+  StringCommandParameter
 } from "../types/command";
+import { CommandParameterKinds } from "../types/command";
 import { BooleanInputParserLogic } from "./helpers";
 
 export interface DynamicSegmentsParserLogicProps {
@@ -107,12 +107,14 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
   const { command, envPrefix, isCaseSensitive } = props;
 
   return (
-    <Show when={command.arguments && command.arguments.length > 0}>
+    <Show when={command.args && command.args.length > 0}>
       <VarDeclaration
         let
         name="optionsIndex"
         type="number"
-        initializer={code`Math.max(0, args.slice(${command.segments.length + 1}).findIndex(arg => arg.startsWith("-") && /^(${Object.values(
+        initializer={code`Math.max(0, args.slice(${
+          command.segments.length + 1
+        }).findIndex(arg => arg.startsWith("-") && /^(${Object.values(
           command.options ?? {}
         )
           .map(
@@ -186,21 +188,21 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
         }))) + ${command.segments.length + 1});`}
       />
       <Spacing />
-      <For each={command.arguments ?? []} hardline>
+      <For each={command.args ?? []} hardline>
         {(arg, index) => (
           <>
             <VarDeclaration
               let
               name={camelCase(arg.name)}
               type={`${
-                arg.kind === ReflectionKind.boolean
+                arg.kind === CommandParameterKinds.boolean
                   ? "boolean"
-                  : arg.kind === ReflectionKind.number
+                  : arg.kind === CommandParameterKinds.number
                     ? "number"
                     : "string"
               }${
-                (arg.kind === ReflectionKind.string ||
-                  arg.kind === ReflectionKind.number) &&
+                (arg.kind === CommandParameterKinds.string ||
+                  arg.kind === CommandParameterKinds.number) &&
                 arg.variadic
                   ? "[]"
                   : ""
@@ -213,13 +215,13 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
                   <Show
                     when={arg.default !== undefined}
                     fallback={
-                      (arg.kind === ReflectionKind.string ||
-                        arg.kind === ReflectionKind.number) &&
+                      (arg.kind === CommandParameterKinds.string ||
+                        arg.kind === CommandParameterKinds.number) &&
                       arg.variadic
                         ? code`[]`
                         : code`undefined;`
                     }>
-                    {arg.kind === ReflectionKind.string
+                    {arg.kind === CommandParameterKinds.string
                       ? code`"${arg.default}"`
                       : code`${arg.default}`}
                   </Show>
@@ -232,8 +234,8 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
               {code`${camelCase(arg.name)} = `}
               <Show
                 when={
-                  arg.kind === ReflectionKind.string ||
-                  arg.kind === ReflectionKind.number
+                  arg.kind === CommandParameterKinds.string ||
+                  arg.kind === CommandParameterKinds.number
                 }
                 fallback={
                   <BooleanInputParserLogic
@@ -242,13 +244,13 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
                 }>
                 <Show
                   when={
-                    (arg.kind === ReflectionKind.string ||
-                      arg.kind === ReflectionKind.number) &&
+                    (arg.kind === CommandParameterKinds.string ||
+                      arg.kind === CommandParameterKinds.number) &&
                     arg.variadic
                   }
                   fallback={
                     <Show
-                      when={arg.kind === ReflectionKind.number}
+                      when={arg.kind === CommandParameterKinds.number}
                       fallback={code`args[argsIndex + ${index}]; `}>
                       {code`Number(args[argsIndex + ${index}]); `}
                     </Show>
@@ -256,7 +258,7 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
                   {code`args.slice(argsIndex + ${
                     index
                   }, (optionsIndex > argsIndex ? optionsIndex : args.length) - ${
-                    command.arguments.length - index
+                    command.args.length - index
                   }).join(" ").split(",").map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean)`}
                 </Show>
               </Show>
@@ -278,27 +280,31 @@ export function OptionsMember({ option }: { option: CommandOption }) {
   return (
     <>
       <Show when={Boolean(option.name)}>
-        <Show when={option.kind === ReflectionKind.string}>
+        <Show when={option.kind === CommandParameterKinds.string}>
           <InterfaceMember
             name={option.name}
             doc={doc}
             type={
-              (option as StringCommandOption).variadic ? "string[]" : "string"
+              (option as StringCommandParameter).variadic
+                ? "string[]"
+                : "string"
             }
             optional={option.optional}
           />
         </Show>
-        <Show when={option.kind === ReflectionKind.number}>
+        <Show when={option.kind === CommandParameterKinds.number}>
           <InterfaceMember
             name={option.name}
             doc={doc}
             type={
-              (option as NumberCommandOption).variadic ? "number[]" : "number"
+              (option as NumberCommandParameter).variadic
+                ? "number[]"
+                : "number"
             }
             optional={option.optional}
           />
         </Show>
-        <Show when={option.kind === ReflectionKind.boolean}>
+        <Show when={option.kind === CommandParameterKinds.boolean}>
           <InterfaceMember
             name={option.name}
             doc={doc}
@@ -356,11 +362,13 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
     <>
       <Show
         when={
-          option.kind === ReflectionKind.string ||
-          option.kind === ReflectionKind.number
+          option.kind === CommandParameterKinds.string ||
+          option.kind === CommandParameterKinds.number
         }>
         <Show
-          when={(option as StringCommandOption | NumberCommandOption).variadic}>
+          when={
+            (option as StringCommandParameter | NumberCommandParameter).variadic
+          }>
           <Show
             when={name.includes("?") || name.includes("-")}
             fallback={code`options.${name} ??= []; `}>
@@ -378,10 +386,10 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
               fallback={code`options.${name}.push(`}>
               {code`options["${name}"].push(`}
             </Show>
-            <Show when={option.kind === ReflectionKind.string}>
+            <Show when={option.kind === CommandParameterKinds.string}>
               {code`...arg.replace(${equalsRegex}, "").split(",").map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean) `}
             </Show>
-            <Show when={option.kind === ReflectionKind.number}>
+            <Show when={option.kind === CommandParameterKinds.number}>
               {code`...arg.replace(${equalsRegex}, "").split(",").map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean).map(Number).filter(value => !Number.isNaN(value)) `}
             </Show>
             {code`); `}
@@ -392,10 +400,10 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
               fallback={code`options.${name}.push(`}>
               {code`options["${name}"].push(`}
             </Show>
-            <Show when={option.kind === ReflectionKind.string}>
+            <Show when={option.kind === CommandParameterKinds.string}>
               {code`...args[++i].split(",").map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean) `}
             </Show>
-            <Show when={option.kind === ReflectionKind.number}>
+            <Show when={option.kind === CommandParameterKinds.number}>
               {code`...args[++i].split(",").map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean).map(Number).filter(value => !Number.isNaN(value)) `}
             </Show>
             {code`); `}
@@ -403,11 +411,12 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
         </Show>
         <Show
           when={
-            !(option as StringCommandOption | NumberCommandOption).variadic
+            !(option as StringCommandParameter | NumberCommandParameter)
+              .variadic
           }>
           <IfStatement
             condition={`${equalsRegex}.test(${isCaseSensitive ? "arg" : '"-" + arg.toLowerCase().replaceAll("-", "").replaceAll("_", "")'})`}>
-            <Show when={option.kind === ReflectionKind.string}>
+            <Show when={option.kind === CommandParameterKinds.string}>
               <Show
                 when={name.includes("?") || name.includes("-")}
                 fallback={code`options.${name}`}>
@@ -415,7 +424,7 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
               </Show>
               {code` = arg.replace(${equalsRegex}, "").trim().replace(/^("|')/, "").replace(/("|')$/, ""); `}
             </Show>
-            <Show when={option.kind === ReflectionKind.number}>
+            <Show when={option.kind === CommandParameterKinds.number}>
               <VarDeclaration
                 const
                 name="value"
@@ -433,7 +442,7 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
             </Show>
           </IfStatement>
           <ElseIfClause condition={`args.length > i + 1`}>
-            <Show when={option.kind === ReflectionKind.string}>
+            <Show when={option.kind === CommandParameterKinds.string}>
               <Show
                 when={name.includes("?") || name.includes("-")}
                 fallback={code`options.${name}`}>
@@ -441,7 +450,7 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
               </Show>
               {code` = args[++i].trim().replace(/^("|')/, "").replace(/("|')$/, ""); `}
             </Show>
-            <Show when={option.kind === ReflectionKind.number}>
+            <Show when={option.kind === CommandParameterKinds.number}>
               <VarDeclaration
                 const
                 name="value"
@@ -461,7 +470,7 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
           <hbr />
         </Show>
       </Show>
-      <Show when={option.kind === ReflectionKind.boolean}>
+      <Show when={option.kind === CommandParameterKinds.boolean}>
         <IfStatement
           condition={`${equalsRegex}.test(${isCaseSensitive ? "arg" : '"-" + arg.toLowerCase().replaceAll("-", "").replaceAll("_", "")'})`}>
           <VarDeclaration
@@ -635,7 +644,7 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
         initializer={code` {
           ${Object.entries(options.value)
             .map(([name, option]) => {
-              if (option.kind === ReflectionKind.string) {
+              if (option.kind === CommandParameterKinds.string) {
                 return ` ${name.includes("?") || name.includes("-") ? `"${name}"` : `${name}`}: ${
                   option.env ? `env.${envPrefix}_${option.env}` : ""
                 }${
@@ -651,7 +660,7 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
                       ? `${option.env ? " ?? " : ""}"${option.default}"`
                       : ""
                 }, `;
-              } else if (option.kind === ReflectionKind.number) {
+              } else if (option.kind === CommandParameterKinds.number) {
                 return ` ${name.includes("?") || name.includes("-") ? `"${name}"` : `${name}`}: ${
                   option.env ? `env.${envPrefix}_${option.env}` : ""
                 }${
@@ -667,7 +676,7 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
                       ? `${option.env ? " ?? " : ""}${option.default}`
                       : ""
                 }, `;
-              } else if (option.kind === ReflectionKind.boolean) {
+              } else if (option.kind === CommandParameterKinds.boolean) {
                 return ` ${name.includes("?") || name.includes("-") ? `"${name}"` : `${name}`}: ${
                   option.env ? `env.${envPrefix}_${option.env} ?? ` : ""
                 }${option.default ? "true" : "false"},`;

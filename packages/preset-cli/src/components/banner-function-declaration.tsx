@@ -30,7 +30,7 @@ import {
   getAppBin,
   getAppDescription,
   getAppTitle
-} from "@shell-shock/core/plugin-utils/context-helpers";
+} from "@shell-shock/core/plugin-utils";
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import type { BannerFunctionDeclarationProps } from "@shell-shock/preset-script/components/banner-function-declaration";
 import { BannerFunctionBodyDeclaration } from "@shell-shock/preset-script/components/banner-function-declaration";

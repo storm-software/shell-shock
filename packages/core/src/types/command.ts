@@ -16,17 +16,27 @@
 
  ------------------------------------------------------------------- */
 
-import type {
-  ReflectionFunction,
-  ReflectionKind,
-  ReflectionParameter,
-  ReflectionProperty,
-  SerializedTypes
-} from "@powerlines/deepkit/vendor/type";
+import type { StandardJSONSchemaV1 } from "@standard-schema/spec";
+import type { JsonSchema7TupleType } from "@stryke/json";
 import type { AnyFunction } from "@stryke/types/base";
+import type { JSONSchema7Object } from "json-schema";
 import type { ResolvedEntryTypeDefinition } from "powerlines";
 import type * as z3 from "zod/v3";
-import type * as z4 from "zod/v4/core";
+
+export type CommandParameterType =
+  | string
+  | number
+  | boolean
+  | (string | number)[];
+
+export const CommandParameterKinds = {
+  string: "string",
+  number: "number",
+  boolean: "boolean"
+} as const;
+
+export type CommandParameterKind =
+  (typeof CommandParameterKinds)[keyof typeof CommandParameterKinds];
 
 export interface BaseCommandParameter {
   /**
@@ -36,7 +46,7 @@ export interface BaseCommandParameter {
   /**
    * The option kind.
    */
-  kind: ReflectionKind;
+  kind: CommandParameterKind;
   /**
    * The display title.
    */
@@ -63,11 +73,24 @@ export interface StringCommandParameter extends BaseCommandParameter {
   /**
    * The option kind.
    */
-  kind: ReflectionKind.string;
+  kind: "string";
   /**
    * The default value.
    */
   default?: string;
+  /**
+   * A standard string format to validate the option value against.
+   */
+  format?:
+    | "email"
+    | "uri"
+    | "uuid"
+    | "ipv4"
+    | "ipv6"
+    | "date"
+    | "time"
+    | "date-time"
+    | "duration";
   /**
    * Whether the option accepts multiple values.
    */
@@ -83,7 +106,7 @@ export interface NumberCommandParameter extends BaseCommandParameter {
   /**
    * The option kind.
    */
-  kind: ReflectionKind.number;
+  kind: "number";
   /**
    * The default value.
    */
@@ -103,40 +126,39 @@ export interface BooleanCommandParameter extends BaseCommandParameter {
   /**
    * The option kind.
    */
-  kind: ReflectionKind.boolean;
+  kind: "boolean";
   /**
    * The default value.
    */
   default?: boolean;
-  /**
-   * The option this negates.
-   */
-  isNegativeOf?: string;
-  /**
-   * Whether to skip adding a negative option.
-   */
-  skipAddingNegative?: boolean;
 }
 
-export interface StringCommandOption extends StringCommandParameter {
-  /**
-   * The property reflection.
-   */
-  reflection?: ReflectionProperty;
-}
+export type CommandParameter =
+  | StringCommandParameter
+  | NumberCommandParameter
+  | BooleanCommandParameter;
 
-export interface NumberCommandOption extends NumberCommandParameter {
-  /**
-   * The property reflection.
-   */
-  reflection?: ReflectionProperty;
-}
+export type AsCommandParameterConfig<T extends BaseCommandParameter> = Pick<
+  T,
+  "kind" | "alias"
+> &
+  Partial<Omit<T, "kind" | "alias">> & {
+    alias?: string | string[];
+  };
+
+export type StringCommandParameterConfig =
+  AsCommandParameterConfig<StringCommandParameter>;
+export type NumberCommandParameterConfig =
+  AsCommandParameterConfig<NumberCommandParameter>;
+export type BooleanCommandParameterConfig =
+  AsCommandParameterConfig<BooleanCommandParameter>;
+
+export type CommandParameterConfig =
+  | StringCommandParameterConfig
+  | NumberCommandParameterConfig
+  | BooleanCommandParameterConfig;
 
 export interface BooleanCommandOption extends BooleanCommandParameter {
-  /**
-   * The property reflection.
-   */
-  reflection?: ReflectionProperty;
   /**
    * The option this negates.
    */
@@ -148,35 +170,16 @@ export interface BooleanCommandOption extends BooleanCommandParameter {
 }
 
 export type CommandOption =
-  | StringCommandOption
-  | NumberCommandOption
+  | StringCommandParameter
+  | NumberCommandParameter
   | BooleanCommandOption;
-
-export interface StringCommandArgument extends StringCommandParameter {
-  /**
-   * The parameter reflection.
-   */
-  reflection: ReflectionParameter;
-}
-
-export interface NumberCommandArgument extends NumberCommandParameter {
-  /**
-   * The parameter reflection.
-   */
-  reflection: ReflectionParameter;
-}
-
-export interface BooleanCommandArgument extends BooleanCommandParameter {
-  /**
-   * The parameter reflection.
-   */
-  reflection: ReflectionParameter;
-}
+export type CommandOptionConfig = AsCommandParameterConfig<CommandOption>;
 
 export type CommandArgument =
-  | StringCommandArgument
-  | NumberCommandArgument
-  | BooleanCommandArgument;
+  | StringCommandParameter
+  | NumberCommandParameter
+  | BooleanCommandParameter;
+export type CommandArgumentConfig = AsCommandParameterConfig<CommandArgument>;
 
 export interface CommandBase {
   /**
@@ -228,7 +231,7 @@ export interface CommandBase {
   isVirtual: boolean;
 }
 
-export interface CommandInput extends CommandBase {
+export interface CommandConfig extends CommandBase {
   /**
    * The command id.
    */
@@ -240,7 +243,7 @@ export interface CommandInput extends CommandBase {
   entry: ResolvedEntryTypeDefinition;
 }
 
-export type CommandTree = CommandInput & {
+export type CommandTree = CommandConfig & {
   /**
    * The display title.
    */
@@ -260,7 +263,7 @@ export type CommandTree = CommandInput & {
   /**
    * The positional arguments provided to the command.
    */
-  arguments: CommandArgument[];
+  args: CommandArgument[];
   /**
    * The parent command.
    */
@@ -269,28 +272,9 @@ export type CommandTree = CommandInput & {
    * Child commands.
    */
   children: Record<string, CommandTree>;
-  /**
-   * The command handler reflection.
-   */
-  reflection: ReflectionFunction | null;
 };
 
-export type SerializedCommandOption = Omit<CommandOption, "reflection">;
-
-export type SerializedCommandArgument = Omit<CommandArgument, "reflection">;
-
-export type SerializedCommandTree = Omit<
-  CommandTree,
-  "options" | "arguments" | "parent" | "children" | "reflection"
-> & {
-  /**
-   * The command options.
-   */
-  options: Record<string, SerializedCommandOption>;
-  /**
-   * The positional arguments provided to the command.
-   */
-  arguments: SerializedCommandArgument[];
+export type SerializedCommandTree = Omit<CommandTree, "parent" | "children"> & {
   /**
    * The parent command id.
    */
@@ -299,13 +283,9 @@ export type SerializedCommandTree = Omit<
    * Serialized child commands.
    */
   children: Record<string, SerializedCommandTree>;
-  /**
-   * The command handler reflection.
-   */
-  reflection?: SerializedTypes;
 };
 
-export interface Metadata {
+export interface CommandMetadata {
   /**
    * The display name of the command.
    *
@@ -336,11 +316,17 @@ export interface Metadata {
   icon?: string;
 }
 
-export type CommandParameterSchema = z3.ZodTypeAny | z4.$ZodType;
-
 export interface CommandModule {
-  metadata?: Metadata;
-  options?: Record<string, CommandParameterSchema>;
-  arguments?: CommandParameterSchema[];
+  metadata?: CommandMetadata;
+  options?:
+    | Record<string, CommandOptionConfig>
+    | JSONSchema7Object
+    | StandardJSONSchemaV1<Record<string, CommandParameterType>>
+    | z3.AnyZodObject;
+  args?:
+    | CommandArgumentConfig[]
+    | JsonSchema7TupleType
+    | StandardJSONSchemaV1<CommandParameterType[]>
+    | z3.AnyZodTuple;
   default?: AnyFunction;
 }

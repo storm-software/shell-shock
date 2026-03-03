@@ -19,12 +19,12 @@
 import { code } from "@alloy-js/core";
 import { For, Show } from "@alloy-js/core/components";
 import { Heading } from "@alloy-js/markdown";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { renderString } from "@powerlines/plugin-alloy/render";
 import { defineGenerator } from "automd";
 import { CommandDocs } from "../components/docs";
 import { getAppTitle } from "../plugin-utils";
 import type { Context } from "../types/context";
-import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 
 /**
  * AutoMD generator to generate CLI command documentation

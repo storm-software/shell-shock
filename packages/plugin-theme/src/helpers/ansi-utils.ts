@@ -486,8 +486,8 @@ function buildThemeAnsiStyles(
           open: wrapFn()(convertFn(theme.text.usage.options)),
           close: wrapAnsi16()(39)
         },
-        arguments: {
-          open: wrapFn()(convertFn(theme.text.usage.arguments)),
+        args: {
+          open: wrapFn()(convertFn(theme.text.usage.args)),
           close: wrapAnsi16()(39)
         },
         description: {

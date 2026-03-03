@@ -16,10 +16,10 @@
 
  ------------------------------------------------------------------- */
 
-import type { Metadata } from "@shell-shock/core";
+import type { CommandMetadata } from "@shell-shock/core";
 import { info } from "shell-shock:console";
 
-export const metadata: Metadata = {
+export const metadata: CommandMetadata = {
   title: "Project Build",
   description: "A build command for the project.",
   alias: "rebuild",

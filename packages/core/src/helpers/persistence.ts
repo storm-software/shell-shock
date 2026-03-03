@@ -16,140 +16,59 @@
 
  ------------------------------------------------------------------- */
 
-import type { ReflectionClass } from "@powerlines/deepkit/vendor/type";
-import {
-  deserializeType,
-  ReflectionFunction,
-  ReflectionKind,
-  resolveClassType,
-  serializeType
-} from "@powerlines/deepkit/vendor/type";
-import { omit } from "@stryke/helpers/omit";
 import { joinPaths } from "@stryke/path/join-paths";
-import type {
-  CommandArgument,
-  CommandOption,
-  CommandTree,
-  SerializedCommandOption,
-  SerializedCommandTree
-} from "../types";
+import type { CommandTree, SerializedCommandTree } from "../types";
 import type { Context } from "../types/context";
 
+function serialize(command: CommandTree): SerializedCommandTree {
+  return {
+    ...command,
+    parent: command.parent?.name ? command.parent.name : null,
+    children: Object.fromEntries(
+      Object.entries(command.children || {}).map(([name, child]) => [
+        name,
+        serialize(child)
+      ])
+    )
+  };
+}
+
+function deserialize(
+  command: SerializedCommandTree,
+  parent: CommandTree | null = null
+): CommandTree {
+  const result: CommandTree = {
+    ...command,
+    parent: parent ?? null,
+    children: {}
+  };
+
+  result.children = Object.fromEntries(
+    Object.entries(command.children || {}).map(([name, child]) => [
+      name,
+      deserialize(child, result)
+    ])
+  );
+
+  return result;
+}
+
+/**
+ * Gets the file path for persisting CLI command reflections.
+ *
+ * @param context - The Shell Shock context.
+ * @returns The file path for persisting CLI command reflections.
+ */
 export function getCommandsPersistencePath(context: Context): string {
   return joinPaths(context.dataPath, "reflections", "commands.json");
 }
 
-export function serializedCommandTree(
-  commands: Record<string, CommandTree>
-): Record<string, SerializedCommandTree> {
-  const serialize = (
-    node: CommandTree,
-    parent: string | null = null
-  ): SerializedCommandTree => {
-    const serializedNode: SerializedCommandTree = {
-      ...node,
-      options: Object.entries(node.options).reduce(
-        (ret, [key, option]) => {
-          ret[key] = {
-            ...omit(option, ["reflection"])
-          };
-          return ret;
-        },
-        {} as Record<string, SerializedCommandOption>
-      ),
-      arguments: node.arguments.map(arg => ({
-        ...omit(arg, ["reflection"])
-      })),
-      parent,
-      children: {},
-      reflection: node.reflection
-        ? serializeType(node.reflection.type)
-        : undefined
-    };
-
-    for (const [key, child] of Object.entries(node.children || {})) {
-      serializedNode.children[key] = serialize(child, node.id);
-    }
-
-    return serializedNode;
-  };
-
-  const result: Record<string, SerializedCommandTree> = {};
-  for (const [key, child] of Object.entries(commands)) {
-    result[key] = serialize(child, null);
-  }
-
-  return result;
-}
-
-export function deserializeCommandTree(
-  serializedCommands: Record<string, SerializedCommandTree>
-): Record<string, CommandTree> {
-  const deserialize = (
-    node: SerializedCommandTree,
-    parent: CommandTree | null = null
-  ): CommandTree => {
-    const type = deserializeType(node.reflection);
-    if (type.kind !== ReflectionKind.function) {
-      throw new Error(
-        `Failed to deserialize persisted data - invalid command handler reflection type for command ${node.id}`
-      );
-    }
-
-    const reflection = new ReflectionFunction(type);
-
-    let optionsReflection: ReflectionClass<any> | undefined;
-    if (
-      reflection.getParameters().length > 0 &&
-      reflection.getParameters()[0]
-    ) {
-      const optionsType = reflection.getParameters()[0]!.type;
-      if (optionsType.kind === ReflectionKind.objectLiteral) {
-        optionsReflection = resolveClassType(optionsType);
-      }
-    }
-
-    const deserializedNode: CommandTree = {
-      ...node,
-      options: optionsReflection
-        ? Object.entries(node.options).reduce(
-            (ret, [key, option]) => {
-              ret[key] = {
-                ...option,
-                reflection: optionsReflection.getProperty(option.name)
-              } as CommandOption;
-              return ret;
-            },
-            {} as Record<string, CommandOption>
-          )
-        : {},
-      arguments: node.arguments.map((arg, i) => ({
-        ...arg,
-        reflection:
-          reflection.getParameters().length > i + 1
-            ? reflection.getParameters()[i + 1]
-            : reflection.getParameterOrUndefined(arg.name)
-      })) as CommandArgument[],
-      parent,
-      children: {},
-      reflection
-    };
-
-    for (const [key, child] of Object.entries(node.children || {})) {
-      deserializedNode.children[key] = deserialize(child, deserializedNode);
-    }
-
-    return deserializedNode;
-  };
-
-  const result: Record<string, CommandTree> = {};
-  for (const [key, child] of Object.entries(serializedCommands)) {
-    result[key] = deserialize(child, null);
-  }
-
-  return result;
-}
-
+/**
+ * Reads the persisted CLI command reflections from the file system and populates the context's commands.
+ *
+ * @param context - The Shell Shock context.
+ * @throws Will throw an error if the reflections file is empty or cannot be read.
+ */
 export async function readCommandsPersistence(context: Context) {
   const reflections = await context.fs.read(
     getCommandsPersistencePath(context)
@@ -160,18 +79,34 @@ export async function readCommandsPersistence(context: Context) {
     );
   }
 
-  context.commands = deserializeCommandTree(JSON.parse(reflections));
+  context.commands = Object.fromEntries(
+    Object.entries(
+      (JSON.parse(reflections) ?? {}) as Record<string, SerializedCommandTree>
+    ).map(([name, command]) => [name, deserialize(command)])
+  );
 }
 
+/**
+ * Writes the current CLI command reflections from the context to the file system for persistence.
+ *
+ * @param context - The Shell Shock context.
+ * @returns A promise that resolves when the reflections have been successfully written to the file system.
+ * @throws Will throw an error if there is an issue writing the reflections to the file system.
+ */
 export async function writeCommandsPersistence(context: Context) {
   const filePath = getCommandsPersistencePath(context);
 
   await context.fs.write(
     filePath,
     JSON.stringify(
-      serializedCommandTree(context.commands),
+      Object.fromEntries(
+        Object.entries(context.commands).map(([name, command]) => [
+          name,
+          serialize(command)
+        ])
+      ),
       null,
-      context.config.mode === "development" ? 2 : 0
+      context.config.mode === "production" ? 0 : 2
     )
   );
 }

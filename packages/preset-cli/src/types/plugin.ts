@@ -16,11 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import type {
-  CommandBase,
-  CommandOption
-} from "@shell-shock/core/types/command";
-import type { Context } from "@shell-shock/core/types/context";
+import type { CommandBase, CommandOption, Context } from "@shell-shock/core";
 import type { PromptsPluginContext } from "@shell-shock/plugin-prompts/types/plugin";
 import type {
   ThemePluginResolvedConfig,

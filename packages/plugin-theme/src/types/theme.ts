@@ -120,7 +120,7 @@ export interface ThemeColorUsageSubItem {
   command: string;
   dynamic: string;
   options: string;
-  arguments: string;
+  args: string;
   description: string;
 }
 

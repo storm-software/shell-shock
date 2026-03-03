@@ -27,7 +27,7 @@ import {
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { IsVerbose } from "@shell-shock/core/components/helpers";
-import { getAppTitle } from "@shell-shock/core/plugin-utils/context-helpers";
+import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import type { ScriptPresetContext } from "../types/plugin";
 
 /**

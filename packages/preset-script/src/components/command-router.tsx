@@ -27,7 +27,7 @@ import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { DynamicImportStatement } from "@powerlines/plugin-alloy/typescript/components/dynamic-import-statement";
 import { CommandContext, useCommand } from "@shell-shock/core/contexts/command";
-import { isDynamicPathSegment } from "@shell-shock/core/plugin-utils/context-helpers";
+import { isDynamicPathSegment } from "@shell-shock/core/plugin-utils";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import type { ScriptPresetContext } from "../types/plugin";

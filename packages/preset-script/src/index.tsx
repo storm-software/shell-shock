@@ -75,7 +75,7 @@ export const plugin = <
                     "colors",
                     "help"
                   ],
-                  utils: ["useArgs", "isMinimal"]
+                  utils: ["useApp", "useArgs", "isMinimal"]
                 }}
                 prefix={
                   <>
