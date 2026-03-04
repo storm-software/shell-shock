@@ -21,6 +21,15 @@ interface CopyOptions {
    * The root directory of the copy operation.
    */
   root: string;
+
+  /**
+   * The copy mode to use when copying files.
+   *
+   * - `overwrite`: Overwrite existing files in the destination.
+   * - `skip`: Skip copying if a file with the same name already exists in the destination.
+   * - `error`: Throw an error if a file with the same name already exists in the destination.
+   */
+  mode: "overwrite" | "skip" | "error";
 }
 
 /**

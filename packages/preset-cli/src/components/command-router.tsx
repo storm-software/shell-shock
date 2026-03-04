@@ -20,6 +20,7 @@ import { code, For } from "@alloy-js/core";
 import { IfStatement } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import type { CommandTree } from "@shell-shock/core";
+import { formatShortDescription } from "@shell-shock/core/plugin-utils";
 import type { CommandRouterProps } from "@shell-shock/preset-script/components";
 import {
   CommandRouter as BaseCommandRouter,
@@ -43,9 +44,11 @@ export function CommandRouterSelectOptions(
         ) : (
           code`{ value: [${command.segments
             .map(segment => `"${segment}"`)
-            .join(", ")}], label: "${command.title}", description: "${
+            .join(
+              ", "
+            )}], label: "${command.title}", description: \`${formatShortDescription(
             command.description
-          }"${command.icon ? `, icon: "${command.icon}"` : ""} }`
+          )}\`${command.icon ? `, icon: "${command.icon}"` : ""} }`
         )
       }
     </For>

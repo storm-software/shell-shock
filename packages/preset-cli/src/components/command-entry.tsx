@@ -22,9 +22,17 @@ import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
-import type { CommandTree } from "@shell-shock/core";
+import type {
+  CommandTree,
+  NumberCommandParameter,
+  StringCommandParameter
+} from "@shell-shock/core";
 import { CommandParameterKinds } from "@shell-shock/core";
-import { isDynamicPathSegment } from "@shell-shock/core/plugin-utils";
+import {
+  formatDescription,
+  formatShortDescription,
+  isDynamicPathSegment
+} from "@shell-shock/core/plugin-utils";
 import {
   CommandHandlerDeclaration,
   CommandValidationLogic
@@ -194,16 +202,65 @@ export function CommandEntry(props: CommandEntryProps) {
                             ? `["${option.name}"]`
                             : `.${camelCase(option.name)}`
                         }`}>
-                        <Switch>
-                          <Match
-                            when={
-                              option.kind === CommandParameterKinds.string
-                            }>{code`
+                        <Show
+                          when={
+                            option.kind === CommandParameterKinds.boolean ||
+                            !option.choices ||
+                            option.choices.length === 0
+                          }
+                          fallback={code`const value = await select({
+                              message: \`Please select a value for the \${colors.italic("${
+                                option.name
+                              }")} option\`, ${
+                                option.description
+                                  ? `description: \`${formatDescription(
+                                      option.description
+                                    )}\`,
+                              `
+                                  : ""
+                              }options: [ ${(
+                                option as
+                                  | StringCommandParameter
+                                  | NumberCommandParameter
+                              ).choices
+                                ?.map(
+                                  choice =>
+                                    `{ value: ${JSON.stringify(
+                                      choice
+                                    )}, label: "${choice}", ${
+                                      option.description
+                                        ? `description: \`${formatShortDescription(
+                                            option.description
+                                          )}\``
+                                        : ""
+                                    } }`
+                                )
+                                .join(", ")} ]
+                            });
+                            if (isCancel(value)) {
+                              return;
+                            }
+
+                            options${
+                              option.name.includes("?")
+                                ? `["${option.name}"]`
+                                : `.${camelCase(option.name)}`
+                            } = value;
+                          `}>
+                          <Switch>
+                            <Match
+                              when={
+                                option.kind === CommandParameterKinds.string
+                              }>{code`
                             const value = await text({
-                              message: \`Please provide a value for the \${colors.italic("${option.name}")} option\`,
+                              message: \`Please provide a value for the \${colors.italic("${
+                                option.name
+                              }")} option\`,
                               ${
                                 option.description
-                                  ? `description: "${option.description}",
+                                  ? `description: \`${formatDescription(
+                                      option.description
+                                    )}\`,
                               `
                                   : ""
                               }validate(val) {
@@ -224,15 +281,17 @@ export function CommandEntry(props: CommandEntryProps) {
                                 : `.${camelCase(option.name)}`
                             } = value;
                           `}</Match>
-                          <Match
-                            when={
-                              option.kind === CommandParameterKinds.number
-                            }>{code`
+                            <Match
+                              when={
+                                option.kind === CommandParameterKinds.number
+                              }>{code`
                             const value = await numeric({
                               message: \`Please provide a numeric value for the \${colors.italic("${option.name}")} option\`,
                               ${
                                 option.description
-                                  ? `description: "${option.description}",
+                                  ? `description: \`${formatDescription(
+                                      option.description
+                                    )}\`,
                               `
                                   : ""
                               }
@@ -247,15 +306,17 @@ export function CommandEntry(props: CommandEntryProps) {
                                 : `.${camelCase(option.name)}`
                             } = value;
                           `}</Match>
-                          <Match
-                            when={
-                              option.kind === CommandParameterKinds.boolean
-                            }>{code`
+                            <Match
+                              when={
+                                option.kind === CommandParameterKinds.boolean
+                              }>{code`
                             const value = await toggle({
                               message: \`Please select a value for the \${colors.italic("${option.name}")} option\`,
                             ${
                               option.description
-                                ? `description: "${option.description}",
+                                ? `description: \`${formatDescription(
+                                    option.description
+                                  )}\`,
                               `
                                 : ""
                             }
@@ -270,7 +331,8 @@ export function CommandEntry(props: CommandEntryProps) {
                                 : `.${camelCase(option.name)}`
                             } = value;
                           `}</Match>
-                        </Switch>
+                          </Switch>
+                        </Show>
                       </IfStatement>
                       <Show
                         when={
@@ -290,10 +352,14 @@ export function CommandEntry(props: CommandEntryProps) {
                                 option.kind === CommandParameterKinds.number
                                   ? " numeric"
                                   : ""
-                              } values for the \${colors.italic("${option.name}")} option (values are separated by a \\",\\" character)\`,
+                              } values for the \${colors.italic("${
+                                option.name
+                              }")} option (values are separated by a \\",\\" character)\`,
                               ${
                                 option.description
-                                  ? `description: "${option.description}",
+                                  ? `description: \`${formatDescription(
+                                      option.description
+                                    )}\`,
                               `
                                   : ""
                               }validate(val) {
@@ -340,16 +406,60 @@ export function CommandEntry(props: CommandEntryProps) {
                   <>
                     <Show when={!arg.optional}>
                       <IfStatement condition={code`!${camelCase(arg.name)}`}>
-                        <Switch>
-                          <Match
-                            when={
-                              arg.kind === CommandParameterKinds.string
-                            }>{code`
+                        <Show
+                          when={
+                            arg.kind === CommandParameterKinds.boolean ||
+                            !arg.choices ||
+                            arg.choices.length === 0
+                          }
+                          fallback={code`const value = await select({
+                              message: \`Please select a value for the \${colors.italic("${
+                                arg.name
+                              }")} argument\`,${
+                                arg.description
+                                  ? `description: \`${formatDescription(
+                                      arg.description
+                                    )}\`,
+                              `
+                                  : ""
+                              }
+                              options: [ ${(
+                                arg as
+                                  | StringCommandParameter
+                                  | NumberCommandParameter
+                              ).choices
+                                ?.map(
+                                  choice =>
+                                    `{ value: ${JSON.stringify(
+                                      choice
+                                    )}, label: "${choice}", ${
+                                      arg.description
+                                        ? `description: \`${formatShortDescription(
+                                            arg.description
+                                          )}\``
+                                        : ""
+                                    } }`
+                                )
+                                .join(", ")} ]
+                            });
+                            if (isCancel(value)) {
+                              return;
+                            }
+
+                            ${camelCase(arg.name)} = value;
+                          `}>
+                          <Switch>
+                            <Match
+                              when={
+                                arg.kind === CommandParameterKinds.string
+                              }>{code`
                             const value = await text({
                               message: \`Please provide a value for the \${colors.italic("${arg.name}")} argument\`,
                               ${
                                 arg.description
-                                  ? `description: "${arg.description}",
+                                  ? `description: \`${formatShortDescription(
+                                      arg.description
+                                    )}\`,
                               `
                                   : ""
                               }validate(val) {
@@ -366,15 +476,17 @@ export function CommandEntry(props: CommandEntryProps) {
 
                             ${camelCase(arg.name)} = value;
                           `}</Match>
-                          <Match
-                            when={
-                              arg.kind === CommandParameterKinds.number
-                            }>{code`
+                            <Match
+                              when={
+                                arg.kind === CommandParameterKinds.number
+                              }>{code`
                             const value = await numeric({
                               message: \`Please provide a numeric value for the \${colors.italic("${arg.name}")} argument\`,
                               ${
                                 arg.description
-                                  ? `description: "${arg.description}",
+                                  ? `description: \`${formatShortDescription(
+                                      arg.description
+                                    )}\`,
                               `
                                   : ""
                               }
@@ -385,15 +497,17 @@ export function CommandEntry(props: CommandEntryProps) {
 
                             ${camelCase(arg.name)} = value;
                           `}</Match>
-                          <Match
-                            when={
-                              arg.kind === CommandParameterKinds.boolean
-                            }>{code`
+                            <Match
+                              when={
+                                arg.kind === CommandParameterKinds.boolean
+                              }>{code`
                             const value = await toggle({
                               message: \`Please select a value for the \${colors.italic("${arg.name}")} argument\`,
                               ${
                                 arg.description
-                                  ? `description: "${arg.description}",
+                                  ? `description: \`${formatShortDescription(
+                                      arg.description
+                                    )}\`,
                               `
                                   : ""
                               }
@@ -404,7 +518,8 @@ export function CommandEntry(props: CommandEntryProps) {
 
                             ${camelCase(arg.name)} = value;
                           `}</Match>
-                        </Switch>
+                          </Switch>
+                        </Show>
                       </IfStatement>
                       <Show
                         when={
@@ -423,7 +538,9 @@ export function CommandEntry(props: CommandEntryProps) {
                               } values for the \${colors.italic("${arg.name}")} argument (values are separated by a \\",\\" character)\`,
                               ${
                                 arg.description
-                                  ? `description: "${arg.description}",
+                                  ? `description: \`${formatShortDescription(
+                                      arg.description
+                                    )}\`,
                               `
                                   : ""
                               }validate(val) {
