@@ -17,6 +17,8 @@
  ------------------------------------------------------------------- */
 
 import { code } from "@alloy-js/core";
+import type { CommandParameter } from "../types";
+import { CommandParameterKinds } from "../types";
 
 export interface BooleanInputParserLogicProps {
   name: string;
@@ -95,4 +97,32 @@ export function IsNotVerbose() {
       {code`)`}
     </>
   );
+}
+
+/**
+ * Write the type declaration for a command parameter based on its configuration.
+ */
+export function CommandParameterType(props: { parameter: CommandParameter }) {
+  const { parameter } = props;
+
+  return code`${
+    (parameter.kind === CommandParameterKinds.string ||
+      parameter.kind === CommandParameterKinds.number) &&
+    parameter.choices &&
+    parameter.choices.length > 0
+      ? parameter.choices
+          .map(choice => (typeof choice === "string" ? `"${choice}"` : choice))
+          .join(" | ")
+      : parameter.kind === CommandParameterKinds.boolean
+        ? "boolean"
+        : parameter.kind === CommandParameterKinds.number
+          ? "number"
+          : "string"
+  }${
+    (parameter.kind === CommandParameterKinds.string ||
+      parameter.kind === CommandParameterKinds.number) &&
+    parameter.variadic
+      ? "[]"
+      : ""
+  }${parameter.optional ? " | undefined" : ""}`;
 }

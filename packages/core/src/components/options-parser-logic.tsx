@@ -43,7 +43,7 @@ import type {
   StringCommandParameter
 } from "../types/command";
 import { CommandParameterKinds } from "../types/command";
-import { BooleanInputParserLogic } from "./helpers";
+import { BooleanInputParserLogic, CommandParameterType } from "./helpers";
 
 export interface DynamicSegmentsParserLogicProps {
   /**
@@ -93,9 +93,9 @@ export interface ArgumentsParserLogicProps {
   command: CommandTree;
 
   /**
-   * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${envPrefix}_OPTION_NAME`).
+   * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${appSpecificEnvPrefix}_OPTION_NAME`).
    */
-  envPrefix: string;
+  appSpecificEnvPrefix: string;
 
   /**
    * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command-line arguments to option names and aliases.
@@ -104,7 +104,7 @@ export interface ArgumentsParserLogicProps {
 }
 
 export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
-  const { command, envPrefix, isCaseSensitive } = props;
+  const { command, appSpecificEnvPrefix, isCaseSensitive } = props;
 
   return (
     <Show when={command.args && command.args.length > 0}>
@@ -191,43 +191,47 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
       <For each={command.args ?? []} hardline>
         {(arg, index) => (
           <>
-            <VarDeclaration
-              let
-              name={camelCase(arg.name)}
-              type={`${
-                arg.kind === CommandParameterKinds.boolean
-                  ? "boolean"
-                  : arg.kind === CommandParameterKinds.number
-                    ? "number"
-                    : "string"
-              }${
-                (arg.kind === CommandParameterKinds.string ||
+            <Show
+              when={
+                isSetString(arg.env) ||
+                arg.default !== undefined ||
+                ((arg.kind === CommandParameterKinds.string ||
                   arg.kind === CommandParameterKinds.number) &&
-                arg.variadic
-                  ? "[]"
-                  : ""
-              }${arg.optional ? " | undefined" : ""}`}
-              initializer={
-                <>
-                  <Show when={isSetString(arg.env)}>
-                    {code`env.${envPrefix}_${constantCase(String(arg.env))} ?? `}
-                  </Show>
-                  <Show
-                    when={arg.default !== undefined}
-                    fallback={
-                      (arg.kind === CommandParameterKinds.string ||
-                        arg.kind === CommandParameterKinds.number) &&
-                      arg.variadic
-                        ? code`[]`
-                        : code`undefined;`
-                    }>
-                    {arg.kind === CommandParameterKinds.string
-                      ? code`"${arg.default}"`
-                      : code`${arg.default}`}
-                  </Show>
-                </>
+                  arg.variadic)
               }
-            />
+              fallback={
+                <>
+                  {code`let ${camelCase(arg.name)}!: `}
+                  <CommandParameterType parameter={arg} />
+                  {code`; `}
+                </>
+              }>
+              <VarDeclaration
+                let
+                name={camelCase(arg.name)}
+                type={<CommandParameterType parameter={arg} />}
+                initializer={
+                  <>
+                    <Show when={isSetString(arg.env)}>
+                      {code`env.${appSpecificEnvPrefix}_${constantCase(String(arg.env))} ?? `}
+                    </Show>
+                    <Show
+                      when={arg.default !== undefined}
+                      fallback={
+                        (arg.kind === CommandParameterKinds.string ||
+                          arg.kind === CommandParameterKinds.number) &&
+                        arg.variadic
+                          ? code`[]`
+                          : code`undefined;`
+                      }>
+                      {arg.kind === CommandParameterKinds.string
+                        ? code`"${arg.default}"`
+                        : code`${arg.default}`}
+                    </Show>
+                  </>
+                }
+              />
+            </Show>
             <Spacing />
             <IfStatement
               condition={code`argsIndex + ${index} < args.length && argsIndex + ${index} !== optionsIndex`}>
@@ -284,11 +288,7 @@ export function OptionsMember({ option }: { option: CommandOption }) {
           <InterfaceMember
             name={option.name}
             doc={doc}
-            type={
-              (option as StringCommandParameter).variadic
-                ? "string[]"
-                : "string"
-            }
+            type={<CommandParameterType parameter={option} />}
             optional={option.optional}
           />
         </Show>
@@ -296,11 +296,7 @@ export function OptionsMember({ option }: { option: CommandOption }) {
           <InterfaceMember
             name={option.name}
             doc={doc}
-            type={
-              (option as NumberCommandParameter).variadic
-                ? "number[]"
-                : "number"
-            }
+            type={<CommandParameterType parameter={option} />}
             optional={option.optional}
           />
         </Show>
@@ -308,7 +304,7 @@ export function OptionsMember({ option }: { option: CommandOption }) {
           <InterfaceMember
             name={option.name}
             doc={doc}
-            type="boolean"
+            type={<CommandParameterType parameter={option} />}
             optional={option.optional}
           />
         </Show>
@@ -392,6 +388,19 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
             <Show when={option.kind === CommandParameterKinds.number}>
               {code`...arg.replace(${equalsRegex}, "").split(",").map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean).map(Number).filter(value => !Number.isNaN(value)) `}
             </Show>
+            <Show
+              when={
+                (option.kind === CommandParameterKinds.string ||
+                  option.kind === CommandParameterKinds.number) &&
+                option.choices &&
+                option.choices.length > 0
+              }>
+              {code` as ${(
+                option as StringCommandParameter | NumberCommandParameter
+              ).choices
+                ?.map(choice => (isSetString(choice) ? `"${choice}"` : choice))
+                .join(" | ")} `}
+            </Show>
             {code`); `}
           </IfStatement>
           <ElseIfClause condition={`args.length > i + 1`}>
@@ -405,6 +414,19 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
             </Show>
             <Show when={option.kind === CommandParameterKinds.number}>
               {code`...args[++i].split(",").map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean).map(Number).filter(value => !Number.isNaN(value)) `}
+            </Show>
+            <Show
+              when={
+                (option.kind === CommandParameterKinds.string ||
+                  option.kind === CommandParameterKinds.number) &&
+                option.choices &&
+                option.choices.length > 0
+              }>
+              {code` as ${(
+                option as StringCommandParameter | NumberCommandParameter
+              ).choices
+                ?.map(choice => (isSetString(choice) ? `"${choice}"` : choice))
+                .join(" | ")} `}
             </Show>
             {code`); `}
           </ElseIfClause>
@@ -422,7 +444,17 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
                 fallback={code`options.${name}`}>
                 {code`options["${name}"]`}
               </Show>
-              {code` = arg.replace(${equalsRegex}, "").trim().replace(/^("|')/, "").replace(/("|')$/, ""); `}
+              {code` = arg.replace(${equalsRegex}, "").trim().replace(/^("|')/, "").replace(/("|')$/, "")`}
+              <Show
+                when={
+                  (option as StringCommandParameter).choices &&
+                  (option as StringCommandParameter).choices!.length > 0
+                }>
+                {code` as ${(option as StringCommandParameter).choices
+                  ?.map(choice => `"${choice}"`)
+                  .join(" | ")}`}
+              </Show>
+              {code`; `}
             </Show>
             <Show when={option.kind === CommandParameterKinds.number}>
               <VarDeclaration
@@ -437,7 +469,15 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
                   fallback={code`options.${name}`}>
                   {code`options["${name}"]`}
                 </Show>
-                {code` = value; `}
+                {code` = value`}
+                <Show
+                  when={
+                    (option as NumberCommandParameter).choices &&
+                    (option as NumberCommandParameter).choices!.length > 0
+                  }>
+                  {code` as ${(option as NumberCommandParameter).choices?.join(" | ")}`}
+                </Show>
+                {code`; `}
               </IfStatement>
             </Show>
           </IfStatement>
@@ -448,7 +488,15 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
                 fallback={code`options.${name}`}>
                 {code`options["${name}"]`}
               </Show>
-              {code` = args[++i].trim().replace(/^("|')/, "").replace(/("|')$/, ""); `}
+              {code` = args[++i].trim().replace(/^("|')/, "").replace(/("|')$/, "")`}
+              <Show
+                when={
+                  (option as StringCommandParameter).choices &&
+                  (option as StringCommandParameter).choices!.length > 0
+                }>
+                {code` as ${(option as StringCommandParameter).choices?.map(choice => `"${choice}"`).join(" | ")}`}
+              </Show>
+              {code`; `}
             </Show>
             <Show when={option.kind === CommandParameterKinds.number}>
               <VarDeclaration
@@ -463,7 +511,15 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
                   fallback={code`options.${name}`}>
                   {code`options["${name}"]`}
                 </Show>
-                {code` = value; `}
+                {code` = value`}
+                <Show
+                  when={
+                    (option as NumberCommandParameter).choices &&
+                    (option as NumberCommandParameter).choices!.length > 0
+                  }>
+                  {code` as ${(option as NumberCommandParameter).choices?.join(" | ")}`}
+                </Show>
+                {code`; `}
               </IfStatement>
             </Show>
           </ElseIfClause>
@@ -616,9 +672,9 @@ export interface OptionsParserLogicProps {
   command: CommandTree;
 
   /**
-   * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${envPrefix}_OPTION_NAME`).
+   * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${appSpecificEnvPrefix}_OPTION_NAME`).
    */
-  envPrefix: string;
+  appSpecificEnvPrefix: string;
 
   /**
    * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command-line arguments to option names and aliases.
@@ -632,7 +688,7 @@ export interface OptionsParserLogicProps {
  * The command options parser logic.
  */
 export function OptionsParserLogic(props: OptionsParserLogicProps) {
-  const { command, envPrefix, isCaseSensitive = false } = props;
+  const { command, appSpecificEnvPrefix, isCaseSensitive = false } = props;
 
   const options = computed(() => computedOptions(command));
 
@@ -643,10 +699,22 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
         name="options"
         initializer={code` {
           ${Object.entries(options.value)
+            .filter(
+              ([, option]) =>
+                option.env ||
+                option.default !== undefined ||
+                ((option.kind === CommandParameterKinds.string ||
+                  option.kind === CommandParameterKinds.number) &&
+                  option.variadic)
+            )
             .map(([name, option]) => {
               if (option.kind === CommandParameterKinds.string) {
-                return ` ${name.includes("?") || name.includes("-") ? `"${name}"` : `${name}`}: ${
-                  option.env ? `env.${envPrefix}_${option.env}` : ""
+                return ` ${
+                  name.includes("?") || name.includes("-")
+                    ? `"${name}"`
+                    : `${name}`
+                }: ${
+                  option.env ? `env.${appSpecificEnvPrefix}_${option.env}` : ""
                 }${
                   option.variadic
                     ? option.default !== undefined
@@ -655,30 +723,32 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
                         }${JSON.stringify(option.default)}`
                       : option.env
                         ? " ?? []"
-                        : ""
+                        : "[]"
                     : option.default !== undefined
                       ? `${option.env ? " ?? " : ""}"${option.default}"`
                       : ""
                 }, `;
               } else if (option.kind === CommandParameterKinds.number) {
                 return ` ${name.includes("?") || name.includes("-") ? `"${name}"` : `${name}`}: ${
-                  option.env ? `env.${envPrefix}_${option.env}` : ""
+                  option.env ? `env.${appSpecificEnvPrefix}_${option.env}` : ""
                 }${
                   option.variadic
-                    ? option.default !== undefined
+                    ? option.default && Array.isArray(option.default)
                       ? `${
                           option.env ? " ?? " : ""
                         }${JSON.stringify(option.default)}`
                       : option.env
                         ? " ?? []"
-                        : ""
+                        : "[]"
                     : option.default !== undefined
                       ? `${option.env ? " ?? " : ""}${option.default}`
                       : ""
                 }, `;
               } else if (option.kind === CommandParameterKinds.boolean) {
                 return ` ${name.includes("?") || name.includes("-") ? `"${name}"` : `${name}`}: ${
-                  option.env ? `env.${envPrefix}_${option.env} ?? ` : ""
+                  option.env
+                    ? `env.${appSpecificEnvPrefix}_${option.env} ?? `
+                    : ""
                 }${option.default ? "true" : "false"},`;
               }
 
@@ -762,9 +832,9 @@ export interface CommandParserLogicProps {
   command: CommandTree;
 
   /**
-   * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${envPrefix}_OPTION_NAME`).
+   * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${appSpecificEnvPrefix}_OPTION_NAME`).
    */
-  envPrefix: string;
+  appSpecificEnvPrefix: string;
 
   /**
    * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command-line arguments to option names and aliases.
@@ -778,7 +848,7 @@ export interface CommandParserLogicProps {
  * The command parser logic, which includes parsing dynamic path segments, positional parameters, and options.
  */
 export function CommandParserLogic(props: CommandParserLogicProps) {
-  const { command, envPrefix, isCaseSensitive = false } = props;
+  const { command, appSpecificEnvPrefix, isCaseSensitive = false } = props;
 
   return (
     <>
@@ -789,13 +859,13 @@ export function CommandParserLogic(props: CommandParserLogicProps) {
       <Spacing />
       <OptionsParserLogic
         command={command}
-        envPrefix={envPrefix}
+        appSpecificEnvPrefix={appSpecificEnvPrefix}
         isCaseSensitive={isCaseSensitive}
       />
       <Spacing />
       <ArgumentsParserLogic
         command={command}
-        envPrefix={envPrefix}
+        appSpecificEnvPrefix={appSpecificEnvPrefix}
         isCaseSensitive={isCaseSensitive}
       />
       <Spacing />
