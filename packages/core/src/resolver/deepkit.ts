@@ -20,8 +20,7 @@ import type {
   ReflectionParameter,
   ReflectionProperty,
   Type,
-  TypeArray,
-  TypeLiteral
+  TypeArray
 } from "@powerlines/deepkit/vendor/type";
 import {
   reflect,
@@ -33,6 +32,7 @@ import {
 import { isBigInt } from "@stryke/type-checks/is-bigint";
 import { isNumber } from "@stryke/type-checks/is-number";
 import { isRegExp } from "@stryke/type-checks/is-regexp";
+import { isSetObject } from "@stryke/type-checks/is-set-object";
 import type {
   CommandArgument,
   CommandOption,
@@ -48,17 +48,19 @@ import type { ResolverContext } from "./types";
 function extractCommandParameterKind(
   type: Type | ReflectionKind
 ): CommandParameterKind {
-  if (type === ReflectionKind.string) {
+  const isKind = !(isSetObject(type) && "kind" in type);
+  const kind = !isKind ? type.kind : type;
+  if (kind === ReflectionKind.string) {
     return CommandParameterKinds.string;
   } else if (
-    type === ReflectionKind.number ||
-    type === ReflectionKind.bigint ||
-    ((type as Type).kind === ReflectionKind.literal &&
-      (isNumber((type as TypeLiteral).literal) ||
-        isBigInt((type as TypeLiteral).literal)))
+    kind === ReflectionKind.number ||
+    kind === ReflectionKind.bigint ||
+    (!isKind &&
+      type.kind === ReflectionKind.literal &&
+      (isNumber(type.literal) || isBigInt(type.literal)))
   ) {
     return CommandParameterKinds.number;
-  } else if (type === ReflectionKind.boolean) {
+  } else if (kind === ReflectionKind.boolean) {
     return CommandParameterKinds.boolean;
   } else {
     return CommandParameterKinds.string;
