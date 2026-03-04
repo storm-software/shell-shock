@@ -23,11 +23,7 @@ import { isSetString } from "@stryke/type-checks/is-set-string";
 import { isString } from "@stryke/type-checks/is-string";
 import { createDefu } from "defu";
 import { getAppTitle } from "../plugin-utils/context-helpers";
-import type {
-  CommandArgument,
-  CommandOption,
-  CommandParameterKind
-} from "../types/command";
+import type { CommandArgument, CommandParameterKind } from "../types/command";
 import { CommandParameterKinds } from "../types/command";
 import type { Context } from "../types/context";
 import type { ResolverContext } from "./types";
@@ -104,9 +100,9 @@ export function resolveCommandArgumentDescription(
   }.`;
 }
 
-export function applyOptionsDefaults(options: Record<string, CommandOption>) {
+export function applyOptionsDefaults(ctx: ResolverContext) {
   return Object.fromEntries(
-    Object.entries(options).map(([key, option]) => {
+    Object.entries(ctx.output.options).map(([key, option]) => {
       const name = option.name || key;
       const title = option.title || titleCase(name);
 
@@ -126,15 +122,20 @@ export function applyOptionsDefaults(options: Record<string, CommandOption>) {
               title,
               option.default
             ),
-          env: option.env || constantCase(key)
+          env:
+            option.env || option.env === false
+              ? option.env
+              : ctx.input.context.config.autoAssignEnv
+                ? constantCase(name)
+                : false
         }
       ];
     })
   );
 }
 
-export function applyArgsDefaults(args: CommandArgument[]): CommandArgument[] {
-  return args.map((arg, i) => {
+export function applyArgsDefaults(ctx: ResolverContext): CommandArgument[] {
+  return ctx.output.args.map((arg, i) => {
     const name = arg.name || `arg${i + 1}`;
     const title = arg.title || titleCase(name);
 
@@ -155,14 +156,16 @@ export function applyArgsDefaults(args: CommandArgument[]): CommandArgument[] {
       env: arg.name
         ? arg.env || arg.env === false
           ? arg.env
-          : constantCase(name)
+          : ctx.input.context.config.autoAssignEnv
+            ? constantCase(name)
+            : false
         : false
     };
   });
 }
 
-export function applyDefaults(context: ResolverContext) {
-  context.output.description ??= `The ${context.output.title.replace(/(?:c|C)ommands?$/, "").trim()} executable command-line interface.`;
+export function applyDefaults(ctx: ResolverContext) {
+  ctx.output.description ??= `The ${ctx.output.title.replace(/(?:c|C)ommands?$/, "").trim()} executable command-line interface.`;
 }
 
 export function resolveVirtualCommand<TContext extends Context = Context>(

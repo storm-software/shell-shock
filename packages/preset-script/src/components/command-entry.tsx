@@ -140,7 +140,7 @@ export function CommandHandlerDeclaration(
         parameters={[{ name: "args", type: "string[]", default: "useArgs()" }]}>
         <CommandParserLogic
           command={command}
-          envPrefix={context.config.envPrefix}
+          appSpecificEnvPrefix={context.config.appSpecificEnvPrefix}
           isCaseSensitive={context.config.isCaseSensitive}
         />
         <hbr />

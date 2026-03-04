@@ -77,15 +77,15 @@ type BaseOptions = Partial<BuildOptions> & {
   bin?: string | string[];
 
   /**
-   * An application specific prefix to check for environment variables.
+   * Should Shell Shock attempt to automatically assign environment variables to manipulate default values for command options based on the option name?
    *
    * @remarks
-   * If not provided, Shell Shock will convert {@link Options.name | name} to {@link https://stringcase.org/cases/constant/ | constant case} format and append an underscore (`_`). If the provided {@link Options.name | name} is `"my-app"`, environment variables starting with `"MY_APP_"` will be used - for example: `"MY_APP_CONFIG_NAME"`. If a trailing underscore already exists in the user provided value, it will result in two consecutive underscores - for example: `"MY_APP__CONFIG_NAME"` (this was done intentionally so that users who specifically want multiple underscores have a way to do so).
+   * If set to a string, Shell Shock will use the provided string as an application specific environment variable prefix, convert the option name to {@link https://stringcase.org/cases/constant/ | constant case}, and prepend the provided `string` value to determine the corresponding environment variable name. For example, if an option is named `"configPath"` and the `autoAssignEnv` is `"MY_APP_"`, Shell Shock will look for an environment variable named `"MY_APP_CONFIG_PATH"` and assign its value to the option if it exists. If set to `true`, Shell Shock will use a default environment variable prefix derived from the {@link Options.name | application name}.
    *
    * @see https://medium.com/chingu/an-introduction-to-environment-variables-and-how-to-use-them-f602f66d15fa
    * @see https://stringcase.org/cases/constant/
    */
-  envPrefix?: string;
+  autoAssignEnv?: true | string;
 };
 
 /**
@@ -135,6 +135,11 @@ export type ResolvedConfig = TsdownPluginResolvedConfig &
      * @see https://pnpm.io/package_json#bin
      */
     bin: Record<string, string>;
+
+    /**
+     * The command-line application specific environment variable prefix used for automatically assigning environment variables to command options.
+     */
+    appSpecificEnvPrefix: string;
 
     /**
      * The user configuration for the Shell Shock process.

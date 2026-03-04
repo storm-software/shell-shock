@@ -110,32 +110,36 @@ async function initialize<TContext extends Context = Context>(
 async function postprocess<TContext extends Context = Context>(
   ctx: ResolverContext<TContext>
 ): Promise<CommandTree> {
-  ctx.output.options = applyOptionsDefaults(ctx.output.options);
-  ctx.output.args = applyArgsDefaults(ctx.output.args);
+  ctx.output.options = applyOptionsDefaults(ctx);
+  ctx.output.args = applyArgsDefaults(ctx);
 
   // Ensure unique argument names by appending an index suffix to duplicates
-  ctx.output.args.forEach((argument, index) => {
-    const found = ctx.output.args.findIndex(arg => arg.name === argument.name);
+  ctx.output.args.forEach((arg, index) => {
+    const found = ctx.output.args.findIndex(a => a.name === arg.name);
     if (
       (found !== -1 && found !== index) ||
       ctx.output.segments.some(
         segment =>
           isDynamicPathSegment(segment) &&
-          getDynamicPathSegmentName(segment) === argument.name
+          getDynamicPathSegmentName(segment) === arg.name
       )
     ) {
-      argument.name += `_${
+      arg.name += `_${
         ctx.output.segments.filter(
           segment =>
             isDynamicPathSegment(segment) &&
-            getDynamicPathSegmentName(segment).replace(/_\d+$/, "") ===
-              argument.name
+            getDynamicPathSegmentName(segment).replace(/_\d+$/, "") === arg.name
         ).length +
-        ctx.output.args.filter(
-          arg => arg.name.replace(/_\d+$/, "") === argument.name
-        ).length
+        ctx.output.args.filter(a => a.name.replace(/_\d+$/, "") === arg.name)
+          .length
       }`;
-      argument.env = constantCase(argument.name);
+      arg.env = arg.name
+        ? arg.env || arg.env === false
+          ? arg.env
+          : ctx.input.context.config.autoAssignEnv
+            ? constantCase(arg.name)
+            : false
+        : false;
     }
   });
 
@@ -144,7 +148,7 @@ async function postprocess<TContext extends Context = Context>(
   if (ctx.input.context.env) {
     if (isSetObject(ctx.output.options)) {
       Object.values(ctx.output.options)
-        .filter(option => option.env !== false)
+        .filter(option => Boolean(option.env))
         .forEach(option => {
           ctx.input.context.env.types.env.addProperty({
             name: option.env as string,
@@ -165,7 +169,7 @@ async function postprocess<TContext extends Context = Context>(
     }
 
     ctx.output.args
-      .filter(arg => arg.env !== false)
+      .filter(arg => Boolean(arg.env))
       .forEach(arg =>
         ctx.input.context.env.types.env.addProperty({
           name: arg.env as string,

@@ -107,10 +107,6 @@ export const plugin = <TContext extends Context = Context>(
             description: getAppDescription(this),
             platform: "node",
             projectType: "application",
-            envPrefix: constantCase(getAppName(this)),
-            env: {
-              prefix: [] as string[]
-            },
             isCaseSensitive: false,
             output: {
               format: "esm",
@@ -138,19 +134,30 @@ export const plugin = <TContext extends Context = Context>(
           }
         );
 
-        if (!result.env.prefix || !Array.isArray(result.env.prefix)) {
-          result.env.prefix = toArray(result.env.prefix);
-        }
-        if (!result.env.prefix.includes(result.envPrefix)) {
-          result.env.prefix.push(result.envPrefix);
-        }
-
         return result;
       },
       configResolved: {
         order: "pre",
         async handler() {
           this.debug("Shell Shock configuration has been resolved.");
+
+          this.config.appSpecificEnvPrefix = isSetString(
+            this.config.autoAssignEnv
+          )
+            ? this.config.autoAssignEnv
+            : constantCase(getAppName(this));
+          if (
+            !this.config.env.prefix ||
+            !Array.isArray(this.config.env.prefix)
+          ) {
+            this.config.env.prefix = toArray(this.config.env.prefix);
+          }
+
+          if (
+            !this.config.env.prefix.includes(this.config.appSpecificEnvPrefix)
+          ) {
+            this.config.env.prefix.push(this.config.appSpecificEnvPrefix);
+          }
 
           this.config.bin = (isSetString(this.packageJson.bin)
             ? { [kebabCase(this.config.name)]: this.packageJson.bin }

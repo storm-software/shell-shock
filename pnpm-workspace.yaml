@@ -43,7 +43,7 @@ catalog:
   '@storm-software/esbuild': ^0.53.93
   '@storm-software/eslint': ^0.169.99
   '@storm-software/git-tools': ^2.124.78
-  '@storm-software/linting-tools': ^1.132.98
+  '@storm-software/linting-tools': ^1.132.99
   '@storm-software/markdownlint': ^0.30.86
   '@storm-software/pnpm-tools': ^0.6.95
   '@storm-software/prettier': ^0.58.10

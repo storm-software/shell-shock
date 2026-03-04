@@ -100,8 +100,8 @@ catalogs:
       specifier: ^2.124.78
       version: 2.124.78
     '@storm-software/linting-tools':
-      specifier: ^1.132.98
-      version: 1.132.98
+      specifier: ^1.132.99
+      version: 1.132.99
     '@storm-software/markdownlint':
       specifier: ^0.30.86
       version: 0.30.86
@@ -366,7 +366,7 @@ importers:
         version: 2.124.78(@babel/traverse@7.29.0)(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19))(@types/node@25.3.3)(verdaccio@6.2.9(typanion@3.14.0))(zod@4.3.6)
       '@storm-software/linting-tools':
         specifier: 'catalog:'
-        version: 1.132.98(chokidar@4.0.3)
+        version: 1.132.99(chokidar@4.0.3)
       '@storm-software/markdownlint':
         specifier: 'catalog:'
         version: 0.30.86
@@ -5054,8 +5054,8 @@ packages:
     peerDependencies:
       zod: '>=4.0.0'
 
-  '@storm-software/linting-tools@1.132.98':
-    resolution: {integrity: sha512-XHIQL8tR+Nau2TGgfuC9dVnHURlym3YCwFely3q125GLDMnUZ2Hk/bFWeLi5mdljv1jgUO0v5G9gwdUVUBXsew==}
+  '@storm-software/linting-tools@1.132.99':
+    resolution: {integrity: sha512-BlHPd4jWLYHGNmjVbpZKinqaPy6ZJfySP4MXcTAH6xFkkXmnRZMg96q9SLW3GMZKA0ah7vkux2fj2MtGElqIrg==}
     engines: {node: '>=22.4.0', pnpm: '>=10.3.0'}
     hasBin: true
 
@@ -11114,8 +11114,8 @@ packages:
   node-releases@1.1.77:
     resolution: {integrity: sha512-rB1DUFUNAN4Gn9keO2K1efO35IDK7yKHCdCaIMvFO7yUYmmZYeDjnGKle26G4rwj+LKRQpjyUUvMkPglwGCYNQ==}
 
-  node-releases@2.0.27:
-    resolution: {integrity: sha512-nmh3lCkYZ3grZvqcCH+fjmQ7X+H0OeZgP40OierEaAptX4XofMh5kwNbWh7lBduUzCcV/8kZ+NDLCwm2iorIlA==}
+  node-releases@2.0.36:
+    resolution: {integrity: sha512-TdC8FSgHz8Mwtw9g5L4gR/Sh9XhSP/0DEkQxfEFXOpiul5IiHgHan2VhYYb6agDSfp4KuvltmGApc8HMgUrIkA==}
 
   noms@0.0.0:
     resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
@@ -19003,7 +19003,7 @@ snapshots:
       - supports-color
       - verdaccio
 
-  '@storm-software/linting-tools@1.132.98(chokidar@4.0.3)':
+  '@storm-software/linting-tools@1.132.99(chokidar@4.0.3)':
     dependencies:
       '@angular-devkit/architect': 0.1900.6(chokidar@4.0.3)
       jiti: 2.4.2
@@ -21332,7 +21332,7 @@ snapshots:
       baseline-browser-mapping: 2.10.0
       caniuse-lite: 1.0.30001776
       electron-to-chromium: 1.5.307
-      node-releases: 2.0.27
+      node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
 
   bs-logger@0.2.6:
@@ -26838,7 +26838,7 @@ snapshots:
 
   node-releases@1.1.77: {}
 
-  node-releases@2.0.27: {}
+  node-releases@2.0.36: {}
 
   noms@0.0.0:
     dependencies:
