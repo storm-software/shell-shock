@@ -1,13 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
-  "compilerOptions": { "jsx": "preserve", "jsxImportSource": "@alloy-js/core" },
   "references": [
-    { "path": "../../packages/nx" },
-    { "path": "../../packages/core" },
-    { "path": "./tsconfig.lib.json" }
+    {
+      "path": "./tsconfig.lib.json"
+    }
   ],
-  "files": [],
-  "include": ["shell-shock.d.ts"],
-  "reflection": "default",
-  "reflectionLevel": "minimal"
+  "files": []
 }
