@@ -25,6 +25,7 @@ import {
   formatDescription,
   formatShortDescription,
   getAppBin,
+  getAppTitle,
   getDynamicPathSegmentName,
   isDynamicPathSegment,
   sortOptions
@@ -405,7 +406,10 @@ export function VirtualHelp(props: VirtualHelpProps) {
       {code`writeLine(""); `}
       <Spacing />
       <Show when={Object.keys(commands).length > 0}>
-        {code`writeLine(colors.text.body.secondary("The following commands are available:"));
+        {code`writeLine(colors.text.body.secondary("The following commands are available through the ${getAppTitle(
+          context,
+          true
+        )} command-line interface:"));
         writeLine(""); `}
         <hbr />
         <hbr />

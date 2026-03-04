@@ -176,7 +176,8 @@ export function resolveVirtualCommand<TContext extends Context = Context>(
     ctx.output.title.replace(/(?:c|C)ommands?$/, "").trim() ||
     titleCase(ctx.input.command.name)
   } commands that are included in the ${getAppTitle(
-    ctx.input.context
+    ctx.input.context,
+    true
   )} command-line application.`;
 }
 

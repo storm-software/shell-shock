@@ -24,7 +24,11 @@ import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { TypescriptFileImports } from "@powerlines/plugin-alloy/types/components";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
-import { TSDoc } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+import {
+  TSDoc,
+  TSDocRemarks,
+  TSDocReturns
+} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { getUnique } from "@stryke/helpers/get-unique";
 import { findFileName } from "@stryke/path/file-path-fns";
@@ -173,9 +177,23 @@ export function BinEntry(props: BinEntryProps) {
           </Show>
           <TSDoc
             heading={`Binary entry point for the ${getAppTitle(
-              context
-            )} CLI application.`}></TSDoc>
-          <FunctionDeclaration async returnType="any" name="main">
+              context,
+              true
+            )} command-line interface application.`}>
+            <TSDocRemarks>
+              {`This file serves as the main entry point for the binary executable of the ${getAppTitle(
+                context,
+                true
+              )} command-line interface application. It sets up the necessary environment and runs the application logic with proper exit handling. The main function is defined within this file, and the application is executed inside an asynchronous IIFE to allow for the use of async/await syntax. The file also includes signal handling for graceful shutdowns and error handling for uncaught exceptions and unhandled promise rejections.`}
+            </TSDocRemarks>
+            <TSDocReturns>
+              {`Returns a promise that resolves to either a successful result or an error object.`}
+            </TSDocReturns>
+          </TSDoc>
+          <FunctionDeclaration
+            async
+            returnType="any | { error: string | Error }"
+            name="main">
             <IfStatement condition={code`hasFlag(["version", "v"])`}>
               {code`console.log(${
                 context?.packageJson.version

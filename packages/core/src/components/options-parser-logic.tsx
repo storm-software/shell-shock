@@ -572,12 +572,12 @@ export interface OptionsMemberParserConditionProps {
   name: string;
 
   /**
-   * Aliases for the option, which will also be parsed in the generated code. This will affect how the generated code compares command line arguments to option names and aliases.
+   * Aliases for the option, which will also be parsed in the generated code. This will affect how the generated code compares command-line arguments to option names and aliases.
    */
   alias?: string[];
 
   /**
-   * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command line arguments to option names and aliases.
+   * Whether the command options should be parsed in a case-sensitive manner. This will affect how the generated code compares command-line arguments to option names and aliases.
    *
    * @defaultValue false
    */

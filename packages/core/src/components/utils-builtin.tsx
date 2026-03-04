@@ -993,7 +993,7 @@ export function ContextUtilities() {
   }
 
   /**
-   * A utility hook function to get the command line arguments from the application context.
+   * A utility hook function to get the command-line arguments from the application context.
    *
    * @returns An array of command-line arguments from the application context.
    * @throws If the application context is not available.

@@ -135,7 +135,8 @@ export function ExitFunctionDeclaration() {
         <hbr />
         {code`
               verbose(\`The ${getAppTitle(
-                context
+                context,
+                true
               )} application exited \${options.exception ? \`early due to an exception\` : "successfully"}\${options.startDate ? \`. Total processing time is \${Date.now() - options.startDate.getTime() > 5000 ? Math.floor((Date.now() - options.startDate.getTime()) / 1000) : Date.now() - options.startDate.getTime()} \${Date.now() - options.startDate.getTime() > 5000 ? "seconds" : "milliseconds"}\` : ""}...\`);
               if (!options.skipProcessExit) {
                 process.nextTick(() => process.exit(exitCode));
@@ -164,7 +165,8 @@ export function ExitFunctionDeclaration() {
             terminate();
           } catch (err) {
             error(\`The exit process failed to complete\${(err as Error)?.message ? \` - \${(err as Error).message}\` : ""}. Please contact the ${getAppTitle(
-              context
+              context,
+              true
             )} support team.\`);
 
             if (!options.skipProcessExit) {

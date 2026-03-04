@@ -76,7 +76,7 @@ export function BannerFunctionDeclaration(
     <>
       <FunctionDeclaration
         name="banner"
-        doc={`Write the ${getAppTitle(context)} application banner ${
+        doc={`Write the ${getAppTitle(context, true)} command-line interface application banner ${
           command ? `for the ${command.title} command ` : ""
         }to the console.`}>
         <BannerFunctionBodyDeclaration

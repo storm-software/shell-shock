@@ -57,7 +57,7 @@ A playground package containing a cli command-line application and project setup
 
 ## Commands
 
-The following commands are available in the Playground Command Line Interface CLI application:
+The following commands are available in the Playground CLI application:
 
 ### Remove
 

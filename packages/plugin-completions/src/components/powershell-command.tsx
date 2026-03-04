@@ -124,7 +124,7 @@ export function PowerShellCompletionsCommand() {
             $CursorPosition
         )
 
-    # Get the current command line and convert into a string
+    # Get the current command-line and convert into a string
     $Command = $CommandAst.CommandElements
     $Command = "$Command"
 

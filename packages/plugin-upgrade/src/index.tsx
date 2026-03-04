@@ -71,8 +71,9 @@ export const plugin = <
           segments: ["upgrade"],
           title: "Upgrade",
           description: `A command for checking and upgrading the version of the ${getAppTitle(
-            this
-          )}.`,
+            this,
+            true
+          )} command-line interface application.`,
           entry: {
             file: joinPaths(this.entryPath, "upgrade", "command.ts"),
             input: {

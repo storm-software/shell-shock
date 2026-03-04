@@ -45,8 +45,9 @@ export const commands = (context: Context) =>
             <Heading level={2}>Commands</Heading>
             <Spacing />
             {code`The following commands are available in the ${getAppTitle(
-              context
-            )} CLI application:`}
+              context,
+              true
+            )} command-line interface application:`}
             <Spacing />
             <For each={Object.values(context.commands)} doubleHardline>
               {child => (
