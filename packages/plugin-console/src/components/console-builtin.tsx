@@ -999,7 +999,7 @@ export function ColorsDeclaration() {
                           ansi16m={colors.ansi16m.theme.text.usage.options}
                         />
                       )},
-                      arguments: ${(
+                      args: ${(
                         <ColorFunction
                           ansi16={colors.ansi16.theme.text.usage.args}
                           ansi256={colors.ansi256.theme.text.usage.args}

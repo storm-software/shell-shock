@@ -46,7 +46,7 @@ export const theme: ThemeUserConfig = {
         command: "#4ee0a1",
         dynamic: "#8c82e3",
         options: "#ec5050",
-        arguments: "#3bcde4",
+        args: "#3bcde4",
         description: "#9ca3af"
       },
       prompt: {
