@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.12.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.12.0) (03/04/2026)
+
+### Bug Fixes
+
+- **core:** Resolved issue assigning options/args `kind` from bytecode data ([e9a7153](https://github.com/storm-software/shell-shock/commit/e9a7153))
+
+### Features
+
+- **core:** Added various helper function to assist in displaying descriptions ([2c2ff0a](https://github.com/storm-software/shell-shock/commit/2c2ff0a))
+- **core:** Added `CommandParameterType` helper component ([8391e1b](https://github.com/storm-software/shell-shock/commit/8391e1b))
+- **core:** Added the `autoAssignEnv` plugin option to disable assigning envs ([cedb508](https://github.com/storm-software/shell-shock/commit/cedb508))
+
 ## [0.11.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.11.0) (03/03/2026)
 
 ### Features

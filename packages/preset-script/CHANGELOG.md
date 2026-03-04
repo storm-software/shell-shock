@@ -2,6 +2,19 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.23](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.23) (03/04/2026)
+
+### Features
+
+- **core:** Added various helper function to assist in displaying descriptions ([2c2ff0a](https://github.com/storm-software/shell-shock/commit/2c2ff0a))
+- **core:** Added the `autoAssignEnv` plugin option to disable assigning envs ([cedb508](https://github.com/storm-software/shell-shock/commit/cedb508))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.8**
+- Updated **plugin-theme** to **v0.3.12**
+- Updated **core** to **v0.12.0**
+
 ## [0.6.22](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.22) (03/03/2026)
 
 ### Features

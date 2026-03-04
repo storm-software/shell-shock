@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.8](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.8) (03/04/2026)
+
+### Bug Fixes
+
+- **plugin-theme:** Resolve issue with invalid text color name ([b697869](https://github.com/storm-software/shell-shock/commit/b697869))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.12**
+- Updated **core** to **v0.12.0**
+
 ## [0.1.7](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.7) (03/03/2026)
 
 ### Features

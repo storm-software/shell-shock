@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.3.12](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.12) (03/04/2026)
+
+### Bug Fixes
+
+- **plugin-theme:** Resolve issue with invalid text color name ([b697869](https://github.com/storm-software/shell-shock/commit/b697869))
+
 ## [0.3.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.11) (03/03/2026)
 
 ### Features

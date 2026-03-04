@@ -2,6 +2,21 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.8.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.8.0) (03/04/2026)
+
+### Features
+
+- **preset-cli:** Update options and args prompts to use `select` when `choices` are defined ([c3a9c55](https://github.com/storm-software/shell-shock/commit/c3a9c55))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.8**
+- Updated **plugin-prompts** to **v0.3.9**
+- Updated **plugin-upgrade** to **v0.1.14**
+- Updated **preset-script** to **v0.6.23**
+- Updated **plugin-theme** to **v0.3.12**
+- Updated **core** to **v0.12.0**
+
 ## [0.7.13](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.7.13) (03/03/2026)
 
 ### Features
