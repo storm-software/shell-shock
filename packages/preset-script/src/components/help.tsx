@@ -22,6 +22,8 @@ import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { CommandOption, CommandTree } from "@shell-shock/core";
 import { CommandParameterKinds } from "@shell-shock/core";
 import {
+  formatDescription,
+  formatShortDescription,
   getAppBin,
   getDynamicPathSegmentName,
   isDynamicPathSegment,
@@ -222,14 +224,15 @@ export function HelpOptions(props: HelpOptionsProps) {
                       : option.name
                   )}${option.variadic ? "..." : ""}>`
                 : ""
-          }"), align: "right", border: "none", maxWidth: "1/3" }, { value: colors.text.body.tertiary("${option.description.replace(
-            /\.+$/,
-            ""
-          )} ${
+          }"), align: "right", border: "none", maxWidth: "1/3" }, { value: colors.text.body.tertiary(\`${formatShortDescription(
+            option.description
+          )
+            .replace(/\.+$/, "")
+            .trim()}${
             option.env || option.default !== undefined
-              ? `(${
+              ? ` (${
                   option.env
-                    ? `env: ${context.config.envPrefix}_${option.env}${
+                    ? `env: ${context.config.appSpecificEnvPrefix}_${option.env}${
                         option.default !== undefined ? ", " : ""
                       }`
                     : ""
@@ -239,7 +242,7 @@ export function HelpOptions(props: HelpOptionsProps) {
                     : ""
                 })`
               : ""
-          }."), align: "left", border: "none" }], `;
+          }.\`), align: "left", border: "none" }], `;
         }}
       </For>
       <hbr />
@@ -269,10 +272,11 @@ export function HelpCommands(props: HelpCommandsProps) {
         {child =>
           code`[{ value: colors.text.body.primary("${
             child.name
-          }"), align: "right", border: "none" }, { value: colors.text.body.tertiary("${child.description.replace(
-            /\.+$/,
-            ""
-          )}"), align: "left", border: "none" }], `
+          }"), align: "right", border: "none" }, { value: colors.text.body.tertiary(\`${formatShortDescription(
+            child.description
+          )
+            .replace(/\.+$/, "")
+            .trim()}.\`), align: "left", border: "none" }], `
         }
       </For>
       <hbr />
@@ -419,7 +423,11 @@ export function VirtualHelp(props: VirtualHelpProps) {
                     : ""
                 }"${child.title} ${child.isVirtual ? "" : "Command"}"));
                 writeLine("");
-                writeLine(colors.text.body.secondary("${child.description}"));
+                writeLine(colors.text.body.secondary(splitText(\`${formatDescription(
+                  child.description
+                )
+                  .replace(/\.+$/, "")
+                  .trim()}.\`)));
                 writeLine("");
                 `}
               <hbr />
@@ -480,7 +488,11 @@ export function CommandHelp(props: CommandHelpProps) {
                     : ""
                 }"${child.title} ${child.isVirtual ? "" : "Command"}"));
                 writeLine("");
-                writeLine(colors.text.body.secondary("${child.description}"));
+                writeLine(colors.text.body.secondary(splitText(\`${formatDescription(
+                  child.description
+                )
+                  .replace(/\.+$/, "")
+                  .trim()}.\`)));
                 writeLine("");
                 `}
               <hbr />

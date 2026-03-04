@@ -18,6 +18,7 @@
 
 export * from "./context-helpers";
 export * from "./deepkit";
+export * from "./description-helpers";
 export * from "./get-command-tree";
 export * from "./reflect";
 export * from "./traverse-command-tree";

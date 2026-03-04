@@ -22,8 +22,8 @@ catalogs:
       specifier: ^2.0.2
       version: 2.0.2
     '@eslint/config-inspector':
-      specifier: ^1.4.2
-      version: 1.4.2
+      specifier: ^1.5.0
+      version: 1.5.0
     '@ls-lint/ls-lint':
       specifier: ^2.3.1
       version: 2.3.1
@@ -91,8 +91,8 @@ catalogs:
       specifier: ^1.189.11
       version: 1.189.11
     '@storm-software/cspell':
-      specifier: ^0.45.91
-      version: 0.45.91
+      specifier: ^0.46.0
+      version: 0.46.0
     '@storm-software/eslint':
       specifier: ^0.169.99
       version: 0.169.99
@@ -357,7 +357,7 @@ importers:
         version: 1.189.11
       '@storm-software/cspell':
         specifier: 'catalog:'
-        version: 0.45.91(cspell@8.19.4)
+        version: 0.46.0(cspell@8.19.4)
       '@storm-software/eslint':
         specifier: 'catalog:'
         version: 0.169.99(41080947fed5f3238053dc01daf06045)
@@ -572,7 +572,7 @@ importers:
         version: 2.0.2(eslint@9.39.3(@types/eslint@9.6.1)(jiti@2.6.1))
       '@eslint/config-inspector':
         specifier: 'catalog:'
-        version: 1.4.2(eslint@9.39.3(@types/eslint@9.6.1)(jiti@2.6.1))
+        version: 1.5.0(eslint@9.39.3(@types/eslint@9.6.1)(jiti@2.6.1))
       '@powerlines/plugin-tsdown':
         specifier: 'catalog:'
         version: 0.1.262(@babel/core@7.29.0)(@babel/plugin-syntax-typescript@7.28.6(@babel/core@7.29.0))(@types/babel__core@7.20.5)(nx@22.5.2(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))(rolldown@1.0.0-rc.6)(rollup@4.59.0)(tsdown@0.17.0-beta.5(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.19.1)(synckit@0.11.12)(typescript@5.9.3))(typescript@5.9.3)
@@ -2774,11 +2774,11 @@ packages:
     resolution: {integrity: sha512-gBrxN88gOIf3R7ja5K9slwNayVcZgK6SOUORm2uBzTeIEfeVaIhOpCtTox3P6R7o2jLFwLFTLnC7kU/RGcYEgw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@eslint/config-inspector@1.4.2':
-    resolution: {integrity: sha512-Ay8QcvV/Tq6YDeoltwZDQsQTrcS5flPkOp4ylk1WdV7L2UGotINwjatjbAIEqBTmP3G0g3Ah8dnuHC8DsnKPYQ==}
+  '@eslint/config-inspector@1.5.0':
+    resolution: {integrity: sha512-YK/VdQ+pibx5pcCI2GPZVO6vFemf/pkB662HuFtc5AA4WLQ9upb3fAoZSjOAYoDJx58qGTDp6xq9ldd/vluNxQ==}
     hasBin: true
     peerDependencies:
-      eslint: ^8.50.0 || ^9.0.0
+      eslint: ^8.50.0 || ^9.0.0 || ^10.0.0
 
   '@eslint/core@0.14.0':
     resolution: {integrity: sha512-qIbV0/JZr7iSDjqAc60IqbLdsj9GDt16xQtWD+B78d/HAlvysGdZZ6rpJHGAc2T0FQx1X6thsSPdnoiGKdNtdg==}
@@ -5011,8 +5011,8 @@ packages:
   '@storm-software/config@1.135.12':
     resolution: {integrity: sha512-imUHXNrwaWyDkTUQZA/LDRnuX6fXXGGXk9U5PcLdHtcO9rydTM1PA4hw36fWSsi6QXCUJ0JUeGaXPpL3vFisSQ==}
 
-  '@storm-software/cspell@0.45.91':
-    resolution: {integrity: sha512-vRgDpldosRu1Kd7wpzHRoiud1kjyIM7B8xAe6GzaTxr32q9x3GdBDTArwalU88r0eCnqkjEknmL7Lh83zOfxfw==}
+  '@storm-software/cspell@0.46.0':
+    resolution: {integrity: sha512-umPne5aH4g2W5S5eweYoE7zEo8zJTkaQMZ4VqDKm1IxGHECvIu35HLlFP0LWfid26D7BHtsFYuKmpNalVCFVUg==}
     engines: {node: '>=22.4.0', pnpm: '>=10.3.0'}
     peerDependencies:
       cspell: ^8.19.4
@@ -7049,6 +7049,10 @@ packages:
   cac@6.7.14:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
     engines: {node: '>=8'}
+
+  cac@7.0.0:
+    resolution: {integrity: sha512-tixWYgm5ZoOD+3g6UTea91eow5z6AAHaho3g0V9CNSNb45gM8SmflpAc+GRd1InC4AqN/07Unrgp56Y94N9hJQ==}
+    engines: {node: '>=20.19.0'}
 
   cacheable-lookup@6.1.0:
     resolution: {integrity: sha512-KJ/Dmo1lDDhmW2XDPMo+9oiy/CeqosPguPCrgcVzKyZrL6pM1gU2GmPY/xo6OQPTUaA/c0kwHuywB4E6nmT9ww==}
@@ -15676,13 +15680,13 @@ snapshots:
     dependencies:
       '@eslint/core': 0.17.0
 
-  '@eslint/config-inspector@1.4.2(eslint@9.39.3(@types/eslint@9.6.1)(jiti@2.6.1))':
+  '@eslint/config-inspector@1.5.0(eslint@9.39.3(@types/eslint@9.6.1)(jiti@2.6.1))':
     dependencies:
       '@types/ws': 8.18.1
       ansis: 4.2.0
       bundle-require: 5.1.0(esbuild@0.27.3)
-      cac: 6.7.14
-      chokidar: 4.0.3
+      cac: 7.0.0
+      chokidar: 5.0.0
       esbuild: 0.27.3
       eslint: 9.39.3(@types/eslint@9.6.1)(jiti@2.6.1)
       h3: 1.15.5
@@ -18848,7 +18852,7 @@ snapshots:
     dependencies:
       zod: 4.3.6
 
-  '@storm-software/cspell@0.45.91(cspell@8.19.4)':
+  '@storm-software/cspell@0.46.0(cspell@8.19.4)':
     dependencies:
       cspell: 8.19.4
 
@@ -21425,6 +21429,8 @@ snapshots:
       rc9: 2.1.2
 
   cac@6.7.14: {}
+
+  cac@7.0.0: {}
 
   cacheable-lookup@6.1.0: {}
 
