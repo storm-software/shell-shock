@@ -16,9 +16,20 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./banner-function-declaration";
-export * from "./bin-entry";
-export * from "./command-entry";
-export * from "./command-router";
-export * from "./exit-function-declaration";
-export * from "./virtual-command-entry";
+import alloy from "@powerlines/plugin-alloy";
+import plugin from "@powerlines/plugin-plugin";
+import type { UserConfig } from "powerlines";
+import { defineConfig } from "powerlines/config";
+
+const config: UserConfig = defineConfig({
+  skipCache: true,
+  input: [
+    "./src/index.tsx",
+    "./src/types/*.ts",
+    "./src/components/**/*.tsx",
+    "./src/components/**/*.ts"
+  ],
+  plugins: [plugin(), alloy()]
+});
+
+export default config;

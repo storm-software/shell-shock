@@ -19,6 +19,7 @@
 import type { Children } from "@alloy-js/core";
 import { code, computed, For, Show } from "@alloy-js/core";
 import { FunctionDeclaration } from "@alloy-js/typescript";
+import { Spacing } from "@powerlines/plugin-alloy/core/components";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { TypescriptFileImports } from "@powerlines/plugin-alloy/types/components";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
@@ -43,7 +44,6 @@ import type { ScriptPresetContext } from "../types/plugin";
 import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { CommandEntry } from "./command-entry";
 import { CommandRouter } from "./command-router";
-import { VirtualHelp } from "./help";
 
 export interface VirtualCommandHandlerDeclarationProps {
   command: CommandTree;
@@ -81,19 +81,12 @@ export function VirtualCommandHandlerDeclaration(
         async
         name="handler"
         parameters={[{ name: "args", type: "string[]", default: "useArgs()" }]}>
-        <hbr />
-        <hbr />
+        <Spacing />
         {children}
-        <hbr />
-        <hbr />
+        <Spacing />
         <Show when={Boolean(banner)}>{banner}</Show>
-        <hbr />
-        <hbr />
-        <VirtualHelp
-          segments={command.segments}
-          options={Object.values(command.options)}
-          commands={command.children ?? {}}
-        />
+        <Spacing />
+        {code`return showHelp(); `}
       </FunctionDeclaration>
     </>
   );
@@ -142,16 +135,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
         )}
         builtinImports={defu(builtinImports ?? {}, {
           env: ["isDevelopment", "isDebug"],
-          console: [
-            "help",
-            "warn",
-            "error",
-            "table",
-            "colors",
-            "writeLine",
-            "splitText",
-            "stripAnsi"
-          ],
+          console: ["warn", "error", "colors", "writeLine"],
           utils: [
             "useApp",
             "useArgs",
@@ -159,11 +143,11 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             "isMinimal",
             "isUnicodeSupported",
             "findSuggestions"
-          ]
+          ],
+          [joinPaths("help", ...command.segments)]: ["showHelp"]
         })}>
         <BannerFunctionDeclaration command={command} />
-        <hbr />
-        <hbr />
+        <Spacing />
         <VirtualCommandHandlerDeclaration
           command={command}
           banner={code`banner(); `}>

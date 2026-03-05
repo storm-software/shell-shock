@@ -27,7 +27,7 @@ import type {
   StyleDictionaryPluginResolvedConfig,
   StyleDictionaryPluginUserConfig
 } from "@powerlines/plugin-style-dictionary/types";
-import type { Context } from "powerlines";
+import type { Context, ResolvedConfig, UserConfig } from "@shell-shock/core";
 import type { ThemeResolvedConfig, ThemeUserConfig } from "./theme";
 
 export type ThemePluginOptions = StyleDictionaryPluginOptions &
@@ -40,10 +40,12 @@ export type ThemePluginOptions = StyleDictionaryPluginOptions &
 
 export type ThemePluginUserConfig = StyleDictionaryPluginUserConfig &
   AlloyPluginOptions &
+  UserConfig &
   ThemePluginOptions;
 
 export type ThemePluginResolvedConfig = StyleDictionaryPluginResolvedConfig &
-  AlloyPluginResolvedConfig & {
+  AlloyPluginResolvedConfig &
+  ResolvedConfig & {
     /**
      * Resolved theme configuration for the plugin.
      */

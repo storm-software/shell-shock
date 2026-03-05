@@ -18,12 +18,13 @@
 
 import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
+import { Spacing } from "@powerlines/plugin-alloy/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
 import console from "@shell-shock/plugin-console";
+import help from "@shell-shock/plugin-help";
 import prompts from "@shell-shock/plugin-prompts";
 import upgrade from "@shell-shock/plugin-upgrade";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
-import { VirtualHelp } from "@shell-shock/preset-script/components/help";
 import type { Plugin } from "powerlines";
 import { BannerFunctionDeclaration } from "./components/banner-function-declaration";
 import { CommandEntry } from "./components/command-entry";
@@ -40,11 +41,12 @@ import type { CLIPresetContext, CLIPresetOptions } from "./types/plugin";
  */
 export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
   options: CLIPresetOptions = {}
-) => {
+): Plugin<TContext>[] => {
   return [
-    console(options),
-    prompts(options),
-    options.upgrade !== false && upgrade(options.upgrade),
+    ...console<TContext>(options),
+    ...help<TContext>(options.help),
+    ...prompts<TContext>(options),
+    upgrade<TContext>(options.upgrade),
     {
       name: "shell-shock:cli-preset",
       config() {
@@ -134,12 +136,8 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                 </Show>
                 <hbr />
                 {code`await banner(0, false);`}
-                <hbr />
-                <hbr />
-                <VirtualHelp
-                  options={this.options}
-                  commands={this.commands ?? {}}
-                />
+                <Spacing />
+                {code`return showHelp(); `}
               </BinEntry>
               <Show when={Object.values(this.commands).length > 0}>
                 <For each={Object.values(this.commands)} doubleHardline>
@@ -157,7 +155,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
         }
       }
     }
-  ] as Plugin<TContext>[];
+  ];
 };
 
 export default plugin;

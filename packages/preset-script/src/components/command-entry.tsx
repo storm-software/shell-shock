@@ -57,7 +57,6 @@ import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
 import { BannerFunctionDeclaration } from "./banner-function-declaration";
-import { CommandHelp } from "./help";
 import { VirtualCommandEntry } from "./virtual-command-entry";
 
 export function CommandInvocation(props: { command: CommandTree }) {
@@ -143,11 +142,9 @@ export function CommandHandlerDeclaration(
           appSpecificEnvPrefix={context.config.appSpecificEnvPrefix}
           isCaseSensitive={context.config.isCaseSensitive}
         />
-        <hbr />
-        <hbr />
+        <Spacing />
         <Show when={Boolean(banner)}>{banner}</Show>
-        <hbr />
-        <hbr />
+        <Spacing />
         <IfStatement condition={<IsDebug />}>
           {code`writeLine("");
           writeLine(colors.text.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console."));
@@ -182,13 +179,11 @@ export function CommandHandlerDeclaration(
           }\`);
           writeLine(""); `}
         </IfStatement>
-        <hbr />
-        <hbr />
+        <Spacing />
         {children}
-        <hbr />
-        <hbr />
+        <Spacing />
         <IfStatement condition={code`options.help`}>
-          <CommandHelp command={command} />
+          {code`return showHelp(); `}
         </IfStatement>
         <ElseClause>
           <hbr />
@@ -380,30 +375,20 @@ export function CommandEntry(props: CommandEntryProps) {
         })}
         builtinImports={defu(builtinImports ?? {}, {
           env: ["env", "isDevelopment", "isDebug"],
-          console: [
-            "debug",
-            "warn",
-            "error",
-            "table",
-            "colors",
-            "stripAnsi",
-            "writeLine",
-            "splitText"
-          ],
+          console: ["debug", "warn", "error", "colors", "writeLine"],
           utils: [
             "useArgs",
             "hasFlag",
             "isMinimal",
             "isUnicodeSupported",
             "internal_commandContext"
-          ]
+          ],
+          [joinPaths("help", ...command.segments)]: ["showHelp"]
         })}>
         <BannerFunctionDeclaration command={command} />
-        <hbr />
-        <hbr />
+        <Spacing />
         <OptionsInterfaceDeclaration command={command} />
-        <hbr />
-        <hbr />
+        <Spacing />
         <CommandHandlerDeclaration command={command} banner={code`banner(); `}>
           <CommandValidationLogic command={command} />
         </CommandHandlerDeclaration>

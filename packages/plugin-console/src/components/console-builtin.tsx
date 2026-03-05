@@ -3240,8 +3240,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
             throw new Error(\`Invalid width size: \${size}\`);
           `}
         </ElseClause>
-        <hbr />
-        <hbr />
+        <Spacing />
       </FunctionDeclaration>
 
       <TypeDeclaration
@@ -3459,8 +3458,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
             (Array.isArray(options) && !options.every(item => typeof item === "object" || typeof item === "string" || Array.isArray(item))) `}>
           {code`return;`}
         </IfStatement>
-        <hbr />
-        <hbr />
+        <Spacing />
         <VarDeclaration
           let
           name="cells"

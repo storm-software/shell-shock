@@ -117,11 +117,9 @@ export function FindSuggestionsDeclaration() {
             "This function is intended to be used to suggest corrections for potentially misspelled options or commands."
           }
         </TSDocRemarks>
-        <hbr />
-        <hbr />
+        <Spacing />
         <TSDocInternal />
-        <hbr />
-        <hbr />
+        <Spacing />
         <TSDocParam name="input">
           {"The input string to check for potential matches."}
         </TSDocParam>
@@ -597,11 +595,9 @@ export function ArgsUtilities() {
             "This function is only intended for internal use. Please use `useArgs()` instead."
           }
         </TSDocRemarks>
-        <hbr />
-        <hbr />
+        <Spacing />
         <TSDocInternal />
-        <hbr />
-        <hbr />
+        <Spacing />
         <TSDocReturns>
           {
             "An array of command-line arguments from Deno or Node.js environments."

@@ -1,0 +1,174 @@
+{
+  "name": "@shell-shock/plugin-help",
+  "version": "0.0.1",
+  "private": false,
+  "description": "A package containing a Shell Shock plugin to provide help and documentation for the local application's commands.",
+  "keywords": [
+    "style-dictionary",
+    "shell-shock",
+    "shell-shock-plugin",
+    "powerlines",
+    "storm-software"
+  ],
+  "homepage": "https://stormsoftware.com",
+  "bugs": {
+    "url": "https://stormsoftware.com/support",
+    "email": "support@stormsoftware.com"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/shell-shock.git",
+    "directory": "packages/plugin-help"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Storm Software",
+    "email": "contact@stormsoftware.com",
+    "url": "https://stormsoftware.com"
+  },
+  "maintainers": [
+    {
+      "name": "Storm Software",
+      "email": "contact@stormsoftware.com",
+      "url": "https://stormsoftware.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Storm Software",
+      "email": "contact@stormsoftware.com",
+      "url": "https://stormsoftware.com"
+    }
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "typings": "dist/index.d.mts",
+  "files": ["dist/**/*"],
+  "dependencies": {
+    "@alloy-js/core": "catalog:",
+    "@alloy-js/typescript": "catalog:",
+    "@powerlines/deepkit": "catalog:",
+    "@powerlines/plugin-alloy": "catalog:",
+    "@powerlines/plugin-plugin": "catalog:",
+    "@shell-shock/core": "workspace:*",
+    "@shell-shock/plugin-theme": "workspace:*",
+    "@shell-shock/plugin-console": "workspace:*",
+    "@stryke/path": "catalog:",
+    "defu": "catalog:",
+    "powerlines": "catalog:"
+  },
+  "devDependencies": {
+    "@powerlines/plugin-deepkit": "catalog:",
+    "@types/node": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "default": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./*": "./*",
+    "./components": {
+      "require": {
+        "types": "./dist/components/index.d.cts",
+        "default": "./dist/components/index.cjs"
+      },
+      "import": {
+        "types": "./dist/components/index.d.mts",
+        "default": "./dist/components/index.mjs"
+      },
+      "default": {
+        "types": "./dist/components/index.d.mts",
+        "default": "./dist/components/index.mjs"
+      }
+    },
+    "./components/display": {
+      "require": {
+        "types": "./dist/components/display.d.cts",
+        "default": "./dist/components/display.cjs"
+      },
+      "import": {
+        "types": "./dist/components/display.d.mts",
+        "default": "./dist/components/display.mjs"
+      },
+      "default": {
+        "types": "./dist/components/display.d.mts",
+        "default": "./dist/components/display.mjs"
+      }
+    },
+    "./components/help-builtin": {
+      "require": {
+        "types": "./dist/components/help-builtin.d.cts",
+        "default": "./dist/components/help-builtin.cjs"
+      },
+      "import": {
+        "types": "./dist/components/help-builtin.d.mts",
+        "default": "./dist/components/help-builtin.mjs"
+      },
+      "default": {
+        "types": "./dist/components/help-builtin.d.mts",
+        "default": "./dist/components/help-builtin.mjs"
+      }
+    },
+    "./components/help-command": {
+      "require": {
+        "types": "./dist/components/help-command.d.cts",
+        "default": "./dist/components/help-command.cjs"
+      },
+      "import": {
+        "types": "./dist/components/help-command.d.mts",
+        "default": "./dist/components/help-command.mjs"
+      },
+      "default": {
+        "types": "./dist/components/help-command.d.mts",
+        "default": "./dist/components/help-command.mjs"
+      }
+    },
+    "./types": {
+      "require": {
+        "types": "./dist/types/index.d.cts",
+        "default": "./dist/types/index.cjs"
+      },
+      "import": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/types/index.mjs"
+      },
+      "default": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/types/index.mjs"
+      }
+    },
+    "./types/plugin": {
+      "require": {
+        "types": "./dist/types/plugin.d.cts",
+        "default": "./dist/types/plugin.cjs"
+      },
+      "import": {
+        "types": "./dist/types/plugin.d.mts",
+        "default": "./dist/types/plugin.mjs"
+      },
+      "default": {
+        "types": "./dist/types/plugin.d.mts",
+        "default": "./dist/types/plugin.mjs"
+      }
+    }
+  }
+}

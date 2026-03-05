@@ -19,22 +19,32 @@
 import type { AlloyPluginContext } from "@powerlines/plugin-alloy/types/plugin";
 import type {
   CommandBase,
-  CommandOption
-} from "@shell-shock/core/types/command";
-import type {
+  CommandOption,
+  Context,
   Options,
   ResolvedConfig,
   UserConfig
-} from "@shell-shock/core/types/config";
-import type { Context } from "@shell-shock/core/types/context";
+} from "@shell-shock/core";
+import type {
+  ConsolePluginContext,
+  ConsolePluginOptions,
+  ConsolePluginResolvedConfig,
+  ConsolePluginUserConfig
+} from "@shell-shock/plugin-console";
+import type {
+  HelpPluginContext,
+  HelpPluginOptions,
+  HelpPluginResolvedConfig,
+  HelpPluginUserConfig
+} from "@shell-shock/plugin-help";
 import type {
   ThemePluginContext,
   ThemePluginOptions,
-  ThemePluginResolvedConfig
-} from "@shell-shock/plugin-theme/types/plugin";
+  ThemePluginResolvedConfig,
+  ThemePluginUserConfig
+} from "@shell-shock/plugin-theme";
 
-export interface ScriptPresetOptions
-  extends Omit<Options, "defaultOptions">, Partial<ThemePluginOptions> {
+export interface ScriptPresetOptions extends Omit<Options, "defaultOptions"> {
   /**
    * A set of default command options to apply to each command.
    *
@@ -50,17 +60,40 @@ export interface ScriptPresetOptions
     | CommandOption[]
     | ((context: Context, input: CommandBase) => CommandOption[])
     | false;
+
+  /**
+   * Theme plugin options.
+   */
+  theme?: ThemePluginOptions;
+
+  /**
+   * Console plugin options.
+   */
+  console?: ConsolePluginOptions;
+
+  /**
+   * Help plugin options.
+   */
+  help?: Omit<HelpPluginOptions, "theme" | "console">;
 }
 
-export type ScriptPresetUserConfig = UserConfig & ScriptPresetOptions;
+export type ScriptPresetUserConfig = UserConfig &
+  ScriptPresetOptions &
+  ThemePluginUserConfig &
+  ConsolePluginUserConfig &
+  HelpPluginUserConfig;
 
 export type ScriptPresetResolvedConfig = ResolvedConfig &
-  Required<Omit<ScriptPresetOptions, "theme">> &
-  ThemePluginResolvedConfig;
+  Required<Omit<ScriptPresetOptions, "theme" | "console">> &
+  ThemePluginResolvedConfig &
+  ConsolePluginResolvedConfig &
+  HelpPluginResolvedConfig;
 
 export type ScriptPresetContext<
   TResolvedConfig extends ScriptPresetResolvedConfig =
     ScriptPresetResolvedConfig
 > = AlloyPluginContext<TResolvedConfig> &
+  Context<TResolvedConfig> &
   ThemePluginContext<TResolvedConfig> &
-  Context<TResolvedConfig>;
+  ConsolePluginContext<TResolvedConfig> &
+  HelpPluginContext<TResolvedConfig>;

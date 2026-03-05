@@ -144,20 +144,6 @@
         "default": "./dist/components/exit-function-declaration.mjs"
       }
     },
-    "./components/help": {
-      "require": {
-        "types": "./dist/components/help.d.cts",
-        "default": "./dist/components/help.cjs"
-      },
-      "import": {
-        "types": "./dist/components/help.d.mts",
-        "default": "./dist/components/help.mjs"
-      },
-      "default": {
-        "types": "./dist/components/help.d.mts",
-        "default": "./dist/components/help.mjs"
-      }
-    },
     "./components/virtual-command-entry": {
       "require": {
         "types": "./dist/components/virtual-command-entry.d.cts",

@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { computed, For, Show } from "@alloy-js/core";
+import { Spacing } from "@powerlines/plugin-alloy/core/components";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { TypescriptFileImports } from "@powerlines/plugin-alloy/types/components";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
@@ -99,8 +100,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
           prompts: ["text", "numeric", "toggle", "select", "isCancel", "sleep"]
         })}>
         <BannerFunctionDeclaration command={command} />
-        <hbr />
-        <hbr />
+        <Spacing />
         <VirtualCommandHandlerDeclaration command={command}>
           <CommandRouter
             segments={command.segments}

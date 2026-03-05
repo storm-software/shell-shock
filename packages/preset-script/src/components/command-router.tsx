@@ -85,8 +85,7 @@ export function CommandRouter(props: CommandRouterProps) {
           } && args[${index.value}]`}>{code`command = args[${
           index.value
         }];`}</IfStatement>
-        <hbr />
-        <hbr />
+        <Spacing />
       </Show>
       <CommandRouterBody
         segments={segments}

@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { AlloyPluginContext } from "@powerlines/plugin-alloy/types";
-import type { Context, ResolvedConfig } from "@shell-shock/core";
+import type { Context, ResolvedConfig, UserConfig } from "@shell-shock/core";
 import type {
   ThemePluginContext,
   ThemePluginOptions,
@@ -27,7 +27,7 @@ import type {
 
 export interface ConsolePluginOptions extends ThemePluginOptions {}
 
-export type ConsolePluginUserConfig = ThemePluginUserConfig & {};
+export type ConsolePluginUserConfig = ThemePluginUserConfig & UserConfig & {};
 
 export type ConsolePluginResolvedConfig = ResolvedConfig &
   ThemePluginResolvedConfig;

@@ -129,11 +129,11 @@ export function CommandEntry(props: CommandEntryProps) {
             "isCancel",
             "sleep"
           ],
+          help: ["showHelp"],
           upgrade: ["checkForUpdates", "isCheckForUpdatesRequired", "upgrade"]
         })}>
         <BannerFunctionDeclaration command={command} />
-        <hbr />
-        <hbr />
+        <Spacing />
         <CommandHandlerDeclaration
           command={command}
           banner={code`await banner(); `}>

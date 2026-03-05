@@ -18,10 +18,12 @@
 
 import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
+import { Spacing } from "@powerlines/plugin-alloy/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
 import console from "@shell-shock/plugin-console";
+import help from "@shell-shock/plugin-help";
 import type { Plugin } from "powerlines";
-import { BannerFunctionDeclaration, VirtualHelp } from "./components";
+import { BannerFunctionDeclaration } from "./components";
 import { BinEntry } from "./components/bin-entry";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
@@ -38,7 +40,8 @@ export const plugin = <
   options: ScriptPresetOptions = {}
 ) => {
   return [
-    console(options),
+    console(options.console),
+    ...help(options.help),
     {
       name: "shell-shock:script-preset",
       config() {
@@ -95,15 +98,10 @@ export const plugin = <
                   <CommandRouter segments={[]} commands={this.commands ?? {}} />
                   <hbr />
                 </Show>
-                <hbr />
-                <hbr />
+                <Spacing />
                 {code`banner();`}
-                <hbr />
-                <hbr />
-                <VirtualHelp
-                  options={this.options}
-                  commands={this.commands ?? {}}
-                />
+                <Spacing />
+                {code`return showHelp();`}
               </BinEntry>
               <Show when={Object.values(this.commands).length > 0}>
                 <For each={Object.values(this.commands)} doubleHardline>

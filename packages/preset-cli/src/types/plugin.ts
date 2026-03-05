@@ -16,19 +16,41 @@
 
  ------------------------------------------------------------------- */
 
-import type { CommandBase, CommandOption, Context } from "@shell-shock/core";
-import type { PromptsPluginContext } from "@shell-shock/plugin-prompts/types/plugin";
 import type {
+  CommandBase,
+  CommandOption,
+  Context,
+  UserConfig
+} from "@shell-shock/core";
+import type {
+  ConsolePluginContext,
+  ConsolePluginResolvedConfig,
+  ConsolePluginUserConfig
+} from "@shell-shock/plugin-console";
+import type {
+  HelpPluginContext,
+  HelpPluginOptions,
+  HelpPluginResolvedConfig,
+  HelpPluginUserConfig
+} from "@shell-shock/plugin-help";
+import type {
+  PromptsPluginContext,
+  PromptsPluginResolvedConfig,
+  PromptsPluginUserConfig
+} from "@shell-shock/plugin-prompts/types/plugin";
+import type {
+  ThemePluginContext,
   ThemePluginResolvedConfig,
   ThemePluginUserConfig
 } from "@shell-shock/plugin-theme/types/plugin";
-import type { UpgradePluginOptions } from "@shell-shock/plugin-upgrade/types/plugin";
 import type {
-  ScriptPresetContext,
-  ScriptPresetOptions,
-  ScriptPresetResolvedConfig,
-  ScriptPresetUserConfig
-} from "@shell-shock/preset-script/types/plugin";
+  UpgradePluginContext,
+  UpgradePluginOptions,
+  UpgradePluginResolvedConfig,
+  UpgradePluginUserConfig
+} from "@shell-shock/plugin-upgrade/types/plugin";
+import type { ScriptPresetOptions } from "@shell-shock/preset-script/types/plugin";
+import type { ResolvedConfig } from "powerlines";
 
 export type UpgradeType = "confirm" | "auto" | "manual";
 
@@ -86,15 +108,28 @@ export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> & {
    * @remarks
    * The upgrade command allows users to check for and perform upgrades to the latest version of the application. If you would like to include the upgrade command in your CLI application, but manage its configuration separately, you can set this field to `true` and configure the upgrade plugin directly in your application's configuration.
    */
-  upgrade?: CLIPresetUpgradeOptions | false;
+  upgrade?: CLIPresetUpgradeOptions;
+
+  /**
+   * Configuration options for the `@shell-shock/plugin-help` package. If not set, the plugin will be included with default options.
+   */
+  help?: Omit<HelpPluginOptions, "theme" | "console">;
 };
 
-export type CLIPresetUserConfig = ScriptPresetUserConfig &
+export type CLIPresetUserConfig = UserConfig &
   ThemePluginUserConfig &
+  ConsolePluginUserConfig &
+  PromptsPluginUserConfig &
+  HelpPluginUserConfig &
+  UpgradePluginUserConfig &
   CLIPresetOptions;
 
-export type CLIPresetResolvedConfig = ScriptPresetResolvedConfig &
+export type CLIPresetResolvedConfig = ResolvedConfig &
   ThemePluginResolvedConfig &
+  ConsolePluginResolvedConfig &
+  PromptsPluginResolvedConfig &
+  HelpPluginResolvedConfig &
+  UpgradePluginResolvedConfig &
   Required<Pick<CLIPresetOptions, "interactive" | "defaultOptions">> & {
     /**
      * Whether to include the upgrade process provided by the `@shell-shock/plugin-upgrade` package. If not set to `false`, the upgrade command will be included with default options. If set to an object, the provided options will be used to configure the upgrade command. If set to `false`, the upgrade command will not be included.
@@ -107,4 +142,9 @@ export type CLIPresetResolvedConfig = ScriptPresetResolvedConfig &
 
 export type CLIPresetContext<
   TResolvedConfig extends CLIPresetResolvedConfig = CLIPresetResolvedConfig
-> = PromptsPluginContext & ScriptPresetContext<TResolvedConfig>;
+> = Context<TResolvedConfig> &
+  ThemePluginContext<TResolvedConfig> &
+  ConsolePluginContext<TResolvedConfig> &
+  PromptsPluginContext<TResolvedConfig> &
+  HelpPluginContext<TResolvedConfig> &
+  UpgradePluginContext<TResolvedConfig>;

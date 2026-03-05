@@ -19,6 +19,7 @@
 import type { CommandTree } from "../types/command";
 import type { Context } from "../types/context";
 import { isDynamicPathSegment } from "./context-helpers";
+import { traverseCommands } from "./traverse-command-tree";
 
 /**
  * Retrieves a specific command tree based on the provided path.
@@ -53,4 +54,19 @@ export function getCommandTree(
   }
 
   return currentTree;
+}
+
+/**
+ * Retrieves a list of all command trees defined in the context.
+ *
+ * @param context - The build context containing the command definitions.
+ * @returns A promise that resolves to an array of all command trees in the context.
+ */
+export async function getCommandList(context: Context): Promise<CommandTree[]> {
+  const commandList: CommandTree[] = [];
+  await traverseCommands(context, commandTree => {
+    commandList.push(commandTree);
+  });
+
+  return commandList;
 }

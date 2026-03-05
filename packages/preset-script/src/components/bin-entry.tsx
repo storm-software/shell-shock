@@ -167,7 +167,8 @@ export function BinEntry(props: BinEntryProps) {
               "internal_appContext",
               "getArgs",
               "findSuggestions"
-            ]
+            ],
+            help: ["showHelp"]
           })}>
           <ExitFunctionDeclaration />
           <Spacing />
@@ -200,7 +201,7 @@ export function BinEntry(props: BinEntryProps) {
                   ? `"${context?.packageJson.version}"`
                   : "0.0.1"
               });
-          return;`}
+              return; `}
             </IfStatement>
             <Spacing />
             {children}

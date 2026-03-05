@@ -4,16 +4,18 @@
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
     "jsx": "preserve",
     "jsxImportSource": "@alloy-js/core",
-    "types": ["node"],
-    "outDir": "./out-tsc",
-    "sourceMap": true
+    "outDir": "./out-tsc"
   },
   "references": [
-    { "path": "../plugin-help/tsconfig.lib.json" },
-    { "path": "../plugin-theme/tsconfig.lib.json" },
     { "path": "../plugin-console/tsconfig.lib.json" },
+    { "path": "../plugin-theme/tsconfig.lib.json" },
     { "path": "../core/tsconfig.lib.json" }
   ],
-  "include": ["src/**/*.ts", "src/**/*.tsx", "powerlines.config.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "powerlines.config.ts",
+    "powerlines.d.ts"
+  ],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

@@ -46,7 +46,6 @@ export function BannerFunctionDeclaration(
   const { consoleFnName = "log", variant = "primary", command } = props;
 
   const theme = useTheme();
-
   const context = usePowerlines<CLIPresetContext>();
 
   const header = computed(

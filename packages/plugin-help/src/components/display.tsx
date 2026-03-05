@@ -33,9 +33,9 @@ import {
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { snakeCase } from "@stryke/string-format/snake-case";
-import type { ScriptPresetContext } from "../types/plugin";
+import type { HelpPluginContext } from "../types/plugin";
 
-export interface HelpUsageProps {
+export interface HelpUsageDisplayProps {
   /**
    * The command to generate help for.
    */
@@ -55,10 +55,10 @@ export interface HelpUsageProps {
 /**
  * A component that generates the usage display for a command.
  */
-export function HelpUsage(props: HelpUsageProps) {
+export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
   const { command, indent = 2 } = props;
 
-  const context = usePowerlines<ScriptPresetContext>();
+  const context = usePowerlines<HelpPluginContext>();
   const theme = useTheme();
 
   return (
@@ -168,7 +168,7 @@ export function HelpUsage(props: HelpUsageProps) {
   );
 }
 
-export interface HelpOptionsProps {
+export interface HelpOptionsDisplayProps {
   /**
    * The options to display help for.
    */
@@ -178,10 +178,10 @@ export interface HelpOptionsProps {
 /**
  * A component that generates the options table display for a command.
  */
-export function HelpOptions(props: HelpOptionsProps) {
+export function HelpOptionsDisplay(props: HelpOptionsDisplayProps) {
   const { options } = props;
 
-  const context = usePowerlines<ScriptPresetContext>();
+  const context = usePowerlines<HelpPluginContext>();
 
   return (
     <>
@@ -252,7 +252,7 @@ export function HelpOptions(props: HelpOptionsProps) {
   );
 }
 
-export interface HelpCommandsProps {
+export interface HelpCommandsDisplayProps {
   /**
    * A mapping of command names to their command definitions.
    */
@@ -262,7 +262,7 @@ export interface HelpCommandsProps {
 /**
  * A component that generates the commands table display for a command.
  */
-export function HelpCommands(props: HelpCommandsProps) {
+export function HelpCommandsDisplay(props: HelpCommandsDisplayProps) {
   const { commands } = props;
 
   return (
@@ -286,7 +286,7 @@ export function HelpCommands(props: HelpCommandsProps) {
   );
 }
 
-export interface BaseHelpProps {
+export interface BaseHelpDisplayProps {
   /**
    * The command to generate help for.
    */
@@ -316,11 +316,11 @@ export interface BaseHelpProps {
 /**
  * A component that generates the `help` function declaration for a command.
  */
-export function BaseHelp(props: BaseHelpProps) {
+export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
   const { command, indent = 1, filterGlobalOptions = false } = props;
 
   const theme = useTheme();
-  const context = usePowerlines<ScriptPresetContext>();
+  const context = usePowerlines<HelpPluginContext>();
 
   const options = computed(() =>
     filterGlobalOptions
@@ -343,7 +343,7 @@ export function BaseHelp(props: BaseHelpProps) {
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
       <hbr />
-      <HelpUsage command={command} indent={indent} />
+      <HelpUsageDisplay command={command} indent={indent} />
       <Spacing />
       <Show when={options.value.length > 0}>
         {code`writeLine("");
@@ -351,9 +351,8 @@ export function BaseHelp(props: BaseHelpProps) {
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
         <hbr />
-        <HelpOptions options={options.value} />
-        <hbr />
-        <hbr />
+        <HelpOptionsDisplay options={options.value} />
+        <Spacing />
       </Show>
       <Show when={Object.keys(command.children).length > 0}>
         {code`writeLine("");
@@ -361,15 +360,14 @@ export function BaseHelp(props: BaseHelpProps) {
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
         <hbr />
-        <HelpCommands commands={command.children} />
-        <hbr />
-        <hbr />
+        <HelpCommandsDisplay commands={command.children} />
+        <Spacing />
       </Show>
     </>
   );
 }
 
-export interface VirtualHelpProps {
+export interface VirtualCommandHelpDisplayProps {
   /**
    * The options to display help for.
    */
@@ -392,17 +390,19 @@ export interface VirtualHelpProps {
 /**
  * A component that generates the invocation of the `help` function for a command.
  */
-export function VirtualHelp(props: VirtualHelpProps) {
+export function VirtualCommandHelpDisplay(
+  props: VirtualCommandHelpDisplayProps
+) {
   const { options, segments, commands } = props;
 
-  const context = usePowerlines<ScriptPresetContext>();
+  const context = usePowerlines<HelpPluginContext>();
 
   return (
     <>
       <hbr />
       {code`writeLine(colors.bold(colors.text.heading.secondary("Global Options:")));`}
       <hbr />
-      <HelpOptions options={options} />
+      <HelpOptionsDisplay options={options} />
       {code`writeLine(""); `}
       <Spacing />
       <Show when={Object.keys(commands).length > 0}>
@@ -411,8 +411,7 @@ export function VirtualHelp(props: VirtualHelpProps) {
           true
         )} command-line interface:"));
         writeLine(""); `}
-        <hbr />
-        <hbr />
+        <Spacing />
         <For
           each={Object.values(commands)}
           doubleHardline
@@ -435,7 +434,7 @@ export function VirtualHelp(props: VirtualHelpProps) {
                 writeLine("");
                 `}
               <hbr />
-              <BaseHelp command={child} indent={2} filterGlobalOptions />
+              <BaseHelpDisplay command={child} indent={2} filterGlobalOptions />
               <hbr />
             </>
           )}
@@ -451,7 +450,7 @@ export function VirtualHelp(props: VirtualHelpProps) {
   );
 }
 
-export interface CommandHelpProps {
+export interface CommandHelpDisplayProps {
   /**
    * A mapping of command names to their command definitions.
    */
@@ -461,23 +460,22 @@ export interface CommandHelpProps {
 /**
  * A component that generates the invocation of the `help` function for a command.
  */
-export function CommandHelp(props: CommandHelpProps) {
+export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
   const { command } = props;
 
-  const context = usePowerlines<ScriptPresetContext>();
+  const context = usePowerlines<HelpPluginContext>();
 
   return (
     <>
       {code`writeLine(""); `}
       <Spacing />
-      <BaseHelp command={command} filterGlobalOptions={false} />
+      <BaseHelpDisplay command={command} filterGlobalOptions={false} />
       {code`writeLine(""); `}
       <Spacing />
       <Show when={Object.keys(command.children).length > 0}>
         {code`writeLine(colors.text.body.secondary("The following sub-commands are available:"));
         writeLine(""); `}
-        <hbr />
-        <hbr />
+        <Spacing />
         <For
           each={Object.values(command.children)}
           doubleHardline
@@ -500,7 +498,7 @@ export function CommandHelp(props: CommandHelpProps) {
                 writeLine("");
                 `}
               <hbr />
-              <BaseHelp command={child} indent={2} filterGlobalOptions />
+              <BaseHelpDisplay command={child} indent={2} filterGlobalOptions />
               <hbr />
             </>
           )}

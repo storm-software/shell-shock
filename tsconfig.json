@@ -28,6 +28,9 @@
       "path": "./packages/plugin-prompts"
     },
     {
+      "path": "./packages/plugin-help"
+    },
+    {
       "path": "./packages/plugin-upgrade"
     },
     {

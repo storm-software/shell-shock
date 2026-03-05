@@ -33,7 +33,7 @@ import { spinners } from "./style-dictionary/spinners";
 import { theme as defaultTheme } from "./themes/default";
 import type { ThemePluginContext, ThemePluginOptions } from "./types/plugin";
 
-export * from "./types";
+export type * from "./types";
 
 /**
  * The Style Dictionary - Shell Shock plugin to use Style Dictionary tokens to select theme colors to Shell Shock projects.
