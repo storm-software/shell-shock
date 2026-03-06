@@ -28,7 +28,10 @@ import {
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import type { CommandTree } from "@shell-shock/core";
-import { getAppTitle } from "@shell-shock/core/plugin-utils";
+import {
+  getAppTitle,
+  isDynamicPathSegment
+} from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
 import defu from "defu";
 import type { HelpPluginContext } from "../types";
@@ -85,7 +88,10 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
 
   return (
     <BuiltinFile
-      id={joinPaths("help", ...command.segments)}
+      id={joinPaths(
+        "help",
+        ...command.segments.filter(segment => !isDynamicPathSegment(segment))
+      )}
       description={
         command.path
           ? `A collection of utility functions that assist in displaying help information for the ${
@@ -98,6 +104,7 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
       }
       {...rest}
       builtinImports={defu(rest.builtinImports ?? {}, {
+        utils: ["isUnicodeSupported"],
         console: ["splitText", "writeLine", "colors", "help", "table"]
       })}>
       <FunctionDeclaration

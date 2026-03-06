@@ -44,38 +44,26 @@ import type {
   ThemePluginUserConfig
 } from "@shell-shock/plugin-theme";
 
-export interface ScriptPresetOptions extends Omit<Options, "defaultOptions"> {
-  /**
-   * A set of default command options to apply to each command.
-   *
-   * @remarks
-   * By default, Shell Shock adds the following set of default arguments to each command:
-   * - `--help` (`-h`, `-?`): Show help information.
-   * - `--version` (`-v`): Show the version of the application.
-   * - `--verbose`: Enable verbose output.
-   *
-   * To disable the addition of these default options, set this property to `false`, or provide a custom set of options/a function that returns them.
-   */
-  defaultOptions?:
-    | CommandOption[]
-    | ((context: Context, input: CommandBase) => CommandOption[])
-    | false;
-
-  /**
-   * Theme plugin options.
-   */
-  theme?: ThemePluginOptions;
-
-  /**
-   * Console plugin options.
-   */
-  console?: ConsolePluginOptions;
-
-  /**
-   * Help plugin options.
-   */
-  help?: Omit<HelpPluginOptions, "theme" | "console">;
-}
+export type ScriptPresetOptions = Omit<Options, "defaultOptions"> &
+  ThemePluginOptions &
+  ConsolePluginOptions &
+  HelpPluginOptions & {
+    /**
+     * A set of default command options to apply to each command.
+     *
+     * @remarks
+     * By default, Shell Shock adds the following set of default arguments to each command:
+     * - `--help` (`-h`, `-?`): Show help information.
+     * - `--version` (`-v`): Show the version of the application.
+     * - `--verbose`: Enable verbose output.
+     *
+     * To disable the addition of these default options, set this property to `false`, or provide a custom set of options/a function that returns them.
+     */
+    defaultOptions?:
+      | CommandOption[]
+      | ((context: Context, input: CommandBase) => CommandOption[])
+      | false;
+  };
 
 export type ScriptPresetUserConfig = UserConfig &
   ScriptPresetOptions &
@@ -84,7 +72,7 @@ export type ScriptPresetUserConfig = UserConfig &
   HelpPluginUserConfig;
 
 export type ScriptPresetResolvedConfig = ResolvedConfig &
-  Required<Omit<ScriptPresetOptions, "theme" | "console">> &
+  ScriptPresetOptions &
   ThemePluginResolvedConfig &
   ConsolePluginResolvedConfig &
   HelpPluginResolvedConfig;

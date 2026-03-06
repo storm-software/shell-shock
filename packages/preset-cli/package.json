@@ -116,6 +116,20 @@
         "default": "./dist/components/command-router.mjs"
       }
     },
+    "./components/upgrade-builtin": {
+      "require": {
+        "types": "./dist/components/upgrade-builtin.d.cts",
+        "default": "./dist/components/upgrade-builtin.cjs"
+      },
+      "import": {
+        "types": "./dist/components/upgrade-builtin.d.mts",
+        "default": "./dist/components/upgrade-builtin.mjs"
+      },
+      "default": {
+        "types": "./dist/components/upgrade-builtin.d.mts",
+        "default": "./dist/components/upgrade-builtin.mjs"
+      }
+    },
     "./components/virtual-command-entry": {
       "require": {
         "types": "./dist/components/virtual-command-entry.d.cts",

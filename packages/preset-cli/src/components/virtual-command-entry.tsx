@@ -97,7 +97,13 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             "isHelp",
             "findSuggestions"
           ],
-          prompts: ["text", "numeric", "toggle", "select", "isCancel", "sleep"]
+          prompts: ["text", "numeric", "toggle", "select", "isCancel", "sleep"],
+          [joinPaths(
+            "help",
+            ...command.segments.filter(
+              segment => !isDynamicPathSegment(segment)
+            )
+          )]: ["showHelp"]
         })}>
         <BannerFunctionDeclaration command={command} />
         <Spacing />

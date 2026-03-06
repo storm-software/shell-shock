@@ -128,7 +128,7 @@ export function AnsiHelpersDeclarations() {
           line: "\\x1B[2K",
           lineEnd: "\\x1B[K",
           lineStart: "\\x1B[1K",
-          lines(count) {
+          lines(count: number) {
             let lineClear = "";
             for (let i = 0; i < count; i++) {
               lineClear += this.line + (i < count - 1 ? cursor.up() : "");
@@ -1917,11 +1917,9 @@ export function ColorsDeclaration() {
 }
 
 /**
- * A component to generate the `writeLine` function in the `shell-shock:console` builtin module.
+ * A component to generate the `splitText` function in the `shell-shock:console` builtin module.
  */
-export function WriteLineFunctionDeclaration() {
-  const theme = useTheme();
-
+export function SplitTextFunctionDeclaration() {
   return (
     <>
       <FunctionDeclaration
@@ -2091,7 +2089,18 @@ export function WriteLineFunctionDeclaration() {
   return result;
 `}
       </FunctionDeclaration>
-      <Spacing />
+    </>
+  );
+}
+
+/**
+ * A component to generate the `writeLine` function in the `shell-shock:console` builtin module.
+ */
+export function WriteLineFunctionDeclaration() {
+  const theme = useTheme();
+
+  return (
+    <>
       <InterfaceDeclaration
         export
         name="WriteLineOptions"
@@ -3830,6 +3839,8 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
       <ColorsDeclaration />
       <Spacing />
       <WriteLineFunctionDeclaration />
+      <Spacing />
+      <SplitTextFunctionDeclaration />
       <Spacing />
       <LinkFunctionDeclaration />
       <Spacing />

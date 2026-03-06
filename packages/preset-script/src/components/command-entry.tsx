@@ -383,7 +383,12 @@ export function CommandEntry(props: CommandEntryProps) {
             "isUnicodeSupported",
             "internal_commandContext"
           ],
-          [joinPaths("help", ...command.segments)]: ["showHelp"]
+          [joinPaths(
+            "help",
+            ...command.segments.filter(
+              segment => !isDynamicPathSegment(segment)
+            )
+          )]: ["showHelp"]
         })}>
         <BannerFunctionDeclaration command={command} />
         <Spacing />

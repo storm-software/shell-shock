@@ -129,14 +129,20 @@ export function CommandEntry(props: CommandEntryProps) {
             "isCancel",
             "sleep"
           ],
-          help: ["showHelp"],
-          upgrade: ["checkForUpdates", "isCheckForUpdatesRequired", "upgrade"]
+          [joinPaths(
+            "help",
+            ...command.segments.filter(
+              segment => !isDynamicPathSegment(segment)
+            )
+          )]: ["showHelp"],
+          upgrade: ["executeUpgrade"]
         })}>
         <BannerFunctionDeclaration command={command} />
         <Spacing />
         <CommandHandlerDeclaration
           command={command}
-          banner={code`await banner(); `}>
+          banner={code`await banner();
+          await executeUpgrade(); `}>
           <IfStatement condition={code`!isInteractive`}>
             <CommandValidationLogic command={command} />
           </IfStatement>

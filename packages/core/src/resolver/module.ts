@@ -187,12 +187,12 @@ export async function resolveFromExports<TContext extends Context = Context>(
       }
 
       ctx.output.options = Object.fromEntries(
-        Object.entries((jsonSchema as JsonSchema7ObjectType).properties).map(
-          ([name, property]) => [
+        Object.entries((jsonSchema as JsonSchema7ObjectType).properties)
+          .map(([name, property]) => [
             name,
             resolveCommandOption(name, jsonSchema, property)
-          ]
-        )
+          ])
+          .concat(Object.entries(ctx.output.options))
       ) as Record<string, CommandOption>;
     } else if (
       Object.values(ctx.module.options).every(isCommandParameterConfig)
@@ -200,10 +200,12 @@ export async function resolveFromExports<TContext extends Context = Context>(
       ctx.output.options = Object.fromEntries(
         Object.entries(
           ctx.module.options as Record<string, CommandParameterConfig>
-        ).map(([name, option]) => [
-          name,
-          { name, ...option, alias: toArray(option.alias) }
-        ])
+        )
+          .map(([name, option]) => [
+            name,
+            { name, ...option, alias: toArray(option.alias) }
+          ])
+          .concat(Object.entries(ctx.output.options))
       ) as Record<string, CommandOption>;
     } else {
       throw new TypeError(

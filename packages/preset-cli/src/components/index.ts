@@ -19,4 +19,5 @@
 export * from "./banner-function-declaration";
 export * from "./command-entry";
 export * from "./command-router";
+export * from "./upgrade-builtin";
 export * from "./virtual-command-entry";

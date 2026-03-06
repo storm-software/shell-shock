@@ -27,7 +27,7 @@ import type {
 
 export interface ConsolePluginOptions extends ThemePluginOptions {}
 
-export type ConsolePluginUserConfig = ThemePluginUserConfig & UserConfig & {};
+export type ConsolePluginUserConfig = ThemePluginUserConfig & UserConfig;
 
 export type ConsolePluginResolvedConfig = ResolvedConfig &
   ThemePluginResolvedConfig;

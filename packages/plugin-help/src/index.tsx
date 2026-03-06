@@ -28,6 +28,7 @@ import {
 import console from "@shell-shock/plugin-console";
 import theme from "@shell-shock/plugin-theme";
 import { joinPaths } from "@stryke/path/join";
+import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
 import type { Plugin } from "powerlines";
 import { HelpBuiltin, HelpCommand } from "./components";
@@ -46,82 +47,109 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
     console(options.console),
     {
       name: "shell-shock:help",
+      enforce: "post",
       config() {
         this.debug(
           "Providing default configuration for the Shell Shock `help` plugin."
         );
 
         return {
-          help: defu(options, {
-            variant: "both"
-          })
+          help: defu(
+            {
+              command:
+                options.command === false
+                  ? false
+                  : isSetString(options.command)
+                    ? options.command
+                    : "help"
+            },
+            options,
+            {
+              builtins: true
+            }
+          )
         };
       },
-      configResolved() {
+      async configResolved() {
         this.debug("Adding the Help command to the application context.");
 
-        this.inputs ??= [];
-        if (this.inputs.some(input => input.id === "help")) {
-          this.info(
-            "The `help` command already exists in the commands list. If you would like the help command to be managed by the `@shell-shock/plugin-help` package, please remove or rename the command."
-          );
-        } else {
-          this.inputs.push({
-            id: "help",
-            name: "help",
-            path: "help",
-            segments: ["help"],
-            title: "Help",
-            description: `A command for displaying help information in the ${getAppTitle(
-              this,
-              true
-            )} command-line interface application.`,
-            entry: {
-              file: joinPaths(this.entryPath, "help", "command.ts"),
-              input: {
-                file: joinPaths(this.entryPath, "help", "command.ts")
-              }
-            },
-            isVirtual: false
-          });
+        if (this.config.help.command !== false) {
+          this.inputs ??= [];
+          if (
+            this.inputs.some(input => input.name === this.config.help.command)
+          ) {
+            this.info(
+              "The `help` command already exists in the commands list. If you would like the help command to be managed by the `@shell-shock/plugin-help` package, please remove or rename the command."
+            );
+          } else {
+            this.inputs.push({
+              id: this.config.help.command,
+              name: this.config.help.command,
+              path: this.config.help.command,
+              segments: [this.config.help.command],
+              title: "Help",
+              description: `A command for displaying help information to assist in using the ${getAppTitle(
+                this,
+                true
+              )} command-line interface application.`,
+              entry: {
+                file: joinPaths(this.entryPath, "help", "command.ts"),
+                input: {
+                  file: joinPaths(this.entryPath, "help", "command.ts")
+                }
+              },
+              isVirtual: false
+            });
+          }
+
+          await render(this, <HelpCommand />);
         }
       },
-      async prepare() {
-        this.debug(
-          "Rendering help built-in and command modules for the Shell Shock `help` plugin."
-        );
+      prepare: {
+        order: "post",
+        async handler() {
+          const commands = await getCommandList(this);
+          this.debug(
+            `Rendering \`help\` built-ins for each of the ${
+              commands.length
+            } command modules.`
+          );
 
-        const commands = await getCommandList(this);
-        const bin = computed(() => ({
-          id: null,
-          name: getAppName(this),
-          title: getAppTitle(this),
-          description: getAppDescription(this),
-          isVirtual: true,
-          path: null,
-          segments: [],
-          options: this.options,
-          args: [],
-          parent: null,
-          children: this.commands
-        }));
+          const bin = computed(() => ({
+            id: "",
+            name: getAppName(this),
+            title: getAppTitle(this),
+            description: getAppDescription(this),
+            isVirtual: true,
+            path: null,
+            segments: [],
+            alias: [],
+            options: Object.fromEntries(
+              this.options.map(option => [option.name, option])
+            ),
+            entry: {
+              file: joinPaths(this.entryPath, "bin.ts")
+            },
+            args: [],
+            parent: null,
+            children: this.commands
+          }));
 
-        return render(
-          this,
-          <>
-            <Show when={["builtin", "both"].includes(this.config.help.variant)}>
-              <HelpBuiltin command={bin.value} />
-              <Spacing />
-              <For each={commands} doubleHardline>
-                {command => <HelpBuiltin command={command} />}
-              </For>
-            </Show>
-            <Show when={["command", "both"].includes(this.config.help.variant)}>
-              <Spacing />
-              <HelpCommand />
-            </Show>
-          </>
-        );
+          return render(
+            this,
+            <>
+              <Show when={this.config.help.builtins !== false}>
+                <HelpBuiltin command={bin.value} />
+                <Spacing />
+                <For
+                  each={commands.sort((a, b) => a.name.localeCompare(b.name))}
+                  doubleHardline>
+                  {command => <HelpBuiltin command={command} />}
+                </For>
+              </Show>
+            </>
+          );
+        }
       }
     }
   ] as Plugin<TContext>[];

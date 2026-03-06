@@ -31,13 +31,23 @@ import type {
   ThemePluginUserConfig
 } from "@shell-shock/plugin-theme";
 
-export type HelpPluginOutputVariant = "builtin" | "command" | "both";
-
 export interface HelpPluginOptions {
   /**
-   * The variant of help output to generate. This can be set to "builtin" to generate help output for built-in commands, "command" to generate help output for user-defined commands, or "both" to generate help output for both built-in and user-defined commands. If not specified, the plugin will default to generating help output for both built-in and user-defined commands.
+   * Should the plugin automatically add built-in help entries for all commands in the application?
+   *
+   * @defaultValue true
    */
-  variant?: HelpPluginOutputVariant;
+  builtins?: boolean;
+
+  /**
+   * Should the plugin add the `help` command?
+   *
+   * @remarks
+   * This can be set to a string to specify a custom command name for the `help` command. By default, the command name will be `"help"`.
+   *
+   * @defaultValue true
+   */
+  command?: boolean | string;
 
   /**
    * Theme plugin options.
@@ -56,7 +66,14 @@ export type HelpPluginUserConfig = ThemePluginUserConfig &
     /**
      * Resolved help configuration for the plugin.
      */
-    help: Omit<HelpPluginOptions, "theme" | "console">;
+    help: Omit<HelpPluginOptions, "theme" | "console" | "command"> & {
+      /**
+       * The name of the help command to add to the application, or `false` to disable adding a help command.
+       *
+       * @defaultValue "help"
+       */
+      command: string | false;
+    };
   };
 
 export type HelpPluginResolvedConfig = ThemePluginResolvedConfig &
@@ -65,7 +82,14 @@ export type HelpPluginResolvedConfig = ThemePluginResolvedConfig &
     /**
      * Resolved help configuration for the plugin.
      */
-    help: Required<Omit<HelpPluginOptions, "theme" | "console">>;
+    help: Required<Omit<HelpPluginOptions, "theme" | "console" | "command">> & {
+      /**
+       * The name of the help command to add to the application, or `false` to disable adding a help command.
+       *
+       * @defaultValue "help"
+       */
+      command: string | false;
+    };
   };
 
 export type HelpPluginContext<

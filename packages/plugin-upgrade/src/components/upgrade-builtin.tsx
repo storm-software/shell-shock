@@ -934,6 +934,7 @@ export function CheckForUpdatesFunctionDeclaration() {
         </IfStatement>
         <Spacing />
         {code`try { `}
+        <hbr />
         <VarDeclaration
           const
           name="pkg"

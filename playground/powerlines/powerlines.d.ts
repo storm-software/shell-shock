@@ -1151,7 +1151,7 @@ declare module "powerlines:console" {
     line: string;
     lineEnd: string;
     lineStart: string;
-    lines(count: any): string;
+    lines(count: number): string;
   };
   /**
    * An object containing ANSI escape codes for scrolling the console.
@@ -1250,19 +1250,6 @@ declare module "powerlines:console" {
    */
   export const colors: Colors;
   /**
-   * Split text into multiple lines based on a maximum length.
-   *
-   * @remarks
-   * This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.
-   *
-   * @param text - The text to split into multiple lines.
-   * @param maxLength - The maximum length of each line.
-   */
-  export function splitText(
-    text: string,
-    maxLength: number | SizeToken
-  ): string[];
-  /**
    * Options for writing a line to the console.
    */
   export interface WriteLineOptions {
@@ -1304,6 +1291,19 @@ declare module "powerlines:console" {
     text?: string | number | boolean | null,
     options?: WriteLineOptions
   ): void;
+  /**
+   * Split text into multiple lines based on a maximum length.
+   *
+   * @remarks
+   * This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.
+   *
+   * @param text - The text to split into multiple lines.
+   * @param maxLength - The maximum length of each line.
+   */
+  export function splitText(
+    text: string,
+    maxLength: number | SizeToken
+  ): string[];
   /**
    * Render a hyperlink in the console.
    *
@@ -1670,6 +1670,42 @@ declare module "powerlines:console" {
 declare module "powerlines:help" {
   /**
    * Display help information for the Playground Powerlines application.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Build command.
+ *
+ * @module powerlines:help/build
+ */
+declare module "powerlines:help/build" {
+  /**
+   * Display help information for the Build command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Help command.
+ *
+ * @module powerlines:help/help
+ */
+declare module "powerlines:help/help" {
+  /**
+   * Display help information for the Help command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Start command.
+ *
+ * @module powerlines:help/start
+ */
+declare module "powerlines:help/start" {
+  /**
+   * Display help information for the Start command.
    */
   export function showHelp(): void;
 }

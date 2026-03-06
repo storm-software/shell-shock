@@ -40,8 +40,8 @@ export const plugin = <
   options: ScriptPresetOptions = {}
 ) => {
   return [
-    console(options.console),
-    ...help(options.help),
+    console(options),
+    ...help(options),
     {
       name: "shell-shock:script-preset",
       config() {
@@ -83,8 +83,7 @@ export const plugin = <
                 prefix={
                   <>
                     <BannerFunctionDeclaration />
-                    <hbr />
-                    <hbr />
+                    <Spacing />
                   </>
                 }>
                 <Show when={Object.keys(this.commands).length > 0}>

@@ -1140,7 +1140,7 @@ declare module "shell-shock:console" {
     line: string;
     lineEnd: string;
     lineStart: string;
-    lines(count: any): string;
+    lines(count: number): string;
   };
   /**
    * An object containing ANSI escape codes for scrolling the console.
@@ -1239,19 +1239,6 @@ declare module "shell-shock:console" {
    */
   export const colors: Colors;
   /**
-   * Split text into multiple lines based on a maximum length.
-   *
-   * @remarks
-   * This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.
-   *
-   * @param text - The text to split into multiple lines.
-   * @param maxLength - The maximum length of each line.
-   */
-  export function splitText(
-    text: string,
-    maxLength: number | SizeToken
-  ): string[];
-  /**
    * Options for writing a line to the console.
    */
   export interface WriteLineOptions {
@@ -1293,6 +1280,19 @@ declare module "shell-shock:console" {
     text?: string | number | boolean | null,
     options?: WriteLineOptions
   ): void;
+  /**
+   * Split text into multiple lines based on a maximum length.
+   *
+   * @remarks
+   * This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.
+   *
+   * @param text - The text to split into multiple lines.
+   * @param maxLength - The maximum length of each line.
+   */
+  export function splitText(
+    text: string,
+    maxLength: number | SizeToken
+  ): string[];
   /**
    * Render a hyperlink in the console.
    *
@@ -1649,18 +1649,6 @@ declare module "shell-shock:console" {
       | string[][]
   ): void;
   export {};
-}
-
-/**
- * A collection of utility functions that assist in displaying help information for the Playground command-line interface application.
- *
- * @module shell-shock:help
- */
-declare module "shell-shock:help" {
-  /**
-   * Display help information for the Playground application.
-   */
-  export function showHelp(): void;
 }
 
 /**
@@ -2799,5 +2787,177 @@ declare module "shell-shock:upgrade" {
    *
    */
   export function updateVersionCheckFile(): Promise<void>;
+  /**
+   * Run upgrade processing for the Playground application.
+   */
+  export function executeUpgrade(): Promise<void>;
   export {};
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Playground command-line interface application.
+ *
+ * @module shell-shock:help
+ */
+declare module "shell-shock:help" {
+  /**
+   * Display help information for the Playground application.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the New - Application command.
+ *
+ * @module shell-shock:help/new/application
+ */
+declare module "shell-shock:help/new/application" {
+  /**
+   * Display help information for the New - Application command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Project Build command.
+ *
+ * @module shell-shock:help/build
+ */
+declare module "shell-shock:help/build" {
+  /**
+   * Display help information for the Project Build command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Copy command.
+ *
+ * @module shell-shock:help/copy
+ */
+declare module "shell-shock:help/copy" {
+  /**
+   * Display help information for the Copy command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Help command.
+ *
+ * @module shell-shock:help/help
+ */
+declare module "shell-shock:help/help" {
+  /**
+   * Display help information for the Help command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the New - Library command.
+ *
+ * @module shell-shock:help/new/library
+ */
+declare module "shell-shock:help/new/library" {
+  /**
+   * Display help information for the New - Library command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Run - Local command.
+ *
+ * @module shell-shock:help/run/local
+ */
+declare module "shell-shock:help/run/local" {
+  /**
+   * Display help information for the Run - Local command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the New Commands command.
+ *
+ * @module shell-shock:help/new
+ */
+declare module "shell-shock:help/new" {
+  /**
+   * Display help information for the New Commands command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the New - Project command.
+ *
+ * @module shell-shock:help/new/project
+ */
+declare module "shell-shock:help/new/project" {
+  /**
+   * Display help information for the New - Project command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Run - Remote command.
+ *
+ * @module shell-shock:help/run/remote
+ */
+declare module "shell-shock:help/run/remote" {
+  /**
+   * Display help information for the Run - Remote command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Remove Files command.
+ *
+ * @module shell-shock:help/remove
+ */
+declare module "shell-shock:help/remove" {
+  /**
+   * Display help information for the Remove Files command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Run Commands command.
+ *
+ * @module shell-shock:help/run
+ */
+declare module "shell-shock:help/run" {
+  /**
+   * Display help information for the Run Commands command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Start command.
+ *
+ * @module shell-shock:help/start
+ */
+declare module "shell-shock:help/start" {
+  /**
+   * Display help information for the Start command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Upgrade command.
+ *
+ * @module shell-shock:help/upgrade
+ */
+declare module "shell-shock:help/upgrade" {
+  /**
+   * Display help information for the Upgrade command.
+   */
+  export function showHelp(): void;
 }

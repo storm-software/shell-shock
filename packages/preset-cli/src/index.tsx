@@ -29,6 +29,7 @@ import type { Plugin } from "powerlines";
 import { BannerFunctionDeclaration } from "./components/banner-function-declaration";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
+import { UpgradeBuiltin } from "./components/upgrade-builtin";
 import { VirtualCommandEntry } from "./components/virtual-command-entry";
 import { getDefaultOptions } from "./helpers/get-default-options";
 import type { CLIPresetContext, CLIPresetOptions } from "./types/plugin";
@@ -44,9 +45,9 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
 ): Plugin<TContext>[] => {
   return [
     ...console<TContext>(options),
-    ...help<TContext>(options.help),
+    ...help<TContext>(options),
     ...prompts<TContext>(options),
-    upgrade<TContext>(options.upgrade),
+    upgrade<TContext>(options),
     {
       name: "shell-shock:cli-preset",
       config() {
@@ -59,6 +60,14 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           isCaseSensitive: false,
           ...options
         };
+      },
+      prepare: {
+        order: "post",
+        async handler() {
+          this.debug("Rendering upgrade built-in module.");
+
+          return render(this, <UpgradeBuiltin />);
+        }
       }
     },
     {
@@ -86,11 +95,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                     "stripAnsi",
                     "writeLine",
                     "splitText",
-                    "colors",
-                    "writeLine",
-                    "splitText",
-                    "stripAnsi",
-                    "createSpinner"
+                    "colors"
                   ],
                   utils: [
                     "useApp",
@@ -105,22 +110,15 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                     "toggle",
                     "select",
                     "confirm",
-                    "waitForKeyPress",
-                    "isCancel",
-                    "sleep"
+                    "isCancel"
                   ],
-                  upgrade: [
-                    "checkForUpdates",
-                    "isCheckForUpdatesRequired",
-                    "upgrade"
-                  ],
-                  env: ["env", "paths"]
+                  env: ["env", "paths"],
+                  upgrade: ["executeUpgrade"]
                 }}
                 prefix={
                   <>
                     <BannerFunctionDeclaration />
-                    <hbr />
-                    <hbr />
+                    <Spacing />
                   </>
                 }>
                 <Show when={Object.keys(this.commands).length > 0}>
@@ -135,7 +133,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                   <hbr />
                 </Show>
                 <hbr />
-                {code`await banner(0, false);`}
+                {code`await banner(0);`}
                 <Spacing />
                 {code`return showHelp(); `}
               </BinEntry>

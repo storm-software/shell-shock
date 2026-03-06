@@ -106,13 +106,50 @@ export function CommandRouterBody(props: CommandRouterProps) {
 
   return (
     <Show when={commands && Object.keys(commands).length > 0}>
-      <For each={Object.values(commands ?? {})}>
-        {(subcommand, idx) => (
-          <CommandContext.Provider value={subcommand}>
-            <Show
-              when={Boolean(idx)}
-              fallback={
-                <IfStatement
+      <IfStatement condition={code`!command.startsWith("-")`}>
+        <For each={Object.values(commands ?? {})}>
+          {(subcommand, idx) => (
+            <CommandContext.Provider value={subcommand}>
+              <Show
+                when={Boolean(idx)}
+                fallback={
+                  <IfStatement
+                    condition={code`${
+                      context.config.isCaseSensitive
+                        ? "command"
+                        : 'command.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+                    } === "${
+                      context.config.isCaseSensitive
+                        ? subcommand.name
+                        : subcommand.name
+                            .toLowerCase()
+                            .replaceAll("-", "")
+                            .replaceAll("_", "")
+                    }"${
+                      subcommand.alias && subcommand.alias.length > 0
+                        ? ` || ${subcommand.alias
+                            .map(
+                              alias =>
+                                `${context.config.isCaseSensitive ? "command" : 'command.toLowerCase().replaceAll("-", "").replaceAll("_", "")'} === "${
+                                  context.config.isCaseSensitive
+                                    ? alias
+                                    : alias
+                                        .toLowerCase()
+                                        .replaceAll("-", "")
+                                        .replaceAll("_", "")
+                                }"`
+                            )
+                            .join(" || ")}`
+                        : ""
+                    }`}>
+                    <Show
+                      when={Boolean(route)}
+                      fallback={<CommandRouterRoute />}>
+                      {route}
+                    </Show>
+                  </IfStatement>
+                }>
+                <ElseIfClause
                   condition={code`${
                     context.config.isCaseSensitive
                       ? "command"
@@ -144,55 +181,22 @@ export function CommandRouterBody(props: CommandRouterProps) {
                   <Show when={Boolean(route)} fallback={<CommandRouterRoute />}>
                     {route}
                   </Show>
-                </IfStatement>
-              }>
-              <ElseIfClause
-                condition={code`${
-                  context.config.isCaseSensitive
-                    ? "command"
-                    : 'command.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
-                } === "${
-                  context.config.isCaseSensitive
-                    ? subcommand.name
-                    : subcommand.name
-                        .toLowerCase()
-                        .replaceAll("-", "")
-                        .replaceAll("_", "")
-                }"${
-                  subcommand.alias && subcommand.alias.length > 0
-                    ? ` || ${subcommand.alias
-                        .map(
-                          alias =>
-                            `${context.config.isCaseSensitive ? "command" : 'command.toLowerCase().replaceAll("-", "").replaceAll("_", "")'} === "${
-                              context.config.isCaseSensitive
-                                ? alias
-                                : alias
-                                    .toLowerCase()
-                                    .replaceAll("-", "")
-                                    .replaceAll("_", "")
-                            }"`
-                        )
-                        .join(" || ")}`
-                    : ""
-                }`}>
-                <Show when={Boolean(route)} fallback={<CommandRouterRoute />}>
-                  {route}
-                </Show>
-              </ElseIfClause>
-            </Show>
-          </CommandContext.Provider>
-        )}
-      </For>
-      <ElseIfClause
-        condition={code`Boolean(command) && !command.startsWith("-")`}>{code`const suggestions = findSuggestions(command, [${Object.values(
-        commands ?? {}
-      )
-        .map(
-          cmd =>
-            `"${cmd.name}"${(cmd.alias ?? []).map(alias => `, "${alias}"`).join("")}`
+                </ElseIfClause>
+              </Show>
+            </CommandContext.Provider>
+          )}
+        </For>
+        <ElseIfClause
+          condition={code`Boolean(command) && !command.startsWith("-")`}>{code`const suggestions = findSuggestions(command, [${Object.values(
+          commands ?? {}
         )
-        .join(", ")}]).slice(0, 3);
+          .map(
+            cmd =>
+              `"${cmd.name}"${(cmd.alias ?? []).map(alias => `, "${alias}"`).join("")}`
+          )
+          .join(", ")}]).slice(0, 3);
         error(\`Unknown command: "\${command}"\${suggestions && suggestions.length > 0 ? \`, did you mean: \${suggestions.length === 1 ? \`"\${suggestions[0]}"\` : suggestions.map((suggestion, i) => i < suggestions.length - 1 ? \`"\${suggestion}", \` : \`or "\${suggestion}"\`)}?\` : ""} \`);`}</ElseIfClause>
+      </IfStatement>
     </Show>
   );
 }
