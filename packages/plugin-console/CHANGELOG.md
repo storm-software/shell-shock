@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.9](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.9) (03/06/2026)
+
+### Features
+
+- **plugin-help:** Added separate `help` plugin to be used in presets ([f36a547](https://github.com/storm-software/shell-shock/commit/f36a547))
+- **plugin-help:** Added separate `help` plugin ([8468d07](https://github.com/storm-software/shell-shock/commit/8468d07))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.13**
+- Updated **core** to **v0.12.1**
+
 ## [0.1.8](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.8) (03/04/2026)
 
 ### Bug Fixes

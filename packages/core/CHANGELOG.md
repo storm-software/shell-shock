@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.12.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.12.1) (03/06/2026)
+
+### Miscellaneous
+
+- **core:** Clean up display strings in console output ([9c1b7a9](https://github.com/storm-software/shell-shock/commit/9c1b7a9))
+
+### Features
+
+- **plugin-help:** Added separate `help` plugin to be used in presets ([f36a547](https://github.com/storm-software/shell-shock/commit/f36a547))
+- **plugin-help:** Added separate `help` plugin ([8468d07](https://github.com/storm-software/shell-shock/commit/8468d07))
+
 ## [0.12.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.12.0) (03/04/2026)
 
 ### Bug Fixes

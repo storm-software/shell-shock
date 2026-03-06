@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/preset-script",
-  "version": "0.6.23",
+  "version": "0.6.24",
   "private": false,
   "description": "A Shell Shock preset that generates a fully-featured script application.",
   "keywords": [

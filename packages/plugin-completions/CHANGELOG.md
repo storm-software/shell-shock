@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.2.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.4) (03/06/2026)
+
+### Miscellaneous
+
+- **core:** Clean up display strings in console output ([9c1b7a9](https://github.com/storm-software/shell-shock/commit/9c1b7a9))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.12.1**
+
 ## [0.2.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.3) (03/04/2026)
 
 ### Updated Dependencies

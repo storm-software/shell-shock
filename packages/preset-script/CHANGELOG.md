@@ -2,6 +2,24 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.24](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.24) (03/06/2026)
+
+### Miscellaneous
+
+- **core:** Clean up display strings in console output ([9c1b7a9](https://github.com/storm-software/shell-shock/commit/9c1b7a9))
+
+### Features
+
+- **plugin-help:** Added separate `help` plugin to be used in presets ([f36a547](https://github.com/storm-software/shell-shock/commit/f36a547))
+- **plugin-help:** Added separate `help` plugin ([8468d07](https://github.com/storm-software/shell-shock/commit/8468d07))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.9**
+- Updated **plugin-theme** to **v0.3.13**
+- Updated **plugin-help** to **v0.1.0**
+- Updated **core** to **v0.12.1**
+
 ## [0.6.23](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.23) (03/04/2026)
 
 ### Features

@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.15](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.15) (03/06/2026)
+
+### Miscellaneous
+
+- **core:** Clean up display strings in console output ([9c1b7a9](https://github.com/storm-software/shell-shock/commit/9c1b7a9))
+
+### Features
+
+- **plugin-help:** Added separate `help` plugin to be used in presets ([f36a547](https://github.com/storm-software/shell-shock/commit/f36a547))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.12.1**
+
 ## [0.1.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.14) (03/04/2026)
 
 ### Updated Dependencies
