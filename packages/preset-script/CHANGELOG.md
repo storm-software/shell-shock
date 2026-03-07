@@ -2,6 +2,19 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.25](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.25) (03/06/2026)
+
+### Miscellaneous
+
+- **core:** Added `CommandValidationLogic` component for reuse in presets ([a1acbaa](https://github.com/storm-software/shell-shock/commit/a1acbaa))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.10**
+- Updated **plugin-theme** to **v0.3.14**
+- Updated **plugin-help** to **v0.1.1**
+- Updated **core** to **v0.12.2**
+
 ## [0.6.24](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.24) (03/06/2026)
 
 ### Miscellaneous

@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.12.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.12.2) (03/06/2026)
+
+### Miscellaneous
+
+- **core:** Added `CommandValidationLogic` component for reuse in presets ([a1acbaa](https://github.com/storm-software/shell-shock/commit/a1acbaa))
+
 ## [0.12.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.12.1) (03/06/2026)
 
 ### Miscellaneous
