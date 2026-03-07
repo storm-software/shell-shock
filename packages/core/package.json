@@ -84,6 +84,20 @@
         "default": "./dist/components/index.mjs"
       }
     },
+    "./components/command-validation-logic": {
+      "require": {
+        "types": "./dist/components/command-validation-logic.d.cts",
+        "default": "./dist/components/command-validation-logic.cjs"
+      },
+      "import": {
+        "types": "./dist/components/command-validation-logic.d.mts",
+        "default": "./dist/components/command-validation-logic.mjs"
+      },
+      "default": {
+        "types": "./dist/components/command-validation-logic.d.mts",
+        "default": "./dist/components/command-validation-logic.mjs"
+      }
+    },
     "./components/docs": {
       "require": {
         "types": "./dist/components/docs.d.cts",

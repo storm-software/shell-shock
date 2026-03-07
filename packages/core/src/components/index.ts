@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+export * from "./command-validation-logic";
 export * from "./docs";
 export * from "./helpers";
 export * from "./options-parser-logic";

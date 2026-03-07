@@ -10,7 +10,7 @@ catalog:
   '@alloy-js/markdown': 0.23.0-dev.1
   '@alloy-js/typescript': 0.23.0-dev.4
   '@babel/core': ^7.29.0
-  '@eslint/compat': ^2.0.2
+  '@eslint/compat': ^2.0.3
   '@eslint/config-inspector': ^1.5.0
   '@ls-lint/ls-lint': ^2.3.1
   '@microsoft/api-extractor': ^7.49.2
@@ -36,37 +36,37 @@ catalog:
   '@powerlines/tsconfig': ^0.4.2
   '@standard-schema/spec': ^1.1.0
   '@standard-schema/utils': ^0.3.0
-  '@storm-software/build-tools': ^0.158.94
-  '@storm-software/config': ^1.135.14
-  '@storm-software/config-tools': ^1.189.13
-  '@storm-software/cspell': ^0.46.3
-  '@storm-software/esbuild': ^0.53.95
-  '@storm-software/eslint': ^0.169.101
-  '@storm-software/git-tools': ^2.124.80
-  '@storm-software/linting-tools': ^1.132.102
-  '@storm-software/markdownlint': ^0.30.88
-  '@storm-software/pnpm-tools': ^0.6.97
-  '@storm-software/prettier': ^0.58.12
-  '@storm-software/testing-tools': ^1.119.88
-  '@storm-software/tsconfig': ^0.48.2
-  '@storm-software/tsdoc': ^0.13.88
-  '@storm-software/unbuild': ^0.57.95
-  '@storm-software/untyped': ^0.24.76
-  '@storm-software/workspace-tools': ^1.294.46
+  '@storm-software/build-tools': ^0.158.98
+  '@storm-software/config': ^1.135.18
+  '@storm-software/config-tools': ^1.189.17
+  '@storm-software/cspell': ^0.46.7
+  '@storm-software/esbuild': ^0.53.99
+  '@storm-software/eslint': ^0.169.105
+  '@storm-software/git-tools': ^2.124.84
+  '@storm-software/linting-tools': ^1.132.106
+  '@storm-software/markdownlint': ^0.30.92
+  '@storm-software/pnpm-tools': ^0.6.101
+  '@storm-software/prettier': ^0.58.16
+  '@storm-software/testing-tools': ^1.119.92
+  '@storm-software/tsconfig': ^0.48.6
+  '@storm-software/tsdoc': ^0.13.92
+  '@storm-software/unbuild': ^0.57.99
+  '@storm-software/untyped': ^0.24.80
+  '@storm-software/workspace-tools': ^1.294.50
   '@stryke/capnp': ^0.12.75
-  '@stryke/cli': ^0.13.22
-  '@stryke/convert': ^0.6.46
-  '@stryke/env': ^0.20.67
-  '@stryke/fs': ^0.33.50
-  '@stryke/hash': ^0.13.3
-  '@stryke/helpers': ^0.9.48
-  '@stryke/http': ^0.12.42
-  '@stryke/json': ^0.14.0
-  '@stryke/path': ^0.26.12
-  '@stryke/string-format': ^0.14.8
-  '@stryke/type-checks': ^0.5.31
-  '@stryke/types': ^0.10.45
-  '@stryke/zod': ^0.3.1
+  '@stryke/cli': ^0.13.25
+  '@stryke/convert': ^0.6.49
+  '@stryke/env': ^0.20.70
+  '@stryke/fs': ^0.33.53
+  '@stryke/hash': ^0.13.6
+  '@stryke/helpers': ^0.9.51
+  '@stryke/http': ^0.12.45
+  '@stryke/json': ^0.14.3
+  '@stryke/path': ^0.26.15
+  '@stryke/string-format': ^0.16.0
+  '@stryke/type-checks': ^0.5.34
+  '@stryke/types': ^0.10.48
+  '@stryke/zod': ^0.3.4
   '@swc-node/register': ^1.11.1
   '@swc/core': ^1.15.18
   '@swc/helpers': ^0.5.19
@@ -85,7 +85,7 @@ catalog:
   copyfiles: ^2.4.1
   defu: ^6.1.4
   esbuild: ^0.24.2
-  eslint: ^9.39.3
+  eslint: ^9.39.4
   eslint-doc-generator: ^3.3.1
   eslint-flat-config-utils: ^2.1.4
   eslint-plugin-eslint-plugin: ^7.3.2

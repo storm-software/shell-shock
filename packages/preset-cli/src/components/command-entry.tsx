@@ -28,15 +28,13 @@ import type {
   StringCommandParameter
 } from "@shell-shock/core";
 import { CommandParameterKinds } from "@shell-shock/core";
+import { CommandValidationLogic } from "@shell-shock/core/components/command-validation-logic";
 import {
   formatDescription,
   formatShortDescription,
   isDynamicPathSegment
 } from "@shell-shock/core/plugin-utils";
-import {
-  CommandHandlerDeclaration,
-  CommandValidationLogic
-} from "@shell-shock/preset-script/components/command-entry";
+import { CommandHandlerDeclaration } from "@shell-shock/preset-script/components/command-entry";
 import { findFilePath, relativePath } from "@stryke/path/find";
 import { joinPaths } from "@stryke/path/join";
 import { replaceExtension } from "@stryke/path/replace";
@@ -586,6 +584,11 @@ export function CommandEntry(props: CommandEntryProps) {
               </For>
               {code`writeLine(""); `}
               <Spacing />
+              <CommandValidationLogic command={command} />
+              <IfStatement condition={code`failures.length > 0`}>
+                {code`error("The following validation failures were found while processing the user provided input, and must be corrected before the command-line process can be executed: \\n\\n" + failures.map(failure => " - " + failure).join("\\n"));
+                options.help = true; `}
+              </IfStatement>
             </ElseIfClause>
           </Show>
         </CommandHandlerDeclaration>

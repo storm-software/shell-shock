@@ -20,7 +20,6 @@ import type { Children } from "@alloy-js/core";
 import { code, computed, For, Show } from "@alloy-js/core";
 import {
   ElseClause,
-  ElseIfClause,
   FunctionDeclaration,
   IfStatement,
   VarDeclaration
@@ -35,8 +34,8 @@ import {
   TSDocRemarks,
   TSDocTitle
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
-import type { CommandTree, NumberCommandParameter } from "@shell-shock/core";
-import { CommandParameterKinds } from "@shell-shock/core";
+import type { CommandTree } from "@shell-shock/core";
+import { CommandValidationLogic } from "@shell-shock/core/components/command-validation-logic";
 import { IsDebug } from "@shell-shock/core/components/helpers";
 import {
   CommandParserLogic,
@@ -194,140 +193,6 @@ export function CommandHandlerDeclaration(
   );
 }
 
-export interface CommandValidationLogicProps {
-  command: CommandTree;
-}
-
-/**
- * A component that generates command validation logic for required options and arguments.
- */
-export function CommandValidationLogic(props: CommandValidationLogicProps) {
-  const { command } = props;
-
-  return (
-    <>
-      <VarDeclaration name="failures" type="string[]" initializer={code`[];`} />
-      <hbr />
-      <For each={Object.values(command.options ?? {})} doubleHardline>
-        {option => (
-          <>
-            <Show when={!option.optional}>
-              <IfStatement
-                condition={code`!options${
-                  option.name.includes("?")
-                    ? `["${option.name}"]`
-                    : `.${camelCase(option.name)}`
-                }`}>
-                {code`failures.push("Missing required \\"${option.name}\\" option");`}
-              </IfStatement>
-              <Show
-                when={
-                  (option.kind === CommandParameterKinds.string ||
-                    option.kind === CommandParameterKinds.number) &&
-                  option.variadic
-                }>
-                <ElseIfClause
-                  condition={code`options${
-                    option.name.includes("?")
-                      ? `["${option.name}"]`
-                      : `.${camelCase(option.name)}`
-                  }.length === 0`}>
-                  {code`failures.push("No values were provided to the required \\"${
-                    option.name
-                  }\\" array option");`}
-                </ElseIfClause>
-              </Show>
-            </Show>
-            <Show when={option.kind === CommandParameterKinds.number}>
-              <Show
-                when={(option as NumberCommandParameter).variadic}
-                fallback={
-                  <IfStatement
-                    condition={code`options${
-                      option.name.includes("?")
-                        ? `["${option.name}"]`
-                        : `.${camelCase(option.name)}`
-                    } && Number.isNaN(options${
-                      option.name.includes("?")
-                        ? `["${option.name}"]`
-                        : `.${camelCase(option.name)}`
-                    })`}>
-                    {code`failures.push("Invalid numeric value provided for the \\"${
-                      option.name
-                    }\\" option");`}
-                  </IfStatement>
-                }>
-                <IfStatement
-                  condition={code`options${
-                    option.name.includes("?")
-                      ? `["${option.name}"]`
-                      : `.${camelCase(option.name)}`
-                  }.some(value => Number.isNaN(value))`}>
-                  {code`failures.push("Invalid numeric value provided in the \\"${
-                    option.name
-                  }\\" array option");`}
-                </IfStatement>
-              </Show>
-            </Show>
-          </>
-        )}
-      </For>
-      <Spacing />
-      <For each={command.args} doubleHardline>
-        {argument => (
-          <>
-            <Show when={!argument.optional}>
-              <IfStatement condition={code`!${camelCase(argument.name)}`}>
-                {code`failures.push("Missing required \\"${
-                  argument.name
-                }\\" positional argument");`}
-              </IfStatement>
-              <Show
-                when={
-                  (argument.kind === CommandParameterKinds.string ||
-                    argument.kind === CommandParameterKinds.number) &&
-                  argument.variadic
-                }>
-                <ElseIfClause
-                  condition={code`${camelCase(argument.name)}.length === 0`}>
-                  {code`failures.push("No values were provided to the required \\"${
-                    argument.name
-                  }\\" array positional argument");`}
-                </ElseIfClause>
-              </Show>
-            </Show>
-            <Show when={argument.kind === CommandParameterKinds.number}>
-              <Show
-                when={(argument as NumberCommandParameter).variadic}
-                fallback={
-                  <IfStatement
-                    condition={code`${camelCase(
-                      argument.name
-                    )} && Number.isNaN(${camelCase(argument.name)})`}>
-                    {code`failures.push("Invalid numeric value provided for the \\"${
-                      argument.name
-                    }\\" positional argument");`}
-                  </IfStatement>
-                }>
-                <IfStatement
-                  condition={code`${camelCase(argument.name)}.some(value => Number.isNaN(value))`}>
-                  {code`failures.push("Invalid numeric value provided in the \\"${
-                    argument.name
-                  }\\" array positional argument");`}
-                </IfStatement>
-              </Show>
-            </Show>
-          </>
-        )}
-      </For>
-      <IfStatement condition={code`failures.length > 0`}>
-        {code`error("The following validation failures were found while processing the user provided input, and must be corrected before the command-line process can be executed: \\n\\n" + failures.map(failure => " - " + failure).join("\\n"));
-        options.help = true; `}
-      </IfStatement>
-    </>
-  );
-}
-
 export interface CommandEntryProps extends Omit<
   EntryFileProps,
   "path" | "typeDefinition"
@@ -396,6 +261,10 @@ export function CommandEntry(props: CommandEntryProps) {
         <Spacing />
         <CommandHandlerDeclaration command={command} banner={code`banner(); `}>
           <CommandValidationLogic command={command} />
+          <IfStatement condition={code`failures.length > 0`}>
+            {code`error("The following validation failures were found while processing the user provided input, and must be corrected before the command-line process can be executed: \\n\\n" + failures.map(failure => " - " + failure).join("\\n"));
+            options.help = true; `}
+          </IfStatement>
         </CommandHandlerDeclaration>
       </EntryFile>
       <For each={Object.values(command.children)}>
