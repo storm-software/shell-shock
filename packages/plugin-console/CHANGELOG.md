@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.11) (03/16/2026)
+
+### Features
+
+- **core:** Completed implementation of virtual file generation ([c3e8058](https://github.com/storm-software/shell-shock/commit/c3e8058))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.15**
+- Updated **core** to **v0.13.0**
+
 ## [0.1.10](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.10) (03/06/2026)
 
 ### Updated Dependencies

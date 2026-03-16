@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.2.6](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.6) (03/16/2026)
+
+### Features
+
+- **core:** Completed implementation of virtual file generation ([c3e8058](https://github.com/storm-software/shell-shock/commit/c3e8058))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.0**
+
 ## [0.2.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.5) (03/06/2026)
 
 ### Updated Dependencies

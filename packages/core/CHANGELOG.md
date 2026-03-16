@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.13.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.0) (03/16/2026)
+
+### Features
+
+- **core:** Completed implementation of virtual file generation ([c3e8058](https://github.com/storm-software/shell-shock/commit/c3e8058))
+
 ## [0.12.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.12.2) (03/06/2026)
 
 ### Miscellaneous

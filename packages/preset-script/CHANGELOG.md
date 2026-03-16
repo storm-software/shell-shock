@@ -2,6 +2,19 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.26](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.26) (03/16/2026)
+
+### Features
+
+- **core:** Completed implementation of virtual file generation ([c3e8058](https://github.com/storm-software/shell-shock/commit/c3e8058))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.11**
+- Updated **plugin-theme** to **v0.3.15**
+- Updated **plugin-help** to **v0.1.2**
+- Updated **core** to **v0.13.0**
+
 ## [0.6.25](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.25) (03/06/2026)
 
 ### Miscellaneous

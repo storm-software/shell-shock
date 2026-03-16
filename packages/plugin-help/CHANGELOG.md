@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.1.2](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.1.2) (03/16/2026)
+
+### Features
+
+- **core:** Completed implementation of virtual file generation ([c3e8058](https://github.com/storm-software/shell-shock/commit/c3e8058))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.11**
+- Updated **plugin-theme** to **v0.3.15**
+- Updated **core** to **v0.13.0**
+
 ## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.1.1) (03/06/2026)
 
 ### Updated Dependencies

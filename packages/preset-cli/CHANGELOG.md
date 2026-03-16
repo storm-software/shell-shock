@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.8.3](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.8.3) (03/16/2026)
+
+### Features
+
+- **core:** Completed implementation of virtual file generation ([c3e8058](https://github.com/storm-software/shell-shock/commit/c3e8058))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.11**
+- Updated **plugin-prompts** to **v0.3.12**
+- Updated **plugin-upgrade** to **v0.1.17**
+- Updated **preset-script** to **v0.6.26**
+- Updated **plugin-theme** to **v0.3.15**
+- Updated **plugin-help** to **v0.1.2**
+- Updated **core** to **v0.13.0**
+
 ## [0.8.2](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.8.2) (03/06/2026)
 
 ### Miscellaneous

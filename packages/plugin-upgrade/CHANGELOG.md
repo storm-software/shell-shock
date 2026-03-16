@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.17](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.17) (03/16/2026)
+
+### Features
+
+- **core:** Completed implementation of virtual file generation ([c3e8058](https://github.com/storm-software/shell-shock/commit/c3e8058))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.0**
+
 ## [0.1.16](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.16) (03/06/2026)
 
 ### Updated Dependencies

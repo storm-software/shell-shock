@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.3.15](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.15) (03/16/2026)
+
+### Features
+
+- **core:** Completed implementation of virtual file generation ([c3e8058](https://github.com/storm-software/shell-shock/commit/c3e8058))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.0**
+
 ## [0.3.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.14) (03/06/2026)
 
 ### Updated Dependencies
