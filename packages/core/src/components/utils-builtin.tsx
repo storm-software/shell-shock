@@ -25,7 +25,7 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
-import { usePowerlines } from "@powerlines/plugin-alloy/dist/core/contexts/context.mjs";
+import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import {

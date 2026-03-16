@@ -85,7 +85,6 @@
         "default": "./dist/index.mjs"
       }
     },
-    "./*": "./*",
     "./components": {
       "require": {
         "types": "./dist/components/index.d.cts",
@@ -142,6 +141,7 @@
         "default": "./dist/components/help-command.mjs"
       }
     },
+    "./package.json": "./package.json",
     "./types": {
       "require": {
         "types": "./dist/types/index.d.cts",
@@ -170,5 +170,9 @@
         "default": "./dist/types/plugin.mjs"
       }
     }
+  },
+  "inlinedDependencies": {
+    "@stryke/string-format": "0.17.4",
+    "@stryke/type-checks": "0.5.39"
   }
 }

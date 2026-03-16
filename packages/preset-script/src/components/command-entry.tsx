@@ -215,14 +215,13 @@ export function CommandEntry(props: CommandEntryProps) {
       "index.ts"
     )
   );
-  const commandSourcePath = computed(
-    () =>
-      `./${replaceExtension(
-        relativePath(
-          joinPaths(context.entryPath, findFilePath(filePath.value)),
-          command.entry.input?.file || command.entry.file
-        )
-      )}`
+  const commandSourcePath = computed(() =>
+    replaceExtension(
+      relativePath(
+        joinPaths(context.entryPath, findFilePath(filePath.value)),
+        command.entry.input?.file || command.entry.file
+      )
+    )
   );
   const typeDefinition = computed(() => ({
     ...command.entry,
@@ -236,7 +235,10 @@ export function CommandEntry(props: CommandEntryProps) {
         path={filePath.value}
         typeDefinition={typeDefinition.value}
         imports={defu(imports ?? {}, {
-          [commandSourcePath.value]: `handle${pascalCase(command.name)}`
+          [commandSourcePath.value.startsWith(".")
+            ? commandSourcePath.value
+            : `./${commandSourcePath.value}`]:
+            `handle${pascalCase(command.name)}`
         })}
         builtinImports={defu(builtinImports ?? {}, {
           env: ["env", "isDevelopment", "isDebug"],

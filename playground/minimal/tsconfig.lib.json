@@ -2,7 +2,6 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
-    "jsx": "preserve",
     "outDir": "./out-tsc"
   },
   "references": [

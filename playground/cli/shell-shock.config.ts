@@ -23,9 +23,6 @@ import cli from "@shell-shock/preset-cli";
 const config: UserConfig = defineConfig({
   skipCache: true,
   name: "playground-cli",
-  output: {
-    storage: "fs"
-  },
   plugins: [
     cli({
       theme: {

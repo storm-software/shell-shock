@@ -7,15 +7,16 @@
     "outDir": "./out-tsc"
   },
   "references": [
-    { "path": "../plugin-console/tsconfig.lib.json" },
-    { "path": "../plugin-theme/tsconfig.lib.json" },
-    { "path": "../core/tsconfig.lib.json" }
+    {
+      "path": "../plugin-console/tsconfig.lib.json"
+    },
+    {
+      "path": "../plugin-theme/tsconfig.lib.json"
+    },
+    {
+      "path": "../core/tsconfig.lib.json"
+    }
   ],
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "powerlines.config.ts",
-    "powerlines.d.ts"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "powerlines.config.ts"],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

@@ -25,7 +25,7 @@ try {
   // 1) Update all @storm-software, @stryke, and @powerlines packages
   await echo`${chalk.whiteBright("Checking for storm-software, stryke, and powerlines updates...")}`;
   let proc =
-    $`pnpm exec storm-pnpm update @storm-software/ @stryke/ @powerlines/ powerlines --install`.timeout(
+    $`pnpm exec storm-pnpm update @storm-software/ @stryke/ @powerlines/ powerlines`.timeout(
       `${30 * 60}s`
     );
   proc.stdout.on("data", data => echo`${data}`);
@@ -53,6 +53,16 @@ try {
   if (result.exitCode !== 0) {
     throw new Error(
       `An error occurred while refreshing workspace links:\n\n${result.message}\n`
+    );
+  }
+
+  // 4) Install git hooks to ensure that the correct versions of the CLI and other tools are used when running git commands
+  proc = $`pnpm exec storm-git prepare`.timeout(`${8 * 60}s`);
+  proc.stdout.on("data", data => echo`${data}`);
+  result = await proc;
+  if (result.exitCode !== 0) {
+    throw new Error(
+      `An error occurred while installing git hooks:\n\n${result.message}\n`
     );
   }
 

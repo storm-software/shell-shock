@@ -55,7 +55,6 @@
         "default": "./dist/index.mjs"
       }
     },
-    "./*": "./*",
     "./api": {
       "require": {
         "types": "./dist/api.d.cts",
@@ -224,6 +223,7 @@
         "default": "./dist/contexts/options.mjs"
       }
     },
+    "./package.json": "./package.json",
     "./plugin": {
       "require": {
         "types": "./dist/plugin.d.cts",
@@ -389,7 +389,7 @@
     "defu": "catalog:",
     "json-schema": "catalog:",
     "powerlines": "catalog:",
-    "rolldown": "catalog:"
+    "tsdown": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-plugin": "catalog:",

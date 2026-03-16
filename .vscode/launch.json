@@ -2,37 +2,49 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Preset Script",
+      "name": "Core - Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/f2fcs5sgi5jd8gpds8axpwhbg183ifmz-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/wi8a8qhcyqh3inzkbkgn53f0xhx4zi6g-pnpm-10.30.3/bin/pnpm",
+      "args": [
+        "nx",
+        "run",
+        "core:build:development",
+        "--outputStyle=dynamic-legacy"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Preset Script - Build",
+      "type": "node",
+      "request": "launch",
+      "program": "/nix/store/wi8a8qhcyqh3inzkbkgn53f0xhx4zi6g-pnpm-10.30.3/bin/pnpm",
       "args": [
         "nx",
         "run",
         "preset-script:build:development",
-        "--outputStyle=dynamic-legacy",
-        "--skipNxCache"
+        "--outputStyle=dynamic-legacy"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"
     },
     {
-      "name": "Playground - CLI Build",
+      "name": "Playground CLI - Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/f2fcs5sgi5jd8gpds8axpwhbg183ifmz-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/wi8a8qhcyqh3inzkbkgn53f0xhx4zi6g-pnpm-10.30.3/bin/pnpm",
       "args": [
         "nx",
         "run",
         "playground-cli:build:development",
-        "--outputStyle=dynamic-legacy",
-        "--skipNxCache"
+        "--outputStyle=dynamic-legacy"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"
     },
     {
-      "name": "Playground - CLI Binary",
+      "name": "Playground CLI - Run",
       "type": "node",
       "request": "launch",
       "program": "./playground/cli/dist/bin.mjs",
@@ -41,22 +53,21 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "Playground - Script Build",
+      "name": "Playground Script - Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/f2fcs5sgi5jd8gpds8axpwhbg183ifmz-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/wi8a8qhcyqh3inzkbkgn53f0xhx4zi6g-pnpm-10.30.3/bin/pnpm",
       "args": [
         "nx",
         "run",
         "playground-script:build:development",
-        "--outputStyle=dynamic-legacy",
-        "--skipNxCache"
+        "--outputStyle=dynamic-legacy"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"
     },
     {
-      "name": "Playground - Script Binary",
+      "name": "Playground Script - Run",
       "type": "node",
       "request": "launch",
       "program": "./playground/script/dist/bin.mjs",
@@ -64,31 +75,29 @@
       "console": "integratedTerminal"
     },
     {
-      "name": "Playground - Script Docs",
+      "name": "Playground Script - Docs",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/f2fcs5sgi5jd8gpds8axpwhbg183ifmz-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/wi8a8qhcyqh3inzkbkgn53f0xhx4zi6g-pnpm-10.30.3/bin/pnpm",
       "args": [
         "nx",
         "run",
         "playground-script:docs:development",
-        "--outputStyle=dynamic-legacy",
-        "--skipNxCache"
+        "--outputStyle=dynamic-legacy"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"
     },
     {
-      "name": "Playground - Powerlines",
+      "name": "Playground Powerlines - Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/f2fcs5sgi5jd8gpds8axpwhbg183ifmz-pnpm-10.28.0/bin/pnpm",
+      "program": "/nix/store/wi8a8qhcyqh3inzkbkgn53f0xhx4zi6g-pnpm-10.30.3/bin/pnpm",
       "args": [
         "nx",
         "run",
         "playground-powerlines:build:development",
-        "--outputStyle=dynamic-legacy",
-        "--skipNxCache"
+        "--outputStyle=dynamic-legacy"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"

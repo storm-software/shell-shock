@@ -93,7 +93,7 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
                 true
               )} command-line interface application.`,
               entry: {
-                file: joinPaths(this.entryPath, "help", "command.ts"),
+                file: joinPaths(this.entryPath, "help", "index.ts"),
                 input: {
                   file: joinPaths(this.entryPath, "help", "command.ts")
                 }

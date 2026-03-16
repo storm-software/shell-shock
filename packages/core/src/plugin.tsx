@@ -33,13 +33,12 @@ import { camelCase } from "@stryke/string-format/camel-case";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { isObject } from "@stryke/type-checks/is-object";
-import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { defu } from "defu";
 import type { Plugin } from "powerlines";
 import { tsdown } from "powerlines/tsdown";
 import { resolveInputs } from "powerlines/utils";
-import type { OutputOptions, RenderedChunk } from "rolldown";
+import type { BuildContext, RolldownChunk, TsdownHooks } from "tsdown";
 import { CommandDocsFile } from "./components/docs";
 import { UtilsBuiltin } from "./components/utils-builtin";
 import { commands } from "./helpers/automd";
@@ -110,7 +109,7 @@ export const plugin = <TContext extends Context = Context>(
             isCaseSensitive: false,
             output: {
               format: "esm",
-              dts: true
+              dts: false
             },
             input:
               !this.config.input ||
@@ -127,7 +126,7 @@ export const plugin = <TContext extends Context = Context>(
               external: ["@powerlines/deepkit"]
             },
             tsdown: {
-              dts: true,
+              dts: false,
               nodeProtocol: true,
               unbundle: false
             }
@@ -508,60 +507,52 @@ export const plugin = <TContext extends Context = Context>(
     {
       name: "shell-shock:chmod+x",
       configResolved() {
-        this.config.tsdown.outputOptions ??= {} as any;
-        if (isObject(this.config.tsdown.outputOptions)) {
-          (
-            this.config.tsdown.outputOptions as NonNullable<OutputOptions>
-          ).banner = (chunk: RenderedChunk) => {
-            if (
-              chunk.isEntry &&
-              joinPaths(this.entryPath, "bin.ts") === chunk.facadeModuleId
-            ) {
-              this.debug(
-                `Adding hashbang to binary executable output file: ${
-                  chunk.fileName
-                }`
-              );
-
-              return `#!/usr/bin/env ${
-                this.config.mode === "development"
-                  ? "-S NODE_OPTIONS=--enable-source-maps"
-                  : ""
-              } node\n`;
-            }
-            return "";
-          };
-        }
-      },
-      async buildEnd() {
-        if (!isSetObject(this.config.bin)) {
-          this.warn(
-            `No binaries were found for the ${
-              this.config.name
-            } application. Please ensure the binaries are correctly configured in your Shell Shock configuration or package.json.`
-          );
-        } else {
+        this.config.tsdown.hooks ??= {} as TsdownHooks;
+        (this.config.tsdown.hooks as TsdownHooks)["build:done"] = async (
+          _: BuildContext & {
+            chunks: RolldownChunk[];
+          }
+        ) => {
           await Promise.all(
             Object.values(this.config.bin).map(async bin => {
               const path = appendPath(
                 bin,
                 joinPaths(this.workspaceConfig.workspaceRoot, this.config.root)
               );
-
               if (this.fs.existsSync(path)) {
                 this.debug(
-                  `Adding executable permissions (chmod+x) to binary executable output file: ${path}`
+                  `Adding hashbang to binary executable output file: ${path}`
+                );
+
+                const content = await this.fs.read(path);
+                if (content && !content.startsWith("#!")) {
+                  await this.fs.write(
+                    path,
+                    `#!/usr/bin/env ${
+                      this.config.mode === "development"
+                        ? "-S NODE_OPTIONS=--enable-source-maps"
+                        : ""
+                    } node\n\n${content}`
+                  );
+                }
+
+                this.debug(
+                  `Adding executable permissions (chmod+x) to binary executable output file: ${
+                    path
+                  }`
                 );
 
                 await chmodX(path);
               } else {
                 this.warn(
-                  `Unable to locate the binary executable output file: ${path}. This may indicate either a misconfiguration in the package.json file or an issue with the build process.`
+                  `Expected binary output file not found at path: ${
+                    path
+                  }. Skipping adding hashbang and executable permissions (chmod+x).`
                 );
               }
             })
           );
-        }
+        };
       }
     },
     {

@@ -29,6 +29,7 @@ import type {
 } from "@shell-shock/plugin-console";
 import type {
   HelpPluginContext,
+  HelpPluginOptions,
   HelpPluginResolvedConfig,
   HelpPluginUserConfig
 } from "@shell-shock/plugin-help";
@@ -55,6 +56,7 @@ import type { ResolvedConfig } from "powerlines";
 export type UpgradeType = "confirm" | "auto" | "manual";
 
 export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> &
+  HelpPluginOptions &
   PromptsPluginOptions &
   UpgradePluginOptions & {
     /**

@@ -90,7 +90,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                       spinner.success("Update successful! Please restart the application to apply the update.");
 
                       writeLine("");
-                      writeLine("Press any key to exit application...");
+                      writeLine("Press any key to exit the application...");
 
                       await waitForKeyPress();
                       return;
@@ -142,7 +142,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                     spinner.success("Update successful! Please restart the application to apply the update.");
 
                     writeLine("");
-                    writeLine("Press any key to exit application...");
+                    writeLine("Press any key to exit the application...");
 
                     await waitForKeyPress();
                     return;

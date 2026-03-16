@@ -100,6 +100,7 @@
   "evenBetterToml.taplo.configFile.path": "./node_modules/@storm-software/linting-tools/taplo/config.toml",
   "markdownlint.configFile": "./node_modules/@storm-software/markdownlint/config/base.markdownlint-cli2.jsonc",
   "eslint.debug": false,
+  "eslint.useRealpaths": true,
   "eslint.codeAction.disableRuleComment": {
     "enable": true,
     "location": "separateLine"

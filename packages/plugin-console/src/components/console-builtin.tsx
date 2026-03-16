@@ -2271,7 +2271,6 @@ export function MessageFunctionDeclaration(
             : ""
         }
 
-        writeLine("");
         writeLine(colors.border.message.outline.${color}("${
           theme.borderStyles.message.outline[variant].topLeft
         }") + ${

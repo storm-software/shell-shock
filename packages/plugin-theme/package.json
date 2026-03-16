@@ -60,7 +60,6 @@
         "default": "./dist/index.mjs"
       }
     },
-    "./*": "./*",
     "./contexts": {
       "require": {
         "types": "./dist/contexts/index.d.cts",
@@ -159,6 +158,7 @@
         "default": "./dist/helpers/spinners.mjs"
       }
     },
+    "./package.json": "./package.json",
     "./types": {
       "require": {
         "types": "./dist/types/index.d.cts",

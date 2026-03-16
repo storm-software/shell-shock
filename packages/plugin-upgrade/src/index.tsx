@@ -75,7 +75,7 @@ export const plugin = <
             true
           )} command-line interface application.`,
           entry: {
-            file: joinPaths(this.entryPath, "upgrade", "command.ts"),
+            file: joinPaths(this.entryPath, "upgrade", "index.ts"),
             input: {
               file: joinPaths(this.entryPath, "upgrade", "command.ts")
             }
