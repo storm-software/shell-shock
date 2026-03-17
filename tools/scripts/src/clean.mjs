@@ -33,9 +33,10 @@ try {
     );
   }
 
-  proc = $`rm -rf ./.nx/cache ./.nx/workspace-data ./dist ./tmp`.timeout(
-    `${5 * 60}s`
-  );
+  proc =
+    $`rm -rf ./.nx/cache ./.nx/workspace-data ./.rolldown ./dist ./tmp`.timeout(
+      `${5 * 60}s`
+    );
   proc.stdout.on("data", data => {
     echo`${data}`;
   });

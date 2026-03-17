@@ -22,22 +22,17 @@ import { defineConfig } from "powerlines/config";
 import { tsdown } from "powerlines/tsdown";
 
 const config: UserConfig = defineConfig({
-  name: "nx",
-  input: [
-    "./src/index.ts",
-    "./src/plugin/index.ts",
-    "./src/executors/*/executor.ts"
-  ],
+  name: "nx-base",
+  input: ["./src/index.ts", "./src/executors/*/executor.ts"],
   output: {
     buildPath: "./packages/nx/dist/src"
   },
   plugins: [untyped(), tsdown()],
+  platform: "node",
   resolve: {
     skipNodeModulesBundle: true
   },
   tsdown: {
-    clean: false,
-    silent: true,
     minify: false,
     unbundle: false,
     exports: false,

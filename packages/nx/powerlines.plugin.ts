@@ -16,14 +16,28 @@
 
  ------------------------------------------------------------------- */
 
-import { getStormConfig } from "@storm-software/eslint";
+import type { UserConfig } from "powerlines";
+import { defineConfig } from "powerlines/config";
+import { tsdown } from "powerlines/tsdown";
 
-Error.stackTraceLimit = Number.POSITIVE_INFINITY;
-
-/** @type {import('eslint').Linter.Config[]} */
-export default getStormConfig({
-  name: "shell-shock",
-  nx: {
-    depsCheck: false
+const config: UserConfig = defineConfig({
+  name: "nx-plugin",
+  input: "./src/plugin/index.ts",
+  output: {
+    buildPath: "./packages/nx/dist/src"
+  },
+  plugins: [tsdown()],
+  platform: "node",
+  resolve: {
+    noExternal: ["@powerlines/nx"],
+    skipNodeModulesBundle: true
+  },
+  tsdown: {
+    minify: false,
+    unbundle: false,
+    exports: false,
+    fixedExtension: false
   }
 });
+
+export default config;

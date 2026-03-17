@@ -16,7 +16,6 @@ remotes:
       - packages/git-tools/src/lefthook/recommended.yml
 
 pre-commit:
-  piped: true
   commands:
     nx-sync:
       glob: "**/*"
@@ -24,7 +23,6 @@ pre-commit:
       stage_fixed: true
 
 pre-push:
-  piped: true
   commands:
     nx-sync:
       glob: "**/*"

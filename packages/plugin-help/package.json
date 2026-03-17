@@ -172,7 +172,7 @@
     }
   },
   "inlinedDependencies": {
-    "@stryke/string-format": "0.17.4",
-    "@stryke/type-checks": "0.5.39"
+    "@stryke/string-format": "0.17.6",
+    "@stryke/type-checks": "0.5.41"
   }
 }

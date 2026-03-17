@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/nx",
-  "version": "0.0.44",
+  "version": "0.0.37",
   "description": "A Nx plugin to support Shell Shock development in Nx monorepos.",
   "repository": {
     "type": "github",
@@ -92,7 +92,6 @@
   "typings": "dist/src/index.d.ts",
   "dependencies": {
     "@nx/devkit": "catalog:",
-    "@powerlines/nx": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@storm-software/config": "catalog:",
     "@storm-software/config-tools": "catalog:",
@@ -104,6 +103,7 @@
     "untyped": "catalog:"
   },
   "devDependencies": {
+    "@powerlines/nx": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
     "@powerlines/plugin-untyped": "catalog:",
     "@storm-software/testing-tools": "catalog:",
