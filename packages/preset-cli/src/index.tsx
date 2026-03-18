@@ -16,17 +16,24 @@
 
  ------------------------------------------------------------------- */
 
-import { code, For, Show } from "@alloy-js/core";
+import { code, computed, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
+import {
+  getAppDescription,
+  getAppName,
+  getAppTitle,
+  getCommandList
+} from "@shell-shock/core/plugin-utils";
 import console from "@shell-shock/plugin-console";
 import help from "@shell-shock/plugin-help";
 import prompts from "@shell-shock/plugin-prompts";
 import upgrade from "@shell-shock/plugin-upgrade";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
+import { joinPaths } from "@stryke/path";
 import type { Plugin } from "powerlines";
-import { BannerFunctionDeclaration } from "./components/banner-function-declaration";
+import { BannerBuiltin } from "./components";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
 import { UpgradeBuiltin } from "./components/upgrade-builtin";
@@ -64,9 +71,48 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
       prepare: {
         order: "post",
         async handler() {
-          this.debug("Rendering upgrade built-in module.");
+          this.debug("Rendering built-in modules.");
 
-          return render(this, <UpgradeBuiltin />);
+          const commands = await getCommandList(this);
+          this.debug(
+            `Rendering \`banner\` built-ins for each of the ${
+              commands.length
+            } command modules.`
+          );
+
+          const bin = computed(() => ({
+            id: "",
+            name: getAppName(this),
+            title: getAppTitle(this),
+            description: getAppDescription(this),
+            isVirtual: true,
+            path: null,
+            segments: [],
+            alias: [],
+            options: Object.fromEntries(
+              this.options.map(option => [option.name, option])
+            ),
+            entry: {
+              file: joinPaths(this.entryPath, "bin.ts")
+            },
+            args: [],
+            parent: null,
+            children: this.commands
+          }));
+
+          return render(
+            this,
+            <>
+              <UpgradeBuiltin />
+              <BannerBuiltin command={bin.value} />
+              <Spacing />
+              <For
+                each={commands.sort((a, b) => a.name.localeCompare(b.name))}
+                doubleHardline>
+                {command => <BannerBuiltin command={command} />}
+              </For>
+            </>
+          );
         }
       }
     },
@@ -114,13 +160,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                   ],
                   env: ["env", "paths"],
                   upgrade: ["executeUpgrade"]
-                }}
-                prefix={
-                  <>
-                    <BannerFunctionDeclaration />
-                    <Spacing />
-                  </>
-                }>
+                }}>
                 <Show when={Object.keys(this.commands).length > 0}>
                   <VarDeclaration
                     let
@@ -133,7 +173,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                   <hbr />
                 </Show>
                 <hbr />
-                {code`await banner(0);`}
+                {code`await showBanner(0);`}
                 <Spacing />
                 {code`return showHelp(); `}
               </BinEntry>

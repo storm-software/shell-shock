@@ -55,7 +55,6 @@ import { kebabCase } from "@stryke/string-format/kebab-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
-import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { VirtualCommandEntry } from "./virtual-command-entry";
 
 export function CommandInvocation(props: { command: CommandTree }) {
@@ -147,6 +146,7 @@ export function CommandHandlerDeclaration(
         <IfStatement condition={<IsDebug />}>
           {code`writeLine("");
           writeLine(colors.text.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console."));
+          writeLine("");
           debug(\`Command path: ${command.segments
             .map(segment =>
               isDynamicPathSegment(segment)
@@ -255,13 +255,20 @@ export function CommandEntry(props: CommandEntryProps) {
             ...command.segments.filter(
               segment => !isDynamicPathSegment(segment)
             )
-          )]: ["showHelp"]
+          )]: ["showHelp"],
+          [joinPaths(
+            "banner",
+            ...command.segments.filter(
+              segment => !isDynamicPathSegment(segment)
+            )
+          )]: ["showBanner"]
         })}>
-        <BannerFunctionDeclaration command={command} />
         <Spacing />
         <OptionsInterfaceDeclaration command={command} />
         <Spacing />
-        <CommandHandlerDeclaration command={command} banner={code`banner(); `}>
+        <CommandHandlerDeclaration
+          command={command}
+          banner={code`await showBanner(); `}>
           <CommandValidationLogic command={command} />
           <IfStatement condition={code`failures.length > 0`}>
             {code`error("The following validation failures were found while processing the user provided input, and must be corrected before the command-line process can be executed: \\n\\n" + failures.map(failure => " - " + failure).join("\\n"));

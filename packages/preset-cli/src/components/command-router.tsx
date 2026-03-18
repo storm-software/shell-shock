@@ -66,7 +66,7 @@ export function CommandRouter(props: CommandRouterProps) {
       <BaseCommandRouter {...props} segments={segments} commands={commands} />
       <Spacing />
       <IfStatement condition={code`isInteractive && !isHelp`}>
-        {code`await banner();
+        {code`await showBanner();
 
         let segments = await select({
           message: "Which command would you like to execute?",

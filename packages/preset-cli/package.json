@@ -73,18 +73,18 @@
         "default": "./dist/components/index.mjs"
       }
     },
-    "./components/banner-function-declaration": {
+    "./components/banner-builtin": {
       "require": {
-        "types": "./dist/components/banner-function-declaration.d.cts",
-        "default": "./dist/components/banner-function-declaration.cjs"
+        "types": "./dist/components/banner-builtin.d.cts",
+        "default": "./dist/components/banner-builtin.cjs"
       },
       "import": {
-        "types": "./dist/components/banner-function-declaration.d.mts",
-        "default": "./dist/components/banner-function-declaration.mjs"
+        "types": "./dist/components/banner-builtin.d.mts",
+        "default": "./dist/components/banner-builtin.mjs"
       },
       "default": {
-        "types": "./dist/components/banner-function-declaration.d.mts",
-        "default": "./dist/components/banner-function-declaration.mjs"
+        "types": "./dist/components/banner-builtin.d.mts",
+        "default": "./dist/components/banner-builtin.mjs"
       }
     },
     "./components/command-entry": {

@@ -73,20 +73,6 @@
         "default": "./dist/components/index.mjs"
       }
     },
-    "./components/banner-function-declaration": {
-      "require": {
-        "types": "./dist/components/banner-function-declaration.d.cts",
-        "default": "./dist/components/banner-function-declaration.cjs"
-      },
-      "import": {
-        "types": "./dist/components/banner-function-declaration.d.mts",
-        "default": "./dist/components/banner-function-declaration.mjs"
-      },
-      "default": {
-        "types": "./dist/components/banner-function-declaration.d.mts",
-        "default": "./dist/components/banner-function-declaration.mjs"
-      }
-    },
     "./components/bin-entry": {
       "require": {
         "types": "./dist/components/bin-entry.d.cts",

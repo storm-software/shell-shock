@@ -2795,6 +2795,216 @@ declare module "shell-shock:upgrade" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying banner information for the Playground command-line interface application.
+ *
+ * @module shell-shock:banner
+ */
+declare module "shell-shock:banner" {
+  /**
+   * Write the Playground command-line interface application banner for the
+   * Playground Command Line Interface command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the New - Application command.
+ *
+ * @module shell-shock:banner/new/application
+ */
+declare module "shell-shock:banner/new/application" {
+  /**
+   * Write the Playground command-line interface application banner for the New -
+   * Application command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Project Build command.
+ *
+ * @module shell-shock:banner/build
+ */
+declare module "shell-shock:banner/build" {
+  /**
+   * Write the Playground command-line interface application banner for the
+   * Project Build command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Copy command.
+ *
+ * @module shell-shock:banner/copy
+ */
+declare module "shell-shock:banner/copy" {
+  /**
+   * Write the Playground command-line interface application banner for the Copy
+   * command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Help command.
+ *
+ * @module shell-shock:banner/help
+ */
+declare module "shell-shock:banner/help" {
+  /**
+   * Write the Playground command-line interface application banner for the Help
+   * command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the New - Library command.
+ *
+ * @module shell-shock:banner/new/library
+ */
+declare module "shell-shock:banner/new/library" {
+  /**
+   * Write the Playground command-line interface application banner for the New -
+   * Library command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Run - Local command.
+ *
+ * @module shell-shock:banner/run/local
+ */
+declare module "shell-shock:banner/run/local" {
+  /**
+   * Write the Playground command-line interface application banner for the Run -
+   * Local command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the New Commands command.
+ *
+ * @module shell-shock:banner/new
+ */
+declare module "shell-shock:banner/new" {
+  /**
+   * Write the Playground command-line interface application banner for the New
+   * Commands command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the New - Project command.
+ *
+ * @module shell-shock:banner/new/project
+ */
+declare module "shell-shock:banner/new/project" {
+  /**
+   * Write the Playground command-line interface application banner for the New -
+   * Project command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Run - Remote command.
+ *
+ * @module shell-shock:banner/run/remote
+ */
+declare module "shell-shock:banner/run/remote" {
+  /**
+   * Write the Playground command-line interface application banner for the Run -
+   * Remote command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Remove Files command.
+ *
+ * @module shell-shock:banner/remove
+ */
+declare module "shell-shock:banner/remove" {
+  /**
+   * Write the Playground command-line interface application banner for the Remove
+   * Files command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Run Commands command.
+ *
+ * @module shell-shock:banner/run
+ */
+declare module "shell-shock:banner/run" {
+  /**
+   * Write the Playground command-line interface application banner for the Run
+   * Commands command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Start command.
+ *
+ * @module shell-shock:banner/start
+ */
+declare module "shell-shock:banner/start" {
+  /**
+   * Write the Playground command-line interface application banner for the Start
+   * command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Upgrade command.
+ *
+ * @module shell-shock:banner/upgrade
+ */
+declare module "shell-shock:banner/upgrade" {
+  /**
+   * Write the Playground command-line interface application banner for the
+   * Upgrade command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
  * A collection of utility functions that assist in displaying help information for the Playground command-line interface application.
  *
  * @module shell-shock:help

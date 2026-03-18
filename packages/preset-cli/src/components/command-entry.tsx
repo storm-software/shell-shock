@@ -42,7 +42,6 @@ import { camelCase } from "@stryke/string-format/camel-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { CLIPresetContext } from "../types/plugin";
-import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { VirtualCommandEntry } from "./virtual-command-entry";
 
 export interface CommandEntryProps extends Omit<
@@ -134,13 +133,18 @@ export function CommandEntry(props: CommandEntryProps) {
               segment => !isDynamicPathSegment(segment)
             )
           )]: ["showHelp"],
+          [joinPaths(
+            "banner",
+            ...command.segments.filter(
+              segment => !isDynamicPathSegment(segment)
+            )
+          )]: ["showBanner"],
           upgrade: ["executeUpgrade"]
         })}>
-        <BannerFunctionDeclaration command={command} />
         <Spacing />
         <CommandHandlerDeclaration
           command={command}
-          banner={code`await banner();
+          banner={code`await showBanner();
           await executeUpgrade(); `}>
           <IfStatement condition={code`!isInteractive`}>
             <CommandValidationLogic command={command} />

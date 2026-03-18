@@ -29,7 +29,6 @@ import { joinPaths } from "@stryke/path/join";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { CLIPresetContext } from "../types/plugin";
-import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { CommandEntry } from "./command-entry";
 import { CommandRouter } from "./command-router";
 
@@ -103,9 +102,14 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             ...command.segments.filter(
               segment => !isDynamicPathSegment(segment)
             )
-          )]: ["showHelp"]
+          )]: ["showHelp"],
+          [joinPaths(
+            "banner",
+            ...command.segments.filter(
+              segment => !isDynamicPathSegment(segment)
+            )
+          )]: ["showBanner"]
         })}>
-        <BannerFunctionDeclaration command={command} />
         <Spacing />
         <VirtualCommandHandlerDeclaration command={command}>
           <CommandRouter

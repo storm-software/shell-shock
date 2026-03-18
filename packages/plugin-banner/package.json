@@ -1,8 +1,8 @@
 {
-  "name": "@shell-shock/plugin-help",
-  "version": "0.1.3",
+  "name": "@shell-shock/plugin-banner",
+  "version": "0.0.1",
   "private": false,
-  "description": "A package containing a Shell Shock plugin to provide help and documentation for the local application's commands.",
+  "description": "A package containing a Shell Shock plugin to generate banner built-in modules that display information about the application.",
   "keywords": [
     "shell-shock",
     "shell-shock-plugin",
@@ -17,7 +17,7 @@
   "repository": {
     "type": "github",
     "url": "https://github.com/storm-software/shell-shock.git",
-    "directory": "packages/plugin-help"
+    "directory": "packages/plugin-banner"
   },
   "funding": {
     "type": "github",
@@ -98,46 +98,32 @@
         "default": "./dist/components/index.mjs"
       }
     },
-    "./components/display": {
+    "./components/banner-builtin": {
       "require": {
-        "types": "./dist/components/display.d.cts",
-        "default": "./dist/components/display.cjs"
+        "types": "./dist/components/banner-builtin.d.cts",
+        "default": "./dist/components/banner-builtin.cjs"
       },
       "import": {
-        "types": "./dist/components/display.d.mts",
-        "default": "./dist/components/display.mjs"
+        "types": "./dist/components/banner-builtin.d.mts",
+        "default": "./dist/components/banner-builtin.mjs"
       },
       "default": {
-        "types": "./dist/components/display.d.mts",
-        "default": "./dist/components/display.mjs"
+        "types": "./dist/components/banner-builtin.d.mts",
+        "default": "./dist/components/banner-builtin.mjs"
       }
     },
-    "./components/help-builtin": {
+    "./components/banner-function-declaration": {
       "require": {
-        "types": "./dist/components/help-builtin.d.cts",
-        "default": "./dist/components/help-builtin.cjs"
+        "types": "./dist/components/banner-function-declaration.d.cts",
+        "default": "./dist/components/banner-function-declaration.cjs"
       },
       "import": {
-        "types": "./dist/components/help-builtin.d.mts",
-        "default": "./dist/components/help-builtin.mjs"
+        "types": "./dist/components/banner-function-declaration.d.mts",
+        "default": "./dist/components/banner-function-declaration.mjs"
       },
       "default": {
-        "types": "./dist/components/help-builtin.d.mts",
-        "default": "./dist/components/help-builtin.mjs"
-      }
-    },
-    "./components/help-command": {
-      "require": {
-        "types": "./dist/components/help-command.d.cts",
-        "default": "./dist/components/help-command.cjs"
-      },
-      "import": {
-        "types": "./dist/components/help-command.d.mts",
-        "default": "./dist/components/help-command.mjs"
-      },
-      "default": {
-        "types": "./dist/components/help-command.d.mts",
-        "default": "./dist/components/help-command.mjs"
+        "types": "./dist/components/banner-function-declaration.d.mts",
+        "default": "./dist/components/banner-function-declaration.mjs"
       }
     },
     "./package.json": "./package.json",
@@ -169,9 +155,5 @@
         "default": "./dist/types/plugin.mjs"
       }
     }
-  },
-  "inlinedDependencies": {
-    "@stryke/string-format": "0.17.6",
-    "@stryke/type-checks": "0.5.41"
   }
 }

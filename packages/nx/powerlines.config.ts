@@ -25,7 +25,7 @@ const config: UserConfig = defineConfig({
   name: "nx-base",
   input: ["./src/index.ts", "./src/executors/*/executor.ts"],
   output: {
-    buildPath: "./packages/nx/dist/src"
+    path: "./packages/nx/dist/src"
   },
   plugins: [untyped(), tsdown()],
   platform: "node",

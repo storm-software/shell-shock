@@ -98,7 +98,7 @@ export type Options = BaseOptions & Partial<NodeJsPluginOptions>;
  */
 export type OutputConfig = Pick<
   PowerlinesOutputConfig,
-  "outputPath" | "assets" | "storage"
+  "path" | "assets" | "storage"
 > & {
   /**
    * An indicator specifying whether to generate TypeScript declaration files (.d.ts) during the build process.

@@ -11,7 +11,8 @@
       "executor": "@powerlines/nx:build",
       "dependsOn": ["^build"],
       "options": {
-        "configFile": "packages/nx/powerlines.config.ts"
+        "configFile": "packages/nx/powerlines.config.ts",
+        "outputPath": "packages/nx/dist/src"
       }
     },
     "build-plugin": {
@@ -21,7 +22,8 @@
       "executor": "@powerlines/nx:build",
       "dependsOn": ["^build"],
       "options": {
-        "configFile": "packages/nx/powerlines.plugin.ts"
+        "configFile": "packages/nx/powerlines.plugin.ts",
+        "outputPath": "packages/nx/dist/src"
       }
     },
     "build": {

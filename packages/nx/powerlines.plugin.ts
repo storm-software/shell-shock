@@ -24,7 +24,7 @@ const config: UserConfig = defineConfig({
   name: "nx-plugin",
   input: "./src/plugin/index.ts",
   output: {
-    buildPath: "./packages/nx/dist/src"
+    path: "./packages/nx/dist/src"
   },
   plugins: [tsdown()],
   platform: "node",

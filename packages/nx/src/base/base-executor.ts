@@ -107,9 +107,7 @@ export function withExecutor<
             projectType: projectConfig.projectType,
             mode: options.mode,
             output: {
-              outputPath:
-                options.outputPath ??
-                projectConfig.targets?.build?.options?.outputPath
+              path: options.outputPath
             }
           },
           options

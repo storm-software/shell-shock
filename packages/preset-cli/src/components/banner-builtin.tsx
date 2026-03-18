@@ -16,21 +16,30 @@
 
  ------------------------------------------------------------------- */
 
-import { code, computed } from "@alloy-js/core";
-import { FunctionDeclaration, IfStatement } from "@alloy-js/typescript";
+import { code, computed, Show, splitProps } from "@alloy-js/core";
+import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
+import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
+import type { CommandTree } from "@shell-shock/core";
 import { getAppDescription, getAppTitle } from "@shell-shock/core/plugin-utils";
+import { BannerBuiltin as BaseBannerBuiltin } from "@shell-shock/plugin-banner/components/banner-builtin";
+import type { BannerFunctionBodyDeclarationProps } from "@shell-shock/plugin-banner/components/banner-function-declaration";
+import {
+  BannerFunctionDeclarationWrapper,
+  BannerFunctionBodyDeclaration as BaseBannerFunctionBodyDeclaration
+} from "@shell-shock/plugin-banner/components/banner-function-declaration";
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
-import type { BannerFunctionDeclarationProps } from "@shell-shock/preset-script/components/banner-function-declaration";
-import { BannerFunctionBodyDeclaration } from "@shell-shock/preset-script/components/banner-function-declaration";
 import { render } from "cfonts";
 import type { CLIPresetContext } from "../types/plugin";
 
 /**
  * A component to generate the `banner` function in the `shell-shock:console` builtin module.
  */
-export function BannerFunctionDeclaration(
-  props: BannerFunctionDeclarationProps
+export function BannerFunctionBodyDeclaration(
+  props: Omit<
+    BannerFunctionBodyDeclarationProps,
+    "header" | "description" | "footer"
+  >
 ) {
   const { consoleFnName = "log", variant = "primary", command } = props;
 
@@ -75,41 +84,58 @@ export function BannerFunctionDeclaration(
   const bannerPadding = computed(
     () =>
       Math.max(theme.padding.app, 0) * 2 +
-      theme.borderStyles.banner.outline[variant].left.length +
-      theme.borderStyles.banner.outline[variant].right.length
+      (theme.borderStyles.banner.outline[variant]?.left.length ?? 0) +
+      (theme.borderStyles.banner.outline[variant]?.right.length ?? 0)
   );
   const totalPadding = computed(
     () => Math.max(theme.padding.banner, 0) * 2 + bannerPadding.value
   );
 
   return (
-    <>
-      <FunctionDeclaration
-        async
-        name="banner"
-        doc={`Write the ${getAppTitle(context, true)} application banner ${
-          command ? `for the ${command.title} command ` : ""
-        }to the console.`}
-        parameters={[{ name: "pause", type: "number", default: 500 }]}>
-        <BannerFunctionBodyDeclaration
-          header={header.value}
-          description={description.value}
-          footer={footer.value}
-          variant={variant}
-          consoleFnName={consoleFnName}
-          command={command}
-          insertNewlineAfterDescription>
-          {code`const titleLines = [${titleLines.value
-            .map(line => JSON.stringify(line.trim()))
-            .join(", ")}];
+    <BaseBannerFunctionBodyDeclaration
+      header={header.value}
+      description={description.value}
+      footer={footer.value}
+      variant={variant}
+      consoleFnName={consoleFnName}
+      command={command}
+      insertNewlineAfterDescription>
+      {code`const titleLines = [${titleLines.value
+        .map(line => JSON.stringify(line.trim()))
+        .join(", ")}];
         const title = Math.max(...titleLines.map(line => stripAnsi(line).length)) > Math.max(process.stdout.columns - ${
           totalPadding.value
         }, 0) ? "${title.value}" : \`\\n\${titleLines.join("\\n")}\\n\`; `}
-        </BannerFunctionBodyDeclaration>
-        <IfStatement condition={code`isInteractive && !isHelp`}>
-          {code`await sleep(pause);`}
-        </IfStatement>
-      </FunctionDeclaration>
-    </>
+    </BaseBannerFunctionBodyDeclaration>
+  );
+}
+
+export type BannerBuiltinProps = Omit<
+  BuiltinFileProps,
+  "id" | "description"
+> & {
+  /**
+   * The command to generate the `banner` function declaration for.
+   */
+  command: CommandTree;
+};
+
+/**
+ * A built-in banner module for Shell Shock.
+ */
+export function BannerBuiltin(props: BannerBuiltinProps) {
+  const [{ command, children }, rest] = splitProps(props, [
+    "command",
+    "children"
+  ]);
+
+  return (
+    <BaseBannerBuiltin {...rest} command={command}>
+      <BannerFunctionDeclarationWrapper command={command}>
+        <BannerFunctionBodyDeclaration command={command} />
+        <Spacing />
+        <Show when={Boolean(children)}>{children}</Show>
+      </BannerFunctionDeclarationWrapper>
+    </BaseBannerBuiltin>
   );
 }

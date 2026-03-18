@@ -96,7 +96,7 @@ export const plugin = <TContext extends Context = Context>(
         const result = defu(
           {
             output: {
-              buildPath: joinPaths(this.config.root, "dist")
+              path: joinPaths(this.config.root, "dist")
             }
           },
           options,

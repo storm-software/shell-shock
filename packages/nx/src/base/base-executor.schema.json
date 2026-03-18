@@ -4,11 +4,19 @@
   "description": "A shared/base schema type definition for Shell Shock executors",
   "required": [],
   "properties": {
+    "config": {
+      "title": "Powerlines Configuration File",
+      "type": "string",
+      "format": "path",
+      "description": "The path to the Powerlines configuration file. Alias for `configFile`.",
+      "id": "#config",
+      "default": "{projectRoot}/powerlines.config.ts"
+    },
     "configFile": {
       "title": "Powerlines Configuration File",
       "type": "string",
       "format": "path",
-      "description": "The path to the Powerlines configuration file",
+      "description": "The path to the Powerlines configuration file. Alias for `config`.",
       "id": "#configFile",
       "default": "{projectRoot}/powerlines.config.ts"
     },
@@ -36,6 +44,13 @@
       "format": "path",
       "description": "The path to the output directory for the build artifacts",
       "id": "#outputPath"
+    },
+    "publishPath": {
+      "title": "Publish Path",
+      "type": "string",
+      "format": "path",
+      "description": "The path to the publish directory for the build artifacts",
+      "id": "#publishPath"
     },
     "sourceMap": {
       "title": "Sourcemap",
@@ -137,6 +152,7 @@
   },
   "type": "object",
   "default": {
+    "config": "{projectRoot}/powerlines.config.ts",
     "configFile": "{projectRoot}/powerlines.config.ts",
     "tsconfig": "{projectRoot}/tsconfig.json",
     "format": [

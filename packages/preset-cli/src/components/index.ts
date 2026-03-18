@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./banner-function-declaration";
+export * from "./banner-builtin";
 export * from "./command-entry";
 export * from "./command-router";
 export * from "./upgrade-builtin";

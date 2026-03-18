@@ -16,28 +16,5 @@
 
  ------------------------------------------------------------------- */
 
-import type { UserConfig } from "@shell-shock/core";
-import { defineConfig } from "@shell-shock/core/config";
-import cli from "@shell-shock/preset-cli";
-
-const config: UserConfig = defineConfig({
-  skipCache: true,
-  name: "playground-cli",
-  output: {
-    storage: "fs"
-  },
-  plugins: [
-    cli({
-      theme: {
-        labels: {
-          banner: {
-            header: "Shell Shock Playground",
-            footer: "https://stormsoftware.com"
-          }
-        }
-      }
-    })
-  ]
-});
-
-export default config;
+export * from "./banner-builtin";
+export * from "./banner-function-declaration";

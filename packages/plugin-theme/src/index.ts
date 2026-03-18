@@ -92,7 +92,7 @@ export const plugin = <
                 transformGroup: "js",
                 transforms: ["name/camel"],
                 fileHeader: "powerlines/file-header",
-                buildPath: this.config.output.outputPath,
+                buildPath: this.config.output.path,
                 files: [
                   {
                     format: "javascript/module",

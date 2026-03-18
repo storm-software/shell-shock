@@ -168,7 +168,8 @@ export function BinEntry(props: BinEntryProps) {
               "getArgs",
               "findSuggestions"
             ],
-            help: ["showHelp"]
+            help: ["showHelp"],
+            banner: ["showBanner"]
           })}>
           <ExitFunctionDeclaration />
           <Spacing />

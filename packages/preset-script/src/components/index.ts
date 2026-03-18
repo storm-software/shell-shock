@@ -16,7 +16,6 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./banner-function-declaration";
 export * from "./bin-entry";
 export * from "./command-entry";
 export * from "./command-router";

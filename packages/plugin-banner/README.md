@@ -49,23 +49,23 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 <!-- END header -->
 
-# Shell Shock - Help Plugin
+# Shell Shock - Banner Plugin
 
-A **Shell Shock** plugin that adds a `help` command and various built-in modules at `shell-shock:help/<command path>` to provide commands with utilities that render usage information back to the user through the console.
+A **Shell Shock** plugin that generates banner built-in modules that display information about the application.
 
 ## Installing
 
 Using [pnpm](http://pnpm.io):
 
 ```bash
-pnpm add -D @shell-shock/plugin-help
+pnpm add -D @shell-shock/plugin-banner
 ```
 
 <details>
   <summary>Using npm</summary>
 
 ```bash
-npm install -D @shell-shock/plugin-help
+npm install -D @shell-shock/plugin-banner
 ```
 
 </details>
@@ -74,18 +74,18 @@ npm install -D @shell-shock/plugin-help
   <summary>Using yarn</summary>
 
 ```bash
-yarn add -D @shell-shock/plugin-help
+yarn add -D @shell-shock/plugin-banner
 ```
 
 </details>
 
 ## Building
 
-Run `nx build plugin-help` to build the library.
+Run `nx build plugin-banner` to build the library.
 
 ## Running unit tests
 
-Run `nx test plugin-help` to execute the unit tests via [Jest](https://jestjs.io).
+Run `nx test plugin-banner` to execute the unit tests via [Jest](https://jestjs.io).
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->

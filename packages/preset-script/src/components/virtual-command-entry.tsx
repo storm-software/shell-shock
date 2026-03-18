@@ -41,7 +41,6 @@ import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
-import { BannerFunctionDeclaration } from "./banner-function-declaration";
 import { CommandEntry } from "./command-entry";
 import { CommandRouter } from "./command-router";
 
@@ -149,13 +148,18 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             ...command.segments.filter(
               segment => !isDynamicPathSegment(segment)
             )
-          )]: ["showHelp"]
+          )]: ["showHelp"],
+          [joinPaths(
+            "banner",
+            ...command.segments.filter(
+              segment => !isDynamicPathSegment(segment)
+            )
+          )]: ["showBanner"]
         })}>
-        <BannerFunctionDeclaration command={command} />
         <Spacing />
         <VirtualCommandHandlerDeclaration
           command={command}
-          banner={code`banner(); `}>
+          banner={code`await showBanner(); `}>
           <CommandRouter
             segments={command.segments}
             commands={command.children}

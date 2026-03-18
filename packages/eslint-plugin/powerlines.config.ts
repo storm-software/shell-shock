@@ -33,7 +33,6 @@ const config: UserConfig = defineConfig({
   tsdown: {
     unbundle: true,
     target: "es2022",
-    module: "esnext",
     exports: true
   }
 });

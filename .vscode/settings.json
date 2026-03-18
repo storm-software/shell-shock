@@ -92,13 +92,13 @@
   ],
   "prettier.requireConfig": true,
   "prettier.bracketSameLine": true,
-  "prettier.configPath": "./node_modules/@storm-software/prettier/config.json",
+  "prettier.configPath": "./node_modules/@storm-software/prettier/recommended.json",
   "prettier.ignorePath": "./node_modules/@storm-software/prettier/.prettierignore",
   "prettier.enableDebugLogs": false,
   "prettier.enable": true,
   "evenBetterToml.taplo.configFile.enabled": true,
   "evenBetterToml.taplo.configFile.path": "./node_modules/@storm-software/linting-tools/taplo/config.toml",
-  "markdownlint.configFile": "./node_modules/@storm-software/markdownlint/config/base.markdownlint-cli2.jsonc",
+  "markdownlint.configFile": "./node_modules/@storm-software/markdownlint/config/recommended.markdownlint-cli2.jsonc",
   "eslint.debug": false,
   "eslint.useRealpaths": true,
   "eslint.codeAction.disableRuleComment": {
@@ -144,7 +144,7 @@
   },
   "[typescript]": {
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit",
       "quickfix.biome": "explicit",

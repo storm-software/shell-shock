@@ -23,7 +23,6 @@ import { render } from "@powerlines/plugin-alloy/render";
 import console from "@shell-shock/plugin-console";
 import help from "@shell-shock/plugin-help";
 import type { Plugin } from "powerlines";
-import { BannerFunctionDeclaration } from "./components";
 import { BinEntry } from "./components/bin-entry";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
@@ -79,13 +78,7 @@ export const plugin = <
                     "help"
                   ],
                   utils: ["useApp", "useArgs", "isMinimal"]
-                }}
-                prefix={
-                  <>
-                    <BannerFunctionDeclaration />
-                    <Spacing />
-                  </>
-                }>
+                }}>
                 <Show when={Object.keys(this.commands).length > 0}>
                   <VarDeclaration
                     const
@@ -98,7 +91,7 @@ export const plugin = <
                   <hbr />
                 </Show>
                 <Spacing />
-                {code`banner();`}
+                {code`await showBanner();`}
                 <Spacing />
                 {code`return showHelp();`}
               </BinEntry>

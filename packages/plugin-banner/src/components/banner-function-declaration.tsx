@@ -18,19 +18,16 @@
 
 import type { Children } from "@alloy-js/core";
 import { code, computed, Show } from "@alloy-js/core";
-import { FunctionDeclaration } from "@alloy-js/typescript";
+import { FunctionDeclaration, IfStatement } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { getAppDescription, getAppTitle } from "@shell-shock/core/plugin-utils";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import type { ThemeColorVariant } from "@shell-shock/plugin-theme/types/theme";
-import type { ScriptPresetContext } from "../types";
+import type { BannerPluginContext } from "../types";
 
-export interface BannerFunctionDeclarationProps {
-  variant?: ThemeColorVariant;
-  consoleFnName?: "log" | "info" | "warn" | "error" | "debug";
-  insertNewlineBeforeBanner?: boolean;
+export interface BannerFunctionDeclarationWrapperProps {
   command?: CommandTree;
   children?: Children;
 }
@@ -41,58 +38,27 @@ export interface BannerFunctionDeclarationProps {
  * @remarks
  * This function will display a banner in the console with the application's name, version, and description. It can be customized with different variants for styling and supports conditional rendering based on flags or environment variables.
  */
-export function BannerFunctionDeclaration(
-  props: BannerFunctionDeclarationProps
+export function BannerFunctionDeclarationWrapper(
+  props: BannerFunctionDeclarationWrapperProps
 ) {
-  const {
-    consoleFnName = "log",
-    variant = "primary",
-    command,
-    children,
-    insertNewlineBeforeBanner = true
-  } = props;
+  const { command, children } = props;
 
-  const theme = useTheme();
-  const context = usePowerlines<ScriptPresetContext>();
-
-  const header = computed(
-    () =>
-      `${theme.labels.banner.header[variant] || getAppTitle(context, false)} v${
-        context.packageJson.version || "1.0.0"
-      }`
-  );
-  const footer = computed(() => theme.labels.banner.footer[variant]);
-  const title = computed(() =>
-    getAppTitle(context, true).replace(
-      `v${context.packageJson.version || "1.0.0"}`,
-      ""
-    )
-  );
-  const description = computed(
-    () => command?.description || getAppDescription(context)
-  );
+  const context = usePowerlines<BannerPluginContext>();
 
   return (
-    <>
-      <FunctionDeclaration
-        name="banner"
-        doc={`Write the ${getAppTitle(context, true)} command-line interface application banner ${
-          command ? `for the ${command.title} command ` : ""
-        }to the console.`}>
-        <BannerFunctionBodyDeclaration
-          title={title.value}
-          header={header.value}
-          description={description.value}
-          footer={footer.value}
-          variant={variant}
-          consoleFnName={consoleFnName}
-          command={command}
-          insertNewlineBeforeCommand
-          insertNewlineBeforeBanner={insertNewlineBeforeBanner}>
-          {children}
-        </BannerFunctionBodyDeclaration>
-      </FunctionDeclaration>
-    </>
+    <FunctionDeclaration
+      export
+      async
+      name="showBanner"
+      doc={`Write the ${getAppTitle(context, true)} command-line interface application banner ${
+        command ? `for the ${command.title} command ` : ""
+      }to the console.`}
+      parameters={[{ name: "sleepTimeoutMs", type: "number", default: 500 }]}>
+      {children}
+      <IfStatement condition={code`isInteractive && !isHelp`}>
+        {code`await sleep(sleepTimeoutMs);`}
+      </IfStatement>
+    </FunctionDeclaration>
   );
 }
 
@@ -291,5 +257,66 @@ export function BannerFunctionBodyDeclaration(
 
         writeLine(""); `}
     </>
+  );
+}
+
+export interface BannerFunctionDeclarationProps extends BannerFunctionDeclarationWrapperProps {
+  variant?: ThemeColorVariant;
+  consoleFnName?: "log" | "info" | "warn" | "error" | "debug";
+  insertNewlineBeforeBanner?: boolean;
+}
+
+/**
+ * A component to generate the `banner` function for a specific command or application.
+ *
+ * @remarks
+ * This function will display a banner in the console with the application's name, version, and description. It can be customized with different variants for styling and supports conditional rendering based on flags or environment variables.
+ */
+export function BannerFunctionDeclaration(
+  props: BannerFunctionDeclarationProps
+) {
+  const {
+    consoleFnName = "log",
+    variant = "primary",
+    command,
+    children,
+    insertNewlineBeforeBanner = true
+  } = props;
+
+  const theme = useTheme();
+  const context = usePowerlines<BannerPluginContext>();
+
+  const header = computed(
+    () =>
+      `${theme.labels.banner.header[variant] || getAppTitle(context, false)} v${
+        context.packageJson.version || "1.0.0"
+      }`
+  );
+  const footer = computed(() => theme.labels.banner.footer[variant]);
+  const title = computed(() =>
+    getAppTitle(context, true).replace(
+      `v${context.packageJson.version || "1.0.0"}`,
+      ""
+    )
+  );
+  const description = computed(
+    () => command?.description || getAppDescription(context)
+  );
+
+  return (
+    <BannerFunctionDeclarationWrapper command={command}>
+      <BannerFunctionBodyDeclaration
+        title={title.value}
+        header={header.value}
+        description={description.value}
+        footer={footer.value}
+        variant={variant}
+        consoleFnName={consoleFnName}
+        command={command}
+        insertNewlineBeforeCommand
+        insertNewlineBeforeBanner={insertNewlineBeforeBanner}>
+        {children}
+      </BannerFunctionBodyDeclaration>
+    </BannerFunctionDeclarationWrapper>
   );
 }
