@@ -40,7 +40,7 @@
     "graph": "nx graph",
     "help": "nx help",
     "lint": "pnpm exec zx tools/scripts/src/lint.mjs",
-    "local-registry": "nx local-registry @shell-shock/monorepo",
+    "local-registry": "nx local-registry monorepo",
     "nuke": "pnpm exec zx tools/scripts/src/nuke.mjs",
     "nx": "nx",
     "postinstall": "pnpm bootstrap",
