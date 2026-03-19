@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.46](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.46) (03/19/2026)
+
+### Bug Fixes
+
+- **nx:** Upgrade `powerlines` and resolving plugin bundling issue ([fa638c6](https://github.com/storm-software/shell-shock/commit/fa638c6))
+
 ## [0.0.25](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.25) (02/18/2026)
 
 ### Miscellaneous

@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.2.8](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.8) (03/19/2026)
+
+### Bug Fixes
+
+- **nx:** Upgrade `powerlines` and resolving plugin bundling issue ([fa638c6](https://github.com/storm-software/shell-shock/commit/fa638c6))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.2**
+
 ## [0.2.7](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.7) (03/17/2026)
 
 ### Updated Dependencies

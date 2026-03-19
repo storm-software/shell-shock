@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.1.4) (03/19/2026)
+
+### Bug Fixes
+
+- **nx:** Upgrade `powerlines` and resolving plugin bundling issue ([fa638c6](https://github.com/storm-software/shell-shock/commit/fa638c6))
+
+### Features
+
+- **plugin-banner:** Added the `banner` build-in generator plugin ([ccf8599](https://github.com/storm-software/shell-shock/commit/ccf8599))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.13**
+- Updated **plugin-theme** to **v0.3.17**
+- Updated **core** to **v0.13.2**
+
 ## [0.1.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.1.3) (03/17/2026)
 
 ### Miscellaneous

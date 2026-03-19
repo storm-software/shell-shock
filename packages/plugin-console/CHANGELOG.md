@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.13) (03/19/2026)
+
+### Bug Fixes
+
+- **nx:** Upgrade `powerlines` and resolving plugin bundling issue ([fa638c6](https://github.com/storm-software/shell-shock/commit/fa638c6))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.17**
+- Updated **core** to **v0.13.2**
+
 ## [0.1.12](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.12) (03/17/2026)
 
 ### Updated Dependencies

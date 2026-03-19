@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.41](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.41) (03/19/2026)
+
+### Bug Fixes
+
+- **nx:** Upgrade `powerlines` and resolving plugin bundling issue ([fa638c6](https://github.com/storm-software/shell-shock/commit/fa638c6))
+
+### Features
+
+- **plugin-banner:** Added the `banner` build-in generator plugin ([ccf8599](https://github.com/storm-software/shell-shock/commit/ccf8599))
+
 ## [0.0.34](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.34) (03/02/2026)
 
 ### Features

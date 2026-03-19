@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.19](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.19) (03/19/2026)
+
+### Bug Fixes
+
+- **nx:** Upgrade `powerlines` and resolving plugin bundling issue ([fa638c6](https://github.com/storm-software/shell-shock/commit/fa638c6))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.2**
+
 ## [0.1.18](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.18) (03/17/2026)
 
 ### Updated Dependencies

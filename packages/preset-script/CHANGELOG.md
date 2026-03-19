@@ -2,6 +2,23 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.28](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.28) (03/19/2026)
+
+### Bug Fixes
+
+- **nx:** Upgrade `powerlines` and resolving plugin bundling issue ([fa638c6](https://github.com/storm-software/shell-shock/commit/fa638c6))
+
+### Features
+
+- **plugin-banner:** Added the `banner` build-in generator plugin ([ccf8599](https://github.com/storm-software/shell-shock/commit/ccf8599))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.13**
+- Updated **plugin-theme** to **v0.3.17**
+- Updated **plugin-help** to **v0.1.4**
+- Updated **core** to **v0.13.2**
+
 ## [0.6.27](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.27) (03/17/2026)
 
 ### Updated Dependencies

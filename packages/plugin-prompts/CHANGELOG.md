@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.14) (03/19/2026)
+
+### Bug Fixes
+
+- **nx:** Upgrade `powerlines` and resolving plugin bundling issue ([fa638c6](https://github.com/storm-software/shell-shock/commit/fa638c6))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.17**
+- Updated **core** to **v0.13.2**
+
 ## [0.3.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.13) (03/17/2026)
 
 ### Updated Dependencies

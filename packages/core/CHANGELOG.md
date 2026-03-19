@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.13.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.2) (03/19/2026)
+
+### Bug Fixes
+
+- **nx:** Upgrade `powerlines` and resolving plugin bundling issue ([fa638c6](https://github.com/storm-software/shell-shock/commit/fa638c6))
+
+### Features
+
+- **plugin-banner:** Added the `banner` build-in generator plugin ([ccf8599](https://github.com/storm-software/shell-shock/commit/ccf8599))
+
 ## [0.13.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.0) (03/16/2026)
 
 ### Features

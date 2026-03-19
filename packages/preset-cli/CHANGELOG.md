@@ -2,6 +2,27 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.8.5](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.8.5) (03/19/2026)
+
+### Bug Fixes
+
+- **nx:** Upgrade `powerlines` and resolving plugin bundling issue ([fa638c6](https://github.com/storm-software/shell-shock/commit/fa638c6))
+
+### Features
+
+- **plugin-banner:** Added the `banner` build-in generator plugin ([ccf8599](https://github.com/storm-software/shell-shock/commit/ccf8599))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.13**
+- Updated **plugin-prompts** to **v0.3.14**
+- Updated **plugin-upgrade** to **v0.1.19**
+- Updated **plugin-banner** to **v0.1.0**
+- Updated **preset-script** to **v0.6.28**
+- Updated **plugin-theme** to **v0.3.17**
+- Updated **plugin-help** to **v0.1.4**
+- Updated **core** to **v0.13.2**
+
 ## [0.8.4](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.8.4) (03/17/2026)
 
 ### Updated Dependencies
