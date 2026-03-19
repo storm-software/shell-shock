@@ -50,7 +50,7 @@ try {
 
   proc =
     $`pnpm nx run core:build:${configuration} --outputStyle=dynamic-legacy --parallel=5`.timeout(
-      `${3 * 60}s`
+      `${5 * 60}s`
     );
   proc.stdout.on("data", data => {
     echo`${data}`;

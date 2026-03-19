@@ -877,6 +877,15 @@ declare module "powerlines:utils" {
   import { AsyncLocalStorage } from "node:async_hooks";
   import { spawn as _spawn } from "node:child_process";
   /**
+   * A utility function to pause execution for a specified duration, which can be used in prompt interactions to create delays or timeouts. The function returns a promise that resolves after the specified duration in milliseconds, allowing it to be used with async/await syntax for easier handling of asynchronous prompt logic.
+   *
+   * @param durationMs - The duration to sleep in milliseconds.
+   * @returns A promise that resolves after the specified duration, allowing for
+   *   asynchronous delays in prompt interactions.
+   *
+   */
+  export function sleep(durationMs: number): Promise<void>;
+  /**
    * The global Shell Shock - Application context instance.
    *
    * @internal

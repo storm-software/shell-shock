@@ -866,6 +866,15 @@ declare module "shell-shock:utils" {
   import { AsyncLocalStorage } from "node:async_hooks";
   import { spawn as _spawn } from "node:child_process";
   /**
+   * A utility function to pause execution for a specified duration, which can be used in prompt interactions to create delays or timeouts. The function returns a promise that resolves after the specified duration in milliseconds, allowing it to be used with async/await syntax for easier handling of asynchronous prompt logic.
+   *
+   * @param durationMs - The duration to sleep in milliseconds.
+   * @returns A promise that resolves after the specified duration, allowing for
+   *   asynchronous delays in prompt interactions.
+   *
+   */
+  export function sleep(durationMs: number): Promise<void>;
+  /**
    * The global Shell Shock - Application context instance.
    *
    * @internal
@@ -1659,15 +1668,6 @@ declare module "shell-shock:console" {
 declare module "shell-shock:prompts" {
   import EventEmitter from "node:events";
   import readline from "node:readline";
-  /**
-   * A utility function to pause execution for a specified duration, which can be used in prompt interactions to create delays or timeouts. The function returns a promise that resolves after the specified duration in milliseconds, allowing it to be used with async/await syntax for easier handling of asynchronous prompt logic.
-   *
-   * @param duration - The duration to sleep in milliseconds.
-   * @returns A promise that resolves after the specified duration, allowing for
-   *   asynchronous delays in prompt interactions.
-   *
-   */
-  export function sleep(duration: number): Promise<void>;
   /**
    * A type for a custom prompt input parser, which can be used to create custom input styles for prompts. The function should return the parsed value for the given input string.
    */
