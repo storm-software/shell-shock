@@ -39,28 +39,28 @@ export function formatCommandTree(context: Context): string {
 }
 
 /**
- * Retrieves the default command options based on the context configuration.
+ * Retrieves the global command options based on the context configuration.
  *
  * @param context - The build context.
- * @param command - The command for which to retrieve default options.
- * @returns A record of default command options.
+ * @param command - The command for which to retrieve global options.
+ * @returns A record of global command options.
  */
-export function getDefaultOptions(
+export function getGlobalOptions(
   context: Context,
   command: CommandBase
 ): Record<string, CommandOption> {
   let options!: Record<string, CommandOption>;
-  if (Array.isArray(context.config.defaultOptions)) {
+  if (Array.isArray(context.config.globalOptions)) {
     options = Object.fromEntries(
       getUniqueBy(
-        context.config.defaultOptions,
+        context.config.globalOptions,
         (item: CommandOption) => item.name
       ).map(option => [option.name, option])
     );
-  } else if (isFunction(context.config.defaultOptions)) {
+  } else if (isFunction(context.config.globalOptions)) {
     options = Object.fromEntries(
       getUniqueBy(
-        context.config.defaultOptions(context, command),
+        context.config.globalOptions(context, command),
         (item: CommandOption) => item.name
       ).map(option => [option.name, option])
     );

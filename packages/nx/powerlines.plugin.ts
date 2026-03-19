@@ -21,11 +21,9 @@ import { defineConfig } from "powerlines/config";
 import { tsdown } from "powerlines/tsdown";
 
 const config: UserConfig = defineConfig({
+  skipCache: true,
   name: "nx-plugin",
   input: "./src/plugin/index.ts",
-  output: {
-    path: "./packages/nx/dist/src"
-  },
   plugins: [tsdown()],
   platform: "node",
   resolve: {

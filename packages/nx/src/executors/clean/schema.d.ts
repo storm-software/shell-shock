@@ -57,14 +57,14 @@ export interface CleanExecutorSchema {
  outputPath?: string,
 
  /**
-  * Publish Path
+  * Copy Path
   * 
-  * The path to the publish directory for the build artifacts
+  * A directory path to copy the build artifacts into
   * 
   * 
-  * @format path
+  * @oneOf [object Object],[object Object]
  */
- publishPath?: string,
+ copyPath?: any,
 
  /**
   * Sourcemap
@@ -145,6 +145,14 @@ export interface CleanExecutorSchema {
   * 
  */
  define?: Record<string, string>,
+
+ /**
+  * Assets
+  * 
+  * The `assets` values
+  * 
+ */
+ assets?: Array<{ input?: string; output?: string; glob: string; ignore?: string[]; dot?: boolean; }>,
 
  /**
   * Auto Install

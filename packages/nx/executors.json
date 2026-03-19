@@ -2,28 +2,28 @@
   "$schema": "https://json-schema.org/schema",
   "executors": {
     "clean": {
-      "implementation": "./dist/src/executors/clean/executor",
-      "schema": "./dist/src/executors/clean/schema.json",
+      "implementation": "./dist/executors/clean/executor",
+      "schema": "./dist/executors/clean/schema.json",
       "description": "Run the `clean` Shell Shock command on the given project"
     },
     "prepare": {
-      "implementation": "./dist/src/executors/prepare/executor",
-      "schema": "./dist/src/executors/prepare/schema.json",
+      "implementation": "./dist/executors/prepare/executor",
+      "schema": "./dist/executors/prepare/schema.json",
       "description": "Run the `prepare` Shell Shock command on the given project"
     },
     "lint": {
-      "implementation": "./dist/src/executors/lint/executor",
-      "schema": "./dist/src/executors/lint/schema.json",
+      "implementation": "./dist/executors/lint/executor",
+      "schema": "./dist/executors/lint/schema.json",
       "description": "Run the `lint` Shell Shock command on the given project"
     },
     "build": {
-      "implementation": "./dist/src/executors/build/executor",
-      "schema": "./dist/src/executors/build/schema.json",
+      "implementation": "./dist/executors/build/executor",
+      "schema": "./dist/executors/build/schema.json",
       "description": "Run the `build` Shell Shock command on the given project"
     },
     "docs": {
-      "implementation": "./dist/src/executors/docs/executor",
-      "schema": "./dist/src/executors/docs/schema.json",
+      "implementation": "./dist/executors/docs/executor",
+      "schema": "./dist/executors/docs/schema.json",
       "description": "Run the `docs` Shell Shock command on the given project"
     }
   }

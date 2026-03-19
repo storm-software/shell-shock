@@ -45,12 +45,24 @@
       "description": "The path to the output directory for the build artifacts",
       "id": "#outputPath"
     },
-    "publishPath": {
-      "title": "Publish Path",
-      "type": "string",
-      "format": "path",
-      "description": "The path to the publish directory for the build artifacts",
-      "id": "#publishPath"
+    "copyPath": {
+      "title": "Copy Path",
+      "description": "A directory path to copy the build artifacts into",
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "path"
+        },
+        {
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      ],
+      "id": "#copyPath",
+      "type": "any",
+      "default": {}
     },
     "sourceMap": {
       "title": "Sourcemap",
@@ -148,6 +160,14 @@
       "description": "The `define` values",
       "id": "#define",
       "default": {}
+    },
+    "assets": {
+      "title": "Assets",
+      "type": "any",
+      "tsType": "Array<{ input?: string; output?: string; glob: string; ignore?: string[]; dot?: boolean; }>",
+      "description": "The `assets` values",
+      "id": "#assets",
+      "default": {}
     }
   },
   "type": "object",
@@ -155,6 +175,7 @@
     "config": "{projectRoot}/powerlines.config.ts",
     "configFile": "{projectRoot}/powerlines.config.ts",
     "tsconfig": "{projectRoot}/tsconfig.json",
+    "copyPath": {},
     "format": [
       "cjs",
       "esm"
@@ -162,6 +183,7 @@
     "platform": "neutral",
     "external": [],
     "noExternal": [],
-    "define": {}
+    "define": {},
+    "assets": {}
   }
 }

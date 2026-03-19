@@ -108,6 +108,7 @@ export function CommandEntry(props: CommandEntryProps) {
             "createSpinner"
           ],
           utils: [
+            "sleep",
             "useApp",
             "useArgs",
             "hasFlag",
@@ -124,8 +125,7 @@ export function CommandEntry(props: CommandEntryProps) {
             "select",
             "confirm",
             "waitForKeyPress",
-            "isCancel",
-            "sleep"
+            "isCancel"
           ],
           [joinPaths(
             "help",

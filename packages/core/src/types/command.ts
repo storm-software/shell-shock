@@ -43,26 +43,32 @@ export interface BaseCommandParameter {
    * The option name.
    */
   name: string;
+
   /**
    * The option kind.
    */
   kind: CommandParameterKind;
+
   /**
    * The display title.
    */
   title: string;
+
   /**
    * The option description.
    */
   description: string;
+
   /**
    * Alternative option names.
    */
   alias: string[];
+
   /**
    * The environment variable name or false to disable.
    */
   env: string | false;
+
   /**
    * Whether the option is optional.
    */
@@ -74,10 +80,12 @@ export interface StringCommandParameter extends BaseCommandParameter {
    * The option kind.
    */
   kind: "string";
+
   /**
    * The default value.
    */
   default?: string;
+
   /**
    * A standard string format to validate the option value against.
    */
@@ -91,6 +99,7 @@ export interface StringCommandParameter extends BaseCommandParameter {
     | "time"
     | "date-time"
     | "duration";
+
   /**
    * Whether the option accepts multiple values.
    */
@@ -107,10 +116,12 @@ export interface NumberCommandParameter extends BaseCommandParameter {
    * The option kind.
    */
   kind: "number";
+
   /**
    * The default value.
    */
   default?: number;
+
   /**
    * Whether the option accepts multiple values.
    */
@@ -127,6 +138,7 @@ export interface BooleanCommandParameter extends BaseCommandParameter {
    * The option kind.
    */
   kind: "boolean";
+
   /**
    * The default value.
    */
@@ -163,6 +175,7 @@ export interface BooleanCommandOption extends BooleanCommandParameter {
    * The option this negates.
    */
   isNegativeOf?: string;
+
   /**
    * Whether to skip adding a negative option.
    */
@@ -223,6 +236,11 @@ export interface CommandBase {
   icon?: string;
 
   /**
+   * A URL to the command documentation or reference.
+   */
+  reference?: string;
+
+  /**
    * Whether the command is virtual.
    *
    * @remarks
@@ -248,26 +266,32 @@ export type CommandTree = CommandConfig & {
    * The display title.
    */
   title: string;
+
   /**
    * The command description.
    */
   description: string;
+
   /**
    * Alternative command names.
    */
   alias: string[];
+
   /**
    * The command options.
    */
   options: Record<string, CommandOption>;
+
   /**
    * The positional arguments provided to the command.
    */
   args: CommandArgument[];
+
   /**
    * The parent command.
    */
   parent: null | CommandTree;
+
   /**
    * Child commands.
    */
@@ -314,6 +338,14 @@ export interface CommandMetadata {
    * This can be a string containing an emoji, a Unicode character, or any other symbol that helps to visually identify the command. If not provided, no icon will be displayed.
    */
   icon?: string;
+
+  /**
+   * A URL to the command documentation or reference.
+   *
+   * @remarks
+   * This URL can be used in various displays of the user interface and documentation to provide users with a reference for the command. It can also be used by plugins to link to the documentation in relevant contexts. If the token `{command}` is included in the URL, it will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{referenceLink}/command/subcommand`.
+   */
+  reference?: string;
 }
 
 export interface CommandModule {

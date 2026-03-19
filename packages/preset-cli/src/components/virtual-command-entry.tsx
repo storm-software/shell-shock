@@ -94,9 +94,10 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             "isUnicodeSupported",
             "isInteractive",
             "isHelp",
-            "findSuggestions"
+            "findSuggestions",
+            "sleep"
           ],
-          prompts: ["text", "numeric", "toggle", "select", "isCancel", "sleep"],
+          prompts: ["text", "numeric", "toggle", "select", "isCancel"],
           [joinPaths(
             "help",
             ...command.segments.filter(

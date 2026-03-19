@@ -22,7 +22,10 @@ import { titleCase } from "@stryke/string-format/title-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { isString } from "@stryke/type-checks/is-string";
 import { createDefu } from "defu";
-import { getAppTitle } from "../plugin-utils/context-helpers";
+import {
+  getAppTitle,
+  isDynamicPathSegment
+} from "../plugin-utils/context-helpers";
 import type { CommandArgument, CommandParameterKind } from "../types/command";
 import { CommandParameterKinds } from "../types/command";
 import type { Context } from "../types/context";
@@ -166,6 +169,19 @@ export function applyArgsDefaults(ctx: ResolverContext): CommandArgument[] {
 
 export function applyDefaults(ctx: ResolverContext) {
   ctx.output.description ??= `The ${ctx.output.title.replace(/(?:c|C)ommands?$/, "").trim()} executable command-line interface.`;
+  if (
+    isSetString(ctx.input.context.config.reference?.commands) &&
+    ctx.input.context.config.reference.commands.includes("{command}")
+  ) {
+    ctx.output.reference ??= ctx.input.context.config.reference.commands
+      ? ctx.input.context.config.reference.commands.replace(
+          "{command}",
+          ctx.input.command.segments
+            .filter(segment => !isDynamicPathSegment(segment))
+            .join("/")
+        )
+      : undefined;
+  }
 }
 
 export function resolveVirtualCommand<TContext extends Context = Context>(

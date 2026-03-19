@@ -57,20 +57,6 @@ export function BasePromptDeclarations() {
 
   return (
     <>
-      <TSDoc heading="A utility function to pause execution for a specified duration, which can be used in prompt interactions to create delays or timeouts. The function returns a promise that resolves after the specified duration in milliseconds, allowing it to be used with async/await syntax for easier handling of asynchronous prompt logic.">
-        <TSDocParam name="duration">
-          {`The duration to sleep in milliseconds.`}
-        </TSDocParam>
-        <TSDocReturns>
-          {`A promise that resolves after the specified duration, allowing for asynchronous delays in prompt interactions.`}
-        </TSDocReturns>
-      </TSDoc>
-      <FunctionDeclaration
-        export
-        name="sleep"
-        parameters={[{ name: "duration", type: "number" }]}
-        returnType="Promise<void>">{code`return new Promise((resolve) => setTimeout(resolve, duration)); `}</FunctionDeclaration>
-      <Spacing />
       <TypeDeclaration
         export
         name="PromptParser"

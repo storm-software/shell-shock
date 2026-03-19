@@ -33,6 +33,7 @@ import {
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { snakeCase } from "@stryke/string-format/snake-case";
+import { isSetString } from "@stryke/type-checks/is-set-string";
 import type { HelpPluginContext } from "../types/plugin";
 
 export interface HelpUsageDisplayProps {
@@ -361,6 +362,16 @@ export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
       });`}
         <hbr />
         <HelpCommandsDisplay commands={command.children} />
+        <Spacing />
+      </Show>
+      <Show when={isSetString(command.reference)}>
+        {code`writeLine("");
+      writeLine(colors.text.heading.tertiary(\`More information about this command can be found in the reference documentation at ${
+        command.reference
+      }\`)${
+        indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
+      });`}
+        <hbr />
         <Spacing />
       </Show>
     </>

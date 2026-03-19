@@ -57,7 +57,7 @@ import {
   formatBinaryPath,
   updatePackageJsonBinary
 } from "./helpers/update-package-json";
-import { formatCommandTree, getDefaultOptions } from "./helpers/utilities";
+import { formatCommandTree, getGlobalOptions } from "./helpers/utilities";
 import { validateCommand } from "./helpers/validations";
 import {
   getAppDescription,
@@ -71,6 +71,7 @@ import { getCommandTree } from "./plugin-utils/get-command-tree";
 import { traverseCommands } from "./plugin-utils/traverse-command-tree";
 import { resolve } from "./resolver/resolve";
 import type { CommandOption, CommandTree } from "./types/command";
+import { CommandParameterKinds } from "./types/command";
 import type { Options } from "./types/config";
 import type { Context } from "./types/context";
 
@@ -168,7 +169,7 @@ export const plugin = <TContext extends Context = Context>(
 
           this.inputs ??= [];
           this.options = Object.values(
-            getDefaultOptions(this, {
+            getGlobalOptions(this, {
               id: null,
               name: this.config.name,
               path: null,
@@ -194,6 +195,21 @@ export const plugin = <TContext extends Context = Context>(
       name: "shell-shock:inputs",
       async configResolved() {
         this.debug("Finding command entry point files.");
+
+        if (isSetString(this.config.reference)) {
+          if (this.config.reference.includes("{command}")) {
+            this.config.reference = {
+              app: this.config.reference
+                .substring(0, this.config.reference.indexOf("{command}"))
+                .replace(/\/?$/, "/"),
+              commands: this.config.reference
+            };
+          } else {
+            this.config.reference = {
+              app: this.config.reference
+            };
+          }
+        }
 
         this.commandsPath = findCommandsRoot(this);
         const inputs = await resolveInputs(this, this.config.input);
@@ -281,6 +297,88 @@ export const plugin = <TContext extends Context = Context>(
             )
             .join("\n")}`
         );
+      },
+      typegen(code: string) {
+        this.debug(
+          "Generating type definitions for the Shell Shock application."
+        );
+
+        return `${code}
+
+/**
+ * The global options available for every command in the ${getAppTitle(
+   this,
+   true
+ )} command-line application.
+ */
+export interface GlobalOptions {
+  ${this.options
+    .map(
+      option =>
+        `${
+          option.description
+            ? `
+/**
+ * ${option.description}${
+   option.default
+     ? `
+ *
+ * @defaultValue ${
+   option.kind === CommandParameterKinds.string
+     ? `"${option.default}"`
+     : option.default
+ }`
+     : ""
+ }
+ */
+`
+            : ""
+        }${option.name}${option.optional ? "?" : ""}: ${
+          option.kind === CommandParameterKinds.boolean
+            ? "boolean"
+            : `${option.variadic ? "(" : ""}${
+                option.choices
+                  ? option.choices
+                      .map(choice =>
+                        option.kind === CommandParameterKinds.number
+                          ? `${choice}`
+                          : `"${choice}"`
+                      )
+                      .join(" | ")
+                  : option.kind === CommandParameterKinds.number
+                    ? "number"
+                    : "string"
+              }${option.variadic ? ")[]" : ""}`
+        };${
+          option.alias && option.alias.length > 0
+            ? option.alias
+                .map(
+                  alias =>
+                    `${alias}${option.optional ? "?" : ""}: ${
+                      option.kind === CommandParameterKinds.boolean
+                        ? "boolean"
+                        : `${option.variadic ? "(" : ""}${
+                            option.choices
+                              ? option.choices
+                                  .map(choice =>
+                                    option.kind === CommandParameterKinds.number
+                                      ? `${choice}`
+                                      : `"${choice}"`
+                                  )
+                                  .join(" | ")
+                              : option.kind === CommandParameterKinds.number
+                                ? "number"
+                                : "string"
+                          }${option.variadic ? ")[]" : ""}`
+                    };`
+                )
+                .join("\n\n")
+            : ""
+        }`
+    )
+    .join("\n\n")}
+}
+`;
       },
       async prepare() {
         this.debug(

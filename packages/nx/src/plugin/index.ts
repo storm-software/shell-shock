@@ -18,7 +18,7 @@
 
 import type { CreateNodesV2 } from "@nx/devkit";
 import type { NxPluginOptions } from "@powerlines/nx";
-import { createNxPlugin } from "@powerlines/nx";
+import { createNxPlugin } from "@powerlines/nx/helpers/plugin-utilities";
 
 export const createNodesV2: CreateNodesV2<NxPluginOptions> =
   createNxPlugin<NxPluginOptions>({

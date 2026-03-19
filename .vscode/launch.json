@@ -16,6 +16,20 @@
       "console": "integratedTerminal"
     },
     {
+      "name": "Nx - Build",
+      "type": "node",
+      "request": "launch",
+      "program": "/nix/store/wi8a8qhcyqh3inzkbkgn53f0xhx4zi6g-pnpm-10.30.3/bin/pnpm",
+      "args": [
+        "nx",
+        "run",
+        "nx:build-plugin:development",
+        "--outputStyle=dynamic-legacy"
+      ],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
       "name": "Preset Script - Build",
       "type": "node",
       "request": "launch",

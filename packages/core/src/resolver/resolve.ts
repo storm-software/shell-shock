@@ -22,7 +22,7 @@ import { resolveModule } from "@powerlines/plugin-esbuild/helpers/resolve";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { titleCase } from "@stryke/string-format/title-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
-import { getDefaultOptions } from "../helpers/utilities";
+import { getGlobalOptions } from "../helpers/utilities";
 import {
   getDynamicPathSegmentName,
   isDynamicPathSegment
@@ -61,7 +61,7 @@ async function initialize<TContext extends Context = Context>(
     icon: parent?.icon,
     ...command,
     title,
-    options: getDefaultOptions(context, command),
+    options: getGlobalOptions(context, command),
     args: [],
     parent: parent ?? null,
     children: {}

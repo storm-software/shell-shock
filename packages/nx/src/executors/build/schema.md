@@ -52,13 +52,14 @@ The path to the tsconfig file
 The path to the output directory for the build artifacts
 
 
-## `publishPath`
-- **Type**: `string`
+## `copyPath`
+- **Type**: `any`
+- **Default**: `{}`
 
-> Publish Path
+> Copy Path
 
 
-The path to the publish directory for the build artifacts
+A directory path to copy the build artifacts into
 
 
 ## `sourceMap`
@@ -138,6 +139,16 @@ The log level to use for the build process
 
 
 ## `define`
+
+## `assets`
+- **Type**: `Array<{ input?: string; output?: string; glob: string; ignore?: string[]; dot?: boolean; }>`
+- **Default**: `{}`
+
+> Assets
+
+
+The `assets` values
+
 
 ## `autoInstall`
 - **Type**: `boolean`
