@@ -26,13 +26,8 @@ const config: UserConfig = defineConfig({
   input: "./src/plugin/index.ts",
   plugins: [tsdown()],
   platform: "node",
-  resolve: {
-    noExternal: ["@powerlines/nx"],
-    skipNodeModulesBundle: true
-  },
   tsdown: {
     minify: false,
-    unbundle: false,
     exports: false,
     fixedExtension: false
   }
