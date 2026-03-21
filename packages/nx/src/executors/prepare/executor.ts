@@ -25,7 +25,7 @@ import type { ShellShockExecutorContext } from "../../base/base-executor";
 import { withExecutor } from "../../base/base-executor";
 import type { PrepareExecutorSchema } from "./schema";
 
-export async function executorFn(
+async function executorFn(
   context: ShellShockExecutorContext<"prepare", PrepareExecutorSchema>,
   api: ShellShockAPI
 ): Promise<BaseExecutorResult> {

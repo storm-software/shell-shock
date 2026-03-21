@@ -90,6 +90,9 @@
     "./executors/*/executor.mjs": "./dist/executors/*/executor.mjs"
   },
   "typings": "dist/index.d.ts",
+  "peerDependencies": {
+    "nx": ">=22.5.0"
+  },
   "dependencies": {
     "@nx/devkit": "catalog:",
     "@shell-shock/core": "workspace:*",
@@ -97,6 +100,9 @@
     "@storm-software/config-tools": "catalog:",
     "@storm-software/workspace-tools": "catalog:",
     "@stryke/type-checks": "catalog:",
+    "@stryke/string-format": "catalog:",
+    "@stryke/hash": "catalog:",
+    "@stryke/path": "catalog:",
     "defu": "catalog:",
     "jiti": "catalog:",
     "powerlines": "catalog:",

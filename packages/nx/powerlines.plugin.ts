@@ -23,10 +23,13 @@ import { tsdown } from "powerlines/tsdown";
 const config: UserConfig = defineConfig({
   skipCache: true,
   name: "nx-plugin",
-  input: "./src/plugin/index.ts",
+  input: ["./src/plugin/index.ts"],
   plugins: [tsdown()],
   platform: "node",
   tsdown: {
+    deps: {
+      alwaysBundle: ["@powerlines/nx"]
+    },
     minify: false,
     exports: false,
     fixedExtension: false

@@ -25,7 +25,7 @@ import type { ShellShockExecutorContext } from "../../base/base-executor";
 import { withExecutor } from "../../base/base-executor";
 import type { LintExecutorSchema } from "./schema";
 
-export async function executorFn(
+async function executorFn(
   context: ShellShockExecutorContext<"lint", LintExecutorSchema>,
   api: ShellShockAPI
 ): Promise<BaseExecutorResult> {
