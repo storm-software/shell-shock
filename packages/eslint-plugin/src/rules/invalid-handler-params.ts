@@ -164,10 +164,12 @@ function checkArgsParam(
         type?.type !== AST_NODE_TYPES.TSStringKeyword &&
         type?.type !== AST_NODE_TYPES.TSNumberKeyword &&
         type?.type !== AST_NODE_TYPES.TSBooleanKeyword &&
+        type?.type !== AST_NODE_TYPES.TSTypeLiteral &&
         !(
           type?.type === AST_NODE_TYPES.TSArrayType &&
           (type.elementType.type === AST_NODE_TYPES.TSStringKeyword ||
-            type.elementType.type === AST_NODE_TYPES.TSNumberKeyword)
+            type.elementType.type === AST_NODE_TYPES.TSNumberKeyword ||
+            type.elementType.type === AST_NODE_TYPES.TSTypeLiteral)
         )
       ) {
         context.report({
