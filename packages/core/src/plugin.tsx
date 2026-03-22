@@ -167,6 +167,28 @@ export const plugin = <TContext extends Context = Context>(
             )
           };
 
+          if (isSetString(this.config.reference)) {
+            if (this.config.reference.includes("{command}")) {
+              this.config.reference = {
+                app: this.config.reference
+                  .substring(0, this.config.reference.indexOf("{command}"))
+                  .replace(/\/?$/, "/"),
+                commands: this.config.reference
+              };
+            } else if (this.config.reference.includes("{commands}")) {
+              this.config.reference = {
+                app: this.config.reference
+                  .substring(0, this.config.reference.indexOf("{commands}"))
+                  .replace(/\/?$/, "/"),
+                commands: this.config.reference
+              };
+            } else {
+              this.config.reference = {
+                app: this.config.reference
+              };
+            }
+          }
+
           this.inputs ??= [];
           this.options = Object.values(
             getGlobalOptions(this, {
@@ -196,29 +218,13 @@ export const plugin = <TContext extends Context = Context>(
       async configResolved() {
         this.debug("Finding command entry point files.");
 
-        if (isSetString(this.config.reference)) {
-          if (this.config.reference.includes("{command}")) {
-            this.config.reference = {
-              app: this.config.reference
-                .substring(0, this.config.reference.indexOf("{command}"))
-                .replace(/\/?$/, "/"),
-              commands: this.config.reference
-            };
-          } else if (this.config.reference.includes("{commands}")) {
-            this.config.reference = {
-              app: this.config.reference
-                .substring(0, this.config.reference.indexOf("{commands}"))
-                .replace(/\/?$/, "/"),
-              commands: this.config.reference
-            };
-          } else {
-            this.config.reference = {
-              app: this.config.reference
-            };
-          }
-        }
+        this.debug(
+          `Checking for commands using input: ${JSON.stringify(this.config.input)}`
+        );
 
-        this.commandsPath = findCommandsRoot(this);
+        this.commandsPath = await findCommandsRoot(this);
+        this.debug(`Resolved commands root path: ${this.commandsPath}`);
+
         const inputs = await resolveInputs(this, this.config.input);
 
         this.debug(

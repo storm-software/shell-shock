@@ -16,11 +16,11 @@
 
  ------------------------------------------------------------------- */
 
+import { listFiles } from "@stryke/fs/list-files";
 import { appendPath } from "@stryke/path/append";
 import { commonPath } from "@stryke/path/common";
 import { findFilePath, findFolderName } from "@stryke/path/file-path-fns";
 import { joinPaths } from "@stryke/path/join-paths";
-import { stripStars } from "@stryke/path/normalize";
 import { replacePath } from "@stryke/path/replace";
 import { resolveParentPath } from "@stryke/path/resolve-parent-path";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
@@ -85,56 +85,77 @@ export function resolveCommandDynamicPathSegments(
     .map(path => getDynamicPathSegmentName(path));
 }
 
-export function findCommandsRoot(context: Context): string {
+export async function findCommandsRoot(context: Context): Promise<string> {
+  let paths = [] as string[];
   if (isSetString(context.config.input)) {
-    return appendPath(
-      appendPath(stripStars(context.config.input), context.config.root),
-      context.workspaceConfig.workspaceRoot
+    paths = await listFiles(
+      appendPath(
+        appendPath(context.config.input, context.config.root),
+        context.workspaceConfig.workspaceRoot
+      )
     );
   } else if (isTypeDefinition(context.config.input)) {
-    return appendPath(
-      appendPath(stripStars(context.config.input.file), context.config.root),
-      context.workspaceConfig.workspaceRoot
+    paths = await listFiles(
+      appendPath(
+        appendPath(context.config.input.file, context.config.root),
+        context.workspaceConfig.workspaceRoot
+      )
     );
   } else if (
     Array.isArray(context.config.input) &&
     context.config.input.length > 0
   ) {
-    return commonPath(
-      context.config.input.map(input =>
-        appendPath(
-          appendPath(
-            stripStars(isSetString(input) ? input : input.file),
-            context.config.root
-          ),
-          context.workspaceConfig.workspaceRoot
+    paths = (
+      await Promise.all(
+        context.config.input.map(async input =>
+          listFiles(
+            appendPath(
+              appendPath(
+                isSetString(input) ? input : input.file,
+                context.config.root
+              ),
+              context.workspaceConfig.workspaceRoot
+            )
+          )
         )
       )
-    );
+    ).flat();
   } else if (isSetObject(context.config.input)) {
-    return commonPath(
-      Object.values(context.config.input).map(input =>
-        Array.isArray(input)
-          ? commonPath(
-              input.map(i =>
+    paths = (
+      await Promise.all(
+        Object.values(context.config.input).map(async input =>
+          Array.isArray(input)
+            ? (
+                await Promise.all(
+                  input.map(async i =>
+                    listFiles(
+                      appendPath(
+                        appendPath(
+                          isSetString(i) ? i : i.file,
+                          context.config.root
+                        ),
+                        context.workspaceConfig.workspaceRoot
+                      )
+                    )
+                  )
+                )
+              ).flat()
+            : listFiles(
                 appendPath(
                   appendPath(
-                    stripStars(isSetString(i) ? i : i.file),
+                    isSetString(input) ? input : input.file,
                     context.config.root
                   ),
                   context.workspaceConfig.workspaceRoot
                 )
               )
-            )
-          : appendPath(
-              appendPath(
-                stripStars(isSetString(input) ? input : input.file),
-                context.config.root
-              ),
-              context.workspaceConfig.workspaceRoot
-            )
+        )
       )
-    );
+    ).flat();
+  }
+
+  if (paths.length > 0) {
+    return commonPath(paths.map(p => findFilePath(p)));
   }
 
   let commandsPath = joinPaths(context.config.root, "src/commands");
@@ -146,6 +167,26 @@ export function findCommandsRoot(context: Context): string {
         commandsPath = context.config.root;
       }
     }
+  }
+
+  paths = (
+    await Promise.all([
+      listFiles(
+        joinPaths(
+          appendPath(commandsPath, context.workspaceConfig.workspaceRoot),
+          "**/command.ts"
+        )
+      ),
+      listFiles(
+        joinPaths(
+          appendPath(commandsPath, context.workspaceConfig.workspaceRoot),
+          "**/command.tsx"
+        )
+      )
+    ])
+  ).flat();
+  if (paths.length > 0) {
+    return commonPath(paths.map(p => findFilePath(p)));
   }
 
   return appendPath(commandsPath, context.workspaceConfig.workspaceRoot);
