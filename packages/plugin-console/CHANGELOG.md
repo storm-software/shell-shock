@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.14) (03/21/2026)
+
+### Bug Fixes
+
+- **monorepo:** Resolve typing issues and missing `banner` built-in module ([7104d2b](https://github.com/storm-software/shell-shock/commit/7104d2b))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.18**
+- Updated **core** to **v0.13.3**
+
 ## [0.1.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.13) (03/19/2026)
 
 ### Bug Fixes

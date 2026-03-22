@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.15](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.15) (03/21/2026)
+
+### Bug Fixes
+
+- **monorepo:** Resolve typing issues and missing `banner` built-in module ([7104d2b](https://github.com/storm-software/shell-shock/commit/7104d2b))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.18**
+- Updated **core** to **v0.13.3**
+
 ## [0.3.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.14) (03/19/2026)
 
 ### Bug Fixes

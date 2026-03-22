@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.47](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.47) (03/21/2026)
+
+### Bug Fixes
+
+- **monorepo:** Resolve typing issues and missing `banner` built-in module ([7104d2b](https://github.com/storm-software/shell-shock/commit/7104d2b))
+
 ## [0.0.46](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.46) (03/19/2026)
 
 ### Bug Fixes

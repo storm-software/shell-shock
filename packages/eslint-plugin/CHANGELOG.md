@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.42](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.42) (03/21/2026)
+
+### Bug Fixes
+
+- **monorepo:** Resolve typing issues and missing `banner` built-in module ([7104d2b](https://github.com/storm-software/shell-shock/commit/7104d2b))
+
 ## [0.0.41](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.41) (03/19/2026)
 
 ### Bug Fixes

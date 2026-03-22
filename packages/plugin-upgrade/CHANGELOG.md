@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.20](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.20) (03/21/2026)
+
+### Bug Fixes
+
+- **monorepo:** Resolve typing issues and missing `banner` built-in module ([7104d2b](https://github.com/storm-software/shell-shock/commit/7104d2b))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.3**
+
 ## [0.1.19](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.19) (03/19/2026)
 
 ### Bug Fixes

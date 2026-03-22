@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.47](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.47) (03/21/2026)
+
+### Bug Fixes
+
+- **monorepo:** Resolve typing issues and missing `banner` built-in module ([7104d2b](https://github.com/storm-software/shell-shock/commit/7104d2b))
+- **nx:** Resolve issue bundling Nx plugin module ([b006715](https://github.com/storm-software/shell-shock/commit/b006715))
+- **nx:** Ensure plugin code is bundled during build ([1345512](https://github.com/storm-software/shell-shock/commit/1345512))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.3**
+
 ## [0.0.46](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.46) (03/19/2026)
 
 ### Bug Fixes

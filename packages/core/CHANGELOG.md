@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.13.3](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.3) (03/21/2026)
+
+### Bug Fixes
+
+- **monorepo:** Resolve typing issues and missing `banner` built-in module ([7104d2b](https://github.com/storm-software/shell-shock/commit/7104d2b))
+
 ## [0.13.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.2) (03/19/2026)
 
 ### Bug Fixes

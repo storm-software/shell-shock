@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.29](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.29) (03/21/2026)
+
+### Bug Fixes
+
+- **monorepo:** Resolve typing issues and missing `banner` built-in module ([7104d2b](https://github.com/storm-software/shell-shock/commit/7104d2b))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.14**
+- Updated **plugin-banner** to **v0.1.1**
+- Updated **plugin-theme** to **v0.3.18**
+- Updated **plugin-help** to **v0.1.5**
+- Updated **core** to **v0.13.3**
+
 ## [0.6.28](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.28) (03/19/2026)
 
 ### Bug Fixes
