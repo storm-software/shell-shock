@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.13.7](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.7) (03/22/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with invoking deprecated `typegen` plugin hook ([839995d](https://github.com/storm-software/shell-shock/commit/839995d))
+
 ## [0.13.5](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.5) (03/22/2026)
 
 ### Miscellaneous
