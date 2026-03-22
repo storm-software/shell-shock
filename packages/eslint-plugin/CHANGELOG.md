@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.46](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.46) (03/22/2026)
+
+### Bug Fixes
+
+- **eslint-plugin:** Ensure literal type positional arguments are allowed ([aa82c9f](https://github.com/storm-software/shell-shock/commit/aa82c9f))
+
 ## [0.0.42](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.42) (03/21/2026)
 
 ### Bug Fixes

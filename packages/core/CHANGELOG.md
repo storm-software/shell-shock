@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.13.8](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.8) (03/22/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue finding commands root directory ([d097bb8](https://github.com/storm-software/shell-shock/commit/d097bb8))
+
 ## [0.13.7](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.7) (03/22/2026)
 
 ### Bug Fixes

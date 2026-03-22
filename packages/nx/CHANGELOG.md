@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.52](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.52) (03/22/2026)
+
+### Miscellaneous
+
+- **nx:** Clean up the base executor options resolution logic ([d1c2fdb](https://github.com/storm-software/shell-shock/commit/d1c2fdb))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.8**
+
 ## [0.0.51](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.51) (03/22/2026)
 
 ### Updated Dependencies
