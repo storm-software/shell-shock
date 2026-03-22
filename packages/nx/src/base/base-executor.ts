@@ -101,11 +101,8 @@ export function withExecutor<
             name: projectConfig.name,
             root: projectConfig.root,
             sourceRoot: projectConfig.sourceRoot,
-            tsconfig: options.tsconfig,
-            logLevel: options.logLevel,
             description: projectConfig.metadata?.description,
             projectType: projectConfig.projectType,
-            mode: options.mode,
             output: {
               path: options.outputPath
             }
