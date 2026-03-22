@@ -27,6 +27,7 @@ interface NewProjectOptions {
  * Create a new project.
  */
 function newProject(options: NewProjectOptions, name: string) {
+  // eslint-disable-next-line no-console
   console.log("Creating new project:", name, "at", options.root);
 }
 

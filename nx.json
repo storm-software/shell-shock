@@ -24,11 +24,11 @@
     },
     "@storm-software/workspace-tools/plugins/typescript",
     "@storm-software/workspace-tools/plugins/typescript/untyped",
-    "@storm-software/workspace-tools/plugins/typescript/tsup",
     "@powerlines/nx/plugin"
   ],
   "sync": {
     "applyChanges": true,
     "globalGenerators": ["@nx/js:typescript-sync"]
-  }
+  },
+  "analytics": false
 }

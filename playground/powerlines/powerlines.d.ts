@@ -1718,3 +1718,63 @@ declare module "powerlines:help/start" {
    */
   export function showHelp(): void;
 }
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Playground Powerlines command-line interface application.
+ *
+ * @module powerlines:banner
+ */
+declare module "powerlines:banner" {
+  /**
+   * Write the Playground Powerlines command-line interface application banner for
+   * the Playground Powerlines command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Build command.
+ *
+ * @module powerlines:banner/build
+ */
+declare module "powerlines:banner/build" {
+  /**
+   * Write the Playground Powerlines command-line interface application banner for
+   * the Build command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Help command.
+ *
+ * @module powerlines:banner/help
+ */
+declare module "powerlines:banner/help" {
+  /**
+   * Write the Playground Powerlines command-line interface application banner for
+   * the Help command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Start command.
+ *
+ * @module powerlines:banner/start
+ */
+declare module "powerlines:banner/start" {
+  /**
+   * Write the Playground Powerlines command-line interface application banner for
+   * the Start command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}

@@ -30,6 +30,7 @@ interface RunTaskLocalOptions {
  * @param task - The task to run.
  */
 function runTaskLocal(options: RunTaskLocalOptions, task: string) {
+  // eslint-disable-next-line no-console
   console.log("Running task local:", task, "at", options.root);
 }
 

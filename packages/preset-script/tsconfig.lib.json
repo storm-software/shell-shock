@@ -13,6 +13,9 @@
       "path": "../plugin-help/tsconfig.lib.json"
     },
     {
+      "path": "../plugin-banner/tsconfig.lib.json"
+    },
+    {
       "path": "../plugin-theme/tsconfig.lib.json"
     },
     {

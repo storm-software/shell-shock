@@ -31,6 +31,7 @@ interface CopyOptions {
  * @param dest - The destination path.
  */
 function copyFiles(options: CopyOptions, src: string[], dest: string) {
+  // eslint-disable-next-line no-console
   console.log("Copying files from:", src, "to", dest, "at", options.root);
 }
 

@@ -30,6 +30,7 @@ interface NewLibraryOptions {
  * @param name - The name of the library.
  */
 function newLibrary(options: NewLibraryOptions, name: string) {
+  // eslint-disable-next-line no-console
   console.log("Creating new library:", name, "at", options.root);
 }
 

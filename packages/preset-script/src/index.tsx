@@ -20,6 +20,7 @@ import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
+import banner from "@shell-shock/plugin-banner";
 import console from "@shell-shock/plugin-console";
 import help from "@shell-shock/plugin-help";
 import type { Plugin } from "powerlines";
@@ -39,8 +40,9 @@ export const plugin = <
   options: ScriptPresetOptions = {}
 ) => {
   return [
-    console(options),
-    ...help(options),
+    ...console<TContext>(options),
+    ...help<TContext>(options),
+    ...banner<TContext>(options),
     {
       name: "shell-shock:script-preset",
       config() {

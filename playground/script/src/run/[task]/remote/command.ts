@@ -30,6 +30,7 @@ interface RunTaskRemoteOptions {
  * @param task - The task to run.
  */
 function runTaskRemote(options: RunTaskRemoteOptions, task: string) {
+  // eslint-disable-next-line no-console
   console.log("Running task remote:", task, "at", options.root);
 }
 

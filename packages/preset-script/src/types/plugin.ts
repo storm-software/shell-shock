@@ -26,6 +26,12 @@ import type {
   UserConfig
 } from "@shell-shock/core";
 import type {
+  BannerPluginContext,
+  BannerPluginOptions,
+  BannerPluginResolvedConfig,
+  BannerPluginUserConfig
+} from "@shell-shock/plugin-banner";
+import type {
   ConsolePluginContext,
   ConsolePluginOptions,
   ConsolePluginResolvedConfig,
@@ -47,7 +53,8 @@ import type {
 export type ScriptPresetOptions = Omit<Options, "defaultOptions"> &
   ThemePluginOptions &
   ConsolePluginOptions &
-  HelpPluginOptions & {
+  HelpPluginOptions &
+  BannerPluginOptions & {
     /**
      * A set of default command options to apply to each command.
      *
@@ -69,13 +76,15 @@ export type ScriptPresetUserConfig = UserConfig &
   ScriptPresetOptions &
   ThemePluginUserConfig &
   ConsolePluginUserConfig &
-  HelpPluginUserConfig;
+  HelpPluginUserConfig &
+  BannerPluginUserConfig;
 
 export type ScriptPresetResolvedConfig = ResolvedConfig &
   ScriptPresetOptions &
   ThemePluginResolvedConfig &
   ConsolePluginResolvedConfig &
-  HelpPluginResolvedConfig;
+  HelpPluginResolvedConfig &
+  BannerPluginResolvedConfig;
 
 export type ScriptPresetContext<
   TResolvedConfig extends ScriptPresetResolvedConfig =
@@ -84,4 +93,5 @@ export type ScriptPresetContext<
   Context<TResolvedConfig> &
   ThemePluginContext<TResolvedConfig> &
   ConsolePluginContext<TResolvedConfig> &
-  HelpPluginContext<TResolvedConfig>;
+  HelpPluginContext<TResolvedConfig> &
+  BannerPluginContext<TResolvedConfig>;

@@ -1719,3 +1719,63 @@ declare module "shell-shock:help/start" {
    */
   export function showHelp(): void;
 }
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Playground Nx command-line interface application.
+ *
+ * @module shell-shock:banner
+ */
+declare module "shell-shock:banner" {
+  /**
+   * Write the Playground Nx command-line interface application banner for the
+   * Playground Nx command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Build command.
+ *
+ * @module shell-shock:banner/build
+ */
+declare module "shell-shock:banner/build" {
+  /**
+   * Write the Playground Nx command-line interface application banner for the
+   * Build command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Help command.
+ *
+ * @module shell-shock:banner/help
+ */
+declare module "shell-shock:banner/help" {
+  /**
+   * Write the Playground Nx command-line interface application banner for the
+   * Help command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Start command.
+ *
+ * @module shell-shock:banner/start
+ */
+declare module "shell-shock:banner/start" {
+  /**
+   * Write the Playground Nx command-line interface application banner for the
+   * Start command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}

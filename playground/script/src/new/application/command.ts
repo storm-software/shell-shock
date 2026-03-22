@@ -30,6 +30,7 @@ interface NewApplicationOptions {
  * @param name - The name of the application.
  */
 function newApplication(options: NewApplicationOptions, name: string) {
+  // eslint-disable-next-line no-console
   console.log("Creating new application:", name, "at", options.root);
 }
 

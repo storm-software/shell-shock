@@ -5,166 +5,148 @@
 # Docs Executor
 
 ## `config`
+
 - **Type**: `string`
 - **Default**: `"{projectRoot}/powerlines.config.ts"`
 
 > Powerlines Configuration File
-
 
 The path to the Powerlines configuration file. Alias for `configFile`.
 
-
 ## `configFile`
+
 - **Type**: `string`
 - **Default**: `"{projectRoot}/powerlines.config.ts"`
 
 > Powerlines Configuration File
 
-
 The path to the Powerlines configuration file. Alias for `config`.
 
-
 ## `input`
+
 - **Type**: `array`
 
 > Input Entry File(s)
 
-
 The entry file(s) that serve as the input for the project
 
-
 ## `tsconfig`
+
 - **Type**: `string`
 - **Default**: `"{projectRoot}/tsconfig.json"`
 
 > TSConfig Path
 
-
 The path to the tsconfig file
 
-
 ## `outputPath`
+
 - **Type**: `string`
 
 > Output Path
 
-
 The path to the output directory for the build artifacts
 
-
 ## `copyPath`
+
 - **Type**: `any`
 - **Default**: `{}`
 
 > Copy Path
 
-
 A directory path to copy the build artifacts into
 
-
 ## `sourceMap`
+
 - **Type**: `boolean`
 
 > Sourcemap
 
-
 Generate a sourcemap
 
-
 ## `format`
+
 - **Type**: `array`
 - **Default**: `["cjs","esm"]`
 
 > Format
 
-
 The format to build
 
-
 ## `platform`
+
 - **Type**: `string`
 - **Default**: `"neutral"`
 
 > Platform
 
-
 The platform to build
 
-
 ## `external`
+
 - **Type**: `array`
 - **Default**: `[]`
 
 > External
 
-
 The external dependencies
 
-
 ## `noExternal`
+
 - **Type**: `array`
 - **Default**: `[]`
 
 > No External
 
-
 The dependencies that should not be treated as external
 
-
 ## `skipNodeModulesBundle`
+
 - **Type**: `boolean`
 
 > Skip Node Modules Bundle
 
-
 Skip bundling node_modules during the build process (if required)
 
-
 ## `mode`
+
 - **Type**: `string`
 
 > Mode
 
-
 The build mode
 
-
 ## `logLevel`
+
 - **Type**: `string`
 
 > Log Level
 
-
 The log level to use for the build process
-
 
 ## `define`
 
 ## `assets`
+
 - **Type**: `Array<{ input?: string; output?: string; glob: string; ignore?: string[]; dot?: boolean; }>`
 - **Default**: `{}`
 
 > Assets
 
-
 The `assets` values
 
-
 ## `autoInstall`
+
 - **Type**: `boolean`
 
 > Auto Install
 
-
 Automatically install dependencies during prepare stage
 
-
 ## `skipCache`
+
 - **Type**: `boolean`
 
 > Skip Cache
 
-
 Skip the caching mechanism during the build process (if required)
-
-

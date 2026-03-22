@@ -34,6 +34,7 @@ interface StartOptions {
  * Start the project.
  */
 function start(options: StartOptions) {
+  // eslint-disable-next-line no-console
   console.log(
     `Starting at ${options.root} with verbose=${options.verbose ?? false}`
   );

@@ -30,6 +30,7 @@ interface RemoveOptions {
  * @param files - The files to remove.
  */
 function removeFiles(options: RemoveOptions, files: string[]) {
+  // eslint-disable-next-line no-console
   console.log("Removing files:", files, "at", options.root);
 }
 
