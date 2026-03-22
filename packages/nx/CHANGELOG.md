@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.49](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.49) (03/22/2026)
+
+### Miscellaneous
+
+- **core:** Upgrade `powerlines` to v0.42.10 ([a98de9f](https://github.com/storm-software/shell-shock/commit/a98de9f))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.5**
+
 ## [0.0.48](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.48) (03/22/2026)
 
 ### Bug Fixes

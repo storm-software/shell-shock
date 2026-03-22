@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.13.5](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.5) (03/22/2026)
+
+### Miscellaneous
+
+- **core:** Upgrade `powerlines` to v0.42.10 ([a98de9f](https://github.com/storm-software/shell-shock/commit/a98de9f))
+
 ## [0.13.4](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.4) (03/22/2026)
 
 ### Bug Fixes
