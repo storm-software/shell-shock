@@ -101,7 +101,7 @@ function resolveCommandOption(
       throw new Error(
         `Unsupported array type for option "${reflection.getNameAsString()}" in command "${
           ctx.input.command.name
-        }". Only string[] and number[] are supported, received ${stringifyType(
+        }". Only string[], number[], or literal[] are supported, received ${stringifyType(
           type
         )
           .trim()
@@ -151,7 +151,7 @@ function resolveCommandOption(
     throw new Error(
       `Unsupported type for option "${reflection.getNameAsString()}" in command "${
         ctx.input.command.name
-      }". Only string, number, boolean, string[] and number[] are supported, received ${stringifyType(
+      }". Only string, number, boolean, string[], number[], or literal[] are supported, received ${stringifyType(
         type
       )
         .trim()
@@ -172,28 +172,6 @@ function resolveCommandArgument(
     ctx.output.args.length > index ? ctx.output.args[index] : {}
   ) as Partial<CommandArgument>;
 
-  if (
-    !existing.kind &&
-    type.kind !== ReflectionKind.string &&
-    type.kind !== ReflectionKind.number &&
-    type.kind !== ReflectionKind.boolean &&
-    !(
-      type.kind === ReflectionKind.array &&
-      (type.type.kind === ReflectionKind.string ||
-        type.type.kind === ReflectionKind.number)
-    )
-  ) {
-    throw new Error(
-      `Unsupported type for argument "${reflection.getName()}" in command "${
-        ctx.input.command.name
-      }". Only string types (or an array of strings) are supported, received ${stringifyType(
-        type
-      )
-        .trim()
-        .replaceAll(" | ", ", or ")}.`
-    );
-  }
-
   const argument = {
     name: reflection.getName() || reflection.parameter.name,
     alias: reflection.getAlias(),
@@ -213,17 +191,51 @@ function resolveCommandArgument(
         true;
       (argument as StringCommandParameter | NumberCommandParameter).kind =
         extractCommandParameterKind(type.type.kind) as "string" | "number";
-    } else if (!existing.kind) {
+    } else {
       throw new Error(
-        `Unsupported array type for argument "${reflection.getName()}" in command "${
+        `Unsupported array type for positional argument "${argument.name}" in command "${
           ctx.input.command.name
-        }". Only string[] and number[] are supported, received ${stringifyType(
+        }". Only string[], number[], or literal[] are supported, received ${stringifyType(
           type
         )
           .trim()
           .replaceAll(" | ", ", or ")}.`
       );
     }
+  } else if (type.kind === ReflectionKind.union) {
+    argument.kind = type.types.every(
+      t =>
+        t.kind === ReflectionKind.number ||
+        (t.kind === ReflectionKind.literal &&
+          (isNumber(t.literal) || isBigInt(t.literal)))
+    )
+      ? CommandParameterKinds.number
+      : CommandParameterKinds.string;
+
+    (argument as StringCommandParameter | NumberCommandParameter).choices =
+      type.types
+        .map(t =>
+          t.kind === ReflectionKind.literal
+            ? isNumber(t.literal)
+              ? t.literal
+              : isBigInt(t.literal)
+                ? Number(t.literal)
+                : isRegExp(t.literal)
+                  ? t.literal.source
+                  : String(t.literal)
+            : null
+        )
+        .filter(Boolean) as string[] | number[];
+  } else if (type.kind === ReflectionKind.literal) {
+    (argument as StringCommandParameter | NumberCommandParameter).choices = [
+      isNumber(type.literal)
+        ? type.literal
+        : isBigInt(type.literal)
+          ? Number(type.literal)
+          : isRegExp(type.literal)
+            ? type.literal.source
+            : String(type.literal)
+    ].filter(Boolean) as string[] | number[];
   } else if (
     !existing.kind &&
     type.kind !== ReflectionKind.boolean &&
@@ -231,9 +243,9 @@ function resolveCommandArgument(
     type.kind !== ReflectionKind.number
   ) {
     throw new Error(
-      `Unsupported type for argument "${reflection.getName()}" in command "${
+      `Unsupported type for positional argument "${argument.name}" in command "${
         ctx.input.command.name
-      }". Only string, number, boolean, string[] and number[] are supported, received ${stringifyType(
+      }". Only string, number, boolean, string[], number[], or literal[] are supported, received ${stringifyType(
         type
       )
         .trim()

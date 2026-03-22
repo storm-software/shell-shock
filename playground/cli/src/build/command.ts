@@ -33,9 +33,9 @@ interface BuildOptions {
   root: string;
 
   /**
-   * Specific build targets to build.
+   * Specific build formats to build.
    */
-  targets: string[];
+  formats: string[];
 
   /**
    * The number of concurrent build processes to run.
@@ -50,12 +50,15 @@ interface BuildOptions {
 
 /**
  * Build the project.
+ *
+ * @param options - The build options.
+ * @param target - The build target, either "debug" or "release".
  */
-function build(options: BuildOptions) {
+function build(options: BuildOptions, target: "debug" | "release" = "release") {
   info(
-    `Building at ${options.root} with targets=${options.targets.join(
+    `Building at ${options.root} with formats=${options.formats.join(
       ", "
-    )} and concurrency=${options.concurrency} and clean=${options.clean}`
+    )} and concurrency=${options.concurrency} and clean=${options.clean} in ${target} mode`
   );
 }
 

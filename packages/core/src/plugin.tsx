@@ -124,7 +124,8 @@ export const plugin = <TContext extends Context = Context>(
                   ]
                 : undefined,
             resolve: {
-              external: ["@powerlines/deepkit"]
+              external: ["@powerlines/deepkit"],
+              skipNodeModulesBundle: true
             },
             tsdown: {
               dts: false,
