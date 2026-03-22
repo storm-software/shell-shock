@@ -20,12 +20,12 @@ catalog:
   "@nx/plugin": 22.6.1
   "@nx/workspace": 22.6.1
   "@powerlines/deepkit": ^0.6.148
-  "@powerlines/nx": ^0.11.297
-  "@powerlines/plugin-alloy": ^0.25.55
+  "@powerlines/nx": ^0.11.298
+  "@powerlines/plugin-alloy": ^0.25.56
   "@powerlines/plugin-automd": ^0.1.369
   "@powerlines/plugin-deepkit": ^0.11.248
-  "@powerlines/plugin-env": ^0.16.90
-  "@powerlines/plugin-nodejs": ^0.1.291
+  "@powerlines/plugin-env": ^0.16.91
+  "@powerlines/plugin-nodejs": ^0.1.292
   "@powerlines/plugin-plugin": ^0.12.320
   "@powerlines/plugin-style-dictionary": ^0.3.270
   "@powerlines/plugin-tsdown": ^0.1.317

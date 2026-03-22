@@ -49,11 +49,11 @@ catalogs:
       specifier: ^0.6.148
       version: 0.6.148
     '@powerlines/nx':
-      specifier: ^0.11.297
-      version: 0.11.297
+      specifier: ^0.11.298
+      version: 0.11.298
     '@powerlines/plugin-alloy':
-      specifier: ^0.25.55
-      version: 0.25.55
+      specifier: ^0.25.56
+      version: 0.25.56
     '@powerlines/plugin-automd':
       specifier: ^0.1.369
       version: 0.1.369
@@ -61,8 +61,8 @@ catalogs:
       specifier: ^0.11.248
       version: 0.11.248
     '@powerlines/plugin-nodejs':
-      specifier: ^0.1.291
-      version: 0.1.291
+      specifier: ^0.1.292
+      version: 0.1.292
     '@powerlines/plugin-plugin':
       specifier: ^0.12.320
       version: 0.12.320
@@ -350,7 +350,7 @@ importers:
         version: 22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19))
       '@powerlines/nx':
         specifier: 'catalog:'
-        version: 0.11.297(f6847ea1b781b41b43f9c4fddd6e1e3a)
+        version: 0.11.298(f6847ea1b781b41b43f9c4fddd6e1e3a)
       '@powerlines/tsconfig':
         specifier: 'catalog:'
         version: 0.4.40(@storm-software/tsconfig@0.48.35)
@@ -470,7 +470,7 @@ importers:
         version: 0.6.148(2c227421aa755969a3080e63360e99e5)
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.25.55(8404eef46f6b00b06e9896fcd4414c42)
+        version: 0.25.56(8404eef46f6b00b06e9896fcd4414c42)
       '@powerlines/plugin-automd':
         specifier: 'catalog:'
         version: 0.1.369(automd@0.4.3)(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))
@@ -479,7 +479,7 @@ importers:
         version: 0.11.248(450154f1ac5f4dbabef92176efb91150)
       '@powerlines/plugin-nodejs':
         specifier: 'catalog:'
-        version: 0.1.291(697606d73c8a1bf1f01fd0595b580b00)
+        version: 0.1.292(697606d73c8a1bf1f01fd0595b580b00)
       '@powerlines/plugin-tsdown':
         specifier: 'catalog:'
         version: 0.1.317(@babel/core@7.29.0)(@babel/plugin-syntax-typescript@7.28.6(@babel/core@7.29.0))(@rspack/core@1.7.8(@swc/helpers@0.5.19))(@types/babel__core@7.20.5)(@types/picomatch@4.0.2)(esbuild@0.27.4)(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))(rolldown@1.0.0-rc.9)(rollup@4.59.1)(tsdown@0.21.4(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.19.1)(synckit@0.11.12)(typescript@5.9.3))(typescript@5.9.3)(vite@8.0.0-beta.2(@types/node@25.5.0)(@types/picomatch@4.0.2)(esbuild@0.27.4)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3))(webpack@5.105.3(@swc/core@1.15.18(@swc/helpers@0.5.19))(esbuild@0.27.4))
@@ -656,7 +656,7 @@ importers:
     devDependencies:
       '@powerlines/nx':
         specifier: 'catalog:'
-        version: 0.11.297(67e4e454f99fcecbdb022af586e4d5de)
+        version: 0.11.298(67e4e454f99fcecbdb022af586e4d5de)
       '@powerlines/plugin-tsdown':
         specifier: 'catalog:'
         version: 0.1.317(@babel/core@7.29.0)(@babel/plugin-syntax-typescript@7.28.6(@babel/core@7.29.0))(@rspack/core@1.7.8(@swc/helpers@0.5.19))(@types/babel__core@7.20.5)(@types/picomatch@4.0.2)(esbuild@0.27.4)(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))(rolldown@1.0.0-rc.9)(rollup@4.59.1)(tsdown@0.21.4(@typescript/native-preview@7.0.0-dev.20251218.3)(oxc-resolver@11.19.1)(synckit@0.11.12)(typescript@5.9.3))(typescript@5.9.3)(vite@8.0.0-beta.2(@types/node@25.5.0)(@types/picomatch@4.0.2)(esbuild@0.27.4)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3))(webpack@5.105.3(@swc/core@1.15.18(@swc/helpers@0.5.19))(esbuild@0.27.4))
@@ -692,7 +692,7 @@ importers:
         version: 0.6.148(2c227421aa755969a3080e63360e99e5)
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.25.55(8404eef46f6b00b06e9896fcd4414c42)
+        version: 0.25.56(8404eef46f6b00b06e9896fcd4414c42)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
         version: 0.12.320(6baeb584096c56e872fd9aad63ce5e58)
@@ -735,7 +735,7 @@ importers:
         version: 0.6.148(2c227421aa755969a3080e63360e99e5)
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.25.55(8404eef46f6b00b06e9896fcd4414c42)
+        version: 0.25.56(8404eef46f6b00b06e9896fcd4414c42)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
         version: 0.12.320(6baeb584096c56e872fd9aad63ce5e58)
@@ -772,7 +772,7 @@ importers:
         version: 0.6.148(2c227421aa755969a3080e63360e99e5)
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.25.55(8404eef46f6b00b06e9896fcd4414c42)
+        version: 0.25.56(8404eef46f6b00b06e9896fcd4414c42)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
         version: 0.12.320(6baeb584096c56e872fd9aad63ce5e58)
@@ -812,7 +812,7 @@ importers:
         version: 0.6.148(2c227421aa755969a3080e63360e99e5)
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.25.55(8404eef46f6b00b06e9896fcd4414c42)
+        version: 0.25.56(8404eef46f6b00b06e9896fcd4414c42)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
         version: 0.12.320(6baeb584096c56e872fd9aad63ce5e58)
@@ -855,7 +855,7 @@ importers:
         version: 0.6.148(2c227421aa755969a3080e63360e99e5)
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.25.55(8404eef46f6b00b06e9896fcd4414c42)
+        version: 0.25.56(8404eef46f6b00b06e9896fcd4414c42)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
         version: 0.12.320(6baeb584096c56e872fd9aad63ce5e58)
@@ -886,7 +886,7 @@ importers:
         version: 0.23.0-dev.8
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.25.55(8404eef46f6b00b06e9896fcd4414c42)
+        version: 0.25.56(8404eef46f6b00b06e9896fcd4414c42)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
         version: 0.12.320(6baeb584096c56e872fd9aad63ce5e58)
@@ -929,7 +929,7 @@ importers:
         version: 0.6.148(2c227421aa755969a3080e63360e99e5)
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.25.55(8404eef46f6b00b06e9896fcd4414c42)
+        version: 0.25.56(8404eef46f6b00b06e9896fcd4414c42)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
         version: 0.12.320(6baeb584096c56e872fd9aad63ce5e58)
@@ -966,7 +966,7 @@ importers:
         version: 0.6.148(2c227421aa755969a3080e63360e99e5)
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.25.55(8404eef46f6b00b06e9896fcd4414c42)
+        version: 0.25.56(8404eef46f6b00b06e9896fcd4414c42)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
         version: 0.12.320(6baeb584096c56e872fd9aad63ce5e58)
@@ -1027,7 +1027,7 @@ importers:
         version: 0.6.148(2c227421aa755969a3080e63360e99e5)
       '@powerlines/plugin-alloy':
         specifier: 'catalog:'
-        version: 0.25.55(8404eef46f6b00b06e9896fcd4414c42)
+        version: 0.25.56(8404eef46f6b00b06e9896fcd4414c42)
       '@powerlines/plugin-plugin':
         specifier: 'catalog:'
         version: 0.12.320(6baeb584096c56e872fd9aad63ce5e58)
@@ -1119,7 +1119,7 @@ importers:
     devDependencies:
       '@powerlines/nx':
         specifier: 'catalog:'
-        version: 0.11.297(67e4e454f99fcecbdb022af586e4d5de)
+        version: 0.11.298(67e4e454f99fcecbdb022af586e4d5de)
       '@shell-shock/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -4303,14 +4303,14 @@ packages:
       rolldown:
         optional: true
 
-  '@powerlines/nx@0.11.297':
-    resolution: {integrity: sha512-MVBcz2gMACt5ZxntVFQUw2LanXUvmo5UyNsNLJ/Ke12va6wkRpTwMdrRoJoCuNl7eI8bZcORH/aNo7vVMQzA8w==}
+  '@powerlines/nx@0.11.298':
+    resolution: {integrity: sha512-pk3cHHsNLGA+DVqTsLnxIj36JZ2Tx9GyzpNZ8DY2hfT3Mldcc+N9I7Jm2We7QNo8XhD5sDBXyIMGm0QxtVAr+A==}
     peerDependencies:
       nx: '>=22.5.0'
       powerlines: '>=0.39.2'
 
-  '@powerlines/plugin-alloy@0.25.55':
-    resolution: {integrity: sha512-IIGvxlIQUM/AovyEYE6Fii65GloOIV8ttv91iJXyVOTiu2MgTksz9eD9HBRivw0BjnRf/a2Ox70x8l+5AkERbQ==}
+  '@powerlines/plugin-alloy@0.25.56':
+    resolution: {integrity: sha512-1We+E/kYf/znI9vtD9kPBzzB7r1y1ZgKOfl8+q3kCYPE0RKAW1iB0UfLaOQIpY7dUTRZ8rwqD0qCegTj7X3iKg==}
 
   '@powerlines/plugin-automd@0.1.369':
     resolution: {integrity: sha512-qYsZK8t2wMeqpUTsw9tal/nqzxELgGMTWE/a3CiV1eSU6+laTSXsRzb3KYgfbKeIFV1b1apdTpHK92j0uc6MnQ==}
@@ -4325,16 +4325,16 @@ packages:
   '@powerlines/plugin-deepkit@0.11.248':
     resolution: {integrity: sha512-wHadeS9E6DXTYp2oSq+b8a+SxrI4k3vX70TnKucxHsMxp9Bwk3KJ5Q6RCFRplS4kGdbMm+/HiGpZaNPrlex14w==}
 
-  '@powerlines/plugin-env@0.16.90':
-    resolution: {integrity: sha512-niC8Z3sE4h0atYkDBoIsqR/2qyoHBQR0zfiAo7WouXs2TBqd47iWg2q3pM6TyVfKY5xBSQcwJPLrME1Of3DE9A==}
+  '@powerlines/plugin-env@0.16.91':
+    resolution: {integrity: sha512-toQmRf5LjF6pz51TeEFjH66QKepWyaywL+/fsO3Nry9vOdwaguvRd4NA/6WfcJH7qVnzCqx076TPrQjRt0zKjg==}
 
   '@powerlines/plugin-esbuild@0.13.372':
     resolution: {integrity: sha512-GolHnQW1U9cZmRMOWVkm5N5zqnYSsRxcuul5DWuGoOFYTnlkYThMTcvIuMPaDpl6h/Hj0ZQTjJLRw7T4rTbWXw==}
     peerDependencies:
       esbuild: '>=0.27.3'
 
-  '@powerlines/plugin-nodejs@0.1.291':
-    resolution: {integrity: sha512-PBomrKaXJvLUdvCAtCCY9VNUw+rNBKqIHCAoEyNdKAouv3LU2vl8pmlwMP4J15cQgNWomgL0N+1VzrAjqngXBw==}
+  '@powerlines/plugin-nodejs@0.1.292':
+    resolution: {integrity: sha512-JSDVDXH6z+qSlqnotdzdNhlTanj2igPGotWDadro+2BAVIEjH/8SxyeI8K600gY9kjD6szIGR60FksMOVpts8g==}
 
   '@powerlines/plugin-plugin@0.12.320':
     resolution: {integrity: sha512-eGLURbvk2Ynhiuu13vtY+f2XWoaH9aRzqAWuzMFfTsr/YvtuNWshF0RlDODFA3lt2wevW1l2fAVLttdaYK6v3g==}
@@ -17800,7 +17800,7 @@ snapshots:
       - vite
       - webpack
 
-  '@powerlines/nx@0.11.297(67e4e454f99fcecbdb022af586e4d5de)':
+  '@powerlines/nx@0.11.298(67e4e454f99fcecbdb022af586e4d5de)':
     dependencies:
       '@nx/devkit': 22.6.1(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))
       '@storm-software/build-tools': 0.158.127(@nx/devkit@22.6.1(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19))))(@nx/js@22.6.1(@babel/traverse@7.29.0)(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19))(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))(verdaccio@6.3.2(typanion@3.14.0)))(@swc/helpers@0.5.19)(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))(typescript@5.9.3)
@@ -17854,7 +17854,7 @@ snapshots:
       - vue-tsc
       - yaml
 
-  '@powerlines/nx@0.11.297(f6847ea1b781b41b43f9c4fddd6e1e3a)':
+  '@powerlines/nx@0.11.298(f6847ea1b781b41b43f9c4fddd6e1e3a)':
     dependencies:
       '@nx/devkit': 22.6.1(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))
       '@storm-software/build-tools': 0.158.127(@nx/devkit@22.6.1(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19))))(@nx/js@22.6.1(@babel/traverse@7.29.0)(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19))(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))(verdaccio@6.3.2(typanion@3.14.0)))(@swc/helpers@0.5.19)(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))(typescript@5.9.3)
@@ -17908,7 +17908,7 @@ snapshots:
       - vue-tsc
       - yaml
 
-  '@powerlines/plugin-alloy@0.25.55(8404eef46f6b00b06e9896fcd4414c42)':
+  '@powerlines/plugin-alloy@0.25.56(8404eef46f6b00b06e9896fcd4414c42)':
     dependencies:
       '@alloy-js/babel-preset': 0.2.1(@babel/core@7.29.0)
       '@alloy-js/core': 0.23.0-dev.8
@@ -18103,7 +18103,7 @@ snapshots:
       - vite
       - webpack
 
-  '@powerlines/plugin-env@0.16.90(0e67fdededa481ee6321e80ccda1aa37)':
+  '@powerlines/plugin-env@0.16.91(0e67fdededa481ee6321e80ccda1aa37)':
     dependencies:
       '@alloy-js/core': 0.23.0-dev.8
       '@alloy-js/json': 0.23.0-dev.2
@@ -18111,7 +18111,7 @@ snapshots:
       '@alloy-js/typescript': 0.23.0-dev.4
       '@babel/core': 7.29.0
       '@babel/types': 7.29.0
-      '@powerlines/plugin-alloy': 0.25.55(8404eef46f6b00b06e9896fcd4414c42)
+      '@powerlines/plugin-alloy': 0.25.56(8404eef46f6b00b06e9896fcd4414c42)
       '@powerlines/plugin-automd': 0.1.369(automd@0.4.3)(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))
       '@powerlines/plugin-babel': 0.12.371(@babel/plugin-syntax-typescript@7.28.6(@babel/core@7.29.0))(@rspack/core@1.7.8(@swc/helpers@0.5.19))(@types/picomatch@4.0.2)(esbuild@0.27.4)(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))(rolldown@1.0.0-rc.9)(rollup@4.59.1)(vite@8.0.0-beta.2(@types/node@25.5.0)(@types/picomatch@4.0.2)(esbuild@0.27.4)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3))(webpack@5.105.3(@swc/core@1.15.18(@swc/helpers@0.5.19))(esbuild@0.27.4))
       '@powerlines/plugin-plugin': 0.12.320(6baeb584096c56e872fd9aad63ce5e58)
@@ -18206,13 +18206,13 @@ snapshots:
       - vite
       - webpack
 
-  '@powerlines/plugin-nodejs@0.1.291(697606d73c8a1bf1f01fd0595b580b00)':
+  '@powerlines/plugin-nodejs@0.1.292(697606d73c8a1bf1f01fd0595b580b00)':
     dependencies:
       '@alloy-js/core': 0.23.0-dev.8
       '@alloy-js/typescript': 0.23.0-dev.4
-      '@powerlines/plugin-alloy': 0.25.55(8404eef46f6b00b06e9896fcd4414c42)
+      '@powerlines/plugin-alloy': 0.25.56(8404eef46f6b00b06e9896fcd4414c42)
       '@powerlines/plugin-babel': 0.12.371(@babel/plugin-syntax-typescript@7.28.6(@babel/core@7.29.0))(@rspack/core@1.7.8(@swc/helpers@0.5.19))(@types/picomatch@4.0.2)(esbuild@0.27.4)(nx@22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19)))(rolldown@1.0.0-rc.9)(rollup@4.59.1)(vite@8.0.0-beta.2(@types/node@25.5.0)(@types/picomatch@4.0.2)(esbuild@0.27.4)(jiti@2.6.1)(terser@5.46.1)(yaml@2.8.3))(webpack@5.105.3(@swc/core@1.15.18(@swc/helpers@0.5.19))(esbuild@0.27.4))
-      '@powerlines/plugin-env': 0.16.90(0e67fdededa481ee6321e80ccda1aa37)
+      '@powerlines/plugin-env': 0.16.91(0e67fdededa481ee6321e80ccda1aa37)
       '@powerlines/plugin-plugin': 0.12.320(6baeb584096c56e872fd9aad63ce5e58)
       '@storm-software/config-tools': 1.189.46
       '@stryke/string-format': 0.17.6
