@@ -103,8 +103,8 @@ catalogs:
       specifier: ^1.132.135
       version: 1.132.135
     '@storm-software/markdownlint':
-      specifier: ^0.30.123
-      version: 0.30.123
+      specifier: ^0.30.124
+      version: 0.30.124
     '@storm-software/pnpm-tools':
       specifier: ^0.6.131
       version: 0.6.131
@@ -374,7 +374,7 @@ importers:
         version: 1.132.135(chokidar@4.0.3)
       '@storm-software/markdownlint':
         specifier: 'catalog:'
-        version: 0.30.123
+        version: 0.30.124
       '@storm-software/pnpm-tools':
         specifier: 'catalog:'
         version: 0.6.131
@@ -650,9 +650,6 @@ importers:
       nx:
         specifier: '>=22.5.0'
         version: 22.6.1(@swc-node/register@1.11.1(@swc/core@1.15.18(@swc/helpers@0.5.19))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.18(@swc/helpers@0.5.19))
-      powerlines:
-        specifier: 'catalog:'
-        version: 0.42.9(963aa32c59c209190d8f1fb86f4b8158)
       untyped:
         specifier: 'catalog:'
         version: 1.5.2
@@ -678,6 +675,9 @@ importers:
       jsonc-eslint-parser:
         specifier: 'catalog:'
         version: 2.4.2
+      powerlines:
+        specifier: 'catalog:'
+        version: 0.42.9(963aa32c59c209190d8f1fb86f4b8158)
 
   packages/plugin-banner:
     dependencies:
@@ -5098,8 +5098,8 @@ packages:
     engines: {node: '>=22.4.0', pnpm: '>=10.3.0'}
     hasBin: true
 
-  '@storm-software/markdownlint@0.30.123':
-    resolution: {integrity: sha512-mIijV7QgLPePwPXGoF+h+3oq7N9Piie49Ae2IdBBEDaTQB1p3EzdEh1XdSPtzw0PYnyfArH+tHy0eUVRDK04Zg==}
+  '@storm-software/markdownlint@0.30.124':
+    resolution: {integrity: sha512-zbwjF4xzZyYuih9+7EllurKHCcvPpCcS6sqr1O87AtG9d+3TZmv8M7UGkNDZ8fqfrkk7NGPY/8cc3RVdfmon5A==}
     engines: {node: '>=22.4.0', pnpm: '>=10.3.0'}
 
   '@storm-software/npm-tools@0.6.84':
@@ -19464,7 +19464,7 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@storm-software/markdownlint@0.30.123':
+  '@storm-software/markdownlint@0.30.124':
     dependencies:
       defu: 6.1.4
       markdownlint-cli2: 0.17.2
@@ -26925,7 +26925,7 @@ snapshots:
   micromark-util-character@2.1.1:
     dependencies:
       micromark-util-symbol: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-util-chunked@2.0.1:
     dependencies:
@@ -26940,7 +26940,7 @@ snapshots:
   micromark-util-combine-extensions@2.0.1:
     dependencies:
       micromark-util-chunked: 2.0.1
-      micromark-util-types: 2.0.1
+      micromark-util-types: 2.0.2
 
   micromark-util-decode-numeric-character-reference@2.0.2:
     dependencies:

@@ -55,7 +55,7 @@ export interface ReferenceOptions {
    * A URL to the application command specific documentation or reference.
    *
    * @remarks
-   * This URL is expected to contain the token `{command}`, which will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{referenceLink}/command/subcommand`.
+   * This URL is expected to contain the token `{command}`, which will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{reference}/command/subcommand`.
    */
   commands?: string;
 }
@@ -106,7 +106,7 @@ type BaseOptions = Partial<BuildOptions> & {
    * A URL to the application documentation or reference.
    *
    * @remarks
-   * This URL can be used in various displays of the user interface and documentation to provide users with a reference for the application. It can also be used by plugins to link to the documentation in relevant contexts. If the token `{command}` is included in the URL, it will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{referenceLink}/command/subcommand`.
+   * This URL can be used in various displays of the user interface and documentation to provide users with a reference for the application. It can also be used by plugins to link to the documentation in relevant contexts. If the token `{command}` is included in the URL, it will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{reference}/command/subcommand`.
    */
   reference?: ReferenceOptions | string;
 };

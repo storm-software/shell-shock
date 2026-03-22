@@ -204,6 +204,13 @@ export const plugin = <TContext extends Context = Context>(
                 .replace(/\/?$/, "/"),
               commands: this.config.reference
             };
+          } else if (this.config.reference.includes("{commands}")) {
+            this.config.reference = {
+              app: this.config.reference
+                .substring(0, this.config.reference.indexOf("{commands}"))
+                .replace(/\/?$/, "/"),
+              commands: this.config.reference
+            };
           } else {
             this.config.reference = {
               app: this.config.reference
