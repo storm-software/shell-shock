@@ -92,7 +92,7 @@
   "typings": "dist/index.d.ts",
   "peerDependencies": {
     "nx": ">=22.5.0",
-    "powerlines": ">=0.42.9"
+    "powerlines": ">=0.42.10"
   },
   "dependencies": {
     "@nx/devkit": "catalog:",

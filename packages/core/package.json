@@ -1,18 +1,24 @@
 {
   "name": "@shell-shock/core",
   "version": "0.13.4",
-  "type": "module",
+  "private": false,
   "description": "A package containing the core Shell Shock functionality used to build and manage a command-line application.",
-  "repository": {
-    "type": "github",
-    "url": "https://github.com/storm-software/shell-shock.git",
-    "directory": "packages/core"
-  },
+  "keywords": ["shell-shock", "powerlines", "storm-software"],
   "homepage": "https://stormsoftware.com",
   "bugs": {
     "url": "https://stormsoftware.com/support",
     "email": "support@stormsoftware.com"
   },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/shell-shock.git",
+    "directory": "packages/core"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
   "author": {
     "name": "Storm Software",
     "email": "contact@stormsoftware.com",
@@ -32,14 +38,7 @@
       "url": "https://stormsoftware.com"
     }
   ],
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/storm-software"
-  },
-  "license": "Apache-2.0",
-  "private": false,
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "type": "module",
   "exports": {
     ".": {
       "require": {
@@ -351,18 +350,11 @@
       }
     }
   },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
   "files": ["dist/**/*"],
-  "keywords": ["shell-shock", "powerlines", "storm-software"],
-  "peerDependencies": {
-    "zod": "^3.25.0 || ^4.0.0"
-  },
-  "peerDependenciesMeta": {
-    "zod": {
-      "optional": true
-    }
-  },
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/markdown": "catalog:",
@@ -388,15 +380,24 @@
     "automd": "catalog:",
     "defu": "catalog:",
     "json-schema": "catalog:",
-    "powerlines": "catalog:",
     "tsdown": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-plugin": "catalog:",
     "@types/json-schema": "catalog:",
     "@types/node": "catalog:",
+    "powerlines": "catalog:",
     "typescript": "catalog:",
     "zod": "catalog:"
+  },
+  "peerDependencies": {
+    "powerlines": ">=0.42.10",
+    "zod": "^3.25.0 || ^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
