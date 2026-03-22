@@ -305,7 +305,7 @@ export const plugin = <TContext extends Context = Context>(
             .join("\n")}`
         );
       },
-      typegen(code: string) {
+      types(code: string) {
         this.debug(
           "Generating type definitions for the Shell Shock application."
         );

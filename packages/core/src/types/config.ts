@@ -65,7 +65,7 @@ type BaseOptions = Partial<BuildOptions> & {
    * A set of global command options to apply to each command.
    *
    * @remarks
-   * Each command will inherit these global options. To disable the addition of these global options, set this property to `false`, or provide a custom set of options/a function that returns them. A `GlobalOptions` interface will be created by the `shell-shock typegen` command and added to the generated `shell-shock.d.ts` file.
+   * Each command will inherit these global options. To disable the addition of these global options, set this property to `false`, or provide a custom set of options/a function that returns them. A `GlobalOptions` interface will be created by the `shell-shock types` command and added to the generated `shell-shock.d.ts` file.
    */
   globalOptions?:
     | CommandOption[]
