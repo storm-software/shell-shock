@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.48](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.48) (03/22/2026)
+
+### Bug Fixes
+
+- **nx:** List `powerlines` as a peer dependency to allow extra versions ([f54d178](https://github.com/storm-software/shell-shock/commit/f54d178))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.4**
+
 ## [0.0.47](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.47) (03/21/2026)
 
 ### Bug Fixes
