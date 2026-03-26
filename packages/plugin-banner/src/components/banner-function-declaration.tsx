@@ -21,7 +21,11 @@ import { code, computed, Show } from "@alloy-js/core";
 import { FunctionDeclaration, IfStatement } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import { getAppDescription, getAppTitle } from "@shell-shock/core/plugin-utils";
+import {
+  formatDescription,
+  getAppDescription,
+  getAppTitle
+} from "@shell-shock/core/plugin-utils";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import type { ThemeColorVariant } from "@shell-shock/plugin-theme/types/theme";
@@ -207,7 +211,7 @@ export function BannerFunctionBodyDeclaration(
             command?.title
               ? "colors.text.banner.description"
               : "colors.text.banner.command"
-          }.${variant}("${description.replace(/"/g, '\\"')}")),
+          }.${variant}(\`${formatDescription(description)}\`)),
           Math.max(process.stdout.columns - ${totalPadding.value}, 0)
         ).forEach((line) => {
           writeLine(colors.border.banner.outline.${variant}("${
