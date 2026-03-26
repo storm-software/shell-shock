@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.26](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.26) (03/26/2026)
+
+### Miscellaneous
+
+- **monorepo:** Resolved workspace linting rule failures ([7acb1f3](https://github.com/storm-software/shell-shock/commit/7acb1f3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.9**
+
 ## [0.1.25](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.25) (03/22/2026)
 
 ### Updated Dependencies

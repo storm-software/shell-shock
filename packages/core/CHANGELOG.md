@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.13.9](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.9) (03/26/2026)
+
+### Miscellaneous
+
+- **monorepo:** Resolved workspace linting rule failures ([7acb1f3](https://github.com/storm-software/shell-shock/commit/7acb1f3))
+
+### Bug Fixes
+
+- **core:** Resolve issue bundling commands during prepare ([7d57450](https://github.com/storm-software/shell-shock/commit/7d57450))
+- **core:** Resolve issue with literal typed positional arguments ([1b6174f](https://github.com/storm-software/shell-shock/commit/1b6174f))
+
 ## [0.13.8](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.8) (03/22/2026)
 
 ### Bug Fixes

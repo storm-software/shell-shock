@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.35](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.35) (03/26/2026)
+
+### Miscellaneous
+
+- **monorepo:** Resolved workspace linting rule failures ([7acb1f3](https://github.com/storm-software/shell-shock/commit/7acb1f3))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.20**
+- Updated **plugin-banner** to **v0.1.7**
+- Updated **plugin-theme** to **v0.3.24**
+- Updated **plugin-help** to **v0.1.11**
+- Updated **core** to **v0.13.9**
+
 ## [0.6.34](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.34) (03/22/2026)
 
 ### Updated Dependencies

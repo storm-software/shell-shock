@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.1.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.1.11) (03/26/2026)
+
+### Miscellaneous
+
+- **monorepo:** Resolved workspace linting rule failures ([7acb1f3](https://github.com/storm-software/shell-shock/commit/7acb1f3))
+
+### Bug Fixes
+
+- **core:** Resolve issue bundling commands during prepare ([7d57450](https://github.com/storm-software/shell-shock/commit/7d57450))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.20**
+- Updated **plugin-theme** to **v0.3.24**
+- Updated **core** to **v0.13.9**
+
 ## [0.1.10](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.1.10) (03/22/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.21](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.21) (03/26/2026)
+
+### Miscellaneous
+
+- **monorepo:** Resolved workspace linting rule failures ([7acb1f3](https://github.com/storm-software/shell-shock/commit/7acb1f3))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.24**
+- Updated **core** to **v0.13.9**
+
 ## [0.3.20](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.20) (03/22/2026)
 
 ### Updated Dependencies

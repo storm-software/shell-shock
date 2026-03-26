@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.47](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.47) (03/26/2026)
+
+### Miscellaneous
+
+- **monorepo:** Resolved workspace linting rule failures ([7acb1f3](https://github.com/storm-software/shell-shock/commit/7acb1f3))
+
 ## [0.0.46](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.46) (03/22/2026)
 
 ### Bug Fixes

@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.53](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.53) (03/26/2026)
+
+### Miscellaneous
+
+- **monorepo:** Resolved workspace linting rule failures ([7acb1f3](https://github.com/storm-software/shell-shock/commit/7acb1f3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.9**
+
 ## [0.0.52](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.52) (03/22/2026)
 
 ### Miscellaneous

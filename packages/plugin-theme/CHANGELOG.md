@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.3.24](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.24) (03/26/2026)
+
+### Miscellaneous
+
+- **monorepo:** Resolved workspace linting rule failures ([7acb1f3](https://github.com/storm-software/shell-shock/commit/7acb1f3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.9**
+
 ## [0.3.23](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.23) (03/22/2026)
 
 ### Updated Dependencies
