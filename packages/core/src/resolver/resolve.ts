@@ -188,24 +188,30 @@ async function postprocess<TContext extends Context = Context>(
       );
   }
 
-  for (const input of ctx.input.context.inputs.filter(
-    input =>
-      input.segments.filter(segment => !isDynamicPathSegment(segment))
-        .length ===
-        ctx.input.command.segments.filter(
-          segment => !isDynamicPathSegment(segment)
-        ).length +
-          1 &&
-      input.segments
-        .slice(0, ctx.input.command.segments.length)
-        .every((value, index) => value === ctx.input.command.segments[index])
-  )) {
-    ctx.output.children[input.name] = await resolve<TContext>({
-      context: ctx.input.context,
-      command: input,
-      parent: ctx.output
-    });
-  }
+  await Promise.all(
+    ctx.input.context.inputs
+      .filter(
+        input =>
+          input.segments.filter(segment => !isDynamicPathSegment(segment))
+            .length ===
+            ctx.input.command.segments.filter(
+              segment => !isDynamicPathSegment(segment)
+            ).length +
+              1 &&
+          input.segments
+            .slice(0, ctx.input.command.segments.length)
+            .every(
+              (value, index) => value === ctx.input.command.segments[index]
+            )
+      )
+      .map(async input => {
+        ctx.output.children[input.name] = await resolve<TContext>({
+          context: ctx.input.context,
+          command: input,
+          parent: ctx.output
+        });
+      })
+  );
 
   return ctx.output;
 }

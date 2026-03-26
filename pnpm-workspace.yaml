@@ -3,7 +3,6 @@ packages:
   - packages/*
   - docs/*
   - playground/*
-
 catalog:
   "@alloy-js/core": 0.23.0-dev.8
   "@alloy-js/json": 0.23.0-dev.2
@@ -20,55 +19,55 @@ catalog:
   "@nx/js": 22.6.1
   "@nx/plugin": 22.6.1
   "@nx/workspace": 22.6.1
-  "@powerlines/deepkit": ^0.6.149
-  "@powerlines/nx": ^0.11.299
-  "@powerlines/plugin-alloy": ^0.25.57
-  "@powerlines/plugin-automd": ^0.1.370
-  "@powerlines/plugin-deepkit": ^0.11.249
-  "@powerlines/plugin-env": ^0.16.92
-  "@powerlines/plugin-nodejs": ^0.1.293
-  "@powerlines/plugin-plugin": ^0.12.321
-  "@powerlines/plugin-style-dictionary": ^0.3.271
-  "@powerlines/plugin-tsdown": ^0.1.318
-  "@powerlines/plugin-tsup": ^0.12.374
-  "@powerlines/plugin-untyped": ^0.2.323
-  "@powerlines/plugin-vite": ^0.14.368
-  "@powerlines/tsconfig": ^0.4.41
+  "@powerlines/deepkit": ^0.6.160
+  "@powerlines/nx": ^0.11.310
+  "@powerlines/plugin-alloy": ^0.25.68
+  "@powerlines/plugin-automd": ^0.1.381
+  "@powerlines/plugin-deepkit": ^0.11.260
+  "@powerlines/plugin-env": ^0.16.103
+  "@powerlines/plugin-nodejs": ^0.1.304
+  "@powerlines/plugin-plugin": ^0.12.332
+  "@powerlines/plugin-style-dictionary": ^0.3.282
+  "@powerlines/plugin-tsdown": ^0.1.323
+  "@powerlines/plugin-tsup": ^0.12.382
+  "@powerlines/plugin-untyped": ^0.2.334
+  "@powerlines/plugin-vite": ^0.14.376
+  "@powerlines/tsconfig": ^0.4.44
   "@standard-schema/spec": ^1.1.0
   "@standard-schema/utils": ^0.3.0
-  "@storm-software/build-tools": ^0.158.127
-  "@storm-software/config": ^1.137.0
-  "@storm-software/config-tools": ^1.189.46
-  "@storm-software/cspell": ^0.46.36
-  "@storm-software/esbuild": ^0.53.128
-  "@storm-software/eslint": ^0.169.135
-  "@storm-software/git-tools": ^2.130.4
-  "@storm-software/linting-tools": ^1.132.135
-  "@storm-software/markdownlint": ^0.30.124
-  "@storm-software/pnpm-tools": ^0.6.131
-  "@storm-software/prettier": ^0.59.20
-  "@storm-software/testing-tools": ^1.119.121
-  "@storm-software/tsconfig": ^0.48.35
-  "@storm-software/tsdoc": ^0.13.121
-  "@storm-software/unbuild": ^0.57.128
-  "@storm-software/untyped": ^0.24.109
-  "@storm-software/workspace-tools": ^1.295.22
-  "@stryke/capnp": ^0.12.89
-  "@stryke/cli": ^0.13.35
-  "@stryke/convert": ^0.6.56
-  "@stryke/env": ^0.20.80
-  "@stryke/fs": ^0.33.63
-  "@stryke/hash": ^0.13.16
-  "@stryke/helpers": ^0.10.6
-  "@stryke/http": ^0.12.52
-  "@stryke/json": ^0.14.10
-  "@stryke/path": ^0.27.2
-  "@stryke/string-format": ^0.17.6
-  "@stryke/type-checks": ^0.5.41
-  "@stryke/types": ^0.11.1
-  "@stryke/zod": ^0.3.11
+  "@storm-software/build-tools": ^0.158.139
+  "@storm-software/config": ^1.137.12
+  "@storm-software/config-tools": ^1.189.58
+  "@storm-software/cspell": ^0.46.48
+  "@storm-software/esbuild": ^0.53.140
+  "@storm-software/eslint": ^0.170.0
+  "@storm-software/git-tools": ^2.130.16
+  "@storm-software/linting-tools": ^1.133.9
+  "@storm-software/markdownlint": ^0.30.136
+  "@storm-software/pnpm-tools": ^0.6.143
+  "@storm-software/prettier": ^0.59.32
+  "@storm-software/testing-tools": ^1.119.133
+  "@storm-software/tsconfig": ^0.48.47
+  "@storm-software/tsdoc": ^0.13.133
+  "@storm-software/unbuild": ^0.57.140
+  "@storm-software/untyped": ^0.24.121
+  "@storm-software/workspace-tools": ^1.295.34
+  "@stryke/capnp": ^0.12.90
+  "@stryke/cli": ^0.13.36
+  "@stryke/convert": ^0.6.57
+  "@stryke/env": ^0.20.81
+  "@stryke/fs": ^0.33.64
+  "@stryke/hash": ^0.13.17
+  "@stryke/helpers": ^0.10.7
+  "@stryke/http": ^0.12.53
+  "@stryke/json": ^0.14.11
+  "@stryke/path": ^0.27.3
+  "@stryke/string-format": ^0.17.7
+  "@stryke/type-checks": ^0.6.0
+  "@stryke/types": ^0.11.2
+  "@stryke/zod": ^0.3.12
   "@swc-node/register": ^1.11.1
-  "@swc/core": ^1.15.18
+  "@swc/core": ^1.15.21
   "@swc/helpers": ^0.5.19
   "@types/eslint": ^9.6.1
   "@types/eslint__js": ^9.14.0
@@ -78,7 +77,7 @@ catalog:
   "@types/react": ^19.2.14
   "@types/react-dom": ^19.2.3
   "@typescript-eslint/scope-manager": ^8.54.0
-  "@typescript-eslint/utils": ^8.57.1
+  "@typescript-eslint/utils": ^8.57.2
   "@typescript/native-preview": 7.0.0-dev.20251218.3
   automd: ^0.4.3
   cfonts: ^3.3.1
@@ -86,7 +85,7 @@ catalog:
   defu: ^6.1.4
   esbuild: ^0.24.2
   eslint: ^9.39.4
-  eslint-doc-generator: ^3.3.1
+  eslint-doc-generator: ^3.3.2
   eslint-flat-config-utils: ^2.1.4
   eslint-plugin-eslint-plugin: ^7.3.2
   eslint-plugin-i18n-text: ^1.0.1
@@ -101,7 +100,7 @@ catalog:
   lefthook: ^1.13.6
   log4brains: ^1.1.0
   nx: 22.6.1
-  powerlines: ^0.42.11
+  powerlines: ^0.42.22
   prettier: ^3.8.1
   react: ^19.2.3
   react-dom: ^19.2.3
@@ -109,29 +108,23 @@ catalog:
   sherif: ^1.0.0
   style-dictionary: ^5.4.0
   ts-jest: ^29.4.6
-  tsdown: ^0.21.4
+  tsdown: ^0.21.5
   typescript: ^5.9.3
   unbuild: ^3.3.1
   untyped: ^1.5.2
   verdaccio: ^6.3.2
   zod: ^4.3.6
   zx: ^8.8.5
-
 configDependencies:
   pnpm-plugin-storm-software: 0.1.24+sha512-ynYDei9eV8Fakiw0QvhjFE22Y8GMKob331cXfwVc3naxJYXhkjth5PH7E37pQ+jbHmCUVFHQOZU0PxQWkHclmA==
-
 dedupeDirectDeps: true
-
 dedupePeerDependents: true
-
 fetchTimeout: 1000000
-
 minimumReleaseAgeExclude:
   - "@storm-software/*"
   - "@stryke/*"
   - "@powerlines/*"
   - powerlines
-
 onlyBuiltDependencies:
   - "@parcel/watcher"
   - "@swc/core"
@@ -140,11 +133,10 @@ onlyBuiltDependencies:
   - lefthook
   - nx
   - unrs-resolver
-
 overrides:
   "@shell-shock-playground/cli": workspace:*
-  "@shell-shock-playground/minimal": workspace:*
   "@shell-shock-playground/custom-commands-directory": workspace:*
+  "@shell-shock-playground/minimal": workspace:*
   "@shell-shock-playground/nx": workspace:*
   "@shell-shock-playground/powerlines": workspace:*
   "@shell-shock-playground/script": workspace:*
@@ -176,7 +168,5 @@ overrides:
   postcss: ">=8.5.1"
   shell-quote: ">=1.8.2"
   simple-git: ">=3.27.0"
-
 shamefullyHoist: true
-
 useNodeVersion: 25.5.0

@@ -58,6 +58,8 @@
     "@shell-shock/core": "workspace:*",
     "@shell-shock/plugin-theme": "workspace:*",
     "@shell-shock/plugin-console": "workspace:*",
+    "@stryke/string-format": "catalog:",
+    "@stryke/type-checks": "catalog:",
     "@stryke/path": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:"
@@ -169,9 +171,5 @@
         "default": "./dist/types/plugin.mjs"
       }
     }
-  },
-  "inlinedDependencies": {
-    "@stryke/string-format": "0.17.6",
-    "@stryke/type-checks": "0.5.41"
   }
 }
