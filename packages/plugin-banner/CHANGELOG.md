@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Banner
 
+## [0.1.8](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.8) (03/26/2026)
+
+### Bug Fixes
+
+- **plugin-banner:** Resolve issue with multiline descriptions in `banner` ([b6592e1](https://github.com/storm-software/shell-shock/commit/b6592e1))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.21**
+- Updated **plugin-theme** to **v0.3.25**
+- Updated **core** to **v0.13.10**
+
 ## [0.1.7](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.7) (03/26/2026)
 
 ### Miscellaneous
