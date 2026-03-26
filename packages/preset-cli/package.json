@@ -192,6 +192,7 @@
     "@shell-shock/preset-script": "workspace:*",
     "@stryke/path": "catalog:",
     "@stryke/string-format": "catalog:",
+    "@stryke/type-checks": "catalog:",
     "cfonts": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:"

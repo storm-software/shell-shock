@@ -33,6 +33,12 @@ declare module "shell-shock:env" {
      */
     CI: boolean;
     /**
+     *
+     *
+     *
+     */
+    comspec?: string;
+    /**
      * The application's configuration data directory.
      *
      * @title Configuration Directory
@@ -135,6 +141,18 @@ declare module "shell-shock:env" {
      * @defaultValue false
      */
     NO_COLOR: boolean;
+    /**
+     *
+     *
+     *
+     */
+    npm_config_user_agent?: string;
+    /**
+     *
+     *
+     *
+     */
+    npm_execpath?: string;
     /**
      * The name of the organization that maintains the application.
      *

@@ -2,3 +2,4 @@ codeship
 truecolor
 pathext
 colorterm
+cfonts

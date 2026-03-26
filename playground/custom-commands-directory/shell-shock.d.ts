@@ -33,6 +33,12 @@ declare module "shell-shock:env" {
      */
     CI: boolean;
     /**
+     *
+     *
+     *
+     */
+    comspec?: string;
+    /**
      * The application's configuration data directory.
      *
      * @title Configuration Directory
@@ -135,6 +141,18 @@ declare module "shell-shock:env" {
      * @defaultValue false
      */
     NO_COLOR: boolean;
+    /**
+     *
+     *
+     *
+     */
+    npm_config_user_agent?: string;
+    /**
+     *
+     *
+     *
+     */
+    npm_execpath?: string;
     /**
      * The name of the organization that maintains the application.
      *
@@ -716,7 +734,7 @@ declare module "shell-shock:env" {
       | Key
       | `NEXT_${Key}`
       | `ONE_${Key}`
-      | `PLAYGROUND_NESTED_COMMANDS_${Key}`
+      | `PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_${Key}`
       | `POWERLINES_${Key}`
       | `SHELL_SHOCK_${Key}`
       | `STORM_STACK_${Key}`
@@ -725,7 +743,7 @@ declare module "shell-shock:env" {
       | `VITE_${Key}`]: EnvBase[Key];
   };
   /**
-   * The initial environment configuration state for the Playground Nested Commands project.
+   * The initial environment configuration state for the Playground Custom Commands Directory project.
    *
    * @title Object
    *
@@ -1673,13 +1691,14 @@ declare module "shell-shock:console" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Playground Nested Commands command-line interface application.
+ * A collection of utility functions that assist in displaying help information for the Playground Custom Commands Directory command-line interface application.
  *
  * @module shell-shock:help
  */
 declare module "shell-shock:help" {
   /**
-   * Display help information for the Playground Nested Commands application.
+   * Display help information for the Playground Custom Commands Directory
+   * application.
    */
   export function showHelp(): void;
 }
@@ -1721,14 +1740,15 @@ declare module "shell-shock:help/start" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Playground Nested Commands command-line interface application.
+ * A collection of utility functions that assist in displaying banner information for the Playground Custom Commands Directory command-line interface application.
  *
  * @module shell-shock:banner
  */
 declare module "shell-shock:banner" {
   /**
-   * Write the Playground Nested Commands command-line interface application
-   * banner for the Playground Nested Commands command to the console.
+   * Write the Playground Custom Commands Directory command-line interface
+   * application banner for the Playground Custom Commands Directory command to
+   * the console.
    *
    * @param {number} sleepTimeoutMs
    */
@@ -1742,8 +1762,8 @@ declare module "shell-shock:banner" {
  */
 declare module "shell-shock:banner/build" {
   /**
-   * Write the Playground Nested Commands command-line interface application
-   * banner for the Build command to the console.
+   * Write the Playground Custom Commands Directory command-line interface
+   * application banner for the Build command to the console.
    *
    * @param {number} sleepTimeoutMs
    */
@@ -1757,8 +1777,8 @@ declare module "shell-shock:banner/build" {
  */
 declare module "shell-shock:banner/help" {
   /**
-   * Write the Playground Nested Commands command-line interface application
-   * banner for the Help command to the console.
+   * Write the Playground Custom Commands Directory command-line interface
+   * application banner for the Help command to the console.
    *
    * @param {number} sleepTimeoutMs
    */
@@ -1772,8 +1792,8 @@ declare module "shell-shock:banner/help" {
  */
 declare module "shell-shock:banner/start" {
   /**
-   * Write the Playground Nested Commands command-line interface application
-   * banner for the Start command to the console.
+   * Write the Playground Custom Commands Directory command-line interface
+   * application banner for the Start command to the console.
    *
    * @param {number} sleepTimeoutMs
    */
