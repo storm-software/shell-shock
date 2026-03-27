@@ -88,7 +88,6 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
           } else {
             this.inputs.push({
               id: this.config.help.command.name,
-              name: this.config.help.command.name,
               path: this.config.help.command.name,
               segments: [this.config.help.command.name],
               title: "Help",
