@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.0) (03/27/2026)
+
+### Features
+
+- **plugin-theme:** Added support for value-specific `tags` themes ([9a60188](https://github.com/storm-software/shell-shock/commit/9a60188))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.14.1**
+
 ## [0.3.30](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.30) (03/27/2026)
 
 ### Miscellaneous

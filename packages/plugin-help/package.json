@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/plugin-help",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "private": false,
   "description": "A package containing a Shell Shock plugin to provide help and documentation for the local application's commands.",
   "keywords": [
