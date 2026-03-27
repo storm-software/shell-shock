@@ -24,6 +24,7 @@ import type { MarkdownFileProps } from "@powerlines/plugin-alloy/markdown/compon
 import { MarkdownFile } from "@powerlines/plugin-alloy/markdown/components/markdown-file";
 import { MarkdownTable } from "@powerlines/plugin-alloy/markdown/components/markdown-table";
 import { joinPaths } from "@stryke/path/join";
+import { defu } from "defu";
 import { CommandContext } from "../contexts/command";
 import { getDocsOutputPath } from "../helpers/docs-helpers";
 import { getAppBin } from "../plugin-utils/context-helpers";
@@ -196,7 +197,7 @@ export interface CommandDocsFileProps extends Partial<MarkdownFileProps> {
  * Generates the markdown documentation file for a command.
  */
 export function CommandDocsFile(props: CommandDocsFileProps) {
-  const { levelOffset = 0, command, ...rest } = props;
+  const { levelOffset = 0, command, frontMatter, ...rest } = props;
 
   const context = usePowerlines<Context>();
   const usageExamples = memo(
@@ -207,7 +208,17 @@ export function CommandDocsFile(props: CommandDocsFileProps) {
     <CommandContext.Provider value={command}>
       <MarkdownFile
         path={joinPaths(getDocsOutputPath(context), `${command.path}.md`)}
-        {...rest}>
+        {...rest}
+        frontMatter={defu(frontMatter ?? {}, {
+          id: command.id,
+          name: command.name,
+          path: command.path,
+          reference: command.reference,
+          isVirtual: command.isVirtual,
+          title: command.title,
+          description: command.description,
+          tags: command.tags
+        })}>
         <CommandDocs
           levelOffset={levelOffset}
           command={command}

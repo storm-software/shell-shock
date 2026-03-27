@@ -214,6 +214,7 @@
     "@powerlines/plugin-style-dictionary": "catalog:",
     "@stryke/helpers": "catalog:",
     "@stryke/type-checks": "catalog:",
+    "@stryke/string-format": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:",
     "style-dictionary": "catalog:"
