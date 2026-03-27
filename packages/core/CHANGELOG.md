@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.13.14](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.14) (03/27/2026)
+
+### Miscellaneous
+
+- **plugin-theme:** Update theme to be more greyscale ([8baa935](https://github.com/storm-software/shell-shock/commit/8baa935))
+
 ## [0.13.13](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.13) (03/27/2026)
 
 ### Miscellaneous

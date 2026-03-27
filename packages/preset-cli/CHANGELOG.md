@@ -2,6 +2,23 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.8.17](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.8.17) (03/27/2026)
+
+### Miscellaneous
+
+- **plugin-theme:** Update theme to be more greyscale ([8baa935](https://github.com/storm-software/shell-shock/commit/8baa935))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.25**
+- Updated **plugin-prompts** to **v0.3.26**
+- Updated **plugin-upgrade** to **v0.1.31**
+- Updated **plugin-banner** to **v0.1.12**
+- Updated **preset-script** to **v0.6.40**
+- Updated **plugin-theme** to **v0.3.29**
+- Updated **plugin-help** to **v0.2.3**
+- Updated **core** to **v0.13.14**
+
 ## [0.8.16](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.8.16) (03/27/2026)
 
 ### Updated Dependencies

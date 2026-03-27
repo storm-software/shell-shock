@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Banner
 
+## [0.1.12](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.12) (03/27/2026)
+
+### Miscellaneous
+
+- **plugin-banner:** Clean up banner padding on smaller resolutions ([2ca84b7](https://github.com/storm-software/shell-shock/commit/2ca84b7))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.25**
+- Updated **plugin-theme** to **v0.3.29**
+- Updated **core** to **v0.13.14**
+
 ## [0.1.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.11) (03/27/2026)
 
 ### Updated Dependencies

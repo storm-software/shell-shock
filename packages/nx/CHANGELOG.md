@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.58](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.58) (03/27/2026)
+
+### Miscellaneous
+
+- **plugin-theme:** Update theme to be more greyscale ([8baa935](https://github.com/storm-software/shell-shock/commit/8baa935))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.14**
+
 ## [0.0.57](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.57) (03/27/2026)
 
 ### Updated Dependencies

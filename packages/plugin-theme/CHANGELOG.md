@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.3.29](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.29) (03/27/2026)
+
+### Miscellaneous
+
+- **plugin-theme:** Update theme to be more greyscale ([8baa935](https://github.com/storm-software/shell-shock/commit/8baa935))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.14**
+
 ## [0.3.28](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.28) (03/27/2026)
 
 ### Updated Dependencies
