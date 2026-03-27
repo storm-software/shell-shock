@@ -95,7 +95,7 @@ export interface FormatShortDescriptionOptions extends FormatDescriptionOptions 
   /**
    * The maximum length of the short description. If the first sentence exceeds this length, it will be truncated.
    *
-   * @defaultValue 60
+   * @defaultValue 62
    */
   length?: number;
 }
@@ -111,17 +111,16 @@ export function formatShortDescription(
   description: string,
   options: FormatShortDescriptionOptions = {}
 ): string {
-  const length = options.length ?? 60;
+  const length = options.length ?? 62;
   const formattedDescription = formatDescriptionWhitespace(
     description,
     options
   );
 
   const firstSentenceMatch =
-    formattedDescription.indexOf("\n") < length + 1 ||
-    formattedDescription.search(/[.!?\n]\s*\S/) > length + 1
+    formattedDescription.indexOf("\n") < length - 3 ||
+    formattedDescription.search(/[.!?\n]\s*\S/) > length - 3
       ? formattedDescription
-          .trim()
           .match(/^.*[.!?\n]\s?\S/)?.[0]
           ?.trim()
           ?.slice(0, -1)

@@ -23,72 +23,72 @@ export const theme: ThemeUserConfig = {
   colors: {
     text: {
       banner: {
-        title: "#3be4be",
-        command: "#ffffff",
-        description: "#9ca3af"
+        title: "#f9fbfb",
+        command: "#9ca8ab",
+        description: "#67787c"
       },
       heading: {
-        primary: "#3be4be",
-        secondary: "#ffffff",
-        tertiary: "#cbd5e1"
+        primary: "#f9fbfb",
+        secondary: "#9ca8ab",
+        tertiary: "#67787c"
       },
       body: {
-        primary: "#cbd5e1",
-        secondary: "#9ca3af",
-        tertiary: "#65676d",
+        primary: "#9ca8ab",
+        secondary: "#67787c",
+        tertiary: "#394447",
         link: "#3fa6ff"
       },
       message: {
-        description: "#ffffff"
+        description: "#f9fbfb"
       },
       usage: {
-        bin: "#9ca3af",
-        command: "#4ee0a1",
-        dynamic: "#8c82e3",
-        options: "#ec5050",
-        args: "#3bcde4",
-        description: "#9ca3af"
+        bin: "#67787c",
+        command: "#f9fbfb",
+        dynamic: "#9ca8ab",
+        options: "#9ca8ab",
+        args: "#9ca8ab",
+        description: "#67787c"
       },
       prompt: {
         icon: {
-          active: "#3be4be",
+          active: "#3b82f6",
           warning: "#f3d371",
           error: "#d8314a",
           submitted: "#45b27e",
           cancelled: "#d8314a",
-          disabled: "#4f4f50"
+          disabled: "#22292b"
         },
         message: {
-          active: "#ffffff",
-          warning: "#ffffff",
-          error: "#ffffff",
-          submitted: "#9ca3af",
-          cancelled: "#9ca3af",
-          disabled: "#4f4f50"
+          active: "#f9fbfb",
+          warning: "#f9fbfb",
+          error: "#f9fbfb",
+          submitted: "#67787c",
+          cancelled: "#67787c",
+          disabled: "#22292b"
         },
         input: {
-          active: "#3be4be",
-          inactive: "#65676d",
+          active: "#3b82f6",
+          inactive: "#394447",
           warning: "#f3d371",
           error: "#d8314a",
-          submitted: "#ffffff",
+          submitted: "#f9fbfb",
           cancelled: "#d8314a",
-          placeholder: "#65676d",
-          disabled: "#4f4f50"
+          placeholder: "#394447",
+          disabled: "#22292b"
         },
         description: {
-          active: "#9ca3af",
-          inactive: "#4f4f50",
+          active: "#67787c",
+          inactive: "#22292b",
           warning: "#f3d371",
           error: "#d8314a",
-          submitted: "#4f4f50",
+          submitted: "#22292b",
           cancelled: "#d8314a",
-          disabled: "#4f4f50"
+          disabled: "#22292b"
         }
       },
       spinner: {
         icon: {
-          active: "#3be4be",
+          active: "#3b82f6",
           error: "#d8314a",
           success: "#45b27e",
           help: "#818cf8",
@@ -96,22 +96,22 @@ export const theme: ThemeUserConfig = {
           warning: "#f3d371"
         },
         message: {
-          active: "#ffffff",
+          active: "#f9fbfb",
           error: "#d8314a",
-          success: "#9ca3af",
-          help: "#9ca3af",
-          info: "#9ca3af",
-          warning: "#9ca3af"
+          success: "#67787c",
+          help: "#67787c",
+          info: "#67787c",
+          warning: "#67787c"
         }
       }
     },
     border: {
       app: {
-        primary: "#ffffff",
-        secondary: "#9ca3af",
-        tertiary: "#4f4f50"
+        primary: "#f9fbfb",
+        secondary: "#67787c",
+        tertiary: "#22292b"
       },
-      banner: "#3be4be",
+      banner: "#f9fbfb",
       message: {
         help: "#818cf8",
         success: "#45b27e",

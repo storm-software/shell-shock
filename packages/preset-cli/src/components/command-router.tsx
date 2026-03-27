@@ -19,13 +19,15 @@
 import { code, For } from "@alloy-js/core";
 import { IfStatement } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { CommandTree } from "@shell-shock/core";
-import { formatShortDescription } from "@shell-shock/core/plugin-utils";
+import { getAppBin } from "@shell-shock/core/plugin-utils";
 import type { CommandRouterProps } from "@shell-shock/preset-script/components";
 import {
   CommandRouter as BaseCommandRouter,
   CommandRouterBody
 } from "@shell-shock/preset-script/components";
+import type { CLIPresetContext } from "../types";
 
 export interface CommandRouterSelectOptionsProps {
   commands?: Record<string, CommandTree>;
@@ -35,6 +37,8 @@ export function CommandRouterSelectOptions(
   props: CommandRouterSelectOptionsProps
 ) {
   const { commands } = props;
+
+  const context = usePowerlines<CLIPresetContext>();
 
   return (
     <For each={Object.values(commands ?? {})} joiner="," hardline>
@@ -46,9 +50,11 @@ export function CommandRouterSelectOptions(
             .map(segment => `"${segment}"`)
             .join(
               ", "
-            )}], label: "${command.title}", description: \`${formatShortDescription(
-            command.description
-          )}\`${command.icon ? `, icon: "${command.icon}"` : ""} }`
+            )}], label: "${command.title}", description: \`(${getAppBin(
+            context
+          )} ${command.segments.join(" ")})\`${
+            command.icon ? `, icon: "${command.icon.trim()}"` : ""
+          } }`
         )
       }
     </For>
