@@ -1034,9 +1034,9 @@ declare module "shell-shock:utils" {
     options?: GetColorSupportLevelOptions
   ):
     | false
-    | 3
     | 0
     | 2
+    | 3
     | {
         level: number;
         hasBasic: boolean;
