@@ -212,7 +212,11 @@ export function BannerFunctionBodyDeclaration(
               ? "colors.text.banner.description"
               : "colors.text.banner.command"
           }.${variant}(\`${formatDescription(description)}\`)),
-          Math.max(process.stdout.columns - ${totalPadding.value}, 0)
+          Math.max(${
+            command?.title
+              ? `${totalPadding.value} * 2 > process.stdout.columns / 2 ? process.stdout.columns - 6 : process.stdout.columns - ${totalPadding.value}`
+              : `process.stdout.columns - ${totalPadding.value}`
+          } , 0)
         ).forEach((line) => {
           writeLine(colors.border.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].left
