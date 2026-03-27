@@ -103,6 +103,12 @@ export const theme: ThemeUserConfig = {
           info: "#67787c",
           warning: "#67787c"
         }
+      },
+      tags: {
+        utility: "#94a3b8",
+        deprecated: "#f87171",
+        experimental: "#818cf8",
+        $default: "#f1f5f9"
       }
     },
     border: {

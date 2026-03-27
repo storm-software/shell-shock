@@ -31,6 +31,7 @@ import {
   sortOptions
 } from "@shell-shock/core/plugin-utils";
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
+import { camelCase } from "@stryke/string-format/camel-case";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { snakeCase } from "@stryke/string-format/snake-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
@@ -481,7 +482,7 @@ export function VirtualCommandHelpDisplay(
                     ? `    ${child.tags
                         .map(
                           tag =>
-                            `\${colors.text.heading.primary(colors.black(" ${tag} "), true)}`
+                            `\${colors.text.body.tertiary(colors.text.tags.${camelCase(tag)} ? colors.text.tags.${camelCase(tag)}(" ${tag} ", true) : colors.text.tags.$default(" ${tag} ", true))}`
                         )
                         .join(" ")}`
                     : ""
@@ -554,7 +555,7 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
                     ? `    ${child.tags
                         .map(
                           tag =>
-                            `\${colors.text.heading.primary(colors.black(" ${tag} "), true)}`
+                            `\${colors.text.body.tertiary(colors.text.tags.${camelCase(tag)} ? colors.text.tags.${camelCase(tag)}(" ${tag} ", true) : colors.text.tags.$default(" ${tag} ", true))}`
                         )
                         .join(" ")}`
                     : ""

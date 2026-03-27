@@ -148,6 +148,16 @@ export interface ThemeColorSpinnerSubItemResolvedConfig {
   message: ThemeColorSpinnerState;
 }
 
+export interface ThemeColorTagSubItemUserConfig {
+  $default: string | undefined;
+  [tag: string]: string | undefined;
+}
+
+export interface ThemeColorTagSubItemResolvedConfig {
+  $default: string;
+  [tag: string]: string;
+}
+
 export interface ThemeColorTextItemsUserConfig {
   banner: Partial<ThemeColorBannerSubItemUserConfig> | string;
   heading: Partial<ThemeColorSubItem> | string;
@@ -156,6 +166,7 @@ export interface ThemeColorTextItemsUserConfig {
   usage: Partial<ThemeColorUsageSubItem> | string;
   prompt: Partial<ThemeColorPromptSubItemUserConfig> | string;
   spinner: Partial<ThemeColorSpinnerSubItemUserConfig> | string;
+  tags: Partial<ThemeColorTagSubItemUserConfig> | string;
 }
 
 export interface ThemeColorTextItemsResolvedConfig {
@@ -166,6 +177,7 @@ export interface ThemeColorTextItemsResolvedConfig {
   usage: ThemeColorUsageSubItem;
   prompt: ThemeColorPromptSubItemResolvedConfig;
   spinner: ThemeColorSpinnerSubItemResolvedConfig;
+  tags: ThemeColorTagSubItemResolvedConfig;
 }
 
 export interface ThemeColorBorderSubItemUserConfig<TState extends object> {

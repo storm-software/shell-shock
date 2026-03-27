@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import { camelCase } from "@stryke/string-format/camel-case";
 import type { ThemeColorsResolvedConfig } from "../types/theme";
 
 const ANSI_BACKGROUND_OFFSET = 10;
@@ -1255,6 +1256,31 @@ function buildThemeAnsiStyles(
             }
           }
         }
+      },
+      tags: {
+        $default: {
+          open: wrapFn()(convertFn(theme.text.tags.$default || "")),
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.tags.$default || "")
+            ),
+            close: wrapAnsi16()(49)
+          }
+        },
+        ...Object.fromEntries(
+          Object.entries(theme.text.tags).map(([tag, value]) => [
+            camelCase(tag),
+            {
+              open: wrapFn()(convertFn(value)),
+              close: wrapAnsi16()(39),
+              background: {
+                open: wrapFn(ANSI_BACKGROUND_OFFSET)(convertFn(value)),
+                close: wrapAnsi16()(49)
+              }
+            }
+          ])
+        )
       }
     },
     border: {

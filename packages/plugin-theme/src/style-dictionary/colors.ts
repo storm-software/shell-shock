@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import { camelCase } from "@stryke/string-format/camel-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import type { Config, PlatformConfig } from "style-dictionary";
@@ -37,6 +38,7 @@ import type {
   ThemeColorSpinnerSubItemResolvedConfig,
   ThemeColorsResolvedConfig,
   ThemeColorSubItem,
+  ThemeColorTagSubItemResolvedConfig,
   ThemeColorTextItemsResolvedConfig,
   ThemeColorTextItemsUserConfig,
   ThemeColorUsageSubItem,
@@ -68,7 +70,10 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
         banner: {},
         heading: {},
         body: {},
-        message: { link: {}, header: {}, footer: {}, description: {} }
+        message: { link: {}, header: {}, footer: {}, description: {} },
+        tags: {
+          $default: "#FFFFFF"
+        }
       },
       border: {
         banner: { outline: {}, divider: {} },
@@ -224,6 +229,9 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
               info: colors,
               warning: colors
             }
+          },
+          tags: {
+            $default: colors
           }
         },
         border: {
@@ -427,6 +435,9 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
               info: text,
               warning: text
             }
+          },
+          tags: {
+            $default: text
           }
         };
       } else if (isSetObject(text)) {
@@ -1206,6 +1217,23 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
             if (isSetString(spinner.message.warning)) {
               resolvedConfig.colors.text.spinner.message.warning =
                 spinner.message.warning;
+            }
+          }
+        }
+
+        resolvedConfig.colors.text.tags ??= {
+          $default: "#FFFFFF"
+        } as ThemeColorTagSubItemResolvedConfig;
+        const tags = text.tags;
+
+        if (isSetString(tags)) {
+          resolvedConfig.colors.text.tags = {
+            $default: tags
+          };
+        } else if (isSetObject(tags)) {
+          for (const [tag, value] of Object.entries(tags)) {
+            if (isSetString(value)) {
+              resolvedConfig.colors.text.tags[camelCase(tag)] = value;
             }
           }
         }
