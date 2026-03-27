@@ -19,6 +19,7 @@
 import { render } from "@powerlines/plugin-alloy/render";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path/join";
+import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
 import type { Plugin } from "powerlines";
 import { UpgradeBuiltin, UpgradeCommand } from "./components";
@@ -43,10 +44,18 @@ export const plugin = <
       );
 
       return {
-        upgrade: defu(options, {
-          type: "confirm",
-          staleTime: 36 * 60 * 60 * 1000 // 36 hours
-        }),
+        upgrade: defu(
+          {
+            command: {
+              name: isSetString(options.command) ? options.command : "upgrade"
+            }
+          },
+          options,
+          {
+            type: "confirm",
+            staleTime: 36 * 60 * 60 * 1000 // 36 hours
+          }
+        ),
         env: {
           types:
             "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradePluginEnv",
@@ -58,18 +67,20 @@ export const plugin = <
       this.debug("Adding the CLI upgrade commands to the application context.");
 
       this.inputs ??= [];
-      if (this.inputs.some(input => input.id === "upgrade")) {
+      if (
+        this.inputs.some(input => input.id === this.config.upgrade.command.name)
+      ) {
         this.info(
           "The `upgrade` command already exists in the commands list. If you would like the upgrade command to be managed by the `@shell-shock/plugin-upgrade` package, please remove or rename the command."
         );
       } else {
         this.inputs.push({
-          id: "upgrade",
-          name: "upgrade",
+          id: this.config.upgrade.command.name,
           alias: ["up", "update"],
-          path: "upgrade",
-          segments: ["upgrade"],
+          path: this.config.upgrade.command.name,
+          segments: [this.config.upgrade.command.name],
           title: "Upgrade",
+          icon: "⇧",
           description: `A command for checking and upgrading the version of the ${getAppTitle(
             this,
             true
@@ -80,7 +91,8 @@ export const plugin = <
               file: joinPaths(this.entryPath, "upgrade", "command.ts")
             }
           },
-          isVirtual: false
+          isVirtual: false,
+          ...this.config.upgrade.command
         });
       }
     },

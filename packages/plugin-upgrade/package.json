@@ -173,6 +173,8 @@
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@stryke/path": "catalog:",
+    "@stryke/type-checks": "catalog:",
+    "@stryke/types": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:"
   },

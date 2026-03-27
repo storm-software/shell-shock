@@ -17,10 +17,12 @@
  ------------------------------------------------------------------- */
 
 import type {
+  CommandConfig,
+  Context,
   ResolvedConfig,
   UserConfig
-} from "@shell-shock/core/types/config";
-import type { Context } from "@shell-shock/core/types/context";
+} from "@shell-shock/core";
+import type { RequiredKeys } from "@stryke/types/base";
 
 export interface UpgradePluginOptions {
   /**
@@ -32,6 +34,16 @@ export interface UpgradePluginOptions {
    * @defaultValue 2 * 60 * 60 * 1000 (2 hours)
    */
   staleTime?: number;
+
+  /**
+   * Should the plugin add the `upgrade` command?
+   *
+   * @remarks
+   * This can be set to a string to specify a custom command name for the `upgrade` command or an object to override the default command configuration. By default, the command name will be `"upgrade"`.
+   *
+   * @defaultValue "upgrade"
+   */
+  command?: Partial<CommandConfig> | string;
 }
 
 export type UpgradePluginUserConfig = UserConfig & {
@@ -45,7 +57,12 @@ export type UpgradePluginResolvedConfig = ResolvedConfig & {
   /**
    * Resolved upgrade configuration for the plugin.
    */
-  upgrade: Required<UpgradePluginOptions>;
+  upgrade: Required<Omit<UpgradePluginOptions, "command">> & {
+    /**
+     * Resolved command configuration for the upgrade command.
+     */
+    command: RequiredKeys<Partial<CommandConfig>, "name">;
+  };
 };
 
 export type UpgradePluginContext<
