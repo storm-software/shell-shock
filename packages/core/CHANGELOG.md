@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.13.13](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.13) (03/27/2026)
+
+### Miscellaneous
+
+- **core:** Resolve issue managing arguments for bytecode modules ([c66254d](https://github.com/storm-software/shell-shock/commit/c66254d))
+
+### Bug Fixes
+
+- **core:** Allow command methods with missing options parameter ([cbd6a90](https://github.com/storm-software/shell-shock/commit/cbd6a90))
+
 ## [0.13.12](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.12) (03/27/2026)
 
 ### Bug Fixes

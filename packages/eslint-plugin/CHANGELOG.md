@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.51](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.51) (03/27/2026)
+
+### Bug Fixes
+
+- **eslint-plugin:** Resolve issue linting command handler parameters ([21d01ee](https://github.com/storm-software/shell-shock/commit/21d01ee))
+
 ## [0.0.49](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.49) (03/27/2026)
 
 ### Miscellaneous
