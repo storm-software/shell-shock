@@ -237,7 +237,7 @@ function resolveCommandArgument(
             : String(type.literal)
     ].filter(Boolean) as string[] | number[];
   } else if (
-    !existing.kind &&
+    !ctx.output.args?.length &&
     type.kind !== ReflectionKind.boolean &&
     type.kind !== ReflectionKind.string &&
     type.kind !== ReflectionKind.number
@@ -279,20 +279,21 @@ export function resolveFromBytecode<TContext extends Context = Context>(
     type.description)!;
 
   const parameters = reflection.getParameters();
-  const hasOptions =
-    parameters.length > 0 &&
-    parameters[0] &&
-    (parameters[0].type.kind === ReflectionKind.objectLiteral ||
-      parameters[0].type.kind === ReflectionKind.class);
-  if (hasOptions) {
-    const optionsReflection = ReflectionClass.from(parameters[0]?.type);
-    for (const propertyReflection of optionsReflection.getProperties()) {
-      ctx.output.options[propertyReflection.getNameAsString()] =
-        resolveCommandOption(ctx, propertyReflection);
+  if (parameters.length > 0) {
+    const hasOptions =
+      parameters[0] &&
+      (parameters[0].type.kind === ReflectionKind.objectLiteral ||
+        parameters[0].type.kind === ReflectionKind.class);
+    if (hasOptions) {
+      const optionsReflection = ReflectionClass.from(parameters[0]?.type);
+      for (const propertyReflection of optionsReflection.getProperties()) {
+        ctx.output.options[propertyReflection.getNameAsString()] =
+          resolveCommandOption(ctx, propertyReflection);
+      }
     }
-  }
 
-  ctx.output.args = (hasOptions ? parameters.slice(1) : parameters).map(
-    (arg, index) => resolveCommandArgument(ctx, index, arg)
-  );
+    ctx.output.args = (hasOptions ? parameters.slice(1) : parameters).map(
+      (arg, index) => resolveCommandArgument(ctx, index, arg)
+    );
+  }
 }
