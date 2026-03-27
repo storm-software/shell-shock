@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, ... }:
 {
   name = "storm-software/shell-shock";
 
@@ -8,8 +8,4 @@
     ".env.local"
   ];
   dotenv.disableHint = true;
-
-  packages = with pkgs; [
-    zig
-  ];
 }

@@ -91,7 +91,7 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
               path: this.config.help.command.name,
               segments: [this.config.help.command.name],
               title: "Help",
-              icon: "？",
+              icon: "🛈",
               description: `A command for displaying help information to assist in using the ${getAppTitle(
                 this,
                 true

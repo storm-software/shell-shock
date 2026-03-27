@@ -48,6 +48,13 @@ export const plugin = <
     {
       name: "shell-shock:banner",
       enforce: "post",
+      config() {
+        return {
+          banner: {
+            title: options.title
+          }
+        };
+      },
       prepare: {
         order: "post",
         async handler() {

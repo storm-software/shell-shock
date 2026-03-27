@@ -23,6 +23,11 @@ import type {
   UserConfig
 } from "@shell-shock/core";
 import type {
+  BannerPluginOptions,
+  BannerPluginResolvedConfig,
+  BannerPluginUserConfig
+} from "@shell-shock/plugin-banner";
+import type {
   ConsolePluginContext,
   ConsolePluginResolvedConfig,
   ConsolePluginUserConfig
@@ -57,6 +62,7 @@ export type UpgradeType = "confirm" | "auto" | "manual";
 
 export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> &
   HelpPluginOptions &
+  BannerPluginOptions &
   PromptsPluginOptions &
   UpgradePluginOptions & {
     /**
@@ -109,6 +115,7 @@ export type CLIPresetUserConfig = UserConfig &
   ThemePluginUserConfig &
   ConsolePluginUserConfig &
   PromptsPluginUserConfig &
+  BannerPluginUserConfig &
   HelpPluginUserConfig &
   UpgradePluginUserConfig &
   CLIPresetOptions;
@@ -117,6 +124,7 @@ export type CLIPresetResolvedConfig = ResolvedConfig &
   ThemePluginResolvedConfig &
   ConsolePluginResolvedConfig &
   PromptsPluginResolvedConfig &
+  BannerPluginResolvedConfig &
   HelpPluginResolvedConfig &
   UpgradePluginResolvedConfig &
   Required<CLIPresetOptions>;

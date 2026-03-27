@@ -160,8 +160,10 @@ export function BannerFunctionBodyDeclaration(
         theme.borderStyles.banner.outline[variant].topRight
       }"), { consoleFn: console.${consoleFnName} });
 
-        splitText(
-          ${title ? `"${title}"` : "title"},
+        ${
+          title
+            ? title.split("\n").map(
+                line => `splitText("${line}",
           Math.max(process.stdout.columns - ${totalPadding.value}, 0)
         ).forEach((line) => {
           writeLine(colors.border.banner.outline.${variant}("${
@@ -173,7 +175,22 @@ export function BannerFunctionBodyDeclaration(
           })) / 2), 0)) + colors.border.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].right
           }"), { consoleFn: console.${consoleFnName} });
-        });
+        }); `
+              )
+            : `splitText(title,
+          Math.max(process.stdout.columns - ${totalPadding.value}, 0)
+        ).forEach((line) => {
+          writeLine(colors.border.banner.outline.${variant}("${
+            theme.borderStyles.banner.outline[variant].left
+          }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
+            bannerPadding.value
+          })) / 2), 0)) + colors.bold(colors.text.banner.title.${variant}(line)) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+            bannerPadding.value
+          })) / 2), 0)) + colors.border.banner.outline.${variant}("${
+            theme.borderStyles.banner.outline[variant].right
+          }"), { consoleFn: console.${consoleFnName} });
+        });`
+        }
 
         ${
           command?.title
@@ -301,11 +318,13 @@ export function BannerFunctionDeclaration(
       }`
   );
   const footer = computed(() => theme.labels.banner.footer[variant]);
-  const title = computed(() =>
-    getAppTitle(context, true).replace(
-      `v${context.packageJson.version || "1.0.0"}`,
-      ""
-    )
+  const title = computed(
+    () =>
+      context.config.banner.title ||
+      getAppTitle(context, true).replace(
+        `v${context.packageJson.version || "1.0.0"}`,
+        ""
+      )
   );
   const description = computed(
     () => command?.description || getAppDescription(context)

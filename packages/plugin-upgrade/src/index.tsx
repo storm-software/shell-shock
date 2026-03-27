@@ -80,7 +80,7 @@ export const plugin = <
           path: this.config.upgrade.command.name,
           segments: [this.config.upgrade.command.name],
           title: "Upgrade",
-          icon: "⇧",
+          icon: "★",
           description: `A command for checking and upgrading the version of the ${getAppTitle(
             this,
             true

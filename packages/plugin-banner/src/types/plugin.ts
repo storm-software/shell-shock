@@ -41,15 +41,24 @@ export interface BannerPluginOptions {
    * Console plugin options.
    */
   console?: ConsolePluginOptions;
+
+  /**
+   * The title to display in the banner. If not provided, the app title from the theme plugin will be used.
+   */
+  title?: string;
 }
 
 export type BannerPluginUserConfig = ThemePluginUserConfig &
   ConsolePluginUserConfig &
-  UserConfig;
+  UserConfig & {
+    banner: Pick<BannerPluginOptions, "title">;
+  };
 
 export type BannerPluginResolvedConfig = ThemePluginResolvedConfig &
   ConsolePluginResolvedConfig &
-  ResolvedConfig;
+  ResolvedConfig & {
+    banner: Pick<BannerPluginOptions, "title">;
+  };
 
 export type BannerPluginContext<
   TResolvedConfig extends BannerPluginResolvedConfig =

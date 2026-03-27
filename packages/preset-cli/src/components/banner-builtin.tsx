@@ -64,16 +64,18 @@ export function BannerFunctionBodyDeclaration(
   );
 
   const titleLines = computed(() => {
-    const result = render(getAppTitle(context, true), {
-      font: "tiny",
-      align: "left",
-      background: "transparent",
-      letterSpacing: 1,
-      lineHeight: 1,
-      gradient: false,
-      transitionGradient: false,
-      env: "node"
-    });
+    const result = context.config.banner.title
+      ? { array: context.config.banner.title.split("\n") }
+      : render(getAppTitle(context, true), {
+          font: "tiny",
+          align: "left",
+          background: "transparent",
+          letterSpacing: 1,
+          lineHeight: 1,
+          gradient: false,
+          transitionGradient: false,
+          env: "node"
+        });
     if (!result) {
       return [`${getAppTitle(context, true)} Command-Line Interface`];
     }

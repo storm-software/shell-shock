@@ -23,19 +23,19 @@ export const theme: ThemeUserConfig = {
   colors: {
     text: {
       banner: {
-        title: "#f9fbfb",
-        command: "#9ca8ab",
-        description: "#67787c"
+        title: "#ffffff",
+        command: "#f9fbfb",
+        description: "#9ca8ab"
       },
       heading: {
-        primary: "#f9fbfb",
-        secondary: "#9ca8ab",
-        tertiary: "#67787c"
+        primary: "#ffffff",
+        secondary: "#f9fbfb",
+        tertiary: "#9ca8ab"
       },
       body: {
         primary: "#9ca8ab",
-        secondary: "#67787c",
-        tertiary: "#394447",
+        secondary: "#9ca8ab",
+        tertiary: "#67787c",
         link: "#3fa6ff"
       },
       message: {
@@ -68,7 +68,7 @@ export const theme: ThemeUserConfig = {
         },
         input: {
           active: "#3b82f6",
-          inactive: "#394447",
+          inactive: "#9ca8ab",
           warning: "#f3d371",
           error: "#d8314a",
           submitted: "#f9fbfb",
@@ -81,7 +81,7 @@ export const theme: ThemeUserConfig = {
           inactive: "#22292b",
           warning: "#f3d371",
           error: "#d8314a",
-          submitted: "#22292b",
+          submitted: "#67787c",
           cancelled: "#d8314a",
           disabled: "#22292b"
         }
@@ -111,7 +111,7 @@ export const theme: ThemeUserConfig = {
         secondary: "#67787c",
         tertiary: "#22292b"
       },
-      banner: "#f9fbfb",
+      banner: "#ffffff",
       message: {
         help: "#818cf8",
         success: "#45b27e",
