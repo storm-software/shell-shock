@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.1) (03/27/2026)
+
+### Miscellaneous
+
+- **plugin-help:** Resolve linting rule failures ([8a46ba8](https://github.com/storm-software/shell-shock/commit/8a46ba8))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.23**
+- Updated **plugin-theme** to **v0.3.27**
+- Updated **core** to **v0.13.12**
+
 ## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.0) (03/27/2026)
 
 ### Miscellaneous

@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.56](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.56) (03/27/2026)
+
+### Miscellaneous
+
+- **plugin-help:** Resolve linting rule failures ([8a46ba8](https://github.com/storm-software/shell-shock/commit/8a46ba8))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.12**
+
 ## [0.0.55](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.55) (03/27/2026)
 
 ### Miscellaneous

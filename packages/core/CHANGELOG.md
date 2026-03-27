@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.13.12](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.12) (03/27/2026)
+
+### Bug Fixes
+
+- **core:** Ensure `framework` option is correctly applied ([fcaeadd](https://github.com/storm-software/shell-shock/commit/fcaeadd))
+
 ## [0.13.11](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.11) (03/27/2026)
 
 ### Miscellaneous
