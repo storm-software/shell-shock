@@ -25,6 +25,7 @@ import {
   getAppTitle,
   getCommandList
 } from "@shell-shock/core/plugin-utils";
+import type { CommandConfig } from "@shell-shock/core/types/command";
 import console from "@shell-shock/plugin-console";
 import theme from "@shell-shock/plugin-theme";
 import { joinPaths } from "@stryke/path/join";
@@ -60,8 +61,8 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
                 options.command === false
                   ? false
                   : isSetString(options.command)
-                    ? options.command
-                    : "help"
+                    ? { name: options.command }
+                    : { name: "help" }
             },
             options,
             {
@@ -76,18 +77,22 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
         if (this.config.help.command !== false) {
           this.inputs ??= [];
           if (
-            this.inputs.some(input => input.name === this.config.help.command)
+            this.inputs.some(
+              input =>
+                input.name === (this.config.help.command as CommandConfig).name
+            )
           ) {
             this.info(
               "The `help` command already exists in the commands list. If you would like the help command to be managed by the `@shell-shock/plugin-help` package, please remove or rename the command."
             );
           } else {
             this.inputs.push({
-              id: this.config.help.command,
-              name: this.config.help.command,
-              path: this.config.help.command,
-              segments: [this.config.help.command],
+              id: this.config.help.command.name,
+              name: this.config.help.command.name,
+              path: this.config.help.command.name,
+              segments: [this.config.help.command.name],
               title: "Help",
+              icon: "？",
               description: `A command for displaying help information to assist in using the ${getAppTitle(
                 this,
                 true
@@ -98,7 +103,8 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
                   file: joinPaths(this.entryPath, "help", "command.ts")
                 }
               },
-              isVirtual: false
+              isVirtual: false,
+              ...this.config.help.command
             });
           }
 

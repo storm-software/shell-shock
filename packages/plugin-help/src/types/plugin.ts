@@ -16,7 +16,11 @@
 
  ------------------------------------------------------------------- */
 
-import type { ResolvedConfig, UserConfig } from "@shell-shock/core";
+import type {
+  CommandConfig,
+  ResolvedConfig,
+  UserConfig
+} from "@shell-shock/core";
 import type { Context } from "@shell-shock/core/types/context";
 import type {
   ConsolePluginContext,
@@ -30,6 +34,7 @@ import type {
   ThemePluginResolvedConfig,
   ThemePluginUserConfig
 } from "@shell-shock/plugin-theme";
+import type { RequiredKeys } from "@stryke/types/base";
 
 export interface HelpPluginOptions {
   /**
@@ -43,11 +48,11 @@ export interface HelpPluginOptions {
    * Should the plugin add the `help` command?
    *
    * @remarks
-   * This can be set to a string to specify a custom command name for the `help` command. By default, the command name will be `"help"`.
+   * This can be set to a string to specify a custom command name for the `help` command, an object to override the default command configuration, or `false` to disable the help command. By default, the command name will be `"help"`.
    *
-   * @defaultValue true
+   * @defaultValue "help"
    */
-  command?: boolean | string;
+  command?: Partial<CommandConfig> | string | false;
 
   /**
    * Theme plugin options.
@@ -72,7 +77,7 @@ export type HelpPluginUserConfig = ThemePluginUserConfig &
        *
        * @defaultValue "help"
        */
-      command: string | false;
+      command: Partial<CommandConfig> | string | false;
     };
   };
 
@@ -84,11 +89,11 @@ export type HelpPluginResolvedConfig = ThemePluginResolvedConfig &
      */
     help: Required<Omit<HelpPluginOptions, "theme" | "console" | "command">> & {
       /**
-       * The name of the help command to add to the application, or `false` to disable adding a help command.
+       * The properties of the help command to add to the application, or `false` to disable adding a help command.
        *
-       * @defaultValue "help"
+       * @defaultValue \{ name: "help" \}
        */
-      command: string | false;
+      command: RequiredKeys<Partial<CommandConfig>, "name"> | false;
     };
   };
 
