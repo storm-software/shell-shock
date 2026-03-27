@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.0) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([96cbd33](https://github.com/storm-software/shell-shock/commit/96cbd33))
+
+### Features
+
+- **plugin-help:** Added ability to override command config properties ([38a284d](https://github.com/storm-software/shell-shock/commit/38a284d))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.22**
+- Updated **plugin-theme** to **v0.3.26**
+- Updated **core** to **v0.13.11**
+
 ## [0.1.12](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.1.12) (03/26/2026)
 
 ### Updated Dependencies

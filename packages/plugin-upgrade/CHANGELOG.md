@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.28](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.28) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([96cbd33](https://github.com/storm-software/shell-shock/commit/96cbd33))
+- **plugin-upgrade:** Added the `command` option to override command config ([6402159](https://github.com/storm-software/shell-shock/commit/6402159))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.11**
+
 ## [0.1.27](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.27) (03/26/2026)
 
 ### Updated Dependencies

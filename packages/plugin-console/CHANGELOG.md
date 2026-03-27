@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.22](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.22) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([96cbd33](https://github.com/storm-software/shell-shock/commit/96cbd33))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.26**
+- Updated **core** to **v0.13.11**
+
 ## [0.1.21](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.21) (03/26/2026)
 
 ### Updated Dependencies

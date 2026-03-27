@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.55](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.55) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([96cbd33](https://github.com/storm-software/shell-shock/commit/96cbd33))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.13.11**
+
 ## [0.0.54](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.54) (03/26/2026)
 
 ### Updated Dependencies

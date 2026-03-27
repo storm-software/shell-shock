@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.13.11](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.11) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([96cbd33](https://github.com/storm-software/shell-shock/commit/96cbd33))
+
 ## [0.13.9](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.9) (03/26/2026)
 
 ### Miscellaneous
