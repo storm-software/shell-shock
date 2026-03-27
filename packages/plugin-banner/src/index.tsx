@@ -74,6 +74,7 @@ export const plugin = <
             path: null,
             segments: [],
             alias: [],
+            tags: [],
             options: Object.fromEntries(
               this.options.map(option => [option.name, option])
             ),

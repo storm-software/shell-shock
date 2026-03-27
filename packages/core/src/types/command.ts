@@ -259,6 +259,14 @@ export interface CommandConfig extends CommandBase {
    * The resolved entry definition.
    */
   entry: ResolvedEntryTypeDefinition;
+
+  /**
+   * Optional tags for the command.
+   *
+   * @remarks
+   * Tags can be used to categorize and organize commands, and can also be utilized by plugins to provide additional functionality or filtering based on tags.
+   */
+  tags?: string[];
 }
 
 export type CommandTree = CommandConfig & {
@@ -276,6 +284,14 @@ export type CommandTree = CommandConfig & {
    * Alternative command names.
    */
   alias: string[];
+
+  /**
+   * Optional tags for the command.
+   *
+   * @remarks
+   * Tags can be used to categorize and organize commands, and can also be utilized by plugins to provide additional functionality or filtering based on tags.
+   */
+  tags: string[];
 
   /**
    * The command options.
@@ -330,6 +346,14 @@ export interface CommandMetadata {
    * One or more alternative names for the command.
    */
   alias?: string | string[];
+
+  /**
+   * Optional tags for the command.
+   *
+   * @remarks
+   * Tags can be used to categorize and organize commands, and can also be utilized by plugins to provide additional functionality or filtering based on tags.
+   */
+  tags?: string[];
 
   /**
    * An optional icon to visually represent the command in user interfaces.

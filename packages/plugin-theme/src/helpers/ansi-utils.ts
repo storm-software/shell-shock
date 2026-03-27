@@ -81,6 +81,7 @@ export const bgColors = {
 export interface AnsiWrappers {
   open: string;
   close: string;
+  background: Omit<AnsiWrappers, "background">;
 }
 
 type WrapAnsiFn = (offset?: number) => (code: number) => string;
@@ -233,383 +234,899 @@ function buildThemeAnsiStyles(
         title: {
           primary: {
             open: wrapFn()(convertFn(theme.text.banner.title.primary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.title.primary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           secondary: {
             open: wrapFn()(convertFn(theme.text.banner.title.secondary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.title.secondary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           tertiary: {
             open: wrapFn()(convertFn(theme.text.banner.title.tertiary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.title.tertiary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         command: {
           primary: {
             open: wrapFn()(convertFn(theme.text.banner.command.primary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.command.primary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           secondary: {
             open: wrapFn()(convertFn(theme.text.banner.command.secondary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.command.secondary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           tertiary: {
             open: wrapFn()(convertFn(theme.text.banner.command.tertiary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.command.tertiary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         description: {
           primary: {
             open: wrapFn()(convertFn(theme.text.banner.description.primary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.description.primary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           secondary: {
             open: wrapFn()(convertFn(theme.text.banner.description.secondary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.description.secondary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           tertiary: {
             open: wrapFn()(convertFn(theme.text.banner.description.tertiary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.description.tertiary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         header: {
           primary: {
             open: wrapFn()(convertFn(theme.text.banner.header.primary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.header.primary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           secondary: {
             open: wrapFn()(convertFn(theme.text.banner.header.secondary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.header.secondary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           tertiary: {
             open: wrapFn()(convertFn(theme.text.banner.header.tertiary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.header.tertiary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         footer: {
           primary: {
             open: wrapFn()(convertFn(theme.text.banner.footer.primary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.footer.primary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           secondary: {
             open: wrapFn()(convertFn(theme.text.banner.footer.secondary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.footer.secondary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           tertiary: {
             open: wrapFn()(convertFn(theme.text.banner.footer.tertiary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.footer.tertiary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         link: {
           primary: {
             open: wrapFn()(convertFn(theme.text.banner.link.primary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.link.primary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           secondary: {
             open: wrapFn()(convertFn(theme.text.banner.link.secondary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.link.secondary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           tertiary: {
             open: wrapFn()(convertFn(theme.text.banner.link.tertiary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.banner.link.tertiary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         }
       },
       heading: {
         primary: {
           open: wrapFn()(convertFn(theme.text.heading.primary)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.heading.primary)
+            ),
+            close: wrapAnsi16()(49)
+          }
         },
         secondary: {
           open: wrapFn()(convertFn(theme.text.heading.secondary)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.heading.secondary)
+            ),
+            close: wrapAnsi16()(49)
+          }
         },
         tertiary: {
           open: wrapFn()(convertFn(theme.text.heading.tertiary)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.heading.tertiary)
+            ),
+            close: wrapAnsi16()(49)
+          }
         }
       },
       body: {
         primary: {
           open: wrapFn()(convertFn(theme.text.body.primary)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.body.primary)
+            ),
+            close: wrapAnsi16()(49)
+          }
         },
         secondary: {
           open: wrapFn()(convertFn(theme.text.body.secondary)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.body.secondary)
+            ),
+            close: wrapAnsi16()(49)
+          }
         },
         tertiary: {
           open: wrapFn()(convertFn(theme.text.body.tertiary)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.body.tertiary)
+            ),
+            close: wrapAnsi16()(49)
+          }
         },
         link: {
           open: wrapFn()(convertFn(theme.text.body.link)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.body.link)
+            ),
+            close: wrapAnsi16()(49)
+          }
         }
       },
       message: {
         description: {
           help: {
             open: wrapFn()(convertFn(theme.text.message.description.help)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.description.help)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           success: {
             open: wrapFn()(convertFn(theme.text.message.description.success)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.description.success)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           info: {
             open: wrapFn()(convertFn(theme.text.message.description.info)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.description.info)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           debug: {
             open: wrapFn()(convertFn(theme.text.message.description.debug)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.description.debug)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           warning: {
             open: wrapFn()(convertFn(theme.text.message.description.warning)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.description.warning)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           danger: {
             open: wrapFn()(convertFn(theme.text.message.description.danger)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.description.danger)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           error: {
             open: wrapFn()(convertFn(theme.text.message.description.error)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.description.error)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         link: {
           help: {
             open: wrapFn()(convertFn(theme.text.message.link.help)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.link.help)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           success: {
             open: wrapFn()(convertFn(theme.text.message.link.success)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.link.success)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           info: {
             open: wrapFn()(convertFn(theme.text.message.link.info)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.link.info)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           debug: {
             open: wrapFn()(convertFn(theme.text.message.link.debug)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.link.debug)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           warning: {
             open: wrapFn()(convertFn(theme.text.message.link.warning)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.link.warning)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           danger: {
             open: wrapFn()(convertFn(theme.text.message.link.danger)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.link.danger)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           error: {
             open: wrapFn()(convertFn(theme.text.message.link.error)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.link.error)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         header: {
           help: {
             open: wrapFn()(convertFn(theme.text.message.header.help)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.header.help)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           success: {
             open: wrapFn()(convertFn(theme.text.message.header.success)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.header.success)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           info: {
             open: wrapFn()(convertFn(theme.text.message.header.info)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.header.info)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           debug: {
             open: wrapFn()(convertFn(theme.text.message.header.debug)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.header.debug)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           warning: {
             open: wrapFn()(convertFn(theme.text.message.header.warning)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.header.warning)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           danger: {
             open: wrapFn()(convertFn(theme.text.message.header.danger)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.header.danger)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           error: {
             open: wrapFn()(convertFn(theme.text.message.header.error)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.header.error)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         footer: {
           help: {
             open: wrapFn()(convertFn(theme.text.message.footer.help)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.footer.help)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           success: {
             open: wrapFn()(convertFn(theme.text.message.footer.success)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.footer.success)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           info: {
             open: wrapFn()(convertFn(theme.text.message.footer.info)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.footer.info)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           debug: {
             open: wrapFn()(convertFn(theme.text.message.footer.debug)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.footer.debug)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           warning: {
             open: wrapFn()(convertFn(theme.text.message.footer.warning)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.footer.warning)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           danger: {
             open: wrapFn()(convertFn(theme.text.message.footer.danger)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.footer.danger)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           error: {
             open: wrapFn()(convertFn(theme.text.message.footer.error)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.message.footer.error)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         }
       },
       usage: {
         bin: {
           open: wrapFn()(convertFn(theme.text.usage.bin)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.usage.bin)
+            ),
+            close: wrapAnsi16()(49)
+          }
         },
         command: {
           open: wrapFn()(convertFn(theme.text.usage.command)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.usage.command)
+            ),
+            close: wrapAnsi16()(49)
+          }
         },
         dynamic: {
           open: wrapFn()(convertFn(theme.text.usage.dynamic)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.usage.dynamic)
+            ),
+            close: wrapAnsi16()(49)
+          }
         },
         options: {
           open: wrapFn()(convertFn(theme.text.usage.options)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.usage.options)
+            ),
+            close: wrapAnsi16()(49)
+          }
         },
         args: {
           open: wrapFn()(convertFn(theme.text.usage.args)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.usage.args)
+            ),
+            close: wrapAnsi16()(49)
+          }
         },
         description: {
           open: wrapFn()(convertFn(theme.text.usage.description)),
-          close: wrapAnsi16()(39)
+          close: wrapAnsi16()(39),
+          background: {
+            open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+              convertFn(theme.text.usage.description)
+            ),
+            close: wrapAnsi16()(49)
+          }
         }
       },
       prompt: {
         icon: {
           active: {
             open: wrapFn()(convertFn(theme.text.prompt.icon.active)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.icon.active)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           warning: {
             open: wrapFn()(convertFn(theme.text.prompt.icon.warning)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.icon.warning)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           error: {
             open: wrapFn()(convertFn(theme.text.prompt.icon.error)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.icon.error)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           submitted: {
             open: wrapFn()(convertFn(theme.text.prompt.icon.submitted)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.icon.submitted)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           cancelled: {
             open: wrapFn()(convertFn(theme.text.prompt.icon.cancelled)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.icon.cancelled)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           disabled: {
             open: wrapFn()(convertFn(theme.text.prompt.icon.disabled)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.icon.disabled)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         message: {
           active: {
             open: wrapFn()(convertFn(theme.text.prompt.message.active)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.message.active)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           warning: {
             open: wrapFn()(convertFn(theme.text.prompt.message.warning)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.message.warning)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           error: {
             open: wrapFn()(convertFn(theme.text.prompt.message.error)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.message.error)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           submitted: {
             open: wrapFn()(convertFn(theme.text.prompt.message.submitted)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.message.submitted)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           cancelled: {
             open: wrapFn()(convertFn(theme.text.prompt.message.cancelled)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.message.cancelled)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           disabled: {
             open: wrapFn()(convertFn(theme.text.prompt.message.disabled)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.message.disabled)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         input: {
           active: {
             open: wrapFn()(convertFn(theme.text.prompt.input.active)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.input.active)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           inactive: {
             open: wrapFn()(convertFn(theme.text.prompt.input.inactive)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.input.inactive)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           warning: {
             open: wrapFn()(convertFn(theme.text.prompt.input.warning)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.input.warning)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           error: {
             open: wrapFn()(convertFn(theme.text.prompt.input.error)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.input.error)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           submitted: {
             open: wrapFn()(convertFn(theme.text.prompt.input.submitted)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.input.submitted)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           cancelled: {
             open: wrapFn()(convertFn(theme.text.prompt.input.cancelled)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.input.cancelled)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           disabled: {
             open: wrapFn()(convertFn(theme.text.prompt.input.disabled)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.input.disabled)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           placeholder: {
             open: wrapFn()(convertFn(theme.text.prompt.input.placeholder)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.input.placeholder)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         description: {
           active: {
             open: wrapFn()(convertFn(theme.text.prompt.description.active)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.description.active)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           inactive: {
             open: wrapFn()(convertFn(theme.text.prompt.description.inactive)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.description.inactive)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           warning: {
             open: wrapFn()(convertFn(theme.text.prompt.description.warning)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.description.warning)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           error: {
             open: wrapFn()(convertFn(theme.text.prompt.description.error)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.description.error)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           submitted: {
             open: wrapFn()(convertFn(theme.text.prompt.description.submitted)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.description.submitted)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           cancelled: {
             open: wrapFn()(convertFn(theme.text.prompt.description.cancelled)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.description.cancelled)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           disabled: {
             open: wrapFn()(convertFn(theme.text.prompt.description.disabled)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.prompt.description.disabled)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         }
       },
@@ -617,53 +1134,125 @@ function buildThemeAnsiStyles(
         icon: {
           active: {
             open: wrapFn()(convertFn(theme.text.spinner.icon.active)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.spinner.icon.active)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           warning: {
             open: wrapFn()(convertFn(theme.text.spinner.icon.warning)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.spinner.icon.warning)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           error: {
             open: wrapFn()(convertFn(theme.text.spinner.icon.error)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.spinner.icon.error)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           success: {
             open: wrapFn()(convertFn(theme.text.spinner.icon.success)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.spinner.icon.success)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           info: {
             open: wrapFn()(convertFn(theme.text.spinner.icon.info)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.spinner.icon.info)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           help: {
             open: wrapFn()(convertFn(theme.text.spinner.icon.help)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.spinner.icon.help)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         message: {
           active: {
             open: wrapFn()(convertFn(theme.text.spinner.message.active)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.spinner.message.active)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           warning: {
             open: wrapFn()(convertFn(theme.text.spinner.message.warning)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.spinner.message.warning)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           error: {
             open: wrapFn()(convertFn(theme.text.spinner.message.error)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.spinner.message.error)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           success: {
             open: wrapFn()(convertFn(theme.text.spinner.message.success)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.spinner.message.success)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           info: {
             open: wrapFn()(convertFn(theme.text.spinner.message.info)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.spinner.message.info)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           help: {
             open: wrapFn()(convertFn(theme.text.spinner.message.help)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.text.spinner.message.help)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         }
       }
@@ -673,29 +1262,65 @@ function buildThemeAnsiStyles(
         divider: {
           primary: {
             open: wrapFn()(convertFn(theme.border.banner.divider.primary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.banner.divider.primary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           secondary: {
             open: wrapFn()(convertFn(theme.border.banner.divider.secondary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.banner.divider.secondary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           tertiary: {
             open: wrapFn()(convertFn(theme.border.banner.divider.tertiary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.banner.divider.tertiary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         outline: {
           primary: {
             open: wrapFn()(convertFn(theme.border.banner.outline.primary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.banner.outline.primary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           secondary: {
             open: wrapFn()(convertFn(theme.border.banner.outline.secondary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.banner.outline.secondary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           tertiary: {
             open: wrapFn()(convertFn(theme.border.banner.outline.tertiary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.banner.outline.tertiary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         }
       },
@@ -703,29 +1328,65 @@ function buildThemeAnsiStyles(
         divider: {
           primary: {
             open: wrapFn()(convertFn(theme.border.app.divider.primary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.app.divider.primary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           secondary: {
             open: wrapFn()(convertFn(theme.border.app.divider.secondary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.app.divider.secondary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           tertiary: {
             open: wrapFn()(convertFn(theme.border.app.divider.tertiary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.app.divider.tertiary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         table: {
           primary: {
             open: wrapFn()(convertFn(theme.border.app.table.primary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.app.table.primary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           secondary: {
             open: wrapFn()(convertFn(theme.border.app.table.secondary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.app.table.secondary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           tertiary: {
             open: wrapFn()(convertFn(theme.border.app.table.tertiary)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.app.table.tertiary)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         }
       },
@@ -733,61 +1394,145 @@ function buildThemeAnsiStyles(
         divider: {
           help: {
             open: wrapFn()(convertFn(theme.border.message.divider.help)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.divider.help)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           success: {
             open: wrapFn()(convertFn(theme.border.message.divider.success)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.divider.success)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           info: {
             open: wrapFn()(convertFn(theme.border.message.divider.info)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.divider.info)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           debug: {
             open: wrapFn()(convertFn(theme.border.message.divider.debug)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.divider.debug)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           warning: {
             open: wrapFn()(convertFn(theme.border.message.divider.warning)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.divider.warning)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           danger: {
             open: wrapFn()(convertFn(theme.border.message.divider.danger)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.divider.danger)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           error: {
             open: wrapFn()(convertFn(theme.border.message.divider.error)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.divider.error)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         },
         outline: {
           help: {
             open: wrapFn()(convertFn(theme.border.message.outline.help)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.outline.help)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           success: {
             open: wrapFn()(convertFn(theme.border.message.outline.success)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.outline.success)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           info: {
             open: wrapFn()(convertFn(theme.border.message.outline.info)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.outline.info)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           debug: {
             open: wrapFn()(convertFn(theme.border.message.outline.debug)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.outline.debug)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           warning: {
             open: wrapFn()(convertFn(theme.border.message.outline.warning)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.outline.warning)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           danger: {
             open: wrapFn()(convertFn(theme.border.message.outline.danger)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.outline.danger)
+              ),
+              close: wrapAnsi16()(49)
+            }
           },
           error: {
             open: wrapFn()(convertFn(theme.border.message.outline.error)),
-            close: wrapAnsi16()(39)
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.message.outline.error)
+              ),
+              close: wrapAnsi16()(49)
+            }
           }
         }
       }
@@ -810,17 +1555,29 @@ export function getAnsiStyles(theme: ThemeColorsResolvedConfig): AnsiStyles {
   ][]) {
     output.ansi16[key] = {
       open: wrapAnsi16()(value[0]),
-      close: wrapAnsi16()(value[1])
+      close: wrapAnsi16()(value[1]),
+      background: {
+        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
+        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
+      }
     };
 
     output.ansi256[key] = {
       open: wrapAnsi16()(value[0]),
-      close: wrapAnsi16()(value[1])
+      close: wrapAnsi16()(value[1]),
+      background: {
+        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
+        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
+      }
     };
 
     output.ansi16m[key] = {
       open: wrapAnsi16()(value[0]),
-      close: wrapAnsi16()(value[1])
+      close: wrapAnsi16()(value[1]),
+      background: {
+        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
+        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
+      }
     };
   }
 
@@ -830,17 +1587,29 @@ export function getAnsiStyles(theme: ThemeColorsResolvedConfig): AnsiStyles {
   ][]) {
     output.ansi16[key] = {
       open: wrapAnsi16()(value[0]),
-      close: wrapAnsi16()(value[1])
+      close: wrapAnsi16()(value[1]),
+      background: {
+        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
+        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
+      }
     };
 
     output.ansi256[key] = {
       open: wrapAnsi16()(value[0]),
-      close: wrapAnsi16()(value[1])
+      close: wrapAnsi16()(value[1]),
+      background: {
+        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
+        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
+      }
     };
 
     output.ansi16m[key] = {
       open: wrapAnsi16()(value[0]),
-      close: wrapAnsi16()(value[1])
+      close: wrapAnsi16()(value[1]),
+      background: {
+        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
+        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
+      }
     };
   }
 
@@ -850,17 +1619,29 @@ export function getAnsiStyles(theme: ThemeColorsResolvedConfig): AnsiStyles {
   ][]) {
     output.ansi16[key] = {
       open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-      close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
+      close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1]),
+      background: {
+        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
+        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
+      }
     };
 
     output.ansi256[key] = {
       open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-      close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
+      close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1]),
+      background: {
+        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
+        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
+      }
     };
 
     output.ansi16m[key] = {
       open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-      close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
+      close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1]),
+      background: {
+        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
+        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
+      }
     };
   }
 

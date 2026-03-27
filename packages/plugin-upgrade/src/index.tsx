@@ -81,6 +81,7 @@ export const plugin = <
           segments: [this.config.upgrade.command.name],
           title: "Upgrade",
           icon: "★",
+          tags: ["Utility"],
           description: `A command for checking and upgrading the version of the ${getAppTitle(
             this,
             true

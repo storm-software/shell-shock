@@ -283,6 +283,7 @@ export const plugin = <TContext extends Context = Context>(
               segments,
               name,
               alias: [],
+              tags: [],
               isVirtual: false,
               entry: {
                 ...entry,
@@ -493,6 +494,7 @@ export interface GlobalOptions {
                           segments,
                           name,
                           alias: [],
+                          tags: [],
                           isVirtual: true,
                           entry: {
                             file

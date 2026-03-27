@@ -56,7 +56,7 @@ export const theme: ThemeUserConfig = {
           error: "#d8314a",
           submitted: "#45b27e",
           cancelled: "#d8314a",
-          disabled: "#22292b"
+          disabled: "#394447"
         },
         message: {
           active: "#f9fbfb",
@@ -64,7 +64,7 @@ export const theme: ThemeUserConfig = {
           error: "#f9fbfb",
           submitted: "#67787c",
           cancelled: "#67787c",
-          disabled: "#22292b"
+          disabled: "#394447"
         },
         input: {
           active: "#3b82f6",
@@ -74,16 +74,16 @@ export const theme: ThemeUserConfig = {
           submitted: "#f9fbfb",
           cancelled: "#d8314a",
           placeholder: "#394447",
-          disabled: "#22292b"
+          disabled: "#394447"
         },
         description: {
           active: "#67787c",
-          inactive: "#22292b",
+          inactive: "#394447",
           warning: "#f3d371",
           error: "#d8314a",
           submitted: "#67787c",
           cancelled: "#d8314a",
-          disabled: "#22292b"
+          disabled: "#394447"
         }
       },
       spinner: {
@@ -109,7 +109,7 @@ export const theme: ThemeUserConfig = {
       app: {
         primary: "#f9fbfb",
         secondary: "#67787c",
-        tertiary: "#22292b"
+        tertiary: "#394447"
       },
       banner: "#ffffff",
       message: {

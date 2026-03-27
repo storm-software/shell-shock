@@ -69,7 +69,7 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
           <>
             {code`
       writeLine(
-        colors.text.body.secondary(\`\$ \${colors.text.usage.bin("${bin}")}${
+        colors.text.body.secondary(\`\${colors.border.app.divider.tertiary("\$_")} \${colors.text.usage.bin("${bin}")}${
           command.segments.length > 0
             ? ` ${command.segments
                 .map(
@@ -234,13 +234,16 @@ export function HelpOptionsDisplay(props: HelpOptionsDisplayProps) {
             option.env || option.default !== undefined
               ? ` (${
                   option.env
-                    ? `env: ${context.config.appSpecificEnvPrefix}_${option.env}${
-                        option.default !== undefined ? ", " : ""
-                      }`
+                    ? `env: ${context.config.appSpecificEnvPrefix}_${
+                        option.env
+                      }${option.default !== undefined ? ", " : ""}`
                     : ""
                 }${
                   option.default !== undefined
-                    ? `default: ${JSON.stringify(option.default).replace(/"/g, '\\"')}`
+                    ? `default: ${JSON.stringify(option.default).replace(
+                        /"/g,
+                        '\\"'
+                      )}`
                     : ""
                 })`
               : ""
@@ -398,6 +401,44 @@ export interface VirtualCommandHelpDisplayProps {
   segments?: string[];
 }
 
+function sortCommands(commands: Record<string, CommandTree>) {
+  return Object.values(commands).sort((a, b) => {
+    if (
+      a.tags.some(tag => tag.toLowerCase() === "deprecated") &&
+      !b.tags.some(tag => tag.toLowerCase() === "deprecated")
+    ) {
+      return 1;
+    } else if (
+      !a.tags.some(tag => tag.toLowerCase() === "deprecated") &&
+      b.tags.some(tag => tag.toLowerCase() === "deprecated")
+    ) {
+      return -1;
+    } else if (
+      a.tags.some(tag => tag.toLowerCase() === "experimental") &&
+      !b.tags.some(tag => tag.toLowerCase() === "experimental")
+    ) {
+      return 1;
+    } else if (
+      !a.tags.some(tag => tag.toLowerCase() === "experimental") &&
+      b.tags.some(tag => tag.toLowerCase() === "experimental")
+    ) {
+      return -1;
+    } else if (
+      a.tags.some(tag => tag.toLowerCase() === "utility") &&
+      !b.tags.some(tag => tag.toLowerCase() === "utility")
+    ) {
+      return 1;
+    } else if (
+      !a.tags.some(tag => tag.toLowerCase() === "utility") &&
+      b.tags.some(tag => tag.toLowerCase() === "utility")
+    ) {
+      return -1;
+    }
+
+    return a.name.localeCompare(b.name);
+  });
+}
+
 /**
  * A component that generates the invocation of the `help` function for a command.
  */
@@ -424,7 +465,7 @@ export function VirtualCommandHelpDisplay(
         writeLine(""); `}
         <Spacing />
         <For
-          each={Object.values(commands)}
+          each={sortCommands(commands)}
           doubleHardline
           joiner={code`writeLine(""); `}
           ender={code`writeLine(""); `}>
@@ -435,7 +476,16 @@ export function VirtualCommandHelpDisplay(
                   child.icon
                     ? `(isUnicodeSupported ? " ${child.icon}  " : "") + `
                     : ""
-                }"${child.title} ${child.isVirtual ? "" : "Command"}"));
+                }\`${child.title} ${child.isVirtual ? "" : "Command"}${
+                  child.tags?.length > 0
+                    ? `    ${child.tags
+                        .map(
+                          tag =>
+                            `\${colors.text.heading.primary(colors.black(" ${tag} "), true)}`
+                        )
+                        .join(" ")}`
+                    : ""
+                }\`);
                 writeLine("");
                 writeLine(colors.text.body.secondary(splitText(\`${formatDescription(
                   child.description
@@ -488,9 +538,7 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
         writeLine(""); `}
         <Spacing />
         <For
-          each={Object.values(command.children).sort((a, b) =>
-            a.name.localeCompare(b.name)
-          )}
+          each={sortCommands(command.children)}
           doubleHardline
           joiner={code`writeLine(""); `}
           ender={code`writeLine(""); `}>
@@ -501,7 +549,16 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
                   child.icon
                     ? `(isUnicodeSupported ? " ${child.icon}  " : "") + `
                     : ""
-                }"${child.title} ${child.isVirtual ? "" : "Command"}"));
+                }\`${child.title} ${child.isVirtual ? "" : "Command"}${
+                  child.tags?.length > 0
+                    ? `    ${child.tags
+                        .map(
+                          tag =>
+                            `\${colors.text.heading.primary(colors.black(" ${tag} "), true)}`
+                        )
+                        .join(" ")}`
+                    : ""
+                }\`);
                 writeLine("");
                 writeLine(colors.text.body.secondary(splitText(\`${formatDescription(
                   child.description

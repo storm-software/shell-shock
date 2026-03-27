@@ -195,19 +195,29 @@ function ColorFunction({
   ansi256,
   ansi16m
 }: Record<"ansi16" | "ansi256" | "ansi16m", AnsiWrappers>) {
-  return code` (text: string) => {
+  return code` (text: string, background = false) => {
     try {
       if (!isColorSupported) {
         return String(text);
       }
 
       if (colorSupportLevels.stdout === 1) {
-        return wrapAnsi(text, "${ansi16.open}", "${ansi16.close}");
+        return wrapAnsi(text, background ? "${
+          ansi16.background.open
+        }" : "${ansi16.open}", background ? "${
+          ansi16.background.close
+        }" : "${ansi16.close}");
       } else if (colorSupportLevels.stdout === 2) {
-        return wrapAnsi(text, "${ansi256.open}", "${ansi256.close}");
+        return wrapAnsi(text, background ? "${
+          ansi256.background.open
+        }" : "${ansi256.open}", background ? "${
+          ansi256.background.close
+        }" : "${ansi256.close}");
       }
 
-      return wrapAnsi(text, "${ansi16m.open}", "${ansi16m.close}");
+      return wrapAnsi(text, background ? "${ansi16m.background.open}" : "${
+        ansi16m.open
+      }", background ? "${ansi16m.background.close}" : "${ansi16m.close}");
     } catch {
       return String(text);
     }

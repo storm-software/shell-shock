@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { toArray } from "@stryke/convert/to-array";
+import { getUnique } from "@stryke/helpers/get-unique";
 import type {
   JsonSchema7EnumType,
   JsonSchema7ObjectType,
@@ -159,6 +160,9 @@ export async function resolveFromExports<TContext extends Context = Context>(
   }
   if (isSetString(metadata.icon)) {
     ctx.output.icon = metadata.icon;
+  }
+  if (isSetString(metadata.tags)) {
+    ctx.output.tags = getUnique(ctx.output.tags.concat(toArray(metadata.tags)));
   }
 
   if (isSetObject(ctx.module?.options)) {

@@ -92,6 +92,7 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
               segments: [this.config.help.command.name],
               title: "Help",
               icon: "🛈",
+              tags: ["Utility"],
               description: `A command for displaying help information to assist in using the ${getAppTitle(
                 this,
                 true
@@ -129,6 +130,7 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
             path: null,
             segments: [],
             alias: [],
+            tags: [],
             options: Object.fromEntries(
               this.options.map(option => [option.name, option])
             ),

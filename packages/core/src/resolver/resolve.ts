@@ -59,6 +59,7 @@ async function initialize<TContext extends Context = Context>(
   const output = {
     alias: [],
     icon: parent?.icon,
+    tags: parent?.tags ?? [],
     ...command,
     title,
     options: getGlobalOptions(context, command),
