@@ -42,7 +42,7 @@ export const plugin = <
   return [
     ...console<TContext>(options),
     ...help<TContext>(options),
-    ...banner<TContext>(options),
+    ...banner<TContext>(options.banner),
     {
       name: "shell-shock:script-preset",
       config() {

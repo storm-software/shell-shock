@@ -22,7 +22,6 @@ import { render } from "@powerlines/plugin-alloy/render";
 import {
   getAppDescription,
   getAppName,
-  getAppTitle,
   getCommandList
 } from "@shell-shock/core/plugin-utils";
 import console from "@shell-shock/plugin-console";
@@ -56,7 +55,6 @@ export const plugin = <
         };
       },
       prepare: {
-        order: "post",
         async handler() {
           const commands = await getCommandList(this);
           this.debug(
@@ -68,7 +66,7 @@ export const plugin = <
           const bin = computed(() => ({
             id: "",
             name: getAppName(this),
-            title: getAppTitle(this),
+            title: "",
             description: getAppDescription(this),
             isVirtual: true,
             path: null,

@@ -1034,9 +1034,9 @@ declare module "shell-shock:utils" {
     options?: GetColorSupportLevelOptions
   ):
     | false
+    | 3
     | 0
     | 2
-    | 3
     | {
         level: number;
         hasBasic: boolean;
@@ -1745,7 +1745,7 @@ declare module "shell-shock:help/start" {
 declare module "shell-shock:banner" {
   /**
    * Write the Playground Powerlines command-line interface application banner for
-   * the Playground Powerlines command to the console.
+   * the command to the console.
    *
    * @param {number} sleepTimeoutMs
    */

@@ -214,5 +214,6 @@
   "terminal.integrated.defaultProfile.linux": "zsh",
   "terminal.integrated.defaultProfile.osx": "zsh",
   "terminal.integrated.defaultProfile.windows": "PowerShell",
-  "chat.mcp.gallery.enabled": true
+  "chat.mcp.gallery.enabled": true,
+  "nixEnvSelector.nixFile": "${workspaceFolder}/devenv.nix"
 }

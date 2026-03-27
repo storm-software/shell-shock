@@ -24,12 +24,12 @@ export const theme: ThemeUserConfig = {
     text: {
       banner: {
         title: "#ffffff",
-        command: "#f9fbfb",
+        command: "#e3e7e8",
         description: "#9ca8ab"
       },
       heading: {
         primary: "#ffffff",
-        secondary: "#f9fbfb",
+        secondary: "#e3e7e8",
         tertiary: "#9ca8ab"
       },
       body: {
@@ -39,14 +39,14 @@ export const theme: ThemeUserConfig = {
         link: "#3fa6ff"
       },
       message: {
-        description: "#f9fbfb"
+        description: "#e3e7e8"
       },
       usage: {
         bin: "#67787c",
-        command: "#f9fbfb",
-        dynamic: "#9ca8ab",
-        options: "#9ca8ab",
-        args: "#9ca8ab",
+        command: "#e3e7e8",
+        dynamic: "#e3e7e8",
+        options: "#67787c",
+        args: "#67787c",
         description: "#67787c"
       },
       prompt: {
@@ -56,34 +56,34 @@ export const theme: ThemeUserConfig = {
           error: "#d8314a",
           submitted: "#45b27e",
           cancelled: "#d8314a",
-          disabled: "#394447"
+          disabled: "#4b585b"
         },
         message: {
-          active: "#f9fbfb",
-          warning: "#f9fbfb",
-          error: "#f9fbfb",
+          active: "#e3e7e8",
+          warning: "#e3e7e8",
+          error: "#e3e7e8",
           submitted: "#67787c",
           cancelled: "#67787c",
-          disabled: "#394447"
+          disabled: "#4b585b"
         },
         input: {
           active: "#3b82f6",
           inactive: "#9ca8ab",
           warning: "#f3d371",
           error: "#d8314a",
-          submitted: "#f9fbfb",
+          submitted: "#e3e7e8",
           cancelled: "#d8314a",
-          placeholder: "#394447",
-          disabled: "#394447"
+          placeholder: "#4b585b",
+          disabled: "#4b585b"
         },
         description: {
           active: "#67787c",
-          inactive: "#394447",
+          inactive: "#4b585b",
           warning: "#f3d371",
           error: "#d8314a",
           submitted: "#67787c",
           cancelled: "#d8314a",
-          disabled: "#394447"
+          disabled: "#4b585b"
         }
       },
       spinner: {
@@ -96,7 +96,7 @@ export const theme: ThemeUserConfig = {
           warning: "#f3d371"
         },
         message: {
-          active: "#f9fbfb",
+          active: "#e3e7e8",
           error: "#d8314a",
           success: "#67787c",
           help: "#67787c",
@@ -108,14 +108,14 @@ export const theme: ThemeUserConfig = {
         utility: "#94a3b8",
         deprecated: "#f87171",
         experimental: "#818cf8",
-        $default: "#f1f5f9"
+        $default: "#e3e7e8"
       }
     },
     border: {
       app: {
-        primary: "#f9fbfb",
+        primary: "#e3e7e8",
         secondary: "#67787c",
-        tertiary: "#394447"
+        tertiary: "#4b585b"
       },
       banner: "#ffffff",
       message: {

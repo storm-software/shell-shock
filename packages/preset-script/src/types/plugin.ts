@@ -53,8 +53,7 @@ import type {
 export type ScriptPresetOptions = Omit<Options, "defaultOptions"> &
   ThemePluginOptions &
   ConsolePluginOptions &
-  HelpPluginOptions &
-  BannerPluginOptions & {
+  HelpPluginOptions & {
     /**
      * A set of default command options to apply to each command.
      *
@@ -70,6 +69,11 @@ export type ScriptPresetOptions = Omit<Options, "defaultOptions"> &
       | CommandOption[]
       | ((context: Context, input: CommandBase) => CommandOption[])
       | false;
+
+    /**
+     * The title to display in the banner for the CLI application. If not specified, the application name will be used.
+     */
+    banner?: Pick<BannerPluginOptions, "title">;
   };
 
 export type ScriptPresetUserConfig = UserConfig &

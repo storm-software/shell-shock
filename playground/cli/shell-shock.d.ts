@@ -2802,7 +2802,7 @@ declare module "shell-shock:upgrade" {
 declare module "shell-shock:banner" {
   /**
    * Write the Playground command-line interface application banner for the
-   * Playground Command Line Interface command to the console.
+   * command to the console.
    *
    * @param {number} sleepTimeoutMs
    */

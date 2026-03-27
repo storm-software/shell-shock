@@ -58,6 +58,7 @@ import type {
   AnsiWrappers,
   BaseAnsiStylesKeys
 } from "@shell-shock/plugin-theme/helpers/ansi-utils";
+import { kebabCase } from "@stryke/string-format";
 import { getIndefiniteArticle } from "@stryke/string-format/vowels";
 import { defu } from "defu";
 
@@ -230,6 +231,7 @@ function ColorFunction({
  */
 export function ColorsDeclaration() {
   const colors = useColors();
+  const theme = useTheme();
 
   return (
     <>
@@ -1551,9 +1553,33 @@ export function ColorsDeclaration() {
                           />
                         )}
                       }
+                    },
+                    tags: { `}
+            <For
+              each={Object.keys(theme.colors.text.tags)}
+              joiner={
+                <>
+                  {code`, `}
+                  <hbr />
+                </>
+              }>
+              {key =>
+                code`${kebabCase(key)}: ${(
+                  <ColorFunction
+                    ansi16={colors.ansi16.theme.text.tags[key] as AnsiWrappers}
+                    ansi256={
+                      colors.ansi256.theme.text.tags[key] as AnsiWrappers
                     }
-                  },
-                  border: {
+                    ansi16m={
+                      colors.ansi16m.theme.text.tags[key] as AnsiWrappers
+                    }
+                  />
+                )}`
+              }
+            </For>
+            {code` }
+            },
+            border: {
                     banner: {
                       outline: {
                         primary: ${(

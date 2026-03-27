@@ -59,6 +59,7 @@
     "@shell-shock/plugin-theme": "workspace:*",
     "@shell-shock/plugin-console": "workspace:*",
     "@stryke/path": "catalog:",
+    "@stryke/type-checks": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:"
   },

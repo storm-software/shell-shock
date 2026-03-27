@@ -225,8 +225,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "inlinedDependencies": {
-    "@stryke/string-format": "0.17.7"
   }
 }

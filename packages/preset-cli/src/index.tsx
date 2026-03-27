@@ -23,10 +23,8 @@ import { render } from "@powerlines/plugin-alloy/render";
 import {
   getAppDescription,
   getAppName,
-  getAppTitle,
   getCommandList
 } from "@shell-shock/core/plugin-utils";
-import banner from "@shell-shock/plugin-banner";
 import console from "@shell-shock/plugin-console";
 import help from "@shell-shock/plugin-help";
 import prompts from "@shell-shock/plugin-prompts";
@@ -34,7 +32,7 @@ import upgrade from "@shell-shock/plugin-upgrade";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
 import { joinPaths } from "@stryke/path";
 import type { Plugin } from "powerlines";
-import { BannerBuiltin } from "./components";
+import { BannerBuiltin } from "./components/banner-builtin";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
 import { UpgradeBuiltin } from "./components/upgrade-builtin";
@@ -54,7 +52,6 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
   return [
     ...console<TContext>(options),
     ...help<TContext>(options),
-    ...banner<TContext>(options),
     ...prompts<TContext>(options),
     upgrade<TContext>(options),
     {
@@ -85,7 +82,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           const bin = computed(() => ({
             id: "",
             name: getAppName(this),
-            title: getAppTitle(this),
+            title: "",
             description: getAppDescription(this),
             isVirtual: true,
             path: null,

@@ -63,7 +63,6 @@ export type UpgradeType = "confirm" | "auto" | "manual";
 
 export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> &
   HelpPluginOptions &
-  BannerPluginOptions &
   PromptsPluginOptions &
   UpgradePluginOptions & {
     /**
@@ -110,6 +109,11 @@ export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> &
      * @defaultValue "confirm"
      */
     upgradeType?: UpgradeType | false;
+
+    /**
+     * The title to display in the banner for the CLI application. If not specified, the application name will be used.
+     */
+    banner?: Pick<BannerPluginOptions, "title">;
   };
 
 export type CLIPresetUserConfig = UserConfig &

@@ -1854,7 +1854,7 @@ declare module "shell-shock:help/start" {
 declare module "shell-shock:banner" {
   /**
    * Write the Playground Script command-line interface application banner for the
-   * Playground Script command to the console.
+   * command to the console.
    *
    * @param {number} sleepTimeoutMs
    */

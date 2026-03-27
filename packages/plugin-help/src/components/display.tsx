@@ -70,7 +70,7 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
           <>
             {code`
       writeLine(
-        colors.text.body.secondary(\`\${colors.border.app.divider.tertiary("\$_")} \${colors.text.usage.bin("${bin}")}${
+        colors.text.body.secondary(\`\${colors.text.usage.bin("$_ ${bin}")}${
           command.segments.length > 0
             ? ` ${command.segments
                 .map(
@@ -121,7 +121,7 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
             <>
               {code`
       writeLine(
-        colors.text.body.secondary(\`\$ \${colors.text.usage.bin("${bin}")}${
+        colors.text.body.secondary(\`\${colors.text.usage.bin("$_ ${bin}")}${
           command.segments.length > 0
             ? ` ${command.segments
                 .map(
@@ -370,9 +370,9 @@ export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
       </Show>
       <Show when={isSetString(command.reference)}>
         {code`writeLine("");
-      writeLine(colors.text.heading.tertiary(\`More information about this command can be found in the reference documentation at ${
+      writeLine(colors.text.heading.tertiary(\`More information about this command can be found in the reference documentation at \${link("${
         command.reference
-      }\`)${
+      }")}\`)${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
         <hbr />
@@ -479,16 +479,16 @@ export function VirtualCommandHelpDisplay(
                     : ""
                 }\`${child.title} ${child.isVirtual ? "" : "Command"}${
                   child.tags?.length > 0
-                    ? `    ${child.tags
+                    ? ` - ${child.tags
                         .map(
                           tag =>
-                            `\${colors.text.body.tertiary(colors.text.tags.${camelCase(tag)} ? colors.text.tags.${camelCase(tag)}(" ${tag} ", true) : colors.text.tags.$default(" ${tag} ", true))}`
+                            `\${colors.text.tags.${camelCase(tag)} ? colors.text.tags.${camelCase(tag)}(colors.inverse(" ${tag} ")) : colors.text.tags.$default(colors.inverse(" ${tag} "))}`
                         )
                         .join(" ")}`
                     : ""
                 }\`);
                 writeLine("");
-                writeLine(colors.text.body.secondary(splitText(\`${formatDescription(
+                writeLine(colors.text.body.tertiary(splitText(\`${formatDescription(
                   child.description
                 )
                   .replace(/\.+$/, "")
@@ -552,16 +552,16 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
                     : ""
                 }\`${child.title} ${child.isVirtual ? "" : "Command"}${
                   child.tags?.length > 0
-                    ? `    ${child.tags
+                    ? ` - ${child.tags
                         .map(
                           tag =>
-                            `\${colors.text.body.tertiary(colors.text.tags.${camelCase(tag)} ? colors.text.tags.${camelCase(tag)}(" ${tag} ", true) : colors.text.tags.$default(" ${tag} ", true))}`
+                            `\${colors.text.tags.${camelCase(tag)} ? colors.text.tags.${camelCase(tag)}(colors.inverse(" ${tag} ")) : colors.text.tags.$default(colors.inverse(" ${tag} "))}`
                         )
                         .join(" ")}`
                     : ""
                 }\`);
                 writeLine("");
-                writeLine(colors.text.body.secondary(splitText(\`${formatDescription(
+                writeLine(colors.text.body.tertiary(splitText(\`${formatDescription(
                   child.description
                 )
                   .replace(/\.+$/, "")

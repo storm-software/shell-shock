@@ -64,18 +64,20 @@ export function BannerFunctionBodyDeclaration(
   );
 
   const titleLines = computed(() => {
-    const result = context.config.banner.title
-      ? { array: context.config.banner.title.split("\n") }
-      : render(getAppTitle(context, true), {
-          font: "tiny",
-          align: "left",
-          background: "transparent",
-          letterSpacing: 1,
-          lineHeight: 1,
-          gradient: false,
-          transitionGradient: false,
-          env: "node"
-        });
+    // if (isSetString(context.config.banner.title)) {
+    //   return context.config.banner.title.split("\n");
+    // }
+
+    const result = render(getAppTitle(context, true), {
+      font: "tiny",
+      align: "left",
+      background: "transparent",
+      letterSpacing: 1,
+      lineHeight: 1,
+      gradient: false,
+      transitionGradient: false,
+      env: "node"
+    });
     if (!result) {
       return [`${getAppTitle(context, true)} Command-Line Interface`];
     }
@@ -105,9 +107,23 @@ export function BannerFunctionBodyDeclaration(
       {code`const titleLines = [${titleLines.value
         .map(line => JSON.stringify(line.trim()))
         .join(", ")}];
-        const title = Math.max(...titleLines.map(line => stripAnsi(line).length)) > Math.max(process.stdout.columns - ${
-          totalPadding.value
-        }, 0) ? "${title.value}" : \`\\n\${titleLines.join("\\n")}\\n\`; `}
+      const title = Math.max(...titleLines.map(line => stripAnsi(line).length)) > Math.max(process.stdout.columns + ${
+        totalPadding.value
+      }, 20) ? "${title.value}" : \`\\n\${titleLines.join("\\n")}\\n\`;
+
+      splitText(title,
+        Math.max(process.stdout.columns - ${totalPadding.value}, 20)
+      ).forEach((line) => {
+        writeLine(colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].left
+        }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
+          bannerPadding.value
+        })) / 2), 0)) + colors.bold(colors.text.banner.title.${variant}(line)) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+          bannerPadding.value
+        })) / 2), 0)) + colors.border.banner.outline.${variant}("${
+          theme.borderStyles.banner.outline[variant].right
+        }"), { consoleFn: console.${consoleFnName} });
+      }); `}
     </BaseBannerFunctionBodyDeclaration>
   );
 }

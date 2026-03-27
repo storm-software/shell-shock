@@ -1746,7 +1746,7 @@ declare module "shell-shock:help/start" {
 declare module "shell-shock:banner" {
   /**
    * Write the Playground Nx command-line interface application banner for the
-   * Playground Nx command to the console.
+   * command to the console.
    *
    * @param {number} sleepTimeoutMs
    */

@@ -1747,8 +1747,7 @@ declare module "shell-shock:help/start" {
 declare module "shell-shock:banner" {
   /**
    * Write the Playground Custom Commands Directory command-line interface
-   * application banner for the Playground Custom Commands Directory command to
-   * the console.
+   * application banner for the command to the console.
    *
    * @param {number} sleepTimeoutMs
    */

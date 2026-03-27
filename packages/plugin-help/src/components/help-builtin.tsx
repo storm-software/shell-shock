@@ -105,7 +105,7 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
       {...rest}
       builtinImports={defu(rest.builtinImports ?? {}, {
         utils: ["isUnicodeSupported"],
-        console: ["splitText", "writeLine", "colors", "help", "table"]
+        console: ["splitText", "writeLine", "colors", "help", "table", "link"]
       })}>
       <FunctionDeclaration
         export
