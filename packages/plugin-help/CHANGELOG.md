@@ -2,6 +2,23 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.4) (03/27/2026)
+
+### Miscellaneous
+
+- **plugin-help:** Ensure commands in help display are sorted alphabetically ([60dd7d7](https://github.com/storm-software/shell-shock/commit/60dd7d7))
+- **plugin-theme:** Updates to default theme configuration values ([f63ffc6](https://github.com/storm-software/shell-shock/commit/f63ffc6))
+
+### Features
+
+- **core:** Added the `tags` property to commands' metadata ([2e5c4f5](https://github.com/storm-software/shell-shock/commit/2e5c4f5))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.26**
+- Updated **plugin-theme** to **v0.3.30**
+- Updated **core** to **v0.14.0**
+
 ## [0.2.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.3) (03/27/2026)
 
 ### Updated Dependencies

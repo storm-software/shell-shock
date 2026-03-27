@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Plugin Banner
 
+## [0.1.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.13) (03/27/2026)
+
+### Miscellaneous
+
+- **plugin-theme:** Updates to default theme configuration values ([f63ffc6](https://github.com/storm-software/shell-shock/commit/f63ffc6))
+
+### Features
+
+- **core:** Added the `tags` property to commands' metadata ([2e5c4f5](https://github.com/storm-software/shell-shock/commit/2e5c4f5))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.26**
+- Updated **plugin-theme** to **v0.3.30**
+- Updated **core** to **v0.14.0**
+
 ## [0.1.12](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.12) (03/27/2026)
 
 ### Miscellaneous

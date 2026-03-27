@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.3.30](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.30) (03/27/2026)
+
+### Miscellaneous
+
+- **plugin-theme:** Updates to default theme configuration values ([f63ffc6](https://github.com/storm-software/shell-shock/commit/f63ffc6))
+
+### Features
+
+- **core:** Added the `tags` property to commands' metadata ([2e5c4f5](https://github.com/storm-software/shell-shock/commit/2e5c4f5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.14.0**
+
 ## [0.3.29](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.3.29) (03/27/2026)
 
 ### Miscellaneous

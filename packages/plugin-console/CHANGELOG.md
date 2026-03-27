@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.26](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.26) (03/27/2026)
+
+### Features
+
+- **core:** Added the `tags` property to commands' metadata ([2e5c4f5](https://github.com/storm-software/shell-shock/commit/2e5c4f5))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.3.30**
+- Updated **core** to **v0.14.0**
+
 ## [0.1.25](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.25) (03/27/2026)
 
 ### Updated Dependencies

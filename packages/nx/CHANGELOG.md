@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.59](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.59) (03/27/2026)
+
+### Miscellaneous
+
+- **plugin-theme:** Updates to default theme configuration values ([f63ffc6](https://github.com/storm-software/shell-shock/commit/f63ffc6))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.14.0**
+
 ## [0.0.58](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.58) (03/27/2026)
 
 ### Miscellaneous

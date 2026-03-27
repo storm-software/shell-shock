@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.14.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.14.0) (03/27/2026)
+
+### Features
+
+- **core:** Added the `tags` property to commands' metadata ([2e5c4f5](https://github.com/storm-software/shell-shock/commit/2e5c4f5))
+
 ## [0.13.14](https://github.com/storm-software/shell-shock/releases/tag/core%400.13.14) (03/27/2026)
 
 ### Miscellaneous

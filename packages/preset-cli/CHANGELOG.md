@@ -2,6 +2,28 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.8.18](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.8.18) (03/27/2026)
+
+### Miscellaneous
+
+- **plugin-help:** Ensure commands in help display are sorted alphabetically ([60dd7d7](https://github.com/storm-software/shell-shock/commit/60dd7d7))
+- **plugin-theme:** Updates to default theme configuration values ([f63ffc6](https://github.com/storm-software/shell-shock/commit/f63ffc6))
+
+### Features
+
+- **core:** Added the `tags` property to commands' metadata ([2e5c4f5](https://github.com/storm-software/shell-shock/commit/2e5c4f5))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.26**
+- Updated **plugin-prompts** to **v0.3.27**
+- Updated **plugin-upgrade** to **v0.1.32**
+- Updated **plugin-banner** to **v0.1.13**
+- Updated **preset-script** to **v0.6.41**
+- Updated **plugin-theme** to **v0.3.30**
+- Updated **plugin-help** to **v0.2.4**
+- Updated **core** to **v0.14.0**
+
 ## [0.8.17](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.8.17) (03/27/2026)
 
 ### Miscellaneous
