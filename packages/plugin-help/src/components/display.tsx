@@ -488,7 +488,9 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
         writeLine(""); `}
         <Spacing />
         <For
-          each={Object.values(command.children)}
+          each={Object.values(command.children).sort((a, b) =>
+            a.name.localeCompare(b.name)
+          )}
           doubleHardline
           joiner={code`writeLine(""); `}
           ender={code`writeLine(""); `}>

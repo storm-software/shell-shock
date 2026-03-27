@@ -23,6 +23,7 @@ import type {
   UserConfig
 } from "@shell-shock/core";
 import type {
+  BannerPluginContext,
   BannerPluginOptions,
   BannerPluginResolvedConfig,
   BannerPluginUserConfig
@@ -135,5 +136,6 @@ export type CLIPresetContext<
   ThemePluginContext<TResolvedConfig> &
   ConsolePluginContext<TResolvedConfig> &
   PromptsPluginContext<TResolvedConfig> &
+  BannerPluginContext<TResolvedConfig> &
   HelpPluginContext<TResolvedConfig> &
   UpgradePluginContext<TResolvedConfig>;

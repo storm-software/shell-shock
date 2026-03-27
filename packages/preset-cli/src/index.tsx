@@ -26,6 +26,7 @@ import {
   getAppTitle,
   getCommandList
 } from "@shell-shock/core/plugin-utils";
+import banner from "@shell-shock/plugin-banner";
 import console from "@shell-shock/plugin-console";
 import help from "@shell-shock/plugin-help";
 import prompts from "@shell-shock/plugin-prompts";
@@ -53,6 +54,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
   return [
     ...console<TContext>(options),
     ...help<TContext>(options),
+    ...banner<TContext>(options),
     ...prompts<TContext>(options),
     upgrade<TContext>(options),
     {
