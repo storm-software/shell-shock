@@ -279,26 +279,20 @@ export function resolveFromBytecode<TContext extends Context = Context>(
     type.description)!;
 
   const parameters = reflection.getParameters();
-  if (parameters.length > 0 && parameters[0]) {
-    if (
-      parameters[0].type.kind === ReflectionKind.objectLiteral ||
-      parameters[0].type.kind === ReflectionKind.class
-    ) {
-      const optionsReflection = ReflectionClass.from(parameters[0].type);
-      for (const propertyReflection of optionsReflection.getProperties()) {
-        ctx.output.options[propertyReflection.getNameAsString()] =
-          resolveCommandOption(ctx, propertyReflection);
-      }
-    } else if (!ctx.module?.options) {
-      throw new Error(
-        `The first parameter of the command handler function in "${
-          ctx.input.command.entry.input?.file || ctx.input.command.path
-        }" must be an object literal or class type representing the command options.`
-      );
+  const hasOptions =
+    parameters.length > 0 &&
+    parameters[0] &&
+    (parameters[0].type.kind === ReflectionKind.objectLiteral ||
+      parameters[0].type.kind === ReflectionKind.class);
+  if (hasOptions) {
+    const optionsReflection = ReflectionClass.from(parameters[0]?.type);
+    for (const propertyReflection of optionsReflection.getProperties()) {
+      ctx.output.options[propertyReflection.getNameAsString()] =
+        resolveCommandOption(ctx, propertyReflection);
     }
-
-    ctx.output.args = parameters
-      .slice(1)
-      .map((arg, index) => resolveCommandArgument(ctx, index, arg));
   }
+
+  ctx.output.args = (hasOptions ? parameters.slice(1) : parameters).map(
+    (arg, index) => resolveCommandArgument(ctx, index, arg)
+  );
 }
