@@ -2,6 +2,25 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.43](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.43) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([1d6290e](https://github.com/storm-software/shell-shock/commit/1d6290e))
+- **monorepo:** Regenerate `README.md` files ([238ae6e](https://github.com/storm-software/shell-shock/commit/238ae6e))
+
+### Bug Fixes
+
+- **core:** Various fixes across plugins and display ([86c92cb](https://github.com/storm-software/shell-shock/commit/86c92cb))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.28**
+- Updated **plugin-banner** to **v0.1.15**
+- Updated **plugin-theme** to **v0.4.1**
+- Updated **plugin-help** to **v0.2.6**
+- Updated **core** to **v0.14.2**
+
 ## [0.6.42](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.42) (03/27/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.29](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.29) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([1d6290e](https://github.com/storm-software/shell-shock/commit/1d6290e))
+- **monorepo:** Regenerate `README.md` files ([238ae6e](https://github.com/storm-software/shell-shock/commit/238ae6e))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.1**
+- Updated **core** to **v0.14.2**
+
 ## [0.3.28](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.28) (03/27/2026)
 
 ### Updated Dependencies

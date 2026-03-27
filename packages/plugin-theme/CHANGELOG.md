@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.1) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([1d6290e](https://github.com/storm-software/shell-shock/commit/1d6290e))
+- **monorepo:** Regenerate `README.md` files ([238ae6e](https://github.com/storm-software/shell-shock/commit/238ae6e))
+- **core:** Add front-matter data to generated markdown docs ([0f69157](https://github.com/storm-software/shell-shock/commit/0f69157))
+
+### Bug Fixes
+
+- **core:** Various fixes across plugins and display ([86c92cb](https://github.com/storm-software/shell-shock/commit/86c92cb))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.14.2**
+
 ## [0.4.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.0) (03/27/2026)
 
 ### Features

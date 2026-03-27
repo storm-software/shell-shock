@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.54](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.54) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([1d6290e](https://github.com/storm-software/shell-shock/commit/1d6290e))
+- **monorepo:** Regenerate `README.md` files ([238ae6e](https://github.com/storm-software/shell-shock/commit/238ae6e))
+
 ## [0.0.51](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.51) (03/27/2026)
 
 ### Bug Fixes

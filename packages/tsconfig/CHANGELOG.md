@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.59](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.59) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([1d6290e](https://github.com/storm-software/shell-shock/commit/1d6290e))
+- **monorepo:** Regenerate `README.md` files ([238ae6e](https://github.com/storm-software/shell-shock/commit/238ae6e))
+
 ## [0.0.54](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.54) (03/27/2026)
 
 ### Miscellaneous

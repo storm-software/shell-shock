@@ -2,6 +2,21 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.34](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.34) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([1d6290e](https://github.com/storm-software/shell-shock/commit/1d6290e))
+- **monorepo:** Regenerate `README.md` files ([238ae6e](https://github.com/storm-software/shell-shock/commit/238ae6e))
+
+### Bug Fixes
+
+- **core:** Various fixes across plugins and display ([86c92cb](https://github.com/storm-software/shell-shock/commit/86c92cb))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.14.2**
+
 ## [0.1.33](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.33) (03/27/2026)
 
 ### Updated Dependencies

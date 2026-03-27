@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.2.23](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.23) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([1d6290e](https://github.com/storm-software/shell-shock/commit/1d6290e))
+- **monorepo:** Regenerate `README.md` files ([238ae6e](https://github.com/storm-software/shell-shock/commit/238ae6e))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.14.2**
+
 ## [0.2.22](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.2.22) (03/27/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.28](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.28) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([1d6290e](https://github.com/storm-software/shell-shock/commit/1d6290e))
+- **monorepo:** Regenerate `README.md` files ([238ae6e](https://github.com/storm-software/shell-shock/commit/238ae6e))
+
+### Bug Fixes
+
+- **core:** Various fixes across plugins and display ([86c92cb](https://github.com/storm-software/shell-shock/commit/86c92cb))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.1**
+- Updated **core** to **v0.14.2**
+
 ## [0.1.27](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.27) (03/27/2026)
 
 ### Updated Dependencies

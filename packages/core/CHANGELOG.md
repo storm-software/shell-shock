@@ -2,6 +2,14 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.14.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.14.2) (03/27/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([1d6290e](https://github.com/storm-software/shell-shock/commit/1d6290e))
+- **monorepo:** Regenerate `README.md` files ([238ae6e](https://github.com/storm-software/shell-shock/commit/238ae6e))
+- **core:** Add front-matter data to generated markdown docs ([0f69157](https://github.com/storm-software/shell-shock/commit/0f69157))
+
 ## [0.14.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.14.0) (03/27/2026)
 
 ### Features
