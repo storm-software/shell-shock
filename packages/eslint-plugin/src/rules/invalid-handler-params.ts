@@ -23,7 +23,7 @@ import type { RuleContext } from "@typescript-eslint/utils/ts-eslint";
 import { createRule } from "../helpers/create-rule";
 
 export const RULE_NAME = "invalid-handler-params";
-export type MessageIds = "invalidOptionsParam" | "invalidArgsParam";
+export type MessageIds = "invalidArgsParam";
 export type Options = [];
 
 function getTypeNode(param: TSESTree.Parameter): TSESTree.TypeNode | null {
@@ -56,38 +56,36 @@ function getTypeNode(param: TSESTree.Parameter): TSESTree.TypeNode | null {
 }
 
 /**
- * Checks the validity of the command handler function's options parameters.
+ * Check if the first parameter of the command handler function is a valid options parameter.
  *
  * @remarks
- * The first parameter should represent the command's potential options, and as a result, it must be an object type with properties.
+ * The first parameter of the command handler function should represent the command's potential options. As a result, it must be an object type with properties.
+ *
+ * This function will check if the first parameter is of an object type with properties, which can be represented as a type literal, an intersection type including a type literal, or a reference to an interface/type alias that resolves to an object type with properties.
  *
  * @param body - The body of the program, used to check for type/interface declarations when validating the options parameter.
- * @param node - The function node representing the command handler, used to access its parameters and validate their types.
- * @param context - The ESLint rule context, used to report any validation errors found in the parameters.
+ * @param node - The function node representing the command handler, used to access its parameters and validate the first parameter as the options parameter.
+ * @returns A boolean indicating whether the first parameter is a valid options parameter or not.
  */
-function checkOptionsParam(
+function isFirstParamOptions(
   body: TSESTree.ProgramStatement[],
-  node: TSESTree.FunctionDeclaration | TSESTree.ArrowFunctionExpression,
-  context: Readonly<RuleContext<"invalidOptionsParam", []>>
-) {
+  node: TSESTree.FunctionDeclaration | TSESTree.ArrowFunctionExpression
+): boolean {
   if (node.params.length > 0 && node.params[0]) {
     const type = getTypeNode(node.params[0]);
     if (!type) {
-      context.report({
-        node: node.params[0],
-        messageId: "invalidOptionsParam"
-      });
+      return false;
     }
 
     if (
-      type!.type === AST_NODE_TYPES.TSTypeLiteral &&
+      type.type === AST_NODE_TYPES.TSTypeLiteral &&
       type.members.some(
         member => member.type === AST_NODE_TYPES.TSPropertySignature
       )
     ) {
-      return;
+      return true;
     } else if (
-      type!.type === AST_NODE_TYPES.TSIntersectionType &&
+      type.type === AST_NODE_TYPES.TSIntersectionType &&
       type.types.some(
         type =>
           type.type === AST_NODE_TYPES.TSTypeLiteral &&
@@ -96,9 +94,9 @@ function checkOptionsParam(
           )
       )
     ) {
-      return;
+      return true;
     } else if (
-      type!.type === AST_NODE_TYPES.TSTypeReference &&
+      type.type === AST_NODE_TYPES.TSTypeReference &&
       type.typeName.type === AST_NODE_TYPES.Identifier
     ) {
       const typeName = type.typeName.name;
@@ -126,15 +124,12 @@ function checkOptionsParam(
                   ))))
         )
       ) {
-        return;
+        return true;
       }
     }
-
-    context.report({
-      node: type!,
-      messageId: "invalidOptionsParam"
-    });
   }
+
+  return false;
 }
 
 /**
@@ -157,7 +152,7 @@ function checkArgsParam(
   node: TSESTree.FunctionDeclaration | TSESTree.ArrowFunctionExpression,
   context: Readonly<RuleContext<"invalidArgsParam", []>>
 ) {
-  if (node.params.length > 1) {
+  if (node.params.length > 1 && isFirstParamOptions(body, node)) {
     node.params.slice(1).forEach(param => {
       const type = getTypeNode(param);
       if (
@@ -165,11 +160,68 @@ function checkArgsParam(
         type?.type !== AST_NODE_TYPES.TSNumberKeyword &&
         type?.type !== AST_NODE_TYPES.TSBooleanKeyword &&
         type?.type !== AST_NODE_TYPES.TSTypeLiteral &&
+        type?.type !== AST_NODE_TYPES.TSIntersectionType &&
+        !(
+          type?.type === AST_NODE_TYPES.TSTypeReference &&
+          type.typeName.type === AST_NODE_TYPES.Identifier &&
+          body.some(
+            localBlock =>
+              (localBlock.type === AST_NODE_TYPES.TSInterfaceDeclaration &&
+                localBlock.id.name === type.typeName.type) ||
+              (localBlock.type === AST_NODE_TYPES.TSTypeAliasDeclaration &&
+                localBlock.id.name === type.typeName.type &&
+                ((localBlock.typeAnnotation.type ===
+                  AST_NODE_TYPES.TSTypeLiteral &&
+                  localBlock.typeAnnotation.members.some(
+                    member => member.type === AST_NODE_TYPES.TSPropertySignature
+                  )) ||
+                  (localBlock.typeAnnotation.type ===
+                    AST_NODE_TYPES.TSIntersectionType &&
+                    localBlock.typeAnnotation.types.some(
+                      type =>
+                        type.type === AST_NODE_TYPES.TSTypeLiteral &&
+                        type.members.some(
+                          member =>
+                            member.type === AST_NODE_TYPES.TSPropertySignature
+                        )
+                    ))))
+          )
+        ) &&
         !(
           type?.type === AST_NODE_TYPES.TSArrayType &&
           (type.elementType.type === AST_NODE_TYPES.TSStringKeyword ||
             type.elementType.type === AST_NODE_TYPES.TSNumberKeyword ||
-            type.elementType.type === AST_NODE_TYPES.TSTypeLiteral)
+            type.elementType.type === AST_NODE_TYPES.TSTypeLiteral ||
+            (type.elementType.type === AST_NODE_TYPES.TSTypeReference &&
+              type.elementType.typeName.type === AST_NODE_TYPES.Identifier &&
+              body.some(
+                localBlock =>
+                  (localBlock.type === AST_NODE_TYPES.TSInterfaceDeclaration &&
+                    localBlock.id.name ===
+                      (type.elementType as TSESTree.TSTypeReference).typeName
+                        .type) ||
+                  (localBlock.type === AST_NODE_TYPES.TSTypeAliasDeclaration &&
+                    localBlock.id.name ===
+                      (type.elementType as TSESTree.TSTypeReference).typeName
+                        .type &&
+                    ((localBlock.typeAnnotation.type ===
+                      AST_NODE_TYPES.TSTypeLiteral &&
+                      localBlock.typeAnnotation.members.some(
+                        member =>
+                          member.type === AST_NODE_TYPES.TSPropertySignature
+                      )) ||
+                      (localBlock.typeAnnotation.type ===
+                        AST_NODE_TYPES.TSIntersectionType &&
+                        localBlock.typeAnnotation.types.some(
+                          type =>
+                            type.type === AST_NODE_TYPES.TSTypeLiteral &&
+                            type.members.some(
+                              member =>
+                                member.type ===
+                                AST_NODE_TYPES.TSPropertySignature
+                            )
+                        ))))
+              )))
         )
       ) {
         context.report({
@@ -191,10 +243,8 @@ export default createRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      invalidOptionsParam:
-        "The command handler function's first parameter should represent the command's potential options. As a result, it must be an object type with properties.",
       invalidArgsParam:
-        "All command handler function parameters except the first should represent the command's positional arguments. As a result, their types must be included in the following list: \\n- string \\n- number \\n- boolean \\n- string[] \\n- number[]"
+        "All command handler function parameters except the first should represent the command's positional arguments. As a result, their types must be included in the following list: string, number, boolean, number or boolean literal, string[], number[], or number or string literal array."
     }
   },
   defaultOptions: [],
@@ -215,7 +265,6 @@ export default createRule<Options, MessageIds>({
             // export default async function handler() {...}
             if (block.declaration?.type === "FunctionDeclaration") {
               if (block.declaration.params.length > 0) {
-                checkOptionsParam(node.body, block.declaration, context);
                 checkArgsParam(node.body, block.declaration, context);
               }
             } else if (block.declaration?.type === "Identifier") {
@@ -233,7 +282,6 @@ export default createRule<Options, MessageIds>({
                     ))
               );
               if (functionDeclaration?.type === "FunctionDeclaration") {
-                checkOptionsParam(node.body, functionDeclaration, context);
                 checkArgsParam(node.body, functionDeclaration, context);
               } else if (functionDeclaration?.type === "VariableDeclaration") {
                 const varDeclarator = functionDeclaration.declarations.find(
@@ -242,7 +290,6 @@ export default createRule<Options, MessageIds>({
                     declaration.id.name === targetName
                 );
                 if (varDeclarator?.init?.type === "ArrowFunctionExpression") {
-                  checkOptionsParam(node.body, varDeclarator.init, context);
                   checkArgsParam(node.body, varDeclarator.init, context);
                 }
               }
