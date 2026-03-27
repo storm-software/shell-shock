@@ -107,6 +107,7 @@ export const plugin = <TContext extends Context = Context>(
             description: getAppDescription(this),
             platform: "node",
             projectType: "application",
+            framework: "shell-shock",
             isCaseSensitive: false,
             output: {
               format: "esm",
