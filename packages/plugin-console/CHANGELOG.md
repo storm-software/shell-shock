@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.1.31](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.31) (03/28/2026)
+
+### Bug Fixes
+
+- **plugin-completions:** Resolve issue adding tags to `colors` object ([bb8ccb3](https://github.com/storm-software/shell-shock/commit/bb8ccb3))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.4**
+
 ## [0.1.30](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.1.30) (03/28/2026)
 
 ### Miscellaneous

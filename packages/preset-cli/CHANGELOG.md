@@ -2,6 +2,21 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.3](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.3) (03/28/2026)
+
+### Bug Fixes
+
+- **plugin-completions:** Resolve issue adding tags to `colors` object ([bb8ccb3](https://github.com/storm-software/shell-shock/commit/bb8ccb3))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.31**
+- Updated **plugin-prompts** to **v0.3.32**
+- Updated **plugin-banner** to **v0.1.18**
+- Updated **preset-script** to **v0.6.46**
+- Updated **plugin-theme** to **v0.4.4**
+- Updated **plugin-help** to **v0.2.9**
+
 ## [0.9.2](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.2) (03/28/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.9](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.9) (03/28/2026)
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.31**
+- Updated **plugin-theme** to **v0.4.4**
+
 ## [0.2.8](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.8) (03/28/2026)
 
 ### Miscellaneous

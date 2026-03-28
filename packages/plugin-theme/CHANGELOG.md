@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.4) (03/28/2026)
+
+### Bug Fixes
+
+- **plugin-completions:** Resolve issue adding tags to `colors` object ([bb8ccb3](https://github.com/storm-software/shell-shock/commit/bb8ccb3))
+
 ## [0.4.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.3) (03/28/2026)
 
 ### Miscellaneous
