@@ -140,8 +140,10 @@ function isFirstParamOptions(
  * - string
  * - number
  * - boolean
+ * - number or string literal
  * - string[]
  * - number[]
+ * - number or string literal array
  *
  * @param body - The body of the program, used to check for type/interface declarations when validating the args parameters.
  * @param node - The function node representing the command handler, used to access its parameters and validate their types.
@@ -152,75 +154,86 @@ function checkArgsParam(
   node: TSESTree.FunctionDeclaration | TSESTree.ArrowFunctionExpression,
   context: Readonly<RuleContext<"invalidArgsParam", []>>
 ) {
-  if (node.params.length > 1 && isFirstParamOptions(body, node)) {
-    node.params.slice(1).forEach(param => {
+  if (node.params.length > 1 || !isFirstParamOptions(body, node)) {
+    (isFirstParamOptions(body, node)
+      ? node.params.slice(1)
+      : node.params
+    ).forEach(param => {
       const type = getTypeNode(param);
       if (
         type?.type !== AST_NODE_TYPES.TSStringKeyword &&
         type?.type !== AST_NODE_TYPES.TSNumberKeyword &&
         type?.type !== AST_NODE_TYPES.TSBooleanKeyword &&
-        type?.type !== AST_NODE_TYPES.TSTypeLiteral &&
-        type?.type !== AST_NODE_TYPES.TSIntersectionType &&
+        !(
+          type?.type === AST_NODE_TYPES.TSUnionType &&
+          type.types.every(
+            t =>
+              t.type === AST_NODE_TYPES.TSLiteralType &&
+              t.literal.type === AST_NODE_TYPES.Literal &&
+              (typeof t.literal.value === "string" ||
+                typeof t.literal.value === "number")
+          )
+        ) &&
         !(
           type?.type === AST_NODE_TYPES.TSTypeReference &&
           type.typeName.type === AST_NODE_TYPES.Identifier &&
           body.some(
             localBlock =>
-              (localBlock.type === AST_NODE_TYPES.TSInterfaceDeclaration &&
-                localBlock.id.name === type.typeName.type) ||
-              (localBlock.type === AST_NODE_TYPES.TSTypeAliasDeclaration &&
-                localBlock.id.name === type.typeName.type &&
-                ((localBlock.typeAnnotation.type ===
-                  AST_NODE_TYPES.TSTypeLiteral &&
-                  localBlock.typeAnnotation.members.some(
-                    member => member.type === AST_NODE_TYPES.TSPropertySignature
-                  )) ||
-                  (localBlock.typeAnnotation.type ===
-                    AST_NODE_TYPES.TSIntersectionType &&
-                    localBlock.typeAnnotation.types.some(
-                      type =>
-                        type.type === AST_NODE_TYPES.TSTypeLiteral &&
-                        type.members.some(
-                          member =>
-                            member.type === AST_NODE_TYPES.TSPropertySignature
-                        )
-                    ))))
+              localBlock.type === AST_NODE_TYPES.TSTypeAliasDeclaration &&
+              localBlock.id.name ===
+                (type.typeName as TSESTree.Identifier).name &&
+              (localBlock.typeAnnotation.type ===
+                AST_NODE_TYPES.TSStringKeyword ||
+                localBlock.typeAnnotation.type ===
+                  AST_NODE_TYPES.TSNumberKeyword ||
+                localBlock.typeAnnotation.type ===
+                  AST_NODE_TYPES.TSBooleanKeyword ||
+                (localBlock.typeAnnotation.type ===
+                  AST_NODE_TYPES.TSUnionType &&
+                  localBlock.typeAnnotation.types.every(
+                    t =>
+                      t.type === AST_NODE_TYPES.TSLiteralType &&
+                      t.literal.type === AST_NODE_TYPES.Literal &&
+                      (typeof t.literal.value === "string" ||
+                        typeof t.literal.value === "number")
+                  )))
           )
         ) &&
         !(
           type?.type === AST_NODE_TYPES.TSArrayType &&
           (type.elementType.type === AST_NODE_TYPES.TSStringKeyword ||
             type.elementType.type === AST_NODE_TYPES.TSNumberKeyword ||
-            type.elementType.type === AST_NODE_TYPES.TSTypeLiteral ||
+            (type.elementType.type === AST_NODE_TYPES.TSUnionType &&
+              type.elementType.types.every(
+                t =>
+                  t.type === AST_NODE_TYPES.TSLiteralType &&
+                  t.literal.type === AST_NODE_TYPES.Literal &&
+                  (typeof t.literal.value === "string" ||
+                    typeof t.literal.value === "number")
+              )) ||
             (type.elementType.type === AST_NODE_TYPES.TSTypeReference &&
               type.elementType.typeName.type === AST_NODE_TYPES.Identifier &&
               body.some(
                 localBlock =>
-                  (localBlock.type === AST_NODE_TYPES.TSInterfaceDeclaration &&
-                    localBlock.id.name ===
-                      (type.elementType as TSESTree.TSTypeReference).typeName
-                        .type) ||
-                  (localBlock.type === AST_NODE_TYPES.TSTypeAliasDeclaration &&
-                    localBlock.id.name ===
-                      (type.elementType as TSESTree.TSTypeReference).typeName
-                        .type &&
-                    ((localBlock.typeAnnotation.type ===
-                      AST_NODE_TYPES.TSTypeLiteral &&
-                      localBlock.typeAnnotation.members.some(
-                        member =>
-                          member.type === AST_NODE_TYPES.TSPropertySignature
-                      )) ||
-                      (localBlock.typeAnnotation.type ===
-                        AST_NODE_TYPES.TSIntersectionType &&
-                        localBlock.typeAnnotation.types.some(
-                          type =>
-                            type.type === AST_NODE_TYPES.TSTypeLiteral &&
-                            type.members.some(
-                              member =>
-                                member.type ===
-                                AST_NODE_TYPES.TSPropertySignature
-                            )
-                        ))))
+                  localBlock.type === AST_NODE_TYPES.TSTypeAliasDeclaration &&
+                  localBlock.id.name ===
+                    (
+                      (type.elementType as TSESTree.TSTypeReference)
+                        .typeName as TSESTree.Identifier
+                    ).name &&
+                  (localBlock.typeAnnotation.type ===
+                    AST_NODE_TYPES.TSStringKeyword ||
+                    localBlock.typeAnnotation.type ===
+                      AST_NODE_TYPES.TSNumberKeyword ||
+                    (localBlock.typeAnnotation.type ===
+                      AST_NODE_TYPES.TSUnionType &&
+                      localBlock.typeAnnotation.types.every(
+                        t =>
+                          t.type === AST_NODE_TYPES.TSLiteralType &&
+                          t.literal.type === AST_NODE_TYPES.Literal &&
+                          (typeof t.literal.value === "string" ||
+                            typeof t.literal.value === "number")
+                      )))
               )))
         )
       ) {
@@ -243,8 +256,14 @@ export default createRule<Options, MessageIds>({
     },
     schema: [],
     messages: {
-      invalidArgsParam:
-        "All command handler function parameters except the first should represent the command's positional arguments. As a result, their types must be included in the following list: string, number, boolean, number or boolean literal, string[], number[], or number or string literal array."
+      invalidArgsParam: `All command handler function parameters, with the potential exception of the first (which can represent the command's options), should represent the command's positional arguments. As a result, these parameters' types must be included in the following list:
+- string
+- number
+- boolean
+- number or boolean literal
+- string[]
+- number[]
+- number or string literal array `
     }
   },
   defaultOptions: [],
