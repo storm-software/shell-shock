@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.8](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.8) (03/28/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([06022e1](https://github.com/storm-software/shell-shock/commit/06022e1))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.30**
+- Updated **plugin-theme** to **v0.4.3**
+- Updated **core** to **v0.14.4**
+
 ## [0.2.7](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.7) (03/28/2026)
 
 ### Features

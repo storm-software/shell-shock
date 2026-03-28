@@ -2,6 +2,24 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.1](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.1) (03/28/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([06022e1](https://github.com/storm-software/shell-shock/commit/06022e1))
+
+### Updated Dependencies
+
+- Updated **plugin-completions** to **v0.3.0**
+- Updated **plugin-console** to **v0.1.30**
+- Updated **plugin-prompts** to **v0.3.31**
+- Updated **plugin-upgrade** to **v0.1.36**
+- Updated **plugin-banner** to **v0.1.17**
+- Updated **preset-script** to **v0.6.45**
+- Updated **plugin-theme** to **v0.4.3**
+- Updated **plugin-help** to **v0.2.8**
+- Updated **core** to **v0.14.4**
+
 ## [0.9.0](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.0) (03/28/2026)
 
 ### Features

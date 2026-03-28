@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.63](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.63) (03/28/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `pnpm-lock.yaml` file ([ca2e47f](https://github.com/storm-software/shell-shock/commit/ca2e47f))
+- **monorepo:** Regenerate `README.md` files ([06022e1](https://github.com/storm-software/shell-shock/commit/06022e1))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.14.4**
+
 ## [0.0.62](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.62) (03/28/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.56](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.56) (03/28/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([06022e1](https://github.com/storm-software/shell-shock/commit/06022e1))
+
+### Features
+
+- **plugin-completions:** Split completions commands into `script` and `config` flavors ([dca09ec](https://github.com/storm-software/shell-shock/commit/dca09ec))
+
 ## [0.0.55](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.55) (03/28/2026)
 
 ### Bug Fixes

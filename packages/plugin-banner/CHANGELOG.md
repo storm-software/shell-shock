@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Banner
 
+## [0.1.17](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.17) (03/28/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([06022e1](https://github.com/storm-software/shell-shock/commit/06022e1))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.30**
+- Updated **plugin-theme** to **v0.4.3**
+- Updated **core** to **v0.14.4**
+
 ## [0.1.16](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.16) (03/28/2026)
 
 ### Updated Dependencies

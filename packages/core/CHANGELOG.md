@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.14.4](https://github.com/storm-software/shell-shock/releases/tag/core%400.14.4) (03/28/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([06022e1](https://github.com/storm-software/shell-shock/commit/06022e1))
+
+### Features
+
+- **plugin-completions:** Split completions commands into `script` and `config` flavors ([dca09ec](https://github.com/storm-software/shell-shock/commit/dca09ec))
+
 ## [0.14.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.14.2) (03/27/2026)
 
 ### Miscellaneous

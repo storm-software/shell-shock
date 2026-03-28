@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.3) (03/28/2026)
+
+### Miscellaneous
+
+- **monorepo:** Regenerate `README.md` files ([06022e1](https://github.com/storm-software/shell-shock/commit/06022e1))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.14.4**
+
 ## [0.4.2](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.2) (03/28/2026)
 
 ### Features
