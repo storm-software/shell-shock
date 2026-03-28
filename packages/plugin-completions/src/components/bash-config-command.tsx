@@ -58,7 +58,7 @@ export function BashConfigCompletionsCommand() {
         "node:os": "os",
         "node:path": ["join"],
         "node:fs/promises": ["readFile", "writeFile"],
-        "../shared": ["SHELL_COMPLETIONS_DISPLAY"]
+        "../shared": ["SHELL_COMPLETIONS_DISPLAY", "SHELL_COMPLETIONS"]
       }}
       builtinImports={{
         "shell-shock:console": ["colors", "writeLine", "success", "warn"]
