@@ -17,35 +17,21 @@
  ------------------------------------------------------------------- */
 
 import { code, computed } from "@alloy-js/core";
-import {
-  FunctionDeclaration,
-  IfStatement,
-  InterfaceDeclaration,
-  VarDeclaration
-} from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import { VarDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import {
-  InterfaceMember,
-  TypescriptFile
-} from "@powerlines/plugin-alloy/typescript";
-import {
-  TSDoc,
-  TSDocDefaultValue,
-  TSDocRemarks
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
-import { getAppBin, getAppTitle } from "@shell-shock/core/plugin-utils";
+import { TypescriptFile } from "@powerlines/plugin-alloy/typescript";
+import { getAppBin } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
 import { snakeCase } from "@stryke/string-format/snake-case";
+import { CompletionDirective } from "../helpers";
 import { EXEC_COMMAND } from "../helpers/complete-command";
-import { CompletionDirective } from "../helpers/completion-directive-constants";
 import type { CompletionsPluginContext } from "../types/plugin";
 
 /**
- * The Fish Completions commands' handler wrapper for the Shell Shock project.
+ * The Fish Completions generation for the Shell Shock project.
  */
-export function FishCompletionsCommand() {
+export function FishCompletionsShared() {
   const context = usePowerlines<CompletionsPluginContext>();
 
   const bin = computed(() => getAppBin(context));
@@ -53,58 +39,16 @@ export function FishCompletionsCommand() {
 
   return (
     <TypescriptFile
-      path={joinPaths(context.entryPath, "completions", "fish", "command.ts")}
-      imports={{
-        "node:os": "os",
-        "node:path": ["join"],
-        "node:fs/promises": ["readFile", "writeFile"]
-      }}
+      path={joinPaths(context.entryPath, "completions", "fish", "shared.ts")}
       builtinImports={{
-        "shell-shock:console": [
-          "colors",
-          "writeLine",
-          "success",
-          "warn",
-          "stripAnsi"
-        ]
+        console: ["colors"]
       }}>
-      <TSDoc heading="Options for the Fish completions command." />
-      <InterfaceDeclaration export name="FishCompletionsOptions">
-        <TSDoc heading="The path to write the completion script to.">
-          <TSDocRemarks>{`If no extension is provided, the \`.fish\` extension will be used.`}</TSDocRemarks>
-          <TSDocDefaultValue
-            type={ReflectionKind.string}
-            defaultValue={`${bin.value}-completions.fish`}
-          />
-        </TSDoc>
-        <InterfaceMember name="script" optional type="string | true" />
-        <Spacing />
-        <TSDoc heading="The Fish configuration file to append the completion script to.">
-          <TSDocRemarks>{`The generated completion script will be appended to the specified configuration file. Possible values for the Fish configuration file include: \\n- \`~/.config/fish/config.fish\``}</TSDocRemarks>
-          <TSDocDefaultValue
-            type={ReflectionKind.string}
-            defaultValue="~/.config/fish/config.fish"
-          />
-        </TSDoc>
-        <InterfaceMember name="config" optional type="string | true" />
-      </InterfaceDeclaration>
       <Spacing />
-      <TSDoc heading="Handler logic for the \`completions fish\` command."></TSDoc>
-      <FunctionDeclaration
+      <VarDeclaration
+        const
         export
-        default
-        async
-        name="handler"
-        parameters={[{ name: "options", type: "FishCompletionsOptions" }]}>
-        <VarDeclaration
-          const
-          name="completions"
-          type="string"
-          initializer={code` \`# fish completion for ${getAppTitle(
-            context
-          )} -*- shell-script -*-
-
-function __${name.value}_debug
+        name="SHELL_COMPLETIONS"
+        initializer={code` \`function __${name.value}_debug
     set -l file "$BASH_COMP_DEBUG_FILE"
     if test -n "$file"
         echo "$argv" >> $file
@@ -160,8 +104,8 @@ function __${name.value}_perform_completion
 end
 
 # This function limits calls to __${
-            name.value
-          }_perform_completion, by caching the result
+          name.value
+        }_perform_completion, by caching the result
 function __${name.value}_perform_completion_once
     __${name.value}_debug "Starting __${name.value}_perform_completion_once"
 
@@ -206,8 +150,9 @@ function __${name.value}_requires_order_preservation
         return 1
     end
 
-    set -l directive (string sub --start 2 $__$
-    {name.value}_perform_completion_once_result[-1])
+    set -l directive (string sub --start 2 $__${
+      name.value
+    }_perform_completion_once_result[-1])
     __${name.value}_debug "Directive is: $directive"
 
     set -l shellCompDirectiveKeepOrder ${
@@ -227,8 +172,8 @@ end
 
 # This function does two things:
 # - Obtain the completions and store them in the global __${
-            name.value
-          }_comp_results
+          name.value
+        }_comp_results
 # - Return false if file completion should be performed
 function __${name.value}_prepare_completions
     __${name.value}_debug ""
@@ -368,70 +313,49 @@ complete -c ${bin.value} -e
 # This will get called after the two calls below and clear the cached result
 complete -c ${bin.value} -n '__${name.value}_clear_perform_completion_once_result'
 # The call to __${name.value}_prepare_completions will setup __${
-            name.value
-          }_comp_results
+          name.value
+        }_comp_results
 # which provides the program's completion choices.
 # If this doesn't require order preservation, we don't use the -k flag
 complete -c ${getAppBin(
-            context
-          )} -n 'not __${name.value}_requires_order_preservation && __${
-            name.value
-          }_prepare_completions' -f -a '$__${name.value}_comp_results'
+          context
+        )} -n 'not __${name.value}_requires_order_preservation && __${
+          name.value
+        }_prepare_completions' -f -a '$__${name.value}_comp_results'
 # Otherwise we use the -k flag
 complete -k -c ${bin.value} -n '__${name.value}_requires_order_preservation && __${
-            name.value
-          }_prepare_completions' -f -a '$__${name.value}_comp_results'
+          name.value
+        }_prepare_completions' -f -a '$__${name.value}_comp_results'
 \`; `}
-        />
-        <Spacing />
-        <IfStatement condition={code`options.config`}>
-          <VarDeclaration
-            let
-            name="configFilePath"
-            type="string"
-            initializer={code`options.config === true ? "~/.config/fish/config.fish" : options.config`}
-          />
-          <Spacing />
-          <IfStatement condition={code`configFilePath.startsWith("~")`}>
-            {code`configFilePath = join(os.homedir(), configFilePath.replace("~", "")); `}
-          </IfStatement>
-          <Spacing />
-          <VarDeclaration
-            let
-            name="configFileContent"
-            type="string"
-            initializer={code`"";`}
-          />
-          <Spacing />
-          {code`try {
-            configFileContent = await readFile(configFilePath, "utf8");
-          } catch (error) {
-            if (Error.isError(error) && error.code === "ENOENT") {
-              // If the file doesn't exist, we can create it later when writing the completion script.
-              warn(\`Configuration file \${colors.bold(configFilePath)} does not exist. It will be created when the completion script is written.\`);
-            } else {
-              return { error };
-            }
+      />
+      <Spacing />
+      <VarDeclaration
+        export
+        const
+        name="SHELL_COMPLETIONS_DISPLAY"
+        initializer={code` SHELL_COMPLETIONS.split("\\n").map(line => {
+          if (!line.trim()) {
+            return "";
+          }
+          if (line.trim().startsWith("#")) {
+            return \`\${colors.dim(line)}\`;
           }
 
-          await writeFile(configFilePath, \`\${configFileContent}\\n\\n\${stripAnsi(completions)}\`);
+          return colors.white(line).replaceAll(/(?<=\\\$(\\{|\\()).*(?=(\\}\\)))/g, colors.green("$&"))
+            .replaceAll(/(\\"|\\').*(\\"|\\')/g, colors.cyan("$&"))
+            .replaceAll(/(\\[|\\]|\\(|\\)|\\||<|>|\\$\\(|\\$?\\{|\\}|\\+|=|;|:)/g, colors.bold(colors.gray("$&")))
+            .replaceAll(/(function|complete)\\s+/g, colors.green("$&"))
+            .replaceAll(/(?<=(function|complete)\\s+)\\w/g, colors.bold(colors.greenBright("$&")))
+            .replaceAll(/set\\s+/g, colors.red("$&"))
+            .replaceAll(/(?<=set\\s+)\\w/g, colors.bold(colors.redBright("$&")))
+            .replaceAll(/while\\s+/g, colors.cyan("$&"))
+            .replaceAll(/(?<=while\\s+)\\w/g, colors.bold(colors.cyanBright("$&")))
+            .replaceAll(/(if|fi|else|elif|then|done)\\s+/g, colors.green("$&"))
+            .replaceAll(/\\s__\\w/g, colors.bold(colors.magentaBright("$&")))
+            .replaceAll(/(?<=\\s)(-\\w|--\\w[\\w-]*)(?=\\s|$)/g, colors.bold(colors.magenta("$&")));
 
-          success(\`${getAppTitle(context)} Fish completion script has been generated and appended to \${colors.bold(configFilePath)}. Please restart your terminal or run \`source \${configFilePath}\` to apply the changes.\`); `}
-        </IfStatement>
-        <Spacing />
-        <IfStatement condition={code`options.script`}>
-          {code`const outputPath = options.script === true ? "${bin.value}-completions.fish" : options.script;
-          await writeFile(outputPath, stripAnsi(completions));
-
-          success(\`${getAppTitle(context)} Fish completion script has been generated at \${colors.bold(outputPath)}.\`);`}
-        </IfStatement>
-        <Spacing />
-        <IfStatement condition={code`!options.config && !options.script`}>
-          {code`writeLine(" ------------------------------------------------- ");
-          writeLine(completions);
-          writeLine(" ------------------------------------------------- ");`}
-        </IfStatement>
-      </FunctionDeclaration>
+        }).join("\\n"); `}
+      />
     </TypescriptFile>
   );
 }

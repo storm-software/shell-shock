@@ -55,13 +55,13 @@ declare module "shell-shock:env" {
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     DEBUG: boolean;
     /**
      * The default locale to be used in the application.
      *
-     * @defaultValue "en_US"
+     * @defaultValue "en-US"
      */
     DEFAULT_LOCALE: string;
     /**
@@ -73,26 +73,26 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
      *
-     *
+     * @defaultValue "/run/user/1001/devenv-31abf12"
      */
     DEVENV_RUNTIME?: string;
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     ENVIRONMENT: string;
     /**
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
-     *
+     * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
     ERROR_URL: string;
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue false
+     * @defaultValue 3
      */
     FORCE_COLOR: boolean | number;
     /**
@@ -117,7 +117,7 @@ declare module "shell-shock:env" {
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "info"
+     * @defaultValue "debug"
      */
     LOG_LEVEL?: "error" | "warn" | "info" | "debug" | null;
     /**
@@ -132,7 +132,7 @@ declare module "shell-shock:env" {
      * @alias NODE_ENV
      *
      * @alias VERCEL_ENV
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     MODE: "development" | "test" | "production";
     /**
@@ -144,26 +144,26 @@ declare module "shell-shock:env" {
     /**
      *
      *
-     *
+     * @defaultValue "pnpm/10.30.0 npm/? node/v25.5.0 linux x64"
      */
     npm_config_user_agent?: string;
     /**
      *
      *
-     *
+     * @defaultValue "/home/development/.local/share/pnpm/.tools/pnpm/10.30.0_tmp_290199/node_modules/pnpm/bin/pnpm.cjs"
      */
     npm_execpath?: string;
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     *
+     * @defaultValue "storm-software"
      */
     ORGANIZATION: string;
     /**
      *
      *
-     *
+     * @defaultValue "/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0_tmp_290199/node_modules/pnpm/dist/node-gyp-bin:/home/development/repos/shell-shock/node_modules/.bin:./node_modules/.bin:/home/development/repos/shell-shock/node_modules/.bin:/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0_tmp_290199/node_modules/pnpm/dist/node-gyp-bin:/home/development/.local/share/pnpm/nodejs/25.5.0/bin:/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0/bin:node_modules/.bin:/nix/store/0550j0i8bmzxbcnzrg1g51zigj7y12ih-bash-interactive-5.3p9/bin:/nix/store/xam922w8zgi8y49h076xr0m9i1abnp7h-treefmt/bin:/nix/store/mi9mw6wg4aizrxfs1qg6axpqni10d179-delta-0.18.2/bin:/nix/store/716f9vxn5aan1g1pfv1pmn5jiks4gnhi-typescript-5.9.3/bin:/nix/store/jn9wngbhqmijdw4m2czilnhl4pw4jcdp-typescript-language-server-5.1.3/bin:/nix/store/hdlbanz4xxvr8dhavmslh4szvpr2ggbc-statix-0.5.8/bin:/nix/store/mwlcc213jrh3lsj92yjbkgiiw605ip9i-deadnix-1.3.1/bin:/nix/store/xkm3mbscmv9p7b4vhc5l1p7qwnq0qsi3-vulnix/bin:/nix/store/blanz7b78swbvv1y9ilj79ngf4ji0npq-nixd-2.9.0/bin:/nix/store/vjhvz25xxk44q0g8k8syjwmwp56xw4yv-cachix-1.10.1-bin/bin:/nix/store/43zji4rni42y01z3y2bv3f12c16h0ba6-nodejs-25.8.1/bin:/nix/store/q845mzglbbmqy7i5mlkhy4yvbw7l1j7g-pnpm-10.32.1/bin:/nix/store/hf1i70rggl26npz61lgc2j0p0321nffi-bootstrap/bin:/nix/store/k13ksp4yvypizb54dq0j2l8wx8w86ks6-build/bin:/nix/store/75vkfjnfsk5gkmx94vig84r0rfznljdk-build-dev/bin:/nix/store/6b0x4gawni35ks5w7r9f1yjss362l66g-clean/bin:/nix/store/wn1s379w04llg3idpbpfq7m53zp98dcq-format/bin:/nix/store/5shrr3py4a2zldhgjfq7rmjndqh9c029-lint/bin:/nix/store/5h9y71nqwmfjmwz5l146g5ysd7r2n9gd-nuke/bin:/nix/store/ihpchg53v0rj3ccg5cwg04i5jr8kimv0-release/bin:/nix/store/ri8xkla82nj918cl177fshbqpih5f6zv-update-storm/bin:/nix/store/sci2lksq97hsrly4fajj4gf3fgw3zbvh-ttyd-1.7.7/bin:/nix/store/hqdqynn0caylvl4rr86mvyqjky1pf1xa-ffmpeg-8.0.1-bin/bin:/nix/store/fwirg1hvy52kxm0k80wprsk14g0xy8mc-vhs-0.10.0/bin:/nix/store/y6mlyr480fgdd5bgpcfwwraa6vivhmwj-gnupg-2.4.9/bin:/nix/store/w4sdzmiypl23xhxwzajlg2hnrkr9gj7z-git-lfs-3.7.1/bin:/nix/store/h1d85s2nhfi6ypgfa3890hdynimq0zm8-git-crypt-0.8.0/bin:/nix/store/1vsvi6yi3w1g479dxjv7pw5mb60qh96g-zizmor-1.22.0/bin:/nix/store/xnyh9bi9wap6m3fq94q6sbav2qhh8f0d-taplo-0.10.0/bin:/nix/store/ny41wz21x8hry1glarhmgf4kcpp6zd9g-typos-1.44.0/bin:/nix/store/yb62fm7wf3ysn5rnfj2r03snmk9pwwa2-rustfmt-1.93.0/bin:/nix/store/ihzhi2cgjfhvqbap36fx91hbj524ym5l-nixfmt-1.2.0/bin:/nix/store/d4pa66qcrr0g8hh3nz2ln1vqlnvsn6jq-nixpkgs-fmt-1.3.0/bin:/nix/store/a6k0l2naclakdmypd5frw9bgzyawnlmi-python3.13-yamllint-1.37.1/bin:/nix/store/m1fw8l8y9ycxh5dzispbb7cwl6rra14l-python3-3.13.12/bin:/nix/store/4s5jnr2miz7gx0ynglzhyq9y6idac6ng-ls-lint-2.3.1/bin:/nix/store/vqvafnq8g0yz2psjvagi0nicrdidbh0g-capnproto-1.4.0/bin:/nix/store/9nww32bprhg1rr1qj423xdr5mwnqk93z-openssl-3.6.1-bin/bin:/nix/store/1nv3i8mpypy3d516f4pd95m0w72r73jy-pkg-config-wrapper-0.29.2/bin:/nix/store/590yx3aynyhs48jyk8ip37fk1mjqfhkb-patchelf-0.15.2/bin:/nix/store/kbw2j1vag664b3sj3rjwz9v53cqx87sb-gcc-wrapper-15.2.0/bin:/nix/store/sca0pf46jmxva40qahkcwys5c1lvk6n2-gcc-15.2.0/bin:/nix/store/2c48s343k15i0cmwb9cp1vi6randmzcw-glibc-2.42-51-bin/bin:/nix/store/hlxw2q9qansq7bn52xvlb5badw3z1v8s-coreutils-9.10/bin:/nix/store/4yi6jj75bb5hhdzpzlxfyf69d35wsf2x-binutils-wrapper-2.44/bin:/nix/store/9nmzd62x45ayp4vmswvn6z45h6bzrsla-binutils-2.44/bin:/nix/store/b3rx5wac9hhfxn9120xkcvdwj51mc9z2-findutils-4.10.0/bin:/nix/store/icrrz26xbyp293kagrlkab1bhc6gra0r-diffutils-3.12/bin:/nix/store/wv7qq5yb8plyhxji9x3r5gpkyfm2kf29-gnused-4.9/bin:/nix/store/8laf6k81j9ckylrigj3xsk76j69knhvl-gnugrep-3.12/bin:/nix/store/gf7b4yz4vhd0y2hnnrimhh875ghwzzzj-gawk-5.3.2/bin:/nix/store/isva9q9zx3frx6hh6cnpihh1kd2bx6bk-gnutar-1.35/bin:/nix/store/w1n7yp2vnldr395hbwbcaw9sflh413bm-gzip-1.14/bin:/nix/store/x8l7qzpab2gpdrp89g48mxlrsiz4f0gm-bzip2-1.0.8-bin/bin:/nix/store/0xw6y53ijaqwfd9c99wyaqiinychzv1f-gnumake-4.4.1/bin:/nix/store/2hjsch59amjs3nbgh7ahcfzm2bfwl8zi-bash-5.3p9/bin:/nix/store/8y5jm97n4lyw80gh71yihghbhqc11fdz-patch-2.8/bin:/nix/store/27fx8p4k6098wan3zahdbyj79ndcn03z-xz-5.8.2-bin/bin:/nix/store/p3j7lphwlci13f9w2v4rav6rbvpi80li-file-5.45/bin:/home/development/.config/carapace/bin:/home/development/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/development/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/rustup/bin:/var/lib/snapd/snap/bin"
      */
     PATH?: string;
     /**
@@ -175,13 +175,13 @@ declare module "shell-shock:env" {
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "neutral"
+     * @defaultValue "node"
      */
     PLATFORM: "node" | "neutral" | "browser";
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     STACKTRACE: boolean;
     /**
@@ -222,14 +222,14 @@ declare module "shell-shock:env" {
      * The name of the application.
      *
      * @readonly
-     *
+     * @defaultValue "playground-custom-commands-directory"
      */
     readonly APP_NAME: string;
     /**
      * The version of the application.
      *
      * @readonly
-     * @defaultValue "1.0.0"
+     * @defaultValue "0.0.1"
      */
     readonly APP_VERSION: string;
     /**
@@ -285,21 +285,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     *
+     * @defaultValue "KUmykZLz0F8fBPtIWwTxce9rugWaNy4q"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     *
+     * @defaultValue "bf6f4d3d-af55-4407-95be-1cfa8aab2ed1"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     *
+     * @defaultValue "2026-03-28T18:24:22.527Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -369,7 +369,7 @@ declare module "shell-shock:env" {
      * The color terminal type. This variable is set by certain terminal emulators.
      *
      * @readonly
-     *
+     * @defaultValue "truecolor"
      */
     readonly COLORTERM?: string;
     /**
@@ -530,14 +530,14 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     *
+     * @defaultValue "6f4d3daf-55c4-4755-be1c-fa8aab2ed112"
      */
     readonly RELEASE_ID: string;
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
-     *
+     * @defaultValue "playground-custom-commands-directory@0.0.1"
      */
     readonly RELEASE_TAG: string;
     /**
@@ -614,7 +614,7 @@ declare module "shell-shock:env" {
      * The terminal type. This variable is set by certain CI/CD systems.
      *
      * @readonly
-     *
+     * @defaultValue "xterm-256color"
      */
     readonly TERM?: string;
     /**
@@ -712,7 +712,7 @@ declare module "shell-shock:env" {
      * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
-     *
+     * @defaultValue "/run/user/1001"
      */
     readonly XDG_RUNTIME_DIR?: string;
     /**

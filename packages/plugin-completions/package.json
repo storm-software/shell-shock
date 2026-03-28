@@ -69,60 +69,172 @@
         "default": "./dist/components/index.mjs"
       }
     },
-    "./components/bash-command": {
+    "./components/bash-config-command": {
       "require": {
-        "types": "./dist/components/bash-command.d.cts",
-        "default": "./dist/components/bash-command.cjs"
+        "types": "./dist/components/bash-config-command.d.cts",
+        "default": "./dist/components/bash-config-command.cjs"
       },
       "import": {
-        "types": "./dist/components/bash-command.d.mts",
-        "default": "./dist/components/bash-command.mjs"
+        "types": "./dist/components/bash-config-command.d.mts",
+        "default": "./dist/components/bash-config-command.mjs"
       },
       "default": {
-        "types": "./dist/components/bash-command.d.mts",
-        "default": "./dist/components/bash-command.mjs"
+        "types": "./dist/components/bash-config-command.d.mts",
+        "default": "./dist/components/bash-config-command.mjs"
       }
     },
-    "./components/fish-command": {
+    "./components/bash-script-command": {
       "require": {
-        "types": "./dist/components/fish-command.d.cts",
-        "default": "./dist/components/fish-command.cjs"
+        "types": "./dist/components/bash-script-command.d.cts",
+        "default": "./dist/components/bash-script-command.cjs"
       },
       "import": {
-        "types": "./dist/components/fish-command.d.mts",
-        "default": "./dist/components/fish-command.mjs"
+        "types": "./dist/components/bash-script-command.d.mts",
+        "default": "./dist/components/bash-script-command.mjs"
       },
       "default": {
-        "types": "./dist/components/fish-command.d.mts",
-        "default": "./dist/components/fish-command.mjs"
+        "types": "./dist/components/bash-script-command.d.mts",
+        "default": "./dist/components/bash-script-command.mjs"
       }
     },
-    "./components/powershell-command": {
+    "./components/bash-shared": {
       "require": {
-        "types": "./dist/components/powershell-command.d.cts",
-        "default": "./dist/components/powershell-command.cjs"
+        "types": "./dist/components/bash-shared.d.cts",
+        "default": "./dist/components/bash-shared.cjs"
       },
       "import": {
-        "types": "./dist/components/powershell-command.d.mts",
-        "default": "./dist/components/powershell-command.mjs"
+        "types": "./dist/components/bash-shared.d.mts",
+        "default": "./dist/components/bash-shared.mjs"
       },
       "default": {
-        "types": "./dist/components/powershell-command.d.mts",
-        "default": "./dist/components/powershell-command.mjs"
+        "types": "./dist/components/bash-shared.d.mts",
+        "default": "./dist/components/bash-shared.mjs"
       }
     },
-    "./components/zsh-command": {
+    "./components/fish-config-command": {
       "require": {
-        "types": "./dist/components/zsh-command.d.cts",
-        "default": "./dist/components/zsh-command.cjs"
+        "types": "./dist/components/fish-config-command.d.cts",
+        "default": "./dist/components/fish-config-command.cjs"
       },
       "import": {
-        "types": "./dist/components/zsh-command.d.mts",
-        "default": "./dist/components/zsh-command.mjs"
+        "types": "./dist/components/fish-config-command.d.mts",
+        "default": "./dist/components/fish-config-command.mjs"
       },
       "default": {
-        "types": "./dist/components/zsh-command.d.mts",
-        "default": "./dist/components/zsh-command.mjs"
+        "types": "./dist/components/fish-config-command.d.mts",
+        "default": "./dist/components/fish-config-command.mjs"
+      }
+    },
+    "./components/fish-script-command": {
+      "require": {
+        "types": "./dist/components/fish-script-command.d.cts",
+        "default": "./dist/components/fish-script-command.cjs"
+      },
+      "import": {
+        "types": "./dist/components/fish-script-command.d.mts",
+        "default": "./dist/components/fish-script-command.mjs"
+      },
+      "default": {
+        "types": "./dist/components/fish-script-command.d.mts",
+        "default": "./dist/components/fish-script-command.mjs"
+      }
+    },
+    "./components/fish-shared": {
+      "require": {
+        "types": "./dist/components/fish-shared.d.cts",
+        "default": "./dist/components/fish-shared.cjs"
+      },
+      "import": {
+        "types": "./dist/components/fish-shared.d.mts",
+        "default": "./dist/components/fish-shared.mjs"
+      },
+      "default": {
+        "types": "./dist/components/fish-shared.d.mts",
+        "default": "./dist/components/fish-shared.mjs"
+      }
+    },
+    "./components/powershell-config-command": {
+      "require": {
+        "types": "./dist/components/powershell-config-command.d.cts",
+        "default": "./dist/components/powershell-config-command.cjs"
+      },
+      "import": {
+        "types": "./dist/components/powershell-config-command.d.mts",
+        "default": "./dist/components/powershell-config-command.mjs"
+      },
+      "default": {
+        "types": "./dist/components/powershell-config-command.d.mts",
+        "default": "./dist/components/powershell-config-command.mjs"
+      }
+    },
+    "./components/powershell-script-command": {
+      "require": {
+        "types": "./dist/components/powershell-script-command.d.cts",
+        "default": "./dist/components/powershell-script-command.cjs"
+      },
+      "import": {
+        "types": "./dist/components/powershell-script-command.d.mts",
+        "default": "./dist/components/powershell-script-command.mjs"
+      },
+      "default": {
+        "types": "./dist/components/powershell-script-command.d.mts",
+        "default": "./dist/components/powershell-script-command.mjs"
+      }
+    },
+    "./components/powershell-shared": {
+      "require": {
+        "types": "./dist/components/powershell-shared.d.cts",
+        "default": "./dist/components/powershell-shared.cjs"
+      },
+      "import": {
+        "types": "./dist/components/powershell-shared.d.mts",
+        "default": "./dist/components/powershell-shared.mjs"
+      },
+      "default": {
+        "types": "./dist/components/powershell-shared.d.mts",
+        "default": "./dist/components/powershell-shared.mjs"
+      }
+    },
+    "./components/zsh-config-command": {
+      "require": {
+        "types": "./dist/components/zsh-config-command.d.cts",
+        "default": "./dist/components/zsh-config-command.cjs"
+      },
+      "import": {
+        "types": "./dist/components/zsh-config-command.d.mts",
+        "default": "./dist/components/zsh-config-command.mjs"
+      },
+      "default": {
+        "types": "./dist/components/zsh-config-command.d.mts",
+        "default": "./dist/components/zsh-config-command.mjs"
+      }
+    },
+    "./components/zsh-script-command": {
+      "require": {
+        "types": "./dist/components/zsh-script-command.d.cts",
+        "default": "./dist/components/zsh-script-command.cjs"
+      },
+      "import": {
+        "types": "./dist/components/zsh-script-command.d.mts",
+        "default": "./dist/components/zsh-script-command.mjs"
+      },
+      "default": {
+        "types": "./dist/components/zsh-script-command.d.mts",
+        "default": "./dist/components/zsh-script-command.mjs"
+      }
+    },
+    "./components/zsh-shared": {
+      "require": {
+        "types": "./dist/components/zsh-shared.d.cts",
+        "default": "./dist/components/zsh-shared.cjs"
+      },
+      "import": {
+        "types": "./dist/components/zsh-shared.d.mts",
+        "default": "./dist/components/zsh-shared.mjs"
+      },
+      "default": {
+        "types": "./dist/components/zsh-shared.d.mts",
+        "default": "./dist/components/zsh-shared.mjs"
       }
     },
     "./helpers": {

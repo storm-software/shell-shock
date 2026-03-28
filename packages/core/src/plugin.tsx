@@ -314,13 +314,12 @@ export const plugin = <TContext extends Context = Context>(
             .join("\n")}`
         );
       },
-      types(code: string) {
+      types() {
         this.debug(
           "Generating type definitions for the Shell Shock application."
         );
 
-        return `${code}
-
+        return `
 /**
  * The global options available for every command in the ${getAppTitle(
    this,

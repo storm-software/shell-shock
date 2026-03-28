@@ -86,28 +86,8 @@ function resolveCommandOption(
     variadic: reflection.isArray()
   };
 
-  if (reflection.isArray()) {
-    if (
-      (type as TypeArray).type.kind === ReflectionKind.string ||
-      (type as TypeArray).type.kind === ReflectionKind.number
-    ) {
-      (option as StringCommandParameter | NumberCommandParameter).variadic =
-        true;
-      (option as StringCommandParameter | NumberCommandParameter).kind =
-        extractCommandParameterKind((type as TypeArray).type.kind) as
-          | "string"
-          | "number";
-    } else {
-      throw new Error(
-        `Unsupported array type for option "${reflection.getNameAsString()}" in command "${
-          ctx.input.command.name
-        }". Only string[], number[], or literal[] are supported, received ${stringifyType(
-          type
-        )
-          .trim()
-          .replaceAll(" | ", ", or ")}.`
-      );
-    }
+  if (option.variadic) {
+    option.kind = extractCommandParameterKind((type as TypeArray).type.kind);
   } else if (type.kind === ReflectionKind.union) {
     option.kind = type.types.every(
       t =>

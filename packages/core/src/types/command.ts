@@ -73,6 +73,11 @@ export interface BaseCommandParameter {
    * Whether the option is optional.
    */
   optional: boolean;
+
+  /**
+   * Whether the option accepts multiple values.
+   */
+  variadic: boolean;
 }
 
 export interface StringCommandParameter extends BaseCommandParameter {
@@ -101,11 +106,6 @@ export interface StringCommandParameter extends BaseCommandParameter {
     | "duration";
 
   /**
-   * Whether the option accepts multiple values.
-   */
-  variadic: boolean;
-
-  /**
    * The allowed choices for the option value.
    */
   choices?: string[];
@@ -121,11 +121,6 @@ export interface NumberCommandParameter extends BaseCommandParameter {
    * The default value.
    */
   default?: number;
-
-  /**
-   * Whether the option accepts multiple values.
-   */
-  variadic: boolean;
 
   /**
    * The allowed choices for the option value.

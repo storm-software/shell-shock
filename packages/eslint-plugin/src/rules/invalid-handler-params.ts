@@ -140,10 +140,10 @@ function isFirstParamOptions(
  * - string
  * - number
  * - boolean
- * - number or string literal
+ * - number or string or boolean literal
  * - string[]
  * - number[]
- * - number or string literal array
+ * - number or string or boolean literal array
  *
  * @param body - The body of the program, used to check for type/interface declarations when validating the args parameters.
  * @param node - The function node representing the command handler, used to access its parameters and validate their types.
@@ -171,7 +171,8 @@ function checkArgsParam(
               t.type === AST_NODE_TYPES.TSLiteralType &&
               t.literal.type === AST_NODE_TYPES.Literal &&
               (typeof t.literal.value === "string" ||
-                typeof t.literal.value === "number")
+                typeof t.literal.value === "number" ||
+                typeof t.literal.value === "boolean")
           )
         ) &&
         !(
@@ -195,7 +196,8 @@ function checkArgsParam(
                       t.type === AST_NODE_TYPES.TSLiteralType &&
                       t.literal.type === AST_NODE_TYPES.Literal &&
                       (typeof t.literal.value === "string" ||
-                        typeof t.literal.value === "number")
+                        typeof t.literal.value === "number" ||
+                        typeof t.literal.value === "boolean")
                   )))
           )
         ) &&
@@ -203,13 +205,15 @@ function checkArgsParam(
           type?.type === AST_NODE_TYPES.TSArrayType &&
           (type.elementType.type === AST_NODE_TYPES.TSStringKeyword ||
             type.elementType.type === AST_NODE_TYPES.TSNumberKeyword ||
+            type.elementType.type === AST_NODE_TYPES.TSBooleanKeyword ||
             (type.elementType.type === AST_NODE_TYPES.TSUnionType &&
               type.elementType.types.every(
                 t =>
                   t.type === AST_NODE_TYPES.TSLiteralType &&
                   t.literal.type === AST_NODE_TYPES.Literal &&
                   (typeof t.literal.value === "string" ||
-                    typeof t.literal.value === "number")
+                    typeof t.literal.value === "number" ||
+                    typeof t.literal.value === "boolean")
               )) ||
             (type.elementType.type === AST_NODE_TYPES.TSTypeReference &&
               type.elementType.typeName.type === AST_NODE_TYPES.Identifier &&
@@ -225,6 +229,8 @@ function checkArgsParam(
                     AST_NODE_TYPES.TSStringKeyword ||
                     localBlock.typeAnnotation.type ===
                       AST_NODE_TYPES.TSNumberKeyword ||
+                    localBlock.typeAnnotation.type ===
+                      AST_NODE_TYPES.TSBooleanKeyword ||
                     (localBlock.typeAnnotation.type ===
                       AST_NODE_TYPES.TSUnionType &&
                       localBlock.typeAnnotation.types.every(
@@ -232,7 +238,8 @@ function checkArgsParam(
                           t.type === AST_NODE_TYPES.TSLiteralType &&
                           t.literal.type === AST_NODE_TYPES.Literal &&
                           (typeof t.literal.value === "string" ||
-                            typeof t.literal.value === "number")
+                            typeof t.literal.value === "number" ||
+                            typeof t.literal.value === "boolean")
                       )))
               )))
         )
@@ -260,10 +267,11 @@ export default createRule<Options, MessageIds>({
 - string
 - number
 - boolean
-- number or boolean literal
-- string[]
-- number[]
-- number or string literal array `
+- string or number or boolean literal
+- string array
+- number array
+- boolean array
+- string or number or boolean literal array `
     }
   },
   defaultOptions: [],

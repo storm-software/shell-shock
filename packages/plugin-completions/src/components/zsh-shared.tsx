@@ -17,35 +17,21 @@
  ------------------------------------------------------------------- */
 
 import { code, computed } from "@alloy-js/core";
-import {
-  FunctionDeclaration,
-  IfStatement,
-  InterfaceDeclaration,
-  VarDeclaration
-} from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import { VarDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import {
-  InterfaceMember,
-  TypescriptFile
-} from "@powerlines/plugin-alloy/typescript";
-import {
-  TSDoc,
-  TSDocDefaultValue,
-  TSDocRemarks
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
-import { getAppBin, getAppTitle } from "@shell-shock/core/plugin-utils";
+import { TypescriptFile } from "@powerlines/plugin-alloy/typescript";
+import { getAppBin } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
-import { snakeCase } from "@stryke/string-format";
+import { snakeCase } from "@stryke/string-format/snake-case";
+import { CompletionDirective } from "../helpers";
 import { EXEC_COMMAND } from "../helpers/complete-command";
-import { CompletionDirective } from "../helpers/completion-directive-constants";
 import type { CompletionsPluginContext } from "../types/plugin";
 
 /**
- * The Zsh Completions commands' handler wrapper for the Shell Shock project.
+ * The Zsh Completions generation for the Shell Shock project.
  */
-export function ZshCompletionsCommand() {
+export function ZshCompletionsShared() {
   const context = usePowerlines<CompletionsPluginContext>();
 
   const bin = computed(() => getAppBin(context));
@@ -53,59 +39,16 @@ export function ZshCompletionsCommand() {
 
   return (
     <TypescriptFile
-      path={joinPaths(context.entryPath, "completions", "zsh", "command.ts")}
-      imports={{
-        "node:os": "os",
-        "node:path": ["join"],
-        "node:fs/promises": ["readFile", "writeFile"]
-      }}
+      path={joinPaths(context.entryPath, "completions", "zsh", "shared.ts")}
       builtinImports={{
-        "shell-shock:console": [
-          "colors",
-          "writeLine",
-          "success",
-          "warn",
-          "stripAnsi"
-        ]
+        console: ["colors"]
       }}>
-      <TSDoc heading="Options for the Zsh completions command." />
-      <InterfaceDeclaration export name="ZshCompletionsOptions">
-        <TSDoc heading="The path to write the completion script to.">
-          <TSDocRemarks>{`If no extension is provided, the \`.zsh\` extension will be used.`}</TSDocRemarks>
-          <TSDocDefaultValue
-            type={ReflectionKind.string}
-            defaultValue={`${bin.value}-completions.zsh`}
-          />
-        </TSDoc>
-        <InterfaceMember name="script" optional type="string | true" />
-        <Spacing />
-        <TSDoc heading="The Zsh configuration file to append the completion script to.">
-          <TSDocRemarks>{`The generated completion script will be appended to the specified configuration file. Possible values for the Zsh configuration file include: \\n- \`~/.zshrc\` \\n- \`~/.zprofile\``}</TSDocRemarks>
-          <TSDocDefaultValue
-            type={ReflectionKind.string}
-            defaultValue="~/.zshrc"
-          />
-        </TSDoc>
-        <InterfaceMember name="config" optional type="string | true" />
-      </InterfaceDeclaration>
       <Spacing />
-      <TSDoc heading="Handler logic for the \`completions zsh\` command."></TSDoc>
-      <FunctionDeclaration
+      <VarDeclaration
+        const
         export
-        default
-        async
-        name="handler"
-        parameters={[{ name: "options", type: "ZshCompletionsOptions" }]}>
-        <VarDeclaration
-          const
-          name="completions"
-          type="string"
-          initializer={code` \`#compdef ${bin.value}
-compdef _${name.value} ${bin.value}
-
-# zsh completion for ${getAppTitle(context)} -*- shell-script -*-
-
-__${name.value}_debug() {
+        name="SHELL_COMPLETIONS"
+        initializer={code` \`__${name.value}_debug() {
     local file="$BASH_COMP_DEBUG_FILE"
     if [[ -n \\\${file} ]]; then
         echo "$*" >> "\\\${file}"
@@ -326,58 +269,35 @@ if [ "\\\${funcstack[1]}" = "_${name.value}" ]; then
     _${name.value}
 fi
 \`; `}
-        />
-        <Spacing />
-        <IfStatement condition={code`options.config`}>
-          <VarDeclaration
-            let
-            name="configFilePath"
-            type="string"
-            initializer={code`options.config === true ? "~/.zshrc" : options.config`}
-          />
-          <Spacing />
-          <IfStatement condition={code`configFilePath.startsWith("~")`}>
-            {code`configFilePath = join(os.homedir(), configFilePath.replace("~", "")); `}
-          </IfStatement>
-          <Spacing />
-          <VarDeclaration
-            let
-            name="configFileContent"
-            type="string"
-            initializer={code`"";`}
-          />
-          <Spacing />
-          {code`try {
-            configFileContent = await readFile(configFilePath, "utf8");
-          } catch (error) {
-            if (Error.isError(error) && error.code === "ENOENT") {
-              // If the file doesn't exist, we can create it later when writing the completion script.
-              warn(\`Configuration file \${colors.bold(configFilePath)} does not exist. It will be created when the completion script is written.\`);
-            } else {
-              return { error };
-            }
+      />
+      <Spacing />
+      <VarDeclaration
+        export
+        const
+        name="SHELL_COMPLETIONS_DISPLAY"
+        initializer={code` SHELL_COMPLETIONS.split("\\n").map(line => {
+          if (!line.trim()) {
+            return "";
+          }
+          if (line.trim().startsWith("#")) {
+            return \`\${colors.dim(line)}\`;
           }
 
-          await writeFile(configFilePath, \`\${configFileContent}\\n\\n\${stripAnsi(completions)}\`);
+          return colors.white(line).replaceAll(/(?<=\\\$(\\{|\\()).*(?=(\\}\\)))/g, colors.green("$&"))
+            .replaceAll(/\\".*\\"/g, colors.cyan("$&"))
+            .replaceAll(/(\\[|\\]|\\(|\\)|\\||<|>|\\$\\(|\\$?\\{|\\}|\\+|=|;|:)/g, colors.bold(colors.gray("$&")))
+            .replaceAll(/(readonly|complete)\\s+/g, colors.green("$&"))
+            .replaceAll(/(?<=(readonly|complete)\\s+)\\w/g, colors.bold(colors.greenBright("$&")))
+            .replaceAll(/local\\s+/g, colors.red("$&"))
+            .replaceAll(/(?<=local\\s+)\\w/g, colors.bold(colors.redBright("$&")))
+            .replaceAll(/(for|while)\\s+/g, colors.cyan("$&"))
+            .replaceAll(/(?<=for|while\\s+)\\w/g, colors.bold(colors.cyanBright("$&")))
+            .replaceAll(/(return|if|fi|else|elif|then|done)\\s+/g, colors.green("$&"))
+            .replaceAll(/__\\w/g, colors.bold(colors.magentaBright("$&")))
+            .replaceAll(/(?<=\\s)(-\\w|--\\w[\\w-]*)(?=\\s|$)/g, colors.bold(colors.magenta("$&")));
 
-          success(\`${getAppTitle(context)} Zsh completion script has been generated and appended to \${colors.bold(configFilePath)}. Please restart your terminal or run \`source \${configFilePath}\` to apply the changes.\`); `}
-        </IfStatement>
-        <Spacing />
-        <IfStatement condition={code`options.script`}>
-          {code`const outputPath = options.script === true ? "${
-            name.value
-          }-completions.zsh" : options.script;
-          await writeFile(outputPath, stripAnsi(completions));
-
-          success(\`${getAppTitle(context)} Zsh completion script has been generated at \${colors.bold(outputPath)}.\`);`}
-        </IfStatement>
-        <Spacing />
-        <IfStatement condition={code`!options.config && !options.script`}>
-          {code`writeLine(" ------------------------------------------------- ");
-          writeLine(completions);
-          writeLine(" ------------------------------------------------- ");`}
-        </IfStatement>
-      </FunctionDeclaration>
+        }).join("\\n"); `}
+      />
     </TypescriptFile>
   );
 }

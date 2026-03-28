@@ -17,35 +17,21 @@
  ------------------------------------------------------------------- */
 
 import { code, computed } from "@alloy-js/core";
-import {
-  FunctionDeclaration,
-  IfStatement,
-  InterfaceDeclaration,
-  VarDeclaration
-} from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import { VarDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import {
-  InterfaceMember,
-  TypescriptFile
-} from "@powerlines/plugin-alloy/typescript";
-import {
-  TSDoc,
-  TSDocDefaultValue,
-  TSDocRemarks
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+import { TypescriptFile } from "@powerlines/plugin-alloy/typescript";
 import { getAppBin, getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
 import { camelCase } from "@stryke/string-format/camel-case";
+import { CompletionDirective } from "../helpers";
 import { EXEC_COMMAND } from "../helpers/complete-command";
-import { CompletionDirective } from "../helpers/completion-directive-constants";
 import type { CompletionsPluginContext } from "../types/plugin";
 
 /**
- * The PowerShell Completions commands' handler wrapper for the Shell Shock project.
+ * The PowerShell Completions generation for the Shell Shock project.
  */
-export function PowerShellCompletionsCommand() {
+export function PowerShellCompletionsShared() {
   const context = usePowerlines<CompletionsPluginContext>();
 
   const bin = computed(() => getAppBin(context));
@@ -57,58 +43,17 @@ export function PowerShellCompletionsCommand() {
         context.entryPath,
         "completions",
         "powershell",
-        "command.ts"
+        "shared.ts"
       )}
-      imports={{
-        "node:os": ["os"],
-        "node:fs/promises": ["readFile", "writeFile"]
-      }}
       builtinImports={{
-        "shell-shock:console": [
-          "colors",
-          "writeLine",
-          "success",
-          "warn",
-          "stripAnsi"
-        ]
+        console: ["colors"]
       }}>
-      <TSDoc heading="Options for the PowerShell completions command." />
-      <InterfaceDeclaration export name="PowerShellCompletionsOptions">
-        <TSDoc heading="The path to write the completion script to.">
-          <TSDocRemarks>{`If no extension is provided, the \`.ps1\` extension will be used.`}</TSDocRemarks>
-          <TSDocDefaultValue
-            type={ReflectionKind.string}
-            defaultValue={`${bin.value}-completions.ps1`}
-          />
-        </TSDoc>
-        <InterfaceMember name="script" optional type="string | true" />
-        <Spacing />
-        <TSDoc heading="The PowerShell configuration file to append the completion script to.">
-          <TSDocRemarks>{`The generated completion script will be appended to the specified configuration file. Possible values for the PowerShell configuration file include: \\n- \`~/.config/powershell/Microsoft.PowerShell_profile.ps1\``}</TSDocRemarks>
-          <TSDocDefaultValue
-            type={ReflectionKind.string}
-            defaultValue="~/.config/powershell/Microsoft.PowerShell_profile.ps1"
-          />
-        </TSDoc>
-        <InterfaceMember name="config" optional type="string | true" />
-      </InterfaceDeclaration>
       <Spacing />
-      <TSDoc heading="Handler logic for the \`completions powershell\` command."></TSDoc>
-      <FunctionDeclaration
+      <VarDeclaration
+        const
         export
-        default
-        async
-        name="handler"
-        parameters={[
-          { name: "options", type: "PowerShellCompletionsOptions" }
-        ]}>
-        <VarDeclaration
-          const
-          name="completions"
-          type="string"
-          initializer={code` \`# powershell completion for ${getAppTitle(
-            context
-          )} -*- shell-script -*-
+        name="SHELL_COMPLETIONS"
+        initializer={code` \`# powershell completion for ${getAppTitle(context)}
 
   [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
     function __${name.value}_debug {
@@ -135,8 +80,6 @@ export function PowerShellCompletionsCommand() {
     __${name.value}_debug ""
     __${name.value}_debug "========= starting completion logic =========="
     __${name.value}_debug "WordToComplete: $WordToComplete Command: $Command CursorPosition: $CursorPosition"
-
-    )}_debug "WordToComplete: $WordToComplete Command: $Command CursorPosition: $CursorPosition"
 
     # The user could have moved the cursor backwards on the command-line.
     # We need to trigger completion from the $CursorPosition location, so we need
@@ -231,10 +174,6 @@ export function PowerShellCompletionsCommand() {
         return
     }
 
-          ${bin.value}_debug "Received error from custom completion go code"
-        return
-    }
-
     $Longest = 0
     [Array]$Values = $Out | ForEach-Object {
         # Split the output in name and description
@@ -321,7 +260,7 @@ export function PowerShellCompletionsCommand() {
         # CompletionResult Arguments:
         # 1) CompletionText text to be used as the auto completion result
         # 2) ListItemText   text to be displayed in the suggestion list
-        # 3) ResultType     type of completion result
+        # 3) ResultType      type of completion result
         # 4) ToolTip        text for the tooltip with details about the object
 
         switch ($Mode) {
@@ -378,65 +317,38 @@ export function PowerShellCompletionsCommand() {
 }
 
 Register-ArgumentCompleter -CommandName '${bin.value}' -ScriptBlock $__${
-            name.value
-          }CompleterBlock
+          name.value
+        }CompleterBlock
 \`; `}
-        />
-        <Spacing />
-        <IfStatement condition={code`options.config`}>
-          <VarDeclaration
-            let
-            name="configFilePath"
-            type="string"
-            initializer={code`options.config === true ? "~/.config/powershell/Microsoft.PowerShell_profile.ps1" : options.config`}
-          />
-          <Spacing />
-          <IfStatement condition={code`configFilePath.startsWith("~")`}>
-            {code`configFilePath = join(os.homedir(), configFilePath.replace("~", "")); `}
-          </IfStatement>
-          <Spacing />
-          <VarDeclaration
-            let
-            name="configFileContent"
-            type="string"
-            initializer={code`"";`}
-          />
-          <Spacing />
-          {code`try {
-            configFileContent = await readFile(configFilePath, "utf8");
-          } catch (error) {
-            if (Error.isError(error) && error.code === "ENOENT") {
-              // If the file doesn't exist, we can create it later when writing the completion script.
-              warn(\`Configuration file \${colors.bold(configFilePath)} does not exist. It will be created when the completion script is written.\`);
-            } else {
-              return { error };
-            }
+      />
+      <Spacing />
+      <VarDeclaration
+        export
+        const
+        name="SHELL_COMPLETIONS_DISPLAY"
+        initializer={code` SHELL_COMPLETIONS.split("\\n").map(line => {
+          if (!line.trim()) {
+            return "";
+          }
+          if (line.trim().startsWith("#")) {
+            return \`\${colors.dim(line)}\`;
           }
 
-          await writeFile(configFilePath, \`\${configFileContent}\\n\\n\${stripAnsi(completions)}\`);
+          return colors.white(line).replaceAll(/(?<=\\\$(\\{|\\()).*(?=(\\}\\)))/g, colors.green("$&"))
+            .replaceAll(/\\".*\\"/g, colors.cyan("$&"))
+            .replaceAll(/(\\[|\\]|\\(|\\)|\\||<|>|\\$\\(|\\$?\\{|\\}|\\+|=|;|::new|::OutputEncoding|::UTF8)/g, colors.bold(colors.gray("$&")))
+            .replaceAll(/(switch|complete)\\s+/g, colors.green("$&"))
+            .replaceAll(/(?<=(switch|complete)\\s+)\\w/g, colors.bold(colors.greenBright("$&")))
+            .replaceAll(/(Get-PSReadLineKeyHandler|Where-Object|ExperimentalFeature|Console|ScriptBlock|Array|ForEach-Object|Register-ArgumentCompleter|System.Management.Automation.CompletionResult|$\\w+)\\s+/g, colors.red("$&"))
+            .replaceAll(/(?<=(Get-PSReadLineKeyHandler|Where-Object|ExperimentalFeature|Console|ScriptBlock|Array|ForEach-Object|Register-ArgumentCompleter|System.Management.Automation.CompletionResult|$\\w+)\\s+)\\w/g, colors.bold(colors.redBright("$&")))
+            .replaceAll(/while\\s+/g, colors.cyan("$&"))
+            .replaceAll(/(?<=while\\s+)\\w/g, colors.bold(colors.cyanBright("$&")))
+            .replaceAll(/(if|fi|else|elif|then|done)\\s+/g, colors.green("$&"))
+            .replaceAll(/\\$?__\\w/g, colors.bold(colors.magentaBright("$&")))
+            .replaceAll(/(?<=\\s)(-\\w|--\\w[\\w-]*)(?=\\s|$)/g, colors.bold(colors.magenta("$&")));
 
-          success(\`${getAppTitle(
-            context
-          )} PowerShell completion script has been generated and appended to \${colors.bold(configFilePath)}. Please restart your terminal or run \`source \${configFilePath}\` to apply the changes.\`); `}
-        </IfStatement>
-        <Spacing />
-        <IfStatement condition={code`options.script`}>
-          {code`const outputPath = options.script === true ? "${
-            bin.value
-          }-completions.powershell" : options.script;
-          await writeFile(outputPath, stripAnsi(completions));
-
-          success(\`${getAppTitle(
-            context
-          )} PowerShell completion script has been generated at \${colors.bold(outputPath)}.\`);`}
-        </IfStatement>
-        <Spacing />
-        <IfStatement condition={code`!options.config && !options.script`}>
-          {code`writeLine(" ------------------------------------------------- ");
-          writeLine(completions);
-          writeLine(" ------------------------------------------------- ");`}
-        </IfStatement>
-      </FunctionDeclaration>
+        }).join("\\n"); `}
+      />
     </TypescriptFile>
   );
 }

@@ -16,7 +16,15 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./bash-command";
-export * from "./fish-command";
-export * from "./powershell-command";
-export * from "./zsh-command";
+export * from "./bash-config-command";
+export * from "./bash-script-command";
+export * from "./bash-shared";
+export * from "./fish-config-command";
+export * from "./fish-script-command";
+export * from "./fish-shared";
+export * from "./powershell-config-command";
+export * from "./powershell-script-command";
+export * from "./powershell-shared";
+export * from "./zsh-config-command";
+export * from "./zsh-script-command";
+export * from "./zsh-shared";
