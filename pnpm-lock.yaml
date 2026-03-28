@@ -995,9 +995,18 @@ importers:
       '@shell-shock/core':
         specifier: workspace:*
         version: link:../core
+      '@shell-shock/plugin-banner':
+        specifier: workspace:*
+        version: link:../plugin-banner
+      '@shell-shock/plugin-completions':
+        specifier: workspace:*
+        version: link:../plugin-completions
       '@shell-shock/plugin-console':
         specifier: workspace:*
         version: link:../plugin-console
+      '@shell-shock/plugin-help':
+        specifier: workspace:*
+        version: link:../plugin-help
       '@shell-shock/plugin-prompts':
         specifier: workspace:*
         version: link:../plugin-prompts
