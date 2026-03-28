@@ -65,17 +65,18 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
 
   return (
     <>
-      <For each={Object.keys(context.config.bin)} hardline>
-        {bin => (
-          <>
-            {code`
+      {code`
       writeLine(
-        colors.text.body.secondary(\`\${colors.text.usage.bin("$_ ${bin}")}${
+        colors.text.body.secondary(\`\${colors.text.usage.bin("$_ ${getAppBin(
+          context
+        )}")}${
           command.segments.length > 0
             ? ` ${command.segments
                 .map(
                   segment =>
-                    `\${colors.text.usage.${isDynamicPathSegment(segment) ? "dynamic" : "command"}("${
+                    `\${colors.text.usage.${
+                      isDynamicPathSegment(segment) ? "dynamic" : "command"
+                    }("${
                       isDynamicPathSegment(segment)
                         ? `[${snakeCase(getDynamicPathSegmentName(segment))}]`
                         : segment
@@ -83,7 +84,11 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
                 )
                 .join(" ")}`
             : ""
-        }${Object.values(command.children).length > 0 ? ` \${colors.text.usage.dynamic("[command]")}` : ""}${
+        }${
+          Object.values(command.children).length > 0
+            ? ` \${colors.text.usage.dynamic("[command]")}`
+            : ""
+        }${
           command.args.length > 0
             ? ` ${command.args
                 .map(
@@ -108,25 +113,23 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
                 )
                 .join(" ")}`
             : ""
-        } \${colors.text.usage.options("[options]")}\`), { padding: ${theme.padding.app * indent} }
+        } \${colors.text.usage.options("[options]")}\`), { padding: ${
+          theme.padding.app * indent
+        } }
       );`}
-            <hbr />
-          </>
-        )}
-      </For>
+      <hbr />
       <Show when={command.args.length > 0}>
         <hbr />
-        <For each={Object.keys(context.config.bin)} hardline>
-          {bin => (
-            <>
-              {code`
+        {code`
       writeLine(
-        colors.text.body.secondary(\`\${colors.text.usage.bin("$_ ${bin}")}${
+        colors.text.body.secondary(\`\${colors.text.usage.bin("$_ ${getAppBin(context)}")}${
           command.segments.length > 0
             ? ` ${command.segments
                 .map(
                   segment =>
-                    `\${colors.text.usage.${isDynamicPathSegment(segment) ? "dynamic" : "command"}("${
+                    `\${colors.text.usage.${
+                      isDynamicPathSegment(segment) ? "dynamic" : "command"
+                    }("${
                       isDynamicPathSegment(segment)
                         ? `[${snakeCase(getDynamicPathSegmentName(segment))}]`
                         : segment
@@ -134,7 +137,11 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
                 )
                 .join(" ")}`
             : ""
-        }${Object.values(command.children).length > 0 ? ` \${colors.text.usage.dynamic("[command]")}` : ""} \${colors.text.usage.options("[options]")}${
+        }${
+          Object.values(command.children).length > 0
+            ? ` \${colors.text.usage.dynamic("[command]")}`
+            : ""
+        } \${colors.text.usage.options("[options]")}${
           command.args.length > 0
             ? ` ${command.args
                 .map(
@@ -161,10 +168,7 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
             : ""
         }\`), { padding: ${theme.padding.app * indent} }
       );`}
-              <hbr />
-            </>
-          )}
-        </For>
+        <hbr />
       </Show>
     </>
   );
@@ -459,7 +463,7 @@ export function VirtualCommandHelpDisplay(
       {code`writeLine(""); `}
       <Spacing />
       <Show when={Object.keys(commands).length > 0}>
-        {code`writeLine(colors.text.body.secondary("The following commands are available through the ${getAppTitle(
+        {code`writeLine(colors.text.body.tertiary("The following commands are available through the ${getAppTitle(
           context,
           true
         )} command-line interface:"));
@@ -535,7 +539,7 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
       {code`writeLine(""); `}
       <Spacing />
       <Show when={Object.keys(command.children).length > 0}>
-        {code`writeLine(colors.text.body.secondary("The following sub-commands are available:"));
+        {code`writeLine(colors.text.body.tertiary("The following sub-commands are available:"));
         writeLine(""); `}
         <Spacing />
         <For

@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { code } from "@alloy-js/core";
+import { code, computed } from "@alloy-js/core";
 import {
   FunctionDeclaration,
   IfStatement,
@@ -38,7 +38,7 @@ import {
 import { getAppBin, getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
 import { snakeCase } from "@stryke/string-format/snake-case";
-import { exec } from "../helpers/complete-command";
+import { EXEC_COMMAND } from "../helpers/complete-command";
 import { CompletionDirective } from "../helpers/completion-directive-constants";
 import type { CompletionsPluginContext } from "../types/plugin";
 
@@ -48,11 +48,15 @@ import type { CompletionsPluginContext } from "../types/plugin";
 export function FishCompletionsCommand() {
   const context = usePowerlines<CompletionsPluginContext>();
 
+  const bin = computed(() => getAppBin(context));
+  const name = computed(() => snakeCase(bin.value));
+
   return (
     <TypescriptFile
       path={joinPaths(context.entryPath, "completions", "fish", "command.ts")}
       imports={{
-        "node:os": ["os"],
+        "node:os": "os",
+        "node:path": ["join"],
         "node:fs/promises": ["readFile", "writeFile"]
       }}
       builtinImports={{
@@ -70,7 +74,7 @@ export function FishCompletionsCommand() {
           <TSDocRemarks>{`If no extension is provided, the \`.fish\` extension will be used.`}</TSDocRemarks>
           <TSDocDefaultValue
             type={ReflectionKind.string}
-            defaultValue={`${getAppBin(context)}-completions.fish`}
+            defaultValue={`${bin.value}-completions.fish`}
           />
         </TSDoc>
         <InterfaceMember name="script" optional type="string | true" />
@@ -96,32 +100,32 @@ export function FishCompletionsCommand() {
           const
           name="completions"
           type="string"
-          initializer={code`# fish completion for ${getAppTitle(
+          initializer={code` \`# fish completion for ${getAppTitle(
             context
           )} -*- shell-script -*-
 
-function __${snakeCase(getAppBin(context))}_debug
+function __${name.value}_debug
     set -l file "$BASH_COMP_DEBUG_FILE"
     if test -n "$file"
         echo "$argv" >> $file
     end
 end
 
-function __${snakeCase(getAppBin(context))}_perform_completion
-    __${snakeCase(getAppBin(context))}_debug "Starting __${snakeCase(getAppBin(context))}_perform_completion"
+function __${name.value}_perform_completion
+    __${name.value}_debug "Starting __${name.value}_perform_completion"
 
     # Extract all args except the last one
     set -l args (commandline -opc)
     # Extract the last arg and escape it in case it is a space or wildcard
     set -l lastArg (string escape -- (commandline -ct))
 
-    __${snakeCase(getAppBin(context))}_debug "args: $args"
-    __${snakeCase(getAppBin(context))}_debug "last arg: $lastArg"
+    __${name.value}_debug "args: $args"
+    __${name.value}_debug "last arg: $lastArg"
 
     # Build the completion request command
-    set -l requestComp "${exec} complete -- (string join ' ' -- (string escape -- $args[2..-1])) $lastArg"
+    set -l requestComp "${EXEC_COMMAND} complete -- (string join ' ' -- (string escape -- $args[2..-1])) $lastArg"
 
-    __${snakeCase(getAppBin(context))}_debug "Calling $requestComp"
+    __${name.value}_debug "Calling $requestComp"
     set -l results (eval $requestComp 2> /dev/null)
 
     # Some programs may output extra empty lines after the directive.
@@ -144,9 +148,9 @@ function __${snakeCase(getAppBin(context))}_perform_completion
     # completions must be prefixed with the flag
     set -l flagPrefix (string match -r -- '-.*=' "$lastArg")
 
-    __${snakeCase(getAppBin(context))}_debug "Comps: $comps"
-    __${snakeCase(getAppBin(context))}_debug "DirectiveLine: $directiveLine"
-    __${snakeCase(getAppBin(context))}_debug "flagPrefix: $flagPrefix"
+    __${name.value}_debug "Comps: $comps"
+    __${name.value}_debug "DirectiveLine: $directiveLine"
+    __${name.value}_debug "flagPrefix: $flagPrefix"
 
     for comp in $comps
         printf "%s%s\\n" "$flagPrefix" "$comp"
@@ -155,89 +159,104 @@ function __${snakeCase(getAppBin(context))}_perform_completion
     printf "%s\\n" "$directiveLine"
 end
 
-# This function limits calls to __${snakeCase(getAppBin(context))}_perform_completion, by caching the result
-function __${snakeCase(getAppBin(context))}_perform_completion_once
-    __${snakeCase(getAppBin(context))}_debug "Starting __${snakeCase(
-      getAppBin(context)
-    )}_perform_completion_once"
+# This function limits calls to __${
+            name.value
+          }_perform_completion, by caching the result
+function __${name.value}_perform_completion_once
+    __${name.value}_debug "Starting __${name.value}_perform_completion_once"
 
-    if test -n "$__${snakeCase(getAppBin(context))}_perform_completion_once_result"
-        __${snakeCase(getAppBin(context))}_debug "Seems like a valid result already exists, skipping __${snakeCase(getAppBin(context))}_perform_completion"
+    if test -n "$__${name.value}_perform_completion_once_result"
+        __${name.value}_debug "Seems like a valid result already exists, skipping __${name.value}_perform_completion"
         return 0
     end
 
-    set --global __${snakeCase(getAppBin(context))}_perform_completion_once_result (__${snakeCase(getAppBin(context))}_perform_completion)
-    if test -z "$__${snakeCase(getAppBin(context))}_perform_completion_once_result"
-        __${snakeCase(getAppBin(context))}_debug "No completions, probably due to a failure"
+    set --global __${name.value}_perform_completion_once_result (__${
+      name.value
+    }_perform_completion)
+    if test -z "$__${name.value}_perform_completion_once_result"
+        __${name.value}_debug "No completions, probably due to a failure"
         return 1
     end
 
-    __${snakeCase(getAppBin(context))}_debug "Performed completions and set __${snakeCase(getAppBin(context))}_perform_completion_once_result"
+    __${name.value}_debug "Performed completions and set __${
+      name.value
+    }_perform_completion_once_result"
     return 0
 end
 
 # This function is used to clear the cached result after completions are run
-function __${snakeCase(getAppBin(context))}_clear_perform_completion_once_result
-    __${snakeCase(getAppBin(context))}_debug ""
-    __${snakeCase(getAppBin(context))}_debug "========= clearing previously set __${snakeCase(getAppBin(context))}_perform_completion_once_result variable =========="
-    set --erase __${snakeCase(getAppBin(context))}_perform_completion_once_result
-    __${snakeCase(getAppBin(context))}_debug "Successfully erased the variable __${snakeCase(getAppBin(context))}_perform_completion_once_result"
+function __${name.value}_clear_perform_completion_once_result
+    __${name.value}_debug ""
+    __${name.value}_debug "========= clearing previously set __${
+      name.value
+    }_perform_completion_once_result variable =========="
+    set --erase __${name.value}_perform_completion_once_result
+    __${name.value}_debug "Successfully erased the variable __${
+      name.value
+    }_perform_completion_once_result"
 end
 
-function __${snakeCase(getAppBin(context))}_requires_order_preservation
-    __${snakeCase(getAppBin(context))}_debug ""
-    __${snakeCase(getAppBin(context))}_debug "========= checking if order preservation is required =========="
+function __${name.value}_requires_order_preservation
+    __${name.value}_debug ""
+    __${name.value}_debug "========= checking if order preservation is required =========="
 
-    __${snakeCase(getAppBin(context))}_perform_completion_once
-    if test -z "$__${snakeCase(getAppBin(context))}_perform_completion_once_result"
-        __${snakeCase(getAppBin(context))}_debug "Error determining if order preservation is required"
+    __${name.value}_perform_completion_once
+    if test -z "$__${name.value}_perform_completion_once_result"
+        __${name.value}_debug "Error determining if order preservation is required"
         return 1
     end
 
-    set -l directive (string sub --start 2 $__${snakeCase(
-      getAppBin(context)
-    )}_perform_completion_once_result[-1])
-    __${snakeCase(getAppBin(context))}_debug "Directive is: $directive"
+    set -l directive (string sub --start 2 $__$
+    {name.value}_perform_completion_once_result[-1])
+    __${name.value}_debug "Directive is: $directive"
 
     set -l shellCompDirectiveKeepOrder ${
       CompletionDirective.CompletionDirectiveKeepOrder
     }
     set -l keeporder (math (math --scale 0 $directive / $shellCompDirectiveKeepOrder) % 2)
-    __${snakeCase(getAppBin(context))}_debug "Keeporder is: $keeporder"
+    __${name.value}_debug "Keeporder is: $keeporder"
 
     if test $keeporder -ne 0
-        __${snakeCase(getAppBin(context))}_debug "This does require order preservation"
+        __${name.value}_debug "This does require order preservation"
         return 0
     end
 
-    __${snakeCase(getAppBin(context))}_debug "This doesn't require order preservation"
+    __${name.value}_debug "This doesn't require order preservation"
     return 1
 end
 
 # This function does two things:
-# - Obtain the completions and store them in the global __${snakeCase(getAppBin(context))}_comp_results
+# - Obtain the completions and store them in the global __${
+            name.value
+          }_comp_results
 # - Return false if file completion should be performed
-function __${snakeCase(getAppBin(context))}_prepare_completions
-    __${snakeCase(getAppBin(context))}_debug ""
-    __${snakeCase(getAppBin(context))}_debug "========= starting completion logic =========="
+function __${name.value}_prepare_completions
+    __${name.value}_debug ""
+    __${name.value}_debug "========= starting completion logic =========="
 
     # Start fresh
-    set --erase __${snakeCase(getAppBin(context))}_comp_results
+    set --erase __${name.value}_comp_results
 
-    __${snakeCase(getAppBin(context))}_perform_completion_once
-    __${snakeCase(getAppBin(context))}_debug "Completion results: $__${snakeCase(getAppBin(context))}_perform_completion_once_result"
+    __${name.value}_perform_completion_once
+    __${name.value}_debug "Completion results: $__${
+      name.value
+    }_perform_completion_once_result"
 
-    if test -z "$__${snakeCase(getAppBin(context))}_perform_completion_once_result"
-        __${snakeCase(getAppBin(context))}_debug "No completion, probably due to a failure"
+    if test -z "$__${name.value}_perform_completion_once_result"
+        __${name.value}_debug "No completion, probably due to a failure"
         # Might as well do file completion, in case it helps
         return 1
     end
 
-    set -l directive (string sub --start 2 $__${snakeCase(getAppBin(context))}_perform_completion_once_result[-1])
-    set --global __${snakeCase(getAppBin(context))}_comp_results $__${snakeCase(getAppBin(context))}_perform_completion_once_result[1..-2]
+    set -l directive (string sub --start 2 $__${
+      name.value
+    }_perform_completion_once_result[-1])
+    set --global __${name.value}_comp_results $__${
+      name.value
+    }_perform_completion_once_result[1..-2]
 
-    __${snakeCase(getAppBin(context))}_debug "Completions are: $__${snakeCase(getAppBin(context))}_comp_results"
-    __${snakeCase(getAppBin(context))}_debug "Directive is: $directive"
+    __${name.value}_debug "Completions are: $__${name.value}_comp_results"
+    __${name.value}_debug "Directive is: $directive"
 
     set -l shellCompDirectiveError ${
       CompletionDirective.CompletionDirectiveError
@@ -260,7 +279,7 @@ function __${snakeCase(getAppBin(context))}_prepare_completions
 
     set -l compErr (math (math --scale 0 $directive / $shellCompDirectiveError) % 2)
     if test $compErr -eq 1
-        __${snakeCase(getAppBin(context))}_debug "Received error directive: aborting."
+        __${name.value}_debug "Received error directive: aborting."
         # Might as well do file completion, in case it helps
         return 1
     end
@@ -268,7 +287,7 @@ function __${snakeCase(getAppBin(context))}_prepare_completions
     set -l filefilter (math (math --scale 0 $directive / $shellCompDirectiveFilterFileExt) % 2)
     set -l dirfilter (math (math --scale 0 $directive / $shellCompDirectiveFilterDirs) % 2)
     if test $filefilter -eq 1; or test $dirfilter -eq 1
-        __${snakeCase(getAppBin(context))}_debug "File extension filtering or directory filtering not supported"
+        __${name.value}_debug "File extension filtering or directory filtering not supported"
         # Do full file completion instead
         return 1
     end
@@ -276,7 +295,7 @@ function __${snakeCase(getAppBin(context))}_prepare_completions
     set -l nospace (math (math --scale 0 $directive / $shellCompDirectiveNoSpace) % 2)
     set -l nofiles (math (math --scale 0 $directive / $shellCompDirectiveNoFileComp) % 2)
 
-    __${snakeCase(getAppBin(context))}_debug "nospace: $nospace, nofiles: $nofiles"
+    __${name.value}_debug "nospace: $nospace, nofiles: $nofiles"
 
     # If we want to prevent a space, or if file completion is NOT disabled,
     # we need to count the number of valid completions.
@@ -285,22 +304,28 @@ function __${snakeCase(getAppBin(context))}_prepare_completions
     # criteria than the prefix.
     if test $nospace -ne 0; or test $nofiles -eq 0
         set -l prefix (commandline -t | string escape --style=regex)
-        __${snakeCase(getAppBin(context))}_debug "prefix: $prefix"
+        __${name.value}_debug "prefix: $prefix"
 
-        set -l completions (string match -r -- "^$prefix.*" $__${snakeCase(getAppBin(context))}_comp_results)
-        set --global __${snakeCase(getAppBin(context))}_comp_results $completions
-        __${snakeCase(getAppBin(context))}_debug "Filtered completions are: $__${snakeCase(getAppBin(context))}_comp_results"
+        set -l completions (string match -r -- "^$prefix.*" $__${
+          name.value
+        }_comp_results)
+        set --global __${name.value}_comp_results $completions
+        __${name.value}_debug "Filtered completions are: $__${
+          name.value
+        }_comp_results"
 
         # Important not to quote the variable for count to work
-        set -l numComps (count $__${snakeCase(getAppBin(context))}_comp_results)
-        __${snakeCase(getAppBin(context))}_debug "numComps: $numComps"
+        set -l numComps (count $__${name.value}_comp_results)
+        __${name.value}_debug "numComps: $numComps"
 
         if test $numComps -eq 1; and test $nospace -ne 0
             # We must first split on \\t to get rid of the descriptions to be
             # able to check what the actual completion will be.
             # We don't need descriptions anyway since there is only a single
             # real completion which the shell will expand immediately.
-            set -l split (string split --max 1 "\\t" $__${snakeCase(getAppBin(context))}_comp_results[1])
+            set -l split (string split --max 1 "\\t" $__${
+              name.value
+            }_comp_results[1])
 
             # Fish won't add a space if the completion ends with any
             # of the following characters: @=/:.,
@@ -308,16 +333,18 @@ function __${snakeCase(getAppBin(context))}_prepare_completions
             if not string match -r -q "[@=/:.,]" -- "$lastChar"
                 # In other cases, to support the "nospace" directive we trick the shell
                 # by outputting an extra, longer completion.
-                __${snakeCase(getAppBin(context))}_debug "Adding second completion to perform nospace directive"
-                set --global __${snakeCase(getAppBin(context))}_comp_results $split[1] $split[1].
-                __${snakeCase(getAppBin(context))}_debug "Completions are now: $__${snakeCase(getAppBin(context))}_comp_results"
+                __${name.value}_debug "Adding second completion to perform nospace directive"
+                set --global __${name.value}_comp_results $split[1] $split[1].
+                __${name.value}_debug "Completions are now: $__${
+                  name.value
+                }_comp_results"
             end
         end
 
         if test $numComps -eq 0; and test $nofiles -eq 0
             # To be consistent with bash and zsh, we only trigger file
             # completion when there are no other completions
-            __${snakeCase(getAppBin(context))}_debug "Requesting file completion"
+            __${name.value}_debug "Requesting file completion"
             return 1
         end
     end
@@ -329,32 +356,32 @@ end
 # so we can properly delete any completions provided by another script.
 # Only do this if the program can be found, or else fish may print some errors; besides,
 # the existing completions will only be loaded if the program can be found.
-if type -q "${getAppBin(context)}"
+if type -q "${bin.value}"
     # The space after the program name is essential to trigger completion for the program
     # and not completion of the program name itself.
     # Also, we use '> /dev/null 2>&1' since '&>' is not supported in older versions of fish.
-    complete --do-complete "${getAppBin(context)} " > /dev/null 2>&1
+    complete --do-complete "${bin.value} " > /dev/null 2>&1
 end
 
 # Remove any pre-existing completions for the program since we will be handling all of them.
-complete -c ${getAppBin(context)} -e
+complete -c ${bin.value} -e
 # This will get called after the two calls below and clear the cached result
-complete -c ${getAppBin(context)} -n '__${snakeCase(getAppBin(context))}_clear_perform_completion_once_result'
-# The call to __${snakeCase(getAppBin(context))}_prepare_completions will setup __${snakeCase(getAppBin(context))}_comp_results
+complete -c ${bin.value} -n '__${name.value}_clear_perform_completion_once_result'
+# The call to __${name.value}_prepare_completions will setup __${
+            name.value
+          }_comp_results
 # which provides the program's completion choices.
 # If this doesn't require order preservation, we don't use the -k flag
 complete -c ${getAppBin(
             context
-          )} -n 'not __${snakeCase(getAppBin(context))}_requires_order_preservation && __${snakeCase(getAppBin(context))}_prepare_completions' -f -a '$__${snakeCase(getAppBin(context))}_comp_results'
+          )} -n 'not __${name.value}_requires_order_preservation && __${
+            name.value
+          }_prepare_completions' -f -a '$__${name.value}_comp_results'
 # Otherwise we use the -k flag
-complete -k -c ${getAppBin(context)} -n '__${snakeCase(
-            getAppBin(context)
-          )}_requires_order_preservation && __${snakeCase(
-            getAppBin(context)
-          )}_prepare_completions' -f -a '$__${snakeCase(
-            getAppBin(context)
-          )}_comp_results'
-\`);`}
+complete -k -c ${bin.value} -n '__${name.value}_requires_order_preservation && __${
+            name.value
+          }_prepare_completions' -f -a '$__${name.value}_comp_results'
+\`; `}
         />
         <Spacing />
         <IfStatement condition={code`options.config`}>
@@ -379,7 +406,7 @@ complete -k -c ${getAppBin(context)} -n '__${snakeCase(
           {code`try {
             configFileContent = await readFile(configFilePath, "utf8");
           } catch (error) {
-            if (error.code === "ENOENT") {
+            if (Error.isError(error) && error.code === "ENOENT") {
               // If the file doesn't exist, we can create it later when writing the completion script.
               warn(\`Configuration file \${colors.bold(configFilePath)} does not exist. It will be created when the completion script is written.\`);
             } else {
@@ -393,7 +420,7 @@ complete -k -c ${getAppBin(context)} -n '__${snakeCase(
         </IfStatement>
         <Spacing />
         <IfStatement condition={code`options.script`}>
-          {code`const outputPath = options.script === true ? "${getAppBin(context)}-completions.fish" : options.script;
+          {code`const outputPath = options.script === true ? "${bin.value}-completions.fish" : options.script;
           await writeFile(outputPath, stripAnsi(completions));
 
           success(\`${getAppTitle(context)} Fish completion script has been generated at \${colors.bold(outputPath)}.\`);`}

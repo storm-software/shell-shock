@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { code } from "@alloy-js/core";
+import { code, computed } from "@alloy-js/core";
 import {
   FunctionDeclaration,
   IfStatement,
@@ -38,8 +38,7 @@ import {
 import { getAppBin, getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
 import { camelCase } from "@stryke/string-format/camel-case";
-import { snakeCase } from "@stryke/string-format/snake-case";
-import { exec } from "../helpers/complete-command";
+import { EXEC_COMMAND } from "../helpers/complete-command";
 import { CompletionDirective } from "../helpers/completion-directive-constants";
 import type { CompletionsPluginContext } from "../types/plugin";
 
@@ -48,6 +47,9 @@ import type { CompletionsPluginContext } from "../types/plugin";
  */
 export function PowerShellCompletionsCommand() {
   const context = usePowerlines<CompletionsPluginContext>();
+
+  const bin = computed(() => getAppBin(context));
+  const name = computed(() => camelCase(bin.value));
 
   return (
     <TypescriptFile
@@ -76,7 +78,7 @@ export function PowerShellCompletionsCommand() {
           <TSDocRemarks>{`If no extension is provided, the \`.ps1\` extension will be used.`}</TSDocRemarks>
           <TSDocDefaultValue
             type={ReflectionKind.string}
-            defaultValue={`${getAppBin(context)}-completions.ps1`}
+            defaultValue={`${bin.value}-completions.ps1`}
           />
         </TSDoc>
         <InterfaceMember name="script" optional type="string | true" />
@@ -104,20 +106,22 @@ export function PowerShellCompletionsCommand() {
           const
           name="completions"
           type="string"
-          initializer={code`# powershell completion for ${getAppTitle(context)} -*- shell-script -*-
+          initializer={code` \`# powershell completion for ${getAppTitle(
+            context
+          )} -*- shell-script -*-
 
   [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-    function __${snakeCase(getAppBin(context))}_debug {
+    function __${name.value}_debug {
         if ($env:BASH_COMP_DEBUG_FILE) {
             "$args" | Out-File -Append -FilePath "$env:BASH_COMP_DEBUG_FILE"
         }
     }
 
-    filter __${camelCase(getAppBin(context))}_escapeStringWithSpecialChars {
-        $_ -replace '\\s|#|@|\\$|;|,|''|\\{|\\}|\\(|\\)|"|\\||<|>|&','\`$&'
+    filter __${name.value}_escapeStringWithSpecialChars {
+        $_ -replace '\\s|#|@|\\$|;|,|''|\\{|\\}|\\(|\\)|"|\\||<|>|&','\\\`$&'
     }
 
-[scriptblock]$__${camelCase(getAppBin(context))}CompleterBlock = {
+[scriptblock]$__${name.value}CompleterBlock = {
     param(
             $WordToComplete,
             $CommandAst,
@@ -128,9 +132,11 @@ export function PowerShellCompletionsCommand() {
     $Command = $CommandAst.CommandElements
     $Command = "$Command"
 
-    __${camelCase(getAppBin(context))}_debug ""
-    __${camelCase(getAppBin(context))}_debug "========= starting completion logic =========="
-    __${camelCase(getAppBin(context))}_debug "WordToComplete: $WordToComplete Command: $Command CursorPosition: $CursorPosition"
+    __${name.value}_debug ""
+    __${name.value}_debug "========= starting completion logic =========="
+    __${name.value}_debug "WordToComplete: $WordToComplete Command: $Command CursorPosition: $CursorPosition"
+
+    )}_debug "WordToComplete: $WordToComplete Command: $Command CursorPosition: $CursorPosition"
 
     # The user could have moved the cursor backwards on the command-line.
     # We need to trigger completion from the $CursorPosition location, so we need
@@ -140,7 +146,7 @@ export function PowerShellCompletionsCommand() {
     if ($Command.Length -gt $CursorPosition) {
         $Command = $Command.Substring(0, $CursorPosition)
     }
-    __${camelCase(getAppBin(context))}_debug "Truncated command: $Command"
+    __${name.value}_debug "Truncated command: $Command"
 
     $ShellCompDirectiveError=${CompletionDirective.CompletionDirectiveError}
     $ShellCompDirectiveNoSpace=${CompletionDirective.CompletionDirectiveNoSpace}
@@ -162,10 +168,10 @@ export function PowerShellCompletionsCommand() {
     $Program, $Arguments = $Command.Split(" ", 2)
 
     $QuotedArgs = ($Arguments -split ' ' | ForEach-Object { "'" + ($_ -replace "'", "''") + "'" }) -join ' '
-    __${camelCase(getAppBin(context))}_debug "QuotedArgs: $QuotedArgs"
+    __${name.value}_debug "QuotedArgs: $QuotedArgs"
 
-    $RequestComp = "& ${exec} complete '--' $QuotedArgs"
-    __${camelCase(getAppBin(context))}_debug "RequestComp: $RequestComp"
+    $RequestComp = "& ${EXEC_COMMAND} complete '--' $QuotedArgs"
+    __${name.value}_debug "RequestComp: $RequestComp"
 
     # we cannot use $WordToComplete because it
     # has the wrong values if the cursor was moved
@@ -173,13 +179,13 @@ export function PowerShellCompletionsCommand() {
     if ($WordToComplete -ne "" ) {
         $WordToComplete = $Arguments.Split(" ")[-1]
     }
-    __${camelCase(getAppBin(context))}_debug "New WordToComplete: $WordToComplete"
+    __${name.value}_debug "New WordToComplete: $WordToComplete"
 
 
     # Check for flag with equal sign
     $IsEqualFlag = ($WordToComplete -Like "--*=*" )
     if ( $IsEqualFlag ) {
-        __${camelCase(getAppBin(context))}_debug "Completing equal sign flag"
+        __${name.value}_debug "Completing equal sign flag"
         # Remove the flag part
         $Flag, $WordToComplete = $WordToComplete.Split("=", 2)
     }
@@ -187,20 +193,20 @@ export function PowerShellCompletionsCommand() {
     if ( $WordToComplete -eq "" -And ( -Not $IsEqualFlag )) {
         # If the last parameter is complete (there is a space following it)
         # We add an extra empty parameter so we can indicate this to the go method.
-        __${camelCase(getAppBin(context))}_debug "Adding extra empty parameter"
+        __${name.value}_debug "Adding extra empty parameter"
         # PowerShell 7.2+ changed the way how the arguments are passed to executables,
         # so for pre-7.2 or when Legacy argument passing is enabled we need to use
         if ($PSVersionTable.PsVersion -lt [version]'7.2.0' -or
             ($PSVersionTable.PsVersion -lt [version]'7.3.0' -and -not [ExperimentalFeature]::IsEnabled("PSNativeCommandArgumentPassing")) -or
             (($PSVersionTable.PsVersion -ge [version]'7.3.0' -or [ExperimentalFeature]::IsEnabled("PSNativeCommandArgumentPassing")) -and
               $PSNativeCommandArgumentPassing -eq 'Legacy')) {
-             $RequestComp="$RequestComp" + ' \`"\`"'
+             $RequestComp="$RequestComp" + ' \\\`"\\\`"'
         } else {
              $RequestComp = "$RequestComp" + ' ""'
         }
     }
 
-    __${camelCase(getAppBin(context))}_debug "Calling $RequestComp"
+    __${name.value}_debug "Calling $RequestComp"
     # First disable ActiveHelp which is not supported for Powershell
     $env:ActiveHelp = 0
 
@@ -214,22 +220,26 @@ export function PowerShellCompletionsCommand() {
         # There is no directive specified
         $Directive = 0
     }
-    __${camelCase(getAppBin(context))}_debug "The completion directive is: $Directive"
+    __${name.value}_debug "The completion directive is: $Directive"
 
     # remove directive (last element) from out
     $Out = $Out | Where-Object { $_ -ne $Out[-1] }
-    __${camelCase(getAppBin(context))}_debug "The completions are: $Out"
+    __${name.value}_debug "The completions are: $Out"
     if (($Directive -band $ShellCompDirectiveError) -ne 0 ) {
         # Error code.  No completion.
-        __${camelCase(getAppBin(context))}_debug "Received error from custom completion go code"
+        __${name.value}_debug "Received error from custom completion go code"
+        return
+    }
+
+          ${bin.value}_debug "Received error from custom completion go code"
         return
     }
 
     $Longest = 0
     [Array]$Values = $Out | ForEach-Object {
         # Split the output in name and description
-        $Name, $Description = $_.Split("\`t", 2)
-        __${camelCase(getAppBin(context))}_debug "Name: $Name Description: $Description"
+        $Name, $Description = $_.Split("\\\`t", 2)
+        __${name.value}_debug "Name: $Name Description: $Description"
 
         # Look for the longest completion so that we can format things nicely
         if ($Longest -lt $Name.Length) {
@@ -248,13 +258,15 @@ export function PowerShellCompletionsCommand() {
     $Space = " "
     if (($Directive -band $ShellCompDirectiveNoSpace) -ne 0 ) {
         # remove the space here
-        __${camelCase(getAppBin(context))}_debug "ShellCompDirectiveNoSpace is called"
+        __${name.value}_debug "ShellCompDirectiveNoSpace is called"
         $Space = ""
     }
 
     if ((($Directive -band $ShellCompDirectiveFilterFileExt) -ne 0 ) -or
        (($Directive -band $ShellCompDirectiveFilterDirs) -ne 0 ))  {
-        __${camelCase(getAppBin(context))}_debug "ShellCompDirectiveFilterFileExt ShellCompDirectiveFilterDirs are not supported"
+        __${
+          name.value
+        }_debug "ShellCompDirectiveFilterFileExt ShellCompDirectiveFilterDirs are not supported"
 
         # return here to prevent the completion of the extensions
         return
@@ -266,7 +278,9 @@ export function PowerShellCompletionsCommand() {
 
         # Join the flag back if we have an equal sign flag
         if ( $IsEqualFlag ) {
-            __${camelCase(getAppBin(context))}_debug "Join the equal sign flag back to the completion value"
+            __${
+              name.value
+            }_debug "Join the equal sign flag back to the completion value"
             $_.Name = $Flag + "=" + $_.Name
         }
     }
@@ -277,7 +291,7 @@ export function PowerShellCompletionsCommand() {
     }
 
     if (($Directive -band $ShellCompDirectiveNoFileComp) -ne 0 ) {
-        __${camelCase(getAppBin(context))}_debug "ShellCompDirectiveNoFileComp is called"
+        __${name.value}_debug "ShellCompDirectiveNoFileComp is called"
 
         if ($Values.Length -eq 0) {
             # Just print an empty string here so the
@@ -291,7 +305,7 @@ export function PowerShellCompletionsCommand() {
 
     # Get the current mode
     $Mode = (Get-PSReadLineKeyHandler | Where-Object { $_.Key -eq "Tab" }).Function
-    __${camelCase(getAppBin(context))}_debug "Mode: $Mode"
+    __${name.value}_debug "Mode: $Mode"
 
     $Values | ForEach-Object {
 
@@ -316,12 +330,12 @@ export function PowerShellCompletionsCommand() {
             "Complete" {
 
                 if ($Values.Length -eq 1) {
-                    __${camelCase(
-                      getAppBin(context)
-                    )}_debug "Only one completion left"
+                    __${name.value}_debug "Only one completion left"
 
                     # insert space after value
-                    [System.Management.Automation.CompletionResult]::new($($comp.Name | __${name}_escapeStringWithSpecialChars) + $Space, "$($comp.Name)", 'ParameterValue', "$($comp.Description)")
+                    [System.Management.Automation.CompletionResult]::new($($comp.Name | __${
+                      name.value
+                    }_escapeStringWithSpecialChars) + $Space, "$($comp.Name)", 'ParameterValue', "$($comp.Description)")
 
                 } else {
                     # Add the proper number of spaces to align the descriptions
@@ -345,7 +359,9 @@ export function PowerShellCompletionsCommand() {
                 # insert space after value
                 # MenuComplete will automatically show the ToolTip of
                 # the highlighted value at the bottom of the suggestions.
-                [System.Management.Automation.CompletionResult]::new($($comp.Name | __${name}_escapeStringWithSpecialChars) + $Space, "$($comp.Name)", 'ParameterValue', "$($comp.Description)")
+                [System.Management.Automation.CompletionResult]::new($($comp.Name | __${
+                  name.value
+                }_escapeStringWithSpecialChars) + $Space, "$($comp.Name)", 'ParameterValue', "$($comp.Description)")
             }
 
             # TabCompleteNext and in case we get something unknown
@@ -353,17 +369,18 @@ export function PowerShellCompletionsCommand() {
                 # Like MenuComplete but we don't want to add a space here because
                 # the user need to press space anyway to get the completion.
                 # Description will not be shown because that's not possible with TabCompleteNext
-                [System.Management.Automation.CompletionResult]::new($($comp.Name | __${name}_escapeStringWithSpecialChars), "$($comp.Name)", 'ParameterValue', "$($comp.Description)")
+                [System.Management.Automation.CompletionResult]::new($($comp.Name | __${
+                  name.value
+                }_escapeStringWithSpecialChars), "$($comp.Name)", 'ParameterValue', "$($comp.Description)")
             }
         }
-
     }
 }
 
-Register-ArgumentCompleter -CommandName '${getAppBin(
-            context
-          )}' -ScriptBlock $__${camelCase(getAppBin(context))}CompleterBlock
-\`); `}
+Register-ArgumentCompleter -CommandName '${bin.value}' -ScriptBlock $__${
+            name.value
+          }CompleterBlock
+\`; `}
         />
         <Spacing />
         <IfStatement condition={code`options.config`}>
@@ -388,7 +405,7 @@ Register-ArgumentCompleter -CommandName '${getAppBin(
           {code`try {
             configFileContent = await readFile(configFilePath, "utf8");
           } catch (error) {
-            if (error.code === "ENOENT") {
+            if (Error.isError(error) && error.code === "ENOENT") {
               // If the file doesn't exist, we can create it later when writing the completion script.
               warn(\`Configuration file \${colors.bold(configFilePath)} does not exist. It will be created when the completion script is written.\`);
             } else {
@@ -398,14 +415,20 @@ Register-ArgumentCompleter -CommandName '${getAppBin(
 
           await writeFile(configFilePath, \`\${configFileContent}\\n\\n\${stripAnsi(completions)}\`);
 
-          success(\`${getAppTitle(context)} PowerShell completion script has been generated and appended to \${colors.bold(configFilePath)}. Please restart your terminal or run \`source \${configFilePath}\` to apply the changes.\`); `}
+          success(\`${getAppTitle(
+            context
+          )} PowerShell completion script has been generated and appended to \${colors.bold(configFilePath)}. Please restart your terminal or run \`source \${configFilePath}\` to apply the changes.\`); `}
         </IfStatement>
         <Spacing />
         <IfStatement condition={code`options.script`}>
-          {code`const outputPath = options.script === true ? "${getAppBin(context)}-completions.powershell" : options.script;
+          {code`const outputPath = options.script === true ? "${
+            bin.value
+          }-completions.powershell" : options.script;
           await writeFile(outputPath, stripAnsi(completions));
 
-          success(\`${getAppTitle(context)} PowerShell completion script has been generated at \${colors.bold(outputPath)}.\`);`}
+          success(\`${getAppTitle(
+            context
+          )} PowerShell completion script has been generated at \${colors.bold(outputPath)}.\`);`}
         </IfStatement>
         <Spacing />
         <IfStatement condition={code`!options.config && !options.script`}>

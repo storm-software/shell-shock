@@ -130,6 +130,20 @@
         "default": "./dist/helpers/border-styles.mjs"
       }
     },
+    "./helpers/constants": {
+      "require": {
+        "types": "./dist/helpers/constants.d.cts",
+        "default": "./dist/helpers/constants.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/constants.d.mts",
+        "default": "./dist/helpers/constants.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/constants.d.mts",
+        "default": "./dist/helpers/constants.mjs"
+      }
+    },
     "./helpers/merge": {
       "require": {
         "types": "./dist/helpers/merge.d.cts",

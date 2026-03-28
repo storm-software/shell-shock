@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { code } from "@alloy-js/core";
+import { code, computed } from "@alloy-js/core";
 import {
   FunctionDeclaration,
   IfStatement,
@@ -39,7 +39,7 @@ import { getAppBin, getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
 import { snakeCase } from "@stryke/string-format/snake-case";
 import { CompletionDirective } from "../helpers";
-import { exec } from "../helpers/complete-command";
+import { EXEC_COMMAND } from "../helpers/complete-command";
 import type { CompletionsPluginContext } from "../types/plugin";
 
 /**
@@ -48,11 +48,15 @@ import type { CompletionsPluginContext } from "../types/plugin";
 export function BashCompletionsCommand() {
   const context = usePowerlines<CompletionsPluginContext>();
 
+  const bin = computed(() => getAppBin(context));
+  const name = computed(() => snakeCase(bin.value));
+
   return (
     <TypescriptFile
       path={joinPaths(context.entryPath, "completions", "bash", "command.ts")}
       imports={{
-        "node:os": ["os"],
+        "node:os": "os",
+        "node:path": ["join"],
         "node:fs/promises": ["readFile", "writeFile"]
       }}
       builtinImports={{
@@ -70,7 +74,7 @@ export function BashCompletionsCommand() {
           <TSDocRemarks>{`If no extension is provided, the \`.bash\` extension will be used.`}</TSDocRemarks>
           <TSDocDefaultValue
             type={ReflectionKind.string}
-            defaultValue={`${getAppBin(context)}-completions.bash`}
+            defaultValue={`${bin.value}-completions.bash`}
           />
         </TSDoc>
         <InterfaceMember name="script" optional type="string | true" />
@@ -96,7 +100,7 @@ export function BashCompletionsCommand() {
           const
           name="completions"
           type="string"
-          initializer={code`# bash completion for ${getAppTitle(context)}
+          initializer={code` \`# bash completion for ${getAppTitle(context)}
 
 # Define shell completion directives
 readonly ShellCompDirectiveError=${CompletionDirective.CompletionDirectiveError}
@@ -117,21 +121,21 @@ readonly ShellCompDirectiveKeepOrder=${
           }
 
 # Function to debug completion
-__${snakeCase(getAppBin(context))}_debug() {
-    if [[ -n \${BASH_COMP_DEBUG_FILE:-} ]]; then
-        echo "$*" >> "\${BASH_COMP_DEBUG_FILE}"
+__${name.value}_debug() {
+    if [[ -n \\\${BASH_COMP_DEBUG_FILE:-} ]]; then
+        echo "$*" >> "\\\${BASH_COMP_DEBUG_FILE}"
     fi
 }
 
 # Function to handle completions
-__${snakeCase(getAppBin(context))}_complete() {
+__${name.value}_complete() {
     local cur prev words cword
     _get_comp_words_by_ref -n "=:" cur prev words cword
 
     local requestComp out directive
 
     # Build the command to get completions
-    requestComp="${exec} complete -- \${words[@]:1}"
+    requestComp="${EXEC_COMMAND} complete -- \\\${words[@]:1}"
 
     # Add an empty parameter if the last parameter is complete
     if [[ -z "$cur" ]]; then
@@ -144,8 +148,8 @@ __${snakeCase(getAppBin(context))}_complete() {
     # Extract directive if present
     directive=0
     if [[ "$out" == *:* ]]; then
-        directive=\${out##*:}
-        out=\${out%:*}
+        directive=\\\${out##*:}
+        out=\\\${out%:*}
     fi
 
     # Process completions based on directive
@@ -193,8 +197,8 @@ __${snakeCase(getAppBin(context))}_complete() {
     while read -r comp; do
         if [[ "$comp" == *$tab* ]]; then
             # Split completion and description
-            local value=\${comp%%$tab*}
-            local desc=\${comp#*$tab}
+            local value=\\\${comp%%$tab*}
+            local desc=\\\${comp#*$tab}
             completions+=("$value")
         else
             completions+=("$comp")
@@ -202,12 +206,12 @@ __${snakeCase(getAppBin(context))}_complete() {
     done <<< "$out"
 
     # Return completions
-    COMPREPLY=( $(compgen -W "\${completions[*]}" -- "$cur") )
+    COMPREPLY=( $(compgen -W "\\\${completions[*]}" -- "$cur") )
 }
 
 # Register completion function
-complete -F __${snakeCase(getAppBin(context))}_complete ${getAppBin(context)}
-\`); `}
+complete -F __${name.value}_complete ${bin.value}
+\`; `}
         />
         <Spacing />
         <IfStatement condition={code`options.config`}>
@@ -232,7 +236,7 @@ complete -F __${snakeCase(getAppBin(context))}_complete ${getAppBin(context)}
           {code`try {
             configFileContent = await readFile(configFilePath, "utf8");
           } catch (error) {
-            if (error.code === "ENOENT") {
+            if (Error.isError(error) && error.code === "ENOENT") {
               // If the file doesn't exist, we can create it later when writing the completion script.
               warn(\`Configuration file \${colors.bold(configFilePath)} does not exist. It will be created when the completion script is written.\`);
             } else {
@@ -246,7 +250,9 @@ complete -F __${snakeCase(getAppBin(context))}_complete ${getAppBin(context)}
         </IfStatement>
         <Spacing />
         <IfStatement condition={code`options.script`}>
-          {code`const outputPath = options.script === true ? "${getAppBin(context)}-completions.bash" : options.script;
+          {code`const outputPath = options.script === true ? "${
+            bin.value
+          }-completions.bash" : options.script;
           await writeFile(outputPath, stripAnsi(completions));
 
           success(\`${getAppTitle(context)} Bash completion script has been generated at \${colors.bold(outputPath)}.\`);`}

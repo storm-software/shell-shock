@@ -29,6 +29,12 @@ import type {
   BannerPluginUserConfig
 } from "@shell-shock/plugin-banner";
 import type {
+  CompletionsPluginContext,
+  CompletionsPluginOptions,
+  CompletionsPluginResolvedConfig,
+  CompletionsPluginUserConfig
+} from "@shell-shock/plugin-completions";
+import type {
   ConsolePluginContext,
   ConsolePluginResolvedConfig,
   ConsolePluginUserConfig
@@ -114,6 +120,11 @@ export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> &
      * The title to display in the banner for the CLI application. If not specified, the application name will be used.
      */
     banner?: Pick<BannerPluginOptions, "title">;
+
+    /**
+     * Configuration options for the `completions` plugin. This field allows you to customize the behavior of the `completions` plugin, which provides commands for generating shell completion scripts for the CLI application. You can specify which shells to generate completions for, and other related settings.
+     */
+    completions?: Pick<CompletionsPluginOptions, "shells"> | false;
   };
 
 export type CLIPresetUserConfig = UserConfig &
@@ -122,6 +133,7 @@ export type CLIPresetUserConfig = UserConfig &
   PromptsPluginUserConfig &
   BannerPluginUserConfig &
   HelpPluginUserConfig &
+  CompletionsPluginUserConfig &
   UpgradePluginUserConfig &
   CLIPresetOptions;
 
@@ -131,6 +143,7 @@ export type CLIPresetResolvedConfig = ResolvedConfig &
   PromptsPluginResolvedConfig &
   BannerPluginResolvedConfig &
   HelpPluginResolvedConfig &
+  CompletionsPluginResolvedConfig &
   UpgradePluginResolvedConfig &
   Required<CLIPresetOptions>;
 
@@ -142,4 +155,5 @@ export type CLIPresetContext<
   PromptsPluginContext<TResolvedConfig> &
   BannerPluginContext<TResolvedConfig> &
   HelpPluginContext<TResolvedConfig> &
+  CompletionsPluginContext<TResolvedConfig> &
   UpgradePluginContext<TResolvedConfig>;

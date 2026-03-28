@@ -215,7 +215,6 @@
   "typings": "dist/index.d.mts",
   "files": ["dist/**/*"],
   "keywords": [
-    "style-dictionary",
     "shell-shock",
     "shell-shock-plugin",
     "powerlines",

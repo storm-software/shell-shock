@@ -2825,6 +2825,21 @@ declare module "shell-shock:banner/new/application" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying banner information for the CLI Completions - Bash Shell command.
+ *
+ * @module shell-shock:banner/completions/bash
+ */
+declare module "shell-shock:banner/completions/bash" {
+  /**
+   * Write the Playground command-line interface application banner for the CLI
+   * Completions - Bash Shell command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
  * A collection of utility functions that assist in displaying banner information for the Project Build command.
  *
  * @module shell-shock:banner/build
@@ -2840,6 +2855,21 @@ declare module "shell-shock:banner/build" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying banner information for the CLI Completions command.
+ *
+ * @module shell-shock:banner/completions
+ */
+declare module "shell-shock:banner/completions" {
+  /**
+   * Write the Playground command-line interface application banner for the CLI
+   * Completions command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
  * A collection of utility functions that assist in displaying banner information for the Copy command.
  *
  * @module shell-shock:banner/copy
@@ -2848,6 +2878,21 @@ declare module "shell-shock:banner/copy" {
   /**
    * Write the Playground command-line interface application banner for the Copy
    * command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the CLI Completions - Fish Shell command.
+ *
+ * @module shell-shock:banner/completions/fish
+ */
+declare module "shell-shock:banner/completions/fish" {
+  /**
+   * Write the Playground command-line interface application banner for the CLI
+   * Completions - Fish Shell command to the console.
    *
    * @param {number} sleepTimeoutMs
    */
@@ -2908,6 +2953,21 @@ declare module "shell-shock:banner/new" {
   /**
    * Write the Playground command-line interface application banner for the New
    * Commands command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the CLI Completions - PowerShell command.
+ *
+ * @module shell-shock:banner/completions/powershell
+ */
+declare module "shell-shock:banner/completions/powershell" {
+  /**
+   * Write the Playground command-line interface application banner for the CLI
+   * Completions - PowerShell command to the console.
    *
    * @param {number} sleepTimeoutMs
    */
@@ -3005,6 +3065,21 @@ declare module "shell-shock:banner/upgrade" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying banner information for the CLI Completions - Zsh Shell command.
+ *
+ * @module shell-shock:banner/completions/zsh
+ */
+declare module "shell-shock:banner/completions/zsh" {
+  /**
+   * Write the Playground command-line interface application banner for the CLI
+   * Completions - Zsh Shell command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
  * A collection of utility functions that assist in displaying help information for the Playground command-line interface application.
  *
  * @module shell-shock:help
@@ -3029,6 +3104,18 @@ declare module "shell-shock:help/new/application" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying help information for the CLI Completions - Bash Shell command.
+ *
+ * @module shell-shock:help/completions/bash
+ */
+declare module "shell-shock:help/completions/bash" {
+  /**
+   * Display help information for the CLI Completions - Bash Shell command.
+   */
+  export function showHelp(): void;
+}
+
+/**
  * A collection of utility functions that assist in displaying help information for the Project Build command.
  *
  * @module shell-shock:help/build
@@ -3041,6 +3128,18 @@ declare module "shell-shock:help/build" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying help information for the CLI Completions command.
+ *
+ * @module shell-shock:help/completions
+ */
+declare module "shell-shock:help/completions" {
+  /**
+   * Display help information for the CLI Completions command.
+   */
+  export function showHelp(): void;
+}
+
+/**
  * A collection of utility functions that assist in displaying help information for the Copy command.
  *
  * @module shell-shock:help/copy
@@ -3048,6 +3147,18 @@ declare module "shell-shock:help/build" {
 declare module "shell-shock:help/copy" {
   /**
    * Display help information for the Copy command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the CLI Completions - Fish Shell command.
+ *
+ * @module shell-shock:help/completions/fish
+ */
+declare module "shell-shock:help/completions/fish" {
+  /**
+   * Display help information for the CLI Completions - Fish Shell command.
    */
   export function showHelp(): void;
 }
@@ -3096,6 +3207,18 @@ declare module "shell-shock:help/run/local" {
 declare module "shell-shock:help/new" {
   /**
    * Display help information for the New Commands command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the CLI Completions - PowerShell command.
+ *
+ * @module shell-shock:help/completions/powershell
+ */
+declare module "shell-shock:help/completions/powershell" {
+  /**
+   * Display help information for the CLI Completions - PowerShell command.
    */
   export function showHelp(): void;
 }
@@ -3168,6 +3291,18 @@ declare module "shell-shock:help/start" {
 declare module "shell-shock:help/upgrade" {
   /**
    * Display help information for the Upgrade command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the CLI Completions - Zsh Shell command.
+ *
+ * @module shell-shock:help/completions/zsh
+ */
+declare module "shell-shock:help/completions/zsh" {
+  /**
+   * Display help information for the CLI Completions - Zsh Shell command.
    */
   export function showHelp(): void;
 }

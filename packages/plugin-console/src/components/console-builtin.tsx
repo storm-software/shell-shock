@@ -2635,10 +2635,10 @@ export function LinkFunctionDeclaration() {
         </IfStatement>
         <hbr />
         <IfStatement condition={code`isColorSupported`}>
-          {code`return colors.underline(colors.text.body.link(\`$\{text ?? url\} $\{url\}\`));`}
+          {code`return colors.underline(colors.text.body.link(\`\${url}\`));`}
         </IfStatement>
         <hbr />
-        {code`return \`$\{text ?? url\} $\{url\}\`;`}
+        {code`return \`\${url}\`;`}
       </FunctionDeclaration>
     </>
   );

@@ -18,7 +18,6 @@
 
 import { render } from "@powerlines/plugin-alloy/render";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
-import { relativePath } from "@stryke/path";
 import { joinPaths } from "@stryke/path/join";
 import type { Plugin } from "powerlines";
 import {
@@ -52,7 +51,7 @@ export const plugin = <
         );
 
         return {
-          completions: { shells: SHELL_TYPES, ...options }
+          completions: { shells: [...SHELL_TYPES], ...options }
         };
       },
       configResolved() {
@@ -73,11 +72,15 @@ export const plugin = <
             path: "completions",
             segments: ["completions"],
             title: "CLI Completions",
+            tags: ["Utility"],
             description: `Commands for generating shell completion scripts for ${getAppTitle(
               this
             )}.`,
             entry: {
-              file: joinPaths(this.entryPath, "completions", "command.ts")
+              file: joinPaths(this.entryPath, "completions", "index.ts"),
+              input: {
+                file: joinPaths(this.entryPath, "completions", "command.ts")
+              }
             },
             isVirtual: true
           });
@@ -100,13 +103,22 @@ export const plugin = <
               path: "completions/bash",
               segments: ["completions", "bash"],
               title: "CLI Completions - Bash Shell",
+              tags: ["Utility"],
               entry: {
                 file: joinPaths(
                   this.entryPath,
                   "completions",
                   "bash",
-                  "command.ts"
-                )
+                  "index.ts"
+                ),
+                input: {
+                  file: joinPaths(
+                    this.entryPath,
+                    "completions",
+                    "bash",
+                    "command.ts"
+                  )
+                }
               },
               isVirtual: false
             });
@@ -130,11 +142,22 @@ export const plugin = <
               path: "completions/zsh",
               segments: ["completions", "zsh"],
               title: "CLI Completions - Zsh Shell",
+              tags: ["Utility"],
               entry: {
-                file: relativePath(
-                  this.commandsPath,
-                  joinPaths(this.entryPath, "completions", "zsh", "command.ts")
-                )
+                file: joinPaths(
+                  this.entryPath,
+                  "completions",
+                  "zsh",
+                  "index.ts"
+                ),
+                input: {
+                  file: joinPaths(
+                    this.entryPath,
+                    "completions",
+                    "zsh",
+                    "command.ts"
+                  )
+                }
               },
               isVirtual: false
             });
@@ -160,16 +183,22 @@ export const plugin = <
               path: "completions/powershell",
               segments: ["completions", "powershell"],
               title: "CLI Completions - PowerShell",
+              tags: ["Utility"],
               entry: {
-                file: relativePath(
-                  this.commandsPath,
-                  joinPaths(
+                file: joinPaths(
+                  this.entryPath,
+                  "completions",
+                  "powershell",
+                  "index.ts"
+                ),
+                input: {
+                  file: joinPaths(
                     this.entryPath,
                     "completions",
                     "powershell",
                     "command.ts"
                   )
-                )
+                }
               },
               isVirtual: false
             });
@@ -193,31 +222,45 @@ export const plugin = <
               path: "completions/fish",
               segments: ["completions", "fish"],
               title: "CLI Completions - Fish Shell",
+              tags: ["Utility"],
               entry: {
-                file: relativePath(
-                  this.commandsPath,
-                  joinPaths(this.entryPath, "completions", "fish", "command.ts")
-                )
+                file: joinPaths(
+                  this.entryPath,
+                  "completions",
+                  "fish",
+                  "index.ts"
+                ),
+                input: {
+                  file: joinPaths(
+                    this.entryPath,
+                    "completions",
+                    "fish",
+                    "command.ts"
+                  )
+                }
               },
               isVirtual: false
             });
           }
         }
       },
-      async prepare() {
-        this.debug(
-          "Rendering command handling modules for the Shell Shock `completions` plugin."
-        );
+      prepare: {
+        order: "pre",
+        async handler() {
+          this.debug(
+            "Rendering command handling modules for the Shell Shock `completions` plugin."
+          );
 
-        return render(
-          this,
-          <>
-            <BashCompletionsCommand />
-            <ZshCompletionsCommand />
-            <PowerShellCompletionsCommand />
-            <FishCompletionsCommand />
-          </>
-        );
+          return render(
+            this,
+            <>
+              <BashCompletionsCommand />
+              <ZshCompletionsCommand />
+              <PowerShellCompletionsCommand />
+              <FishCompletionsCommand />
+            </>
+          );
+        }
       }
     }
   ];

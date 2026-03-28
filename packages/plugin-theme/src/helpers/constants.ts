@@ -16,10 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-function quoteIfNeeded(path: string): string {
-  return path.includes(" ") ? `'${path}'` : path;
-}
-
-export const EXEC_COMMAND = `${quoteIfNeeded(process.execPath)} ${process.execArgv
-  .map(quoteIfNeeded)
-  .join(" ")} ${process.argv.slice(1).map(quoteIfNeeded)[0]}`;
+export const DEFAULT_TAG_COLORS = {
+  foreground: "#394447",
+  background: "#f9fbfb"
+};

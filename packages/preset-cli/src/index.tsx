@@ -25,6 +25,7 @@ import {
   getAppName,
   getCommandList
 } from "@shell-shock/core/plugin-utils";
+import completions from "@shell-shock/plugin-completions";
 import console from "@shell-shock/plugin-console";
 import help from "@shell-shock/plugin-help";
 import prompts from "@shell-shock/plugin-prompts";
@@ -53,6 +54,9 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
     ...console<TContext>(options),
     ...help<TContext>(options),
     ...prompts<TContext>(options),
+    ...(options.completions !== false
+      ? completions<TContext>(options.completions)
+      : []),
     upgrade<TContext>(options),
     {
       name: "shell-shock:cli-preset",
