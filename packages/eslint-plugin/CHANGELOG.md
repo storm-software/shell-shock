@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.55](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.55) (03/28/2026)
+
+### Bug Fixes
+
+- **eslint-plugin:** Resolve issue with literals in invalid parameter linting rule ([9ea1d11](https://github.com/storm-software/shell-shock/commit/9ea1d11))
+
 ## [0.0.54](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.54) (03/27/2026)
 
 ### Miscellaneous

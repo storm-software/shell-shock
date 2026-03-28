@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.7](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.7) (03/28/2026)
+
+### Features
+
+- **preset-cli:** Added `completions` plugin commands to preset ([6ce7e11](https://github.com/storm-software/shell-shock/commit/6ce7e11))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.1.29**
+- Updated **plugin-theme** to **v0.4.2**
+- Updated **core** to **v0.14.3**
+
 ## [0.2.6](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.6) (03/27/2026)
 
 ### Miscellaneous
