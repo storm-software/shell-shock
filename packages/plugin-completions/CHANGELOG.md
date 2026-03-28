@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.3.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.3.1) (03/28/2026)
+
+### Bug Fixes
+
+- **plugin-completions:** Resolved issue with missing import ([31699d4](https://github.com/storm-software/shell-shock/commit/31699d4))
+
 ## [0.3.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.3.0) (03/28/2026)
 
 ### Miscellaneous
