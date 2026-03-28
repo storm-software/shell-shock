@@ -1269,17 +1269,19 @@ function buildThemeAnsiStyles(
           }
         },
         ...Object.fromEntries(
-          Object.entries(theme.text.tags).map(([tag, value]) => [
-            camelCase(tag),
-            {
-              open: wrapFn()(convertFn(value)),
-              close: wrapAnsi16()(39),
-              background: {
-                open: wrapFn(ANSI_BACKGROUND_OFFSET)(convertFn(value)),
-                close: wrapAnsi16()(49)
+          Object.entries(theme.text.tags)
+            .filter(([tag]) => tag !== "$default")
+            .map(([tag, value]) => [
+              camelCase(tag),
+              {
+                open: wrapFn()(convertFn(value)),
+                close: wrapAnsi16()(39),
+                background: {
+                  open: wrapFn(ANSI_BACKGROUND_OFFSET)(convertFn(value)),
+                  close: wrapAnsi16()(49)
+                }
               }
-            }
-          ])
+            ])
         )
       }
     },

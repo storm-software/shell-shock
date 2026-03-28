@@ -1233,7 +1233,9 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
         } else if (isSetObject(tags)) {
           for (const [tag, value] of Object.entries(tags)) {
             if (isSetString(value)) {
-              resolvedConfig.colors.text.tags[camelCase(tag)] = value;
+              resolvedConfig.colors.text.tags[
+                tag === "$default" ? "$default" : camelCase(tag)
+              ] = value;
             }
           }
         }

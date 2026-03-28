@@ -113,7 +113,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                   context.config.upgradeType === "manual"
                     ? ` \\nPlease run \`${getAppBin(
                         context
-                      )} update\` to upgrade to the latest version.`
+                      )} upgrade\` to upgrade to the latest version.`
                     : ""
                 }\`); `}
               <Spacing />
@@ -156,7 +156,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                 } else {
                   help("Updates can be performed at any time by running the \`${getAppBin(
                     context
-                  )} update\` command. Please remember that keeping your application up to date is important for ensuring you have the latest features, performance improvements, and security patches.");
+                  )} upgrade\` command. Please remember that keeping your application up to date is important for ensuring you have the latest features, performance improvements, and security patches.");
                 } `}
               </Show>
             </Show>

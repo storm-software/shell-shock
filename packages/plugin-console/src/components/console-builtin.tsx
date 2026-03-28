@@ -58,7 +58,7 @@ import type {
   AnsiWrappers,
   BaseAnsiStylesKeys
 } from "@shell-shock/plugin-theme/helpers/ansi-utils";
-import { kebabCase } from "@stryke/string-format";
+import { camelCase } from "@stryke/string-format";
 import { getIndefiniteArticle } from "@stryke/string-format/vowels";
 import { defu } from "defu";
 
@@ -1564,7 +1564,7 @@ export function ColorsDeclaration() {
                 </>
               }>
               {key =>
-                code`${kebabCase(key)}: ${(
+                code`${key === "$default" ? "$default" : camelCase(key)}: ${(
                   <ColorFunction
                     ansi16={colors.ansi16.theme.text.tags[key] as AnsiWrappers}
                     ansi256={
