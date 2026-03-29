@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.4.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.0) (03/29/2026)
+
+### Features
+
+- **plugin-completions:** Added help display messages after completion ([c48be9f](https://github.com/storm-software/shell-shock/commit/c48be9f))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.14.5**
+
 ## [0.3.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.3.1) (03/28/2026)
 
 ### Bug Fixes

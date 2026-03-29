@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.37](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.37) (03/29/2026)
+
+### Features
+
+- **plugin-completions:** Added help display messages after completion ([c48be9f](https://github.com/storm-software/shell-shock/commit/c48be9f))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.14.5**
+
 ## [0.1.36](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.36) (03/28/2026)
 
 ### Miscellaneous
