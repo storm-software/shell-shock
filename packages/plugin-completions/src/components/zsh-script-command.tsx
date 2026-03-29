@@ -65,7 +65,13 @@ export function ZshScriptCompletionsCommand() {
         "../shared": ["SHELL_COMPLETIONS", "SHELL_COMPLETIONS_DISPLAY"]
       }}
       builtinImports={{
-        "shell-shock:console": ["colors", "writeLine", "success", "warn"]
+        "shell-shock:console": [
+          "colors",
+          "writeLine",
+          "success",
+          "warn",
+          "help"
+        ]
       }}>
       <TSDoc heading="Options for the Zsh Completions - Script command." />
       <InterfaceDeclaration export name="ZshScriptCompletionsOptions">
@@ -111,13 +117,21 @@ export function ZshScriptCompletionsCommand() {
         </IfStatement>
         <ElseClause>
           {code`writeLine(" ------------------------------------------------- ");
+            writeLine("");
             writeLine("#compdef ${bin.value} ");
             writeLine("#compdef _${name.value} ${bin.value}");
             writeLine("");
             writeLine("# Zsh completion for ${getAppTitle(context)}");
             writeLine("");
             SHELL_COMPLETIONS_DISPLAY.split("\\n").map(line => writeLine(line));
-            writeLine(" ------------------------------------------------- ");`}
+            writeLine("");
+            writeLine(" ------------------------------------------------- ");
+
+            writeLine("");
+            help(\`To enable these completions, perform one of the following actions:
+
+            1) Copy and paste the above script into your shell configuration file (e.g., ~/.config/zsh/.zshrc)
+            2) Save the above script to a file and source it from your shell configuration file \`); `}
         </ElseClause>
       </FunctionDeclaration>
     </TypescriptFile>

@@ -46,7 +46,7 @@ export function UpgradeCommand() {
     <TypescriptFile
       path={joinPaths(context.entryPath, "upgrade", "command.ts")}
       imports={{
-        "node:os": ["os"],
+        "node:os": "os",
         "node:fs/promises": ["readFile", "writeFile"]
       }}
       builtinImports={{

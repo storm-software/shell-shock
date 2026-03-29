@@ -56,7 +56,13 @@ export function FishConfigCompletionsCommand() {
         "../shared": ["SHELL_COMPLETIONS", "SHELL_COMPLETIONS_DISPLAY"]
       }}
       builtinImports={{
-        "shell-shock:console": ["colors", "writeLine", "success", "warn"]
+        "shell-shock:console": [
+          "colors",
+          "writeLine",
+          "success",
+          "warn",
+          "help"
+        ]
       }}>
       <TSDoc heading="Options for the Fish Completions - Configuration command." />
       <InterfaceDeclaration export name="FishConfigCompletionsOptions">
@@ -127,12 +133,20 @@ export function FishConfigCompletionsCommand() {
         </IfStatement>
         <ElseClause>
           {code`writeLine(" ------------------------------------------------- ");
+            writeLine("");
             writeLine(\`### Begin - ${getAppTitle(context)} Fish Completions ###\`);
             writeLine("");
             SHELL_COMPLETIONS_DISPLAY.split("\\n").map(line => writeLine(line));
             writeLine("");
             writeLine(\`### End - ${getAppTitle(context)} Fish Completions ###\`);
-            writeLine(" ------------------------------------------------- ");`}
+            writeLine("");
+            writeLine(" ------------------------------------------------- ");
+
+            writeLine("");
+            help(\`To enable these completions, perform one of the following actions:
+
+            1) Copy and paste the above script into your shell configuration file (e.g., ~/.config/fish/config.fish)
+            2) Save the above script to a file and source it from your shell configuration file \`); `}
         </ElseClause>
       </FunctionDeclaration>
     </TypescriptFile>

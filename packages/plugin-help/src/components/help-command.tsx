@@ -46,7 +46,7 @@ export function HelpCommand() {
     <TypescriptFile
       path={joinPaths(context.entryPath, "help", "command.ts")}
       imports={{
-        "node:os": ["os"],
+        "node:os": "os",
         "node:fs/promises": ["readFile", "writeFile"]
       }}
       builtinImports={{

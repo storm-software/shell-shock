@@ -63,7 +63,13 @@ export function BashScriptCompletionsCommand() {
         "../shared": ["SHELL_COMPLETIONS", "SHELL_COMPLETIONS_DISPLAY"]
       }}
       builtinImports={{
-        "shell-shock:console": ["colors", "writeLine", "success", "warn"]
+        "shell-shock:console": [
+          "colors",
+          "writeLine",
+          "success",
+          "warn",
+          "help"
+        ]
       }}>
       <TSDoc heading="Options for the Bash Completions - Script command." />
       <InterfaceDeclaration export name="BashScriptCompletionsOptions">
@@ -101,18 +107,27 @@ export function BashScriptCompletionsCommand() {
             type="string"
             initializer={code` path.includes(".") ? \`\${path}.bash\` : path;`}
           />
-          {code`await writeFile(scriptPath, \`# Bash script to add completions for ${getAppTitle(context)}\\n\\n\${SHELL_COMPLETIONS}\`);
+          {code`
+          await writeFile(scriptPath, \`# Bash script to add completions for ${getAppTitle(context)}\\n\\n\${SHELL_COMPLETIONS}\`);
 
-            success(\`${getAppTitle(
-              context
-            )} Bash completion script has been generated at \${colors.bold(scriptPath)}.\`);`}
+          success(\`${getAppTitle(
+            context
+          )} Bash completion script has been generated at \${colors.bold(scriptPath)}.\`); `}
         </IfStatement>
         <ElseClause>
           {code`writeLine(" ------------------------------------------------- ");
+            writeLine("");
             writeLine(\`# Bash completion for ${getAppTitle(context)}\`);
             writeLine("");
             SHELL_COMPLETIONS_DISPLAY.split("\\n").map(line => writeLine(line));
-            writeLine(" ------------------------------------------------- ");`}
+            writeLine("");
+            writeLine(" ------------------------------------------------- ");
+
+            writeLine("");
+            help(\`To enable these completions, perform one of the following actions:
+
+            1) Copy and paste the above script into your shell configuration file (e.g., ~/.bashrc)
+            2) Save the above script to a file and source it from your shell configuration file \`); `}
         </ElseClause>
       </FunctionDeclaration>
     </TypescriptFile>

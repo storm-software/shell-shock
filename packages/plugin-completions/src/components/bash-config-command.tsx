@@ -61,7 +61,13 @@ export function BashConfigCompletionsCommand() {
         "../shared": ["SHELL_COMPLETIONS_DISPLAY", "SHELL_COMPLETIONS"]
       }}
       builtinImports={{
-        "shell-shock:console": ["colors", "writeLine", "success", "warn"]
+        "shell-shock:console": [
+          "colors",
+          "writeLine",
+          "success",
+          "warn",
+          "help"
+        ]
       }}>
       <TSDoc heading="Options for the Bash Completions - Configuration command." />
       <InterfaceDeclaration export name="BashConfigCompletionsOptions">
@@ -132,12 +138,20 @@ export function BashConfigCompletionsCommand() {
         </IfStatement>
         <ElseClause>
           {code`writeLine(" ------------------------------------------------- ");
-            writeLine(\`### Begin - ${getAppTitle(context)} Bash Completions ###\`);
-            writeLine("");
-            SHELL_COMPLETIONS_DISPLAY.split("\\n").map(line => writeLine(line));
-            writeLine("");
-            writeLine(\`### End - ${getAppTitle(context)} Bash Completions ###\`);
-            writeLine(" ------------------------------------------------- ");`}
+          writeLine("");
+          writeLine(\`### Begin - ${getAppTitle(context)} Bash Completions ###\`);
+          writeLine("");
+          SHELL_COMPLETIONS_DISPLAY.split("\\n").map(line => writeLine(line));
+          writeLine("");
+          writeLine(\`### End - ${getAppTitle(context)} Bash Completions ###\`);
+          writeLine("");
+          writeLine(" ------------------------------------------------- ");
+
+          writeLine("");
+          help(\`To enable these completions, perform one of the following actions:
+
+          1) Copy and paste the above script into your shell configuration file (e.g., ~/.bashrc)
+          2) Save the above script to a file and source it from your shell configuration file \`); `}
         </ElseClause>
       </FunctionDeclaration>
     </TypescriptFile>
