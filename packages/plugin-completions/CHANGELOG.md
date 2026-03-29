@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.4.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.1) (03/29/2026)
+
+### Bug Fixes
+
+- **plugin-completions:** Resolved issue with missing completion command input ([aa0017a](https://github.com/storm-software/shell-shock/commit/aa0017a))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.14.6**
+
 ## [0.4.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.0) (03/29/2026)
 
 ### Features

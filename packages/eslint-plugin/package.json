@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/eslint-plugin",
-  "version": "0.0.57",
+  "version": "0.0.58",
   "private": false,
   "description": "An ESLint Plugin with linting rules that ensure a Shell Shock project is following the best practices.",
   "keywords": ["eslint", "eslint-plugin", "shell-shock", "storm-software"],
