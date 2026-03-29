@@ -79,16 +79,14 @@ export const plugin = <
             alias: ["completion"],
             path: "completions",
             segments: ["completions"],
-            title: "CLI Completions",
+            title: "Completions",
+            icon: "🖵",
             tags: ["Utility"],
             description: `Commands for generating shell completion scripts for ${getAppTitle(
               this
             )}.`,
             entry: {
-              file: joinPaths(this.entryPath, "completions", "index.ts"),
-              input: {
-                file: joinPaths(this.entryPath, "completions", "command.ts")
-              }
+              file: joinPaths(this.entryPath, "completions", "index.ts")
             },
             isVirtual: true
           });
