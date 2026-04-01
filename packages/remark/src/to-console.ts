@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import { isSetString } from "@stryke/type-checks/is-set-string";
 import type { Association, Node } from "mdast";
 import { decodeString } from "micromark-util-decode-string";
 import { zwitch } from "zwitch";
@@ -62,6 +63,7 @@ import type {
   Join,
   Options,
   PhrasingParents,
+  RenderAdapter,
   SafeConfig,
   State,
   TrackFields,
@@ -268,8 +270,14 @@ const unsafe = [
  * @param options - Configuration options for the compilation process. See {@link Options} type for details.
  * @returns A string representation of the compiled markdown syntax tree, suitable for generating console output in a [Shell Shock](https://github.com/storm-software/shell-shock) application.
  */
-export function toConsole(tree: Node, options: Options = {}): string {
+export function toConsole(tree: Node, options: Options): string {
   const state = {
+    adapter: Object.fromEntries(
+      Object.entries(options.adapter).map(([key, value]) => [
+        key,
+        isSetString(value) ? { before: `${value}(\``, after: `\`); ` } : value
+      ])
+    ) as RenderAdapter,
     associationId: (node: Association) => {
       if (node.label || !node.identifier) {
         return node.label || "";
@@ -392,7 +400,7 @@ export function toConsole(tree: Node, options: Options = {}): string {
         );
 
         if (child?.type !== "list") {
-          state.bulletLastUsed = undefined;
+          state.listMarkerLastUsed = undefined;
         }
 
         if (child && index < children.length - 1 && children[index + 1]) {

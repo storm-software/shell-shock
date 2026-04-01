@@ -609,10 +609,12 @@ export type Join = (
  */
 export type Map = (value: string, line: number, blank: boolean) => string;
 
-export type ConsoleComponentKeys =
+export type RenderComponentKeys =
   | "heading1"
   | "heading2"
   | "heading3"
+  | "heading4"
+  | "heading5"
   | "body1"
   | "body2"
   | "body3"
@@ -621,98 +623,114 @@ export type ConsoleComponentKeys =
   | "strikethrough"
   | "underline"
   | "blockquote"
-  | "list"
   | "link"
   | "table"
   | "code"
   | "inlineCode"
-  | "break";
+  | "break"
+  | "horizontal";
 
-export interface ConsoleComponents {
+export type ComponentRenderAdapter = Record<RenderComponentKeys, string>;
+
+export interface RenderAdapterItem extends SafeFields {
+  process?: (content: string) => string;
+}
+
+export interface RenderAdapter {
   /**
    * Heading level 1.
    */
-  heading1: (content: string) => string;
+  heading1: RenderAdapterItem;
 
   /**
    * Heading level 2.
    */
-  heading2: (content: string) => string;
+  heading2: RenderAdapterItem;
 
   /**
    * Heading level 3.
    */
-  heading3: (content: string) => string;
+  heading3: RenderAdapterItem;
+
+  /**
+   * Heading level 4.
+   */
+  heading4: RenderAdapterItem;
+
+  /**
+   * Heading level 5.
+   */
+  heading5: RenderAdapterItem;
 
   /**
    * Body text level 1.
    */
-  body1: (content: string) => string;
+  body1: RenderAdapterItem;
 
   /**
    * Body text level 2.
    */
-  body2: (content: string) => string;
+  body2: RenderAdapterItem;
 
   /**
    * Body text level 3.
    */
-  body3: (content: string) => string;
+  body3: RenderAdapterItem;
 
   /**
    * Bold text.
    */
-  bold: (content: string) => string;
+  bold: RenderAdapterItem;
 
   /**
    * Italic text.
    */
-  italic: (content: string) => string;
+  italic: RenderAdapterItem;
 
   /**
    * Strikethrough text.
    */
-  strikethrough: (content: string) => string;
+  strikethrough: RenderAdapterItem;
 
   /**
    * Underlined text.
    */
-  underline: (content: string) => string;
+  underline: RenderAdapterItem;
 
   /**
    * Blockquote text.
    */
-  blockquote: (content: string) => string;
-
-  /**
-   * List of items.
-   */
-  list: (items: string[]) => string;
+  blockquote: RenderAdapterItem;
 
   /**
    * Link text.
    */
-  link: (content: string, href: string) => string;
+  link: RenderAdapterItem;
 
   /**
    * Table.
    */
-  table: (headers: string[], rows: string[][]) => string;
+  table: RenderAdapterItem;
 
   /**
    * Code block.
    */
-  code: (content: string, language?: string) => string;
+  code: RenderAdapterItem;
 
   /**
    * Inline code.
    */
-  inlineCode: (content: string) => string;
+  inlineCode: RenderAdapterItem;
 
   /**
    * Line break.
    */
-  break: () => string;
+  break: RenderAdapterItem;
+
+  /**
+   * Horizontal divider.
+   */
+  horizontal: RenderAdapterItem;
 }
 
 /**
@@ -722,39 +740,7 @@ export interface Options {
   /**
    * The rendering components to use for console output.
    */
-  components?: ConsoleComponents;
-
-  /**
-   * Marker to use for bullets of items in unordered lists.
-   *
-   * @remarks
-   * There are three cases where the primary bullet cannot be used:
-   * 1. When three or more list items are on their own, the last one is empty, and {@link bullet} is also a valid `rule`: `* - +`; this would turn into a thematic break if serialized with three primary bullets; {@link bulletOther} is used for the last item
-   * 2. When a thematic break is the first child of a list item and {@link bullet} is the same character as `rule`: `- ***`; this would turn into a single thematic break if serialized with primary bullets; {@link bulletOther} is used for the item
-   * 3. When two unordered lists appear next to each other: `* a\n- b`; {@link bulletOther} is used for such lists
-   *
-   * @defaultValue "*"
-   */
-  bullet?: "*" | "+" | "-";
-
-  /**
-   * Marker to use in certain cases where the primary bullet doesn’t work.
-   *
-   * @remarks
-   * Will default to `"-"` when {@link bullet} is `"*"`, otherwise will be `"*"`. Note: this value cannot be equal to {@link bullet}.
-   */
-  bulletOther?: "*" | "+" | "-";
-
-  /**
-   * Marker to use for bullets of items in ordered lists.
-   *
-   * There is one case where the primary bullet for ordered items cannot be
-   * used:
-   * 1. When two ordered lists appear next to each other: `1. a\n2) b`; to solve that, `'.'` will be used when {@link bulletOrdered} is `')'`, and `'.'` otherwise
-   *
-   * @defaultValue "."
-   */
-  bulletOrdered?: "." | ")";
+  adapter: ComponentRenderAdapter | RenderAdapter;
 
   /**
    * Whether to add the same number of number signs (`#`) at the end of an ATX heading as the opening sequence.
@@ -762,41 +748,6 @@ export interface Options {
    * @defaultValue false
    */
   closeAtx?: boolean;
-
-  /**
-   * Marker to use for emphasis.
-   *
-   * @defaultValue "*"
-   */
-  emphasis?: "*" | "_";
-
-  /**
-   * Whether to use fenced code always.
-   *
-   * @remarks
-   * This option forces the use of fenced code, even when indented code would be possible. The default is to use fenced code if there is a language defined, if the code is empty, or if it starts or ends in blank lines.
-   *
-   * @defaultValue true
-   */
-  fences?: boolean;
-
-  /**
-   * Marker to use for fenced code.
-   *
-   * @remarks
-   * There are two cases where the primary fence cannot be used:
-   * 1. When a fenced code block is fenced with the same character as the fence: `\`\`\`js\\n\`\`\`\`, to solve that, `~` will be used when {@link fence} is \`\` \` \`\`, and \`\` \` \`\` otherwise
-   *
-   * @defaultValue "\`"
-   */
-  fence?: "`" | "~" | null;
-
-  /**
-   * Override {@link Handlers | handlers} for particular nodes.
-   *
-   * Each key is a node type, each value its corresponding handler.
-   */
-  handlers?: Partial<Handlers>;
 
   /**
    * Whether to increment the counter of ordered lists items.
@@ -821,16 +772,6 @@ export interface Options {
    * @defaultValue '"'
    */
   quote?: '"' | "'" | null;
-
-  /**
-   * Whether to always use resource links.
-   *
-   * @remarks
-   * The default is to use autolinks (`<https://example.com>`) when possible and resource links (`[text](url)`) otherwise. This option forces the use of resource links, even when autolinks would be possible.
-   *
-   * @defaultValue false
-   */
-  resourceLink?: boolean;
 
   /**
    * Number of markers to use for thematic breaks.
@@ -860,13 +801,6 @@ export interface Options {
    * The default is to always use ATX headings (`# heading`) instead of setext headings (`heading\n=======`). Setext headings cannot be used for empty headings or headings with a rank of three or more.
    */
   setext?: boolean;
-
-  /**
-   * Marker to use for strong
-   *
-   * @defaultValue "*"
-   */
-  strong?: "*" | "_";
 
   /**
    * Whether to join definitions without a blank line.
@@ -956,6 +890,11 @@ export type Safe = (
  */
 export interface State {
   /**
+   * The rendering components to use for console output.
+   */
+  adapter: RenderAdapter;
+
+  /**
    * Get an identifier from an association to match it to others.
    */
   associationId: AssociationId;
@@ -976,12 +915,12 @@ export interface State {
   /**
    * List marker currently in use.
    */
-  bulletCurrent?: string;
+  listMarkerCurrent?: string;
 
   /**
    * List marker previously in use.
    */
-  bulletLastUsed?: string;
+  listMarkerLastUsed?: string;
 
   /**
    * Compile an unsafe pattern to a regex.

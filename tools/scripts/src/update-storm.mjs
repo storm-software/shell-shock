@@ -24,10 +24,7 @@ try {
 
   // 1) Update all @storm-software, @stryke, and @powerlines packages
   await echo`${chalk.whiteBright("Checking for storm-software, stryke, and powerlines updates...")}`;
-  let proc =
-    $`pnpm exec storm-pnpm update @storm-software/ @stryke/ @powerlines/ powerlines --all`.timeout(
-      `${30 * 60}s`
-    );
+  let proc = $`pnpm exec storm-pnpm update --all`.timeout(`${30 * 60}s`);
   proc.stdout.on("data", data => echo`${data}`);
   let result = await proc;
   if (result.exitCode !== 0) {

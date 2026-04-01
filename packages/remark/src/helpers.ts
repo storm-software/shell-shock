@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { isString } from "@stryke/type-checks/is-string";
-import type { Code, Heading, Link } from "mdast";
+import type { Code, Heading } from "mdast";
 import { toString } from "mdast-util-to-string";
 import { classifyCharacter } from "micromark-util-classify-character";
 import { EXIT, visit } from "unist-util-visit";
@@ -52,20 +52,6 @@ export function checkRule(state: State) {
       `Cannot serialize rules with \`${String(
         marker
       )}\` for \`options.rule\`, expected \`*\`, \`-\`, or \`_\``
-    );
-  }
-
-  return marker;
-}
-
-export function checkStrong(state: State) {
-  const marker = state.options.strong || "*";
-
-  if (marker !== "*" && marker !== "_") {
-    throw new Error(
-      `Cannot serialize strong with \`${String(
-        marker
-      )}\` for \`options.strong\`, expected \`*\`, or \`_\``
     );
   }
 
@@ -139,61 +125,6 @@ export function encodeInfo(outside: number, inside: number, marker: "*" | "_") {
         { inside: false, outside: false };
 }
 
-export function checkBullet(state: State) {
-  const marker = state.options.bullet || "*";
-
-  if (marker !== "*" && marker !== "+" && marker !== "-") {
-    throw new Error(
-      `Cannot serialize items with \`${String(
-        marker
-      )}\` for \`options.bullet\`, expected \`*\`, \`+\`, or \`-\``
-    );
-  }
-
-  return marker;
-}
-
-export function checkBulletOther(state: State) {
-  const bullet = checkBullet(state);
-  const bulletOther = state.options.bulletOther;
-
-  if (!bulletOther) {
-    return bullet === "*" ? "-" : "*";
-  }
-
-  if (bulletOther !== "*" && bulletOther !== "+" && bulletOther !== "-") {
-    throw new Error(
-      `Cannot serialize items with \`${String(
-        bulletOther
-      )}\` for \`options.bulletOther\`, expected \`*\`, \`+\`, or \`-\``
-    );
-  }
-
-  if (bulletOther === bullet) {
-    throw new Error(
-      `Expected \`bullet\` (\`${bullet}\`) and \`bulletOther\` (\`${
-        bulletOther
-      }\` for \`options.bulletOther\`, expected \`*\`, \`+\`, or \`-\``
-    );
-  }
-
-  return bulletOther;
-}
-
-export function checkBulletOrdered(state: State) {
-  const marker = state.options.bulletOrdered || ".";
-
-  if (marker !== "." && marker !== ")") {
-    throw new Error(
-      `Cannot serialize items with \`${String(
-        marker
-      )}\` for \`options.bulletOrdered\`, expected \`.\` or \`)\``
-    );
-  }
-
-  return marker;
-}
-
 export function checkListItemIndent(state: State) {
   const style = state.options.listItemIndent || "one";
 
@@ -222,23 +153,6 @@ export function checkQuote(state: State) {
   return marker;
 }
 
-export function formatLinkAsAutolink(node: Link, state: State) {
-  const raw = toString(node);
-
-  return Boolean(
-    !state.options.resourceLink &&
-    node.url &&
-    !node.title &&
-    node.children &&
-    node.children.length === 1 &&
-    node.children[0]?.type === "text" &&
-    (raw === node.url || `mailto:${raw}` === node.url) &&
-    /^[a-z][a-z+.-]+:/i.test(node.url) &&
-    // eslint-disable-next-line regexp/no-obscure-range
-    !/[\0- <>\u007F]/.test(node.url)
-  );
-}
-
 export function formatHeadingAsSetext(node: Heading, state: State) {
   let literalWithBreak = false;
   visit(node, node => {
@@ -259,37 +173,8 @@ export function formatHeadingAsSetext(node: Heading, state: State) {
   );
 }
 
-export function checkEmphasis(state: State) {
-  const marker = state.options.emphasis || "*";
-
-  if (marker !== "*" && marker !== "_") {
-    throw new Error(
-      `Cannot serialize emphasis with \`${String(
-        marker
-      )}\` for \`options.emphasis\`, expected \`*\`, or \`_\``
-    );
-  }
-
-  return marker;
-}
-
-export function checkFence(state: State) {
-  const marker = state.options.fence || "`";
-
-  if (marker !== "`" && marker !== "~") {
-    throw new Error(
-      `Cannot serialize code with \`${String(
-        marker
-      )}\` for \`options.fence\`, expected \`\` \` \`\` or \`~\``
-    );
-  }
-
-  return marker;
-}
-
-export function formatCodeAsIndented(node: Code, state: State) {
+export function formatCodeAsIndented(node: Code) {
   return Boolean(
-    state.options.fences === false &&
     node.value &&
     // If there’s no info…
     !node.lang &&
@@ -503,9 +388,9 @@ export function join(
   // Indented code after list or another indented code.
   if (
     right.type === "code" &&
-    formatCodeAsIndented(right, state) &&
+    formatCodeAsIndented(right) &&
     (left.type === "list" ||
-      (left.type === right.type && formatCodeAsIndented(left, state)))
+      (left.type === right.type && formatCodeAsIndented(left)))
   ) {
     return false;
   }

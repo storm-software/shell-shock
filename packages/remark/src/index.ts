@@ -33,7 +33,7 @@ export type * from "./types";
  * @param this - The unified processor instance, which provides access to the processor's data and settings.
  * @param options - Configuration options for the compilation process. See {@link Options} type for details.
  */
-export function plugin(this: Processor, options: Options = {}) {
+export function plugin(this: Processor, options: Options) {
   this.compiler = ((tree: Node) => {
     return toConsole(tree, {
       ...this.data("settings"),
@@ -42,12 +42,13 @@ export function plugin(this: Processor, options: Options = {}) {
   }) as Compiler<Node, CompileResults>;
 }
 
-const processor = unified()
-  .use(remarkParse, {
-    extensions: [gfmStrikethrough()],
-    mdastExtensions: [gfmStrikethroughFromMarkdown()]
-  })
-  .use(plugin)
-  .freeze();
+const processor = (options: Options) =>
+  unified()
+    .use(remarkParse, {
+      extensions: [gfmStrikethrough()],
+      mdastExtensions: [gfmStrikethroughFromMarkdown()]
+    })
+    .use(plugin, options)
+    .freeze();
 
 export default processor;
