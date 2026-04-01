@@ -19,39 +19,39 @@ catalog:
   "@nx/js": 22.6.1
   "@nx/plugin": 22.6.1
   "@nx/workspace": 22.6.1
-  "@powerlines/deepkit": ^0.6.163
-  "@powerlines/nx": ^0.11.313
-  "@powerlines/plugin-alloy": ^0.26.0
-  "@powerlines/plugin-automd": ^0.1.384
-  "@powerlines/plugin-deepkit": ^0.11.263
-  "@powerlines/plugin-env": ^0.16.106
-  "@powerlines/plugin-nodejs": ^0.1.307
-  "@powerlines/plugin-plugin": ^0.12.335
-  "@powerlines/plugin-style-dictionary": ^0.3.285
-  "@powerlines/plugin-tsdown": ^0.1.326
-  "@powerlines/plugin-tsup": ^0.12.385
-  "@powerlines/plugin-untyped": ^0.2.337
-  "@powerlines/plugin-vite": ^0.14.379
-  "@powerlines/tsconfig": ^0.4.47
+  "@powerlines/deepkit": ^0.6.164
+  "@powerlines/nx": ^0.11.314
+  "@powerlines/plugin-alloy": ^0.26.1
+  "@powerlines/plugin-automd": ^0.1.385
+  "@powerlines/plugin-deepkit": ^0.11.264
+  "@powerlines/plugin-env": ^0.16.107
+  "@powerlines/plugin-nodejs": ^0.1.308
+  "@powerlines/plugin-plugin": ^0.12.336
+  "@powerlines/plugin-style-dictionary": ^0.3.286
+  "@powerlines/plugin-tsdown": ^0.1.327
+  "@powerlines/plugin-tsup": ^0.12.386
+  "@powerlines/plugin-untyped": ^0.2.338
+  "@powerlines/plugin-vite": ^0.14.380
+  "@powerlines/tsconfig": ^0.4.48
   "@standard-schema/spec": ^1.1.0
   "@standard-schema/utils": ^0.3.0
-  "@storm-software/build-tools": ^0.158.142
-  "@storm-software/config": ^1.137.15
-  "@storm-software/config-tools": ^1.189.61
-  "@storm-software/cspell": ^0.46.51
-  "@storm-software/esbuild": ^0.53.143
-  "@storm-software/eslint": ^0.170.3
-  "@storm-software/git-tools": ^2.130.19
-  "@storm-software/linting-tools": ^1.133.12
-  "@storm-software/markdownlint": ^0.30.139
-  "@storm-software/pnpm-tools": ^0.6.146
-  "@storm-software/prettier": ^0.59.35
-  "@storm-software/testing-tools": ^1.119.136
-  "@storm-software/tsconfig": ^0.48.50
-  "@storm-software/tsdoc": ^0.13.136
-  "@storm-software/unbuild": ^0.57.143
-  "@storm-software/untyped": ^0.24.124
-  "@storm-software/workspace-tools": ^1.295.37
+  "@storm-software/build-tools": ^0.158.145
+  "@storm-software/config": ^1.137.18
+  "@storm-software/config-tools": ^1.189.64
+  "@storm-software/cspell": ^0.46.54
+  "@storm-software/esbuild": ^0.53.146
+  "@storm-software/eslint": ^0.170.6
+  "@storm-software/git-tools": ^2.130.22
+  "@storm-software/linting-tools": ^1.133.15
+  "@storm-software/markdownlint": ^0.30.142
+  "@storm-software/pnpm-tools": ^0.6.149
+  "@storm-software/prettier": ^0.59.38
+  "@storm-software/testing-tools": ^1.119.139
+  "@storm-software/tsconfig": ^0.48.53
+  "@storm-software/tsdoc": ^0.13.139
+  "@storm-software/unbuild": ^0.57.146
+  "@storm-software/untyped": ^0.24.127
+  "@storm-software/workspace-tools": ^1.295.40
   "@stryke/capnp": ^0.12.90
   "@stryke/cli": ^0.13.36
   "@stryke/convert": ^0.6.57
@@ -71,13 +71,17 @@ catalog:
   "@swc/helpers": ^0.5.20
   "@types/eslint": ^9.6.1
   "@types/eslint__js": ^9.14.0
+  "@types/estree": ^1.0.8
+  "@types/hast": ^3.0.4
   "@types/jest": ^29.5.14
   "@types/json-schema": ^7.0.15
+  "@types/mdast": ^4.0.4
   "@types/node": ^25.5.0
   "@types/react": ^19.2.14
   "@types/react-dom": ^19.2.3
+  "@types/unist": ^3.0.3
   "@typescript-eslint/scope-manager": ^8.54.0
-  "@typescript-eslint/utils": ^8.57.2
+  "@typescript-eslint/utils": ^8.58.0
   "@typescript/native-preview": 7.0.0-dev.20251218.3
   automd: ^0.4.3
   cfonts: ^3.3.1
@@ -99,11 +103,18 @@ catalog:
   jsonc-eslint-parser: ^2.4.2
   lefthook: ^1.13.6
   log4brains: ^1.1.0
+  longest-streak: ^3.1.0
+  mdast-util-from-markdown: ^2.0.3
+  mdast-util-phrasing: ^4.1.0
+  mdast-util-to-string: ^4.0.0
+  micromark-util-classify-character: ^2.0.1
   nx: 22.6.1
-  powerlines: ^0.42.25
+  powerlines: ^0.42.26
   prettier: ^3.8.1
   react: ^19.2.3
   react-dom: ^19.2.3
+  remark: ^15.0.1
+  remark-parse: ^11.0.0
   rimraf: ^6.1.3
   sherif: ^1.0.0
   style-dictionary: ^5.4.0
@@ -111,9 +122,12 @@ catalog:
   tsdown: ^0.21.7
   typescript: ^5.9.3
   unbuild: ^3.3.1
+  unified: ^11.0.5
+  unist-util-visit: ^5.1.0
   untyped: ^1.5.2
   verdaccio: ^6.3.2
   zod: ^4.3.6
+  zwitch: ^2.0.4
   zx: ^8.8.5
 configDependencies:
   pnpm-plugin-storm-software: 0.1.24+sha512-ynYDei9eV8Fakiw0QvhjFE22Y8GMKob331cXfwVc3naxJYXhkjth5PH7E37pQ+jbHmCUVFHQOZU0PxQWkHclmA==
@@ -146,6 +160,7 @@ overrides:
   "@shell-shock/plugin-banner": workspace:*
   "@shell-shock/plugin-completions": workspace:*
   "@shell-shock/plugin-console": workspace:*
+  "@shell-shock/plugin-remark": workspace:*
   "@shell-shock/plugin-help": workspace:*
   "@shell-shock/plugin-prompts": workspace:*
   "@shell-shock/plugin-theme": workspace:*

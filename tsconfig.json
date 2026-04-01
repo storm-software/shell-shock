@@ -16,6 +16,9 @@
       "path": "./packages/nx"
     },
     {
+      "path": "./packages/remark"
+    },
+    {
       "path": "./packages/plugin-theme"
     },
     {
