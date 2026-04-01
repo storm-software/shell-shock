@@ -969,6 +969,898 @@ export function SpawnFunctionDeclaration() {
   );
 }
 
+/**
+ * Generates the `resolveModule` function declaration, which is a utility for resolving file paths across different platforms.
+ */
+export function ResolveModuleFunctionDeclaration() {
+  const context = usePowerlines<Context>();
+
+  return (
+    <>
+      <Spacing />
+      <InterfaceDeclaration
+        name="ResolveModuleOptions"
+        doc="Options for the `resolve` handler function.">
+        <InterfaceMember
+          name="parentURL"
+          optional
+          type="string"
+          doc="The parent URL to use for resolving paths."
+        />
+        <hbr />
+        <InterfaceMember
+          name="conditions"
+          optional
+          type="string[]"
+          doc="The conditions to use for resolving paths."
+        />
+        <hbr />
+      </InterfaceDeclaration>
+      <Spacing />
+      <InterfaceDeclaration
+        name="PackageConfig"
+        doc="Parsed package.json configuration for module resolution.">
+        <InterfaceMember
+          name="pjsonPath"
+          type="string"
+          doc="The path to the package.json file."
+        />
+        <hbr />
+        <InterfaceMember
+          name="exists"
+          type="boolean"
+          doc="Whether the package.json file exists."
+        />
+        <hbr />
+        <InterfaceMember
+          name="main"
+          optional
+          type="string"
+          doc="The main entry point of the package."
+        />
+        <hbr />
+        <InterfaceMember
+          name="name"
+          optional
+          type="string"
+          doc="The name of the package."
+        />
+        <hbr />
+        <InterfaceMember
+          name="type"
+          optional
+          type={`"commonjs" | "module" | "none"`}
+          doc="The module type of the package."
+        />
+        <hbr />
+        <InterfaceMember
+          name="exports"
+          optional
+          type="Record<string, unknown>"
+          doc="The exports map of the package."
+        />
+        <hbr />
+        <InterfaceMember
+          name="imports"
+          optional
+          type="Record<string, unknown>"
+          doc="The imports map of the package."
+        />
+      </InterfaceDeclaration>
+      <Spacing />
+      <VarDeclaration
+        const
+        name="DEFAULT_CONDITIONS_SET"
+        initializer={code`new Set(["node", "import"]);`}
+      />
+      <Spacing />
+      <VarDeclaration
+        const
+        name="DEFAULT_EXTENSIONS"
+        initializer={code`[".mjs", ".cjs", ".js", ".json", ".node"];`}
+      />
+      <Spacing />
+      <VarDeclaration
+        const
+        name="invalidPackageNameRegEx"
+        initializer={code`/^\\.|\\/|%/;`}
+      />
+      <Spacing />
+      <FunctionDeclaration
+        name="readPackageConfig"
+        parameters={[{ name: "jsonPath", type: "string" }]}
+        returnType="PackageConfig">
+        {code`const result: PackageConfig = {
+          pjsonPath: jsonPath,
+          exists: false,
+          main: undefined,
+          name: undefined,
+          type: "none",
+          exports: undefined,
+          imports: undefined
+        };
+
+        let content: string;
+        try {
+          content = readFileSync(jsonPath, "utf8");
+        } catch (err: any) {
+          if (err?.code === "ENOENT") {
+            return result;
+          }
+          throw err;
+        }
+
+        let parsed: Record<string, unknown>;
+        try {
+          parsed = JSON.parse(content);
+        } catch {
+          return result;
+        }
+
+        result.exists = true;
+
+        if (typeof parsed.name === "string") {
+          result.name = parsed.name;
+        }
+        if (typeof parsed.main === "string") {
+          result.main = parsed.main;
+        }
+        if (parsed.exports !== undefined && parsed.exports !== null) {
+          result.exports = parsed.exports as Record<string, unknown>;
+        }
+        if (parsed.imports !== undefined && parsed.imports !== null) {
+          result.imports = parsed.imports as Record<string, unknown>;
+        }
+        if (parsed.type === "commonjs" || parsed.type === "module") {
+          result.type = parsed.type;
+        }
+
+        return result;`}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        name="getPackageScopeConfig"
+        parameters={[{ name: "resolved", type: "URL | string" }]}
+        returnType="PackageConfig">
+        {code`let packageJSONUrl = new URL("package.json", resolved);
+
+        while (true) {
+          const packageJSONPath = packageJSONUrl.pathname;
+          if (packageJSONPath.endsWith("node_modules/package.json")) {
+            break;
+          }
+
+          const packageConfig = readPackageConfig(fileURLToPath(packageJSONUrl));
+          if (packageConfig.exists) {
+            return packageConfig;
+          }
+
+          const lastPackageJSONUrl = packageJSONUrl;
+          packageJSONUrl = new URL("../package.json", packageJSONUrl);
+
+          if (packageJSONUrl.pathname === lastPackageJSONUrl.pathname) {
+            break;
+          }
+        }
+
+        return {
+          pjsonPath: fileURLToPath(packageJSONUrl),
+          exists: false,
+          type: "none"
+        };`}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        name="isConditionalExportsMainSugar"
+        parameters={[{ name: "exports", type: "unknown" }]}
+        returnType="boolean">
+        {code`if (typeof exports === "string" || Array.isArray(exports)) {
+          return true;
+        }
+        if (typeof exports !== "object" || exports === null) {
+          return false;
+        }
+
+        const keys = Object.getOwnPropertyNames(exports);
+        let isConditionalSugar = false;
+
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i]!;
+          const currentIsConditionalSugar = key === "" || key[0] !== ".";
+          if (i === 0) {
+            isConditionalSugar = currentIsConditionalSugar;
+          } else if (isConditionalSugar !== currentIsConditionalSugar) {
+            throw new Error(
+              '"exports" cannot contain some keys starting with \\'.\\' and some not.'
+            );
+          }
+        }
+
+        return isConditionalSugar;`}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        name="resolvePackageTarget"
+        parameters={[
+          { name: "packageJsonUrl", type: "URL" },
+          { name: "target", type: "unknown" },
+          { name: "subpath", type: "string" },
+          { name: "packageSubpath", type: "string" },
+          { name: "base", type: "URL" },
+          { name: "pattern", type: "boolean" },
+          { name: "internal", type: "boolean" },
+          { name: "conditions", type: "Set<string>" }
+        ]}
+        returnType="URL | null | undefined">
+        {code`if (typeof target === "string") {
+          if (!target.startsWith("./")) {
+            if (internal && !target.startsWith("../") && !target.startsWith("/")) {
+              let isURL = false;
+              try {
+                new URL(target);
+                isURL = true;
+              } catch {}
+
+              if (!isURL) {
+                const exportTarget = pattern
+                  ? target.replace(/\\*/g, () => subpath)
+                  : target + subpath;
+                return packageResolve(exportTarget, packageJsonUrl, conditions);
+              }
+            }
+            return null;
+          }
+
+          const resolved = new URL(target, packageJsonUrl);
+          const resolvedPath = resolved.pathname;
+          const packagePath = new URL(".", packageJsonUrl).pathname;
+
+          if (!resolvedPath.startsWith(packagePath)) {
+            return null;
+          }
+
+          if (subpath === "") {
+            return resolved;
+          }
+
+          if (pattern) {
+            return new URL(resolved.href.replace(/\\*/g, () => subpath));
+          }
+
+          return new URL(subpath, resolved);
+        }
+
+        if (Array.isArray(target)) {
+          if (target.length === 0) {
+            return null;
+          }
+
+          let lastException: Error | null | undefined;
+          for (const targetItem of target) {
+            let resolveResult: URL | null | undefined;
+            try {
+              resolveResult = resolvePackageTarget(
+                packageJsonUrl, targetItem, subpath, packageSubpath,
+                base, pattern, internal, conditions
+              );
+            } catch (error: any) {
+              lastException = error;
+              if (error?.code === "ERR_INVALID_PACKAGE_TARGET") {
+                continue;
+              }
+              throw error;
+            }
+
+            if (resolveResult === undefined) {
+              continue;
+            }
+            if (resolveResult === null) {
+              lastException = null;
+              continue;
+            }
+            return resolveResult;
+          }
+
+          if (lastException === undefined || lastException === null) {
+            return null;
+          }
+          throw lastException;
+        }
+
+        if (typeof target === "object" && target !== null) {
+          const keys = Object.getOwnPropertyNames(target);
+          for (const key of keys) {
+            if (key === "default" || conditions.has(key)) {
+              const conditionalTarget = (target as Record<string, unknown>)[key];
+              const resolveResult = resolvePackageTarget(
+                packageJsonUrl, conditionalTarget, subpath, packageSubpath,
+                base, pattern, internal, conditions
+              );
+              if (resolveResult === undefined) {
+                continue;
+              }
+              return resolveResult;
+            }
+          }
+          return null;
+        }
+
+        if (target === null) {
+          return null;
+        }
+
+        return null;`}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        name="packageExportsResolve"
+        parameters={[
+          { name: "packageJsonUrl", type: "URL" },
+          { name: "packageSubpath", type: "string" },
+          { name: "packageConfig", type: "PackageConfig" },
+          { name: "base", type: "URL" },
+          { name: "conditions", type: "Set<string>" }
+        ]}
+        returnType="URL | null | undefined">
+        {code`let exports = packageConfig.exports;
+        if (isConditionalExportsMainSugar(exports)) {
+          exports = { ".": exports } as Record<string, unknown>;
+        }
+
+        if (
+          exports !== undefined &&
+          exports !== null &&
+          typeof exports === "object" &&
+          Object.prototype.hasOwnProperty.call(exports, packageSubpath) &&
+          !packageSubpath.includes("*") &&
+          !packageSubpath.endsWith("/")
+        ) {
+          const target = (exports as Record<string, unknown>)[packageSubpath];
+          const resolveResult = resolvePackageTarget(
+            packageJsonUrl, target, "", packageSubpath,
+            base, false, false, conditions
+          );
+          if (resolveResult === null || resolveResult === undefined) {
+            const err = new Error(
+              \`Package subpath '\${packageSubpath}' is not defined by "exports" in \${fileURLToPath(packageJsonUrl)}\`
+            );
+            (err as any).code = "ERR_PACKAGE_PATH_NOT_EXPORTED";
+            throw err;
+          }
+          return resolveResult;
+        }
+
+        let bestMatch = "";
+        let bestMatchSubpath = "";
+        const keys = exports ? Object.getOwnPropertyNames(exports) : [];
+
+        for (const key of keys) {
+          const patternIndex = key.indexOf("*");
+          if (
+            patternIndex !== -1 &&
+            packageSubpath.startsWith(key.slice(0, patternIndex))
+          ) {
+            const patternTrailer = key.slice(patternIndex + 1);
+            if (
+              packageSubpath.length >= key.length &&
+              packageSubpath.endsWith(patternTrailer) &&
+              patternKeyCompare(bestMatch, key) === 1 &&
+              key.lastIndexOf("*") === patternIndex
+            ) {
+              bestMatch = key;
+              bestMatchSubpath = packageSubpath.slice(
+                patternIndex,
+                packageSubpath.length - patternTrailer.length
+              );
+            }
+          }
+        }
+
+        if (bestMatch) {
+          const target = (exports as Record<string, unknown>)[bestMatch];
+          const resolveResult = resolvePackageTarget(
+            packageJsonUrl, target, bestMatchSubpath, bestMatch,
+            base, true, false, conditions
+          );
+          if (resolveResult === null || resolveResult === undefined) {
+            const err = new Error(
+              \`Package subpath '\${packageSubpath}' is not defined by "exports" in \${fileURLToPath(packageJsonUrl)}\`
+            );
+            (err as any).code = "ERR_PACKAGE_PATH_NOT_EXPORTED";
+            throw err;
+          }
+          return resolveResult;
+        }
+
+        const err = new Error(
+          \`Package subpath '\${packageSubpath}' is not defined by "exports" in \${fileURLToPath(packageJsonUrl)}\`
+        );
+        (err as any).code = "ERR_PACKAGE_PATH_NOT_EXPORTED";
+        throw err;`}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        name="patternKeyCompare"
+        parameters={[
+          { name: "a", type: "string" },
+          { name: "b", type: "string" }
+        ]}
+        returnType="number">
+        {code`const aPatternIndex = a.indexOf("*");
+        const bPatternIndex = b.indexOf("*");
+        const baseLengthA = aPatternIndex === -1 ? a.length : aPatternIndex + 1;
+        const baseLengthB = bPatternIndex === -1 ? b.length : bPatternIndex + 1;
+        if (baseLengthA > baseLengthB) return -1;
+        if (baseLengthB > baseLengthA) return 1;
+        if (aPatternIndex === -1) return 1;
+        if (bPatternIndex === -1) return -1;
+        if (a.length > b.length) return -1;
+        if (b.length > a.length) return 1;
+        return 0;`}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        name="legacyMainResolve"
+        parameters={[
+          { name: "packageJsonUrl", type: "URL" },
+          { name: "packageConfig", type: "PackageConfig" }
+        ]}
+        returnType="URL | undefined">
+        {code`let guess: URL | undefined;
+        const tries: string[] = [];
+
+        if (packageConfig.main !== undefined) {
+          tries.push(
+            \`./\${packageConfig.main}\`,
+            \`./\${packageConfig.main}.js\`,
+            \`./\${packageConfig.main}.json\`,
+            \`./\${packageConfig.main}.node\`,
+            \`./\${packageConfig.main}/index.js\`,
+            \`./\${packageConfig.main}/index.json\`,
+            \`./\${packageConfig.main}/index.node\`
+          );
+        }
+
+        tries.push("./index.js", "./index.json", "./index.node");
+
+        for (const entry of tries) {
+          guess = new URL(entry, packageJsonUrl);
+          try {
+            const s = statSync(fileURLToPath(guess));
+            if (s.isFile()) {
+              return guess;
+            }
+          } catch {}
+          guess = undefined;
+        }
+
+        return undefined;`}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        name="parsePackageName"
+        parameters={[
+          { name: "specifier", type: "string" },
+          { name: "base", type: "URL" }
+        ]}
+        returnType="{ packageName: string; packageSubpath: string; isScoped: boolean }">
+        {code`let separatorIndex = specifier.indexOf("/");
+        let validPackageName = true;
+        let isScoped = false;
+
+        if (specifier[0] === "@") {
+          isScoped = true;
+          if (separatorIndex === -1 || specifier.length === 0) {
+            validPackageName = false;
+          } else {
+            separatorIndex = specifier.indexOf("/", separatorIndex + 1);
+          }
+        }
+
+        const packageName = separatorIndex === -1
+          ? specifier
+          : specifier.slice(0, separatorIndex);
+
+        if (invalidPackageNameRegEx.exec(packageName) !== null) {
+          validPackageName = false;
+        }
+
+        if (!validPackageName) {
+          const err = new Error(
+            \`Invalid module "\${specifier}" is not a valid package name imported from \${fileURLToPath(base)}\`
+          );
+          (err as any).code = "ERR_INVALID_MODULE_SPECIFIER";
+          throw err;
+        }
+
+        const packageSubpath = "." + (separatorIndex === -1
+          ? ""
+          : specifier.slice(separatorIndex));
+
+        return { packageName, packageSubpath, isScoped };`}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        name="packageResolve"
+        parameters={[
+          { name: "specifier", type: "string" },
+          { name: "base", type: "URL" },
+          { name: "conditions", type: "Set<string>" }
+        ]}
+        returnType="URL">
+        {code`if (builtinModules.includes(specifier)) {
+          return new URL("node:" + specifier);
+        }
+
+        const { packageName, packageSubpath, isScoped } = parsePackageName(specifier, base);
+
+        // Self-resolution: check if the specifier matches the current package name
+        const selfConfig = getPackageScopeConfig(base);
+        if (
+          selfConfig.exists &&
+          selfConfig.name === packageName &&
+          selfConfig.exports !== undefined &&
+          selfConfig.exports !== null
+        ) {
+          const packageJsonUrl = pathToFileURL(selfConfig.pjsonPath);
+          const result = packageExportsResolve(
+            packageJsonUrl, packageSubpath, selfConfig, base, conditions
+          );
+          if (result) {
+            return result;
+          }
+        }
+
+        let packageJsonUrl = new URL(
+          "./node_modules/" + packageName + "/package.json",
+          base
+        );
+        let packageJsonPath = fileURLToPath(packageJsonUrl);
+        let lastPath: string;
+
+        do {
+          let stat: ReturnType<typeof statSync> | undefined;
+          try {
+            stat = statSync(packageJsonPath.slice(0, -13));
+          } catch {}
+
+          if (!stat || !stat.isDirectory()) {
+            lastPath = packageJsonPath;
+            packageJsonUrl = new URL(
+              (isScoped ? "../../../../node_modules/" : "../../../node_modules/") +
+                packageName +
+                "/package.json",
+              packageJsonUrl
+            );
+            packageJsonPath = fileURLToPath(packageJsonUrl);
+            continue;
+          }
+
+          const packageConfig = readPackageConfig(packageJsonPath);
+
+          if (packageConfig.exports !== undefined && packageConfig.exports !== null) {
+            const result = packageExportsResolve(
+              packageJsonUrl, packageSubpath, packageConfig, base, conditions
+            );
+            if (result) {
+              return result;
+            }
+          }
+
+          if (packageSubpath === ".") {
+            const legacyResult = legacyMainResolve(packageJsonUrl, packageConfig);
+            if (legacyResult) {
+              return legacyResult;
+            }
+
+            return new URL(".", packageJsonUrl);
+          }
+
+          return new URL(packageSubpath, packageJsonUrl);
+        } while (packageJsonPath.length !== lastPath!.length);
+
+        const err = new Error(
+          \`Cannot find package '\${packageName}' imported from \${fileURLToPath(base)}\`
+        );
+        (err as any).code = "ERR_MODULE_NOT_FOUND";
+        throw err;`}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        name="finalizeResolution"
+        parameters={[
+          { name: "resolved", type: "URL" },
+          { name: "base", type: "URL" }
+        ]}
+        returnType="URL">
+        {code`if (/%2f|%5c/i.test(resolved.pathname)) {
+          const err = new Error(
+            \`Invalid module "\${resolved.pathname}" must not include encoded "/" or "\\\\" characters imported from \${fileURLToPath(base)}\`
+          );
+          (err as any).code = "ERR_INVALID_MODULE_SPECIFIER";
+          throw err;
+        }
+
+        const filePath = fileURLToPath(resolved);
+
+        let stat: ReturnType<typeof statSync> | undefined;
+        try {
+          stat = statSync(filePath.endsWith("/") ? filePath.slice(0, -1) : filePath);
+        } catch {}
+
+        if (stat && stat.isDirectory()) {
+          const err = new Error(
+            \`Directory import '\${filePath}' is not supported resolving ES modules imported from \${fileURLToPath(base)}\`
+          );
+          (err as any).code = "ERR_UNSUPPORTED_DIR_IMPORT";
+          throw err;
+        }
+
+        if (!stat || !stat.isFile()) {
+          const err = new Error(
+            \`Cannot find module '\${filePath}' imported from \${fileURLToPath(base)}\`
+          );
+          (err as any).code = "ERR_MODULE_NOT_FOUND";
+          throw err;
+        }
+
+        const real = realpathSync(filePath);
+        const { search, hash } = resolved;
+        const realUrl = pathToFileURL(real + (filePath.endsWith(sep) ? "/" : ""));
+        realUrl.search = search;
+        realUrl.hash = hash;
+
+        return realUrl;`}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        name="moduleResolve"
+        parameters={[
+          { name: "specifier", type: "string" },
+          { name: "base", type: "URL" },
+          { name: "conditions", type: "Set<string>" }
+        ]}
+        returnType="URL">
+        {code`let resolved: URL | undefined;
+
+        if (
+          specifier[0] === "/" ||
+          (specifier[0] === "." &&
+            (specifier.length === 1 ||
+              specifier[1] === "/" ||
+              (specifier[1] === "." && (specifier.length === 2 || specifier[2] === "/"))))
+        ) {
+          try {
+            resolved = new URL(specifier, base);
+          } catch (error_: any) {
+            const err = new Error(
+              \`Failed to resolve module specifier "\${specifier}" from "\${base}": Invalid relative URL or base scheme is not hierarchical.\`
+            );
+            err.cause = error_;
+            throw err;
+          }
+        } else if (base.protocol === "file:" && specifier[0] === "#") {
+          const packageConfig = getPackageScopeConfig(base);
+          if (packageConfig.exists && packageConfig.imports) {
+            const packageJsonUrl = pathToFileURL(packageConfig.pjsonPath);
+            const imports = packageConfig.imports;
+            if (Object.prototype.hasOwnProperty.call(imports, specifier) && !specifier.includes("*")) {
+              const resolveResult = resolvePackageTarget(
+                packageJsonUrl, imports[specifier], "", specifier,
+                base, false, true, conditions
+              );
+              if (resolveResult !== null && resolveResult !== undefined) {
+                resolved = resolveResult;
+              }
+            }
+
+            if (!resolved) {
+              let bestMatch = "";
+              let bestMatchSubpath = "";
+              const keys = Object.getOwnPropertyNames(imports);
+
+              for (const key of keys) {
+                const patternIndex = key.indexOf("*");
+                if (patternIndex !== -1 && specifier.startsWith(key.slice(0, -1))) {
+                  const patternTrailer = key.slice(patternIndex + 1);
+                  if (
+                    specifier.length >= key.length &&
+                    specifier.endsWith(patternTrailer) &&
+                    patternKeyCompare(bestMatch, key) === 1 &&
+                    key.lastIndexOf("*") === patternIndex
+                  ) {
+                    bestMatch = key;
+                    bestMatchSubpath = specifier.slice(
+                      patternIndex,
+                      specifier.length - patternTrailer.length
+                    );
+                  }
+                }
+              }
+
+              if (bestMatch) {
+                const target = imports[bestMatch];
+                const resolveResult = resolvePackageTarget(
+                  packageJsonUrl, target, bestMatchSubpath, bestMatch,
+                  base, true, true, conditions
+                );
+                if (resolveResult !== null && resolveResult !== undefined) {
+                  resolved = resolveResult;
+                }
+              }
+            }
+          }
+
+          if (!resolved) {
+            const err = new Error(
+              \`Package import specifier "\${specifier}" is not defined in package imported from \${fileURLToPath(base)}\`
+            );
+            (err as any).code = "ERR_PACKAGE_IMPORT_NOT_DEFINED";
+            throw err;
+          }
+        } else {
+          try {
+            resolved = new URL(specifier);
+          } catch {
+            resolved = packageResolve(specifier, base, conditions);
+          }
+        }
+
+        if (resolved.protocol !== "file:") {
+          return resolved;
+        }
+
+        return finalizeResolution(resolved, base);`}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        name="tryModuleResolve"
+        parameters={[
+          { name: "id", type: "string" },
+          { name: "url", type: "URL" },
+          { name: "conditions", type: "Set<string>" }
+        ]}
+        returnType="URL | undefined">
+        {code`try {
+          return moduleResolve(id, url, conditions);
+        } catch (error: any) {
+          if (
+            !(error as { code: string })?.code &&
+            ![
+              "ERR_MODULE_NOT_FOUND",
+              "ERR_UNSUPPORTED_DIR_IMPORT",
+              "MODULE_NOT_FOUND",
+              "ERR_PACKAGE_PATH_NOT_EXPORTED"
+            ].includes(error?.code)
+          ) {
+            throw error;
+          }
+        }`}
+      </FunctionDeclaration>
+      <Spacing />
+      <TSDoc heading="A function to resolve module specifiers to URLs.">
+        <TSDocParam name="specifier">{`The module specifier to resolve.`}</TSDocParam>
+        <TSDocParam name="options">
+          {`The options for resolving the module. Defaults to an empty object.`}
+        </TSDocParam>
+        <TSDocReturns>{`The result of the resolve operation.`}</TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        async
+        name="resolveModule"
+        parameters={[
+          { name: "specifier", type: "string" },
+          {
+            name: "options",
+            type: "ResolveModuleOptions",
+            default: "{} as ResolveModuleOptions"
+          }
+        ]}
+        returnType="Promise<string>">
+        {code`const parentURL = options.parentURL ? new URL(options.parentURL) : undefined;
+        const conditionsSet = options.conditions?.length
+          ? new Set(options.conditions)
+          : DEFAULT_CONDITIONS_SET;
+
+        // Handle protocol-prefixed specifiers (node:, data:, http:, https:, ${context.config.framework}:)
+        if (/^(?:node|data|https?|${context.config.framework}):/.test(specifier)) {
+          return specifier;
+        }
+
+        const bareSpecifier = specifier.replace(/^node:/, "");
+        if (builtinModules.includes(bareSpecifier)) {
+          return "node:" + bareSpecifier;
+        }
+
+        if (specifier.startsWith("file://")) {
+          return specifier;
+        }
+
+        if (isAbsolute(specifier)) {
+          try {
+            const s = statSync(specifier);
+            if (s.isFile()) {
+              return pathToFileURL(realpathSync(specifier)).href;
+            }
+          } catch (err: any) {
+            if (err?.code !== "ENOENT") {
+              throw err;
+            }
+          }
+        }
+
+        const roots = [parentURL ?? pathToFileURL(join(process.cwd(), "_"))];
+
+        const projectRootURL = pathToFileURL("${context.config.root}");
+        if (!roots.some(root => root.href === projectRootURL.href)) {
+          roots.push(projectRootURL);
+        }
+
+        const workspaceRootURL = pathToFileURL("${
+          context.workspaceConfig.workspaceRoot
+        }");
+        if (!roots.some(root => root.href === workspaceRootURL.href)) {
+          roots.push(workspaceRootURL);
+        }
+
+        let resolved: URL | undefined;
+        for (const root of roots) {
+          const _urls: URL[] = [];
+          _urls.push(root);
+          if (root.protocol === "file:") {
+            _urls.push(
+              new URL("./", root),
+              new URL(join(root.pathname, "_index.js"), root),
+              new URL("node_modules", root)
+            );
+          }
+
+          for (const url of _urls) {
+            resolved = tryModuleResolve(specifier, url, conditionsSet);
+            if (resolved) {
+              break;
+            }
+
+            for (const prefix of ["", "/index"]) {
+              for (const extension of DEFAULT_EXTENSIONS) {
+                resolved = tryModuleResolve(
+                  specifier + prefix + extension,
+                  url,
+                  conditionsSet
+                );
+                if (resolved) {
+                  break;
+                }
+              }
+              if (resolved) {
+                break;
+              }
+            }
+            if (resolved) {
+              break;
+            }
+          }
+
+          if (resolved) {
+            break;
+          }
+        }
+
+        if (!resolved) {
+          const err = new Error(
+            \`Cannot find module \${specifier} imported from \${base.href}\`
+          );
+          (err as any).code = "ERR_MODULE_NOT_FOUND";
+          throw err;
+        }
+
+        return pathToFileURL(fileURLToPath(resolved)).href;
+        `}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
 export function ContextUtilities() {
   return code`
   /**
@@ -1072,11 +1964,22 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
           "normalize",
           "join",
           "posix",
-          "sep"
+          "sep",
+          "dirname",
+          "isAbsolute"
         ],
-        "node:fs": ["openSync", "closeSync", "read"],
+        "node:fs": [
+          "openSync",
+          "closeSync",
+          "read",
+          "readFileSync",
+          "statSync",
+          "realpathSync"
+        ],
         "node:fs/promises": ["stat"],
         "node:util": ["promisify"],
+        "node:url": ["fileURLToPath", "pathToFileURL"],
+        "node:module": ["builtinModules"],
         "node:child_process": [{ name: "spawn", alias: "_spawn" }],
         "node:async_hooks": ["AsyncLocalStorage"]
       })}
@@ -1109,6 +2012,8 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
       <ColorSupportUtilities />
       <Spacing />
       <SpawnFunctionDeclaration />
+      <Spacing />
+      <ResolveModuleFunctionDeclaration />
       <Spacing />
       <FindSuggestionsDeclaration />
       <Spacing />

@@ -959,6 +959,126 @@ export function CheckForUpdatesFunctionDeclaration() {
   );
 }
 
+/**
+ * The `getChangelog` handler function declaration code for the Shell Shock project.
+ */
+export function GetChangelogFunctionDeclaration() {
+  const context = usePowerlines<UpgradePluginContext>();
+
+  return (
+    <>
+      <InterfaceDeclaration
+        export
+        name="GetChangelogOptions"
+        doc="Options for the `getChangelog` handler function.">
+        <InterfaceMember
+          name="start"
+          optional
+          type="string"
+          doc="The starting version for the changelog."
+        />
+        <hbr />
+        <InterfaceMember
+          name="end"
+          optional
+          type="string"
+          doc="The ending version for the changelog."
+        />
+        <hbr />
+      </InterfaceDeclaration>
+      <Spacing />
+      <TSDoc heading="Get the changelog for the application dependencies.">
+        <TSDocRemarks>
+          {`This function is used to get the changelog for the application dependencies. It can be used in the CLI upgrade command to view the changes between versions.`}
+        </TSDocRemarks>
+        <Spacing />
+        <TSDocParam name="options">
+          {`The options for the \`getChangelog\` function. Currently, there are no options available, but this parameter is included for future extensibility.`}
+        </TSDocParam>
+        <TSDocReturns>
+          {`A promise that resolves when the changelog is retrieved or undefined if the changelog was not retrieved.`}
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        async
+        name="getChangelog"
+        parameters={[
+          {
+            name: "options",
+            type: "GetChangelogOptions",
+            default: "{}"
+          }
+        ]}
+        returnType="Promise<string | undefined>">
+        {code`
+          try {
+            const resolved = await resolveModule("${context.packageJson.name}");
+            if (resolved && existsSync(join(resolved, "CHANGELOG.md"))) {
+              const markdown = await readFile(join(resolved, "CHANGELOG.md"), "utf8");
+
+              const versionPattern = /^#{1,2}\\s+\\[?(\\d+\\.\\d+\\.\\d+[^\\]\\s]*)\\]?/;
+              const lines = markdown.split("\\n");
+              const sections: { version: string; content: string }[] = [];
+              let current: { version: string; lines: string[] } | undefined;
+
+              for (const line of lines) {
+                const match = line.match(versionPattern);
+                if (match) {
+                  if (current) {
+                    sections.push({ version: current.version, content: current.lines.join("\\n").trim() });
+                  }
+                  current = { version: match[1], lines: [line] };
+                } else if (current) {
+                  current.lines.push(line);
+                }
+              }
+              if (current) {
+                sections.push({ version: current.version, content: current.lines.join("\\n").trim() });
+              }
+
+              if (sections.length === 0) {
+                return undefined;
+              }
+
+              const endVersion = options.end ?? sections[0].version;
+              const startVersion = options.start;
+
+              const compareSemver = (a: string, b: string): number => {
+                const pa = a.replace(/^v/, "").split(".").map(Number);
+                const pb = b.replace(/^v/, "").split(".").map(Number);
+                for (let i = 0; i < 3; i++) {
+                  if ((pa[i] ?? 0) !== (pb[i] ?? 0)) {
+                    return (pa[i] ?? 0) - (pb[i] ?? 0);
+                  }
+                }
+                return 0;
+              };
+
+              const filtered = sections.filter(s => {
+                const cmpEnd = compareSemver(s.version, endVersion);
+                if (cmpEnd > 0) return false;
+                if (startVersion) {
+                  const cmpStart = compareSemver(s.version, startVersion);
+                  if (cmpStart < 0) return false;
+                }
+                return true;
+              });
+
+              if (filtered.length > 0) {
+                return filtered.map(s => s.content).join("\\n\\n");
+              }
+            }
+          } catch {
+            // Ignore errors and return undefined
+          }
+
+          return undefined; `}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
 export interface UpgradeBuiltinProps extends Omit<
   BuiltinFileProps,
   "id" | "description"
@@ -985,7 +1105,7 @@ export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
       builtinImports={defu(rest.builtinImports ?? {}, {
         console: ["error", "verbose", "writeLine"],
         env: ["paths", "isWindows", "isCI", "env"],
-        utils: ["isColorSupported", "isInteractive", "spawn"]
+        utils: ["isColorSupported", "isInteractive", "spawn", "resolveModule"]
       })}>
       <VarDeclaration
         const

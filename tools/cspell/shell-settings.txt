@@ -3,3 +3,4 @@ truecolor
 pathext
 colorterm
 cfonts
+pjson

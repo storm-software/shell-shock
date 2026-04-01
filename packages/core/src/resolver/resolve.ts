@@ -86,7 +86,7 @@ async function initialize<TContext extends Context = Context>(
     }
 
     context.debug(
-      `Adding reflection for user-defined command: ${command.id} (file: ${
+      `Adding reflection for application command: ${command.id} (file: ${
         command.entry.input.file
       })`
     );
@@ -95,6 +95,7 @@ async function initialize<TContext extends Context = Context>(
       context,
       command.entry.input,
       {
+        name: `${command.title} Command Module`,
         plugins: [
           esbuildPlugin(context, {
             reflection: "default",

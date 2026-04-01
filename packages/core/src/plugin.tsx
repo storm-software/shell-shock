@@ -514,10 +514,11 @@ export interface GlobalOptions {
               `Final command input list: \n${this.inputs
                 .map(
                   command =>
-                    ` - ${command.id}: ${replacePath(
-                      command.entry.file,
-                      this.commandsPath
-                    )}${command.isVirtual ? " (virtual)" : ""}`
+                    ` - ${command.id}: ${
+                      isParentPath(command.entry.file, this.commandsPath)
+                        ? replacePath(command.entry.file, this.commandsPath)
+                        : replacePath(command.entry.file, this.config.root)
+                    }${command.isVirtual ? " (virtual)" : ""}`
                 )
                 .join("\n")}`
             );
