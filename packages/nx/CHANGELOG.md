@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.66](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.66) (04/01/2026)
+
+### Features
+
+- **core:** Added `resolveModule` function to `utils` built-in ([9c4f7bd](https://github.com/storm-software/shell-shock/commit/9c4f7bd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.15.0**
+
 ## [0.0.65](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.65) (03/29/2026)
 
 ### Updated Dependencies

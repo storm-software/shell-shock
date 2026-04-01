@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.39](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.39) (04/01/2026)
+
+### Features
+
+- **core:** Added `resolveModule` function to `utils` built-in ([9c4f7bd](https://github.com/storm-software/shell-shock/commit/9c4f7bd))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.15.0**
+
 ## [0.1.38](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.38) (03/29/2026)
 
 ### Updated Dependencies

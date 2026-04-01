@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.15.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.15.0) (04/01/2026)
+
+### Features
+
+- **core:** Added `resolveModule` function to `utils` built-in ([9c4f7bd](https://github.com/storm-software/shell-shock/commit/9c4f7bd))
+
 ## [0.14.4](https://github.com/storm-software/shell-shock/releases/tag/core%400.14.4) (03/28/2026)
 
 ### Miscellaneous
