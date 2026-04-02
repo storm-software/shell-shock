@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Remark
 
+## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/remark%400.1.1) (04/02/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.15.1**
+
 ## [0.1.0](https://github.com/storm-software/shell-shock/releases/tag/remark%400.1.0) (04/01/2026)
 
 ### Features
