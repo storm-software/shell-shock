@@ -66,10 +66,7 @@ export function HelpCommand() {
         default
         async
         name="handler"
-        parameters={[
-          { name: "options", type: "HelpOptions" },
-          { name: "segments", type: "string[]", default: "[]" }
-        ]}>
+        parameters={[{ name: "segments", type: "string[]", default: "[]" }]}>
         {code` return;`}
       </FunctionDeclaration>
     </TypescriptFile>
