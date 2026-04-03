@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.14) (04/03/2026)
+
+### Bug Fixes
+
+- **plugin-help:** Resolve issue with invalid command parameter ([f27b419](https://github.com/storm-software/shell-shock/commit/f27b419))
+
+### Features
+
+- **plugin-console:** Update `console` built-ins exports for improved tree-shaking ([07c1255](https://github.com/storm-software/shell-shock/commit/07c1255))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.2.0**
+- Updated **plugin-theme** to **v0.4.9**
+- Updated **core** to **v0.15.2**
+
 ## [0.2.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.13) (04/02/2026)
 
 ### Updated Dependencies

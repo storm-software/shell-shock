@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Remark
 
+## [0.1.2](https://github.com/storm-software/shell-shock/releases/tag/remark%400.1.2) (04/03/2026)
+
+### Miscellaneous
+
+- **remark:** Simplify the `remark` output plugin's adapter ([fe823ea](https://github.com/storm-software/shell-shock/commit/fe823ea))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.15.2**
+
 ## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/remark%400.1.1) (04/02/2026)
 
 ### Updated Dependencies

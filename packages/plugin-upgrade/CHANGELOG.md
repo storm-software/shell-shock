@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.41](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.41) (04/03/2026)
+
+### Features
+
+- **plugin-console:** Update `console` built-ins exports for improved tree-shaking ([07c1255](https://github.com/storm-software/shell-shock/commit/07c1255))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.15.2**
+
 ## [0.1.40](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.40) (04/02/2026)
 
 ### Updated Dependencies

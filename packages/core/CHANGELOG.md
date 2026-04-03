@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.15.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.15.2) (04/03/2026)
+
+### Features
+
+- **plugin-console:** Update `console` built-ins exports for improved tree-shaking ([07c1255](https://github.com/storm-software/shell-shock/commit/07c1255))
+
 ## [0.15.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.15.0) (04/01/2026)
 
 ### Features

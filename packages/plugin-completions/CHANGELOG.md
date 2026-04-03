@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.4.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.4) (04/03/2026)
+
+### Features
+
+- **plugin-console:** Update `console` built-ins exports for improved tree-shaking ([07c1255](https://github.com/storm-software/shell-shock/commit/07c1255))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.15.2**
+
 ## [0.4.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.3) (04/02/2026)
 
 ### Updated Dependencies

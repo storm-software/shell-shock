@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/remark",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "description": "A package containing a Shell Shock plugin to generate remark built-in modules that display information about the application.",
   "keywords": ["remark", "shell-shock", "powerlines", "storm-software"],
