@@ -163,7 +163,7 @@ declare module "shell-shock:env" {
     /**
      *
      *
-     * @defaultValue "/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0_tmp_290199/node_modules/pnpm/dist/node-gyp-bin:/home/development/repos/shell-shock/node_modules/.bin:./node_modules/.bin:/home/development/repos/shell-shock/node_modules/.bin:/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0_tmp_290199/node_modules/pnpm/dist/node-gyp-bin:/home/development/repos/shell-shock/node_modules/.bin:/nix/store/s7f41ijzn16w4c3rw219sxflc7j6pz66-git-with-svn-2.53.0/libexec/git-core:/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0_tmp_290199/node_modules/pnpm/dist/node-gyp-bin:/home/development/.local/share/pnpm/nodejs/25.5.0/bin:/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0/bin:node_modules/.bin:/nix/store/0550j0i8bmzxbcnzrg1g51zigj7y12ih-bash-interactive-5.3p9/bin:/nix/store/xam922w8zgi8y49h076xr0m9i1abnp7h-treefmt/bin:/nix/store/mi9mw6wg4aizrxfs1qg6axpqni10d179-delta-0.18.2/bin:/nix/store/716f9vxn5aan1g1pfv1pmn5jiks4gnhi-typescript-5.9.3/bin:/nix/store/jn9wngbhqmijdw4m2czilnhl4pw4jcdp-typescript-language-server-5.1.3/bin:/nix/store/hdlbanz4xxvr8dhavmslh4szvpr2ggbc-statix-0.5.8/bin:/nix/store/mwlcc213jrh3lsj92yjbkgiiw605ip9i-deadnix-1.3.1/bin:/nix/store/xkm3mbscmv9p7b4vhc5l1p7qwnq0qsi3-vulnix/bin:/nix/store/blanz7b78swbvv1y9ilj79ngf4ji0npq-nixd-2.9.0/bin:/nix/store/vjhvz25xxk44q0g8k8syjwmwp56xw4yv-cachix-1.10.1-bin/bin:/nix/store/43zji4rni42y01z3y2bv3f12c16h0ba6-nodejs-25.8.1/bin:/nix/store/qlbqwsia8a9rk3cp6v58y1x58c0j2wyk-pnpm-10.33.0/bin:/nix/store/hf1i70rggl26npz61lgc2j0p0321nffi-bootstrap/bin:/nix/store/k13ksp4yvypizb54dq0j2l8wx8w86ks6-build/bin:/nix/store/75vkfjnfsk5gkmx94vig84r0rfznljdk-build-dev/bin:/nix/store/6b0x4gawni35ks5w7r9f1yjss362l66g-clean/bin:/nix/store/wn1s379w04llg3idpbpfq7m53zp98dcq-format/bin:/nix/store/5shrr3py4a2zldhgjfq7rmjndqh9c029-lint/bin:/nix/store/5h9y71nqwmfjmwz5l146g5ysd7r2n9gd-nuke/bin:/nix/store/ihpchg53v0rj3ccg5cwg04i5jr8kimv0-release/bin:/nix/store/ri8xkla82nj918cl177fshbqpih5f6zv-update-storm/bin:/nix/store/sci2lksq97hsrly4fajj4gf3fgw3zbvh-ttyd-1.7.7/bin:/nix/store/hqdqynn0caylvl4rr86mvyqjky1pf1xa-ffmpeg-8.0.1-bin/bin:/nix/store/fwirg1hvy52kxm0k80wprsk14g0xy8mc-vhs-0.10.0/bin:/nix/store/y6mlyr480fgdd5bgpcfwwraa6vivhmwj-gnupg-2.4.9/bin:/nix/store/w4sdzmiypl23xhxwzajlg2hnrkr9gj7z-git-lfs-3.7.1/bin:/nix/store/h1d85s2nhfi6ypgfa3890hdynimq0zm8-git-crypt-0.8.0/bin:/nix/store/1vsvi6yi3w1g479dxjv7pw5mb60qh96g-zizmor-1.22.0/bin:/nix/store/xnyh9bi9wap6m3fq94q6sbav2qhh8f0d-taplo-0.10.0/bin:/nix/store/ny41wz21x8hry1glarhmgf4kcpp6zd9g-typos-1.44.0/bin:/nix/store/yb62fm7wf3ysn5rnfj2r03snmk9pwwa2-rustfmt-1.93.0/bin:/nix/store/ihzhi2cgjfhvqbap36fx91hbj524ym5l-nixfmt-1.2.0/bin:/nix/store/d4pa66qcrr0g8hh3nz2ln1vqlnvsn6jq-nixpkgs-fmt-1.3.0/bin:/nix/store/a6k0l2naclakdmypd5frw9bgzyawnlmi-python3.13-yamllint-1.37.1/bin:/nix/store/m1fw8l8y9ycxh5dzispbb7cwl6rra14l-python3-3.13.12/bin:/nix/store/4s5jnr2miz7gx0ynglzhyq9y6idac6ng-ls-lint-2.3.1/bin:/nix/store/vqvafnq8g0yz2psjvagi0nicrdidbh0g-capnproto-1.4.0/bin:/nix/store/9nww32bprhg1rr1qj423xdr5mwnqk93z-openssl-3.6.1-bin/bin:/nix/store/1nv3i8mpypy3d516f4pd95m0w72r73jy-pkg-config-wrapper-0.29.2/bin:/nix/store/590yx3aynyhs48jyk8ip37fk1mjqfhkb-patchelf-0.15.2/bin:/nix/store/kbw2j1vag664b3sj3rjwz9v53cqx87sb-gcc-wrapper-15.2.0/bin:/nix/store/sca0pf46jmxva40qahkcwys5c1lvk6n2-gcc-15.2.0/bin:/nix/store/2c48s343k15i0cmwb9cp1vi6randmzcw-glibc-2.42-51-bin/bin:/nix/store/hlxw2q9qansq7bn52xvlb5badw3z1v8s-coreutils-9.10/bin:/nix/store/4yi6jj75bb5hhdzpzlxfyf69d35wsf2x-binutils-wrapper-2.44/bin:/nix/store/9nmzd62x45ayp4vmswvn6z45h6bzrsla-binutils-2.44/bin:/nix/store/b3rx5wac9hhfxn9120xkcvdwj51mc9z2-findutils-4.10.0/bin:/nix/store/icrrz26xbyp293kagrlkab1bhc6gra0r-diffutils-3.12/bin:/nix/store/wv7qq5yb8plyhxji9x3r5gpkyfm2kf29-gnused-4.9/bin:/nix/store/8laf6k81j9ckylrigj3xsk76j69knhvl-gnugrep-3.12/bin:/nix/store/gf7b4yz4vhd0y2hnnrimhh875ghwzzzj-gawk-5.3.2/bin:/nix/store/isva9q9zx3frx6hh6cnpihh1kd2bx6bk-gnutar-1.35/bin:/nix/store/w1n7yp2vnldr395hbwbcaw9sflh413bm-gzip-1.14/bin:/nix/store/x8l7qzpab2gpdrp89g48mxlrsiz4f0gm-bzip2-1.0.8-bin/bin:/nix/store/0xw6y53ijaqwfd9c99wyaqiinychzv1f-gnumake-4.4.1/bin:/nix/store/2hjsch59amjs3nbgh7ahcfzm2bfwl8zi-bash-5.3p9/bin:/nix/store/8y5jm97n4lyw80gh71yihghbhqc11fdz-patch-2.8/bin:/nix/store/27fx8p4k6098wan3zahdbyj79ndcn03z-xz-5.8.2-bin/bin:/nix/store/p3j7lphwlci13f9w2v4rav6rbvpi80li-file-5.45/bin:/home/development/.config/carapace/bin:/home/development/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/development/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/rustup/bin:/var/lib/snapd/snap/bin"
+     * @defaultValue "/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0_tmp_290199/node_modules/pnpm/dist/node-gyp-bin:/home/development/repos/shell-shock/node_modules/.bin:./node_modules/.bin:/home/development/repos/shell-shock/node_modules/.bin:/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0_tmp_290199/node_modules/pnpm/dist/node-gyp-bin:/home/development/.local/share/pnpm/nodejs/25.5.0/bin:/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0/bin:node_modules/.bin:/nix/store/0550j0i8bmzxbcnzrg1g51zigj7y12ih-bash-interactive-5.3p9/bin:/nix/store/xam922w8zgi8y49h076xr0m9i1abnp7h-treefmt/bin:/nix/store/mi9mw6wg4aizrxfs1qg6axpqni10d179-delta-0.18.2/bin:/nix/store/716f9vxn5aan1g1pfv1pmn5jiks4gnhi-typescript-5.9.3/bin:/nix/store/jn9wngbhqmijdw4m2czilnhl4pw4jcdp-typescript-language-server-5.1.3/bin:/nix/store/hdlbanz4xxvr8dhavmslh4szvpr2ggbc-statix-0.5.8/bin:/nix/store/mwlcc213jrh3lsj92yjbkgiiw605ip9i-deadnix-1.3.1/bin:/nix/store/xkm3mbscmv9p7b4vhc5l1p7qwnq0qsi3-vulnix/bin:/nix/store/blanz7b78swbvv1y9ilj79ngf4ji0npq-nixd-2.9.0/bin:/nix/store/vjhvz25xxk44q0g8k8syjwmwp56xw4yv-cachix-1.10.1-bin/bin:/nix/store/43zji4rni42y01z3y2bv3f12c16h0ba6-nodejs-25.8.1/bin:/nix/store/qlbqwsia8a9rk3cp6v58y1x58c0j2wyk-pnpm-10.33.0/bin:/nix/store/hf1i70rggl26npz61lgc2j0p0321nffi-bootstrap/bin:/nix/store/k13ksp4yvypizb54dq0j2l8wx8w86ks6-build/bin:/nix/store/75vkfjnfsk5gkmx94vig84r0rfznljdk-build-dev/bin:/nix/store/6b0x4gawni35ks5w7r9f1yjss362l66g-clean/bin:/nix/store/wn1s379w04llg3idpbpfq7m53zp98dcq-format/bin:/nix/store/5shrr3py4a2zldhgjfq7rmjndqh9c029-lint/bin:/nix/store/5h9y71nqwmfjmwz5l146g5ysd7r2n9gd-nuke/bin:/nix/store/ihpchg53v0rj3ccg5cwg04i5jr8kimv0-release/bin:/nix/store/ri8xkla82nj918cl177fshbqpih5f6zv-update-storm/bin:/nix/store/sci2lksq97hsrly4fajj4gf3fgw3zbvh-ttyd-1.7.7/bin:/nix/store/hqdqynn0caylvl4rr86mvyqjky1pf1xa-ffmpeg-8.0.1-bin/bin:/nix/store/fwirg1hvy52kxm0k80wprsk14g0xy8mc-vhs-0.10.0/bin:/nix/store/y6mlyr480fgdd5bgpcfwwraa6vivhmwj-gnupg-2.4.9/bin:/nix/store/w4sdzmiypl23xhxwzajlg2hnrkr9gj7z-git-lfs-3.7.1/bin:/nix/store/h1d85s2nhfi6ypgfa3890hdynimq0zm8-git-crypt-0.8.0/bin:/nix/store/1vsvi6yi3w1g479dxjv7pw5mb60qh96g-zizmor-1.22.0/bin:/nix/store/xnyh9bi9wap6m3fq94q6sbav2qhh8f0d-taplo-0.10.0/bin:/nix/store/ny41wz21x8hry1glarhmgf4kcpp6zd9g-typos-1.44.0/bin:/nix/store/yb62fm7wf3ysn5rnfj2r03snmk9pwwa2-rustfmt-1.93.0/bin:/nix/store/ihzhi2cgjfhvqbap36fx91hbj524ym5l-nixfmt-1.2.0/bin:/nix/store/d4pa66qcrr0g8hh3nz2ln1vqlnvsn6jq-nixpkgs-fmt-1.3.0/bin:/nix/store/a6k0l2naclakdmypd5frw9bgzyawnlmi-python3.13-yamllint-1.37.1/bin:/nix/store/m1fw8l8y9ycxh5dzispbb7cwl6rra14l-python3-3.13.12/bin:/nix/store/4s5jnr2miz7gx0ynglzhyq9y6idac6ng-ls-lint-2.3.1/bin:/nix/store/vqvafnq8g0yz2psjvagi0nicrdidbh0g-capnproto-1.4.0/bin:/nix/store/9nww32bprhg1rr1qj423xdr5mwnqk93z-openssl-3.6.1-bin/bin:/nix/store/1nv3i8mpypy3d516f4pd95m0w72r73jy-pkg-config-wrapper-0.29.2/bin:/nix/store/590yx3aynyhs48jyk8ip37fk1mjqfhkb-patchelf-0.15.2/bin:/nix/store/kbw2j1vag664b3sj3rjwz9v53cqx87sb-gcc-wrapper-15.2.0/bin:/nix/store/sca0pf46jmxva40qahkcwys5c1lvk6n2-gcc-15.2.0/bin:/nix/store/2c48s343k15i0cmwb9cp1vi6randmzcw-glibc-2.42-51-bin/bin:/nix/store/hlxw2q9qansq7bn52xvlb5badw3z1v8s-coreutils-9.10/bin:/nix/store/4yi6jj75bb5hhdzpzlxfyf69d35wsf2x-binutils-wrapper-2.44/bin:/nix/store/9nmzd62x45ayp4vmswvn6z45h6bzrsla-binutils-2.44/bin:/nix/store/b3rx5wac9hhfxn9120xkcvdwj51mc9z2-findutils-4.10.0/bin:/nix/store/icrrz26xbyp293kagrlkab1bhc6gra0r-diffutils-3.12/bin:/nix/store/wv7qq5yb8plyhxji9x3r5gpkyfm2kf29-gnused-4.9/bin:/nix/store/8laf6k81j9ckylrigj3xsk76j69knhvl-gnugrep-3.12/bin:/nix/store/gf7b4yz4vhd0y2hnnrimhh875ghwzzzj-gawk-5.3.2/bin:/nix/store/isva9q9zx3frx6hh6cnpihh1kd2bx6bk-gnutar-1.35/bin:/nix/store/w1n7yp2vnldr395hbwbcaw9sflh413bm-gzip-1.14/bin:/nix/store/x8l7qzpab2gpdrp89g48mxlrsiz4f0gm-bzip2-1.0.8-bin/bin:/nix/store/0xw6y53ijaqwfd9c99wyaqiinychzv1f-gnumake-4.4.1/bin:/nix/store/2hjsch59amjs3nbgh7ahcfzm2bfwl8zi-bash-5.3p9/bin:/nix/store/8y5jm97n4lyw80gh71yihghbhqc11fdz-patch-2.8/bin:/nix/store/27fx8p4k6098wan3zahdbyj79ndcn03z-xz-5.8.2-bin/bin:/nix/store/p3j7lphwlci13f9w2v4rav6rbvpi80li-file-5.45/bin:/home/development/.config/carapace/bin:/home/development/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/development/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/rustup/bin:/var/lib/snapd/snap/bin"
      */
     PATH?: string;
     /**
@@ -285,21 +285,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "O3KGhjf_akHK_YPTjXfE0BqEKtjnQKf1"
+     * @defaultValue "1Pek5S9ujvzdi7KJPyaBR4zhRGzefzEX"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "b523f089-86f3-4c0d-9812-a1bde9809b72"
+     * @defaultValue "3834b63b-6581-4bec-bdd0-5f5ab97d7494"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-02T15:30:42.436Z"
+     * @defaultValue "2026-04-03T10:47:23.287Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -530,7 +530,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "23f08986-f3dc-4d58-92a1-bde9809b728b"
+     * @defaultValue "34b63b65-811b-4cbd-905f-5ab97d74943d"
      */
     readonly RELEASE_ID: string;
     /**
@@ -1122,6 +1122,32 @@ declare module "shell-shock:utils" {
     options?: SpawnOptions
   ): Promise<unknown>;
   /**
+   * Options for the `resolve` handler function.
+   */
+  interface ResolveModuleOptions {
+    /**
+     * The parent URL to use for resolving paths.
+     */
+    parentURL?: string;
+    /**
+     * The conditions to use for resolving paths.
+     */
+    conditions?: string[];
+  }
+  /**
+   * A function to resolve module specifiers to URLs.
+   *
+   * @param specifier - The module specifier to resolve.
+   * @param options - The options for resolving the module. Defaults to an empty
+   *   object.
+   * @returns The result of the resolve operation.
+   *
+   */
+  export function resolveModule(
+    specifier: string,
+    options?: ResolveModuleOptions
+  ): Promise<Promise<string>>;
+  /**
    * A utility function that takes an input string and a list of possible matches, and returns a list of suggested matches based on the Levenshtein distance between the input and the possible matches.
    *
    * @remarks
@@ -1209,78 +1235,2603 @@ declare module "shell-shock:console" {
    */
   export function stripAnsi(text: string | number): string;
   /**
-   * The available ANSI colors for console text.
-   */
-  export type AnsiColor =
-    | "reset"
-    | "bold"
-    | "dim"
-    | "italic"
-    | "underline"
-    | "overline"
-    | "inverse"
-    | "hidden"
-    | "strikethrough"
-    | "black"
-    | "red"
-    | "green"
-    | "yellow"
-    | "blue"
-    | "magenta"
-    | "cyan"
-    | "white"
-    | "blackBright"
-    | "gray"
-    | "grey"
-    | "redBright"
-    | "greenBright"
-    | "yellowBright"
-    | "blueBright"
-    | "magentaBright"
-    | "cyanBright"
-    | "whiteBright"
-    | "bgBlack"
-    | "bgRed"
-    | "bgGreen"
-    | "bgYellow"
-    | "bgBlue"
-    | "bgMagenta"
-    | "bgCyan"
-    | "bgWhite"
-    | "bgBlackBright"
-    | "bgGray"
-    | "bgGrey"
-    | "bgRedBright"
-    | "bgGreenBright"
-    | "bgYellowBright"
-    | "bgBlueBright"
-    | "bgMagentaBright"
-    | "bgCyanBright"
-    | "bgWhiteBright";
-  /**
-   * A recursive type that defines theme colors for console text.
+   * A function that applies reset styling to provided console text.
    *
    * @remarks
-   * This type allows for nested theme color definitions, enabling complex theming structures for console applications.
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the reset styling should be applied.
+   * @returns A string with ANSI escape codes applied for reset styling, or the
+   *   original text if the style is not supported in the current terminal.
+   *
    */
-  export type ThemeColors<T> = T extends object
-    ? {
-        [K in keyof T]: ThemeColors<T[K]>;
-      }
-    : (text: string) => string;
+  export const reset: (text: string) => string;
   /**
-   * An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link AnsiColor} for available colors.
+   * A function that applies bold styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the bold styling should be applied.
+   * @returns A string with ANSI escape codes applied for bold styling, or the
+   *   original text if the style is not supported in the current terminal.
+   *
    */
-  export type Colors = Record<AnsiColor, (text: string) => string> &
-    ThemeColors<ThemeColorsResolvedConfig>;
+  export const bold: (text: string) => string;
   /**
-   * An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link Colors} for available colors.
+   * A function that applies dim styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the dim styling should be applied.
+   * @returns A string with ANSI escape codes applied for dim styling, or the
+   *   original text if the style is not supported in the current terminal.
+   *
    */
-  export const colors: Colors;
+  export const dim: (text: string) => string;
+  /**
+   * A function that applies italic styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the italic styling should be applied.
+   * @returns A string with ANSI escape codes applied for italic styling, or the
+   *   original text if the style is not supported in the current terminal.
+   *
+   */
+  export const italic: (text: string) => string;
+  /**
+   * A function that applies underline styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the underline styling should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for underline styling, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
+  export const underline: (text: string) => string;
+  /**
+   * A function that applies overline styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the overline styling should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for overline styling, or the
+   *   original text if the style is not supported in the current terminal.
+   *
+   */
+  export const overline: (text: string) => string;
+  /**
+   * A function that applies inverse styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the inverse styling should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for inverse styling, or the
+   *   original text if the style is not supported in the current terminal.
+   *
+   */
+  export const inverse: (text: string) => string;
+  /**
+   * A function that applies hidden styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the hidden styling should be applied.
+   * @returns A string with ANSI escape codes applied for hidden styling, or the
+   *   original text if the style is not supported in the current terminal.
+   *
+   */
+  export const hidden: (text: string) => string;
+  /**
+   * A function that applies strikethrough styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the strikethrough styling should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for strikethrough styling,
+   *   or the original text if the style is not supported in the current terminal.
+   *
+   */
+  export const strikethrough: (text: string) => string;
+  /**
+   * A helper function to color the provided text as black.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the black color should be applied.
+   * @returns A string with ANSI escape codes applied for black color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const black: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as red.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the red color should be applied.
+   * @returns A string with ANSI escape codes applied for red color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const red: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as green.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the green color should be applied.
+   * @returns A string with ANSI escape codes applied for green color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const green: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as yellow.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the yellow color should be applied.
+   * @returns A string with ANSI escape codes applied for yellow color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const yellow: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as blue.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the blue color should be applied.
+   * @returns A string with ANSI escape codes applied for blue color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const blue: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as magenta.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the magenta color should be applied.
+   * @returns A string with ANSI escape codes applied for magenta color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const magenta: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as cyan.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the cyan color should be applied.
+   * @returns A string with ANSI escape codes applied for cyan color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const cyan: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as white.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the white color should be applied.
+   * @returns A string with ANSI escape codes applied for white color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const white: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as blackBright.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the blackBright color should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for blackBright color, or
+   *   the original text if the color is not supported in the current terminal.
+   *
+   */
+  export const blackBright: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as gray.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the gray color should be applied.
+   * @returns A string with ANSI escape codes applied for gray color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const gray: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as grey.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the grey color should be applied.
+   * @returns A string with ANSI escape codes applied for grey color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const grey: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as redBright.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the redBright color should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for redBright color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const redBright: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as greenBright.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the greenBright color should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for greenBright color, or
+   *   the original text if the color is not supported in the current terminal.
+   *
+   */
+  export const greenBright: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as yellowBright.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the yellowBright color should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for yellowBright color, or
+   *   the original text if the color is not supported in the current terminal.
+   *
+   */
+  export const yellowBright: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as blueBright.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the blueBright color should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for blueBright color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const blueBright: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as magentaBright.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the magentaBright color should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for magentaBright color, or
+   *   the original text if the color is not supported in the current terminal.
+   *
+   */
+  export const magentaBright: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as cyanBright.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the cyanBright color should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for cyanBright color, or the
+   *   original text if the color is not supported in the current terminal.
+   *
+   */
+  export const cyanBright: (text: string, background?: boolean) => string;
+  /**
+   * A helper function to color the provided text as whiteBright.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the whiteBright color should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for whiteBright color, or
+   *   the original text if the color is not supported in the current terminal.
+   *
+   */
+  export const whiteBright: (text: string, background?: boolean) => string;
+  /**
+   * A nested object containing functions for applying text theme colors to the console.
+   */
+  export type TextColors = {
+    /**
+     * An object containing various banner text theme coloring functions.
+     */
+    banner: {
+      /**
+       * An object containing various banner title text theme coloring functions.
+       */
+      title: {
+        /**
+         * A function that applies a primary banner title color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary banner title color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the primary banner title color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for primary banner title
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        primary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a secondary banner title color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary banner title color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the secondary banner title color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for secondary banner title
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        secondary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a tertiary banner title color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary banner title color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the tertiary banner title color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for tertiary banner title
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        tertiary: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various banner command text theme coloring functions.
+       */
+      command: {
+        /**
+         * A function that applies a primary banner command color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary banner command color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the primary banner command color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for primary banner command
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        primary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a secondary banner command color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary banner command color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the secondary banner command color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for secondary banner command
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        secondary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a tertiary banner command color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary banner command color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the tertiary banner command color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for tertiary banner command
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        tertiary: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various banner description text theme coloring functions.
+       */
+      description: {
+        /**
+         * A function that applies a primary banner description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary banner description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the primary banner description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for primary banner
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        primary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a secondary banner description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary banner description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the secondary banner description
+         *   color styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for secondary banner
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        secondary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a tertiary banner description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary banner description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the tertiary banner description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for tertiary banner
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        tertiary: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various banner header text theme coloring functions.
+       */
+      header: {
+        /**
+         * A function that applies a primary banner header color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary banner header color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the primary banner header color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for primary banner header
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        primary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a secondary banner header color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary banner header color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the secondary banner header color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for secondary banner header
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        secondary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a tertiary banner header color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary banner header color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the tertiary banner header color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for tertiary banner header
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        tertiary: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various banner footer text theme coloring functions.
+       */
+      footer: {
+        /**
+         * A function that applies a primary banner footer color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary banner footer color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the primary banner footer color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for primary banner footer
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        primary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a secondary banner footer color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary banner footer color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the secondary banner footer color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for secondary banner footer
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        secondary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a tertiary banner footer color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary banner footer color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the tertiary banner footer color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for tertiary banner footer
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        tertiary: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various banner link text theme coloring functions.
+       */
+      link: {
+        /**
+         * A function that applies a primary banner link color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary banner link color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the primary banner link color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for primary banner link
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        primary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a secondary banner link color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary banner link color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the secondary banner link color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for secondary banner link
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        secondary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a tertiary banner link color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary banner link color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the tertiary banner link color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for tertiary banner link
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        tertiary: (text: string, background?: boolean) => string;
+      };
+    };
+    /**
+     * An object containing various heading text theme coloring functions.
+     */
+    heading: {
+      /**
+       * A function that applies a primary text heading color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary text heading color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the primary text heading color
+       *   styling should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for primary text heading
+       *   color styling, or the original text if the style is not supported in the
+       *   current terminal.
+       *
+       */
+      primary: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies a secondary text heading color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary text heading color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the secondary text heading color
+       *   styling should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for secondary text heading
+       *   color styling, or the original text if the style is not supported in the
+       *   current terminal.
+       *
+       */
+      secondary: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies a tertiary text heading color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary text heading color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the tertiary text heading color
+       *   styling should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for tertiary text heading
+       *   color styling, or the original text if the style is not supported in the
+       *   current terminal.
+       *
+       */
+      tertiary: (text: string, background?: boolean) => string;
+    };
+    /**
+     * An object containing various body text theme coloring functions.
+     */
+    body: {
+      /**
+       * A function that applies a primary text body color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary text body color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the primary text body color styling
+       *   should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for primary text body color
+       *   styling, or the original text if the style is not supported in the current
+       *   terminal.
+       *
+       */
+      primary: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies a secondary text body color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary text body color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the secondary text body color styling
+       *   should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for secondary text body
+       *   color styling, or the original text if the style is not supported in the
+       *   current terminal.
+       *
+       */
+      secondary: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies a tertiary text body color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary text body color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the tertiary text body color styling
+       *   should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for tertiary text body color
+       *   styling, or the original text if the style is not supported in the current
+       *   terminal.
+       *
+       */
+      tertiary: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies a link text body color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for link text body color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the link text body color styling
+       *   should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for link text body color
+       *   styling, or the original text if the style is not supported in the current
+       *   terminal.
+       *
+       */
+      link: (text: string, background?: boolean) => string;
+    };
+    /**
+     * An object containing various message text theme coloring functions.
+     */
+    message: {
+      /**
+       * An object containing various message description text theme coloring functions.
+       */
+      description: {
+        /**
+         * A function that applies a help message description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for help message description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the help message description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for help message description
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        help: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a success message description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for success message description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the success message description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for success message
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        success: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an info message description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for info message description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the info message description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for info message description
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        info: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a debug message description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for debug message description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the debug message description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for debug message
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        debug: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a warning message description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for warning message description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the warning message description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for warning message
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        warning: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a danger message description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for danger message description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the danger message description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for danger message
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        danger: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an error message description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for error message description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the error message description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for error message
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        error: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various message link text theme coloring functions.
+       */
+      link: {
+        /**
+         * A function that applies a help message link color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for help message link color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the help message link color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for help message link color
+         *   styling, or the original text if the style is not supported in the current
+         *   terminal.
+         *
+         */
+        help: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a success message link color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for success message link color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the success message link color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for success message link
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        success: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an info message link color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for info message link color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the info message link color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for info message link color
+         *   styling, or the original text if the style is not supported in the current
+         *   terminal.
+         *
+         */
+        info: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a debug message link color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for debug message link color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the debug message link color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for debug message link color
+         *   styling, or the original text if the style is not supported in the current
+         *   terminal.
+         *
+         */
+        debug: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a warning message link color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for warning message link color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the warning message link color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for warning message link
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        warning: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a danger message link color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for danger message link color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the danger message link color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for danger message link
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        danger: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an error message link color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for error message link color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the error message link color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for error message link color
+         *   styling, or the original text if the style is not supported in the current
+         *   terminal.
+         *
+         */
+        error: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various message header text theme coloring functions.
+       */
+      header: {
+        /**
+         * A function that applies a help message header color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for help message header color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the help message header color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for help message header
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        help: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a success message header color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for success message header color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the success message header color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for success message header
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        success: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an info message header color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for info message header color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the info message header color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for info message header
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        info: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a debug message header color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for debug message header color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the debug message header color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for debug message header
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        debug: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a warning message header color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for warning message header color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the warning message header color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for warning message header
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        warning: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a danger message header color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for danger message header color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the danger message header color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for danger message header
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        danger: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an error message header color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for error message header color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the error message header color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for error message header
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        error: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various message footer text theme coloring functions.
+       */
+      footer: {
+        /**
+         * A function that applies a help message footer color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for help message footer color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the help message footer color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for help message footer
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        help: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a success message footer color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for success message footer color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the success message footer color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for success message footer
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        success: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an info message footer color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for info message footer color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the info message footer color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for info message footer
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        info: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a debug message footer color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for debug message footer color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the debug message footer color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for debug message footer
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        debug: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a warning message footer color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for warning message footer color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the warning message footer color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for warning message footer
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        warning: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a danger message footer color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for danger message footer color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the danger message footer color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for danger message footer
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        danger: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an error message footer color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for error message footer color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the error message footer color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for error message footer
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        error: (text: string, background?: boolean) => string;
+      };
+    };
+    /**
+     * An object containing various usage text theme coloring functions.
+     */
+    usage: {
+      /**
+       * A function that applies a bin text usage color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for bin text usage color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the bin text usage color styling
+       *   should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for bin text usage color
+       *   styling, or the original text if the style is not supported in the current
+       *   terminal.
+       *
+       */
+      bin: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies a command text usage color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for command text usage color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the command text usage color styling
+       *   should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for command text usage color
+       *   styling, or the original text if the style is not supported in the current
+       *   terminal.
+       *
+       */
+      command: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies a dynamic text usage color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for dynamic text usage color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the dynamic text usage color styling
+       *   should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for dynamic text usage color
+       *   styling, or the original text if the style is not supported in the current
+       *   terminal.
+       *
+       */
+      dynamic: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies an options text usage color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for options text usage color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the options text usage color styling
+       *   should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for options text usage color
+       *   styling, or the original text if the style is not supported in the current
+       *   terminal.
+       *
+       */
+      options: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies an args text usage color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for args text usage color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the args text usage color styling
+       *   should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for args text usage color
+       *   styling, or the original text if the style is not supported in the current
+       *   terminal.
+       *
+       */
+      args: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies a description text usage color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for description text usage color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the description text usage color
+       *   styling should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for description text usage
+       *   color styling, or the original text if the style is not supported in the
+       *   current terminal.
+       *
+       */
+      description: (text: string, background?: boolean) => string;
+    };
+    /**
+     * An object containing various prompt text theme coloring functions.
+     */
+    prompt: {
+      /**
+       * An object containing various prompt icon text theme coloring functions.
+       */
+      icon: {
+        /**
+         * A function that applies an active prompt icon color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for active prompt icon color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the active prompt icon color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for active prompt icon color
+         *   styling, or the original text if the style is not supported in the current
+         *   terminal.
+         *
+         */
+        active: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a warning prompt icon color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for warning prompt icon color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the warning prompt icon color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for warning prompt icon
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        warning: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an error prompt icon color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for error prompt icon color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the error prompt icon color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for error prompt icon color
+         *   styling, or the original text if the style is not supported in the current
+         *   terminal.
+         *
+         */
+        error: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a submitted prompt icon color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for submitted prompt icon color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the submitted prompt icon color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for submitted prompt icon
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        submitted: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a cancelled prompt icon color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for cancelled prompt icon color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the cancelled prompt icon color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for cancelled prompt icon
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        cancelled: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a disabled prompt icon color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for disabled prompt icon color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the disabled prompt icon color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for disabled prompt icon
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        disabled: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various prompt message text theme coloring functions.
+       */
+      message: {
+        /**
+         * A function that applies an active prompt message color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for active prompt message color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the active prompt message color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for active prompt message
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        active: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a warning prompt message color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for warning prompt message color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the warning prompt message color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for warning prompt message
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        warning: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an error prompt message color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for error prompt message color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the error prompt message color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for error prompt message
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        error: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a submitted prompt message color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for submitted prompt message color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the submitted prompt message color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for submitted prompt message
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        submitted: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a cancelled prompt message color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for cancelled prompt message color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the cancelled prompt message color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for cancelled prompt message
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        cancelled: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a disabled prompt message color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for disabled prompt message color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the disabled prompt message color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for disabled prompt message
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        disabled: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various prompt input text theme coloring functions.
+       */
+      input: {
+        /**
+         * A function that applies an active prompt input color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for active prompt input color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the active prompt input color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for active prompt input
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        active: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an inactive prompt input color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for inactive prompt input color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the inactive prompt input color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for inactive prompt input
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        inactive: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a warning prompt input color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for warning prompt input color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the warning prompt input color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for warning prompt input
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        warning: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an error prompt input color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for error prompt input color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the error prompt input color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for error prompt input color
+         *   styling, or the original text if the style is not supported in the current
+         *   terminal.
+         *
+         */
+        error: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a submitted prompt input color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for submitted prompt input color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the submitted prompt input color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for submitted prompt input
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        submitted: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a cancelled prompt input color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for cancelled prompt input color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the cancelled prompt input color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for cancelled prompt input
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        cancelled: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a disabled prompt input color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for disabled prompt input color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the disabled prompt input color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for disabled prompt input
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        disabled: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a placeholder prompt input color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for placeholder prompt input color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the placeholder prompt input color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for placeholder prompt input
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        placeholder: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various prompt description text theme coloring functions.
+       */
+      description: {
+        /**
+         * A function that applies an active prompt description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for active prompt description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the active prompt description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for active prompt
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        active: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an inactive prompt description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for inactive prompt description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the inactive prompt description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for inactive prompt
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        inactive: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a warning prompt description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for warning prompt description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the warning prompt description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for warning prompt
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        warning: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an error prompt description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for error prompt description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the error prompt description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for error prompt description
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        error: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a submitted prompt description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for submitted prompt description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the submitted prompt description
+         *   color styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for submitted prompt
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        submitted: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a cancelled prompt description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for cancelled prompt description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the cancelled prompt description
+         *   color styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for cancelled prompt
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        cancelled: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a disabled prompt description color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for disabled prompt description color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the disabled prompt description color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for disabled prompt
+         *   description color styling, or the original text if the style is not
+         *   supported in the current terminal.
+         *
+         */
+        disabled: (text: string, background?: boolean) => string;
+      };
+    };
+    /**
+     * An object containing various spinner text theme coloring functions.
+     */
+    spinner: {
+      /**
+       * An object containing various spinner icon text theme coloring functions.
+       */
+      icon: {
+        /**
+         * A function that applies an active spinner icon color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for active spinner icon color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the active spinner icon color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for active spinner icon
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        active: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a warning spinner icon color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for warning spinner icon color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the warning spinner icon color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for warning spinner icon
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        warning: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an error spinner icon color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for error spinner icon color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the error spinner icon color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for error spinner icon color
+         *   styling, or the original text if the style is not supported in the current
+         *   terminal.
+         *
+         */
+        error: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a success spinner icon color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for success spinner icon color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the success spinner icon color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for success spinner icon
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        success: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an info spinner icon color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for info spinner icon color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the info spinner icon color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for info spinner icon color
+         *   styling, or the original text if the style is not supported in the current
+         *   terminal.
+         *
+         */
+        info: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a help spinner icon color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for help spinner icon color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the help spinner icon color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for help spinner icon color
+         *   styling, or the original text if the style is not supported in the current
+         *   terminal.
+         *
+         */
+        help: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various spinner message text theme coloring functions.
+       */
+      message: {
+        /**
+         * A function that applies an active spinner message color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for active spinner message color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the active spinner message color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for active spinner message
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        active: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a warning spinner message color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for warning spinner message color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the warning spinner message color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for warning spinner message
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        warning: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an error spinner message color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for error spinner message color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the error spinner message color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for error spinner message
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        error: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a success spinner message color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for success spinner message color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the success spinner message color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for success spinner message
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        success: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an info spinner message color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for info spinner message color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the info spinner message color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for info spinner message
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        info: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a help spinner message color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for help spinner message color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the help spinner message color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for help spinner message
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        help: (text: string, background?: boolean) => string;
+      };
+    };
+    /**
+     * An object containing various tags text theme coloring functions.
+     */
+    tags: {
+      /**
+       * A function that applies a $default text tags color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for $default text tags color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the $default text tags color styling
+       *   should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for $default text tags color
+       *   styling, or the original text if the style is not supported in the current
+       *   terminal.
+       *
+       */
+      default: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies an utility text tags color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for utility text tags color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the utility text tags color styling
+       *   should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for utility text tags color
+       *   styling, or the original text if the style is not supported in the current
+       *   terminal.
+       *
+       */
+      utility: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies a deprecated text tags color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for deprecated text tags color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the deprecated text tags color
+       *   styling should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for deprecated text tags
+       *   color styling, or the original text if the style is not supported in the
+       *   current terminal.
+       *
+       */
+      deprecated: (text: string, background?: boolean) => string;
+      /**
+       * A function that applies an experimental text tags color styling to provided console text.
+       *
+       * @remarks
+       * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for experimental text tags color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+       *
+       * @param text - The console text to which the experimental text tags color
+       *   styling should be applied.
+       * @param background - A boolean indicating whether to apply the color as a
+       *   background. Defaults to `false`.
+       * @returns A string with ANSI escape codes applied for experimental text tags
+       *   color styling, or the original text if the style is not supported in the
+       *   current terminal.
+       *
+       */
+      experimental: (text: string, background?: boolean) => string;
+    };
+  };
+  /**
+   * A nested object containing functions for applying border theme colors to the console.
+   */
+  export type BorderColors = {
+    /**
+     * An object containing various banner border theme coloring functions.
+     */
+    banner: {
+      /**
+       * An object containing various banner divider border theme coloring functions.
+       */
+      divider: {
+        /**
+         * A function that applies a primary banner divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary banner divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the primary banner divider color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for primary banner divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        primary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a secondary banner divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary banner divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the secondary banner divider color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for secondary banner divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        secondary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a tertiary banner divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary banner divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the tertiary banner divider color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for tertiary banner divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        tertiary: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various banner outline border theme coloring functions.
+       */
+      outline: {
+        /**
+         * A function that applies a primary banner outline color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary banner outline color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the primary banner outline color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for primary banner outline
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        primary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a secondary banner outline color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary banner outline color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the secondary banner outline color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for secondary banner outline
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        secondary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a tertiary banner outline color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary banner outline color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the tertiary banner outline color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for tertiary banner outline
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        tertiary: (text: string, background?: boolean) => string;
+      };
+    };
+    /**
+     * An object containing various app border theme coloring functions.
+     */
+    app: {
+      /**
+       * An object containing various app divider border theme coloring functions.
+       */
+      divider: {
+        /**
+         * A function that applies a primary app divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary app divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the primary app divider color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for primary app divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        primary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a secondary app divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary app divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the secondary app divider color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for secondary app divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        secondary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a tertiary app divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary app divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the tertiary app divider color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for tertiary app divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        tertiary: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various app table border theme coloring functions.
+       */
+      table: {
+        /**
+         * A function that applies a primary app table color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary app table color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the primary app table color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for primary app table color
+         *   styling, or the original text if the style is not supported in the current
+         *   terminal.
+         *
+         */
+        primary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a secondary app table color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary app table color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the secondary app table color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for secondary app table
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        secondary: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a tertiary app table color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary app table color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the tertiary app table color styling
+         *   should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for tertiary app table color
+         *   styling, or the original text if the style is not supported in the current
+         *   terminal.
+         *
+         */
+        tertiary: (text: string, background?: boolean) => string;
+      };
+    };
+    /**
+     * An object containing various message border theme coloring functions.
+     */
+    message: {
+      /**
+       * An object containing various message divider border theme coloring functions.
+       */
+      divider: {
+        /**
+         * A function that applies a help message divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for help message divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the help message divider color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for help message divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        help: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a success message divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for success message divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the success message divider color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for success message divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        success: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an info message divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for info message divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the info message divider color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for info message divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        info: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a debug message divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for debug message divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the debug message divider color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for debug message divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        debug: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a warning message divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for warning message divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the warning message divider color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for warning message divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        warning: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a danger message divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for danger message divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the danger message divider color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for danger message divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        danger: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an error message divider color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for error message divider color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the error message divider color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for error message divider
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        error: (text: string, background?: boolean) => string;
+      };
+      /**
+       * An object containing various message outline border theme coloring functions.
+       */
+      outline: {
+        /**
+         * A function that applies a help message outline color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for help message outline color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the help message outline color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for help message outline
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        help: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a success message outline color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for success message outline color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the success message outline color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for success message outline
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        success: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an info message outline color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for info message outline color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the info message outline color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for info message outline
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        info: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a debug message outline color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for debug message outline color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the debug message outline color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for debug message outline
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        debug: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a warning message outline color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for warning message outline color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the warning message outline color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for warning message outline
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        warning: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies a danger message outline color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for danger message outline color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the danger message outline color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for danger message outline
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        danger: (text: string, background?: boolean) => string;
+        /**
+         * A function that applies an error message outline color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for error message outline color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the error message outline color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for error message outline
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        error: (text: string, background?: boolean) => string;
+      };
+    };
+  };
+  /**
+   * A nested object containing functions for applying text theme colors to the console.
+   */
+  export const textColors: TextColors;
+  /**
+   * A nested object containing functions for applying border theme colors to the console.
+   */
+  export const borderColors: BorderColors;
+  /**
+   * Options for writing to the console.
+   */
+  export interface WriteOptions {
+    /**
+     * Console function to use for writing to the console
+     *
+     * @remarks
+     * The console function to use for writing to the console. If not specified, the default console function `console.log` will be used.
+     *
+     * @defaultValue `console.log`
+     */
+    consoleFn?: (text: string) => void;
+  }
+  /**
+   * Write to the console.
+   *
+   * @remarks
+   * This function writes to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
+   *
+   * @param text - The text to write to the console.
+   * @param options - The options to apply when writing to the console.
+   */
+  export function write(
+    text?: string | number | boolean | null,
+    options?: WriteOptions
+  ): void;
   /**
    * Options for writing a line to the console.
    */
-  export interface WriteLineOptions {
+  export interface WriteLineOptions extends WriteOptions {
     /**
      * Padding to apply to the line
      *
@@ -1288,15 +3839,6 @@ declare module "shell-shock:console" {
      * The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.
      */
     padding?: number;
-    /**
-     * Console function to use for writing the line
-     *
-     * @remarks
-     * The console function to use for writing the line. If not specified, the default console function `console.log` will be used.
-     *
-     * @defaultValue `console.log`
-     */
-    consoleFn?: (text: string) => void;
     /**
      * Color of the line text
      *
@@ -1371,11 +3913,11 @@ declare module "shell-shock:console" {
     padding?: number;
   }
   /**
-   * Write a divider line to the console.
+   * Write a horizontal divider line to the console.
    *
    * @example
    * ```ts
-   * divider({ width: 50, border: "primary" }); // Writes a divider line of width 50 with primary border.
+   * divider({ width: 50, border: "primary" }); // Writes a horizontal divider line of width 50 with primary border.
    * ```
    * @param options - Options for formatting the divider line.
    */
@@ -1474,8 +4016,12 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
    */
-  export function help(message: string): void;
+  export function help(message: string, header?: string): void;
   /**
    * Write a success message to the console.
    *
@@ -1483,8 +4029,12 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
    */
-  export function success(message: string): void;
+  export function success(message: string, header?: string): void;
   /**
    * Write an informational message to the console.
    *
@@ -1492,8 +4042,12 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
    */
-  export function info(message: string): void;
+  export function info(message: string, header?: string): void;
   /**
    * Write a debug message to the console.
    *
@@ -1501,8 +4055,12 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
    */
-  export function debug(message: string): void;
+  export function debug(message: string, header?: string): void;
   /**
    * Write a verbose message to the console.
    *
@@ -1510,8 +4068,12 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
    */
-  export function verbose(message: string): void;
+  export function verbose(message: string, header?: string): void;
   /**
    * Write a warning message to the console.
    *
@@ -1519,8 +4081,12 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
    */
-  export function warn(message: string): void;
+  export function warn(message: string, header?: string): void;
   /**
    * Write a destructive/danger message to the console.
    *
@@ -1528,8 +4094,12 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
    */
-  export function danger(message: string): void;
+  export function danger(message: string, header?: string): void;
   /**
    * Write an error message to the console.
    *
@@ -1537,8 +4107,12 @@ declare module "shell-shock:console" {
    * This function initializes the Powerlines environment configuration object.
    *
    * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
    */
-  export function error(err: string | Error): void;
+  export function error(err: string | Error, header?: string): void;
   /**
    * A type representing the width size of an item in the console.
    */
@@ -1687,6 +4261,33 @@ declare module "shell-shock:console" {
       | string[]
       | string[][]
   ): void;
+  /**
+   * Format a string with blockquote styling for display in console.
+   *
+   * @param text - The text to format with blockquote styling.
+   * @returns The formatted string with blockquote styling.
+   *
+   */
+  export function blockquote(text?: string | number | boolean | null): string;
+  /**
+   * Format a source code string for display in console.
+   *
+   * @param text - The source code text to format with code styling.
+   * @returns The formatted string with code styling.
+   *
+   */
+  export function code(
+    text?: string | number | boolean | null,
+    language?: string
+  ): string;
+  /**
+   * Format a string with inline code styling for display in console.
+   *
+   * @param text - The text to format with inline code styling.
+   * @returns The formatted string with inline code styling.
+   *
+   */
+  export function inlineCode(text?: string | number | boolean | null): string;
   export {};
 }
 

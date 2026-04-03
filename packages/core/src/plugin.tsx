@@ -204,6 +204,16 @@ export const plugin = <TContext extends Context = Context>(
               isVirtual: false
             })
           );
+
+          this.options = this.options.map(
+            option =>
+              ({
+                ...option,
+                name: camelCase(option.name),
+                alias: option.alias ?? [],
+                optional: option.optional ?? false
+              }) as CommandOption
+          );
         }
       }
     },
@@ -561,16 +571,6 @@ export interface GlobalOptions {
             }
 
             this.debug("Post-processing commands to ensure proper reflection.");
-
-            this.options = this.options.map(
-              option =>
-                ({
-                  ...option,
-                  name: camelCase(option.name),
-                  alias: option.alias ?? [],
-                  optional: option.optional ?? false
-                }) as CommandOption
-            );
 
             await traverseCommands(this, command => {
               command.options = Object.fromEntries(

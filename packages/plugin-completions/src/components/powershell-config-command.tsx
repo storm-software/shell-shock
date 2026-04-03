@@ -57,7 +57,8 @@ export function PowerShellConfigCompletionsCommand() {
       }}
       builtinImports={{
         "shell-shock:console": [
-          "colors",
+          "bold",
+          "inlineCode",
           "writeLine",
           "success",
           "warn",
@@ -117,7 +118,7 @@ export function PowerShellConfigCompletionsCommand() {
           } catch (error) {
             if (typeof error === "object" && error !== null && "code" in error && error.code === "ENOENT") {
               // If the file doesn't exist, we can create it later when writing the completion script.
-              warn(\`Configuration file \${colors.bold(configPath)} does not exist. It will be created when the completion script is written.\`);
+              warn(\`Configuration file \${bold(configPath)} does not exist. It will be created when the completion script is written.\`);
             } else {
               return { error };
             }
@@ -129,7 +130,7 @@ export function PowerShellConfigCompletionsCommand() {
 
           success(\`${getAppTitle(
             context
-          )} shell completions have been applied to PowerShell configuration file at \${colors.bold(configPath)}. Please restart your terminal or run \\\`source \${configPath}\\\` for the changes to take effect.\`); `}
+          )} shell completions have been applied to PowerShell configuration file at \${bold(configPath)}. Please restart your terminal or run \${inlineCode(\`source \${configPath}\`)} for the changes to take effect.\`); `}
         </IfStatement>
         <ElseClause>
           {code`writeLine(" ------------------------------------------------- ");

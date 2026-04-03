@@ -41,7 +41,20 @@ export function BashCompletionsShared() {
     <TypescriptFile
       path={joinPaths(context.entryPath, "completions", "bash", "shared.ts")}
       builtinImports={{
-        console: ["colors"]
+        console: [
+          "white",
+          "green",
+          "red",
+          "bold",
+          "cyan",
+          "gray",
+          "magenta",
+          "magentaBright",
+          "greenBright",
+          "redBright",
+          "cyanBright",
+          "dim"
+        ]
       }}>
       <Spacing />
       <VarDeclaration
@@ -169,21 +182,21 @@ complete -F __${name.value}_complete ${bin.value}
             return "";
           }
           if (line.trim().startsWith("#")) {
-            return \`\${colors.dim(line)}\`;
+            return \`\${dim(line)}\`;
           }
 
-          return colors.white(line).replaceAll(/(?<=\\\$(\\{|\\()).*(?=(\\}\\)))/g, colors.green("$&"))
-            .replaceAll(/\\".*\\"/g, colors.cyan("$&"))
-            .replaceAll(/(\\[|\\]|\\(|\\)|\\||<|>|\\$\\(|\\$?\\{|\\}|\\+|=|;|:)/g, colors.bold(colors.gray("$&")))
-            .replaceAll(/(readonly|complete)\\s+/g, colors.green("$&"))
-            .replaceAll(/(?<=(readonly|complete)\\s+)\\w/g, colors.bold(colors.greenBright("$&")))
-            .replaceAll(/local\\s+/g, colors.red("$&"))
-            .replaceAll(/(?<=local\\s+)\\w/g, colors.bold(colors.redBright("$&")))
-            .replaceAll(/while\\s+/g, colors.cyan("$&"))
-            .replaceAll(/(?<=while\\s+)\\w/g, colors.bold(colors.cyanBright("$&")))
-            .replaceAll(/(if|fi|else|elif|then|done)\\s+/g, colors.green("$&"))
-            .replaceAll(/__\\w/g, colors.bold(colors.magentaBright("$&")))
-            .replaceAll(/(?<=\\s)(-\\w|--\\w[\\w-]*)(?=\\s|$)/g, colors.bold(colors.magenta("$&")));
+          return white(line).replaceAll(/(?<=\\\$(\\{|\\()).*(?=(\\}\\)))/g, green("$&"))
+            .replaceAll(/\\".*\\"/g, cyan("$&"))
+            .replaceAll(/(\\[|\\]|\\(|\\)|\\||<|>|\\$\\(|\\$?\\{|\\}|\\+|=|;|:)/g, bold(gray("$&")))
+            .replaceAll(/(readonly|complete)\\s+/g, green("$&"))
+            .replaceAll(/(?<=(readonly|complete)\\s+)\\w/g, bold(greenBright("$&")))
+            .replaceAll(/local\\s+/g, red("$&"))
+            .replaceAll(/(?<=local\\s+)\\w/g, bold(redBright("$&")))
+            .replaceAll(/while\\s+/g, cyan("$&"))
+            .replaceAll(/(?<=while\\s+)\\w/g, bold(cyanBright("$&")))
+            .replaceAll(/(if|fi|else|elif|then|done)\\s+/g, green("$&"))
+            .replaceAll(/__\\w/g, bold(magentaBright("$&")))
+            .replaceAll(/(?<=\\s)(-\\w|--\\w[\\w-]*)(?=\\s|$)/g, bold(magenta("$&")));
 
         }).join("\\n"); `}
       />

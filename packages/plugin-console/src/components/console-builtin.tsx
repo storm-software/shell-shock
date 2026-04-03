@@ -54,12 +54,14 @@ import type {
   ThemeResolvedConfig
 } from "@shell-shock/plugin-theme";
 import { useColors, useTheme } from "@shell-shock/plugin-theme/contexts/theme";
-import type {
-  AnsiWrappers,
-  BaseAnsiStylesKeys
+import type { AnsiColorWrappers } from "@shell-shock/plugin-theme/helpers/ansi-utils";
+import {
+  colorKeys,
+  modifierKeys
 } from "@shell-shock/plugin-theme/helpers/ansi-utils";
-import { camelCase } from "@stryke/string-format";
+import { camelCase, pascalCase } from "@stryke/string-format";
 import { getIndefiniteArticle } from "@stryke/string-format/vowels";
+import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { defu } from "defu";
 
 export function AnsiHelpersDeclarations() {
@@ -188,37 +190,63 @@ export function AnsiHelpersDeclarations() {
   );
 }
 
+type ColorFunctionProps = Record<
+  "ansi16" | "ansi256" | "ansi16m",
+  AnsiColorWrappers
+> & {
+  skipBackground?: boolean;
+};
+
 /**
  * A component to generate a console message function in a Shell Shock project.
  */
 function ColorFunction({
   ansi16,
   ansi256,
-  ansi16m
-}: Record<"ansi16" | "ansi256" | "ansi16m", AnsiWrappers>) {
-  return code` (text: string, background = false) => {
+  ansi16m,
+  skipBackground = false
+}: ColorFunctionProps) {
+  return code` (text: string${
+    skipBackground ? "" : `, background = false`
+  }): string => {
     try {
+      if (text === undefined || text === null || text === "") {
+        return "";
+      }
+
       if (!isColorSupported) {
         return String(text);
       }
 
       if (colorSupportLevels.stdout === 1) {
-        return wrapAnsi(text, background ? "${
-          ansi16.background.open
-        }" : "${ansi16.open}", background ? "${
-          ansi16.background.close
-        }" : "${ansi16.close}");
+        return wrapAnsi(text, ${
+          skipBackground
+            ? `"${ansi16.open}", "${ansi16.close}"`
+            : `background ? "${
+                ansi16.background.open
+              }" : "${ansi16.open}", background ? "${
+                ansi16.background.close
+              }" : "${ansi16.close}"`
+        });
       } else if (colorSupportLevels.stdout === 2) {
-        return wrapAnsi(text, background ? "${
-          ansi256.background.open
-        }" : "${ansi256.open}", background ? "${
-          ansi256.background.close
-        }" : "${ansi256.close}");
+        return wrapAnsi(text, ${
+          skipBackground
+            ? `"${ansi256.open}", "${ansi256.close}"`
+            : `background ? "${
+                ansi256.background.open
+              }" : "${ansi256.open}", background ? "${
+                ansi256.background.close
+              }" : "${ansi256.close}"`
+        });
       }
 
-      return wrapAnsi(text, background ? "${ansi16m.background.open}" : "${
-        ansi16m.open
-      }", background ? "${ansi16m.background.close}" : "${ansi16m.close}");
+      return wrapAnsi(text, ${
+        skipBackground
+          ? `"${ansi16m.open}", "${ansi16m.close}"`
+          : `background ? "${ansi16m.background.open}" : "${
+              ansi16m.open
+            }", background ? "${ansi16m.background.close}" : "${ansi16m.close}"`
+      });
     } catch {
       return String(text);
     }
@@ -226,1728 +254,355 @@ function ColorFunction({
 `;
 }
 
+interface ThemeColorNode {
+  [key: string]: AnsiColorWrappers | ThemeColorNode;
+}
+
+interface ThemeColorDefinitionProps {
+  type: string;
+  subType?: string;
+  ansi16: ThemeColorNode;
+  ansi256: ThemeColorNode;
+  ansi16m: ThemeColorNode;
+}
+
+export function ThemeColorTypeDefinition(props: ThemeColorDefinitionProps) {
+  const { ansi16, ansi256, ansi16m, type, subType } = props;
+
+  return (
+    <For
+      each={Object.entries(ansi16)}
+      semicolon
+      doubleHardline
+      enderPunctuation>
+      {([color, value]) => (
+        <>
+          <Show when={isSetObject(value)}>
+            <Show
+              when={"open" in value && "close" in value}
+              fallback={
+                <>
+                  <TSDoc
+                    heading={`An object containing various ${
+                      subType ? `${subType} ` : ""
+                    }${color}${
+                      type ? ` ${type}` : ""
+                    } theme coloring functions.`}></TSDoc>
+                  {code` ${camelCase(color)}: { `}
+                  <hbr />
+                  <ThemeColorTypeDefinition
+                    ansi16={ansi16[color] as ThemeColorNode}
+                    ansi256={ansi256[color] as ThemeColorNode}
+                    ansi16m={ansi16m[color] as ThemeColorNode}
+                    type={subType || type}
+                    subType={color}
+                  />
+                  <hbr />
+                  {code` }`}
+                </>
+              }>
+              <TSDoc
+                heading={`A function that applies ${getIndefiniteArticle(color)} ${
+                  color
+                }${type ? ` ${type}` : ""}${
+                  subType ? ` ${subType}` : ""
+                } color styling to provided console text.`}>
+                <TSDocRemarks>
+                  {`This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for ${
+                    color
+                  }${type ? ` ${type}` : ""}${
+                    subType ? ` ${subType}` : ""
+                  } color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.`}
+                </TSDocRemarks>
+                <hbr />
+                <TSDocParam name="text">
+                  {`The console text to which the ${color}${
+                    type ? ` ${type}` : ""
+                  }${subType ? ` ${subType}` : ""} color styling should be applied.`}
+                </TSDocParam>
+                <TSDocParam name="background">
+                  {`A boolean indicating whether to apply the color as a background. Defaults to \`false\`.`}
+                </TSDocParam>
+                <TSDocReturns>
+                  {`A string with ANSI escape codes applied for ${color}${
+                    type ? ` ${type}` : ""
+                  }${
+                    subType ? ` ${subType}` : ""
+                  } color styling, or the original text if the style is not supported in the current terminal.`}
+                </TSDocReturns>
+              </TSDoc>
+              {code`${camelCase(color)}: (text: string, background?: boolean) => string`}
+            </Show>
+          </Show>
+        </>
+      )}
+    </For>
+  );
+}
+
+export function ThemeColorObjectDefinition(props: ThemeColorDefinitionProps) {
+  const { ansi16, ansi256, ansi16m, type, subType } = props;
+
+  return (
+    <For each={Object.entries(ansi16)} comma doubleHardline enderPunctuation>
+      {([color, value]) => (
+        <>
+          <Show when={isSetObject(value)}>
+            <Show
+              when={"open" in value && "close" in value}
+              fallback={
+                <>
+                  <TSDoc
+                    heading={`An object containing various ${
+                      subType ? `${subType} ` : ""
+                    }${color}${
+                      type ? ` ${type}` : ""
+                    } theme coloring functions.`}></TSDoc>
+                  {code` ${camelCase(color)}: { `}
+                  <hbr />
+                  <ThemeColorObjectDefinition
+                    ansi16={ansi16[color] as ThemeColorNode}
+                    ansi256={ansi256[color] as ThemeColorNode}
+                    ansi16m={ansi16m[color] as ThemeColorNode}
+                    type={subType || type}
+                    subType={color}
+                  />
+                  <hbr />
+                  {code` }`}
+                </>
+              }>
+              <TSDoc
+                heading={`A function that applies ${getIndefiniteArticle(color)} ${
+                  color
+                }${type ? ` ${type}` : ""}${
+                  subType ? ` ${subType}` : ""
+                } color styling to provided console text.`}>
+                <TSDocRemarks>
+                  {`This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for ${
+                    color
+                  }${type ? ` ${type}` : ""}${
+                    subType ? ` ${subType}` : ""
+                  } color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.`}
+                </TSDocRemarks>
+                <hbr />
+                <TSDocParam name="text">
+                  {`The console text to which the ${color}${
+                    type ? ` ${type}` : ""
+                  }${subType ? ` ${subType}` : ""} color styling should be applied.`}
+                </TSDocParam>
+                <TSDocParam name="background">
+                  {`A boolean indicating whether to apply the color as a background. Defaults to \`false\`.`}
+                </TSDocParam>
+                <TSDocReturns>
+                  {`A string with ANSI escape codes applied for ${color}${
+                    type ? ` ${type}` : ""
+                  }${
+                    subType ? ` ${subType}` : ""
+                  } color styling, or the original text if the style is not supported in the current terminal.`}
+                </TSDocReturns>
+              </TSDoc>
+              {code`${camelCase(color)}: `}
+              <ColorFunction
+                ansi16={ansi16[color] as AnsiColorWrappers}
+                ansi256={ansi256[color] as AnsiColorWrappers}
+                ansi16m={ansi16m[color] as AnsiColorWrappers}
+              />
+            </Show>
+          </Show>
+        </>
+      )}
+    </For>
+  );
+}
+
 /**
  * A component to generate an object containing functions for coloring text in a Shell Shock project.
  */
-export function ColorsDeclaration() {
+export function AnsiStyleFunctionsDeclaration() {
   const colors = useColors();
-  const theme = useTheme();
 
   return (
     <>
-      <TypeDeclaration
-        export
-        name="AnsiColor"
-        doc="The available ANSI colors for console text.">
-        <For
-          each={Object.keys(colors.ansi16).filter(color => color !== "theme")}>
-          {(color, idx) => `${idx > 0 ? " | " : ""}"${color}"`}
-        </For>
-      </TypeDeclaration>
-      <Spacing />
-      <hbr />
-      {code`
-      /**
-      * A recursive type that defines theme colors for console text.
-      *
-      * @remarks
-      * This type allows for nested theme color definitions, enabling complex theming structures for console applications.
-      */
-     export type ThemeColors<T> = T extends object ? { [K in keyof T]: ThemeColors<T[K]>; } : ((text: string) => string); `}
-      <Spacing />
-      <TypeDeclaration
-        export
-        name="Colors"
-        doc="An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link AnsiColor} for available colors.">
-        {code`Record<AnsiColor, (text: string) => string> & ThemeColors<ThemeColorsResolvedConfig>`}
-      </TypeDeclaration>
-      <Spacing />
-      <TSDoc heading="An object containing functions for coloring console applications. Each function corresponds to a terminal color. See {@link Colors} for available colors." />
-      <VarDeclaration
-        const
-        export
-        name="colors"
-        type="Colors"
-        initializer={
+      <For each={modifierKeys} semicolon doubleHardline enderPunctuation>
+        {modifier => (
           <>
-            {code` {
-          `}
-            <hbr />
-            <For
-              each={Object.keys(colors.ansi16).filter(
-                color => color !== "theme"
-              )}
-              comma
-              doubleHardline
-              enderPunctuation>
-              {color => (
+            <TSDoc
+              heading={`A function that applies ${
+                modifier
+              } styling to provided console text.`}>
+              <TSDocRemarks>
+                {`This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.`}
+              </TSDocRemarks>
+              <hbr />
+              <TSDocParam name="text">
+                {`The console text to which the ${
+                  modifier
+                } styling should be applied.`}
+              </TSDocParam>
+              <TSDocReturns>
+                {`A string with ANSI escape codes applied for ${
+                  modifier
+                } styling, or the original text if the style is not supported in the current terminal.`}
+              </TSDocReturns>
+            </TSDoc>
+            <VarDeclaration
+              const
+              export
+              name={camelCase(modifier)}
+              initializer={
+                <ColorFunction
+                  ansi16={
+                    colors.ansi16[
+                      modifier as keyof typeof colors.ansi16
+                    ] as AnsiColorWrappers
+                  }
+                  ansi256={
+                    colors.ansi256[
+                      modifier as keyof typeof colors.ansi256
+                    ] as AnsiColorWrappers
+                  }
+                  ansi16m={
+                    colors.ansi16m[
+                      modifier as keyof typeof colors.ansi16m
+                    ] as AnsiColorWrappers
+                  }
+                  skipBackground={true}
+                />
+              }
+            />
+          </>
+        )}
+      </For>
+      <Spacing />
+      <For each={colorKeys} semicolon doubleHardline enderPunctuation>
+        {color => (
+          <>
+            <TSDoc
+              heading={`A helper function to color the provided text as ${color}.`}>
+              <TSDocRemarks>
+                {`This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.`}
+              </TSDocRemarks>
+              <hbr />
+              <TSDocParam name="text">
+                {`The console text to which the ${color} color should be applied.`}
+              </TSDocParam>
+              <TSDocReturns>
+                {`A string with ANSI escape codes applied for ${color} color, or the original text if the color is not supported in the current terminal.`}
+              </TSDocReturns>
+            </TSDoc>
+            <VarDeclaration
+              const
+              export
+              name={camelCase(color)}
+              initializer={
+                <ColorFunction
+                  ansi16={
+                    colors.ansi16[
+                      color as keyof typeof colors.ansi16
+                    ] as AnsiColorWrappers
+                  }
+                  ansi256={
+                    colors.ansi256[
+                      color as keyof typeof colors.ansi256
+                    ] as AnsiColorWrappers
+                  }
+                  ansi16m={
+                    colors.ansi16m[
+                      color as keyof typeof colors.ansi16m
+                    ] as AnsiColorWrappers
+                  }
+                />
+              }
+            />
+          </>
+        )}
+      </For>
+      <Spacing />
+      <For
+        each={Object.keys(colors.ansi16.theme)}
+        semicolon
+        doubleHardline
+        enderPunctuation>
+        {type => (
+          <>
+            <TSDoc
+              heading={`A nested object containing functions for applying ${
+                type
+              } theme colors to the console.`}
+            />
+            <TypeDeclaration export name={`${pascalCase(type)}Colors`}>
+              {code` {`}
+              <hbr />
+              <ThemeColorTypeDefinition
+                ansi16={
+                  colors.ansi16.theme[type as keyof typeof colors.ansi16.theme]
+                }
+                ansi256={
+                  colors.ansi256.theme[
+                    type as keyof typeof colors.ansi256.theme
+                  ]
+                }
+                ansi16m={
+                  colors.ansi16m.theme[
+                    type as keyof typeof colors.ansi16m.theme
+                  ]
+                }
+                type={type}
+              />
+              <hbr />
+              {code`}`}
+            </TypeDeclaration>
+          </>
+        )}
+      </For>
+      <Spacing />
+      <For
+        each={Object.keys(colors.ansi16.theme)}
+        semicolon
+        doubleHardline
+        enderPunctuation>
+        {type => (
+          <>
+            <TSDoc
+              heading={`A nested object containing functions for applying ${
+                type
+              } theme colors to the console.`}
+            />
+            <VarDeclaration
+              export
+              name={`${camelCase(type)}Colors`}
+              type={`${pascalCase(type)}Colors`}
+              initializer={
                 <>
-                  {code`${color}: `}
-                  <ColorFunction
-                    ansi16={colors.ansi16[color as BaseAnsiStylesKeys]}
-                    ansi256={colors.ansi256[color as BaseAnsiStylesKeys]}
-                    ansi16m={colors.ansi16m[color as BaseAnsiStylesKeys]}
-                  />
-                </>
-              )}
-            </For>
-            <hbr />
-            {code`text: {
-                    banner: {
-                      header: {
-                        primary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.header.primary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.header.primary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.header.primary
-                            }
-                          />
-                        )},
-                        secondary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.header.secondary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.header.secondary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.header.secondary
-                            }
-                          />
-                        )},
-                        tertiary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.header.tertiary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.header.tertiary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.header.tertiary
-                            }
-                          />
-                        )}
-                      },
-                      footer: {
-                        primary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.footer.primary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.footer.primary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.footer.primary
-                            }
-                          />
-                        )},
-                        secondary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.footer.secondary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.footer.secondary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.footer.secondary
-                            }
-                          />
-                        )},
-                        tertiary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.footer.tertiary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.footer.tertiary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.footer.tertiary
-                            }
-                          />
-                        )}
-                      },
-                      command: {
-                        primary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.command.primary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.command.primary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.command.primary
-                            }
-                          />
-                        )},
-                        secondary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.command.secondary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.command.secondary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.command.secondary
-                            }
-                          />
-                        )},
-                        tertiary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.command.tertiary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.command.tertiary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.command.tertiary
-                            }
-                          />
-                        )},
-                      },
-                      title: {
-                        primary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.title.primary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.title.primary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.title.primary
-                            }
-                          />
-                        )},
-                        secondary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.title.secondary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.title.secondary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.title.secondary
-                            }
-                          />
-                        )},
-                        tertiary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.title.tertiary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.title.tertiary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.title.tertiary
-                            }
-                          />
-                        )},
-                      },
-                      link: {
-                        primary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.link.primary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.link.primary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.link.primary
-                            }
-                          />
-                        )},
-                        secondary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.link.secondary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.link.secondary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.link.secondary
-                            }
-                          />
-                        )},
-                        tertiary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.link.tertiary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.link.tertiary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.link.tertiary
-                            }
-                          />
-                        )},
-                      },
-                      description: {
-                        primary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.description
-                                .primary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.description
-                                .primary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.description
-                                .primary
-                            }
-                          />
-                        )},
-                        secondary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.description
-                                .secondary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.description
-                                .secondary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.description
-                                .secondary
-                            }
-                          />
-                        )},
-                        tertiary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.banner.description
-                                .tertiary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.banner.description
-                                .tertiary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.banner.description
-                                .tertiary
-                            }
-                          />
-                        )},
-                      }
-                    },
-                    heading: {
-                      primary: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.heading.primary}
-                          ansi256={colors.ansi256.theme.text.heading.primary}
-                          ansi16m={colors.ansi16m.theme.text.heading.primary}
-                        />
-                      )},
-                      secondary: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.heading.secondary}
-                          ansi256={colors.ansi256.theme.text.heading.secondary}
-                          ansi16m={colors.ansi16m.theme.text.heading.secondary}
-                        />
-                      )},
-                      tertiary: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.heading.tertiary}
-                          ansi256={colors.ansi256.theme.text.heading.tertiary}
-                          ansi16m={colors.ansi16m.theme.text.heading.tertiary}
-                        />
-                      )},
-                    },
-                    body: {
-                      primary: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.body.primary}
-                          ansi256={colors.ansi256.theme.text.body.primary}
-                          ansi16m={colors.ansi16m.theme.text.body.primary}
-                        />
-                      )},
-                      secondary: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.body.secondary}
-                          ansi256={colors.ansi256.theme.text.body.secondary}
-                          ansi16m={colors.ansi16m.theme.text.body.secondary}
-                        />
-                      )},
-                      tertiary: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.body.tertiary}
-                          ansi256={colors.ansi256.theme.text.body.tertiary}
-                          ansi16m={colors.ansi16m.theme.text.body.tertiary}
-                        />
-                      )},
-                      link: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.body.link}
-                          ansi256={colors.ansi256.theme.text.body.link}
-                          ansi16m={colors.ansi16m.theme.text.body.link}
-                        />
-                      )}
-                    },
-                    message: {
-                      link: {
-                        help: ${(
-                          <ColorFunction
-                            ansi16={colors.ansi16.theme.text.message.link.help}
-                            ansi256={
-                              colors.ansi256.theme.text.message.link.help
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.link.help
-                            }
-                          />
-                        )},
-                        success: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.link.success
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.link.success
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.link.success
-                            }
-                          />
-                        )},
-                        info: ${(
-                          <ColorFunction
-                            ansi16={colors.ansi16.theme.text.message.link.info}
-                            ansi256={
-                              colors.ansi256.theme.text.message.link.info
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.link.info
-                            }
-                          />
-                        )},
-                        debug: ${(
-                          <ColorFunction
-                            ansi16={colors.ansi16.theme.text.message.link.debug}
-                            ansi256={
-                              colors.ansi256.theme.text.message.link.debug
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.link.debug
-                            }
-                          />
-                        )},
-                        warning: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.link.warning
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.link.warning
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.link.warning
-                            }
-                          />
-                        )},
-                        danger: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.link.danger
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.link.danger
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.link.danger
-                            }
-                          />
-                        )},
-                        error: ${(
-                          <ColorFunction
-                            ansi16={colors.ansi16.theme.text.message.link.error}
-                            ansi256={
-                              colors.ansi256.theme.text.message.link.error
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.link.error
-                            }
-                          />
-                        )}
-                      },
-                      header: {
-                        help: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.header.help
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.header.help
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.header.help
-                            }
-                          />
-                        )},
-                        success: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.header.success
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.header.success
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.header.success
-                            }
-                          />
-                        )},
-                        info: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.header.info
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.header.info
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.header.info
-                            }
-                          />
-                        )},
-                        debug: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.header.debug
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.header.debug
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.header.debug
-                            }
-                          />
-                        )},
-                        warning: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.header.warning
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.header.warning
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.header.warning
-                            }
-                          />
-                        )},
-                        danger: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.header.danger
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.header.danger
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.header.danger
-                            }
-                          />
-                        )},
-                        error: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.header.error
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.header.error
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.header.error
-                            }
-                          />
-                        )}
-                      },
-                      footer: {
-                        help: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.footer.help
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.footer.help
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.footer.help
-                            }
-                          />
-                        )},
-                        success: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.footer.success
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.footer.success
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.footer.success
-                            }
-                          />
-                        )},
-                        info: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.footer.info
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.footer.info
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.footer.info
-                            }
-                          />
-                        )},
-                        debug: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.footer.debug
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.footer.debug
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.footer.debug
-                            }
-                          />
-                        )},
-                        warning: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.footer.warning
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.footer.warning
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.footer.warning
-                            }
-                          />
-                        )},
-                        danger: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.footer.danger
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.footer.danger
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.footer.danger
-                            }
-                          />
-                        )},
-                        error: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.footer.error
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.footer.error
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.footer.error
-                            }
-                          />
-                        )}
-                      },
-                      description: {
-                        help: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.description.help
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.description.help
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.description.help
-                            }
-                          />
-                        )},
-                        success: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.description
-                                .success
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.description
-                                .success
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.description
-                                .success
-                            }
-                          />
-                        )},
-                        info: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.description.info
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.description.info
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.description.info
-                            }
-                          />
-                        )},
-                        debug: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.description.debug
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.description
-                                .debug
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.description
-                                .debug
-                            }
-                          />
-                        )},
-                        warning: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.description
-                                .warning
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.description
-                                .warning
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.description
-                                .warning
-                            }
-                          />
-                        )},
-                        danger: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.description
-                                .danger
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.description
-                                .danger
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.description
-                                .danger
-                            }
-                          />
-                        )},
-                        error: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.message.description.error
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.message.description
-                                .error
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.message.description
-                                .error
-                            }
-                          />
-                        )}
-                      }
-                    },
-                    usage: {
-                      bin: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.usage.bin}
-                          ansi256={colors.ansi256.theme.text.usage.bin}
-                          ansi16m={colors.ansi16m.theme.text.usage.bin}
-                        />
-                      )},
-                      command: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.usage.command}
-                          ansi256={colors.ansi256.theme.text.usage.command}
-                          ansi16m={colors.ansi16m.theme.text.usage.command}
-                        />
-                      )},
-                      dynamic: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.usage.dynamic}
-                          ansi256={colors.ansi256.theme.text.usage.dynamic}
-                          ansi16m={colors.ansi16m.theme.text.usage.dynamic}
-                        />
-                      )},
-                      options: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.usage.options}
-                          ansi256={colors.ansi256.theme.text.usage.options}
-                          ansi16m={colors.ansi16m.theme.text.usage.options}
-                        />
-                      )},
-                      args: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.usage.args}
-                          ansi256={colors.ansi256.theme.text.usage.args}
-                          ansi16m={colors.ansi16m.theme.text.usage.args}
-                        />
-                      )},
-                      description: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.text.usage.description}
-                          ansi256={colors.ansi256.theme.text.usage.description}
-                          ansi16m={colors.ansi16m.theme.text.usage.description}
-                        />
-                      )}
-                    },
-                    prompt: {
-                      icon: {
-                        active: ${(
-                          <ColorFunction
-                            ansi16={colors.ansi16.theme.text.prompt.icon.active}
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.icon.active
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.icon.active
-                            }
-                          />
-                        )},
-                        warning: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.icon.warning
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.icon.warning
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.icon.warning
-                            }
-                          />
-                        )},
-                        error: ${(
-                          <ColorFunction
-                            ansi16={colors.ansi16.theme.text.prompt.icon.error}
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.icon.error
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.icon.error
-                            }
-                          />
-                        )},
-                        submitted: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.icon.submitted
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.icon.submitted
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.icon.submitted
-                            }
-                          />
-                        )},
-                        cancelled: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.icon.cancelled
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.icon.cancelled
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.icon.cancelled
-                            }
-                          />
-                        )},
-                        disabled: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.icon.disabled
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.icon.disabled
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.icon.disabled
-                            }
-                          />
-                        )}
-                      },
-                      message: {
-                        active: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.message.active
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.message.active
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.message.active
-                            }
-                          />
-                        )},
-                        warning: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.message.warning
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.message.warning
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.message.warning
-                            }
-                          />
-                        )},
-                        error: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.message.error
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.message.error
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.message.error
-                            }
-                          />
-                        )},
-                        submitted: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.message.submitted
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.message.submitted
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.message.submitted
-                            }
-                          />
-                        )},
-                        cancelled: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.message.cancelled
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.message.cancelled
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.message.cancelled
-                            }
-                          />
-                        )},
-                        disabled: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.message.disabled
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.message.disabled
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.message.disabled
-                            }
-                          />
-                        )}
-                      },
-                      input: {
-                        active: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.input.active
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.input.active
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.input.active
-                            }
-                          />
-                        )},
-                        inactive: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.input.inactive
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.input.inactive
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.input.inactive
-                            }
-                          />
-                        )},
-                        warning: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.input.warning
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.input.warning
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.input.warning
-                            }
-                          />
-                        )},
-                        error: ${(
-                          <ColorFunction
-                            ansi16={colors.ansi16.theme.text.prompt.input.error}
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.input.error
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.input.error
-                            }
-                          />
-                        )},
-                        submitted: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.input.submitted
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.input.submitted
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.input.submitted
-                            }
-                          />
-                        )},
-                        cancelled: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.input.cancelled
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.input.cancelled
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.input.cancelled
-                            }
-                          />
-                        )},
-                        disabled: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.input.disabled
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.input.disabled
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.input.disabled
-                            }
-                          />
-                        )},
-                        placeholder: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.input.placeholder
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.input.placeholder
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.input.placeholder
-                            }
-                          />
-                        )}
-                      },
-                      description: {
-                        active: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.description.active
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.description
-                                .active
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.description
-                                .active
-                            }
-                          />
-                        )},
-                        inactive: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.description
-                                .inactive
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.description
-                                .inactive
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.description
-                                .inactive
-                            }
-                          />
-                        )},
-                        warning: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.description
-                                .warning
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.description
-                                .warning
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.description
-                                .warning
-                            }
-                          />
-                        )},
-                        error: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.description.error
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.description.error
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.description.error
-                            }
-                          />
-                        )},
-                        submitted: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.description
-                                .submitted
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.description
-                                .submitted
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.description
-                                .submitted
-                            }
-                          />
-                        )},
-                        cancelled: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.description
-                                .cancelled
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.description
-                                .cancelled
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.description
-                                .cancelled
-                            }
-                          />
-                        )},
-                        disabled: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.prompt.description
-                                .disabled
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.prompt.description
-                                .disabled
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.prompt.description
-                                .disabled
-                            }
-                          />
-                        )}
-                      }
-                    },
-                    spinner: {
-                      icon: {
-                        active: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.spinner.icon.active
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.spinner.icon.active
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.spinner.icon.active
-                            }
-                          />
-                        )},
-                        warning: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.spinner.icon.warning
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.spinner.icon.warning
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.spinner.icon.warning
-                            }
-                          />
-                        )},
-                        error: ${(
-                          <ColorFunction
-                            ansi16={colors.ansi16.theme.text.spinner.icon.error}
-                            ansi256={
-                              colors.ansi256.theme.text.spinner.icon.error
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.spinner.icon.error
-                            }
-                          />
-                        )},
-                        success: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.spinner.icon.success
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.spinner.icon.success
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.spinner.icon.success
-                            }
-                          />
-                        )},
-                        info: ${(
-                          <ColorFunction
-                            ansi16={colors.ansi16.theme.text.spinner.icon.info}
-                            ansi256={
-                              colors.ansi256.theme.text.spinner.icon.info
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.spinner.icon.info
-                            }
-                          />
-                        )},
-                        help: ${(
-                          <ColorFunction
-                            ansi16={colors.ansi16.theme.text.spinner.icon.help}
-                            ansi256={
-                              colors.ansi256.theme.text.spinner.icon.help
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.spinner.icon.help
-                            }
-                          />
-                        )}
-                      },
-                      message: {
-                        active: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.spinner.message.active
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.spinner.message.active
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.spinner.message.active
-                            }
-                          />
-                        )},
-                        warning: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.spinner.message.warning
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.spinner.message.warning
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.spinner.message.warning
-                            }
-                          />
-                        )},
-                        error: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.spinner.message.error
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.spinner.message.error
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.spinner.message.error
-                            }
-                          />
-                        )},
-                        success: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.spinner.message.success
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.spinner.message.success
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.spinner.message.success
-                            }
-                          />
-                        )},
-                        info: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.spinner.message.info
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.spinner.message.info
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.spinner.message.info
-                            }
-                          />
-                        )},
-                        help: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.text.spinner.message.help
-                            }
-                            ansi256={
-                              colors.ansi256.theme.text.spinner.message.help
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.text.spinner.message.help
-                            }
-                          />
-                        )}
-                      }
-                    },
-                    tags: { `}
-            <For
-              each={Object.keys(theme.colors.text.tags)}
-              joiner={
-                <>
-                  {code`, `}
+                  {code` {`}
                   <hbr />
-                </>
-              }>
-              {key =>
-                code`${key === "$default" ? "$default" : camelCase(key)}: ${(
-                  <ColorFunction
-                    ansi16={colors.ansi16.theme.text.tags[key] as AnsiWrappers}
+                  <ThemeColorObjectDefinition
+                    ansi16={
+                      colors.ansi16.theme[
+                        type as keyof typeof colors.ansi16.theme
+                      ]
+                    }
                     ansi256={
-                      colors.ansi256.theme.text.tags[key] as AnsiWrappers
+                      colors.ansi256.theme[
+                        type as keyof typeof colors.ansi256.theme
+                      ]
                     }
                     ansi16m={
-                      colors.ansi16m.theme.text.tags[key] as AnsiWrappers
+                      colors.ansi16m.theme[
+                        type as keyof typeof colors.ansi16m.theme
+                      ]
                     }
+                    type={type}
                   />
-                )}`
+                  <hbr />
+                  {code`}`}
+                </>
               }
-            </For>
-            {code` }
-            },
-            border: {
-                    banner: {
-                      outline: {
-                        primary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.border.banner.outline.primary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.border.banner.outline.primary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.border.banner.outline.primary
-                            }
-                          />
-                        )},
-                        secondary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.border.banner.outline
-                                .secondary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.border.banner.outline
-                                .secondary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.border.banner.outline
-                                .secondary
-                            }
-                          />
-                        )},
-                        tertiary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.border.banner.outline.tertiary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.border.banner.outline
-                                .tertiary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.border.banner.outline
-                                .tertiary
-                            }
-                          />
-                        )}
-                      },
-                      divider: {
-                        primary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.border.banner.divider.primary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.border.banner.divider.primary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.border.banner.divider.primary
-                            }
-                          />
-                        )},
-                        secondary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.border.banner.divider
-                                .secondary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.border.banner.divider
-                                .secondary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.border.banner.divider
-                                .secondary
-                            }
-                          />
-                        )},
-                        tertiary: ${(
-                          <ColorFunction
-                            ansi16={
-                              colors.ansi16.theme.border.banner.divider.tertiary
-                            }
-                            ansi256={
-                              colors.ansi256.theme.border.banner.divider
-                                .tertiary
-                            }
-                            ansi16m={
-                              colors.ansi16m.theme.border.banner.divider
-                                .tertiary
-                            }
-                          />
-                        )}
-                      }
-                  },
-                  app: {
-                    table: {
-                      primary: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.border.app.table.primary}
-                          ansi256={
-                            colors.ansi256.theme.border.app.table.primary
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.app.table.primary
-                          }
-                        />
-                      )},
-                      secondary: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.app.table.secondary
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.app.table.secondary
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.app.table.secondary
-                          }
-                        />
-                      )},
-                      tertiary: ${(
-                        <ColorFunction
-                          ansi16={colors.ansi16.theme.border.app.table.tertiary}
-                          ansi256={
-                            colors.ansi256.theme.border.app.table.tertiary
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.app.table.tertiary
-                          }
-                        />
-                      )}
-                    },
-                    divider: {
-                      primary: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.app.divider.primary
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.app.divider.primary
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.app.divider.primary
-                          }
-                        />
-                      )},
-                      secondary: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.app.divider.secondary
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.app.divider.secondary
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.app.divider.secondary
-                          }
-                        />
-                      )},
-                      tertiary: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.app.divider.tertiary
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.app.divider.tertiary
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.app.divider.tertiary
-                          }
-                        />
-                      )}
-                    }
-                  },
-                  message: {
-                    outline: {
-                      help: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.outline.help
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.outline.help
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.outline.help
-                          }
-                        />
-                      )},
-                      success: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.outline.success
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.outline.success
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.outline.success
-                          }
-                        />
-                      )},
-                      info: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.outline.info
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.outline.info
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.outline.info
-                          }
-                        />
-                      )},
-                      debug: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.outline.debug
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.outline.debug
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.outline.debug
-                          }
-                        />
-                      )},
-                      warning: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.outline.warning
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.outline.warning
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.outline.warning
-                          }
-                        />
-                      )},
-                      danger: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.outline.danger
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.outline.danger
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.outline.danger
-                          }
-                        />
-                      )},
-                      error: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.outline.error
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.outline.error
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.outline.error
-                          }
-                        />
-                      )}
-                    },
-                    divider: {
-                      help: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.divider.help
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.divider.help
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.divider.help
-                          }
-                        />
-                      )},
-                      success: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.divider.success
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.divider.success
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.divider.success
-                          }
-                        />
-                      )},
-                      info: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.divider.info
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.divider.info
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.divider.info
-                          }
-                        />
-                      )},
-                      debug: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.divider.debug
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.divider.debug
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.divider.debug
-                          }
-                        />
-                      )},
-                      warning: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.divider.warning
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.divider.warning
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.divider.warning
-                          }
-                        />
-                      )},
-                      danger: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.divider.danger
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.divider.danger
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.divider.danger
-                          }
-                        />
-                      )},
-                      error: ${(
-                        <ColorFunction
-                          ansi16={
-                            colors.ansi16.theme.border.message.divider.error
-                          }
-                          ansi256={
-                            colors.ansi256.theme.border.message.divider.error
-                          }
-                          ansi16m={
-                            colors.ansi16m.theme.border.message.divider.error
-                          }
-                        />
-                      )}
-                    }
-                  }
-                }
-              }
-`}
+            />
           </>
-        }
-      />
+        )}
+      </For>
+      <Spacing />
     </>
   );
 }
@@ -2130,27 +785,18 @@ export function SplitTextFunctionDeclaration() {
 }
 
 /**
- * A component to generate the `writeLine` function in the `shell-shock:console` builtin module.
+ * A component to generate the `write` function in the `shell-shock:console` builtin module.
  */
-export function WriteLineFunctionDeclaration() {
-  const theme = useTheme();
-
+export function WriteFunctionDeclaration() {
   return (
     <>
       <InterfaceDeclaration
         export
-        name="WriteLineOptions"
-        doc="Options for writing a line to the console.">
-        <TSDoc heading="Padding to apply to the line">
+        name="WriteOptions"
+        doc="Options for writing to the console.">
+        <TSDoc heading="Console function to use for writing to the console">
           <TSDocRemarks>
-            {`The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.`}
-          </TSDocRemarks>
-        </TSDoc>
-        <InterfaceMember name="padding" optional type="number" />
-        <hbr />
-        <TSDoc heading="Console function to use for writing the line">
-          <TSDocRemarks>
-            {`The console function to use for writing the line. If not specified, the default console function \`console.log\` will be used.`}
+            {`The console function to use for writing to the console. If not specified, the default console function \`console.log\` will be used.`}
           </TSDocRemarks>
           <hbr />
           <TSDocDefaultValue
@@ -2163,6 +809,64 @@ export function WriteLineFunctionDeclaration() {
           optional
           type="(text: string) => void"
         />
+      </InterfaceDeclaration>
+      <Spacing />
+      <TSDoc heading="Write to the console.">
+        <TSDocRemarks>
+          {`This function writes to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.`}
+        </TSDocRemarks>
+        <hbr />
+        <TSDocParam name="text">
+          {`The text to write to the console.`}
+        </TSDocParam>
+        <TSDocParam name="options">{`The options to apply when writing to the console.`}</TSDocParam>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        name="write"
+        parameters={[
+          {
+            name: "text",
+            type: "string | number | boolean | null",
+            optional: true
+          },
+          {
+            name: "options",
+            type: "WriteOptions",
+            default: "{}"
+          }
+        ]}>
+        {code`const consoleFn = options.consoleFn ?? console.log;
+        if (text === undefined || text === null || text === "") {
+          consoleFn("");
+          return;
+        }
+
+        consoleFn(String(text)); `}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
+ * A component to generate the `writeLine` function in the `shell-shock:console` builtin module.
+ */
+export function WriteLineFunctionDeclaration() {
+  const theme = useTheme();
+
+  return (
+    <>
+      <InterfaceDeclaration
+        export
+        name="WriteLineOptions"
+        doc="Options for writing a line to the console."
+        extends={["WriteOptions"]}>
+        <TSDoc heading="Padding to apply to the line">
+          <TSDocRemarks>
+            {`The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.`}
+          </TSDocRemarks>
+        </TSDoc>
+        <InterfaceMember name="padding" optional type="number" />
         <hbr />
         <TSDoc heading="Color of the line text">
           <TSDocRemarks>
@@ -2202,17 +906,15 @@ export function WriteLineFunctionDeclaration() {
             default: "{}"
           }
         ]}>
-        {code`const consoleFn = options.consoleFn ?? console.log;
-        const color = options.color;
-if (text === undefined || text === null || text === "") {
-  consoleFn("");
-  return;
-}
+        {code`const color = options.color;
+        if (text === undefined || text === null || text === "") {
+          write("", options);
+          return;
+        }
 
-consoleFn(\`\${" ".repeat(Math.max(options.padding ?? ${
+        write(\`\${" ".repeat(Math.max(options.padding ?? ${
           theme.padding.app
-        }, 0))}\${color ? colors.text.body[color](String(text)) : String(text)}\`);
-`}
+        }, 0))}\${color ? textColors.body[color](String(text)) : String(text)}\`, options); `}
       </FunctionDeclaration>
     </>
   );
@@ -2270,6 +972,9 @@ export function MessageFunctionDeclaration(
         <TSDocParam name="message">
           {`The message to write to the console.`}
         </TSDocParam>
+        <TSDocParam name="header">
+          {`An optional header to display above the message. If not provided, a default header based on the message type and variant will be used if defined in the theme configuration; otherwise, no header will be displayed.`}
+        </TSDocParam>
       </TSDoc>
       <FunctionDeclaration
         export
@@ -2280,6 +985,11 @@ export function MessageFunctionDeclaration(
               name: "message",
               type: "string",
               optional: false
+            },
+            {
+              name: "header",
+              type: "string",
+              optional: true
             }
           ]
         }>
@@ -2295,34 +1005,34 @@ export function MessageFunctionDeclaration(
 
         ${
           !theme.labels.message.footer[variant] && timestamp
-            ? `const timestamp = \`\${colors.text.message.footer.${
+            ? `const timestamp = \`\${textColors.message.footer.${
                 color
-              }(new Date().toLocaleDateString())} \${colors.border.message.outline.${
+              }(new Date().toLocaleDateString())} \${borderColors.message.outline.${
                 color
               }("${
                 theme.borderStyles.message.outline[variant].bottom
-              }")} \${colors.text.message.footer.${
+              }")} \${textColors.message.footer.${
                 color
               }(new Date().toLocaleTimeString())}\`; `
             : ""
         }
 
-        writeLine(colors.border.message.outline.${color}("${
+        writeLine(borderColors.message.outline.${color}("${
           theme.borderStyles.message.outline[variant].topLeft
         }") + ${
           theme.labels.message.header[variant] ||
           theme.icons.message.header[variant]
-            ? `colors.border.message.outline.${color}("${
+            ? `borderColors.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].top
               }".repeat(4)) + " " + ${
                 theme.icons.message.header[variant]
-                  ? `colors.border.message.outline.${color}("${
+                  ? `borderColors.message.outline.${color}("${
                       theme.icons.message.header[variant]
                     }") + " " +`
                   : ""
-              } colors.bold(colors.text.message.header.${color}("${
+              } bold(textColors.message.header.${color}(header || "${
                 theme.labels.message.header[variant]
-              }")) + " " + colors.border.message.outline.${color}("${
+              }")) + " " + borderColors.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].top
               }".repeat(Math.max(process.stdout.columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
@@ -2336,14 +1046,14 @@ export function MessageFunctionDeclaration(
                   : 0) +
                 theme.borderStyles.message.outline[variant].topRight.length
               }, 0)))`
-            : `colors.border.message.outline.${color}("${
+            : `borderColors.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].top
               }".repeat(Math.max(process.stdout.columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
                 theme.borderStyles.message.outline[variant].topLeft.length +
                 theme.borderStyles.message.outline[variant].topRight.length
               }, 0)))`
-        } + colors.border.message.outline.${color}("${
+        } + borderColors.message.outline.${color}("${
           theme.borderStyles.message.outline[variant].topRight
         }"), { consoleFn: console.${consoleFnName} });
         splitText(
@@ -2356,23 +1066,23 @@ export function MessageFunctionDeclaration(
             theme.borderStyles.message.outline[variant].right.length
           }, 0)
         ).forEach((line) => {
-          writeLine(colors.border.message.outline.${color}("${
+          writeLine(borderColors.message.outline.${color}("${
             theme.borderStyles.message.outline[variant].left +
             " ".repeat(Math.max(theme.padding.message, 0))
-          }") + colors.text.message.description.${color}(line) + " ".repeat(Math.max(process.stdout.columns - (stripAnsi(line).length + ${
+          }") + textColors.message.description.${color}(line) + " ".repeat(Math.max(process.stdout.columns - (stripAnsi(line).length + ${
             Math.max(theme.padding.app, 0) * 2 +
             Math.max(theme.padding.message, 0) +
             theme.borderStyles.message.outline[variant].left.length +
             theme.borderStyles.message.outline[variant].right.length
-          }), 0)) + colors.border.message.outline.${color}("${
+          }), 0)) + borderColors.message.outline.${color}("${
             theme.borderStyles.message.outline[variant].right
           }"), { consoleFn: console.${consoleFnName} });
         });
-        writeLine(colors.border.message.outline.${color}("${
+        writeLine(borderColors.message.outline.${color}("${
           theme.borderStyles.message.outline[variant].bottomLeft
         }") + ${
           theme.labels.message.footer[variant] || timestamp
-            ? `colors.border.message.outline.${color}("${
+            ? `borderColors.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].bottom
               }".repeat(Math.max(process.stdout.columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
@@ -2386,21 +1096,21 @@ export function MessageFunctionDeclaration(
                 !theme.labels.message.footer[variant] && timestamp
                   ? " - (stripAnsi(timestamp).length + 2)"
                   : ""
-              }, 0))) + " " + ${`colors.bold(colors.text.message.footer.${color}(${
+              }, 0))) + " " + ${`bold(textColors.message.footer.${color}(${
                 theme.labels.message.footer[variant]
                   ? `"${theme.labels.message.footer[variant]}"`
                   : timestamp && "timestamp"
-              }))`} + " " + colors.border.message.outline.${color}("${
+              }))`} + " " + borderColors.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].bottom
               }".repeat(4))`
-            : `colors.border.message.outline.${color}("${
+            : `borderColors.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].bottom
               }".repeat(Math.max(process.stdout.columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
                 theme.borderStyles.message.outline[variant].bottomLeft.length +
                 theme.borderStyles.message.outline[variant].bottomRight.length
               }, 0)))`
-        } + colors.border.message.outline.${color}("${
+        } + borderColors.message.outline.${color}("${
           theme.borderStyles.message.outline[variant].bottomRight
         }"), { consoleFn: console.${consoleFnName} });
 `}
@@ -2567,9 +1277,9 @@ export function DividerFunctionDeclaration() {
         <InterfaceMember name="padding" optional type="number" />
       </InterfaceDeclaration>
       <Spacing />
-      <TSDoc heading="Write a divider line to the console.">
+      <TSDoc heading="Write a horizontal divider line to the console.">
         <TSDocExample>
-          {`divider({ width: 50, border: "primary" }); // Writes a divider line of width 50 with primary border.`}
+          {`divider({ width: 50, border: "primary" }); // Writes a horizontal divider line of width 50 with primary border.`}
         </TSDocExample>
         <TSDocParam name="options">
           {`Options for formatting the divider line.`}
@@ -2587,11 +1297,11 @@ export function DividerFunctionDeclaration() {
         ]}>
         {code`const padding = options.padding ?? ${Math.max(theme.padding.app, 1) * 4};
         const width = options.width ?? (process.stdout.columns - (Math.max(padding, 0) * 2));
-        const border = options.border === "tertiary" ? colors.border.app.divider.tertiary("${
+        const border = options.border === "tertiary" ? borderColors.app.divider.tertiary("${
           theme.borderStyles.app.divider.tertiary.top
-        }") : options.border === "secondary" ? colors.border.app.divider.secondary("${
+        }") : options.border === "secondary" ? borderColors.app.divider.secondary("${
           theme.borderStyles.app.divider.secondary.top
-        }") : colors.border.app.divider.primary("${
+        }") : borderColors.app.divider.primary("${
           theme.borderStyles.app.divider.primary.top
         }");
 
@@ -2635,10 +1345,135 @@ export function LinkFunctionDeclaration() {
         </IfStatement>
         <hbr />
         <IfStatement condition={code`isColorSupported`}>
-          {code`return colors.underline(colors.text.body.link(\`\${url}\`));`}
+          {code`return underline(textColors.body.link(\`\${url}\`));`}
         </IfStatement>
         <hbr />
         {code`return \`\${url}\`;`}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
+ * A component to generate the `blockquote` function declaration
+ */
+export function BlockquoteFunctionDeclaration() {
+  return (
+    <>
+      <Spacing />
+      <TSDoc
+        heading={`Format a string with blockquote styling for display in console.`}>
+        <TSDocParam name="text">
+          {`The text to format with blockquote styling.`}
+        </TSDocParam>
+        <TSDocReturns>{`The formatted string with blockquote styling.`}</TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        name="blockquote"
+        parameters={[
+          {
+            name: "text",
+            type: "string | number | boolean | null",
+            optional: true
+          }
+        ]}
+        returnType="string">
+        {code`if (text === undefined || text === null || text === "") {
+          return "";
+        }
+
+        const lines = splitText(
+          String(text),
+          Math.max(process.stdout.columns, 20) - 6
+        );
+
+        return lines.map((line, index) => \` \${index === 0 ? isUnicodeSupported() ? "❝" : "\\"" : " "} \${italic(line)} \${index === lines.length - 1 ? isUnicodeSupported() ? "❞" : "\\"" : " "} \`).join("\\n"); `}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
+ * A component to generate the `code` function declaration
+ */
+export function CodeFunctionDeclaration() {
+  const theme = useTheme();
+
+  return (
+    <>
+      <Spacing />
+      <TSDoc heading={`Format a source code string for display in console.`}>
+        <TSDocParam name="text">
+          {`The source code text to format with code styling.`}
+        </TSDocParam>
+        <TSDocReturns>{`The formatted string with code styling.`}</TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        name="code"
+        parameters={[
+          {
+            name: "text",
+            type: "string | number | boolean | null",
+            optional: true
+          },
+          {
+            name: "language",
+            type: "string",
+            optional: true
+          }
+        ]}
+        returnType="string">
+        {code`if (text === undefined || text === null || text === "") {
+          return "";
+        }
+
+        return \` \${borderColors.app.divider.primary("${
+          theme.borderStyles.app.divider.primary.top
+        }".repeat(4))}\${language ? \` \${borderColors.app.divider.primary(language)} \` : ""}\${borderColors.app.divider.primary("${
+          theme.borderStyles.app.divider.primary.top
+        }".repeat(process.stdout.columns - (language ? language.length + 2 : 0) - 5))} \\n\${splitText(
+          String(text),
+          Math.max(process.stdout.columns, 20)
+        ).map(line => \`\${textColors.body.primary(line)}\`).join("\\n")}\\n \${borderColors.app.divider.primary("${
+          theme.borderStyles.app.divider.primary.bottom
+        }".repeat(process.stdout.columns - 2))} \`; `}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
+ * A component to generate the `inlineCode` function declaration
+ */
+export function InlineCodeFunctionDeclaration() {
+  return (
+    <>
+      <Spacing />
+      <TSDoc
+        heading={`Format a string with inline code styling for display in console.`}>
+        <TSDocParam name="text">
+          {`The text to format with inline code styling.`}
+        </TSDocParam>
+        <TSDocReturns>{`The formatted string with inline code styling.`}</TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        name="inlineCode"
+        parameters={[
+          {
+            name: "text",
+            type: "string | number | boolean | null",
+            optional: true
+          }
+        ]}
+        returnType="string">
+        {code`if (text === undefined || text === null || text === "") {
+          return "";
+        }
+
+        return textColors.body.primary(inverse(\` \${text} \`), true); `}
       </FunctionDeclaration>
     </>
   );
@@ -2889,7 +1724,7 @@ export function SpinnerFunctionDeclaration() {
             this.#lastSpinnerFrameTime = Date.now();
           }
 
-          let display = \`\${colors.text.spinner.icon.active(this.#frames[this.#currentFrame])} \${colors.text.spinner.message.active(this.#message)}\`;
+          let display = \`\${textColors.spinner.icon.active(this.#frames[this.#currentFrame])} \${textColors.spinner.message.active(this.#message)}\`;
           if (!isInteractive) {
             display += "\\n";
           }
@@ -3067,45 +1902,45 @@ export function SpinnerFunctionDeclaration() {
           name="success"
           doc="Mark the spinner as successful."
           parameters={[{ name: "message", type: "string" }]}>
-          {code`return this.#stopWithIcon(colors.text.spinner.icon.success("${
+          {code`return this.#stopWithIcon(textColors.spinner.icon.success("${
             theme.icons.spinner.success
-          }"), colors.text.spinner.message.success(message)); `}
+          }"), textColors.spinner.message.success(message)); `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
           name="error"
           doc="Mark the spinner as failed."
           parameters={[{ name: "message", type: "string" }]}>
-          {code`return this.#stopWithIcon(colors.text.spinner.icon.error("${
+          {code`return this.#stopWithIcon(textColors.spinner.icon.error("${
             theme.icons.spinner.error
-          }"), colors.text.spinner.message.error(message)); `}
+          }"), textColors.spinner.message.error(message)); `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
           name="warning"
           doc="Mark the spinner as warning."
           parameters={[{ name: "message", type: "string" }]}>
-          {code`return this.#stopWithIcon(colors.text.spinner.icon.warning("${
+          {code`return this.#stopWithIcon(textColors.spinner.icon.warning("${
             theme.icons.spinner.warning
-          }"), colors.text.spinner.message.warning(message)); `}
+          }"), textColors.spinner.message.warning(message)); `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
           name="info"
           doc="Mark the spinner as informational."
           parameters={[{ name: "message", type: "string" }]}>
-          {code`return this.#stopWithIcon(colors.text.spinner.icon.info("${
+          {code`return this.#stopWithIcon(textColors.spinner.icon.info("${
             theme.icons.spinner.info
-          }"), colors.text.spinner.message.info(message)); `}
+          }"), textColors.spinner.message.info(message)); `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
           name="help"
           doc="Mark the spinner as help."
           parameters={[{ name: "message", type: "string" }]}>
-          {code`return this.#stopWithIcon(colors.text.spinner.icon.help("${
+          {code`return this.#stopWithIcon(textColors.spinner.icon.help("${
             theme.icons.spinner.help
-          }"), colors.text.spinner.message.help(message)); `}
+          }"), textColors.spinner.message.help(message)); `}
         </ClassMethod>
         <Spacing />
       </ClassDeclaration>
@@ -3146,15 +1981,15 @@ function extractBorderOptionsObject(
 ): string {
   return `borderOptions.${
     direction
-  } === "primary" ? colors.border.app.table.primary("${
+  } === "primary" ? borderColors.app.table.primary("${
     theme.borderStyles.app.table.primary[direction]
   }") : borderOptions.${
     direction
-  } === "secondary" ? colors.border.app.table.secondary("${
+  } === "secondary" ? borderColors.app.table.secondary("${
     theme.borderStyles.app.table.secondary[direction]
   }") : borderOptions.${
     direction
-  } === "tertiary" ? colors.border.app.table.tertiary("${
+  } === "tertiary" ? borderColors.app.table.tertiary("${
     theme.borderStyles.app.table.tertiary[direction]
   }") : !borderOptions.${direction} || borderOptions.${
     direction
@@ -3173,11 +2008,11 @@ function extractBorderOptionsString(
     | "bottomRight",
   theme: ThemeResolvedConfig
 ): string {
-  return `borderOptions === "primary" ? colors.border.app.table.primary("${
+  return `borderOptions === "primary" ? borderColors.app.table.primary("${
     theme.borderStyles.app.table.primary[direction]
-  }") : borderOptions === "secondary" ? colors.border.app.table.secondary("${
+  }") : borderOptions === "secondary" ? borderColors.app.table.secondary("${
     theme.borderStyles.app.table.secondary[direction]
-  }") : borderOptions === "tertiary" ? colors.border.app.table.tertiary("${
+  }") : borderOptions === "tertiary" ? borderColors.app.table.tertiary("${
     theme.borderStyles.app.table.tertiary[direction]
   }") : !borderOptions || borderOptions === "none" ? "" : borderOptions`;
 }
@@ -3861,6 +2696,7 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
           "isInteractive",
           "isColorSupported",
           "colorSupportLevels",
+          "isUnicodeSupported",
           "isHyperlinkSupported"
         ],
         env: ["env", "isDevelopment", "isDebug"]
@@ -3871,7 +2707,9 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
       <Spacing />
       <WrapAnsiFunction />
       <Spacing />
-      <ColorsDeclaration />
+      <AnsiStyleFunctionsDeclaration />
+      <Spacing />
+      <WriteFunctionDeclaration />
       <Spacing />
       <WriteLineFunctionDeclaration />
       <Spacing />
@@ -3953,6 +2791,11 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
             name: "err",
             type: "string | Error",
             optional: false
+          },
+          {
+            name: "header",
+            type: "string",
+            optional: true
           }
         ]}
         prefix={
@@ -3975,6 +2818,12 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
       />
       <Spacing />
       <TableFunctionDeclaration />
+      <Spacing />
+      <BlockquoteFunctionDeclaration />
+      <Spacing />
+      <CodeFunctionDeclaration />
+      <Spacing />
+      <InlineCodeFunctionDeclaration />
       <Spacing />
       {children}
       <Spacing />

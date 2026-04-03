@@ -63,13 +63,7 @@ export function FishScriptCompletionsCommand() {
         "../shared": ["SHELL_COMPLETIONS", "SHELL_COMPLETIONS_DISPLAY"]
       }}
       builtinImports={{
-        "shell-shock:console": [
-          "colors",
-          "writeLine",
-          "success",
-          "warn",
-          "help"
-        ]
+        console: ["bold", "writeLine", "success", "warn", "help"]
       }}>
       <TSDoc heading="Options for the Fish Completions - Script command." />
       <InterfaceDeclaration export name="FishScriptCompletionsOptions">
@@ -111,7 +105,7 @@ export function FishScriptCompletionsCommand() {
 
             success(\`${getAppTitle(
               context
-            )} Fish completion script has been generated at \${colors.bold(scriptPath)}.\`);`}
+            )} Fish completion script has been generated at \${bold(scriptPath)}.\`);`}
         </IfStatement>
         <ElseClause>
           {code`writeLine(" ------------------------------------------------- ");

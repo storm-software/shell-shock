@@ -76,7 +76,6 @@ export const plugin = <
                     "stripAnsi",
                     "writeLine",
                     "splitText",
-                    "colors",
                     "help"
                   ],
                   utils: ["useApp", "useArgs", "isMinimal"]

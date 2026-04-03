@@ -1103,7 +1103,14 @@ export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
         "node:process": "process"
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
-        console: ["error", "verbose", "writeLine"],
+        console: [
+          "error",
+          "verbose",
+          "writeLine",
+          "red",
+          "green",
+          "textColors"
+        ],
         env: ["paths", "isWindows", "isCI", "env"],
         utils: ["isColorSupported", "isInteractive", "spawn", "resolveModule"]
       })}>

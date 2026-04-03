@@ -125,23 +125,23 @@ export function BannerFunctionBodyDeclaration(
       <Spacing />
 
       {code`
-      writeLine(colors.border.banner.outline.${variant}("${
+      writeLine(borderColors.banner.outline.${variant}("${
         theme.borderStyles.banner.outline[variant].topLeft
       }") + ${
         theme.icons.banner.header[variant]
-          ? `colors.border.banner.outline.${variant}("${
+          ? `borderColors.banner.outline.${variant}("${
               theme.borderStyles.banner.outline[variant].top
             }".repeat(6)) + " " + ${
               theme.icons.banner.header[variant]
-                ? `colors.text.banner.header.${variant}("${
+                ? `textColors.banner.header.${variant}("${
                     theme.icons.banner.header[variant]
-                  }") + " " + colors.border.banner.outline.${variant}("${
+                  }") + " " + borderColors.banner.outline.${variant}("${
                     theme.borderStyles.banner.outline[variant].top
                   }") + " " +`
                 : ""
-            } colors.bold(colors.text.banner.header.${variant}("${
+            } bold(textColors.banner.header.${variant}("${
               header
-            }")) + " " + colors.border.banner.outline.${variant}("${
+            }")) + " " + borderColors.banner.outline.${variant}("${
               theme.borderStyles.banner.outline[variant].top
             }".repeat(Math.max(process.stdout.columns - ${
               6 +
@@ -151,12 +151,12 @@ export function BannerFunctionBodyDeclaration(
               (header ? header.length + 2 : 0) +
               bannerPadding.value
             }, 0)))`
-          : `colors.border.banner.outline.${variant}("${
+          : `borderColors.banner.outline.${variant}("${
               theme.borderStyles.banner.outline[variant].top
             }".repeat(Math.max(process.stdout.columns - ${
               bannerPadding.value
             }, 0)))`
-      } + colors.border.banner.outline.${variant}("${
+      } + borderColors.banner.outline.${variant}("${
         theme.borderStyles.banner.outline[variant].topRight
       }"), { consoleFn: console.${consoleFnName} }); `}
 
@@ -168,13 +168,13 @@ export function BannerFunctionBodyDeclaration(
               {line => code`splitText("${line}",
           Math.max(process.stdout.columns - ${totalPadding.value}, 20)
         ).forEach((line) => {
-          writeLine(colors.border.banner.outline.${variant}("${
+          writeLine(borderColors.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].left
           }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
             bannerPadding.value
-          })) / 2), 0)) + colors.bold(colors.text.banner.title.${variant}(line)) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+          })) / 2), 0)) + bold(textColors.banner.title.${variant}(line)) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
             bannerPadding.value
-          })) / 2), 0)) + colors.border.banner.outline.${variant}("${
+          })) / 2), 0)) + borderColors.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].right
           }"), { consoleFn: console.${consoleFnName} });
         }); `}
@@ -187,37 +187,37 @@ export function BannerFunctionBodyDeclaration(
 
       <Show when={isSetString(command?.title) && !!command?.path}>
         <Show when={insertNewlineBeforeCommand}>
-          {code`writeLine(colors.border.banner.outline.${variant}("${
+          {code`writeLine(borderColors.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].left
           }") + " ".repeat(Math.max(process.stdout.columns - ${
             bannerPadding.value
-          })) + colors.border.banner.outline.${variant}("${
+          })) + borderColors.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].right
           }"), { consoleFn: console.${consoleFnName} }); `}
         </Show>
-        {`writeLine(colors.border.banner.outline.${variant}("${
+        {`writeLine(borderColors.banner.outline.${variant}("${
           theme.borderStyles.banner.outline[variant].left
         }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi("${
           command?.title
         }").length ${command?.icon ? " + 3" : ""} + ${
           bannerPadding.value
-        })) / 2), 0)) + colors.bold(colors.text.banner.command.${
+        })) / 2), 0)) + bold(textColors.banner.command.${
           variant
         }("${command?.icon ? `${command.icon}  ` : ""}${command?.title}")) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi("${command?.title}").length ${
           command?.icon ? " + 3" : ""
         } + ${
           bannerPadding.value
-        })) / 2), 0)) + colors.border.banner.outline.${variant}("${
+        })) / 2), 0)) + borderColors.banner.outline.${variant}("${
           theme.borderStyles.banner.outline[variant].right
         }"), { consoleFn: console.${consoleFnName} }); `}
       </Show>
       <Spacing />
 
       {code`splitText(
-          colors.bold(${
+          bold(${
             command?.title
-              ? "colors.text.banner.description"
-              : "colors.text.banner.command"
+              ? "textColors.banner.description"
+              : "textColors.banner.command"
           }.${variant}(\`${formatDescription(description)}\`)),
           Math.max(${
             command?.title
@@ -225,48 +225,48 @@ export function BannerFunctionBodyDeclaration(
               : `process.stdout.columns - ${totalPadding.value}`
           } , 20)
         ).forEach((line) => {
-          writeLine(colors.border.banner.outline.${variant}("${
+          writeLine(borderColors.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].left
           }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
             bannerPadding.value
-          })) / 2), 0)) + colors.text.banner.description.${variant}(line) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+          })) / 2), 0)) + textColors.banner.description.${variant}(line) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
             bannerPadding.value
-          })) / 2), 0)) + colors.border.banner.outline.${variant}("${
+          })) / 2), 0)) + borderColors.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].right
           }"), { consoleFn: console.${consoleFnName} });
         });
         ${
           insertNewlineAfterDescription
-            ? `writeLine(colors.border.banner.outline.${variant}("${
+            ? `writeLine(borderColors.banner.outline.${variant}("${
                 theme.borderStyles.banner.outline[variant].left
               }") + " ".repeat(Math.max(process.stdout.columns - ${
                 bannerPadding.value
-              })) + colors.border.banner.outline.${variant}("${
+              })) + borderColors.banner.outline.${variant}("${
                 theme.borderStyles.banner.outline[variant].right
               }"), { consoleFn: console.${consoleFnName} });`
             : ""
         }
-        writeLine(colors.border.banner.outline.${variant}("${
+        writeLine(borderColors.banner.outline.${variant}("${
           theme.borderStyles.banner.outline[variant].bottomLeft
         }") + ${
           footer
-            ? `colors.border.banner.outline.${variant}("${
+            ? `borderColors.banner.outline.${variant}("${
                 theme.borderStyles.banner.outline[variant].bottom
               }".repeat(Math.max(process.stdout.columns - ${
                 8 + (footer ? footer.length : 0) + bannerPadding.value
               }, 0))) + " " + ${
                 footer
-                  ? `colors.bold(colors.text.banner.footer.${variant}("${footer}"))`
+                  ? `bold(textColors.banner.footer.${variant}("${footer}"))`
                   : ""
-              } + " " + colors.border.banner.outline.${variant}("${
+              } + " " + borderColors.banner.outline.${variant}("${
                 theme.borderStyles.banner.outline[variant].bottom
               }".repeat(6))`
-            : `colors.border.banner.outline.${variant}("${
+            : `borderColors.banner.outline.${variant}("${
                 theme.borderStyles.banner.outline[variant].bottom
               }".repeat(Math.max(process.stdout.columns - ${
                 bannerPadding.value
               }, 0)))`
-        } + colors.border.banner.outline.${variant}("${
+        } + borderColors.banner.outline.${variant}("${
           theme.borderStyles.banner.outline[variant].bottomRight
         }"), { consoleFn: console.${consoleFnName} });
 

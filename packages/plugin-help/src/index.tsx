@@ -93,10 +93,7 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
               title: "Help",
               icon: "🛈",
               tags: ["Utility"],
-              description: `A command for displaying help information to assist in using the ${getAppTitle(
-                this,
-                true
-              )} command-line interface application.`,
+              description: `Display command usage details and other useful information to the user.`,
               entry: {
                 file: joinPaths(this.entryPath, "help", "index.ts"),
                 input: {

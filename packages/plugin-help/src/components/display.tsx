@@ -67,14 +67,14 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
     <>
       {code`
       writeLine(
-        colors.text.body.secondary(\`\${colors.text.usage.bin("$_ ${getAppBin(
+        textColors.body.secondary(\`\${textColors.usage.bin("$_ ${getAppBin(
           context
         )}")}${
           command.segments.length > 0
             ? ` ${command.segments
                 .map(
                   segment =>
-                    `\${colors.text.usage.${
+                    `\${textColors.usage.${
                       isDynamicPathSegment(segment) ? "dynamic" : "command"
                     }("${
                       isDynamicPathSegment(segment)
@@ -86,14 +86,14 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
             : ""
         }${
           Object.values(command.children).length > 0
-            ? ` \${colors.text.usage.dynamic("[command]")}`
+            ? ` \${textColors.usage.dynamic("[command]")}`
             : ""
         }${
           command.args.length > 0
             ? ` ${command.args
                 .map(
                   arg =>
-                    `\${colors.text.usage.args("<${snakeCase(
+                    `\${textColors.usage.args("<${snakeCase(
                       (arg.kind === CommandParameterKinds.string ||
                         arg.kind === CommandParameterKinds.number) &&
                         arg.choices &&
@@ -113,7 +113,7 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
                 )
                 .join(" ")}`
             : ""
-        } \${colors.text.usage.options("[options]")}\`), { padding: ${
+        } \${textColors.usage.options("[options]")}\`), { padding: ${
           theme.padding.app * indent
         } }
       );`}
@@ -122,12 +122,12 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
         <hbr />
         {code`
       writeLine(
-        colors.text.body.secondary(\`\${colors.text.usage.bin("$_ ${getAppBin(context)}")}${
+        textColors.body.secondary(\`\${textColors.usage.bin("$_ ${getAppBin(context)}")}${
           command.segments.length > 0
             ? ` ${command.segments
                 .map(
                   segment =>
-                    `\${colors.text.usage.${
+                    `\${textColors.usage.${
                       isDynamicPathSegment(segment) ? "dynamic" : "command"
                     }("${
                       isDynamicPathSegment(segment)
@@ -139,14 +139,14 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
             : ""
         }${
           Object.values(command.children).length > 0
-            ? ` \${colors.text.usage.dynamic("[command]")}`
+            ? ` \${textColors.usage.dynamic("[command]")}`
             : ""
-        } \${colors.text.usage.options("[options]")}${
+        } \${textColors.usage.options("[options]")}${
           command.args.length > 0
             ? ` ${command.args
                 .map(
                   arg =>
-                    `\${colors.text.usage.args("<${snakeCase(
+                    `\${textColors.usage.args("<${snakeCase(
                       (arg.kind === CommandParameterKinds.string ||
                         arg.kind === CommandParameterKinds.number) &&
                         arg.choices &&
@@ -211,7 +211,7 @@ export function HelpOptionsDisplay(props: HelpOptionsDisplayProps) {
             }
           });
 
-          return code`[{ value: colors.text.body.primary("${
+          return code`[{ value: textColors.body.primary("${
             flags.length > 0
               ? `${flags.sort().join(", ")}${names.length > 0 ? ", " : ""}`
               : ""
@@ -231,7 +231,7 @@ export function HelpOptionsDisplay(props: HelpOptionsDisplayProps) {
                       : option.name
                   )}${option.variadic ? "..." : ""}>`
                 : ""
-          }"), align: "right", border: "none", maxWidth: "1/3" }, { value: colors.text.body.tertiary(\`${formatShortDescription(
+          }"), align: "right", border: "none", maxWidth: "1/3" }, { value: textColors.body.tertiary(\`${formatShortDescription(
             option.description
           )
             .replace(/\.+$/, "")
@@ -280,9 +280,9 @@ export function HelpCommandsDisplay(props: HelpCommandsDisplayProps) {
       <hbr />
       <For each={Object.values(commands)} hardline>
         {child =>
-          code`[{ value: colors.text.body.primary("${
+          code`[{ value: textColors.body.primary("${
             child.name
-          }"), align: "right", border: "none" }, { value: colors.text.body.tertiary(\`${formatShortDescription(
+          }"), align: "right", border: "none" }, { value: textColors.body.tertiary(\`${formatShortDescription(
             child.description
           )
             .replace(/\.+$/, "")
@@ -348,7 +348,7 @@ export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
 
   return (
     <>
-      {code`writeLine(colors.bold(colors.text.heading.secondary("Usage:"))${
+      {code`writeLine(bold(textColors.heading.secondary("Usage:"))${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
       <hbr />
@@ -356,7 +356,7 @@ export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
       <Spacing />
       <Show when={options.value.length > 0}>
         {code`writeLine("");
-      writeLine(colors.bold(colors.text.heading.secondary("Options:"))${
+      writeLine(bold(textColors.heading.secondary("Options:"))${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
         <hbr />
@@ -365,7 +365,7 @@ export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
       </Show>
       <Show when={Object.keys(command.children).length > 0}>
         {code`writeLine("");
-      writeLine(colors.bold(colors.text.heading.secondary("Commands:"))${
+      writeLine(bold(textColors.heading.secondary("Commands:"))${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
         <hbr />
@@ -374,7 +374,7 @@ export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
       </Show>
       <Show when={isSetString(command.reference)}>
         {code`writeLine("");
-      writeLine(colors.text.heading.tertiary(\`More information about this command can be found in the reference documentation at \${link("${
+      writeLine(textColors.heading.tertiary(\`More information about this command can be found in the reference documentation at \${link("${
         command.reference
       }")}\`)${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
@@ -457,13 +457,13 @@ export function VirtualCommandHelpDisplay(
   return (
     <>
       <hbr />
-      {code`writeLine(colors.bold(colors.text.heading.secondary("Global Options:")));`}
+      {code`writeLine(bold(textColors.heading.secondary("Global Options:")));`}
       <hbr />
       <HelpOptionsDisplay options={options} />
       {code`writeLine(""); `}
       <Spacing />
       <Show when={Object.keys(commands).length > 0}>
-        {code`writeLine(colors.text.body.tertiary("The following commands are available through the ${getAppTitle(
+        {code`writeLine(textColors.body.tertiary("The following commands are available through the ${getAppTitle(
           context,
           true
         )} command-line interface:"));
@@ -476,8 +476,9 @@ export function VirtualCommandHelpDisplay(
           ender={code`writeLine(""); `}>
           {child => (
             <>
+              <hbr />
               {code`
-                writeLine(colors.text.heading.primary(${
+                writeLine(textColors.heading.primary(${
                   child.icon
                     ? `(isUnicodeSupported ? " ${child.icon}  " : "") + `
                     : ""
@@ -486,30 +487,29 @@ export function VirtualCommandHelpDisplay(
                     ? ` - ${child.tags
                         .map(
                           tag =>
-                            `\${colors.text.tags.${camelCase(tag)} ? colors.text.tags.${camelCase(tag)}(colors.inverse(" ${tag} ")) : colors.text.tags.$default(colors.inverse(" ${tag} "))}`
+                            `\${textColors.tags.${camelCase(tag)} ? textColors.tags.${camelCase(tag)}(inverse(" ${tag} ")) : textColors.tags.$default(inverse(" ${tag} "))}`
                         )
                         .join(" ")}`
                     : ""
-                }\`);
+                }\`));
                 writeLine("");
-                writeLine(colors.text.body.tertiary(splitText(\`${formatDescription(
+                writeLine(textColors.body.tertiary(splitText(\`${formatDescription(
                   child.description
                 )
                   .replace(/\.+$/, "")
                   .trim()}.\`)));
-                writeLine("");
-                `}
+                writeLine(""); `}
               <hbr />
               <BaseHelpDisplay command={child} indent={2} filterGlobalOptions />
               <hbr />
             </>
           )}
         </For>
-        {code`help("Running a specific command with the help flag (via: '${getAppBin(
+        {code`help(\`Running a specific command with the help flag (via: \${inlineCode("${getAppBin(
           context
-        )}${
+        )} ${
           segments && segments.length > 0 ? ` ${segments.join(" ")}` : ""
-        } <specific command> --help') will provide additional information that is specific to that command.");
+        } <specific command> --help")}) will provide additional information that is specific to that command.\`);
         writeLine("");`}
       </Show>
     </>
@@ -539,7 +539,7 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
       {code`writeLine(""); `}
       <Spacing />
       <Show when={Object.keys(command.children).length > 0}>
-        {code`writeLine(colors.text.body.tertiary("The following sub-commands are available:"));
+        {code`writeLine(textColors.body.tertiary("The following sub-commands are available:"));
         writeLine(""); `}
         <Spacing />
         <For
@@ -549,8 +549,9 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
           ender={code`writeLine(""); `}>
           {child => (
             <>
+              <hbr />
               {code`
-                writeLine(colors.text.heading.primary(${
+                writeLine(textColors.heading.primary(${
                   child.icon
                     ? `(isUnicodeSupported ? " ${child.icon}  " : "") + `
                     : ""
@@ -559,30 +560,29 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
                     ? ` - ${child.tags
                         .map(
                           tag =>
-                            `\${colors.text.tags.${camelCase(tag)} ? colors.text.tags.${camelCase(tag)}(colors.inverse(" ${tag} ")) : colors.text.tags.$default(colors.inverse(" ${tag} "))}`
+                            `\${textColors.tags.${camelCase(tag)} ? textColors.tags.${camelCase(tag)}(inverse(" ${tag} ")) : textColors.tags.$default(inverse(" ${tag} "))}`
                         )
                         .join(" ")}`
                     : ""
-                }\`);
+                }\`));
                 writeLine("");
-                writeLine(colors.text.body.tertiary(splitText(\`${formatDescription(
+                writeLine(textColors.body.tertiary(splitText(\`${formatDescription(
                   child.description
                 )
                   .replace(/\.+$/, "")
                   .trim()}.\`)));
-                writeLine("");
-                `}
+                writeLine(""); `}
               <hbr />
               <BaseHelpDisplay command={child} indent={2} filterGlobalOptions />
               <hbr />
             </>
           )}
         </For>
-        {code`help("Running a specific command with the help flag (via: '${getAppBin(
+        {code`help(\`Running a specific command with the help flag (via: \${inlineCode("${getAppBin(
           context
         )} ${command.segments.join(
           " "
-        )} <specific command> --help') will provide additional information that is specific to that command.");
+        )} <specific command> --help")}) will provide additional information that is specific to that command.\`);
         writeLine("");`}
       </Show>
     </>

@@ -17,21 +17,12 @@
  ------------------------------------------------------------------- */
 
 import { code } from "@alloy-js/core";
-import {
-  FunctionDeclaration,
-  InterfaceDeclaration
-} from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
-import { Spacing } from "@powerlines/plugin-alloy/core";
+import { FunctionDeclaration } from "@alloy-js/typescript";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import {
-  InterfaceMember,
-  TypescriptFile
-} from "@powerlines/plugin-alloy/typescript";
+import { TypescriptFile } from "@powerlines/plugin-alloy/typescript";
 import {
   TSDoc,
-  TSDocDefaultValue,
-  TSDocRemarks
+  TSDocParam
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { joinPaths } from "@stryke/path";
 import type { HelpPluginContext } from "../types/plugin";
@@ -50,36 +41,35 @@ export function HelpCommand() {
         "node:fs/promises": ["readFile", "writeFile"]
       }}
       builtinImports={{
-        console: ["colors", "writeLine", "success", "warn", "stripAnsi"]
+        console: [
+          "splitText",
+          "writeLine",
+          "inlineCode",
+          "textColors",
+          "inverse",
+          "bold",
+          "help",
+          "table",
+          "link"
+        ]
       }}>
-      <TSDoc heading="Options for the Help command." />
-      <InterfaceDeclaration export name="HelpOptions">
-        <TSDoc heading="Whether to help to the latest version.">
-          <TSDocRemarks>{`If set to \`true\`, the command will attempt to help to the latest version. This option takes precedence over the \`version\` option.`}</TSDocRemarks>
-          <TSDocDefaultValue
-            type={ReflectionKind.boolean}
-            defaultValue={false}
-          />
-        </TSDoc>
-        <InterfaceMember name="latest" optional type="boolean" />
-        <Spacing />
-        <TSDoc heading="A specific application version to help to.">
-          <TSDocRemarks>{`The command will attempt to help to the specified version. The version should be a valid semantic version string, or \`latest\` to help to the latest version.`}</TSDocRemarks>
-          <TSDocDefaultValue
-            type={ReflectionKind.string}
-            defaultValue="latest"
-          />
-        </TSDoc>
-        <InterfaceMember name="version" optional type="string" />
-      </InterfaceDeclaration>
-      <Spacing />
-      <TSDoc heading="Handler logic for the \`help\` command."></TSDoc>
+      <TSDoc heading="Display command usage details and other useful information to the user.">
+        <TSDocParam name="options">
+          {`The options for the help command. This can include various flags and parameters to customize the behavior of the help command, such as specifying a particular command to show help for, or toggling the display of additional information.`}
+        </TSDocParam>
+        <TSDocParam name="segments">
+          {`The command segments for the command to show help for. This is used to determine which command's help information to display. If no segments are provided, general help information about the CLI application will be displayed.`}
+        </TSDocParam>
+      </TSDoc>
       <FunctionDeclaration
         export
         default
         async
         name="handler"
-        parameters={[{ name: "options", type: "HelpOptions" }]}>
+        parameters={[
+          { name: "options", type: "HelpOptions" },
+          { name: "segments", type: "string[]", default: "[]" }
+        ]}>
         {code` return;`}
       </FunctionDeclaration>
     </TypescriptFile>

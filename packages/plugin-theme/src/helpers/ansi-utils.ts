@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { camelCase } from "@stryke/string-format/camel-case";
+import { upperCaseFirst } from "@stryke/string-format/upper-case-first";
 import type { ThemeColorsResolvedConfig } from "../types/theme";
 
 const ANSI_BACKGROUND_OFFSET = 10;
@@ -32,6 +33,8 @@ export const modifiers = {
   hidden: [8, 28],
   strikethrough: [9, 29]
 };
+
+export const modifierKeys = Object.keys(modifiers);
 
 export const colors = {
   black: [30, 39],
@@ -56,6 +59,8 @@ export const colors = {
   whiteBright: [97, 39]
 };
 
+export const colorKeys = Object.keys(colors);
+
 export const bgColors = {
   bgBlack: [40, 49],
   bgRed: [41, 49],
@@ -79,10 +84,15 @@ export const bgColors = {
   bgWhiteBright: [107, 49]
 };
 
-export interface AnsiWrappers {
+export const bgColorKeys = Object.keys(bgColors);
+
+export interface AnsiStyleWrapper {
   open: string;
   close: string;
-  background: Omit<AnsiWrappers, "background">;
+}
+
+export interface AnsiColorWrappers extends AnsiStyleWrapper {
+  background: AnsiStyleWrapper;
 }
 
 type WrapAnsiFn = (offset?: number) => (code: number) => string;
@@ -106,28 +116,32 @@ const wrapAnsi16m: WrapAnsi16mFn =
     return `\\x1b[${38 + offset};2;${red};${green};${blue}m`;
   };
 
-export type BaseAnsiStylesKeys =
-  | keyof typeof modifiers
-  | keyof typeof colors
-  | keyof typeof bgColors;
-
-export type BaseAnsiStyles = Record<
+export type BaseStyles = Record<
   "ansi16" | "ansi256" | "ansi16m",
-  Record<BaseAnsiStylesKeys, AnsiWrappers>
+  {
+    [modifier in keyof typeof modifiers]: AnsiStyleWrapper;
+  }
+>;
+
+export type BaseColors = Record<
+  "ansi16" | "ansi256" | "ansi16m",
+  {
+    [color in keyof typeof colors]: AnsiColorWrappers;
+  }
 >;
 
 type ThemeAnsiStylesFormat<T> = T extends object
   ? {
       [K in keyof T]: ThemeAnsiStylesFormat<T[K]>;
     }
-  : AnsiWrappers;
+  : AnsiColorWrappers;
 
 export type ThemeAnsiStyles = Record<
   "ansi16" | "ansi256" | "ansi16m",
   { theme: ThemeAnsiStylesFormat<ThemeColorsResolvedConfig> }
 >;
 
-export type AnsiStyles = BaseAnsiStyles & ThemeAnsiStyles;
+export type AnsiStyles = BaseStyles & BaseColors & ThemeAnsiStyles;
 
 function rgbToAnsi256(red: number, green: number, blue: number): number {
   if (red === green && green === blue) {
@@ -1578,99 +1592,63 @@ export function getAnsiStyles(theme: ThemeColorsResolvedConfig): AnsiStyles {
   const output = { ansi16: {}, ansi256: {}, ansi16m: {} } as AnsiStyles;
 
   for (const [key, value] of Object.entries(modifiers) as [
-    BaseAnsiStylesKeys,
+    keyof typeof modifiers,
     [number, number]
   ][]) {
     output.ansi16[key] = {
       open: wrapAnsi16()(value[0]),
-      close: wrapAnsi16()(value[1]),
-      background: {
-        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
-      }
+      close: wrapAnsi16()(value[1])
     };
 
     output.ansi256[key] = {
       open: wrapAnsi16()(value[0]),
-      close: wrapAnsi16()(value[1]),
-      background: {
-        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
-      }
+      close: wrapAnsi16()(value[1])
     };
 
     output.ansi16m[key] = {
       open: wrapAnsi16()(value[0]),
-      close: wrapAnsi16()(value[1]),
-      background: {
-        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
-      }
+      close: wrapAnsi16()(value[1])
     };
   }
 
   for (const [key, value] of Object.entries(colors) as [
-    BaseAnsiStylesKeys,
+    keyof typeof colors,
     [number, number]
   ][]) {
+    const bgColor = `bg${upperCaseFirst(key)}` as keyof typeof bgColors;
+
     output.ansi16[key] = {
       open: wrapAnsi16()(value[0]),
       close: wrapAnsi16()(value[1]),
-      background: {
-        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
-      }
-    };
+      background: bgColors[bgColor]
+        ? {
+            open: wrapAnsi16()(bgColors[bgColor][0]!),
+            close: wrapAnsi16()(bgColors[bgColor][1]!)
+          }
+        : undefined
+    } as AnsiColorWrappers;
 
     output.ansi256[key] = {
       open: wrapAnsi16()(value[0]),
       close: wrapAnsi16()(value[1]),
-      background: {
-        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
-      }
-    };
+      background: bgColors[bgColor]
+        ? {
+            open: wrapAnsi16()(bgColors[bgColor][0]!),
+            close: wrapAnsi16()(bgColors[bgColor][1]!)
+          }
+        : undefined
+    } as AnsiColorWrappers;
 
     output.ansi16m[key] = {
       open: wrapAnsi16()(value[0]),
       close: wrapAnsi16()(value[1]),
-      background: {
-        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
-      }
-    };
-  }
-
-  for (const [key, value] of Object.entries(bgColors) as [
-    BaseAnsiStylesKeys,
-    [number, number]
-  ][]) {
-    output.ansi16[key] = {
-      open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-      close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1]),
-      background: {
-        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
-      }
-    };
-
-    output.ansi256[key] = {
-      open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-      close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1]),
-      background: {
-        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
-      }
-    };
-
-    output.ansi16m[key] = {
-      open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-      close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1]),
-      background: {
-        open: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[0]),
-        close: wrapAnsi16(ANSI_BACKGROUND_OFFSET)(value[1])
-      }
-    };
+      background: bgColors[bgColor]
+        ? {
+            open: wrapAnsi16()(bgColors[bgColor][0]!),
+            close: wrapAnsi16()(bgColors[bgColor][1]!)
+          }
+        : undefined
+    } as AnsiColorWrappers;
   }
 
   output.ansi16.theme = buildThemeAnsiStyles(theme, wrapAnsi16, hexToAnsi);

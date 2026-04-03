@@ -81,7 +81,6 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             "info",
             "help",
             "table",
-            "colors",
             "writeLine",
             "splitText",
             "stripAnsi"

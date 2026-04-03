@@ -41,7 +41,20 @@ export function FishCompletionsShared() {
     <TypescriptFile
       path={joinPaths(context.entryPath, "completions", "fish", "shared.ts")}
       builtinImports={{
-        console: ["colors"]
+        console: [
+          "white",
+          "green",
+          "red",
+          "bold",
+          "cyan",
+          "gray",
+          "magenta",
+          "magentaBright",
+          "greenBright",
+          "redBright",
+          "cyanBright",
+          "dim"
+        ]
       }}>
       <Spacing />
       <VarDeclaration
@@ -338,21 +351,21 @@ complete -k -c ${bin.value} -n '__${name.value}_requires_order_preservation && _
             return "";
           }
           if (line.trim().startsWith("#")) {
-            return \`\${colors.dim(line)}\`;
+            return \`\${dim(line)}\`;
           }
 
-          return colors.white(line).replaceAll(/(?<=\\\$(\\{|\\()).*(?=(\\}\\)))/g, colors.green("$&"))
-            .replaceAll(/(\\"|\\').*(\\"|\\')/g, colors.cyan("$&"))
-            .replaceAll(/(\\[|\\]|\\(|\\)|\\||<|>|\\$\\(|\\$?\\{|\\}|\\+|=|;|:)/g, colors.bold(colors.gray("$&")))
-            .replaceAll(/(function|complete)\\s+/g, colors.green("$&"))
-            .replaceAll(/(?<=(function|complete)\\s+)\\w/g, colors.bold(colors.greenBright("$&")))
-            .replaceAll(/set\\s+/g, colors.red("$&"))
-            .replaceAll(/(?<=set\\s+)\\w/g, colors.bold(colors.redBright("$&")))
-            .replaceAll(/while\\s+/g, colors.cyan("$&"))
-            .replaceAll(/(?<=while\\s+)\\w/g, colors.bold(colors.cyanBright("$&")))
-            .replaceAll(/(if|fi|else|elif|then|done)\\s+/g, colors.green("$&"))
-            .replaceAll(/\\s__\\w/g, colors.bold(colors.magentaBright("$&")))
-            .replaceAll(/(?<=\\s)(-\\w|--\\w[\\w-]*)(?=\\s|$)/g, colors.bold(colors.magenta("$&")));
+          return white(line).replaceAll(/(?<=\\\$(\\{|\\()).*(?=(\\}\\)))/g, green("$&"))
+            .replaceAll(/(\\"|\\').*(\\"|\\')/g, cyan("$&"))
+            .replaceAll(/(\\[|\\]|\\(|\\)|\\||<|>|\\$\\(|\\$?\\{|\\}|\\+|=|;|:)/g, bold(gray("$&")))
+            .replaceAll(/(function|complete)\\s+/g, green("$&"))
+            .replaceAll(/(?<=(function|complete)\\s+)\\w/g, bold(greenBright("$&")))
+            .replaceAll(/set\\s+/g, red("$&"))
+            .replaceAll(/(?<=set\\s+)\\w/g, bold(redBright("$&")))
+            .replaceAll(/while\\s+/g, cyan("$&"))
+            .replaceAll(/(?<=while\\s+)\\w/g, bold(cyanBright("$&")))
+            .replaceAll(/(if|fi|else|elif|then|done)\\s+/g, green("$&"))
+            .replaceAll(/\\s__\\w/g, bold(magentaBright("$&")))
+            .replaceAll(/(?<=\\s)(-\\w|--\\w[\\w-]*)(?=\\s|$)/g, bold(magenta("$&")));
 
         }).join("\\n"); `}
       />

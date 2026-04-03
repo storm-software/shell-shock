@@ -1467,7 +1467,7 @@ export function ResolveModuleFunctionDeclaration() {
 
         if (!validPackageName) {
           const err = new Error(
-            \`Invalid module "\${specifier}" is not a valid package name imported from \${fileURLToPath(base)}\`
+            \`Invalid module \\\`\${specifier}\\\` is not a valid package name imported from \${fileURLToPath(base)}\`
           );
           (err as any).code = "ERR_INVALID_MODULE_SPECIFIER";
           throw err;
@@ -1559,10 +1559,9 @@ export function ResolveModuleFunctionDeclaration() {
           return new URL(packageSubpath, packageJsonUrl);
         } while (packageJsonPath.length !== lastPath!.length);
 
-        const err = new Error(
-          \`Cannot find package '\${packageName}' imported from \${fileURLToPath(base)}\`
-        );
+        const err = new Error(\`Cannot find package \\\`\${packageName}\\\`\`);
         (err as any).code = "ERR_MODULE_NOT_FOUND";
+
         throw err;`}
       </FunctionDeclaration>
       <Spacing />
@@ -1575,9 +1574,10 @@ export function ResolveModuleFunctionDeclaration() {
         returnType="URL">
         {code`if (/%2f|%5c/i.test(resolved.pathname)) {
           const err = new Error(
-            \`Invalid module "\${resolved.pathname}" must not include encoded "/" or "\\\\" characters imported from \${fileURLToPath(base)}\`
+            \`Invalid module \\\`\${resolved.pathname}\\\` must not include encoded "/" or "\\\\" characters imported from \${fileURLToPath(base)}\`
           );
           (err as any).code = "ERR_INVALID_MODULE_SPECIFIER";
+
           throw err;
         }
 
@@ -1590,7 +1590,7 @@ export function ResolveModuleFunctionDeclaration() {
 
         if (stat && stat.isDirectory()) {
           const err = new Error(
-            \`Directory import '\${filePath}' is not supported resolving ES modules imported from \${fileURLToPath(base)}\`
+            \`Directory import \\\`\${filePath}\\\` is not supported resolving ES modules imported from \${fileURLToPath(base)}\`
           );
           (err as any).code = "ERR_UNSUPPORTED_DIR_IMPORT";
           throw err;
@@ -1598,7 +1598,7 @@ export function ResolveModuleFunctionDeclaration() {
 
         if (!stat || !stat.isFile()) {
           const err = new Error(
-            \`Cannot find module '\${filePath}' imported from \${fileURLToPath(base)}\`
+            \`Cannot find module \\\`\${filePath}\\\` imported from \${fileURLToPath(base)}\`
           );
           (err as any).code = "ERR_MODULE_NOT_FOUND";
           throw err;
@@ -1634,7 +1634,7 @@ export function ResolveModuleFunctionDeclaration() {
             resolved = new URL(specifier, base);
           } catch (error_: any) {
             const err = new Error(
-              \`Failed to resolve module specifier "\${specifier}" from "\${base}": Invalid relative URL or base scheme is not hierarchical.\`
+              \`Failed to resolve module specifier \\\`\${specifier}\\\` from "\${base}": Invalid relative URL or base scheme is not hierarchical.\`
             );
             err.cause = error_;
             throw err;
@@ -1693,7 +1693,7 @@ export function ResolveModuleFunctionDeclaration() {
 
           if (!resolved) {
             const err = new Error(
-              \`Package import specifier "\${specifier}" is not defined in package imported from \${fileURLToPath(base)}\`
+              \`Package import specifier \\\`\${specifier}\\\` is not defined in package imported from \${fileURLToPath(base)}\`
             );
             (err as any).code = "ERR_PACKAGE_IMPORT_NOT_DEFINED";
             throw err;
@@ -1747,6 +1747,7 @@ export function ResolveModuleFunctionDeclaration() {
       </TSDoc>
       <FunctionDeclaration
         async
+        export
         name="resolveModule"
         parameters={[
           { name: "specifier", type: "string" },
@@ -1848,9 +1849,10 @@ export function ResolveModuleFunctionDeclaration() {
 
         if (!resolved) {
           const err = new Error(
-            \`Cannot find module \${specifier} imported from \${base.href}\`
+            \`Cannot find module \\\`\${specifier}\\\`\`
           );
           (err as any).code = "ERR_MODULE_NOT_FOUND";
+
           throw err;
         }
 

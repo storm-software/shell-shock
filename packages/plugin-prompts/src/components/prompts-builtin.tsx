@@ -439,13 +439,13 @@ export function BasePromptDeclarations() {
         <Spacing />
         <ClassPropertyGet protected name="status" type="string">
           {code`return this.isSubmitted ? "" : \` \\n    \${
-              colors.italic(
+              italic(
                 this.isError
-                  ? colors.text.prompt.description.error(splitText(this.errorMessage, "3/4").join("\\n"))
+                  ? textColors.prompt.description.error(splitText(this.errorMessage, "3/4").join("\\n"))
                   : this.isCancelled
-                    ? colors.text.prompt.description.cancelled(splitText("Input was cancelled by user", "3/4").join("\\n"))
+                    ? textColors.prompt.description.cancelled(splitText("Input was cancelled by user", "3/4").join("\\n"))
                     : this.description
-                      ? colors.text.prompt.description.active(splitText(this.description, "3/4").join("\\n"))
+                      ? textColors.prompt.description.active(splitText(this.description, "3/4").join("\\n"))
                       : ""
               )
             }\`; `}
@@ -521,14 +521,14 @@ export function BasePromptDeclarations() {
           protected
           returnType="string">
           {code`return this.isPlaceholder
-            ? colors.text.prompt.input.disabled(this.displayValue)
+            ? textColors.prompt.input.disabled(this.displayValue)
             : this.isError
-              ? colors.text.prompt.input.error(this.displayValue)
+              ? textColors.prompt.input.error(this.displayValue)
               : this.isSubmitted
-                ? colors.text.prompt.input.submitted(this.maskCompleted(this.displayValue))
+                ? textColors.prompt.input.submitted(this.maskCompleted(this.displayValue))
                 : this.isCancelled
-                  ? colors.text.prompt.input.cancelled(this.maskCompleted(this.displayValue))
-              : colors.bold(colors.text.prompt.input.active(this.displayValue)); `}
+                  ? textColors.prompt.input.cancelled(this.maskCompleted(this.displayValue))
+              : bold(textColors.prompt.input.active(this.displayValue)); `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
@@ -779,22 +779,22 @@ export function BasePromptDeclarations() {
 
           this.consoleOutput = \` \${
           this.isSubmitted
-            ? colors.text.prompt.icon.submitted("${
+            ? textColors.prompt.icon.submitted("${
               theme.icons.prompt.submitted
             }")
             : this.isCancelled
-              ? colors.text.prompt.icon.cancelled("${
+              ? textColors.prompt.icon.cancelled("${
                 theme.icons.prompt.cancelled
               }")
               : this.isError
-                ? colors.text.prompt.icon.error("${theme.icons.prompt.error}")
-                : colors.text.prompt.icon.active("${theme.icons.prompt.active}")
+                ? textColors.prompt.icon.error("${theme.icons.prompt.error}")
+                : textColors.prompt.icon.active("${theme.icons.prompt.active}")
           }  \${
             this.isCompleted
-            ? colors.text.prompt.message.submitted(this.message)
-            : colors.bold(colors.text.prompt.message.active(this.message))
+            ? textColors.prompt.message.submitted(this.message)
+            : bold(textColors.prompt.message.active(this.message))
           } \${
-            colors.border.app.divider.tertiary(
+            borderColors.app.divider.tertiary(
               this.isCompleted
                 ? (process.platform === "win32" ? "..." : "…")
                 : (process.platform === "win32" ? "»" : "›")
@@ -1065,14 +1065,14 @@ export function TextPromptDeclarations() {
           protected
           returnType="string">
           {code`return this.isPlaceholder
-            ? colors.text.prompt.input.disabled(this.displayValue)
+            ? textColors.prompt.input.disabled(this.displayValue)
             : this.#isInvalid
-              ? colors.text.prompt.input.error(this.displayValue)
+              ? textColors.prompt.input.error(this.displayValue)
               : this.isSubmitted
-                ? colors.text.prompt.input.submitted(this.displayValue)
+                ? textColors.prompt.input.submitted(this.displayValue)
                 : this.isCancelled
-                  ? colors.text.prompt.input.cancelled(this.displayValue)
-              : colors.bold(colors.text.prompt.input.active(this.displayValue)); `}
+                  ? textColors.prompt.input.cancelled(this.displayValue)
+              : bold(textColors.prompt.input.active(this.displayValue)); `}
         </ClassMethod>
       </ClassDeclaration>
       <Spacing />
@@ -1461,38 +1461,38 @@ export function SelectPromptDeclarations() {
               output += \`\${
                 this.options[index].disabled
                   ? this.cursor === index
-                    ? colors.bold(colors.text.prompt.input.disabled(">"))
+                    ? bold(textColors.prompt.input.disabled(">"))
                     : index === startIndex
-                      ? colors.border.app.divider.tertiary("↑")
+                      ? borderColors.app.divider.tertiary("↑")
                         : index === endIndex - 1
-                        ? colors.border.app.divider.tertiary("↓")
+                        ? borderColors.app.divider.tertiary("↓")
                         : " "
                   : this.cursor === index
-                    ? colors.bold(colors.text.prompt.input.active(">"))
+                    ? bold(textColors.prompt.input.active(">"))
                     : index === startIndex
-                      ? colors.border.app.divider.tertiary("↑")
+                      ? borderColors.app.divider.tertiary("↑")
                         : index === endIndex - 1
-                          ? colors.border.app.divider.tertiary("↓")
+                          ? borderColors.app.divider.tertiary("↓")
                           : " "
               } \${
                 this.options[index]!.disabled
                   ? this.cursor === index
-                    ? colors.bold(colors.text.prompt.input.disabled(this.options[index]!.icon ? colors.underline(\`\${this.options[index]!.icon}  \`) : ""))
-                    : colors.strikethrough(colors.text.prompt.input.disabled(this.options[index]!.icon ? \`\${this.options[index].icon}  \` : ""))
+                    ? bold(textColors.prompt.input.disabled(this.options[index]!.icon ? underline(\`\${this.options[index]!.icon}  \`) : ""))
+                    : strikethrough(textColors.prompt.input.disabled(this.options[index]!.icon ? \`\${this.options[index].icon}  \` : ""))
                   : this.cursor === index
-                    ? colors.bold(colors.text.prompt.input.active(this.options[index]!.icon ? colors.underline(\`\${this.options[index]!.icon}  \`) : ""))
-                    : colors.text.prompt.input.inactive(this.options[index]!.icon ? \`\${this.options[index].icon}  \` : "")
+                    ? bold(textColors.prompt.input.active(this.options[index]!.icon ? underline(\`\${this.options[index]!.icon}  \`) : ""))
+                    : textColors.prompt.input.inactive(this.options[index]!.icon ? \`\${this.options[index].icon}  \` : "")
               }\${
                 this.options[index]!.disabled
                   ? this.cursor === index
-                    ? colors.bold(colors.underline(colors.text.prompt.input.disabled(this.options[index].label)))
-                    : colors.strikethrough(colors.text.prompt.input.disabled(this.options[index]!.label))
+                    ? bold(underline(textColors.prompt.input.disabled(this.options[index].label)))
+                    : strikethrough(textColors.prompt.input.disabled(this.options[index]!.label))
                   : this.cursor === index
-                    ? colors.bold(colors.underline(colors.text.prompt.input.active(this.options[index]!.label)))
-                    : colors.text.prompt.input.inactive(this.options[index]!.label)
+                    ? bold(underline(textColors.prompt.input.active(this.options[index]!.label)))
+                    : textColors.prompt.input.inactive(this.options[index]!.label)
               } \${" ".repeat(spacing - this.options[index]!.label.length - (this.options[index]!.icon ? this.options[index]!.icon!.length + 1 : 0))}\${
                 this.options[index]!.description && this.cursor === index
-                    ? colors.italic(colors.text.prompt.description.active(this.options[index]!.description))
+                    ? italic(textColors.prompt.description.active(this.options[index]!.description))
                     : ""
               } \\n\`;
             }
@@ -1853,14 +1853,14 @@ export function NumericPromptDeclarations() {
           protected
           returnType="string">
           {code`return this.isPlaceholder
-            ? colors.text.prompt.input.disabled(this.displayValue)
+            ? textColors.prompt.input.disabled(this.displayValue)
             : this.#isInvalid
-              ? colors.text.prompt.input.error(this.displayValue)
+              ? textColors.prompt.input.error(this.displayValue)
               : this.isSubmitted
-                ? colors.text.prompt.input.submitted(this.displayValue)
+                ? textColors.prompt.input.submitted(this.displayValue)
                 : this.isCancelled
-                  ? colors.text.prompt.input.cancelled(this.displayValue)
-              : colors.bold(colors.text.prompt.input.active(this.displayValue)); `}
+                  ? textColors.prompt.input.cancelled(this.displayValue)
+              : bold(textColors.prompt.input.active(this.displayValue)); `}
         </ClassMethod>
       </ClassDeclaration>
       <Spacing />
@@ -2091,13 +2091,13 @@ export function TogglePromptDeclarations() {
           protected
           returnType="string">
           {code`return this.isSubmitted
-              ? colors.text.prompt.input.submitted(this.value ? this.trueMessage : this.falseMessage)
+              ? textColors.prompt.input.submitted(this.value ? this.trueMessage : this.falseMessage)
               : this.isCancelled
-                ? colors.text.prompt.input.cancelled(this.value ? this.trueMessage : this.falseMessage)
+                ? textColors.prompt.input.cancelled(this.value ? this.trueMessage : this.falseMessage)
             : \`\${
-                this.value ? colors.text.prompt.input.inactive(this.falseMessage) : colors.underline(colors.bold(colors.text.prompt.input.active(this.falseMessage)))
-            } \${colors.border.app.divider.tertiary("/")} \${
-                this.value ? colors.underline(colors.bold(colors.text.prompt.input.active(this.trueMessage))) : colors.text.prompt.input.inactive(this.trueMessage)
+                this.value ? textColors.prompt.input.inactive(this.falseMessage) : underline(bold(textColors.prompt.input.active(this.falseMessage)))
+            } \${borderColors.app.divider.tertiary("/")} \${
+                this.value ? underline(bold(textColors.prompt.input.active(this.trueMessage))) : textColors.prompt.input.inactive(this.trueMessage)
             }\`; `}
         </ClassMethod>
       </ClassDeclaration>
@@ -2283,10 +2283,10 @@ export function ConfirmPromptDeclarations() {
           protected
           returnType="string">
           {code`return this.isSubmitted
-              ? colors.text.prompt.input.submitted(this.value ? this.yesMessage : this.noMessage)
+              ? textColors.prompt.input.submitted(this.value ? this.yesMessage : this.noMessage)
               : this.isCancelled
-                ? colors.text.prompt.input.cancelled(this.value ? this.yesMessage : this.noMessage)
-            : colors.text.prompt.input.inactive(this.initialValue ? this.yesOption : this.noOption); `}
+                ? textColors.prompt.input.cancelled(this.value ? this.yesMessage : this.noMessage)
+            : textColors.prompt.input.inactive(this.initialValue ? this.yesOption : this.noOption); `}
         </ClassMethod>
       </ClassDeclaration>
       <Spacing />
@@ -2485,7 +2485,12 @@ export function PromptsBuiltin(props: PromptsBuiltinProps) {
           "erase",
           "beep",
           "cursor",
-          "colors",
+          "textColors",
+          "borderColors",
+          "bold",
+          "italic",
+          "underline",
+          "strikethrough",
           "clear",
           "stripAnsi",
           "splitText"

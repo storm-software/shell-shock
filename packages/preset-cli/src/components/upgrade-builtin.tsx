@@ -83,7 +83,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                     info(\`A new version of ${getAppTitle(
                       context,
                       true
-                    )} is available: \${colors.red(\`v\${result.currentVersion}\`)} \${colors.text.body.tertiary("➜")} \${colors.green(\`v\${result.latestVersion}\`)}\${result.package.date ? colors.text.body.tertiary(\` (updated on \${result.package.date})\`) : ""}\`);
+                    )} is available: \${red(\`v\${result.currentVersion}\`)} \${textColors.body.tertiary("➜")} \${green(\`v\${result.latestVersion}\`)}\${result.package.date ? textColors.body.tertiary(\` (updated on \${result.package.date})\`) : ""}\`);
 
                     try {
                       await upgrade();
@@ -108,7 +108,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                 warn(\`A new version of ${getAppTitle(
                   context,
                   true
-                )} is available: \${colors.red(\`v\${result.currentVersion}\`)} \${colors.text.body.tertiary("➜")} \${colors.green(\`v\${result.latestVersion}\`)}\${result.package.date ? colors.text.body.tertiary(\` (updated on \${result.package.date})\`) : ""}${
+                )} is available: \${red(\`v\${result.currentVersion}\`)} \${textColors.body.tertiary("➜")} \${green(\`v\${result.latestVersion}\`)}\${result.package.date ? textColors.body.tertiary(\` (updated on \${result.package.date})\`) : ""}${
                   context.config.upgradeType !== false &&
                   context.config.upgradeType === "manual"
                     ? ` \\nPlease run \`${getAppBin(
@@ -186,7 +186,7 @@ export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
     <BaseUpgradeBuiltin
       {...rest}
       builtinImports={defu(builtinImports ?? {}, {
-        console: ["colors", "createSpinner", "debug", "info"],
+        console: ["createSpinner", "debug", "info"],
         prompts: ["waitForKeyPress"]
       })}>
       <ExecuteUpgradeFunctionDeclaration />

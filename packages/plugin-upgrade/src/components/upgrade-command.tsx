@@ -50,7 +50,14 @@ export function UpgradeCommand() {
         "node:fs/promises": ["readFile", "writeFile"]
       }}
       builtinImports={{
-        console: ["colors", "writeLine", "success", "warn", "stripAnsi"]
+        console: [
+          "textColors",
+          "bold",
+          "writeLine",
+          "success",
+          "warn",
+          "stripAnsi"
+        ]
       }}>
       <TSDoc heading="Options for the Upgrade command." />
       <InterfaceDeclaration export name="UpgradeOptions">

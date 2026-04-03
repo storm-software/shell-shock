@@ -100,7 +100,7 @@ export function CommandEntry(props: CommandEntryProps) {
             "warn",
             "error",
             "table",
-            "colors",
+            "italic",
             "cursor",
             "stripAnsi",
             "writeLine",
@@ -218,7 +218,7 @@ export function CommandEntry(props: CommandEntryProps) {
                             option.choices.length === 0
                           }
                           fallback={code`const value = await select({
-                              message: \`Please select a value for the \${colors.italic("${
+                              message: \`Please select a value for the \${italic("${
                                 option.name
                               }")} option\`, ${
                                 option.description
@@ -262,7 +262,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                 option.kind === CommandParameterKinds.string
                               }>{code`
                             const value = await text({
-                              message: \`Please provide a value for the \${colors.italic("${
+                              message: \`Please provide a value for the \${italic("${
                                 option.name
                               }")} option\`,
                               ${
@@ -295,7 +295,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                 option.kind === CommandParameterKinds.number
                               }>{code`
                             const value = await numeric({
-                              message: \`Please provide a numeric value for the \${colors.italic("${option.name}")} option\`,
+                              message: \`Please provide a numeric value for the \${italic("${option.name}")} option\`,
                               ${
                                 option.description
                                   ? `description: \`${formatDescription(
@@ -320,7 +320,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                 option.kind === CommandParameterKinds.boolean
                               }>{code`
                             const value = await toggle({
-                              message: \`Please select a value for the \${colors.italic("${option.name}")} option\`,
+                              message: \`Please select a value for the \${italic("${option.name}")} option\`,
                             ${
                               option.description
                                 ? `description: \`${formatDescription(
@@ -361,7 +361,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                 option.kind === CommandParameterKinds.number
                                   ? " numeric"
                                   : ""
-                              } values for the \${colors.italic("${
+                              } values for the \${italic("${
                                 option.name
                               }")} option (values are separated by a \\",\\" character)\`,
                               ${
@@ -422,7 +422,7 @@ export function CommandEntry(props: CommandEntryProps) {
                             arg.choices.length === 0
                           }
                           fallback={code`const value = await select({
-                              message: \`Please select a value for the \${colors.italic("${
+                              message: \`Please select a value for the \${italic("${
                                 arg.name
                               }")} argument\`,${
                                 arg.description
@@ -463,7 +463,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                 arg.kind === CommandParameterKinds.string
                               }>{code`
                             const value = await text({
-                              message: \`Please provide a value for the \${colors.italic("${arg.name}")} argument\`,
+                              message: \`Please provide a value for the \${italic("${arg.name}")} argument\`,
                               ${
                                 arg.description
                                   ? `description: \`${formatShortDescription(
@@ -490,7 +490,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                 arg.kind === CommandParameterKinds.number
                               }>{code`
                             const value = await numeric({
-                              message: \`Please provide a numeric value for the \${colors.italic("${arg.name}")} argument\`,
+                              message: \`Please provide a numeric value for the \${italic("${arg.name}")} argument\`,
                               ${
                                 arg.description
                                   ? `description: \`${formatShortDescription(
@@ -511,7 +511,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                 arg.kind === CommandParameterKinds.boolean
                               }>{code`
                             const value = await toggle({
-                              message: \`Please select a value for the \${colors.italic("${arg.name}")} argument\`,
+                              message: \`Please select a value for the \${italic("${arg.name}")} argument\`,
                               ${
                                 arg.description
                                   ? `description: \`${formatShortDescription(
@@ -544,7 +544,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                 arg.kind === CommandParameterKinds.number
                                   ? " numeric"
                                   : ""
-                              } values for the \${colors.italic("${arg.name}")} argument (values are separated by a \\",\\" character)\`,
+                              } values for the \${italic("${arg.name}")} argument (values are separated by a \\",\\" character)\`,
                               ${
                                 arg.description
                                   ? `description: \`${formatShortDescription(

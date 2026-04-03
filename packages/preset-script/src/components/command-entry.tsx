@@ -145,7 +145,7 @@ export function CommandHandlerDeclaration(
         <Spacing />
         <IfStatement condition={<IsDebug />}>
           {code`writeLine("");
-          writeLine(colors.text.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console."));
+          writeLine(textColors.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console."));
           writeLine("");
           debug(\`Command path: ${command.segments
             .map(segment =>
@@ -242,7 +242,7 @@ export function CommandEntry(props: CommandEntryProps) {
         })}
         builtinImports={defu(builtinImports ?? {}, {
           env: ["env", "isDevelopment", "isDebug"],
-          console: ["debug", "warn", "error", "colors", "writeLine"],
+          console: ["debug", "warn", "error", "writeLine"],
           utils: [
             "useArgs",
             "hasFlag",

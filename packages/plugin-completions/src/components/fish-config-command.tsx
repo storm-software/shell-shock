@@ -56,13 +56,7 @@ export function FishConfigCompletionsCommand() {
         "../shared": ["SHELL_COMPLETIONS", "SHELL_COMPLETIONS_DISPLAY"]
       }}
       builtinImports={{
-        "shell-shock:console": [
-          "colors",
-          "writeLine",
-          "success",
-          "warn",
-          "help"
-        ]
+        console: ["bold", "inlineCode", "writeLine", "success", "warn", "help"]
       }}>
       <TSDoc heading="Options for the Fish Completions - Configuration command." />
       <InterfaceDeclaration export name="FishConfigCompletionsOptions">
@@ -117,7 +111,7 @@ export function FishConfigCompletionsCommand() {
           } catch (error) {
             if (typeof error === "object" && error !== null && "code" in error && error.code === "ENOENT") {
               // If the file doesn't exist, we can create it later when writing the completion script.
-              warn(\`Configuration file \${colors.bold(configPath)} does not exist. It will be created when the completion script is written.\`);
+              warn(\`Configuration file \${bold(configPath)} does not exist. It will be created when the completion script is written.\`);
             } else {
               return { error };
             }
@@ -129,7 +123,7 @@ export function FishConfigCompletionsCommand() {
 
           success(\`${getAppTitle(
             context
-          )} shell completions have been applied to Fish configuration file at \${colors.bold(configPath)}. Please restart your terminal or run \\\`source \${configPath}\\\` for the changes to take effect.\`); `}
+          )} shell completions have been applied to Fish configuration file at \${bold(configPath)}. Please restart your terminal or run \${inlineCode(\`source \${configPath}\`)} for the changes to take effect.\`); `}
         </IfStatement>
         <ElseClause>
           {code`writeLine(" ------------------------------------------------- ");

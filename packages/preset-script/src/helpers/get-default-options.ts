@@ -35,6 +35,7 @@ export function getDefaultOptions(): CommandOption[] {
       kind: CommandParameterKinds.boolean,
       optional: true,
       default: false,
+      variadic: false,
       skipAddingNegative: true
     },
     {
@@ -46,6 +47,7 @@ export function getDefaultOptions(): CommandOption[] {
       kind: CommandParameterKinds.boolean,
       optional: true,
       default: false,
+      variadic: false,
       skipAddingNegative: true
     },
     {
@@ -57,6 +59,7 @@ export function getDefaultOptions(): CommandOption[] {
       kind: CommandParameterKinds.boolean,
       optional: true,
       default: false,
+      variadic: false,
       skipAddingNegative: true
     },
     {
@@ -67,6 +70,7 @@ export function getDefaultOptions(): CommandOption[] {
       alias: ["colors"],
       kind: CommandParameterKinds.boolean,
       optional: true,
+      variadic: false,
       skipAddingNegative: false
     },
     {
@@ -78,6 +82,7 @@ export function getDefaultOptions(): CommandOption[] {
       alias: ["hide-banner"],
       kind: CommandParameterKinds.boolean,
       optional: true,
+      variadic: false,
       default: false
     }
   ];

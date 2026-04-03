@@ -95,7 +95,7 @@ async function initialize<TContext extends Context = Context>(
       context,
       command.entry.input,
       {
-        name: `${command.title} Command Module`,
+        name: command.title || titleCase(command.name),
         plugins: [
           esbuildPlugin(context, {
             reflection: "default",

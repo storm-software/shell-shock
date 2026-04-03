@@ -65,13 +65,7 @@ export function ZshScriptCompletionsCommand() {
         "../shared": ["SHELL_COMPLETIONS", "SHELL_COMPLETIONS_DISPLAY"]
       }}
       builtinImports={{
-        "shell-shock:console": [
-          "colors",
-          "writeLine",
-          "success",
-          "warn",
-          "help"
-        ]
+        console: ["bold", "writeLine", "success", "warn", "help"]
       }}>
       <TSDoc heading="Options for the Zsh Completions - Script command." />
       <InterfaceDeclaration export name="ZshScriptCompletionsOptions">
@@ -113,7 +107,7 @@ export function ZshScriptCompletionsCommand() {
 
             success(\`${getAppTitle(
               context
-            )} Zsh completion script has been generated at \${colors.bold(scriptPath)}.\`);`}
+            )} Zsh completion script has been generated at \${bold(scriptPath)}.\`);`}
         </IfStatement>
         <ElseClause>
           {code`writeLine(" ------------------------------------------------- ");

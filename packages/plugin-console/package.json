@@ -1,18 +1,29 @@
 {
   "name": "@shell-shock/plugin-console",
   "version": "0.1.35",
-  "type": "module",
+  "private": false,
   "description": "A package containing a Shell Shock plugin to generate the `console` built-in module.",
-  "repository": {
-    "type": "github",
-    "url": "https://github.com/storm-software/shell-shock.git",
-    "directory": "packages/plugin-console"
-  },
+  "keywords": [
+    "shell-shock",
+    "shell-shock-plugin",
+    "powerlines",
+    "storm-software"
+  ],
   "homepage": "https://stormsoftware.com",
   "bugs": {
     "url": "https://stormsoftware.com/support",
     "email": "support@stormsoftware.com"
   },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/shell-shock.git",
+    "directory": "packages/plugin-console"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
   "author": {
     "name": "Storm Software",
     "email": "contact@stormsoftware.com",
@@ -32,14 +43,7 @@
       "url": "https://stormsoftware.com"
     }
   ],
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/storm-software"
-  },
-  "license": "Apache-2.0",
-  "private": false,
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "type": "module",
   "exports": {
     ".": {
       "require": {
@@ -113,16 +117,11 @@
       }
     }
   },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
   "files": ["dist/**/*"],
-  "keywords": [
-    "style-dictionary",
-    "shell-shock",
-    "shell-shock-plugin",
-    "powerlines",
-    "storm-software"
-  ],
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/typescript": "catalog:",
@@ -132,6 +131,7 @@
     "@shell-shock/core": "workspace:*",
     "@shell-shock/plugin-theme": "workspace:*",
     "@stryke/string-format": "catalog:",
+    "@stryke/type-checks": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:"
   },
