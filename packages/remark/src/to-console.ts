@@ -16,37 +16,24 @@
 
  ------------------------------------------------------------------- */
 
-import { isSetString } from "@stryke/type-checks/is-set-string";
 import type { Association, Node } from "mdast";
 import { decodeString } from "micromark-util-decode-string";
 import { zwitch } from "zwitch";
-import {
-  between,
-  encodeCharacterReference,
-  indentLines,
-  join,
-  safe
-} from "./helpers";
+import { indentLines, join, safe } from "./helpers";
 import {
   blockquote,
   code,
-  definition,
   deleteNode,
   emphasis,
-  footnoteDefinition,
-  footnoteReference,
   hardBreak,
   heading,
   html,
-  image,
-  imageReference,
   inlineCode,
   link,
   linkReference,
   list,
   listItem,
   paragraph,
-  root,
   strong,
   table,
   tableCell,
@@ -58,15 +45,10 @@ import {
 import type {
   CompilePattern,
   ConstructName,
-  FlowParents,
-  Info,
   Join,
   Options,
-  PhrasingParents,
-  RenderAdapter,
   SafeConfig,
   State,
-  TrackFields,
   Unsafe
 } from "./types";
 
@@ -82,20 +64,16 @@ const handlers = {
   blockquote,
   break: hardBreak,
   code,
-  definition,
   emphasis,
   hardBreak,
   heading,
   html,
-  image,
-  imageReference,
   inlineCode,
   link,
   linkReference,
   list,
   listItem,
   paragraph,
-  root,
   strong,
   text,
   thematicBreak,
@@ -103,8 +81,6 @@ const handlers = {
   tableRow,
   tableCell,
   delete: deleteNode,
-  footnoteDefinition,
-  footnoteReference,
   yaml
 };
 
@@ -272,179 +248,13 @@ const unsafe = [
  */
 export function toConsole(tree: Node, options: Options): string {
   const state = {
-    adapter: Object.fromEntries(
-      Object.entries(options.adapter).map(([key, value]) => [
-        key,
-        isSetString(value) ? { before: `${value}(\``, after: `\`); ` } : value
-      ])
-    ) as RenderAdapter,
+    adapter: options.adapter,
     associationId: (node: Association) => {
       if (node.label || !node.identifier) {
         return node.label || "";
       }
 
       return decodeString(node.identifier);
-    },
-    containerPhrasing: (parent: PhrasingParents, info: Info) => {
-      const indexStack = state.indexStack;
-      const children = parent.children || [];
-
-      const results = [] as Array<string | undefined>;
-      let index = -1;
-      let before = info.before;
-
-      let encodeAfter;
-
-      indexStack.push(-1);
-      let tracker = state.createTracker(info);
-
-      while (++index < children.length) {
-        const child = children[index];
-        let after;
-
-        indexStack[indexStack.length - 1] = index;
-
-        if (index + 1 < children.length && children[index + 1]) {
-          let handle = state.handlers[children[index + 1]!.type];
-          if (handle && handle.peek) handle = handle.peek;
-          after = handle
-            ? handle(children[index + 1], parent, state, {
-                before: "",
-                after: "",
-                ...tracker.current()
-              }).charAt(0)
-            : "";
-        } else {
-          after = info.after;
-        }
-
-        if (
-          results.length > 0 &&
-          (before === "\r" || before === "\n") &&
-          child?.type === "html"
-        ) {
-          results[results.length - 1] = results[results.length - 1]?.replace(
-            /(?:\r?\n|\r)$/,
-            " "
-          );
-          before = " ";
-
-          // To do: does this work to reset tracker?
-          tracker = state.createTracker(info);
-          tracker.move(results.join(""));
-        }
-
-        let value = state.handle(child, parent, state, {
-          ...tracker.current(),
-          after,
-          before
-        });
-
-        if (encodeAfter && encodeAfter === value.slice(0, 1)) {
-          value =
-            encodeCharacterReference(encodeAfter.charCodeAt(0)) +
-            value.slice(1);
-        }
-
-        const encodingInfo = state.attentionEncodeSurroundingInfo;
-        state.attentionEncodeSurroundingInfo = undefined;
-        encodeAfter = undefined;
-
-        if (encodingInfo) {
-          if (
-            results.length > 0 &&
-            encodingInfo.before &&
-            results[results.length - 1] &&
-            before === results[results.length - 1]?.slice(-1)
-          ) {
-            results[results.length - 1] =
-              results[results.length - 1]!.slice(0, -1) +
-              encodeCharacterReference(before.charCodeAt(0));
-          }
-
-          if (encodingInfo.after) encodeAfter = after;
-        }
-
-        tracker.move(value);
-        results.push(value);
-        before = value.slice(-1);
-      }
-
-      indexStack.pop();
-
-      return results.join("");
-    },
-    containerFlow: (parent: FlowParents, info: TrackFields) => {
-      const indexStack = state.indexStack;
-      const children = parent.children || [];
-      const tracker = state.createTracker(info);
-
-      const results = [];
-      let index = -1;
-
-      indexStack.push(-1);
-
-      while (++index < children.length) {
-        const child = children[index];
-
-        indexStack[indexStack.length - 1] = index;
-
-        results.push(
-          tracker.move(
-            state.handle(child, parent, state, {
-              before: "\n",
-              after: "\n",
-              ...tracker.current()
-            })
-          )
-        );
-
-        if (child?.type !== "list") {
-          state.listMarkerLastUsed = undefined;
-        }
-
-        if (child && index < children.length - 1 && children[index + 1]) {
-          results.push(
-            tracker.move(between(child, children[index + 1]!, parent, state))
-          );
-        }
-      }
-
-      indexStack.pop();
-
-      return results.join("");
-    },
-    createTracker: (config: any) => {
-      const options = config || {};
-      const now = options.now || {};
-      let lineShift = options.lineShift || 0;
-      let line = now.line || 1;
-      let column = now.column || 1;
-
-      function current() {
-        return { now: { line, column }, lineShift };
-      }
-
-      function shift(value: any) {
-        lineShift += value;
-      }
-
-      function move(input: string) {
-        const value = input || "";
-        const chunks = value.split(/\r?\n|\r/);
-        const tail = chunks[chunks.length - 1];
-        if (tail) {
-          line += chunks.length - 1;
-          column =
-            chunks.length === 1
-              ? column + tail.length
-              : 1 + tail.length + lineShift;
-        }
-
-        return value;
-      }
-
-      return { move, current, shift };
     },
     compilePattern: ((pattern: Unsafe) => {
       if (!pattern._compiled) {

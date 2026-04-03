@@ -17,10 +17,8 @@
  ------------------------------------------------------------------- */
 
 import { isString } from "@stryke/type-checks/is-string";
-import type { Code, Heading } from "mdast";
-import { toString } from "mdast-util-to-string";
+import type { Code } from "mdast";
 import { classifyCharacter } from "micromark-util-classify-character";
-import { EXIT, visit } from "unist-util-visit";
 import type {
   ConstructName,
   FlowChildren,
@@ -29,34 +27,6 @@ import type {
   State,
   Unsafe
 } from "./types";
-
-export function checkRuleRepetition(state: State) {
-  const repetition = state.options.ruleRepetition ?? 3;
-
-  if (repetition < 3) {
-    throw new Error(
-      `Cannot serialize rules with repetition \`${
-        repetition
-      }\` for \`options.ruleRepetition\`, expected \`3\` or more`
-    );
-  }
-
-  return repetition;
-}
-
-export function checkRule(state: State) {
-  const marker = state.options.rule ?? "*";
-
-  if (marker !== "*" && marker !== "-" && marker !== "_") {
-    throw new Error(
-      `Cannot serialize rules with \`${String(
-        marker
-      )}\` for \`options.rule\`, expected \`*\`, \`-\`, or \`_\``
-    );
-  }
-
-  return marker;
-}
 
 /**
  * Encode a code point as a character reference.
@@ -123,54 +93,6 @@ export function encodeInfo(outside: number, inside: number, marker: "*" | "_") {
         { inside: true, outside: false }
       : // Punctuation inside: already forms.
         { inside: false, outside: false };
-}
-
-export function checkListItemIndent(state: State) {
-  const style = state.options.listItemIndent || "one";
-
-  if (style !== "tab" && style !== "one" && style !== "mixed") {
-    throw new Error(
-      `Cannot serialize items with \`${String(
-        style
-      )}\` for \`options.listItemIndent\`, expected \`tab\`, \`one\`, or \`mixed\``
-    );
-  }
-
-  return style;
-}
-
-export function checkQuote(state: State) {
-  const marker = state.options.quote || '"';
-
-  if (marker !== '"' && marker !== "'") {
-    throw new Error(
-      `Cannot serialize title with \`${String(
-        marker
-      )}\` for \`options.quote\`, expected \`"\`, or \`'\``
-    );
-  }
-
-  return marker;
-}
-
-export function formatHeadingAsSetext(node: Heading, state: State) {
-  let literalWithBreak = false;
-  visit(node, node => {
-    if (
-      ("value" in node && /\r?\n|\r/.test(node.value)) ||
-      node.type === "break"
-    ) {
-      literalWithBreak = true;
-      return EXIT;
-    }
-    return undefined;
-  });
-
-  return Boolean(
-    (!node.depth || node.depth < 3) &&
-    toString(node) &&
-    (state.options.setext ?? literalWithBreak)
-  );
 }
 
 export function formatCodeAsIndented(node: Code) {
@@ -382,8 +304,7 @@ export function safe(state: State, input: string, config: SafeConfig) {
 export function join(
   left: FlowChildren,
   right: FlowChildren,
-  parent: FlowParents,
-  state: State
+  parent: FlowParents
 ) {
   // Indented code after list or another indented code.
   if (
@@ -404,7 +325,7 @@ export function join(
       (left.type === right.type ||
         right.type === "definition" ||
         // Paragraph followed by a setext heading.
-        (right.type === "heading" && formatHeadingAsSetext(right, state)))
+        right.type === "heading")
     ) {
       return;
     }

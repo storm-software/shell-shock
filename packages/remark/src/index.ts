@@ -16,9 +16,11 @@
 
  ------------------------------------------------------------------- */
 
+import defu from "defu";
 import type { Node } from "mdast";
 import { gfmStrikethroughFromMarkdown } from "mdast-util-gfm-strikethrough";
 import { gfmStrikethrough } from "micromark-extension-gfm-strikethrough";
+import type { Options as ParseOptions } from "remark-parse";
 import remarkParse from "remark-parse";
 import type { Compiler, CompileResults, Processor } from "unified";
 import { unified } from "unified";
@@ -42,12 +44,18 @@ export function plugin(this: Processor, options: Options) {
   }) as Compiler<Node, CompileResults>;
 }
 
-const processor = (options: Options) =>
+const processor = (options: Options & ParseOptions) =>
   unified()
-    .use(remarkParse, {
-      extensions: [gfmStrikethrough()],
-      mdastExtensions: [gfmStrikethroughFromMarkdown()]
-    })
+    .use(
+      remarkParse,
+      defu(
+        {
+          extensions: [gfmStrikethrough()],
+          mdastExtensions: [gfmStrikethroughFromMarkdown()]
+        },
+        options
+      )
+    )
     .use(plugin, options)
     .freeze();
 

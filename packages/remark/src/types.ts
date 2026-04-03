@@ -609,128 +609,71 @@ export type Join = (
  */
 export type Map = (value: string, line: number, blank: boolean) => string;
 
-export type RenderComponentKeys =
-  | "heading1"
-  | "heading2"
-  | "heading3"
-  | "heading4"
-  | "heading5"
-  | "body1"
-  | "body2"
-  | "body3"
-  | "bold"
-  | "italic"
-  | "strikethrough"
-  | "underline"
-  | "blockquote"
-  | "link"
-  | "table"
-  | "code"
-  | "inlineCode"
-  | "break"
-  | "horizontal";
-
-export type ComponentRenderAdapter = Record<RenderComponentKeys, string>;
-
-export interface RenderAdapterItem extends SafeFields {
-  process?: (content: string) => string;
-}
-
 export interface RenderAdapter {
   /**
-   * Heading level 1.
+   * Heading text.
    */
-  heading1: RenderAdapterItem;
+  heading: (text: string, level: number) => string;
 
   /**
-   * Heading level 2.
+   * Body text.
    */
-  heading2: RenderAdapterItem;
-
-  /**
-   * Heading level 3.
-   */
-  heading3: RenderAdapterItem;
-
-  /**
-   * Heading level 4.
-   */
-  heading4: RenderAdapterItem;
-
-  /**
-   * Heading level 5.
-   */
-  heading5: RenderAdapterItem;
-
-  /**
-   * Body text level 1.
-   */
-  body1: RenderAdapterItem;
-
-  /**
-   * Body text level 2.
-   */
-  body2: RenderAdapterItem;
-
-  /**
-   * Body text level 3.
-   */
-  body3: RenderAdapterItem;
+  body: (text: string) => string;
 
   /**
    * Bold text.
    */
-  bold: RenderAdapterItem;
+  bold: (text: string) => string;
 
   /**
    * Italic text.
    */
-  italic: RenderAdapterItem;
+  italic: (text: string) => string;
 
   /**
    * Strikethrough text.
    */
-  strikethrough: RenderAdapterItem;
+  strikethrough: (text: string) => string;
 
   /**
    * Underlined text.
    */
-  underline: RenderAdapterItem;
+  underline: (text: string) => string;
 
   /**
    * Blockquote text.
    */
-  blockquote: RenderAdapterItem;
+  blockquote: (text: string) => string;
 
   /**
    * Link text.
    */
-  link: RenderAdapterItem;
+  link: (url: string, text?: string) => string;
 
   /**
    * Table.
    */
-  table: RenderAdapterItem;
+  table: (cells: string[][]) => string;
 
   /**
    * Code block.
    */
-  code: RenderAdapterItem;
+  code: (text: string, language?: string) => string;
 
   /**
    * Inline code.
    */
-  inlineCode: RenderAdapterItem;
+  inlineCode: (text: string) => string;
 
   /**
    * Line break.
    */
-  break: RenderAdapterItem;
+  break: () => string;
 
   /**
    * Horizontal divider.
    */
-  horizontal: RenderAdapterItem;
+  horizontal: () => string;
 }
 
 /**
@@ -740,87 +683,7 @@ export interface Options {
   /**
    * The rendering components to use for console output.
    */
-  adapter: ComponentRenderAdapter | RenderAdapter;
-
-  /**
-   * Whether to add the same number of number signs (`#`) at the end of an ATX heading as the opening sequence.
-   *
-   * @defaultValue false
-   */
-  closeAtx?: boolean;
-
-  /**
-   * Whether to increment the counter of ordered lists items.
-   *
-   * @defaultValue true
-   */
-  incrementListMarker?: boolean;
-
-  /**
-   * How to indent the content of list items.
-   *
-   * @remarks
-   * Either with the size of the bullet plus one space (when `'one'`), a tab stop (`'tab'`), or depending on the item and its parent list (`'mixed'`, uses `'one'` if the item and list are tight and `'tab'` otherwise).
-   *
-   * @defaultValue "one"
-   */
-  listItemIndent?: "mixed" | "one" | "tab";
-
-  /**
-   * Marker to use for titles.
-   *
-   * @defaultValue '"'
-   */
-  quote?: '"' | "'" | null;
-
-  /**
-   * Number of markers to use for thematic breaks.
-   *
-   * @defaultValue 3
-   */
-  ruleRepetition?: number;
-
-  /**
-   * Whether to add spaces between markers in thematic breaks.
-   *
-   * @defaultValue false
-   */
-  ruleSpaces?: boolean;
-
-  /**
-   * Marker to use for thematic breaks.
-   *
-   * @defaultValue "*"
-   */
-  rule?: "*" | "-" | "_";
-
-  /**
-   * Whether to use setext headings when possible (default: `false`).
-   *
-   * @remarks
-   * The default is to always use ATX headings (`# heading`) instead of setext headings (`heading\n=======`). Setext headings cannot be used for empty headings or headings with a rank of three or more.
-   */
-  setext?: boolean;
-
-  /**
-   * Whether to join definitions without a blank line.
-   *
-   * The default is to add blank lines between any flow (“block”) construct.
-   * Turning this option on is a shortcut for a join function like so:
-   *
-   * ```js
-   * function joinTightDefinitions(left, right) {
-   *   if (left.type === 'definition' && right.type === 'definition') {
-   *     return 0
-   *   }
-   * }
-   * ```
-   *
-   * This option is useful when you want to serialize definitions in a tight way, without blank lines between them, but you don’t want to add blank lines between other flow constructs.
-   *
-   * @defaultValue false
-   */
-  tightDefinitions?: boolean;
+  adapter: RenderAdapter;
 }
 
 /**
@@ -900,19 +763,6 @@ export interface State {
   associationId: AssociationId;
 
   /**
-   * Info on whether to encode the surrounding of *attention*.
-   *
-   * Whether attention (emphasis, strong, strikethrough) forms
-   * depends on the characters inside and outside them.
-   * The characters inside can be handled by *attention* itself.
-   * However the outside characters are already handled.
-   * Or handled afterwards.
-   * This field can be used to signal from *attention* that some parent
-   * function (practically `containerPhrasing`) has to handle the surrounding.
-   */
-  attentionEncodeSurroundingInfo?: EncodeSurrounding;
-
-  /**
    * List marker currently in use.
    */
   listMarkerCurrent?: string;
@@ -928,21 +778,6 @@ export interface State {
   compilePattern: CompilePattern;
 
   /**
-   * Serialize the children of a parent that contains phrasing children.
-   */
-  containerPhrasing: ContainerPhrasing;
-
-  /**
-   * Serialize the children of a parent that contains flow children.
-   */
-  containerFlow: ContainerFlow;
-
-  /**
-   * Track positional info in the output.
-   */
-  createTracker: CreateTracker;
-
-  /**
    * Enter a construct (returns a corresponding exit function).
    */
   enter: Enter;
@@ -950,7 +785,7 @@ export interface State {
   /**
    * Applied handlers.
    */
-  handlers: Handlers;
+  handlers: Partial<Handlers>;
 
   /**
    * Call the configured handler for the given node.

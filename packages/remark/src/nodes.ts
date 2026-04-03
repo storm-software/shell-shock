@@ -16,20 +16,14 @@
 
  ------------------------------------------------------------------- */
 
-import { longestStreak } from "longest-streak";
 import type {
   Blockquote,
   Break,
   Code,
-  Definition,
   Delete,
   Emphasis,
-  FootnoteDefinition,
-  FootnoteReference,
   Heading,
   Html,
-  Image,
-  ImageReference,
   InlineCode,
   Link,
   LinkReference,
@@ -37,7 +31,6 @@ import type {
   ListItem,
   Paragraph,
   Parents,
-  Root,
   Strong,
   Table,
   TableCell,
@@ -46,35 +39,9 @@ import type {
   ThematicBreak,
   Yaml
 } from "mdast";
-import { phrasing } from "mdast-util-phrasing";
 import { toString } from "mdast-util-to-string";
-import {
-  checkListItemIndent,
-  checkQuote,
-  checkRule,
-  checkRuleRepetition,
-  encodeCharacterReference,
-  formatCodeAsIndented,
-  formatHeadingAsSetext,
-  patternInScope
-} from "./helpers";
-import type { Info, RenderAdapter, State } from "./types";
-
-export function root(
-  node: Root,
-  _: Parents | undefined,
-  state: State,
-  info: Info
-) {
-  // Note: `html` nodes are ambiguous.
-  const hasPhrasing = node.children.some(d => {
-    return phrasing(d);
-  });
-
-  const container = hasPhrasing ? state.containerPhrasing : state.containerFlow;
-
-  return container.call(state, node, info);
-}
+import { formatCodeAsIndented, patternInScope } from "./helpers";
+import type { Info, State } from "./types";
 
 export function text(
   node: Text,
@@ -90,11 +57,7 @@ export function thematicBreak(
   _: Parents | undefined,
   state: State
 ) {
-  const value = (
-    checkRule(state) + (state.options.ruleSpaces ? " " : "")
-  ).repeat(checkRuleRepetition(state));
-
-  return state.options.ruleSpaces ? value.slice(0, -1) : value;
+  return state.adapter.horizontal();
 }
 
 export function strong(
@@ -104,25 +67,14 @@ export function strong(
   info: Info
 ) {
   const exit = state.enter("strong");
-  const tracker = state.createTracker(info);
 
-  const before = tracker.move(state.adapter.bold.before);
-  const between = tracker.move(
-    state.containerPhrasing(node, {
-      after: state.adapter.bold.after,
-      before,
-      ...tracker.current()
-    })
+  const result = state.adapter.bold(
+    node.children.map(child => state.handle(child, node, state, info)).join("")
   );
-  const after = tracker.move(state.adapter.bold.after);
 
   exit();
 
-  state.attentionEncodeSurroundingInfo = {
-    after: true,
-    before: true
-  };
-  return before + between + after;
+  return result;
 }
 
 export function paragraph(
@@ -132,11 +84,13 @@ export function paragraph(
   info: Info
 ) {
   const exit = state.enter("paragraph");
-  const subexit = state.enter("phrasing");
-  const value = state.containerPhrasing(node, info);
-  subexit();
+
+  const result = state.adapter.body(
+    node.children.map(child => state.handle(child, node, state, info)).join("")
+  );
+
   exit();
-  return value;
+  return result;
 }
 
 export function list(
@@ -185,33 +139,6 @@ export function list(
     ) {
       useDifferentMarker = true;
     }
-
-    // If there’s a thematic break at the start of the first list item,
-    // we have to use a different bullet:
-    //
-    // ```markdown
-    // * ---
-    // ```
-    //
-    // …because otherwise it would become one big thematic break.
-    if (checkRule(state) === listMarker && firstListItem) {
-      let index = -1;
-
-      while (++index < node.children.length) {
-        const item = node.children[index];
-
-        if (
-          item &&
-          item.type === "listItem" &&
-          item.children &&
-          item.children[0] &&
-          item.children[0].type === "thematicBreak"
-        ) {
-          useDifferentMarker = true;
-          break;
-        }
-      }
-    }
   }
 
   if (useDifferentMarker) {
@@ -219,11 +146,16 @@ export function list(
   }
 
   state.listMarkerCurrent = listMarker;
-  const value = state.containerFlow(node, info);
+
+  const result = node.children
+    .map(child => state.handle(child, node, state, info))
+    .join("");
+
   state.listMarkerLastUsed = listMarker;
   state.listMarkerCurrent = listMarkerCurrent;
   exit();
-  return value;
+
+  return result;
 }
 
 export function listItem(
@@ -232,7 +164,6 @@ export function listItem(
   state: State,
   info: Info
 ) {
-  const listItemIndent = checkListItemIndent(state);
   let listMarker = state.listMarkerCurrent || "-";
 
   // Add the marker value for ordered lists.
@@ -241,28 +172,16 @@ export function listItem(
       (typeof parent.start === "number" && parent.start > -1
         ? parent.start
         : 1) +
-      (state.options.incrementListMarker === false
-        ? 0
-        : parent.children.indexOf(node)) +
+      parent.children.indexOf(node) +
       listMarker;
   }
 
-  let size = listMarker.length + 1;
+  const size = listMarker.length + 1;
 
-  if (
-    listItemIndent === "tab" ||
-    (listItemIndent === "mixed" &&
-      ((parent && parent.type === "list" && parent.spread) || node.spread))
-  ) {
-    size = Math.ceil(size / 4) * 4;
-  }
-
-  const tracker = state.createTracker(info);
-  tracker.move(listMarker + " ".repeat(size - listMarker.length));
-  tracker.shift(size);
   const exit = state.enter("listItem");
+
   const value = state.indentLines(
-    state.containerFlow(node, tracker.current()),
+    node.children.map(child => state.handle(child, node, state, info)).join(""),
     (line, index, blank) => {
       if (index) {
         return (blank ? "" : " ".repeat(size)) + line;
@@ -275,6 +194,7 @@ export function listItem(
       );
     }
   );
+
   exit();
 
   return value;
@@ -286,12 +206,7 @@ export function link(
   state: State,
   info: Info
 ) {
-  const quote = checkQuote(state);
-  const suffix = quote === '"' ? "Quote" : "Apostrophe";
-  const tracker = state.createTracker(info);
-
   let exit;
-  let subexit;
 
   const raw = toString(node);
   if (
@@ -305,85 +220,45 @@ export function link(
     // eslint-disable-next-line regexp/no-obscure-range
     !/[\0- <>\u007F]/.test(node.url)
   ) {
-    // Hide the fact that we’re in phrasing, because escapes don’t work.
-    const stack = state.stack;
-    state.stack = [];
     exit = state.enter("link");
-    let value = tracker.move(state.adapter.link.before);
-    value += tracker.move(
-      state.containerPhrasing(node, {
-        before: value,
-        after: state.adapter.link.after,
-        ...tracker.current()
-      })
-    );
-    value += tracker.move(state.adapter.link.after);
+    const result = state.adapter.link(node.url);
     exit();
-    state.stack = stack;
-    return value;
+
+    return result;
+  }
+
+  if (node.title) {
+    if (
+      // If there’s no url but there is a title…
+      !node.url ||
+      // If there are control characters or whitespace.
+      // eslint-disable-next-line regexp/no-obscure-range
+      /[\0- \u007F]/.test(node.url)
+    ) {
+      return node.title;
+    } else {
+      exit = state.enter("link");
+      const result = state.adapter.link(node.url, node.title);
+      exit();
+
+      return result;
+    }
+  }
+
+  if (!node.url) {
+    return node.children
+      .map(child => state.handle(child, node, state, info))
+      .join("");
   }
 
   exit = state.enter("link");
-  subexit = state.enter("label");
-  let value = tracker.move(state.adapter.link.before);
-  value += tracker.move(
-    state.containerPhrasing(node, {
-      before: value,
-      after: ", ",
-      ...tracker.current()
-    })
+  const result = state.adapter.link(
+    node.url,
+    node.children.map(child => state.handle(child, node, state, info)).join("")
   );
-  value += tracker.move(", ");
-  subexit();
-
-  if (
-    // If there’s no url but there is a title…
-    (!node.url && node.title) ||
-    // If there are control characters or whitespace.
-    // eslint-disable-next-line regexp/no-obscure-range
-    /[\0- \u007F]/.test(node.url)
-  ) {
-    subexit = state.enter("destinationLiteral");
-    value += tracker.move(
-      state.safe(node.url, {
-        before: value,
-        after: state.adapter.link.after,
-        ...tracker.current()
-      })
-    );
-    value += tracker.move(state.adapter.link.after);
-  } else {
-    // No whitespace, raw is prettier.
-    subexit = state.enter("destinationRaw");
-    value += tracker.move(
-      state.safe(node.url, {
-        before: value,
-        after: state.adapter.link.after,
-        ...tracker.current()
-      })
-    );
-  }
-
-  subexit();
-
-  if (node.title) {
-    subexit = state.enter(`title${suffix}`);
-    value += tracker.move(` ${quote}`);
-    value += tracker.move(
-      state.safe(node.title, {
-        before: value,
-        after: quote,
-        ...tracker.current()
-      })
-    );
-    value += tracker.move(quote);
-    subexit();
-  }
-
-  value += tracker.move(state.adapter.link.after);
-
   exit();
-  return value;
+
+  return result;
 }
 
 export function linkReference(
@@ -393,134 +268,22 @@ export function linkReference(
   info: Info
 ) {
   const exit = state.enter("linkReference");
-  const value = state.containerPhrasing(node, info);
+
+  const result = state.adapter.link(
+    node.children.map(child => state.handle(child, node, state, info)).join("")
+  );
 
   exit();
 
-  return value;
+  return result;
 }
 
 export function inlineCode(
   node: InlineCode,
   _: Parents | undefined,
-  state: State,
-  info: Info
+  state: State
 ) {
-  const tracker = state.createTracker(info);
-  const value = tracker.move(state.adapter.inlineCode.before);
-  const content = node.value || "";
-  const backticks = longestStreak(content, "`") + 1;
-  const fence = "`".repeat(backticks);
-  const before = tracker.move(fence);
-  const between = tracker.move(
-    state.safe(content, {
-      before,
-      after: fence,
-      ...tracker.current()
-    })
-  );
-  const after = tracker.move(fence);
-
-  return value + before + between + after;
-}
-
-export function image(_: Image, __: Parents | undefined) {
-  // const quote = checkQuote(state);
-  // const suffix = quote === '"' ? "Quote" : "Apostrophe";
-  // const exit = state.enter("image");
-  // let subexit = state.enter("label");
-  // const tracker = state.createTracker(info);
-  // let value = tracker.move("![");
-  // value += tracker.move(
-  //   state.safe(node.alt, { before: value, after: "]", ...tracker.current() })
-  // );
-  // value += tracker.move("](");
-  // subexit();
-  // if (
-  //   // If there’s no url but there is a title…
-  //   (!node.url && node.title) ||
-  //   // If there are control characters or whitespace.
-  //   // eslint-disable-next-line regexp/no-obscure-range
-  //   /[\0- \u007F]/.test(node.url)
-  // ) {
-  //   subexit = state.enter("destinationLiteral");
-  //   value += tracker.move("<");
-  //   value += tracker.move(
-  //     state.safe(node.url, { before: value, after: ">", ...tracker.current() })
-  //   );
-  //   value += tracker.move(">");
-  // } else {
-  //   // No whitespace, raw is prettier.
-  //   subexit = state.enter("destinationRaw");
-  //   value += tracker.move(
-  //     state.safe(node.url, {
-  //       before: value,
-  //       after: node.title ? " " : ")",
-  //       ...tracker.current()
-  //     })
-  //   );
-  // }
-  // subexit();
-  // if (node.title) {
-  //   subexit = state.enter(`title${suffix}`);
-  //   value += tracker.move(` ${quote}`);
-  //   value += tracker.move(
-  //     state.safe(node.title, {
-  //       before: value,
-  //       after: quote,
-  //       ...tracker.current()
-  //     })
-  //   );
-  //   value += tracker.move(quote);
-  //   subexit();
-  // }
-  // value += tracker.move(")");
-  // exit();
-  // return value;
-
-  return "";
-}
-
-export function imageReference(_: ImageReference, __: Parents | undefined) {
-  // const type = node.referenceType;
-  // const exit = state.enter("imageReference");
-  // let subexit = state.enter("label");
-  // const tracker = state.createTracker(info);
-  // let value = tracker.move("![");
-  // const alt = state.safe(node.alt, {
-  //   before: value,
-  //   after: "]",
-  //   ...tracker.current()
-  // });
-  // value += tracker.move(`${alt}][`);
-  // subexit();
-  // // Hide the fact that we’re in phrasing, because escapes don’t work.
-  // const stack = state.stack;
-  // state.stack = [];
-  // subexit = state.enter("reference");
-  // // Note: for proper tracking, we should reset the output positions when we end
-  // // up making a `shortcut` reference, because then there is no brace output.
-  // // Practically, in that case, there is no content, so it doesn’t matter that
-  // // we’ve tracked one too many characters.
-  // const reference = state.safe(state.associationId(node), {
-  //   before: value,
-  //   after: "]",
-  //   ...tracker.current()
-  // });
-  // subexit();
-  // state.stack = stack;
-  // exit();
-  // if (type === "full" || !alt || alt !== reference) {
-  //   value += tracker.move(`${reference}]`);
-  // } else if (type === "shortcut") {
-  //   // Remove the unwanted `[`.
-  //   value = value.slice(0, -1);
-  // } else {
-  //   value += tracker.move("]");
-  // }
-  // return value;
-
-  return "";
+  return state.adapter.inlineCode(node.value);
 }
 
 export function html(node: Html) {
@@ -534,62 +297,11 @@ export function heading(
   info: Info
 ) {
   const rank = Math.max(Math.min(6, node.depth || 1), 1);
-  const tracker = state.createTracker(info);
 
-  if (formatHeadingAsSetext(node, state)) {
-    const exit = state.enter("headingSetext");
-    const subexit = state.enter("phrasing");
-    const value = state.containerPhrasing(node, {
-      ...tracker.current(),
-      before: "\n",
-      after: "\n"
-    });
-    subexit();
-    exit();
-
-    return `${value}\n${(rank === 1 ? "=" : "-").repeat(
-      // The whole size…
-      value.length -
-        // Minus the position of the character after the last EOL (or
-        // 0 if there is none)…
-        (Math.max(value.lastIndexOf("\r"), value.lastIndexOf("\n")) + 1)
-    )}`;
-  }
-
-  const heading =
-    state.adapter[`heading${rank}` as keyof RenderAdapter] ||
-    state.adapter.heading1;
-
-  const exit = state.enter("headingAtx");
-  const subexit = state.enter("phrasing");
-
-  // Note: for proper tracking, we should reset the output positions when there
-  // is no content returned, because then the space is not output.
-  // Practically, in that case, there is no content, so it doesn’t matter that
-  // we’ve tracked one too many characters.
-  tracker.move(heading.before);
-
-  let value = state.containerPhrasing(node, {
-    before: heading.before,
-    after: heading.after,
-    ...tracker.current()
-  });
-
-  if (/^[\t ]/.test(value)) {
-    // To do: what effect has the character reference on tracking?
-    value = encodeCharacterReference(value.charCodeAt(0)) + value.slice(1);
-  }
-
-  value = value ? `${heading.before} ${value}` : heading.before;
-
-  if (state.options.closeAtx) {
-    value += ` ${heading.after}`;
-  }
-
-  subexit();
-  exit();
-
-  return value;
+  return state.adapter.heading(
+    node.children.map(child => state.handle(child, node, state, info)).join(""),
+    rank
+  );
 }
 
 export function emphasis(
@@ -599,155 +311,33 @@ export function emphasis(
   info: Info
 ) {
   const exit = state.enter("emphasis");
-  const tracker = state.createTracker(info);
 
-  const before = tracker.move(state.adapter.italic.before);
-  const between = tracker.move(
-    state.containerPhrasing(node, {
-      after: state.adapter.italic.after,
-      before,
-      ...tracker.current()
-    })
+  const result = state.adapter.italic(
+    node.children.map(child => state.handle(child, node, state, info)).join("")
   );
-  const after = tracker.move(state.adapter.italic.after);
 
   exit();
 
-  state.attentionEncodeSurroundingInfo = {
-    after: true,
-    before: true
-  };
-  return before + between + after;
+  return result;
 }
 
-export function definition(_: Definition, __: Parents | undefined) {
-  // const quote = checkQuote(state);
-  // const suffix = quote === '"' ? "Quote" : "Apostrophe";
-  // const exit = state.enter("definition");
-  // let subexit = state.enter("label");
-  // const tracker = state.createTracker(info);
-  // let value = tracker.move(state.adapter.link.before);
-  // value += tracker.move(
-  //   state.safe(state.associationId(node), {
-  //     before: value,
-  //     after: state.adapter.link.after,
-  //     ...tracker.current()
-  //   })
-  // );
-  // value += tracker.move(`${state.adapter.link.after}: `);
-
-  // subexit();
-
-  // if (
-  //   !node.url ||
-  //   // eslint-disable-next-line regexp/no-obscure-range
-  //   /[\0- \u007F]/.test(node.url)
-  // ) {
-  //   subexit = state.enter("destinationLiteral");
-  //   value += tracker.move(state.adapter.link.before);
-  //   value += tracker.move(
-  //     state.safe(node.url, {
-  //       before: value,
-  //       after: state.adapter.link.after,
-  //       ...tracker.current()
-  //     })
-  //   );
-  //   value += tracker.move(state.adapter.link.after);
-  // } else {
-  //   // No whitespace, raw is prettier.
-  //   subexit = state.enter("destinationRaw");
-  //   value += tracker.move(
-  //     state.safe(node.url, {
-  //       before: value,
-  //       after: node.title
-  //         ? ` ${state.adapter.link.after}`
-  //         : `\n${state.adapter.link.after}`,
-  //       ...tracker.current()
-  //     })
-  //   );
-  // }
-
-  // subexit();
-
-  // if (node.title) {
-  //   subexit = state.enter(`title${suffix}`);
-  //   value += tracker.move(` ${quote}`);
-  //   value += tracker.move(
-  //     state.safe(node.title, {
-  //       before: value,
-  //       after: quote,
-  //       ...tracker.current()
-  //     })
-  //   );
-  //   value += tracker.move(quote);
-  //   subexit();
-  // }
-
-  // exit();
-
-  // return value;
-
-  return "";
-}
-
-export function code(
-  node: Code,
-  _: Parents | undefined,
-  state: State,
-  info: Info
-) {
+export function code(node: Code, _: Parents | undefined, state: State) {
   const raw = node.value || "";
 
   if (formatCodeAsIndented(node)) {
     const exit = state.enter("codeIndented");
-    const value = state.indentLines(raw, (line, _, blank) => {
+    const result = state.indentLines(raw, (line, _, blank) => {
       return (blank ? "" : "    ") + line;
     });
     exit();
-    return value;
+    return result;
   }
 
-  const tracker = state.createTracker(info);
-  const sequence = "`".repeat(Math.max(longestStreak(raw, "`") + 1, 3));
   const exit = state.enter("codeFenced");
-  let value = tracker.move(sequence);
-
-  if (node.lang) {
-    const subexit = state.enter(`codeFencedLangGraveAccent`);
-    value += tracker.move(
-      state.safe(node.lang, {
-        before: value,
-        after: " ",
-        encode: ["`"],
-        ...tracker.current()
-      })
-    );
-    subexit();
-  }
-
-  if (node.lang && node.meta) {
-    const subexit = state.enter(`codeFencedMetaGraveAccent`);
-    value += tracker.move(" ");
-    value += tracker.move(
-      state.safe(node.meta, {
-        before: value,
-        after: "\n",
-        encode: ["`"],
-        ...tracker.current()
-      })
-    );
-    subexit();
-  }
-
-  value += tracker.move("\n");
-
-  if (raw) {
-    value += tracker.move(`${raw}\n`);
-  }
-
-  value += tracker.move(sequence);
+  const result = state.adapter.code(raw, node.lang || undefined);
   exit();
-  return value;
+
+  return result;
 }
 
 export function hardBreak(
@@ -768,7 +358,7 @@ export function hardBreak(
     }
   }
 
-  return state.adapter.break.before + state.adapter.break.after;
+  return state.adapter.break();
 }
 
 export function blockquote(
@@ -778,21 +368,12 @@ export function blockquote(
   info: Info
 ) {
   const exit = state.enter("blockquote");
-  const tracker = state.createTracker(info);
-  tracker.move(state.adapter.blockquote.before);
-  tracker.shift(2);
-
-  let value = state.indentLines(
-    state.containerFlow(node, tracker.current()),
-    (line, _, blank) => {
-      return `${blank ? "" : " "}${line}`;
-    }
+  const result = state.adapter.blockquote(
+    node.children.map(child => state.handle(child, node, state, info)).join("")
   );
-  value += tracker.move(state.adapter.blockquote.after);
-
   exit();
 
-  return value;
+  return result;
 }
 
 export function table(
@@ -802,25 +383,26 @@ export function table(
   info: Info
 ) {
   const exit = state.enter("table");
-  const tracker = state.createTracker(info);
 
-  const before = tracker.move(state.adapter.table.before);
-  const between = tracker.move(
-    state.containerPhrasing(node, {
-      after: state.adapter.table.after,
-      before,
-      ...tracker.current()
-    })
-  );
-  const after = tracker.move(state.adapter.table.after);
+  const cells = node.children.map(row => {
+    if (row.type === "tableRow") {
+      return row.children.map(cell => {
+        if (cell.type === "tableCell") {
+          return state.handle(cell, node, state, info);
+        }
+
+        return "";
+      });
+    }
+
+    return [];
+  });
+
+  const result = state.adapter.table(cells);
 
   exit();
 
-  state.attentionEncodeSurroundingInfo = {
-    after: true,
-    before: true
-  };
-  return before + between + after;
+  return result;
 }
 
 export function tableRow(
@@ -830,8 +412,11 @@ export function tableRow(
   info: Info
 ) {
   const exit = state.enter("tableRow");
-  const value = state.containerFlow(node as unknown as Table, info);
+  const value = node.children
+    .map(child => state.handle(child, node, state, info))
+    .join("");
   exit();
+
   return value;
 }
 
@@ -842,8 +427,11 @@ export function tableCell(
   info: Info
 ) {
   const exit = state.enter("tableCell");
-  const value = state.containerPhrasing(node, info);
+  const value = node.children
+    .map(child => state.handle(child, node, state, info))
+    .join("");
   exit();
+
   return value;
 }
 
@@ -854,58 +442,12 @@ export function deleteNode(
   info: Info
 ) {
   const exit = state.enter("delete");
-  const tracker = state.createTracker(info);
-
-  const before = tracker.move(state.adapter.strikethrough.before);
-  const between = tracker.move(
-    state.containerPhrasing(node, {
-      after: state.adapter.strikethrough.after,
-      before,
-      ...tracker.current()
-    })
+  const result = state.adapter.strikethrough(
+    node.children.map(child => state.handle(child, node, state, info)).join("")
   );
-  const after = tracker.move(state.adapter.strikethrough.after);
-
   exit();
 
-  state.attentionEncodeSurroundingInfo = {
-    after: true,
-    before: true
-  };
-  return before + between + after;
-}
-
-export function footnoteDefinition(
-  _: FootnoteDefinition,
-  __: Parents | undefined
-) {
-  // const exit = state.enter("footnoteDefinition");
-  // const value = state.containerFlow(node, info);
-  // exit();
-  // return value;
-
-  return "";
-}
-
-export function footnoteReference(
-  _: FootnoteReference,
-  __: Parents | undefined
-) {
-  // const exit = state.enter("footnoteReference");
-  // const tracker = state.createTracker(info);
-  // let value = tracker.move("[^");
-  // value += tracker.move(
-  //   state.safe(node.label, {
-  //     before: value,
-  //     after: "]",
-  //     ...tracker.current()
-  //   })
-  // );
-  // value += tracker.move("]");
-  // exit();
-  // return value;
-
-  return "";
+  return result;
 }
 
 export function yaml(node: Yaml, _: Parents | undefined, state: State) {
