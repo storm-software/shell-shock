@@ -65,7 +65,7 @@ catalog:
   '@types/jest': ^29.5.14
   '@types/json-schema': ^7.0.15
   '@types/mdast': ^4.0.4
-  '@types/node': ^25.5.0
+  '@types/node': ^25.5.1
   '@types/react': ^19.2.14
   '@types/unist': ^3.0.3
   '@typescript-eslint/utils': ^8.58.0
