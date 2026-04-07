@@ -59,7 +59,7 @@ import {
   colorKeys,
   modifierKeys
 } from "@shell-shock/plugin-theme/helpers/ansi-utils";
-import { camelCase, pascalCase } from "@stryke/string-format";
+import { camelCase } from "@stryke/string-format";
 import { getIndefiniteArticle } from "@stryke/string-format/vowels";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { defu } from "defu";
@@ -519,45 +519,6 @@ export function AnsiStyleFunctionsDeclaration() {
       </For>
       <Spacing />
 
-      {/* <For
-        each={Object.keys(colors.ansi16.theme)}
-        semicolon
-        doubleHardline
-        enderPunctuation>
-        {type => (
-          <>
-            <TSDoc
-              heading={`A nested object containing functions for applying ${
-                type
-              } theme colors to the console.`}
-            />
-            <TypeDeclaration export name={`${pascalCase(type)}Colors`}>
-              {code` {`}
-              <hbr />
-              <ThemeColorTypeDefinition
-                ansi16={
-                  colors.ansi16.theme[type as keyof typeof colors.ansi16.theme]
-                }
-                ansi256={
-                  colors.ansi256.theme[
-                    type as keyof typeof colors.ansi256.theme
-                  ]
-                }
-                ansi16m={
-                  colors.ansi16m.theme[
-                    type as keyof typeof colors.ansi16m.theme
-                  ]
-                }
-                type={type}
-              />
-              <hbr />
-              {code`}`}
-            </TypeDeclaration>
-          </>
-        )}
-      </For>
-      <Spacing /> */}
-
       <For
         each={Object.keys(colors.ansi16.theme)}
         semicolon
@@ -573,7 +534,6 @@ export function AnsiStyleFunctionsDeclaration() {
             <VarDeclaration
               export
               name={`${camelCase(type)}Colors`}
-              type={`${pascalCase(type)}Colors`}
               initializer={
                 <>
                   {code` {`}
