@@ -2,6 +2,25 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.10](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.10) (04/07/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with invalid types in generated built-in module ([828676b](https://github.com/storm-software/shell-shock/commit/828676b))
+
+### Updated Dependencies
+
+- Updated **plugin-completions** to **v0.4.6**
+- Updated **plugin-changelog** to **v0.1.1**
+- Updated **plugin-console** to **v0.2.2**
+- Updated **plugin-prompts** to **v0.3.39**
+- Updated **plugin-upgrade** to **v0.1.43**
+- Updated **plugin-banner** to **v0.1.25**
+- Updated **preset-script** to **v0.6.53**
+- Updated **plugin-theme** to **v0.4.11**
+- Updated **plugin-help** to **v0.2.16**
+- Updated **core** to **v0.16.1**
+
 ## [0.9.9](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.9) (04/07/2026)
 
 ### Features

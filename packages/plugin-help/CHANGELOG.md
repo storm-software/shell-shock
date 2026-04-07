@@ -2,6 +2,19 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.16](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.16) (04/07/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with invalid types in generated built-in module ([828676b](https://github.com/storm-software/shell-shock/commit/828676b))
+- **plugin-changelog:** Resolve issue rendering unified code in command ([dce67a1](https://github.com/storm-software/shell-shock/commit/dce67a1))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.2.2**
+- Updated **plugin-theme** to **v0.4.11**
+- Updated **core** to **v0.16.1**
+
 ## [0.2.15](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.15) (04/07/2026)
 
 ### Features

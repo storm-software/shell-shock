@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.16.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.16.1) (04/07/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with invalid types in generated built-in module ([828676b](https://github.com/storm-software/shell-shock/commit/828676b))
+
 ## [0.16.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.16.0) (04/07/2026)
 
 ### Features

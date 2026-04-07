@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.2.2](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.2) (04/07/2026)
+
+### Bug Fixes
+
+- **plugin-console:** Resolve issue with missiny type definition ([062f94a](https://github.com/storm-software/shell-shock/commit/062f94a))
+- **core:** Resolve issue with invalid types in generated built-in module ([828676b](https://github.com/storm-software/shell-shock/commit/828676b))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.11**
+- Updated **core** to **v0.16.1**
+
 ## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.1) (04/07/2026)
 
 ### Features

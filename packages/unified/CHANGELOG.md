@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Unified
 
+## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/unified%400.1.1) (04/07/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with invalid types in generated built-in module ([828676b](https://github.com/storm-software/shell-shock/commit/828676b))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.16.1**
+
 ## [0.1.0](https://github.com/storm-software/shell-shock/releases/tag/unified%400.1.0) (04/07/2026)
 
 ### Features
