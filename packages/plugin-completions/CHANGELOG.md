@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.4.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.5) (04/07/2026)
+
+### Features
+
+- **core:** Added the `state` built-in module ([47bea93](https://github.com/storm-software/shell-shock/commit/47bea93))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.16.0**
+
 ## [0.4.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.4) (04/03/2026)
 
 ### Features

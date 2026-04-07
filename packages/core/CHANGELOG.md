@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.16.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.16.0) (04/07/2026)
+
+### Features
+
+- **core:** Added the `state` built-in module ([47bea93](https://github.com/storm-software/shell-shock/commit/47bea93))
+
 ## [0.15.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.15.2) (04/03/2026)
 
 ### Features

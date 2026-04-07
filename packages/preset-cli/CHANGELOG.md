@@ -2,6 +2,25 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.9](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.9) (04/07/2026)
+
+### Features
+
+- **core:** Added the `state` built-in module ([47bea93](https://github.com/storm-software/shell-shock/commit/47bea93))
+
+### Updated Dependencies
+
+- Updated **plugin-completions** to **v0.4.5**
+- Updated **plugin-changelog** to **v0.1.0**
+- Updated **plugin-console** to **v0.2.1**
+- Updated **plugin-prompts** to **v0.3.38**
+- Updated **plugin-upgrade** to **v0.1.42**
+- Updated **plugin-banner** to **v0.1.24**
+- Updated **preset-script** to **v0.6.52**
+- Updated **plugin-theme** to **v0.4.10**
+- Updated **plugin-help** to **v0.2.15**
+- Updated **core** to **v0.16.0**
+
 ## [0.9.8](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.8) (04/03/2026)
 
 ### Features

@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.62](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.62) (04/07/2026)
+
+### Features
+
+- **core:** Added the `state` built-in module ([47bea93](https://github.com/storm-software/shell-shock/commit/47bea93))
+
 ## [0.0.56](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.56) (03/28/2026)
 
 ### Miscellaneous

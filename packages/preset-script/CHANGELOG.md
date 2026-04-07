@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.52](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.52) (04/07/2026)
+
+### Features
+
+- **core:** Added the `state` built-in module ([47bea93](https://github.com/storm-software/shell-shock/commit/47bea93))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.2.1**
+- Updated **plugin-banner** to **v0.1.24**
+- Updated **plugin-theme** to **v0.4.10**
+- Updated **plugin-help** to **v0.2.15**
+- Updated **core** to **v0.16.0**
+
 ## [0.6.51](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.51) (04/03/2026)
 
 ### Features

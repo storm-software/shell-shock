@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/plugin-help",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "private": false,
   "description": "A package containing a Shell Shock plugin to provide help and documentation for the local application's commands.",
   "keywords": [
@@ -172,5 +172,8 @@
         "default": "./dist/types/plugin.mjs"
       }
     }
+  },
+  "inlinedDependencies": {
+    "@stryke/types": "0.11.3"
   }
 }

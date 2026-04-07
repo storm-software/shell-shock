@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.42](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.42) (04/07/2026)
+
+### Features
+
+- **core:** Added the `state` built-in module ([47bea93](https://github.com/storm-software/shell-shock/commit/47bea93))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.16.0**
+
 ## [0.1.41](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.41) (04/03/2026)
 
 ### Features

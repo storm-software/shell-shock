@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.38](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.38) (04/07/2026)
+
+### Features
+
+- **core:** Added the `state` built-in module ([47bea93](https://github.com/storm-software/shell-shock/commit/47bea93))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.10**
+- Updated **core** to **v0.16.0**
+
 ## [0.3.37](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.37) (04/03/2026)
 
 ### Features

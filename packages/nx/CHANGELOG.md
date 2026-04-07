@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.69](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.69) (04/07/2026)
+
+### Features
+
+- **core:** Added the `state` built-in module ([47bea93](https://github.com/storm-software/shell-shock/commit/47bea93))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.16.0**
+
 ## [0.0.68](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.68) (04/03/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.1) (04/07/2026)
+
+### Features
+
+- **core:** Added the `state` built-in module ([47bea93](https://github.com/storm-software/shell-shock/commit/47bea93))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.10**
+- Updated **core** to **v0.16.0**
+
 ## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.0) (04/03/2026)
 
 ### Features
