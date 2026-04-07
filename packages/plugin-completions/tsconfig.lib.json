@@ -6,11 +6,12 @@
     "jsxImportSource": "@alloy-js/core",
     "outDir": "./out-tsc"
   },
-  "references": [
-    {
-      "path": "../core/tsconfig.lib.json"
-    }
+  "references": [{ "path": "../core/tsconfig.lib.json" }],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "powerlines.config.ts",
+    "powerlines.d.ts"
   ],
-  "include": ["src/**/*.ts", "src/**/*.tsx", "powerlines.config.ts"],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

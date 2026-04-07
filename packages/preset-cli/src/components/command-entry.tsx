@@ -105,18 +105,17 @@ export function CommandEntry(props: CommandEntryProps) {
             "stripAnsi",
             "writeLine",
             "splitText",
+            "textColors",
             "createSpinner"
           ],
-          utils: [
-            "sleep",
-            "useApp",
+          utils: ["sleep", "isMinimal", "isInteractive", "isUnicodeSupported"],
+          state: [
+            "useGlobal",
+            "withCommand",
             "useArgs",
             "hasFlag",
-            "isMinimal",
-            "isInteractive",
             "isHelp",
-            "isUnicodeSupported",
-            "internal_commandContext"
+            { name: "GlobalOptions", type: true }
           ],
           prompts: [
             "text",
@@ -158,7 +157,9 @@ export function CommandEntry(props: CommandEntryProps) {
                 .length > 0
             }>
             <ElseIfClause
-              condition={code`!isHelp && (${Object.values(command.options ?? {})
+              condition={code`!isHelp() && (${Object.values(
+                command.options ?? {}
+              )
                 .filter(option => !option.optional)
                 .map(option =>
                   (option.kind === CommandParameterKinds.string ||
@@ -591,7 +592,7 @@ export function CommandEntry(props: CommandEntryProps) {
               <Spacing />
               <CommandValidationLogic command={command} />
               <IfStatement condition={code`failures.length > 0`}>
-                {code`error("The following validation failures were found while processing the user provided input, and must be corrected before the command-line process can be executed: \\n\\n" + failures.map(failure => " - " + failure).join("\\n"));
+                {code`error(\`The following validation failures were found while processing the user provided input, and must be corrected before the \${italic("${command.title}")} command can be executed: \\n\\n\${failures.map(failure => " - " + failure).join("\\n")}\`);
                 options.help = true; `}
               </IfStatement>
             </ElseIfClause>

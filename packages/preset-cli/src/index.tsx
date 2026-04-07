@@ -25,6 +25,7 @@ import {
   getAppName,
   getCommandList
 } from "@shell-shock/core/plugin-utils";
+import changelog from "@shell-shock/plugin-changelog";
 import completions from "@shell-shock/plugin-completions";
 import console from "@shell-shock/plugin-console";
 import help from "@shell-shock/plugin-help";
@@ -38,7 +39,7 @@ import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
 import { UpgradeBuiltin } from "./components/upgrade-builtin";
 import { VirtualCommandEntry } from "./components/virtual-command-entry";
-import { getDefaultOptions } from "./helpers/get-default-options";
+import { getGlobalOptions } from "./helpers/get-global-options";
 import type { CLIPresetContext, CLIPresetOptions } from "./types/plugin";
 
 /**
@@ -54,6 +55,9 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
     ...console<TContext>(options),
     ...help<TContext>(options),
     ...prompts<TContext>(options),
+    ...(options.changelog !== false
+      ? [changelog<TContext>(options.changelog)]
+      : []),
     ...(options.completions !== false
       ? completions<TContext>(options.completions)
       : []),
@@ -66,7 +70,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
         );
 
         return {
-          defaultOptions: getDefaultOptions,
+          globalOptions: getGlobalOptions,
           isCaseSensitive: false,
           ...options
         };
@@ -144,16 +148,10 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                     "divider",
                     "stripAnsi",
                     "writeLine",
-                    "splitText",
-                    "colors"
+                    "splitText"
                   ],
-                  utils: [
-                    "useApp",
-                    "useArgs",
-                    "isMinimal",
-                    "isInteractive",
-                    "isHelp"
-                  ],
+                  utils: ["isMinimal", "isInteractive"],
+                  state: ["useGlobal", "useArgs", "isHelp"],
                   prompts: [
                     "text",
                     "numeric",

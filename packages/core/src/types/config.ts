@@ -133,7 +133,8 @@ export type OutputConfig = Pick<
  * The user configuration options for Shell Shock.
  */
 export type UserConfig = BaseOptions &
-  Partial<NodeJsPluginUserConfig> & {
+  Partial<NodeJsPluginUserConfig> &
+  Pick<NodeJsPluginUserConfig, "root"> & {
     /**
      * Configuration for the output of the build process
      */

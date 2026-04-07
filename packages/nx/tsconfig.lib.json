@@ -5,18 +5,15 @@
     "types": ["node"],
     "outDir": "./out-tsc"
   },
-  "references": [
-    {
-      "path": "../core/tsconfig.lib.json"
-    }
-  ],
+  "references": [{ "path": "../core/tsconfig.lib.json" }],
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
     "powerlines.base.ts",
     "powerlines.plugin.ts",
     "executors.json",
-    "src/executors/**/schema.json"
+    "src/executors/**/schema.json",
+    "powerlines.d.ts"
   ],
   "exclude": [
     "jest.config.ts",

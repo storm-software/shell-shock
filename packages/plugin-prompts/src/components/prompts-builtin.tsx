@@ -254,7 +254,7 @@ export function BasePromptDeclarations() {
             default: "string"
           }
         ]}>
-        <ClassField name="readline" isPrivateMember type="readline.Interface" />
+        <ClassField name="readline" isPrivateMember type="Interface" />
         <hbr />
         <ClassField name="value" isPrivateMember optional type="TValue" />
         <hbr />
@@ -396,11 +396,11 @@ export function BasePromptDeclarations() {
 
           this.message = config.message;
 
-          this.#readline = readline.createInterface({
+          this.#readline = createInterface({
             input: this.input,
             escapeCodeTimeout: 50
           });
-          readline.emitKeypressEvents(this.input, this.#readline);
+          emitKeypressEvents(this.input, this.#readline);
 
           if (this.input.isTTY) {
             this.input.setRawMode(true);
@@ -555,7 +555,7 @@ export function BasePromptDeclarations() {
             },
             {
               name: "key",
-              type: "readline.Key"
+              type: "Key"
             }
           ]}>
           {code`const action = this.getAction(key);
@@ -612,7 +612,7 @@ export function BasePromptDeclarations() {
           doc="A method to route key press events to specific prompt actions based on the key pressed. This method maps various key combinations and keys to corresponding actions that can be handled by the prompt, such as submitting, cancelling, navigating, etc."
           name="getAction"
           protected
-          parameters={[{ name: "key", type: "readline.Key" }]}
+          parameters={[{ name: "key", type: "Key" }]}
           returnType="string | false">
           {code`if (key.meta && key.name !== "escape") {
             return false;
@@ -796,8 +796,8 @@ export function BasePromptDeclarations() {
           } \${
             borderColors.app.divider.tertiary(
               this.isCompleted
-                ? (process.platform === "win32" ? "..." : "…")
-                : (process.platform === "win32" ? "»" : "›")
+                ? (isWindows ? "..." : "…")
+                : (isWindows ? "»" : "›")
             )
           } \`;
           this.consoleOutput += this.onRender();
@@ -821,7 +821,7 @@ export function BasePromptDeclarations() {
             },
             {
               name: "key",
-              type: "readline.Key"
+              type: "Key"
             }
           ]}>
           {code`if (this.#isClosed) {
@@ -955,7 +955,7 @@ export function TextPromptDeclarations() {
             },
             {
               name: "key",
-              type: "readline.Key"
+              type: "Key"
             }
           ]}>
           {code`const action = this.getAction(key);
@@ -1336,7 +1336,7 @@ export function SelectPromptDeclarations() {
           name="getAction"
           override
           protected
-          parameters={[{ name: "key", type: "readline.Key" }]}
+          parameters={[{ name: "key", type: "Key" }]}
           returnType="string | false">
           {code`let action = super.getAction(key);
           if (!action) {
@@ -1706,7 +1706,7 @@ export function NumericPromptDeclarations() {
             },
             {
               name: "key",
-              type: "readline.Key"
+              type: "Key"
             }
           ]}>
           {code`const action = this.getAction(key);
@@ -2020,7 +2020,7 @@ export function TogglePromptDeclarations() {
             },
             {
               name: "key",
-              type: "readline.Key"
+              type: "Key"
             }
           ]}>
           {code`const action = this.getAction(key);
@@ -2257,7 +2257,7 @@ export function ConfirmPromptDeclarations() {
             },
             {
               name: "key",
-              type: "readline.Key"
+              type: "Key"
             }
           ]}>
           {code`const action = this.getAction(key);
@@ -2478,7 +2478,12 @@ export function PromptsBuiltin(props: PromptsBuiltinProps) {
       {...rest}
       imports={defu(rest.imports ?? {}, {
         "node:events": "EventEmitter",
-        "node:readline": "readline"
+        "node:readline": [
+          "Interface",
+          "Key",
+          "createInterface",
+          "emitKeypressEvents"
+        ]
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
         console: [

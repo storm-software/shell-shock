@@ -9,22 +9,17 @@
     "sourceMap": true
   },
   "references": [
-    {
-      "path": "../plugin-help/tsconfig.lib.json"
-    },
-    {
-      "path": "../plugin-banner/tsconfig.lib.json"
-    },
-    {
-      "path": "../plugin-theme/tsconfig.lib.json"
-    },
-    {
-      "path": "../plugin-console/tsconfig.lib.json"
-    },
-    {
-      "path": "../core/tsconfig.lib.json"
-    }
+    { "path": "../plugin-help/tsconfig.lib.json" },
+    { "path": "../plugin-banner/tsconfig.lib.json" },
+    { "path": "../plugin-theme/tsconfig.lib.json" },
+    { "path": "../plugin-console/tsconfig.lib.json" },
+    { "path": "../core/tsconfig.lib.json" }
   ],
-  "include": ["src/**/*.ts", "src/**/*.tsx", "powerlines.config.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "powerlines.config.ts",
+    "powerlines.d.ts"
+  ],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

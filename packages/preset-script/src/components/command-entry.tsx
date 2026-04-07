@@ -21,8 +21,7 @@ import { code, computed, For, Show } from "@alloy-js/core";
 import {
   ElseClause,
   FunctionDeclaration,
-  IfStatement,
-  VarDeclaration
+  IfStatement
 } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
@@ -62,36 +61,17 @@ export function CommandInvocation(props: { command: CommandTree }) {
 
   return (
     <>
-      <VarDeclaration
-        name="__context"
-        initializer={code`{ path: \`${command.segments
-          .map(segment =>
-            isDynamicPathSegment(segment)
-              ? `\${${camelCase(getDynamicPathSegmentName(segment))}}`
-              : segment
-          )
-          .join("/")}\`, segments: [${command.segments
-          .map(segment =>
-            isDynamicPathSegment(segment)
-              ? camelCase(getDynamicPathSegmentName(segment))
-              : `"${segment}"`
-          )
-          .join(", ")}] }`}
-      />
-      <Spacing />
-      {code`
-
-      return internal_commandContext.run(__context, () => {
-        return Promise.resolve(Reflect.apply(handle${pascalCase(
-          command.name
-        )}, __context, [options${
-          command.args.length > 0
-            ? `, ${command.args.map(arg => camelCase(arg.name)).join(", ")}`
-            : ""
-        }]));
-      });
-
-      `}
+      {code` return withCommand("${command.path}", [${command.segments
+        .map(segment =>
+          isDynamicPathSegment(segment)
+            ? camelCase(getDynamicPathSegmentName(segment))
+            : `"${segment}"`
+        )
+        .join(", ")}], [options${
+        command.args.length > 0
+          ? `, ${command.args.map(arg => camelCase(arg.name)).join(", ")}`
+          : ""
+      }], handle${pascalCase(command.name)}); `}
       <hbr />
     </>
   );
@@ -242,13 +222,14 @@ export function CommandEntry(props: CommandEntryProps) {
         })}
         builtinImports={defu(builtinImports ?? {}, {
           env: ["env", "isDevelopment", "isDebug"],
-          console: ["debug", "warn", "error", "writeLine"],
-          utils: [
+          console: ["debug", "warn", "error", "writeLine", "textColors"],
+          utils: ["isMinimal", "isUnicodeSupported"],
+          state: [
+            "useGlobal",
             "useArgs",
             "hasFlag",
-            "isMinimal",
-            "isUnicodeSupported",
-            "internal_commandContext"
+            "withCommand",
+            { name: "GlobalOptions", type: true }
           ],
           [joinPaths(
             "help",
@@ -271,8 +252,10 @@ export function CommandEntry(props: CommandEntryProps) {
           banner={code`await showBanner(); `}>
           <CommandValidationLogic command={command} />
           <IfStatement condition={code`failures.length > 0`}>
-            {code`error("The following validation failures were found while processing the user provided input, and must be corrected before the command-line process can be executed: \\n\\n" + failures.map(failure => " - " + failure).join("\\n"));
-            options.help = true; `}
+            {code`error(\`The following validation failures were found while processing the user provided input, and must be corrected before the \${italic("${
+              command.title
+            }")} command can be executed: \\n\\n\${failures.map(failure => " - " + failure).join("\\n")}\`);
+                options.help = true; `}
           </IfStatement>
         </CommandHandlerDeclaration>
       </EntryFile>

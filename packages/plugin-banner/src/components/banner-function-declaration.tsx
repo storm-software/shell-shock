@@ -60,7 +60,7 @@ export function BannerFunctionDeclarationWrapper(
       }to the console.`}
       parameters={[{ name: "sleepTimeoutMs", type: "number", default: 500 }]}>
       {children}
-      <IfStatement condition={code`isInteractive && !isHelp`}>
+      <IfStatement condition={code`isInteractive && !isHelp()`}>
         {code`await sleep(sleepTimeoutMs);`}
       </IfStatement>
     </FunctionDeclaration>
@@ -115,11 +115,11 @@ export function BannerFunctionBodyDeclaration(
   return (
     <>
       {code`
-        if (useApp().get("banner") || hasFlag("no-banner") || hasFlag("hide-banner") || isMinimal) {
+        if (useMeta().get("banner") || hasFlag("no-banner") || hasFlag("hide-banner") || isMinimal) {
           return;
         }
 
-        useApp().set("banner", true); `}
+        useMeta().set("banner", true); `}
       <Spacing />
       <Show when={insertNewlineBeforeBanner}>{code`writeLine(""); `}</Show>
       <Spacing />

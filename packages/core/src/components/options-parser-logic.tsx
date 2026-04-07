@@ -212,22 +212,20 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
                 type={<CommandParameterType parameter={arg} />}
                 initializer={
                   <>
+                    {code` ( `}
                     <Show when={isSetString(arg.env)}>
                       {code`env.${appSpecificEnvPrefix}_${constantCase(String(arg.env))} ?? `}
                     </Show>
                     <Show
                       when={arg.default !== undefined}
-                      fallback={
-                        (arg.kind === CommandParameterKinds.string ||
-                          arg.kind === CommandParameterKinds.number) &&
-                        arg.variadic
-                          ? code`[]`
-                          : code`undefined;`
-                      }>
+                      fallback={arg.variadic ? code`[]` : code`undefined`}>
                       {arg.kind === CommandParameterKinds.string
                         ? code`"${arg.default}"`
                         : code`${arg.default}`}
                     </Show>
+                    {code`) as `}
+                    <CommandParameterType parameter={arg} />
+                    {code`; `}
                   </>
                 }
               />
@@ -247,16 +245,12 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
                   />
                 }>
                 <Show
-                  when={
-                    (arg.kind === CommandParameterKinds.string ||
-                      arg.kind === CommandParameterKinds.number) &&
-                    arg.variadic
-                  }
+                  when={arg.variadic}
                   fallback={
                     <Show
                       when={arg.kind === CommandParameterKinds.number}
-                      fallback={code`args[argsIndex + ${index}]; `}>
-                      {code`Number(args[argsIndex + ${index}]); `}
+                      fallback={code`args[argsIndex + ${index}] `}>
+                      {code`Number(args[argsIndex + ${index}]) `}
                     </Show>
                   }>
                   {code`args.slice(argsIndex + ${
@@ -266,6 +260,9 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
                   }).join(" ").split(",").map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean)`}
                 </Show>
               </Show>
+              {code` as `}
+              <CommandParameterType parameter={arg} />
+              {code`; `}
             </IfStatement>
             <Spacing />
           </>
@@ -654,10 +651,20 @@ export function OptionsMemberParserCondition(
 export function OptionsInterfaceDeclaration(props: { command: CommandTree }) {
   const { command } = props;
 
-  const options = computed(() => computedOptions(command));
+  const options = computed(() =>
+    computedOptions(
+      Object.entries(command.options).map(([name, option]) => ({
+        ...option,
+        name
+      }))
+    )
+  );
 
   return (
-    <InterfaceDeclaration export name={`${pascalCase(command.name)}Options`}>
+    <InterfaceDeclaration
+      export
+      name={`${pascalCase(command.name)}Options`}
+      extends="GlobalOptions">
       <For each={Object.values(options.value)} hardline>
         {option => <OptionsMember option={option} />}
       </For>
@@ -690,7 +697,14 @@ export interface OptionsParserLogicProps {
 export function OptionsParserLogic(props: OptionsParserLogicProps) {
   const { command, appSpecificEnvPrefix, isCaseSensitive = false } = props;
 
-  const options = computed(() => computedOptions(command));
+  const options = computed(() =>
+    computedOptions(
+      Object.entries(command.options).map(([name, option]) => ({
+        ...option,
+        name
+      }))
+    )
+  );
 
   return (
     <>
@@ -755,7 +769,7 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
               return "";
             })
             .join("")}
-          } as ${pascalCase(command.name)}Options;`}
+          } as unknown as ${pascalCase(command.name)}Options;`}
       />
       <Spacing />
       {code`for (let i = 0; i < args.slice(${

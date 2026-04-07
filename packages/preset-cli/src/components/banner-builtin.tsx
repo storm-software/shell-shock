@@ -64,10 +64,6 @@ export function BannerFunctionBodyDeclaration(
   );
 
   const titleLines = computed(() => {
-    // if (isSetString(context.config.banner.title)) {
-    //   return context.config.banner.title.split("\n");
-    // }
-
     const result = render(getAppTitle(context, true), {
       font: "tiny",
       align: "left",
@@ -114,13 +110,13 @@ export function BannerFunctionBodyDeclaration(
       splitText(title,
         Math.max(process.stdout.columns - ${totalPadding.value}, 20)
       ).forEach((line) => {
-        writeLine(colors.border.banner.outline.${variant}("${
+        writeLine(borderColors.banner.outline.${variant}("${
           theme.borderStyles.banner.outline[variant].left
         }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
           bannerPadding.value
         })) / 2), 0)) + colors.bold(colors.text.banner.title.${variant}(line)) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
           bannerPadding.value
-        })) / 2), 0)) + colors.border.banner.outline.${variant}("${
+        })) / 2), 0)) + borderColors.banner.outline.${variant}("${
           theme.borderStyles.banner.outline[variant].right
         }"), { consoleFn: console.${consoleFnName} });
       }); `}

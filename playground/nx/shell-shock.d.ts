@@ -1,3 +1,6 @@
+/// <reference types="@powerlines/deepkit/vendor/type" />
+/// <reference types="node" />
+
 /* eslint-disable */
 // biome-ignore lint: disable
 
@@ -10,6 +13,7 @@
  * @module shell-shock:env
  */
 declare module "shell-shock:env" {
+  import { Serializer } from "@powerlines/deepkit/vendor/type";
   /**
    * Object
    *
@@ -28,7 +32,6 @@ declare module "shell-shock:env" {
      * An indicator that specifies the current runtime is a continuous integration environment.
      *
      * @title Continuous Integration
-     * @alias CONTINUOUS_INTEGRATION
      * @defaultValue false
      */
     CI: boolean;
@@ -129,9 +132,6 @@ declare module "shell-shock:env" {
     /**
      * The mode in which the application is running.
      *
-     * @alias NODE_ENV
-     *
-     * @alias VERCEL_ENV
      * @defaultValue "development"
      */
     MODE: "development" | "test" | "production";
@@ -141,6 +141,12 @@ declare module "shell-shock:env" {
      * @defaultValue false
      */
     NO_COLOR: boolean;
+    /**
+     *
+     *
+     *
+     */
+    npm_config_fund?: string;
     /**
      *
      *
@@ -156,7 +162,6 @@ declare module "shell-shock:env" {
     /**
      * The name of the organization that maintains the application.
      *
-     * @alias ORG
      * @defaultValue "storm-software"
      */
     ORGANIZATION: string;
@@ -285,21 +290,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "X7c-qLb3WByiMdnX5DYTRhemk32n99at"
+     * @defaultValue "GrYFP1ZDDEoVC56fuZROc9n9GyjTUxbz"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "4d6ba640-0333-400b-a9f0-e2b07411394b"
+     * @defaultValue "30fbb773-e088-4d67-b771-5ea71c4d14ca"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-03T11:40:09.290Z"
+     * @defaultValue "2026-04-07T12:36:53.476Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -530,7 +535,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "6ba64003-33b0-4b69-b0e2-b07411394b41"
+     * @defaultValue "fbb773e0-880d-47f7-b15e-a71c4d14caeb"
      */
     readonly RELEASE_ID: string;
     /**
@@ -733,13 +738,21 @@ declare module "shell-shock:env" {
     [Key in keyof EnvBase as
       | Key
       | `NEXT_${Key}`
+      | `NEXT_${Key}`
+      | `ONE_${Key}`
       | `ONE_${Key}`
       | `PLAYGROUND_NX_${Key}`
       | `POWERLINES_${Key}`
+      | `POWERLINES_${Key}`
+      | `SHELL_SHOCK_${Key}`
       | `SHELL_SHOCK_${Key}`
       | `STORM_STACK_${Key}`
+      | `STORM_STACK_${Key}`
+      | `STORM_${Key}`
       | `STORM_${Key}`
       | `VERCEL_${Key}`
+      | `VERCEL_${Key}`
+      | `VITE_${Key}`
       | `VITE_${Key}`]: EnvBase[Key];
   };
   /**
@@ -888,93 +901,188 @@ declare module "shell-shock:env" {
 }
 
 /**
- * A collection of helper utilities that ease command-line application development.
+ * A module that provides context hooks and utilities for accessing the application state.
  *
- * @module shell-shock:utils
+ * @module shell-shock:state
  */
-declare module "shell-shock:utils" {
+declare module "shell-shock:state" {
   import { AsyncLocalStorage } from "node:async_hooks";
-  import { spawn as _spawn } from "node:child_process";
   /**
-   * A utility function to pause execution for a specified duration, which can be used in prompt interactions to create delays or timeouts. The function returns a promise that resolves after the specified duration in milliseconds, allowing it to be used with async/await syntax for easier handling of asynchronous prompt logic.
-   *
-   * @param durationMs - The duration to sleep in milliseconds.
-   * @returns A promise that resolves after the specified duration, allowing for
-   *   asynchronous delays in prompt interactions.
-   *
+   * An object representing the global options available for every command in the Playground Nx command-line application.
    */
-  export function sleep(durationMs: number): Promise<void>;
-  /**
-   * The global Shell Shock - Application context instance.
-   *
-   * @internal
-   */
-  export let internal_appContext: AsyncLocalStorage<Map<string, any>>;
-  /**
-   * Get the Shell Shock - Application context for the current application.
-   *
-   * @param options - The options to use when getting the context.
-   * @returns The Shell Shock - Application context for the current application or undefined if the context is not available.
-   */
-  export function useApp(): Map<string, any> | undefined;
-  /**
-   * A utility hook function to get the command-line arguments from the application context.
-   *
-   * @returns An array of command-line arguments from the application context.
-   * @throws If the application context is not available.
-   */
-  export function useArgs(): string[];
+  export interface GlobalOptions {
+    /**
+     * Show help information.
+     */
+    help?: boolean | undefined;
+    /**
+     * Show the version of the application.
+     */
+    version?: boolean | undefined;
+    /**
+     * Enable verbose output.
+     */
+    verbose?: boolean | undefined;
+    /**
+     * Enable colored terminal output.
+     */
+    color?: boolean | undefined;
+    /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     */
+    noBanner?: boolean | undefined;
+  }
   /**
    * The context object for the current command execution, containing the command path and segments.
    */
-  export interface CommandContext {
+  export interface CommandContext<THandler extends (...params: any[]) => any> {
+    /**
+     * The full command path as a string. For example, if the user runs `playground-nx foo bar`, this would be `foo bar`. This is useful for commands that need to know their full invocation path, such as for help text or for commands that have dynamic behavior based on their position in the command hierarchy.
+     */
     path: string;
+    /**
+     * An array of command path segments. For example, if the user runs `playground-nx foo bar`, this would be `["foo", "bar"]`. This is useful for commands that need to know their individual path segments, such as for dynamic routing or for commands that have behavior based on specific segments in the command hierarchy.
+     */
     segments: string[];
+    /**
+     * The parameters for the current command's handler function.
+     */
+    params: Parameters<THandler>;
+  }
+  export type GlobalContextStatus =
+    | "initializing"
+    | "preparing"
+    | "executing"
+    | "completed";
+  /**
+   * The state object for the Playground Nx application context.
+   */
+  export interface GlobalContextState {
+    /**
+     * The unique identifier for the current execution context.
+     */
+    executionId: string;
+    /**
+     * The status of the current execution context.
+     */
+    status: GlobalContextStatus;
+    /**
+     * Indicates whether the current execution context has encountered an error.
+     */
+    isError: boolean;
   }
   /**
-   * The global Shell Shock - Command context instance.
+   * The context object for the Playground Nx application.
+   */
+  export interface GlobalContext {
+    /**
+     * The global options shared across all commands in the application.
+     */
+    options: GlobalOptions;
+    /**
+     * The raw command-line arguments passed to the application.
+     */
+    inputArgs: string[];
+    /**
+     * The state of the current execution context.
+     */
+    state: GlobalContextState;
+  }
+  /**
+   * The global Playground Nx application context store instance.
    *
    * @internal
-   */
-  export let internal_commandContext: AsyncLocalStorage<CommandContext>;
-  /**
-   * Get the Shell Shock - Command context for the current application.
    *
-   * @param options - The options to use when getting the context.
-   * @returns The Shell Shock - Command context for the current application.
-   * @throws If the Shell Shock - Command context is not available.
+   */
+  export const unstable_globalStore: AsyncLocalStorage<GlobalContext>;
+  /**
+   * Get the Playground Nx application context for the current application.
+   *
+   * @param options - The options to use when getting the context. This can
+   *   include parameters for how to handle missing contexts, such as whether to
+   *   throw an error or return undefined. By default, if the context is not
+   *   available, this function will return undefined.
+   * @returns The Playground Nx application context for the current application or
+   *   undefined if the context is not available.
+   *
+   */
+  export function useGlobal(): GlobalContext;
+  /**
+   * A utility hook function to get the command-line arguments from the Playground Nx application context.
+   *
+   * @returns An array of command-line arguments from the application context.
+   *
+   */
+  export function useArgs(): string[];
+  /**
+   * A utility hook function to get the state of the Playground Nx application context.
+   *
+   * @returns The state of the application context.
+   *
+   */
+  export function useState(): GlobalContextState;
+  /**
+   * A utility function to update the state of the Playground Nx application context.
+   *
+   * @remarks
+   * This function will throw an error if the global context is not available, so it should only be used within a valid context scope, such as within a command handler or within the `withGlobal()` function.
+   *
+   *
+   * @param update - The new state or a function that receives the previous state
+   *   and returns the new state. This allows for both direct state updates and
+   *   functional updates based on the previous state.
+   */
+  export function setState(
+    update:
+      | GlobalContextState
+      | ((prev: GlobalContextState) => GlobalContextState)
+  ): void;
+  /**
+   * A utility hook function to get the execution ID of the Playground Nx application context.
+   *
+   * @returns The execution ID of the application context.
+   *
+   */
+  export function useExecutionId(): string;
+  /**
+   * A utility hook function to get the current status of the Playground Nx application.
+   *
+   * @returns The current status of the application.
+   *
+   */
+  export function useStatus(): GlobalContextStatus;
+  /**
+   * The global Playground Nx - command context store instance.
+   *
+   * @internal
+   *
+   */
+  export const unstable_commandStore: AsyncLocalStorage<any>;
+  /**
+   * Get the Playground Nx - command context for the current application.
+   *
+   * @returns The Playground Nx - command context for the current application.
+   *
    */
   export function useCommand(): CommandContext;
   /**
    * A utility hook function to get the individual segments of the current command path.
    *
    * @returns An array of command path segments.
-   * @throws If the command context is not available.
+   *
    */
   export function useSegments(): string[];
   /**
    * A utility hook function to get the full command path as a string.
    *
-   * @returns The full command path as a string.
-   * @throws If the command context is not available.
+   * @returns The full command path as a string. For example, if the user runs
+   *   `playground-nx foo bar`, this would return `"foo bar"`. This is useful for
+   *   commands that need to know their full invocation path, such as for help
+   *   text or for commands that have dynamic behavior based on their position in
+   *   the command hierarchy.
+   *
    */
   export function usePath(): string;
-  /**
-   * Retrieves the command-line arguments from Deno or Node.js environments.
-   *
-   * @remarks
-   * This function is only intended for internal use. Please use `useArgs()` instead.
-   *
-   *
-   * @internal
-   *
-   *
-   *
-   * @returns An array of command-line arguments from Deno or Node.js
-   *   environments.
-   *
-   */
-  export function getArgs(): string[];
   /**
    * Checks if a specific flag is present in the command-line arguments.
    *
@@ -988,7 +1096,59 @@ declare module "shell-shock:utils" {
    *
    */
   export function hasFlag(flag: string | string[], argv?: string[]): boolean;
-  export const isHelp: boolean;
+  export function isHelp(): boolean;
+  /**
+   * A utility function to wrap the Playground Nx application within the global context scope.
+   *
+   * @param handler - The callback function to run within the global context
+   *   scope. This function will receive the global context as its argument,
+   *   allowing it to access any properties or utilities defined on the context.
+   *   The callback function can be asynchronous and can return a value or a
+   *   promise.
+   * @returns The result of the callback function, which can be a value or a
+   *   promise that resolves to a value.
+   *
+   */
+  export function withGlobal(handler: () => any): Promise<Promise<void>>;
+  /**
+   * A utility function to wrap a Playground Nx application command handler within the command context scope.
+   *
+   * @param handler - The callback function to run within the command context
+   *   scope. This function will receive the command context as its argument,
+   *   allowing it to access any properties or utilities defined on the context.
+   *   The callback function can be asynchronous and can return a value or a
+   *   promise.
+   * @returns The result of the callback function, which can be a value or a
+   *   promise that resolves to a value.
+   *
+   */
+  export function withCommand<THandler extends (...params: any[]) => any>(
+    path: string,
+    segments: string[],
+    params: Parameters<THandler>,
+    handler: THandler
+  ): Promise<
+    Promise<{
+      error: string | Error;
+    }>
+  >;
+}
+
+/**
+ * A collection of helper utilities that ease command-line application development.
+ *
+ * @module shell-shock:utils
+ */
+declare module "shell-shock:utils" {
+  /**
+   * A utility function to pause execution for a specified duration, which can be used in prompt interactions to create delays or timeouts. The function returns a promise that resolves after the specified duration in milliseconds, allowing it to be used with async/await syntax for easier handling of asynchronous prompt logic.
+   *
+   * @param durationMs - The duration to sleep in milliseconds.
+   * @returns A promise that resolves after the specified duration, allowing for
+   *   asynchronous delays in prompt interactions.
+   *
+   */
+  export function sleep(durationMs: number): Promise<void>;
   /**
    * Detect if stdout.TTY is available
    */
@@ -1076,52 +1236,6 @@ declare module "shell-shock:utils" {
    */
   export const isUnicodeSupported: boolean;
   /**
-   * Options for the `spawn` handler function.
-   */
-  interface SpawnBaseOptions {
-    /**
-     * The writable stream to use for prompt output, defaults to process.stdout
-     */
-    stdout?: (data: string) => void;
-    /**
-     * The writable stream to use for prompt error output, defaults to process.stderr
-     */
-    stderr?: (data: string) => void;
-    /**
-     * Whether to reject the promise on error. Defaults to false.
-     */
-    rejectOnError?: boolean;
-    /**
-     * The file to execute.
-     */
-    file?: string;
-    /**
-     * If true, runs command inside of a shell. Uses '/bin/sh' on UNIX, and process.env.ComSpec on Windows. If a string is provided, it specifies the shell to use.
-     */
-    shell?: boolean | string;
-    /**
-     * If true, forces the command to run inside of a shell, even if the command is a file.
-     */
-    forceShell?: boolean;
-  }
-  export type SpawnOptions = SpawnBaseOptions & Parameters<typeof _spawn>[1];
-  /**
-   * A function to spawn child processes with proper color support and environment variable handling.
-   *
-   * @param command - The command to execute.
-   * @param args - The command-line arguments to pass to the command. Defaults to
-   *   an empty array.
-   * @param options - Additional options for spawning the process, such as the
-   *   current working directory (`cwd`).
-   * @returns The result of the spawned process.
-   *
-   */
-  export function spawn(
-    command: string,
-    args?: string[] | SpawnOptions,
-    options?: SpawnOptions
-  ): Promise<unknown>;
-  /**
    * Options for the `resolve` handler function.
    */
   interface ResolveModuleOptions {
@@ -1164,7 +1278,99 @@ declare module "shell-shock:utils" {
    *
    */
   export function findSuggestions(input: string, options: string[]): string[];
-  export {};
+}
+
+/**
+ * A module to handle spawning child processes.
+ *
+ * @module shell-shock:spawn
+ */
+declare module "shell-shock:spawn" {
+  /**
+   * The result of a spawn operation.
+   */
+  export interface SpawnResult {
+    /**
+     * The PID of the spawned child process, if available.
+     */
+    pid?: number;
+    /**
+     * The standard output produced by the child process.
+     */
+    stdout: string;
+    /**
+     * The standard error produced by the child process.
+     */
+    stderr: string;
+    /**
+     * The exit code of the child process, if available.
+     */
+    code: number | null;
+    /**
+     * The signal that caused the child process to terminate, if it was killed by a signal.
+     */
+    signal: NodeJS.Signals | null;
+    /**
+     * Whether the child process was killed.
+     */
+    killed: boolean;
+    /**
+     * The reason for the child process termination.
+     */
+    termination: "exit" | "timeout" | "no-output-timeout" | "signal";
+    /**
+     * Whether the child process timed out due to no output.
+     */
+    noOutputTimedOut?: boolean;
+  }
+  /**
+   * Options for spawning a child process.
+   */
+  export interface SpawnOptions {
+    /**
+     * The timeout in milliseconds for the spawn operation. If the process runs longer than this, it will be killed and the spawn promise will reject. This can also be provided as a number directly to the spawn function for convenience. Providing \`-1\` will disable the timeout.
+     *
+     * @defaultValue 300000
+     */
+    timeoutMs: number;
+    /**
+     * The current working directory of the child process.
+     */
+    cwd?: string;
+    /**
+     * The input to be passed to the child process.
+     */
+    input?: string;
+    /**
+     * The environment variables for the child process.
+     */
+    env?: NodeJS.ProcessEnv;
+    /**
+     * Whether to pass arguments to the child process verbatim on Windows.
+     */
+    windowsVerbatimArguments?: boolean;
+    /**
+     * The timeout in milliseconds for the child process to produce output on stdout or stderr. If the process produces no output for this duration, it will be killed and the spawn promise will reject with a no-output-timeout termination reason.
+     */
+    noOutputTimeoutMs?: number;
+  }
+  /**
+   * Spawns a child process with the given arguments and options, returning a promise that resolves with the result of the spawn operation.
+   *
+   * @param argv - The command and its arguments to spawn.
+   * @param optionsOrTimeoutMs - The options for spawning the command, or a number
+   *   representing the timeout in milliseconds. This allows for a convenient
+   *   shorthand when only a timeout is needed. Providing `-1` will disable the
+   *   timeout. If no options or timeout are provided, a default timeout of 5
+   *   minutes will be used.
+   * @returns A promise that resolves with the result of the spawn operation,
+   *   including stdout, stderr, exit code, signal, and termination reason.
+   *
+   */
+  export function spawn(
+    argv: string[],
+    optionsOrTimeoutMs?: number | SpawnOptions
+  ): Promise<Promise<SpawnResult>>;
 }
 
 /**
@@ -4288,7 +4494,6 @@ declare module "shell-shock:console" {
    *
    */
   export function inlineCode(text?: string | number | boolean | null): string;
-  export {};
 }
 
 /**

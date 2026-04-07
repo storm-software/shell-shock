@@ -1112,7 +1112,8 @@ export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
           "textColors"
         ],
         env: ["paths", "isWindows", "isCI", "env"],
-        utils: ["isColorSupported", "isInteractive", "spawn", "resolveModule"]
+        utils: ["isColorSupported", "isInteractive", "resolveModule"],
+        spawn: ["spawn"]
       })}>
       <VarDeclaration
         const

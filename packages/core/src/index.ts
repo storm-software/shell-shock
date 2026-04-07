@@ -22,4 +22,3 @@ export * from "./types";
 
 // eslint-disable-next-line perfectionist/sort-named-exports
 export { ShellShockAPI, createShellShock };
-export default ShellShockAPI;

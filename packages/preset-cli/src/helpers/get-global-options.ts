@@ -18,7 +18,7 @@
 
 import type { CommandBase, CommandOption } from "@shell-shock/core";
 import { CommandParameterKinds } from "@shell-shock/core";
-import { getDefaultOptions as getDefaultOptionsBase } from "@shell-shock/preset-script/helpers/get-default-options";
+import { getGlobalOptions as _getGlobalOptions } from "@shell-shock/preset-script/helpers/get-global-options";
 import type { CLIPresetContext } from "../types";
 
 /**
@@ -28,12 +28,12 @@ import type { CLIPresetContext } from "../types";
  * @param _ - The command input.
  * @returns The default command options.
  */
-export function getDefaultOptions(
+export function getGlobalOptions(
   context: CLIPresetContext,
   _: CommandBase
 ): CommandOption[] {
   return [
-    ...getDefaultOptionsBase(),
+    ..._getGlobalOptions(),
     context.config.interactive !== "never" &&
       context.config.interactive !== true && {
         name: "interactive",

@@ -93,22 +93,7 @@ export const plugin = <
                 transforms: ["name/camel"],
                 fileHeader: "powerlines/file-header",
                 buildPath: this.config.output.path,
-                files: [
-                  {
-                    format: "javascript/module",
-                    destination: "theme.js",
-                    options: {
-                      minify: this.config.mode === "production"
-                    }
-                  },
-                  {
-                    format: "typescript/module-declarations",
-                    destination: "theme.d.ts",
-                    options: {
-                      minify: this.config.mode === "production"
-                    }
-                  }
-                ]
+                files: []
               }
             }
           } as Config);

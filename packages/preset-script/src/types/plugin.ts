@@ -50,7 +50,7 @@ import type {
   ThemePluginUserConfig
 } from "@shell-shock/plugin-theme";
 
-export type ScriptPresetOptions = Omit<Options, "defaultOptions"> &
+export type ScriptPresetOptions = Omit<Options, "globalOptions"> &
   ThemePluginOptions &
   ConsolePluginOptions &
   HelpPluginOptions & {
@@ -65,7 +65,7 @@ export type ScriptPresetOptions = Omit<Options, "defaultOptions"> &
      *
      * To disable the addition of these default options, set this property to `false`, or provide a custom set of options/a function that returns them.
      */
-    defaultOptions?:
+    globalOptions?:
       | CommandOption[]
       | ((context: Context, input: CommandBase) => CommandOption[])
       | false;

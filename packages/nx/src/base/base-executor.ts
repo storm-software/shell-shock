@@ -91,11 +91,11 @@ export function withExecutor<
         context.projectsConfigurations.projects[context.projectName]!;
 
       const jiti = createJiti(context.root, { cache: false });
-      const { createShellShock } = await jiti.import<{
-        createShellShock: typeof import("@shell-shock/core").createShellShock;
-      }>("@shell-shock/core");
+      const { ShellShockAPI } = await jiti.import<{
+        ShellShockAPI: typeof import("@shell-shock/core").ShellShockAPI;
+      }>(jiti.esmResolve("@shell-shock/core"));
 
-      const api = await createShellShock(
+      const api = await ShellShockAPI.from(
         defu(
           {
             name: projectConfig.name,
@@ -107,8 +107,9 @@ export function withExecutor<
               path: options.outputPath
             }
           },
-          options
-        ) as Partial<UserConfig>
+          options,
+          workspaceConfig.workspaceRoot
+        ) as UserConfig
       );
 
       try {

@@ -25,5 +25,8 @@ export default defineConfig({
   name: "shell-shock",
   nx: {
     depsCheck: false
+  },
+  tsdoc: {
+    configFile: "@powerlines/tsdoc/recommended.json"
   }
 });

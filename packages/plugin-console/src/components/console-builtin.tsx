@@ -2691,7 +2691,6 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
       })}
       builtinImports={defu(builtinImports, {
         utils: [
-          "hasFlag",
           "isMinimal",
           "isInteractive",
           "isColorSupported",
@@ -2699,7 +2698,8 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
           "isUnicodeSupported",
           "isHyperlinkSupported"
         ],
-        env: ["env", "isDevelopment", "isDebug"]
+        env: ["env", "isDevelopment", "isDebug"],
+        state: ["hasFlag"]
       })}>
       <AnsiHelpersDeclarations />
       <Spacing />

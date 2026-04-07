@@ -71,7 +71,7 @@ export function CommandRouter(props: CommandRouterProps) {
     <>
       <BaseCommandRouter {...props} segments={segments} commands={commands} />
       <Spacing />
-      <IfStatement condition={code`isInteractive && !isHelp`}>
+      <IfStatement condition={code`isInteractive && !isHelp()`}>
         {code`await showBanner();
 
         let segments = await select({
@@ -96,7 +96,7 @@ export function CommandRouter(props: CommandRouterProps) {
         }
 
         segments = segments.map(segment => dynamics[segment] || segment);
-        const context = useApp();
+        const context = useGlobal();
         context.set("args", [args.length > 0 ? args[0] : undefined, args.length > 1 ? args[1] : undefined, ...segments, ...args.slice(${
           segments.length + 2
         })].filter(Boolean) as string[]);

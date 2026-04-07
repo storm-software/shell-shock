@@ -67,7 +67,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
               context,
               true
             )} application updates. Please try again later - if the problem persists, please contact support.\`);
-              debug(result.error); `}
+              debug((result as CheckForUpdatesErrorResult).error); `}
           </IfStatement>
           <ElseIfClause
             condition={code`!(result as CheckForUpdatesSuccessResult)?.isUpToDate`}>
@@ -83,7 +83,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                     info(\`A new version of ${getAppTitle(
                       context,
                       true
-                    )} is available: \${red(\`v\${result.currentVersion}\`)} \${textColors.body.tertiary("➜")} \${green(\`v\${result.latestVersion}\`)}\${result.package.date ? textColors.body.tertiary(\` (updated on \${result.package.date})\`) : ""}\`);
+                    )} is available: \${red(\`v\${(result as CheckForUpdatesSuccessResult).currentVersion}\`)} \${textColors.body.tertiary("➜")} \${green(\`v\${(result as CheckForUpdatesSuccessResult).latestVersion}\`)}\${(result as CheckForUpdatesSuccessResult).package.date ? textColors.body.tertiary(\` (updated on \${(result as CheckForUpdatesSuccessResult).package.date})\`) : ""}\`);
 
                     try {
                       await upgrade();
@@ -98,7 +98,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                       spinner.error(\`An error occurred while updating ${getAppTitle(
                         context,
                         true
-                      )} to v\${result.latestVersion}. Please try again later - if the problem persists, please contact support.\`);
+                      )} to v\${(result as CheckForUpdatesSuccessResult).latestVersion}. Please try again later - if the problem persists, please contact support.\`);
                       debug(err);
                     } `}
                   <Spacing />
@@ -108,7 +108,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                 warn(\`A new version of ${getAppTitle(
                   context,
                   true
-                )} is available: \${red(\`v\${result.currentVersion}\`)} \${textColors.body.tertiary("➜")} \${green(\`v\${result.latestVersion}\`)}\${result.package.date ? textColors.body.tertiary(\` (updated on \${result.package.date})\`) : ""}${
+                )} is available: \${red(\`v\${(result as CheckForUpdatesSuccessResult).currentVersion}\`)} \${textColors.body.tertiary("➜")} \${green(\`v\${(result as CheckForUpdatesSuccessResult).latestVersion}\`)}\${(result as CheckForUpdatesSuccessResult).package.date ? textColors.body.tertiary(\` (updated on \${(result as CheckForUpdatesSuccessResult).package.date})\`) : ""}${
                   context.config.upgradeType !== false &&
                   context.config.upgradeType === "manual"
                     ? ` \\nPlease run \`${getAppBin(
@@ -123,7 +123,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                   context.config.upgradeType === "confirm"
                 }>
                 {code`const willUpgradeNow = await confirm({
-                  message: \`Would you like to update to v\${result.latestVersion} now?\`,
+                  message: \`Would you like to update to v\${(result as CheckForUpdatesSuccessResult).latestVersion} now?\`,
                   initialValue: true
                 });
                 if (isCancel(willUpgradeNow)) {
@@ -134,7 +134,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                   spinner.text = \`Updating ${getAppTitle(
                     context,
                     true
-                  )} to v\${result.latestVersion}...\`;
+                  )} to v\${(result as CheckForUpdatesSuccessResult).latestVersion}...\`;
                   spinner.start();
 
                   try {
@@ -150,7 +150,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                     spinner.error(\`An error occurred while updating ${getAppTitle(
                       context,
                       true
-                    )} to v\${result.latestVersion}. Please try again later - if the problem persists, please contact support.\`);
+                    )} to v\${(result as CheckForUpdatesSuccessResult).latestVersion}. Please try again later - if the problem persists, please contact support.\`);
                     return { error: err };
                   }
                 } else {

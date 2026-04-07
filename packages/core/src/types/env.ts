@@ -23,6 +23,7 @@ export interface ShellShockEnv {
    * @remarks
    * If not provided, it will default to '.EXE;.CMD;.BAT;.COM' on Windows, and will be ignored on other platforms. This variable is used to locate executable files when running commands, and is only relevant on Windows platforms. On non-Windows platforms, the system's executable file resolution will be used, and this variable will have no effect.
    *
+   * @runtime
    * @internal
    */
   PATHEXT?: string;
@@ -30,6 +31,7 @@ export interface ShellShockEnv {
   /**
    * The system PATH variable, used to locate executable files.
    *
+   * @runtime
    * @internal
    */
   PATH?: string;
@@ -40,9 +42,21 @@ export interface ShellShockEnv {
    * @remarks
    * This variable is set by npm when running scripts defined in package.json. It can be used to conditionally adjust behavior when running within an npm script context, such as modifying logging output or adjusting command execution. If this variable is not set, it can be assumed that the environment is not running within an npm script.
    *
+   * @runtime
    * @internal
    */
   npm_config_user_agent?: string;
+
+  /**
+   * The npm_config_fund environment variable, which can be used to control npm's funding behavior.
+   *
+   * @remarks
+   * This variable is set by npm when running scripts defined in package.json, and can be used to control npm's funding behavior. If set to 'false', it will disable npm's funding messages. If not set, npm will use its default funding behavior. This variable is only relevant when running within an npm script context, and has no effect on command execution or behavior outside of that context.
+   *
+   * @runtime
+   * @internal
+   */
+  npm_config_fund?: string;
 
   /**
    * The npm execution path, which can be used to determine the location of the npm executable.
@@ -50,6 +64,7 @@ export interface ShellShockEnv {
    * @remarks
    * This variable is set by npm when running scripts defined in package.json. It provides the absolute path to the npm executable being used to run the script. This can be useful for resolving the location of npm or for debugging purposes. If this variable is not set, it may indicate that the environment is not running within an npm script context, or that npm is not available in the PATH.
    *
+   * @runtime
    * @internal
    */
   npm_execpath?: string;
@@ -60,6 +75,7 @@ export interface ShellShockEnv {
    * @remarks
    * This variable is used on Windows platforms to determine which command-line interpreter to use when executing commands. It typically points to cmd.exe, but can be customized by the user. If this variable is not set on Windows, it will default to 'cmd.exe'. On non-Windows platforms, this variable is ignored and has no effect on command execution.
    *
+   * @runtime
    * @internal
    */
   comspec?: string;

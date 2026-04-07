@@ -4,7 +4,6 @@
   "private": false,
   "description": "A package containing a Shell Shock plugin to manage upgrading the local application's version.",
   "keywords": [
-    "style-dictionary",
     "shell-shock",
     "shell-shock-plugin",
     "powerlines",

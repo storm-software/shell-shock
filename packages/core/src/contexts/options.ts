@@ -21,11 +21,7 @@ import { createNamedContext, useContext } from "@alloy-js/core";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
-import type {
-  BooleanCommandOption,
-  CommandOption,
-  CommandTree
-} from "../types/command";
+import type { BooleanCommandOption, CommandOption } from "../types/command";
 import { CommandParameterKinds } from "../types/command";
 
 /**
@@ -46,14 +42,14 @@ export function useExistingOptions() {
   return useContext<string[]>(ExistingOptionsContext)!;
 }
 
-export function computedOptions(command: CommandTree) {
-  return Object.entries(command.options).reduce(
-    (ret, [name, option]) => {
-      ret[camelCase(name)] ??= defu(
+export function computedOptions(options: CommandOption[]) {
+  return options.reduce(
+    (ret, option) => {
+      ret[camelCase(option.name)] ??= defu(
         {
-          name: camelCase(name)
+          name: camelCase(option.name)
         },
-        ret[name] ?? {},
+        ret[option.name] ?? {},
         option
       ) as CommandOption;
 
@@ -72,8 +68,8 @@ export function computedOptions(command: CommandTree) {
             description: `${option.description.replace(
               /\.+$/,
               ""
-            )}. This property is the negative form of ${name}.`,
-            isNegativeOf: camelCase(name),
+            )}. This property is the negative form of ${option.name}.`,
+            isNegativeOf: camelCase(option.name),
             default: !option.default
           }
         ) as BooleanCommandOption;

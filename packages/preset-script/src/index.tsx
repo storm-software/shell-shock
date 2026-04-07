@@ -28,7 +28,7 @@ import { BinEntry } from "./components/bin-entry";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
 import { VirtualCommandEntry } from "./components/virtual-command-entry";
-import { getDefaultOptions } from "./helpers/get-default-options";
+import { getGlobalOptions } from "./helpers/get-global-options";
 import type { ScriptPresetContext, ScriptPresetOptions } from "./types/plugin";
 
 /**
@@ -51,7 +51,7 @@ export const plugin = <
         );
 
         return {
-          defaultOptions: getDefaultOptions,
+          globalOptions: getGlobalOptions,
           isCaseSensitive: false,
           ...options
         };
@@ -78,7 +78,8 @@ export const plugin = <
                     "splitText",
                     "help"
                   ],
-                  utils: ["useApp", "useArgs", "isMinimal"]
+                  utils: ["isMinimal"],
+                  state: ["useGlobal", "useArgs", "hasFlag", "isHelp"]
                 }}>
                 <Show when={Object.keys(this.commands).length > 0}>
                   <VarDeclaration

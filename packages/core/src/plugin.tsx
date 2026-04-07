@@ -19,8 +19,8 @@
 import { For, Show } from "@alloy-js/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
 import automd from "@powerlines/plugin-automd";
-import deepkit from "@powerlines/plugin-deepkit";
 import nodejs from "@powerlines/plugin-nodejs";
+import tsdown from "@powerlines/plugin-tsdown";
 import { toArray } from "@stryke/convert/to-array";
 import { chmodX } from "@stryke/fs/chmod-x";
 import { appendPath } from "@stryke/path/append";
@@ -36,10 +36,11 @@ import { isObject } from "@stryke/type-checks/is-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { defu } from "defu";
 import type { Plugin } from "powerlines";
-import { tsdown } from "powerlines/tsdown";
 import { resolveInputs } from "powerlines/utils";
 import type { BuildContext, RolldownChunk, TsdownHooks } from "tsdown";
 import { CommandDocsFile } from "./components/docs";
+import { SpawnBuiltin } from "./components/spawn-builtin";
+import { StateBuiltin } from "./components/state-builtin";
 import { UtilsBuiltin } from "./components/utils-builtin";
 import { commands } from "./helpers/automd";
 import {
@@ -71,7 +72,6 @@ import { getCommandTree } from "./plugin-utils/get-command-tree";
 import { traverseCommands } from "./plugin-utils/traverse-command-tree";
 import { resolve } from "./resolver/resolve";
 import type { CommandOption, CommandTree } from "./types/command";
-import { CommandParameterKinds } from "./types/command";
 import type { Options } from "./types/config";
 import type { Context } from "./types/context";
 
@@ -82,11 +82,10 @@ const MAX_DEPTH = 50;
  */
 export const plugin = <TContext extends Context = Context>(
   options: Options = {}
-) => {
+): Plugin<TContext>[] => {
   return [
-    tsdown(),
-    deepkit(),
-    automd(),
+    tsdown<TContext>(),
+    automd<TContext>(),
     {
       name: "shell-shock:config",
       async config() {
@@ -324,87 +323,6 @@ export const plugin = <TContext extends Context = Context>(
             .join("\n")}`
         );
       },
-      types() {
-        this.debug(
-          "Generating type definitions for the Shell Shock application."
-        );
-
-        return `
-/**
- * The global options available for every command in the ${getAppTitle(
-   this,
-   true
- )} command-line application.
- */
-export interface GlobalOptions {
-  ${this.options
-    .map(
-      option =>
-        `${
-          option.description
-            ? `
-/**
- * ${option.description}${
-   option.default
-     ? `
- *
- * @defaultValue ${
-   option.kind === CommandParameterKinds.string
-     ? `"${option.default}"`
-     : option.default
- }`
-     : ""
- }
- */
-`
-            : ""
-        }${option.name}${option.optional ? "?" : ""}: ${
-          option.kind === CommandParameterKinds.boolean
-            ? "boolean"
-            : `${option.variadic ? "(" : ""}${
-                option.choices
-                  ? option.choices
-                      .map(choice =>
-                        option.kind === CommandParameterKinds.number
-                          ? `${choice}`
-                          : `"${choice}"`
-                      )
-                      .join(" | ")
-                  : option.kind === CommandParameterKinds.number
-                    ? "number"
-                    : "string"
-              }${option.variadic ? ")[]" : ""}`
-        };${
-          option.alias && option.alias.length > 0
-            ? option.alias
-                .map(
-                  alias =>
-                    `${alias}${option.optional ? "?" : ""}: ${
-                      option.kind === CommandParameterKinds.boolean
-                        ? "boolean"
-                        : `${option.variadic ? "(" : ""}${
-                            option.choices
-                              ? option.choices
-                                  .map(choice =>
-                                    option.kind === CommandParameterKinds.number
-                                      ? `${choice}`
-                                      : `"${choice}"`
-                                  )
-                                  .join(" | ")
-                              : option.kind === CommandParameterKinds.number
-                                ? "number"
-                                : "string"
-                          }${option.variadic ? ")[]" : ""}`
-                    };`
-                )
-                .join("\n\n")
-            : ""
-        }`
-    )
-    .join("\n\n")}
-}
-`;
-      },
       async prepare() {
         this.debug(
           "Rendering base built-in modules for the Shell Shock application."
@@ -413,7 +331,9 @@ export interface GlobalOptions {
         return render(
           this,
           <>
+            <StateBuiltin />
             <UtilsBuiltin />
+            <SpawnBuiltin />
           </>
         );
       }
@@ -457,7 +377,11 @@ export interface GlobalOptions {
                   while (parentPath !== this.commandsPath) {
                     if (depth++ > MAX_DEPTH) {
                       throw new Error(
-                        `Unable to process virtual commands for ${command.name} \n\nPlease ensure ${command.entry.file} is a valid command entry file and does not have an invalid path.`
+                        `Unable to process virtual commands for ${
+                          command.name
+                        } \n\nPlease ensure ${
+                          command.entry.file
+                        } is a valid command entry file and does not have an invalid path.`
                       );
                     }
 
@@ -700,8 +624,7 @@ export interface GlobalOptions {
         );
       }
     }
-  ] as Plugin<TContext>[];
+  ];
 };
 
-export { plugin as shellShock };
 export default plugin;

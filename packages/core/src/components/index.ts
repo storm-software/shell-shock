@@ -20,5 +20,7 @@ export * from "./command-validation-logic";
 export * from "./docs";
 export * from "./helpers";
 export * from "./options-parser-logic";
+export * from "./spawn-builtin";
+export * from "./state-builtin";
 export * from "./usage";
 export * from "./utils-builtin";

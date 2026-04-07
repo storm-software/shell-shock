@@ -83,18 +83,23 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             "table",
             "writeLine",
             "splitText",
+            "textColors",
             "stripAnsi"
           ],
           utils: [
-            "useApp",
-            "useArgs",
-            "hasFlag",
             "isMinimal",
             "isUnicodeSupported",
             "isInteractive",
-            "isHelp",
             "findSuggestions",
             "sleep"
+          ],
+          state: [
+            "useGlobal",
+            "withCommand",
+            "useArgs",
+            "hasFlag",
+            "isHelp",
+            { name: "GlobalOptions", type: true }
           ],
           prompts: ["text", "numeric", "toggle", "select", "isCancel"],
           [joinPaths(

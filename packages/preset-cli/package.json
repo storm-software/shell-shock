@@ -201,7 +201,7 @@
     "powerlines": "catalog:"
   },
   "devDependencies": {
-    "@babel/core": "catalog:",
+    "@stryke/types": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:"
   },
@@ -230,5 +230,8 @@
       },
       "./package.json": "./package.json"
     }
+  },
+  "inlinedDependencies": {
+    "@stryke/types": "0.11.3"
   }
 }

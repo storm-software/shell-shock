@@ -29,6 +29,12 @@ import type {
   BannerPluginUserConfig
 } from "@shell-shock/plugin-banner";
 import type {
+  ChangelogPluginContext,
+  ChangelogPluginOptions,
+  ChangelogPluginResolvedConfig,
+  ChangelogPluginUserConfig
+} from "@shell-shock/plugin-changelog";
+import type {
   CompletionsPluginContext,
   CompletionsPluginOptions,
   CompletionsPluginResolvedConfig,
@@ -67,7 +73,7 @@ import type { ResolvedConfig } from "powerlines";
 
 export type UpgradeType = "confirm" | "auto" | "manual";
 
-export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> &
+export type CLIPresetOptions = Omit<ScriptPresetOptions, "globalOptions"> &
   HelpPluginOptions &
   PromptsPluginOptions &
   UpgradePluginOptions & {
@@ -98,7 +104,7 @@ export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> &
      *
      * To disable the addition of these default options, set this property to `false`, or provide a custom set of options/a function that returns them.
      */
-    defaultOptions?:
+    globalOptions?:
       | CommandOption[]
       | ((context: Context, input: CommandBase) => CommandOption[])
       | false;
@@ -125,6 +131,11 @@ export type CLIPresetOptions = Omit<ScriptPresetOptions, "defaultOptions"> &
      * Configuration options for the `completions` plugin. This field allows you to customize the behavior of the `completions` plugin, which provides commands for generating shell completion scripts for the CLI application. You can specify which shells to generate completions for, and other related settings.
      */
     completions?: Pick<CompletionsPluginOptions, "shells"> | false;
+
+    /**
+     * Configuration options for the `changelog` plugin. This field allows you to customize the behavior of the `changelog` plugin, which provides commands for displaying the application's changelog. You can specify the path to the changelog file, the command name, and other related settings.
+     */
+    changelog?: ChangelogPluginOptions | false;
   };
 
 export type CLIPresetUserConfig = UserConfig &
@@ -134,6 +145,7 @@ export type CLIPresetUserConfig = UserConfig &
   BannerPluginUserConfig &
   HelpPluginUserConfig &
   CompletionsPluginUserConfig &
+  ChangelogPluginUserConfig &
   UpgradePluginUserConfig &
   CLIPresetOptions;
 
@@ -144,6 +156,7 @@ export type CLIPresetResolvedConfig = ResolvedConfig &
   BannerPluginResolvedConfig &
   HelpPluginResolvedConfig &
   CompletionsPluginResolvedConfig &
+  ChangelogPluginResolvedConfig &
   UpgradePluginResolvedConfig &
   Required<CLIPresetOptions>;
 
@@ -156,4 +169,5 @@ export type CLIPresetContext<
   BannerPluginContext<TResolvedConfig> &
   HelpPluginContext<TResolvedConfig> &
   CompletionsPluginContext<TResolvedConfig> &
+  ChangelogPluginContext<TResolvedConfig> &
   UpgradePluginContext<TResolvedConfig>;

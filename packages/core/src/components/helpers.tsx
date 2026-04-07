@@ -119,10 +119,6 @@ export function CommandParameterType(props: { parameter: CommandParameter }) {
           ? "number"
           : "string"
   }${
-    (parameter.kind === CommandParameterKinds.string ||
-      parameter.kind === CommandParameterKinds.number) &&
-    parameter.variadic
-      ? "[]"
-      : ""
+    parameter.variadic ? "[]" : ""
   }${parameter.optional ? " | undefined" : ""}`;
 }

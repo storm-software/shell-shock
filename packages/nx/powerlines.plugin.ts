@@ -16,9 +16,9 @@
 
  ------------------------------------------------------------------- */
 
+import tsdown from "@powerlines/plugin-tsdown";
 import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines/config";
-import { tsdown } from "powerlines/tsdown";
 
 const config: UserConfig = defineConfig({
   skipCache: true,

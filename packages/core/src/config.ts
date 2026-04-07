@@ -28,5 +28,5 @@ import type { UserConfig } from "./types/config";
  * @returns A complete user configuration object.
  */
 export function defineConfig(config: Partial<UserConfig>): UserConfig {
-  return config;
+  return config as UserConfig;
 }

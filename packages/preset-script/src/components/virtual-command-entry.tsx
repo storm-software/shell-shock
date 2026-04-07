@@ -134,14 +134,14 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
         )}
         builtinImports={defu(builtinImports ?? {}, {
           env: ["isDevelopment", "isDebug"],
-          console: ["warn", "error", "writeLine"],
-          utils: [
-            "useApp",
+          console: ["warn", "error", "writeLine", "textColors"],
+          utils: ["isMinimal", "isUnicodeSupported", "findSuggestions"],
+          state: [
+            "useGlobal",
+            "withCommand",
             "useArgs",
             "hasFlag",
-            "isMinimal",
-            "isUnicodeSupported",
-            "findSuggestions"
+            { name: "GlobalOptions", type: true }
           ],
           [joinPaths(
             "help",

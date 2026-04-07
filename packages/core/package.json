@@ -138,6 +138,34 @@
         "default": "./dist/components/options-parser-logic.mjs"
       }
     },
+    "./components/spawn-builtin": {
+      "require": {
+        "types": "./dist/components/spawn-builtin.d.cts",
+        "default": "./dist/components/spawn-builtin.cjs"
+      },
+      "import": {
+        "types": "./dist/components/spawn-builtin.d.mts",
+        "default": "./dist/components/spawn-builtin.mjs"
+      },
+      "default": {
+        "types": "./dist/components/spawn-builtin.d.mts",
+        "default": "./dist/components/spawn-builtin.mjs"
+      }
+    },
+    "./components/state-builtin": {
+      "require": {
+        "types": "./dist/components/state-builtin.d.cts",
+        "default": "./dist/components/state-builtin.cjs"
+      },
+      "import": {
+        "types": "./dist/components/state-builtin.d.mts",
+        "default": "./dist/components/state-builtin.mjs"
+      },
+      "default": {
+        "types": "./dist/components/state-builtin.d.mts",
+        "default": "./dist/components/state-builtin.mjs"
+      }
+    },
     "./components/usage": {
       "require": {
         "types": "./dist/components/usage.d.cts",
@@ -333,20 +361,6 @@
       "default": {
         "types": "./dist/types/options.d.mts",
         "default": "./dist/types/options.mjs"
-      }
-    },
-    "./types/runtime": {
-      "require": {
-        "types": "./dist/types/runtime.d.cts",
-        "default": "./dist/types/runtime.cjs"
-      },
-      "import": {
-        "types": "./dist/types/runtime.d.mts",
-        "default": "./dist/types/runtime.mjs"
-      },
-      "default": {
-        "types": "./dist/types/runtime.d.mts",
-        "default": "./dist/types/runtime.mjs"
       }
     }
   },

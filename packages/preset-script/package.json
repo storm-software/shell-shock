@@ -143,18 +143,18 @@
         "default": "./dist/components/virtual-command-entry.mjs"
       }
     },
-    "./helpers/get-default-options": {
+    "./helpers/get-global-options": {
       "require": {
-        "types": "./dist/helpers/get-default-options.d.cts",
-        "default": "./dist/helpers/get-default-options.cjs"
+        "types": "./dist/helpers/get-global-options.d.cts",
+        "default": "./dist/helpers/get-global-options.cjs"
       },
       "import": {
-        "types": "./dist/helpers/get-default-options.d.mts",
-        "default": "./dist/helpers/get-default-options.mjs"
+        "types": "./dist/helpers/get-global-options.d.mts",
+        "default": "./dist/helpers/get-global-options.mjs"
       },
       "default": {
-        "types": "./dist/helpers/get-default-options.d.mts",
-        "default": "./dist/helpers/get-default-options.mjs"
+        "types": "./dist/helpers/get-global-options.d.mts",
+        "default": "./dist/helpers/get-global-options.mjs"
       }
     },
     "./package.json": "./package.json",

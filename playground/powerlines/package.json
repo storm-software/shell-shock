@@ -14,6 +14,6 @@
   "bin": {
     "playground-powerlines": "./dist/bin.cjs",
     "playground-powerlines-cjs": "./dist/bin.cjs",
-    "playground-powerlines-esm": "./dist/bin.mjs"
+    "playground-powerlines-esm": "./dist/bin.cjs"
   }
 }

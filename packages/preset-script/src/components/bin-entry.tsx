@@ -99,7 +99,7 @@ export function RunApplication() {
             }));
           }
 
-          await internal_appContext.run(new Map([["args", getArgs()]]), async () => {
+          await withGlobal(async () => {
             const result = await main();
             if (result?.error) {
               error(result.error);
@@ -159,15 +159,18 @@ export function BinEntry(props: BinEntryProps) {
           )}
           builtinImports={defu(builtinImports ?? {}, {
             env: ["env", "isDevelopment", "isDebug"],
-            console: ["error", "verbose", "table", "writeLine"],
-            utils: [
-              "useApp",
-              "hasFlag",
-              "isUnicodeSupported",
-              "internal_appContext",
-              "getArgs",
-              "findSuggestions"
+            console: [
+              "verbose",
+              "table",
+              "writeLine",
+              "borderColors",
+              "textColors",
+              "stripAnsi",
+              "error",
+              "warn"
             ],
+            utils: ["isUnicodeSupported", "findSuggestions"],
+            state: ["withGlobal", "useGlobal", "hasFlag"],
             help: ["showHelp"],
             banner: ["showBanner"]
           })}>

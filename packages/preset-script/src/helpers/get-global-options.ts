@@ -24,7 +24,7 @@ import { CommandParameterKinds } from "@shell-shock/core";
  *
  * @returns The default command options.
  */
-export function getDefaultOptions(): CommandOption[] {
+export function getGlobalOptions(): CommandOption[] {
   return [
     {
       name: "help",
