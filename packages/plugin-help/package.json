@@ -172,8 +172,5 @@
         "default": "./dist/types/plugin.mjs"
       }
     }
-  },
-  "inlinedDependencies": {
-    "@stryke/types": "0.11.3"
   }
 }

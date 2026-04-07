@@ -16,10 +16,12 @@
 
  ------------------------------------------------------------------- */
 
-import { escapeText } from "../helpers";
-
-const markdown = (text: string) => {
-  return `textColors.heading.primary(\`${escapeText(text)}\`)`;
-};
-
-export default markdown;
+export function escapeText(text: string) {
+  return text
+    .replaceAll("`", "\\`")
+    .replaceAll("${", "\\${")
+    .replaceAll("\\", "\\\\")
+    .replaceAll("\n", "\\n")
+    .replaceAll("\r", "\\r")
+    .replaceAll("\t", "\\t");
+}

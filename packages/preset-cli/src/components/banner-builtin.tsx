@@ -114,7 +114,7 @@ export function BannerFunctionBodyDeclaration(
           theme.borderStyles.banner.outline[variant].left
         }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
           bannerPadding.value
-        })) / 2), 0)) + colors.bold(colors.text.banner.title.${variant}(line)) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+        })) / 2), 0)) + bold(textColors.banner.title.${variant}(line)) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
           bannerPadding.value
         })) / 2), 0)) + borderColors.banner.outline.${variant}("${
           theme.borderStyles.banner.outline[variant].right

@@ -69,7 +69,8 @@ export function GlobalTypeDefinitions() {
         typeParameters={[
           {
             name: "THandler",
-            extends: "(...params: any[]) => any"
+            extends: "(...params: any[]) => any",
+            default: "(...params: any[]) => any"
           }
         ]}>
         <TSDoc
@@ -170,12 +171,16 @@ export function ContextUtilities() {
       </VarDeclaration>
       <Spacing />
       <TSDoc
-        heading={`Get the ${getAppTitle(context)} application context for the current application.`}>
+        heading={`Get the ${getAppTitle(
+          context
+        )} application context for the current application.`}>
         <TSDocParam name="options">
           {`The options to use when getting the context. This can include parameters for how to handle missing contexts, such as whether to throw an error or return undefined. By default, if the context is not available, this function will return undefined.`}
         </TSDocParam>
         <TSDocReturns>
-          {`The ${getAppTitle(context)} application context for the current application or undefined if the context is not available.`}
+          {`The ${getAppTitle(
+            context
+          )} application context for the current application or undefined if the context is not available.`}
         </TSDocReturns>
       </TSDoc>
       <FunctionDeclaration export name="useGlobal" returnType="GlobalContext">
@@ -225,7 +230,7 @@ export function ContextUtilities() {
         parameters={[
           {
             name: "update",
-            type: "GlobalContextState | ((prev: GlobalContextState) => GlobalContextState)"
+            type: "Partial<GlobalContextState> | ((prev: GlobalContextState) => GlobalContextState)"
           }
         ]}>
         {code`const prev = useGlobal()?.state;
@@ -364,8 +369,13 @@ return result;`}
         {code`return position !== -1 && argv.indexOf("--") === -1 || position < argv.indexOf("--");`}
       </FunctionDeclaration>
       <Spacing />
+      <TSDoc heading="A utility function to determine if the help flag is present or if the command is in an error state during preparation.">
+        <TSDocReturns>
+          {`True if the help flag is present or if the command is in an error state during preparation, false otherwise. This can be used to conditionally display help text or to alter command behavior when the user is likely seeking help.`}
+        </TSDocReturns>
+      </TSDoc>
       <FunctionDeclaration export name="isHelp" returnType="boolean">
-        {code`!isCI && (hasFlag(["help", "h", "?"]) || (useStatus() === "preparing" && useState().isError));`}
+        {code`return !isCI && (hasFlag(["help", "h", "?"]) || (useStatus() === "preparing" && useState().isError)); `}
       </FunctionDeclaration>
       <Spacing />
       <TSDoc
@@ -386,7 +396,7 @@ return result;`}
         parameters={[{ name: "handler", type: "() => any" }]}
         returnType="Promise<void>">
         {code`
-        return unstable_globalStore.run({ options: {} as unknown as GlobalOptions, inputArgs: getInputArgs(), state: { executionId: randomUUID(), status: "init" } as GlobalContextState }, handler);`}
+        return unstable_globalStore.run({ options: {} as unknown as GlobalOptions, inputArgs: getInputArgs(), state: { executionId: randomUUID(), status: "initializing", isError: false, meta: new Map() } as GlobalContextState }, handler);`}
       </FunctionDeclaration>
       <Spacing />
       <TSDoc
@@ -407,7 +417,8 @@ return result;`}
         typeParameters={[
           {
             name: "THandler",
-            extends: "(...params: any[]) => any"
+            extends: "(...params: any[]) => any",
+            default: "(...params: any[]) => any"
           }
         ]}
         parameters={[
@@ -416,14 +427,14 @@ return result;`}
           { name: "params", type: "Parameters<THandler>" },
           { name: "handler", type: "THandler" }
         ]}
-        returnType="Promise<{ error: string | Error }>">
+        returnType="Promise<{ error: string | Error | null }>">
         {code`setState({ status: "preparing", isError: false });
-        
+
         const ctx = { path, segments, params } as CommandContext<THandler>;
         const result = await Promise.resolve(unstable_commandStore.run(ctx, Reflect.apply(ctx, handler, params)));
-        if (result instanceof Error || (typeof result === "object" && result?.error instanceof Error)) {
+        if (result instanceof Error || (typeof result === "object" && ((result as { error: unknown }).error instanceof Error || typeof (result as { error: unknown }).error === "string"))) {
           setState({ status: "completed", isError: true });
-          return { error: result instanceof Error ? result : result.error };
+          return { error: result instanceof Error ? result : (result as { error: Error | string }).error };
         }
 
         setState({ status: "completed", isError: false });

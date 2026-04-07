@@ -518,7 +518,8 @@ export function AnsiStyleFunctionsDeclaration() {
         )}
       </For>
       <Spacing />
-      <For
+
+      {/* <For
         each={Object.keys(colors.ansi16.theme)}
         semicolon
         doubleHardline
@@ -555,7 +556,8 @@ export function AnsiStyleFunctionsDeclaration() {
           </>
         )}
       </For>
-      <Spacing />
+      <Spacing /> */}
+
       <For
         each={Object.keys(colors.ansi16.theme)}
         semicolon
