@@ -70,7 +70,7 @@ catalog:
   automd: ^0.4.3
   cfonts: ^3.3.1
   copyfiles: ^2.4.1
-  defu: ^6.1.6
+  defu: ^6.1.7
   esbuild: ^0.24.2
   eslint: ^9.39.4
   eslint-doc-generator: ^3.3.2

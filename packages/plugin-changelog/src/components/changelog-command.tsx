@@ -101,7 +101,7 @@ export function ChangelogCommand() {
           <Show
             when={!!result.data?.toString()}
             fallback={code` return warn("There is no changelog available for display."); `}>
-            {code` return \`${result.data?.toString()}\`; `}
+            {code` return ${result.data?.toString()}; `}
           </Show>
         </Show>
       </FunctionDeclaration>

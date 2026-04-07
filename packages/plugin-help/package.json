@@ -61,13 +61,13 @@
     "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",
     "@stryke/path": "catalog:",
+    "@stryke/types": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-deepkit": "catalog:",
-    "@types/node": "catalog:",
-    "@stryke/types": "catalog:"
+    "@types/node": "catalog:"
   },
   "publishConfig": {
     "access": "public"

@@ -256,21 +256,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "veRbzdDfKmyHddKblOShW7Fy0hi6ckVf"
+     * @defaultValue "WY70AUq04Aqp5jvyEoHUzIXCH6gHjrz3"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "08b26bd6-3548-4aed-955c-340e5c65e9c7"
+     * @defaultValue "f32a7809-f1d9-4303-9c9b-52f9ea612259"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-07T12:37:26.920Z"
+     * @defaultValue "2026-04-07T13:07:36.717Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -501,7 +501,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "b26bd635-483a-4d95-9c34-0e5c65e9c738"
+     * @defaultValue "2a7809f1-d9e3-439c-9b52-f9ea61225920"
      */
     readonly RELEASE_ID: string;
     /**
@@ -944,6 +944,10 @@ declare module "shell-shock:state" {
      * Indicates whether the current execution context has encountered an error.
      */
     isError: boolean;
+    /**
+     * A map containing arbitrary data associated with the current execution context.
+     */
+    meta: Map<string, unknown>;
   }
   /**
    * The context object for the Playground Command Line Interface application.
@@ -1018,6 +1022,13 @@ declare module "shell-shock:state" {
    *
    */
   export function useExecutionId(): string;
+  /**
+   * A utility hook function to get the metadata of the Playground Command Line Interface application context.
+   *
+   * @returns The metadata of the application context.
+   *
+   */
+  export function useMeta(): Map<string, unknown>;
   /**
    * A utility hook function to get the current status of the Playground Command Line Interface application.
    *
@@ -5693,6 +5704,36 @@ declare module "shell-shock:banner/completions" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
+ *
+ * @module shell-shock:banner/completions/bash/config
+ */
+declare module "shell-shock:banner/completions/bash/config" {
+  /**
+   * Write the Playground command-line interface application banner for the
+   * Completions - Bash Configuration command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Configuration command.
+ *
+ * @module shell-shock:banner/completions/zsh/config
+ */
+declare module "shell-shock:banner/completions/zsh/config" {
+  /**
+   * Write the Playground command-line interface application banner for the
+   * Completions - Zsh Configuration command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
  * A collection of utility functions that assist in displaying banner information for the Completions - Fish Configuration command.
  *
  * @module shell-shock:banner/completions/fish/config
@@ -5716,36 +5757,6 @@ declare module "shell-shock:banner/completions/powershell/config" {
   /**
    * Write the Playground command-line interface application banner for the
    * Completions - PowerShell Configuration command to the console.
-   *
-   * @param {number} sleepTimeoutMs
-   */
-  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
-}
-
-/**
- * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Configuration command.
- *
- * @module shell-shock:banner/completions/zsh/config
- */
-declare module "shell-shock:banner/completions/zsh/config" {
-  /**
-   * Write the Playground command-line interface application banner for the
-   * Completions - Zsh Configuration command to the console.
-   *
-   * @param {number} sleepTimeoutMs
-   */
-  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
-}
-
-/**
- * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
- *
- * @module shell-shock:banner/completions/bash/config
- */
-declare module "shell-shock:banner/completions/bash/config" {
-  /**
-   * Write the Playground command-line interface application banner for the
-   * Completions - Bash Configuration command to the console.
    *
    * @param {number} sleepTimeoutMs
    */
@@ -5918,6 +5929,36 @@ declare module "shell-shock:banner/run" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
+ *
+ * @module shell-shock:banner/completions/bash/script
+ */
+declare module "shell-shock:banner/completions/bash/script" {
+  /**
+   * Write the Playground command-line interface application banner for the
+   * Completions - Bash Script command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Script command.
+ *
+ * @module shell-shock:banner/completions/zsh/script
+ */
+declare module "shell-shock:banner/completions/zsh/script" {
+  /**
+   * Write the Playground command-line interface application banner for the
+   * Completions - Zsh Script command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
  * A collection of utility functions that assist in displaying banner information for the Completions - Fish Script command.
  *
  * @module shell-shock:banner/completions/fish/script
@@ -5941,36 +5982,6 @@ declare module "shell-shock:banner/completions/powershell/script" {
   /**
    * Write the Playground command-line interface application banner for the
    * Completions - PowerShell Script command to the console.
-   *
-   * @param {number} sleepTimeoutMs
-   */
-  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
-}
-
-/**
- * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Script command.
- *
- * @module shell-shock:banner/completions/zsh/script
- */
-declare module "shell-shock:banner/completions/zsh/script" {
-  /**
-   * Write the Playground command-line interface application banner for the
-   * Completions - Zsh Script command to the console.
-   *
-   * @param {number} sleepTimeoutMs
-   */
-  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
-}
-
-/**
- * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
- *
- * @module shell-shock:banner/completions/bash/script
- */
-declare module "shell-shock:banner/completions/bash/script" {
-  /**
-   * Write the Playground command-line interface application banner for the
-   * Completions - Bash Script command to the console.
    *
    * @param {number} sleepTimeoutMs
    */
@@ -6095,18 +6106,6 @@ declare module "shell-shock:help/completions" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Zsh Configuration command.
- *
- * @module shell-shock:help/completions/zsh/config
- */
-declare module "shell-shock:help/completions/zsh/config" {
-  /**
-   * Display help information for the Completions - Zsh Configuration command.
-   */
-  export function showHelp(): void;
-}
-
-/**
  * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Configuration command.
  *
  * @module shell-shock:help/completions/powershell/config
@@ -6139,6 +6138,18 @@ declare module "shell-shock:help/completions/bash/config" {
 declare module "shell-shock:help/completions/fish/config" {
   /**
    * Display help information for the Completions - Fish Configuration command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - Zsh Configuration command.
+ *
+ * @module shell-shock:help/completions/zsh/config
+ */
+declare module "shell-shock:help/completions/zsh/config" {
+  /**
+   * Display help information for the Completions - Zsh Configuration command.
    */
   export function showHelp(): void;
 }
@@ -6276,18 +6287,6 @@ declare module "shell-shock:help/run" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Zsh Script command.
- *
- * @module shell-shock:help/completions/zsh/script
- */
-declare module "shell-shock:help/completions/zsh/script" {
-  /**
-   * Display help information for the Completions - Zsh Script command.
-   */
-  export function showHelp(): void;
-}
-
-/**
  * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Script command.
  *
  * @module shell-shock:help/completions/powershell/script
@@ -6319,6 +6318,18 @@ declare module "shell-shock:help/completions/bash/script" {
 declare module "shell-shock:help/completions/fish/script" {
   /**
    * Display help information for the Completions - Fish Script command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - Zsh Script command.
+ *
+ * @module shell-shock:help/completions/zsh/script
+ */
+declare module "shell-shock:help/completions/zsh/script" {
+  /**
+   * Display help information for the Completions - Zsh Script command.
    */
   export function showHelp(): void;
 }
