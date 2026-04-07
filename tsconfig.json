@@ -16,7 +16,7 @@
       "path": "./packages/nx"
     },
     {
-      "path": "./packages/remark"
+      "path": "./packages/unified"
     },
     {
       "path": "./packages/plugin-theme"
@@ -35,6 +35,9 @@
     },
     {
       "path": "./packages/plugin-banner"
+    },
+    {
+      "path": "./packages/plugin-changelog"
     },
     {
       "path": "./packages/plugin-upgrade"
