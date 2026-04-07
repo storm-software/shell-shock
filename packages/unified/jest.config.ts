@@ -1,7 +1,7 @@
 import { declarePackage } from "@storm-software/testing-tools";
 
 export default declarePackage({
-  projectRoot: "packages/remark",
+  projectRoot: "packages/unified",
   isNode: true,
-  displayName: "@shell-shock/remark"
+  displayName: "@shell-shock/unified"
 });

@@ -16,14 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import tsdown from "@powerlines/plugin-tsdown";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines/config";
+export * from "./adapter";
+export { default as html } from "./html";
+export { default as markdown } from "./markdown";
 
-const config: UserConfig = defineConfig({
-  skipCache: true,
-  input: ["./src/index.ts", "./src/to-console.ts", "./src/types.ts"],
-  plugins: [tsdown()]
-});
-
-export default config;
+export type * from "./types";

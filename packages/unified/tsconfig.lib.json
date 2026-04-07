@@ -5,11 +5,7 @@
     "types": ["node", "unist", "hast", "mdast"],
     "outDir": "./out-tsc"
   },
-  "references": [
-    {
-      "path": "../core/tsconfig.lib.json"
-    }
-  ],
-  "include": ["src/**/*.ts", "powerlines.config.ts"],
+  "references": [{ "path": "../core/tsconfig.lib.json" }],
+  "include": ["src/**/*.ts", "powerlines.config.ts", "powerlines.d.ts"],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

@@ -49,23 +49,23 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 <!-- END header -->
 
-# Shell Shock - Remark
+# Shell Shock - Unified Renderer
 
-A **Shell Shock** package that supports displaying [mdast](https://github.com/syntax-tree/mdast) abstract syntax trees (AST) for Markdown in the console using generated built-in modules.
+A **Shell Shock** package that generates source code for displaying HTML elements and markdown content in the terminal.
 
 ## Installing
 
 Using [pnpm](http://pnpm.io):
 
 ```bash
-pnpm add -D @shell-shock/remark
+pnpm add -D @shell-shock/unified
 ```
 
 <details>
   <summary>Using npm</summary>
 
 ```bash
-npm install -D @shell-shock/remark
+npm install -D @shell-shock/unified
 ```
 
 </details>
@@ -74,18 +74,22 @@ npm install -D @shell-shock/remark
   <summary>Using yarn</summary>
 
 ```bash
-yarn add -D @shell-shock/remark
+yarn add -D @shell-shock/unified
 ```
 
 </details>
 
 ## Building
 
-Run `nx build remark` to build the library.
+Run `nx build unified` to build the library.
 
 ## Running unit tests
 
-Run `nx test remark` to execute the unit tests via [Jest](https://jestjs.io).
+Run `nx test unified` to execute the unit tests via [Jest](https://jestjs.io).
+
+## Acknowledgements
+
+Much of the code in this package was adapted from the [cli-html](https://github.com/grigorii-horos/cli-html) project. Huge thanks to Grigorii Horos for creating such a wonderful project and open sourcing it!
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->
