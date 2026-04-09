@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.0) (04/09/2026)
+
+### Features
+
+- **core:** Added the `exec` built-in and `getTerminalSize` helpers ([1c68646](https://github.com/storm-software/shell-shock/commit/1c68646))
+
 ## [0.16.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.16.2) (04/09/2026)
 
 ### Bug Fixes

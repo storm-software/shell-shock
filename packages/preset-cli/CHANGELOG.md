@@ -2,6 +2,25 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.12](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.12) (04/09/2026)
+
+### Features
+
+- **core:** Added the `exec` built-in and `getTerminalSize` helpers ([1c68646](https://github.com/storm-software/shell-shock/commit/1c68646))
+
+### Updated Dependencies
+
+- Updated **plugin-completions** to **v0.4.8**
+- Updated **plugin-changelog** to **v0.1.3**
+- Updated **plugin-console** to **v0.2.4**
+- Updated **plugin-prompts** to **v0.3.41**
+- Updated **plugin-upgrade** to **v0.1.45**
+- Updated **plugin-banner** to **v0.1.27**
+- Updated **preset-script** to **v0.6.55**
+- Updated **plugin-theme** to **v0.4.13**
+- Updated **plugin-help** to **v0.2.18**
+- Updated **core** to **v0.17.0**
+
 ## [0.9.11](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.11) (04/09/2026)
 
 ### Bug Fixes

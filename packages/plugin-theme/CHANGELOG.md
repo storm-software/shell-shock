@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.13) (04/09/2026)
+
+### Features
+
+- **core:** Added the `exec` built-in and `getTerminalSize` helpers ([1c68646](https://github.com/storm-software/shell-shock/commit/1c68646))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.0**
+
 ## [0.4.12](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.12) (04/09/2026)
 
 ### Updated Dependencies

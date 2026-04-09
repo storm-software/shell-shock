@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.45](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.45) (04/09/2026)
+
+### Features
+
+- **core:** Added the `exec` built-in and `getTerminalSize` helpers ([1c68646](https://github.com/storm-software/shell-shock/commit/1c68646))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.0**
+
 ## [0.1.44](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.44) (04/09/2026)
 
 ### Updated Dependencies
