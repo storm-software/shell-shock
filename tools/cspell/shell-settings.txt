@@ -4,3 +4,4 @@ pathext
 colorterm
 cfonts
 pjson
+linkify

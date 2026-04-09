@@ -39,7 +39,7 @@ import type { Plugin } from "powerlines";
 import { resolveInputs } from "powerlines/utils";
 import type { BuildContext, RolldownChunk, TsdownHooks } from "tsdown";
 import { CommandDocsFile } from "./components/docs";
-import { SpawnBuiltin } from "./components/spawn-builtin";
+import { ExecBuiltin } from "./components/exec-builtin";
 import { StateBuiltin } from "./components/state-builtin";
 import { UtilsBuiltin } from "./components/utils-builtin";
 import { commands } from "./helpers/automd";
@@ -333,7 +333,7 @@ export const plugin = <TContext extends Context = Context>(
           <>
             <StateBuiltin />
             <UtilsBuiltin />
-            <SpawnBuiltin />
+            <ExecBuiltin />
           </>
         );
       }

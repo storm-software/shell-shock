@@ -83,7 +83,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                     info(\`A new version of ${getAppTitle(
                       context,
                       true
-                    )} is available: \${red(\`v\${(result as CheckForUpdatesSuccessResult).currentVersion}\`)} \${textColors.body.tertiary("➜")} \${green(\`v\${(result as CheckForUpdatesSuccessResult).latestVersion}\`)}\${(result as CheckForUpdatesSuccessResult).package?.date ? textColors.body.tertiary(\` (updated on \${(result as CheckForUpdatesSuccessResult).package.date})\`) : ""}\`);
+                    )} is available: \${red(\`v\${(result as CheckForUpdatesSuccessResult).currentVersion}\`)} \${textColors.body.tertiary("➜")} \${green(\`v\${(result as CheckForUpdatesSuccessResult).latestVersion}\`)}\${(result as CheckForUpdatesSuccessResult).package?.date ? textColors.body.tertiary(\` (updated on \${(result as CheckForUpdatesSuccessResult).package?.date})\`) : ""}\`);
 
                     try {
                       await upgrade();

@@ -16,6 +16,8 @@
 
  ------------------------------------------------------------------- */
 
+import type { PartialKeys } from "@stryke/types/base";
+
 export interface RenderAdapter {
   /**
    * Heading text.
@@ -93,7 +95,34 @@ export interface Options {
   adapter: RenderAdapter;
 
   /**
+   * Whether to wrap lines at a certain width.
+   */
+  pre?: boolean;
+
+  /**
+   * The maximum line width for wrapping text. Defaults to the terminal width minus 2, with a maximum of 120 characters.
+   */
+  lineWidth?: number;
+
+  /**
+   * Whether to include font attributes (e.g., bold, italic) in the output. If false, all text will be rendered without font attributes. Defaults to true.
+   */
+  fontAttrs?: boolean;
+
+  /**
+   * The depth of the current rendering context, used for managing nested elements and indentation levels. Defaults to 0.
+   */
+  depth?: number;
+
+  /**
+   * Whether to use ASCII characters for rendering elements such as borders and dividers, instead of Unicode characters. Defaults to false.
+   */
+  asciiMode?: boolean;
+
+  /**
    * Post-process the generated output.
    */
   postProcess?: (output: string) => string;
 }
+
+export type ResolvedOptions = PartialKeys<Required<Options>, "postProcess">;

@@ -78,5 +78,5 @@ export interface ShellShockEnv {
    * @runtime
    * @internal
    */
-  comspec?: string;
+  ComSpec?: string;
 }

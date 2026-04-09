@@ -19,6 +19,7 @@
 import { code, Show, splitProps } from "@alloy-js/core";
 import {
   FunctionDeclaration,
+  IfStatement,
   InterfaceDeclaration,
   InterfaceMember,
   VarDeclaration
@@ -240,6 +241,138 @@ export function FindSuggestionsDeclaration() {
 
         return results.sort((a, b) => a.distance - b.distance).map(r => r.option);
         `}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
+ * Generates utilities for detecting terminal size and whether the process is running in the foreground, which can be used to determine how to render output (e.g., whether to use a progress bar or spinner).
+ */
+export function TerminalSizeDeclaration() {
+  return (
+    <>
+      <VarDeclaration
+        export
+        const
+        name="DEFAULT_TERMINAL_COLUMNS"
+        doc="Default number of terminal columns"
+        initializer={code`80`}
+      />
+      <Spacing />
+      <VarDeclaration
+        export
+        const
+        name="DEFAULT_TERMINAL_ROWS"
+        doc="Default number of terminal rows"
+        initializer={code`24`}
+      />
+      <Spacing />
+      <FunctionDeclaration name="isForegroundProcess">
+        {code`if (isLinux) {
+          return true;
+        }
+
+        try {
+          const statContents = readFileSync("/proc/self/stat", "utf8");
+          const closingParenthesisIndex = statContents.lastIndexOf(') ');
+
+          if (closingParenthesisIndex === -1) {
+            return false;
+          }
+
+          const statFields = statContents.slice(closingParenthesisIndex + 2).trim().split(/\\s+/);
+          const processGroupId = Number.parseInt(statFields[2], 10);
+          const foregroundProcessGroupId = Number.parseInt(statFields[5], 10);
+
+          if (Number.isNaN(processGroupId) || Number.isNaN(foregroundProcessGroupId)) {
+            return false;
+          }
+
+          if (foregroundProcessGroupId <= 0) {
+            return false;
+          }
+
+          return processGroupId === foregroundProcessGroupId;
+        } catch {
+          return false;
+        } `}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration name="tput">
+        {code`try {
+            const columns = execSync(["tput", "cols"], { env: { TERM: 'dumb', ...process.env } });
+            const rows = execSync(["tput", "lines"], { env: { TERM: 'dumb', ...process.env } });
+
+            if (columns && rows) {
+              return { columns: Number.parseInt(columns.toString().trim(), 10), rows: Number.parseInt(rows.toString().trim(), 10) };
+            }
+          } catch {}  `}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration name="devTty">
+        {code`try {
+            return tty.WriteStream(openSync("/dev/tty", isMacOS ? fsConstants.O_NONBLOCK : fsConstants.O_NONBLOCK));
+          } catch {}  `}
+      </FunctionDeclaration>
+      <Spacing />
+      <TSDoc heading="A utility function that attempts to determine the size of the terminal (number of columns and rows) using various methods, and falls back to default values if it cannot be determined. This can be used to adjust output formatting based on the available terminal size.">
+        <TSDocRemarks>
+          {
+            "The function first checks if the process is running in a TTY environment and if the stdout or stderr streams provide column and row information. If not, it attempts to use platform-specific methods (like reading from /proc/self/stat on Linux, using tput on Unix-like systems, or checking /dev/tty) to determine the terminal size. If all else fails, it returns default values."
+          }
+        </TSDocRemarks>
+        <Spacing />
+        <TSDocReturns>
+          {
+            "An object containing the number of columns and rows of the terminal."
+          }
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        name="getTerminalSize"
+        returnType="{ columns: number; rows: number; }">
+        <IfStatement
+          condition={code`process.stdout?.columns && process.stdout?.rows`}>
+          {code`return { columns: process.stdout.columns, rows: process.stdout.rows }; `}
+        </IfStatement>
+        <IfStatement
+          condition={code`process.stderr?.columns && process.stderr?.rows`}>
+          {code`return { columns: process.stderr.columns, rows: process.stderr.rows };`}
+        </IfStatement>
+        <Spacing />
+        <IfStatement condition={code`isWindows`}>
+          {code`return tput() ?? {
+            columns: DEFAULT_TERMINAL_COLUMNS,
+            rows: DEFAULT_TERMINAL_ROWS,
+          }; `}
+        </IfStatement>
+        <IfStatement condition={code`isMacOS`}>
+          {code`return devTty() ?? tput() ?? {
+            columns: DEFAULT_TERMINAL_COLUMNS,
+            rows: DEFAULT_TERMINAL_ROWS,
+          }; `}
+        </IfStatement>
+        <Spacing />
+        <VarDeclaration
+          let
+          name="result"
+          initializer={code`devTty() ?? tput(); `}
+        />
+        <IfStatement condition={code`!result && isForegroundProcess()`}>
+          {code`try {
+          const size = execSync(["resize", "-u"]).match(/\\d+/g);
+          if (size.length === 2) {
+            result = { columns: Number.parseInt(size[0], 10), rows: Number.parseInt(size[1], 10) };
+          }
+        } catch {} `}
+        </IfStatement>
+        <Spacing />
+        {code`return result ?? {
+          columns: DEFAULT_TERMINAL_COLUMNS,
+          rows: DEFAULT_TERMINAL_ROWS,
+        }; `}
       </FunctionDeclaration>
     </>
   );
@@ -1501,6 +1634,7 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
           "isAbsolute"
         ],
         "node:fs": [
+          { name: "constants", alias: "fsConstants" },
           "openSync",
           "closeSync",
           "read",
@@ -1509,13 +1643,24 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
           "realpathSync"
         ],
         "node:fs/promises": ["stat"],
+        "node:tty": "tty",
         "node:util": ["promisify"],
         "node:url": ["fileURLToPath", "pathToFileURL"],
         "node:module": ["builtinModules"]
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
         console: ["error", "verbose", "writeLine"],
-        env: ["env", "isCI", "isTest", "isWindows", "isDevelopment", "isDebug"],
+        env: [
+          "env",
+          "isCI",
+          "isTest",
+          "isWindows",
+          "isLinux",
+          "isMacOS",
+          "isDevelopment",
+          "isDebug"
+        ],
+        exec: ["execSync"],
         state: ["hasFlag"]
       })}>
       <TSDoc heading="A utility function to pause execution for a specified duration, which can be used in prompt interactions to create delays or timeouts. The function returns a promise that resolves after the specified duration in milliseconds, allowing it to be used with async/await syntax for easier handling of asynchronous prompt logic.">
@@ -1531,6 +1676,8 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
         name="sleep"
         parameters={[{ name: "durationMs", type: "number" }]}
         returnType="Promise<void>">{code`return new Promise((resolve) => setTimeout(resolve, durationMs)); `}</FunctionDeclaration>
+      <Spacing />
+      <TerminalSizeDeclaration />
       <Spacing />
       <EnvSupportUtilities />
       <Spacing />

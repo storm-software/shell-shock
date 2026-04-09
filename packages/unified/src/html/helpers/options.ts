@@ -16,20 +16,15 @@
 
  ------------------------------------------------------------------- */
 
-import { parse } from "parse5";
-import type { Options } from "../types";
-import { getOptions } from "./helpers/options";
-import { renderTag } from "./helpers/render";
+import type { Options, ResolvedOptions } from "../../types";
 
-/**
- * Renders HTML content as source code for displaying in the terminal.
- *
- * @param html - HTML content
- * @param options - Configuration options for rendering the HTML.
- * @return A string of source code that can be executed to display the rendered HTML in the terminal.
- */
-export function renderHtml(html: string, options: Options): string {
-  const document = parse(html, { sourceCodeLocationInfo: true });
-
-  return `${(renderTag(document, getOptions(options)) || { value: "" }).value}\n`;
-}
+export const getOptions = (input: Options): ResolvedOptions => {
+  return {
+    pre: false,
+    lineWidth: 120,
+    fontAttrs: true,
+    depth: 0,
+    asciiMode: false,
+    ...input
+  };
+};

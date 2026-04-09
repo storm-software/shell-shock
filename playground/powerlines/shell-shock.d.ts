@@ -42,6 +42,12 @@ declare module "shell-shock:env" {
      */
     comspec?: string;
     /**
+     *
+     *
+     *
+     */
+    ComSpec?: string;
+    /**
      * The application's configuration data directory.
      *
      * @title Configuration Directory
@@ -290,21 +296,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "u4IXkPosraabpkvu7nnFm4T-kypLCtLY"
+     * @defaultValue "vi6BbildIOFDIcC0G5cQIthDPvg7qaTS"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "a2bd543c-4799-4ec6-bd3c-45b66d2f7620"
+     * @defaultValue "f87b7d03-ea01-4280-b4c2-da8d9c1c2640"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-09T06:44:41.123Z"
+     * @defaultValue "2026-04-09T12:54:37.794Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -535,7 +541,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "bd543c47-999e-46fd-bc45-b66d2f762089"
+     * @defaultValue "7b7d03ea-0162-40f4-82da-8d9c1c2640fe"
      */
     readonly RELEASE_ID: string;
     /**
@@ -1176,6 +1182,28 @@ declare module "shell-shock:utils" {
    */
   export function sleep(durationMs: number): Promise<void>;
   /**
+   * Default number of terminal columns
+   */
+  export const DEFAULT_TERMINAL_COLUMNS = 80;
+  /**
+   * Default number of terminal rows
+   */
+  export const DEFAULT_TERMINAL_ROWS = 24;
+  /**
+   * A utility function that attempts to determine the size of the terminal (number of columns and rows) using various methods, and falls back to default values if it cannot be determined. This can be used to adjust output formatting based on the available terminal size.
+   *
+   * @remarks
+   * The function first checks if the process is running in a TTY environment and if the stdout or stderr streams provide column and row information. If not, it attempts to use platform-specific methods (like reading from /proc/self/stat on Linux, using tput on Unix-like systems, or checking /dev/tty) to determine the terminal size. If all else fails, it returns default values.
+   *
+   *
+   * @returns An object containing the number of columns and rows of the terminal.
+   *
+   */
+  export function getTerminalSize(): {
+    columns: number;
+    rows: number;
+  };
+  /**
    * Detect if stdout.TTY is available
    */
   export const isTTY: boolean;
@@ -1221,8 +1249,8 @@ declare module "shell-shock:utils" {
     options?: GetColorSupportLevelOptions
   ):
     | false
-    | 0
     | 2
+    | 0
     | 3
     | {
         level: number;
@@ -1307,11 +1335,11 @@ declare module "shell-shock:utils" {
 }
 
 /**
- * A module to handle spawning child processes.
+ * A module to handle command execution in a Shell Shock application.
  *
- * @module shell-shock:spawn
+ * @module shell-shock:exec
  */
-declare module "shell-shock:spawn" {
+declare module "shell-shock:exec" {
   /**
    * The result of a spawn operation.
    */
@@ -1397,6 +1425,44 @@ declare module "shell-shock:spawn" {
     argv: string[],
     optionsOrTimeoutMs?: number | SpawnOptions
   ): Promise<Promise<SpawnResult>>;
+  /**
+   * A helper function that executes a command and returns its stdout.
+   *
+   * @param argv - The command and its arguments to spawn. This is passed directly
+   *   to the spawn function. Remember that on Windows, commands like `npm` or
+   *   `pnpm` will be resolved to their .cmd shims, so you can just pass `npm`
+   *   without worrying about the extension.
+   * @param optionsOrTimeoutMs - The options for spawning the command, or a number
+   *   representing the timeout in milliseconds. This is passed directly to the
+   *   spawn function. Providing `-1` will disable the timeout. If no options or
+   *   timeout are provided, a default timeout of 5 minutes will be used.
+   * @returns A promise that resolves with the result of the spawn operation if
+   *   the command exits with code 0, or rejects with an error if the command
+   *   exits with a non-zero code or if there is a problem spawning the process.
+   *
+   */
+  export function exec(
+    argv: string[],
+    optionsOrTimeoutMs?: number | SpawnOptions
+  ): Promise<Promise<string>>;
+  /**
+   * A helper function that executes a command synchronously and returns its stdout. This is a thin wrapper around \`child_process.execFileSync\` with some added Windows compatibility handling.
+   *
+   * @param argv - The command and its arguments to spawn. This is passed directly
+   *   to `execFileSync` after Windows-specific resolution. Remember that on
+   *   Windows, commands like `npm` or `pnpm` will be resolved to their .cmd
+   *   shims, so you can just pass `npm` without worrying about the extension.
+   * @param options - The options for spawning the command. This is passed
+   *   directly to `execFileSync` after some processing. The timeout option is
+   *   supported, but note that it will throw an error if the process runs longer
+   *   than the specified timeout. If no options are provided, a default timeout
+   *   of 5 minutes will be used.
+   * @returns The standard output produced by the command if it exits with code 0.
+   *   If the command exits with a non-zero code or if there is a problem spawning
+   *   the process, an error will be thrown.
+   *
+   */
+  export function execSync(argv: string[], options?: SpawnOptions): string;
 }
 
 /**
@@ -4102,12 +4168,20 @@ declare module "shell-shock:console" {
    * Render a hyperlink in the console.
    *
    * @param url - The URL to render as a hyperlink.
-   * @param text - The text to display for the link. If not provided, the URL will
-   *   be used as the text.
+   * @param textOrExternal - The text to display for the link or a boolean
+   *   indicating whether the link is external. If no text is provided, the URL
+   *   will be used as the text. If a boolean is provided and is true, the URL
+   *   will be used as the text and the link will be rendered as an external link.
+   * @param external - A boolean indicating whether the link is external. If true,
+   *   the link will be rendered as an external link.
    * @returns The formatted hyperlink string.
    *
    */
-  export function link(url: string, text?: string): string;
+  export function link(
+    url: string,
+    textOrExternal?: string | boolean,
+    external?: boolean
+  ): string;
   /**
    * Options for formatting the divider line written to console.
    */
@@ -4377,7 +4451,7 @@ declare module "shell-shock:console" {
    * Calculate the width in characters based on the provided width size.
    *
    * @remarks
-   * This function calculates the width in characters based on the provided width size, which can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%"). The calculation is based on the current width of the console (process.stdout.columns).
+   * This function calculates the width in characters based on the provided width size, which can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%"). The calculation is based on the current width of the console (getTerminalSize().columns).
    * @param size - The width size to calculate. This can be a predefined string
    *   (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%").
    * @returns The calculated width in characters.

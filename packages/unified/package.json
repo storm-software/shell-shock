@@ -90,12 +90,30 @@
   "typings": "dist/index.d.mts",
   "files": ["dist/**/*"],
   "dependencies": {
+    "@mdit/plugin-alert": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@stryke/path": "catalog:",
+    "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",
+    "@stryke/types": "catalog:",
+    "chalk-string": "catalog:",
     "defu": "catalog:",
+    "he": "catalog:",
+    "markdown-it": "catalog:",
+    "markdown-it-abbr": "catalog:",
+    "markdown-it-container": "catalog:",
+    "markdown-it-deflist": "catalog:",
+    "markdown-it-footnote": "catalog:",
+    "markdown-it-ins": "catalog:",
+    "markdown-it-mark": "catalog:",
+    "markdown-it-sub": "catalog:",
+    "markdown-it-sup": "catalog:",
+    "markdown-it-task-lists": "catalog:",
+    "normalize-html-whitespace": "catalog:",
     "parse5": "catalog:",
-    "powerlines": "catalog:"
+    "powerlines": "catalog:",
+    "terminal-size": "catalog:",
+    "wrap-ansi": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-tsdown": "catalog:",
@@ -103,5 +121,11 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "inlinedDependencies": {
+    "ansi-escapes": "4.3.2",
+    "has-flag": "4.0.0",
+    "supports-color": "7.2.0",
+    "supports-hyperlinks": "2.3.0"
   }
 }

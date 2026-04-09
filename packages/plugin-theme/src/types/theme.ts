@@ -415,6 +415,10 @@ export interface ThemeIconSubItemConfig {
   tertiary: string;
 }
 
+export interface ThemeIconLinkStateConfig {
+  external: string;
+}
+
 export interface ThemeIconPromptStateConfig {
   active: string;
   warning: string;
@@ -441,6 +445,7 @@ export interface ThemeIconTypeResolvedConfig<TState extends object> {
 }
 
 export interface ThemeIconsUserConfig {
+  link: Partial<ThemeIconLinkStateConfig> | string;
   message: ThemeIconTypeUserConfig<ThemeIconMessageStateConfig> | string;
   banner: ThemeIconTypeUserConfig<ThemeIconSubItemConfig> | string;
   prompt: Partial<ThemeIconPromptStateConfig> | string;
@@ -448,6 +453,7 @@ export interface ThemeIconsUserConfig {
 }
 
 export interface ThemeIconsResolvedConfig {
+  link: ThemeIconLinkStateConfig;
   message: ThemeIconTypeResolvedConfig<ThemeIconMessageStateConfig>;
   banner: ThemeIconTypeResolvedConfig<ThemeIconSubItemConfig>;
   prompt: ThemeIconPromptStateConfig;

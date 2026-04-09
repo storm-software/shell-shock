@@ -996,7 +996,7 @@ export function MessageFunctionDeclaration(
                 theme.labels.message.header[variant]
               }")) + " " + borderColors.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].top
-              }".repeat(Math.max(process.stdout.columns - ${
+              }".repeat(Math.max(getTerminalSize().columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
                 theme.borderStyles.message.outline[variant].topLeft.length +
                 4 +
@@ -1010,7 +1010,7 @@ export function MessageFunctionDeclaration(
               }, 0)))`
             : `borderColors.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].top
-              }".repeat(Math.max(process.stdout.columns - ${
+              }".repeat(Math.max(getTerminalSize().columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
                 theme.borderStyles.message.outline[variant].topLeft.length +
                 theme.borderStyles.message.outline[variant].topRight.length
@@ -1020,7 +1020,7 @@ export function MessageFunctionDeclaration(
         }"), { consoleFn: console.${consoleFnName} });
         splitText(
           message,
-          Math.max(process.stdout.columns - ${
+          Math.max(getTerminalSize().columns - ${
             (Math.max(theme.padding.app, 0) +
               Math.max(theme.padding.message, 0)) *
               2 +
@@ -1031,7 +1031,7 @@ export function MessageFunctionDeclaration(
           writeLine(borderColors.message.outline.${color}("${
             theme.borderStyles.message.outline[variant].left +
             " ".repeat(Math.max(theme.padding.message, 0))
-          }") + textColors.message.description.${color}(line) + " ".repeat(Math.max(process.stdout.columns - (stripAnsi(line).length + ${
+          }") + textColors.message.description.${color}(line) + " ".repeat(Math.max(getTerminalSize().columns - (stripAnsi(line).length + ${
             Math.max(theme.padding.app, 0) * 2 +
             Math.max(theme.padding.message, 0) +
             theme.borderStyles.message.outline[variant].left.length +
@@ -1046,7 +1046,7 @@ export function MessageFunctionDeclaration(
           theme.labels.message.footer[variant] || timestamp
             ? `borderColors.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].bottom
-              }".repeat(Math.max(process.stdout.columns - ${
+              }".repeat(Math.max(getTerminalSize().columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
                 4 +
                 (theme.labels.message.footer[variant]
@@ -1067,7 +1067,7 @@ export function MessageFunctionDeclaration(
               }".repeat(4))`
             : `borderColors.message.outline.${color}("${
                 theme.borderStyles.message.outline[variant].bottom
-              }".repeat(Math.max(process.stdout.columns - ${
+              }".repeat(Math.max(getTerminalSize().columns - ${
                 Math.max(theme.padding.app, 0) * 2 +
                 theme.borderStyles.message.outline[variant].bottomLeft.length +
                 theme.borderStyles.message.outline[variant].bottomRight.length
@@ -1258,7 +1258,7 @@ export function DividerFunctionDeclaration() {
           }
         ]}>
         {code`const padding = options.padding ?? ${Math.max(theme.padding.app, 1) * 4};
-        const width = options.width ?? (process.stdout.columns - (Math.max(padding, 0) * 2));
+        const width = options.width ?? (getTerminalSize().columns - (Math.max(padding, 0) * 2));
         const border = options.border === "tertiary" ? borderColors.app.divider.tertiary("${
           theme.borderStyles.app.divider.tertiary.top
         }") : options.border === "secondary" ? borderColors.app.divider.secondary("${
@@ -1280,14 +1280,19 @@ export function DividerFunctionDeclaration() {
  * A component to generate the `link` function in the `shell-shock:console` builtin module.
  */
 export function LinkFunctionDeclaration() {
+  const theme = useTheme();
+
   return (
     <>
       <TSDoc heading="Render a hyperlink in the console.">
         <TSDocParam name="url">
           {`The URL to render as a hyperlink.`}
         </TSDocParam>
-        <TSDocParam name="text">
-          {`The text to display for the link. If not provided, the URL will be used as the text.`}
+        <TSDocParam name="textOrExternal">
+          {`The text to display for the link or a boolean indicating whether the link is external. If no text is provided, the URL will be used as the text. If a boolean is provided and is true, the URL will be used as the text and the link will be rendered as an external link.`}
+        </TSDocParam>
+        <TSDocParam name="external">
+          {`A boolean indicating whether the link is external. If true, the link will be rendered as an external link.`}
         </TSDocParam>
         <TSDocReturns>{`The formatted hyperlink string.`}</TSDocReturns>
       </TSDoc>
@@ -1300,17 +1305,24 @@ export function LinkFunctionDeclaration() {
             type: "string",
             optional: false
           },
-          { name: "text", type: "string", optional: true }
+          { name: "textOrExternal", type: "string | boolean", optional: true },
+          { name: "external", type: "boolean", optional: true }
         ]}>
         <IfStatement condition={code`isHyperlinkSupported()`}>
-          {code`return \`\\x1b]8;;\${url}\\u0007\${text ?? url}\\x1b]8;;\\u0007\`;`}
+          {code`return \`\\x1b]8;;\${url}\\u0007\${typeof textOrExternal === "string" && textOrExternal ? textOrExternal : url}\\x1b]8;;\\u0007\${external === true || textOrExternal === true ? "${
+            theme.icons.link.external
+          }" : ""}\`;`}
         </IfStatement>
         <hbr />
         <IfStatement condition={code`isColorSupported`}>
-          {code`return underline(textColors.body.link(\`\${url}\`));`}
+          {code`return \`\${underline(textColors.body.link(\`\${url}\`))}\${external === true || textOrExternal === true ? "${
+            theme.icons.link.external
+          }" : ""}\`;`}
         </IfStatement>
         <hbr />
-        {code`return \`\${url}\`;`}
+        {code`return \`\${url}\${external === true || textOrExternal === true ? "${
+          theme.icons.link.external
+        }" : ""}\`;`}
       </FunctionDeclaration>
     </>
   );
@@ -1347,7 +1359,7 @@ export function BlockquoteFunctionDeclaration() {
 
         const lines = splitText(
           String(text),
-          Math.max(process.stdout.columns, 20) - 6
+          Math.max(getTerminalSize().columns, 20) - 6
         );
 
         return lines.map((line, index) => \` \${index === 0 ? isUnicodeSupported() ? "❝" : "\\"" : " "} \${italic(line)} \${index === lines.length - 1 ? isUnicodeSupported() ? "❞" : "\\"" : " "} \`).join("\\n"); `}
@@ -1395,12 +1407,12 @@ export function CodeFunctionDeclaration() {
           theme.borderStyles.app.divider.primary.top
         }".repeat(4))}\${language ? \` \${borderColors.app.divider.primary(language)} \` : ""}\${borderColors.app.divider.primary("${
           theme.borderStyles.app.divider.primary.top
-        }".repeat(process.stdout.columns - (language ? language.length + 2 : 0) - 5))} \\n\${splitText(
+        }".repeat(getTerminalSize().columns - (language ? language.length + 2 : 0) - 5))} \\n\${splitText(
           String(text),
-          Math.max(process.stdout.columns, 20)
+          Math.max(getTerminalSize().columns, 20)
         ).map(line => \`\${textColors.body.primary(line)}\`).join("\\n")}\\n \${borderColors.app.divider.primary("${
           theme.borderStyles.app.divider.primary.bottom
-        }".repeat(process.stdout.columns - 2))} \`; `}
+        }".repeat(getTerminalSize().columns - 2))} \`; `}
       </FunctionDeclaration>
     </>
   );
@@ -2029,7 +2041,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
       <Spacing />
       <TSDoc heading="Calculate the width in characters based on the provided width size.">
         <TSDocRemarks>
-          {`This function calculates the width in characters based on the provided width size, which can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%"). The calculation is based on the current width of the console (process.stdout.columns).`}
+          {`This function calculates the width in characters based on the provided width size, which can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%"). The calculation is based on the current width of the console (getTerminalSize().columns).`}
         </TSDocRemarks>
         <TSDocParam name="size">
           {`The width size to calculate. This can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%").`}
@@ -2048,34 +2060,34 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
         ]}
         returnType="number">
         <IfStatement condition={code`["full", "100%", "1/1"]. includes(size)`}>
-          {code`return process.stdout.columns;`}
+          {code`return getTerminalSize().columns;`}
         </IfStatement>
         <ElseIfClause condition={code`["1/2", "50%"].includes(size)`}>
-          {code`return Math.round(process.stdout.columns / 2);`}
+          {code`return Math.round(getTerminalSize().columns / 2);`}
         </ElseIfClause>
         <ElseIfClause condition={code`["1/3", "33.33%"].includes(size)`}>
-          {code`return Math.round(process.stdout.columns / 3);`}
+          {code`return Math.round(getTerminalSize().columns / 3);`}
         </ElseIfClause>
         <ElseIfClause condition={code`["1/4", "25%"].includes(size)`}>
-          {code`return Math.round(process.stdout.columns / 4);`}
+          {code`return Math.round(getTerminalSize().columns / 4);`}
         </ElseIfClause>
         <ElseIfClause condition={code`["1/5", "20%"].includes(size)`}>
-          {code`return Math.round(process.stdout.columns / 5);`}
+          {code`return Math.round(getTerminalSize().columns / 5);`}
         </ElseIfClause>
         <ElseIfClause condition={code`["1/6", "10%"].includes(size)`}>
-          {code`return Math.round(process.stdout.columns / 6);`}
+          {code`return Math.round(getTerminalSize().columns / 6);`}
         </ElseIfClause>
         <ElseIfClause condition={code`["1/12", "5%"].includes(size)`}>
-          {code`return Math.round(process.stdout.columns / 12);`}
+          {code`return Math.round(getTerminalSize().columns / 12);`}
         </ElseIfClause>
         <ElseIfClause condition={code`["1/24", "2.5%"].includes(size)`}>
-          {code`return Math.round(process.stdout.columns / 24);`}
+          {code`return Math.round(getTerminalSize().columns / 24);`}
         </ElseIfClause>
         <ElseClause>
           {code`
             const match = size.match(/(\\d+(\\.\\d+)?)%/);
             if (match) {
-              return Math.round((process.stdout.columns * parseFloat(match[1])) / 100);
+              return Math.round((getTerminalSize().columns * parseFloat(match[1])) / 100);
             }
 
             throw new Error(\`Invalid width size: \${size}\`);
@@ -2524,7 +2536,7 @@ do {
   }
 
   rowDims.forEach((row, rowIndex) => {
-    if (!recalculate && row.width > Math.max(process.stdout.columns - ${
+    if (!recalculate && row.width > Math.max(getTerminalSize().columns - ${
       Math.max(theme.padding.app, 0) * 2
     }, 0)) {
       const cell = cells[rowIndex]!.reduce((largestCell, cell) => {
@@ -2536,7 +2548,7 @@ do {
 
       const lines = splitText(
         cell.value,
-        Math.min(Math.max(process.stdout.columns - ${
+        Math.min(Math.max(getTerminalSize().columns - ${
           Math.max(theme.padding.app, 0) * 2
         } - (row.width - (cell.width - cell.padding * 2)), 0),
         cell.maxWidth ?? Number.POSITIVE_INFINITY)
@@ -2550,7 +2562,7 @@ do {
     }
   });
 
-  if (!recalculate && colWidths.reduce((a, b) => a + b, 0) > Math.max(process.stdout.columns - ${
+  if (!recalculate && colWidths.reduce((a, b) => a + b, 0) > Math.max(getTerminalSize().columns - ${
     Math.max(theme.padding.app, 0) * 2
   }, 0)) {
     let colIndex = 0;
@@ -2566,7 +2578,7 @@ do {
 
     const lines = splitText(
       cell.value,
-      Math.min(Math.max(process.stdout.columns - ${
+      Math.min(Math.max(getTerminalSize().columns - ${
         Math.max(theme.padding.app, 0) * 2
       } - (colWidths.filter((_, i) => i !== colIndex).reduce((a, b) => a + b, 0)) - cell.padding * 2, 0),
       cell.maxWidth ?? Number.POSITIVE_INFINITY)
@@ -2658,7 +2670,8 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
           "isColorSupported",
           "colorSupportLevels",
           "isUnicodeSupported",
-          "isHyperlinkSupported"
+          "isHyperlinkSupported",
+          "getTerminalSize"
         ],
         env: ["env", "isDevelopment", "isDebug"],
         state: ["hasFlag"]

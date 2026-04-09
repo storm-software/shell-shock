@@ -1113,7 +1113,7 @@ export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
         ],
         env: ["paths", "isWindows", "isCI", "env"],
         utils: ["isColorSupported", "isInteractive", "resolveModule"],
-        spawn: ["spawn"]
+        exec: ["spawn"]
       })}>
       <VarDeclaration
         const

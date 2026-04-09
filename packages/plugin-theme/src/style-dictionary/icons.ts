@@ -27,6 +27,7 @@ import type {
 import { mergeThemes } from "../helpers/merge";
 import type { ThemePluginContext } from "../types/plugin";
 import type {
+  ThemeIconLinkStateConfig,
   ThemeIconMessageStateConfig,
   ThemeIconPromptStateConfig,
   ThemeIconSpinnerStateConfig,
@@ -58,6 +59,7 @@ export const icons = (context: ThemePluginContext): Preprocessor => ({
     // #region Icons
 
     resolvedConfig.icons ??= {
+      link: {},
       message: { header: {} },
       banner: { header: {} },
       prompt: {}
@@ -66,6 +68,9 @@ export const icons = (context: ThemePluginContext): Preprocessor => ({
 
     if (isSetString(icons)) {
       resolvedConfig.icons = {
+        link: {
+          external: icons
+        },
         message: {
           header: {
             help: icons,
@@ -101,6 +106,19 @@ export const icons = (context: ThemePluginContext): Preprocessor => ({
         }
       };
     } else if (isSetObject(icons)) {
+      resolvedConfig.icons.link ??= {} as ThemeIconLinkStateConfig;
+      const app = icons.link;
+
+      if (isSetString(app)) {
+        resolvedConfig.icons.link = {
+          external: app
+        };
+      } else if (isSetObject(app)) {
+        if (isSetString(app.external)) {
+          resolvedConfig.icons.link.external = app.external;
+        }
+      }
+
       resolvedConfig.icons.message =
         {} as ThemeIconTypeResolvedConfig<ThemeIconMessageStateConfig>;
       const message = icons.message;

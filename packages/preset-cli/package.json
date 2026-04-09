@@ -232,6 +232,31 @@
     }
   },
   "inlinedDependencies": {
-    "@stryke/types": "0.11.3"
+    "@mdit/plugin-alert": "0.23.2",
+    "@stryke/types": "0.11.3",
+    "ansi-styles": "6.2.3",
+    "chalk": "5.6.2",
+    "chalk-string": "4.0.0",
+    "colors-option": "6.1.2",
+    "entities": ["4.5.0", "6.0.1"],
+    "he": "1.2.0",
+    "is-plain-obj": "4.1.0",
+    "linkify-it": "5.0.0",
+    "markdown-it": "14.1.1",
+    "markdown-it-abbr": "2.0.0",
+    "markdown-it-container": "4.0.0",
+    "markdown-it-deflist": "3.0.0",
+    "markdown-it-footnote": "4.0.0",
+    "markdown-it-ins": "4.0.0",
+    "markdown-it-mark": "4.0.0",
+    "markdown-it-sub": "2.0.0",
+    "markdown-it-sup": "2.0.0",
+    "markdown-it-task-lists": "2.1.1",
+    "mdurl": "2.0.0",
+    "normalize-html-whitespace": "1.0.0",
+    "parse5": "8.0.0",
+    "punycode.js": "2.3.1",
+    "uc.micro": "2.1.0",
+    "wrap-ansi": "10.0.0"
   }
 }

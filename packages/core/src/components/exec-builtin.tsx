@@ -36,26 +36,29 @@ import {
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import defu from "defu";
 
-export interface SpawnBuiltinProps extends Omit<
+export interface ExecBuiltinProps extends Omit<
   BuiltinFileProps,
   "id" | "description"
 > {}
 
 /**
- * A built-in module for handling child process spawning in Shell Shock.
+ * A built-in module for handling command execution in Shell Shock.
  */
-export function SpawnBuiltin(props: SpawnBuiltinProps) {
+export function ExecBuiltin(props: ExecBuiltinProps) {
   const [{ children }, rest] = splitProps(props, ["children"]);
 
   return (
     <BuiltinFile
-      id="spawn"
-      description="A module to handle spawning child processes."
+      id="exec"
+      description="A module to handle command execution in a Shell Shock application."
       {...rest}
       imports={defu(rest.imports ?? {}, {
         "node:path": ["basename", "extname", "dirname", "join"],
         "node:fs": ["existsSync"],
-        "node:child_process": [{ name: "spawn", alias: "_spawn" }],
+        "node:child_process": [
+          { name: "spawn", alias: "_spawn" },
+          "execFileSync"
+        ],
         "node:stream": [{ name: "Stream", default: true, type: true }]
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
@@ -200,47 +203,6 @@ return command;`}
     : "pipe";
 
 return [stdin, "pipe", "pipe"];`}
-      </FunctionDeclaration>
-      <Spacing />
-      <FunctionDeclaration
-        name="resolveChildProcessInvocation"
-        parameters={[
-          {
-            name: "params",
-            type: "{ argv: string[]; windowsVerbatimArguments?: boolean; }"
-          }
-        ]}
-        returnType="{ args: string[]; command: string; usesWindowsExitCodeShim: boolean; windowsHide: true; windowsVerbatimArguments?: boolean; }">
-        {code`const finalArgv =
-  isWindows
-    ? (resolveNpmArgvForWindows(params.argv) ?? params.argv)
-    : params.argv;
-const resolvedCommand =
-  finalArgv !== params.argv
-    ? (finalArgv[0] ?? "")
-    : resolveCommand(params.argv[0] ?? "");
-const useCmdWrapper = isWindowsBatchCommand(resolvedCommand);
-
-return {
-  command: useCmdWrapper
-    ? (process.env.ComSpec ?? "cmd.exe")
-    : resolvedCommand,
-  args: useCmdWrapper
-    ? [
-        "/d",
-        "/s",
-        "/c",
-        buildCmdExeCommandLine(resolvedCommand, finalArgv.slice(1))
-      ]
-    : finalArgv.slice(1),
-  usesWindowsExitCodeShim:
-    isWindows &&
-    (useCmdWrapper || finalArgv !== params.argv),
-  windowsHide: true,
-  windowsVerbatimArguments: useCmdWrapper
-    ? true
-    : params.windowsVerbatimArguments
-};`}
       </FunctionDeclaration>
       <Spacing />
       <FunctionDeclaration
@@ -389,19 +351,40 @@ const { timeoutMs, cwd, input, env, noOutputTimeoutMs } = options;
 const hasInput = input !== undefined;
 const resolvedEnv = resolveCommandEnv({ argv, env });
 const stdio = resolveCommandStdio({ hasInput, preferInherit: true });
-const invocation = resolveChildProcessInvocation({
-  argv,
-  windowsVerbatimArguments: options.windowsVerbatimArguments
-});
 
-const child = _spawn(invocation.command, invocation.args, {
+const finalArgv =
+  isWindows
+    ? (resolveNpmArgvForWindows(argv) ?? argv)
+    : argv;
+const resolvedCommand =
+  finalArgv !== argv
+    ? (finalArgv[0] ?? "")
+    : resolveCommand(argv[0] ?? "");
+const useCmdWrapper = isWindowsBatchCommand(resolvedCommand);
+
+const child = _spawn(
+  useCmdWrapper
+    ? (process.env.ComSpec ?? "cmd.exe")
+    : resolvedCommand,
+  useCmdWrapper
+    ? [
+        "/d",
+        "/s",
+        "/c",
+        buildCmdExeCommandLine(resolvedCommand, finalArgv.slice(1))
+      ]
+    : finalArgv.slice(1), {
   stdio,
   cwd,
   env: resolvedEnv,
-  windowsHide: invocation.windowsHide,
-  windowsVerbatimArguments: invocation.windowsVerbatimArguments,
+  windowsHide: true,
+  windowsVerbatimArguments: useCmdWrapper
+    ? true
+    : options.windowsVerbatimArguments,
   ...(shouldSpawnWithShell({
-    resolvedCommand: invocation.command,
+    resolvedCommand: useCmdWrapper
+      ? (process.env.ComSpec ?? "cmd.exe")
+      : resolvedCommand,
     platform: process.platform
   })
     ? { shell: true }
@@ -523,7 +506,7 @@ return new Promise((resolve, reject) => {
       explicitCode: childExitState?.code ?? code,
       childExitCode: child.exitCode,
       resolvedSignal,
-      usesWindowsExitCodeShim: invocation.usesWindowsExitCodeShim,
+      usesWindowsExitCodeShim: isWindows && (useCmdWrapper || finalArgv !== argv),
       timedOut,
       noOutputTimedOut,
       killIssuedByTimeout
@@ -589,6 +572,81 @@ return new Promise((resolve, reject) => {
 });`}
       </FunctionDeclaration>
       <Spacing />
+      <TSDoc heading="A helper function that executes a command and returns its stdout.">
+        <TSDocParam name="argv">
+          {`The command and its arguments to spawn. This is passed directly to the spawn function. Remember that on Windows, commands like \`npm\` or \`pnpm\` will be resolved to their .cmd shims, so you can just pass \`npm\` without worrying about the extension.`}
+        </TSDocParam>
+        <TSDocParam name="optionsOrTimeoutMs">
+          {`The options for spawning the command, or a number representing the timeout in milliseconds. This is passed directly to the spawn function. Providing \`-1\` will disable the timeout. If no options or timeout are provided, a default timeout of 5 minutes will be used.`}
+        </TSDocParam>
+        <TSDocReturns>
+          {
+            "A promise that resolves with the result of the spawn operation if the command exits with code 0, or rejects with an error if the command exits with a non-zero code or if there is a problem spawning the process."
+          }
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        async
+        name="exec"
+        parameters={[
+          { name: "argv", type: "string[]" },
+          {
+            name: "optionsOrTimeoutMs",
+            type: "number | SpawnOptions",
+            default: "300000"
+          }
+        ]}
+        returnType="Promise<string>">
+        {code`const spawnResult = await spawn(argv, optionsOrTimeoutMs);
+          if (spawnResult.code !== 0) {
+            throw Object.assign(new Error(
+              \`Command "\${argv.join(" ")}" exited with code \${spawnResult.code} and signal \${spawnResult.signal}\`
+            ), spawnResult);
+          }
+
+          return spawnResult.stdout.trim(); `}
+      </FunctionDeclaration>
+      <Spacing />
+      <TSDoc heading="A helper function that executes a command synchronously and returns its stdout. This is a thin wrapper around \`child_process.execFileSync\` with some added Windows compatibility handling.">
+        <TSDocParam name="argv">
+          {`The command and its arguments to spawn. This is passed directly to \`execFileSync\` after Windows-specific resolution. Remember that on Windows, commands like \`npm\` or \`pnpm\` will be resolved to their .cmd shims, so you can just pass \`npm\` without worrying about the extension.`}
+        </TSDocParam>
+        <TSDocParam name="options">
+          {`The options for spawning the command. This is passed directly to \`execFileSync\` after some processing. The timeout option is supported, but note that it will throw an error if the process runs longer than the specified timeout. If no options are provided, a default timeout of 5 minutes will be used.`}
+        </TSDocParam>
+        <TSDocReturns>
+          {
+            "The standard output produced by the command if it exits with code 0. If the command exits with a non-zero code or if there is a problem spawning the process, an error will be thrown."
+          }
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        name="execSync"
+        parameters={[
+          { name: "argv", type: "string[]" },
+          { name: "options", type: "SpawnOptions", optional: true }
+        ]}
+        returnType="string">
+        {code`return execFileSync(argv.length > 0 ? argv[0] : "", argv.slice(1), {
+          encoding: "utf8",
+          stdio: ["ignore", "pipe", "ignore"],
+          timeout: options?.timeoutMs ?? 300000,
+          env: options?.env ? resolveCommandEnv({ argv, env: options.env }) : process.env,
+          cwd: options?.cwd,
+          windowsHide: true,
+          windowsVerbatimArguments: options?.windowsVerbatimArguments,
+          ...(shouldSpawnWithShell({
+            resolvedCommand: argv[0] ?? "",
+            platform: process.platform
+          })
+            ? { shell: true }
+            : {})
+        }).trim(); `}
+      </FunctionDeclaration>
+      <Spacing />
+
       <Show when={Boolean(children)}>{children}</Show>
     </BuiltinFile>
   );

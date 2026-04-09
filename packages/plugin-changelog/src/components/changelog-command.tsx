@@ -34,7 +34,7 @@ import {
   TSDocParam
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
-import markdown from "@shell-shock/unified/markdown";
+import { renderMarkdown } from "@shell-shock/unified/markdown";
 import { joinPaths } from "@stryke/path";
 import type { ChangelogPluginContext } from "../types/plugin";
 
@@ -50,7 +50,7 @@ export function ChangelogCommand() {
       return null;
     }
 
-    return markdown(content);
+    return renderMarkdown(content);
   });
 
   return (
@@ -101,7 +101,7 @@ export function ChangelogCommand() {
           <Show
             when={!!result.data?.toString()}
             fallback={code` return warn("There is no changelog available for display."); `}>
-            {code` return ${result.data?.toString()}; `}
+            {result.data?.toString()}
           </Show>
         </Show>
       </FunctionDeclaration>

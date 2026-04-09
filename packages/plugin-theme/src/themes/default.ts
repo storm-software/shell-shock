@@ -140,6 +140,9 @@ export const theme: ThemeUserConfig = {
     table: 1
   },
   icons: {
+    link: {
+      external: "↗"
+    },
     message: {
       header: {
         help: "✱",

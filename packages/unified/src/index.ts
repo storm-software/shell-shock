@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 export * from "./adapter";
-export { default as html } from "./html";
-export { default as markdown } from "./markdown";
+export * from "./html";
+export * from "./markdown";
 
 export type * from "./types";

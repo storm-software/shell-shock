@@ -16,10 +16,17 @@
 
  ------------------------------------------------------------------- */
 
-import { escapeText } from "../helpers";
+import { renderHtml } from "../html";
+import type { Options } from "../types";
+import { markdownToHtml } from "./markdown-to-html";
 
-const markdown = (text: string) => {
-  return `textColors.heading.primary(\`${escapeText(text)}\`)`;
-};
-
-export default markdown;
+/**
+ * Renders Markdown content as source code for displaying in the terminal.
+ *
+ * @param markdown - Markdown content
+ * @param options - Configuration options for rendering the markdown.
+ * @return A string of source code that can be executed to display the rendered markdown in the terminal.
+ */
+export function renderMarkdown(markdown: string, options: Options): string {
+  return renderHtml(markdownToHtml(markdown), options);
+}
