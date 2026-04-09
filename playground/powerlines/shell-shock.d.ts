@@ -290,21 +290,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "-9DRhAXDfxJA5y0mOheVbsD3vwhbCTYw"
+     * @defaultValue "u4IXkPosraabpkvu7nnFm4T-kypLCtLY"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "40b05f05-8dbd-4bc9-8125-80b3276ca918"
+     * @defaultValue "a2bd543c-4799-4ec6-bd3c-45b66d2f7620"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-07T16:30:09.403Z"
+     * @defaultValue "2026-04-09T06:44:41.123Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -535,7 +535,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "b05f058d-bd6b-49c1-a580-b3276ca91804"
+     * @defaultValue "bd543c47-999e-46fd-bc45-b66d2f762089"
      */
     readonly RELEASE_ID: string;
     /**
@@ -934,7 +934,7 @@ declare module "shell-shock:state" {
    * The context object for the current command execution, containing the command path and segments.
    */
   export interface CommandContext<
-    THandler extends (...params: any[]) => any = (...params: any[]) => any
+    THandler extends (...params: any[]) => any = any
   > {
     /**
      * The full command path as a string. For example, if the user runs `playground-powerlines foo bar`, this would be `foo bar`. This is useful for commands that need to know their full invocation path, such as for help text or for commands that have dynamic behavior based on their position in the command hierarchy.
@@ -1068,9 +1068,7 @@ declare module "shell-shock:state" {
    * @internal
    *
    */
-  export const unstable_commandStore: AsyncLocalStorage<
-    CommandContext<(...params: any[]) => any>
-  >;
+  export const unstable_commandStore: AsyncLocalStorage<CommandContext<any>>;
   /**
    * Get the Playground Powerlines - command context for the current application.
    *
@@ -1146,7 +1144,10 @@ declare module "shell-shock:state" {
    *
    */
   export function withCommand<
-    THandler extends (...params: any[]) => any = (...params: any[]) => any
+    THandler extends (this: CommandContext, ...params: any[]) => any = (
+      this: CommandContext,
+      ...params: any[]
+    ) => any
   >(
     path: string,
     segments: string[],
@@ -1804,7 +1805,7 @@ declare module "shell-shock:console" {
   /**
    * A nested object containing functions for applying text theme colors to the console.
    */
-  export type TextColors = {
+  export const textColors: {
     /**
      * An object containing various banner text theme coloring functions.
      */
@@ -3561,7 +3562,7 @@ declare module "shell-shock:console" {
   /**
    * A nested object containing functions for applying border theme colors to the console.
    */
-  export type BorderColors = {
+  export const borderColors: {
     /**
      * An object containing various banner border theme coloring functions.
      */
@@ -4024,14 +4025,6 @@ declare module "shell-shock:console" {
       };
     };
   };
-  /**
-   * A nested object containing functions for applying text theme colors to the console.
-   */
-  export const textColors: TextColors;
-  /**
-   * A nested object containing functions for applying border theme colors to the console.
-   */
-  export const borderColors: BorderColors;
   /**
    * Options for writing to the console.
    */

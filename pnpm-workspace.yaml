@@ -9,7 +9,7 @@ catalog:
   '@alloy-js/markdown': 0.23.0-dev.1
   '@alloy-js/typescript': 0.23.0-dev.4
   '@babel/core': ^7.29.0
-  '@eslint/compat': ^2.0.4
+  '@eslint/compat': ^2.0.5
   '@eslint/config-inspector': ^1.5.0
   '@ls-lint/ls-lint': ^2.3.1
   '@nx/devkit': 22.6.4
@@ -32,19 +32,19 @@ catalog:
   '@powerlines/tsdoc': ^0.2.3
   '@standard-schema/spec': ^1.1.0
   '@standard-schema/utils': ^0.3.0
-  '@storm-software/config': ^1.137.27
-  '@storm-software/config-tools': ^1.189.73
-  '@storm-software/cspell': ^0.46.63
-  '@storm-software/eslint': ^0.170.15
-  '@storm-software/git-tools': ^2.130.31
-  '@storm-software/linting-tools': ^1.133.24
-  '@storm-software/markdownlint': ^0.30.151
-  '@storm-software/pnpm-tools': ^0.7.1
-  '@storm-software/prettier': ^0.59.47
-  '@storm-software/testing-tools': ^1.119.148
-  '@storm-software/tsconfig': ^0.48.62
-  '@storm-software/untyped': ^0.24.136
-  '@storm-software/workspace-tools': ^1.295.49
+  '@storm-software/config': ^1.137.28
+  '@storm-software/config-tools': ^1.189.74
+  '@storm-software/cspell': ^0.46.64
+  '@storm-software/eslint': ^0.170.16
+  '@storm-software/git-tools': ^2.130.32
+  '@storm-software/linting-tools': ^1.133.25
+  '@storm-software/markdownlint': ^0.30.152
+  '@storm-software/pnpm-tools': ^0.7.2
+  '@storm-software/prettier': ^0.59.48
+  '@storm-software/testing-tools': ^1.119.149
+  '@storm-software/tsconfig': ^0.48.63
+  '@storm-software/untyped': ^0.24.137
+  '@storm-software/workspace-tools': ^1.295.50
   '@stryke/cli': ^0.13.38
   '@stryke/convert': ^0.6.58
   '@stryke/fs': ^0.33.66
@@ -65,7 +65,7 @@ catalog:
   '@types/json-schema': ^7.0.15
   '@types/node': ^25.5.2
   '@types/react': ^19.2.14
-  '@typescript-eslint/utils': ^8.58.0
+  '@typescript-eslint/utils': ^8.58.1
   '@typescript/native-preview': 7.0.0-dev.20251218.3
   automd: ^0.4.3
   cfonts: ^3.3.1

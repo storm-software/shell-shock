@@ -70,7 +70,7 @@ export function GlobalTypeDefinitions() {
           {
             name: "THandler",
             extends: "(...params: any[]) => any",
-            default: "(...params: any[]) => any"
+            default: "any"
           }
         ]}>
         <TSDoc
@@ -417,8 +417,8 @@ return result;`}
         typeParameters={[
           {
             name: "THandler",
-            extends: "(...params: any[]) => any",
-            default: "(...params: any[]) => any"
+            extends: "(this: CommandContext, ...params: any[]) => any",
+            default: "(this: CommandContext, ...params: any[]) => any"
           }
         ]}
         parameters={[
@@ -431,7 +431,7 @@ return result;`}
         {code`setState({ status: "preparing", isError: false });
 
         const ctx = { path, segments, params } as CommandContext<THandler>;
-        const result = await Promise.resolve(unstable_commandStore.run(ctx, Reflect.apply(ctx, handler, params)));
+        const result = await Promise.resolve(unstable_commandStore.run(ctx, Reflect.apply(handler, ctx, params)));
         if (result instanceof Error || (typeof result === "object" && ((result as { error: unknown }).error instanceof Error || typeof (result as { error: unknown }).error === "string"))) {
           setState({ status: "completed", isError: true });
           return { error: result instanceof Error ? result : (result as { error: Error | string }).error };
@@ -461,7 +461,11 @@ export function StateBuiltin(props: StateBuiltinProps) {
       description="A module that provides context hooks and utilities for accessing the application state."
       {...rest}
       imports={defu(rest.imports ?? {}, {
-        "node:async_hooks": ["AsyncLocalStorage"]
+        "node:async_hooks": ["AsyncLocalStorage"],
+        "node:crypto": ["randomUUID"]
+      })}
+      builtinImports={defu(rest.builtinImports ?? {}, {
+        env: ["isCI"]
       })}>
       <GlobalTypeDefinitions />
       <Spacing />

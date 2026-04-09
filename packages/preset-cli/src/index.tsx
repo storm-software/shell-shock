@@ -113,7 +113,6 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
             <>
               <UpgradeBuiltin />
               <BannerBuiltin command={bin.value} />
-              <Spacing />
               <For
                 each={commands.sort((a, b) => a.name.localeCompare(b.name))}
                 doubleHardline>

@@ -256,21 +256,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "LBMP4LhY5UQmtc8zzIlmdnlCaQsWttn9"
+     * @defaultValue "GWsr2QRPMqznPEBr5DxD86M5MbEzxJ6w"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "7eaca26f-8bad-429c-a9c1-3eda3fce64e4"
+     * @defaultValue "1b55a64f-fb0d-425b-a559-1b8c847d80d1"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-07T15:30:02.242Z"
+     * @defaultValue "2026-04-09T06:32:20.715Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -501,7 +501,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "aca26f8b-ade2-4c29-813e-da3fce64e468"
+     * @defaultValue "55a64ffb-0df2-4be5-991b-8c847d80d1af"
      */
     readonly RELEASE_ID: string;
     /**
@@ -909,7 +909,9 @@ declare module "shell-shock:state" {
   /**
    * The context object for the current command execution, containing the command path and segments.
    */
-  export interface CommandContext<THandler extends (...params: any[]) => any> {
+  export interface CommandContext<
+    THandler extends (...params: any[]) => any = any
+  > {
     /**
      * The full command path as a string. For example, if the user runs `playground-cli foo bar`, this would be `foo bar`. This is useful for commands that need to know their full invocation path, such as for help text or for commands that have dynamic behavior based on their position in the command hierarchy.
      */
@@ -1012,7 +1014,7 @@ declare module "shell-shock:state" {
    */
   export function setState(
     update:
-      | GlobalContextState
+      | Partial<GlobalContextState>
       | ((prev: GlobalContextState) => GlobalContextState)
   ): void;
   /**
@@ -1042,7 +1044,7 @@ declare module "shell-shock:state" {
    * @internal
    *
    */
-  export const unstable_commandStore: AsyncLocalStorage<any>;
+  export const unstable_commandStore: AsyncLocalStorage<CommandContext<any>>;
   /**
    * Get the Playground Command Line Interface - command context for the current application.
    *
@@ -1082,6 +1084,15 @@ declare module "shell-shock:state" {
    *
    */
   export function hasFlag(flag: string | string[], argv?: string[]): boolean;
+  /**
+   * A utility function to determine if the help flag is present or if the command is in an error state during preparation.
+   *
+   * @returns True if the help flag is present or if the command is in an error
+   *   state during preparation, false otherwise. This can be used to
+   *   conditionally display help text or to alter command behavior when the user
+   *   is likely seeking help.
+   *
+   */
   export function isHelp(): boolean;
   /**
    * A utility function to wrap the Playground Command Line Interface application within the global context scope.
@@ -1108,14 +1119,19 @@ declare module "shell-shock:state" {
    *   promise that resolves to a value.
    *
    */
-  export function withCommand<THandler extends (...params: any[]) => any>(
+  export function withCommand<
+    THandler extends (this: CommandContext, ...params: any[]) => any = (
+      this: CommandContext,
+      ...params: any[]
+    ) => any
+  >(
     path: string,
     segments: string[],
     params: Parameters<THandler>,
     handler: THandler
   ): Promise<
     Promise<{
-      error: string | Error;
+      error: string | Error | null;
     }>
   >;
 }
@@ -1765,7 +1781,7 @@ declare module "shell-shock:console" {
   /**
    * A nested object containing functions for applying text theme colors to the console.
    */
-  export type TextColors = {
+  export const textColors: {
     /**
      * An object containing various banner text theme coloring functions.
      */
@@ -3522,7 +3538,7 @@ declare module "shell-shock:console" {
   /**
    * A nested object containing functions for applying border theme colors to the console.
    */
-  export type BorderColors = {
+  export const borderColors: {
     /**
      * An object containing various banner border theme coloring functions.
      */
@@ -3985,14 +4001,6 @@ declare module "shell-shock:console" {
       };
     };
   };
-  /**
-   * A nested object containing functions for applying text theme colors to the console.
-   */
-  export const textColors: TextColors;
-  /**
-   * A nested object containing functions for applying border theme colors to the console.
-   */
-  export const borderColors: BorderColors;
   /**
    * Options for writing to the console.
    */
@@ -5704,21 +5712,6 @@ declare module "shell-shock:banner/completions" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Configuration command.
- *
- * @module shell-shock:banner/completions/zsh/config
- */
-declare module "shell-shock:banner/completions/zsh/config" {
-  /**
-   * Write the Playground command-line interface application banner for the
-   * Completions - Zsh Configuration command to the console.
-   *
-   * @param {number} sleepTimeoutMs
-   */
-  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
-}
-
-/**
  * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
  *
  * @module shell-shock:banner/completions/bash/config
@@ -5742,6 +5735,21 @@ declare module "shell-shock:banner/completions/fish/config" {
   /**
    * Write the Playground command-line interface application banner for the
    * Completions - Fish Configuration command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Configuration command.
+ *
+ * @module shell-shock:banner/completions/zsh/config
+ */
+declare module "shell-shock:banner/completions/zsh/config" {
+  /**
+   * Write the Playground command-line interface application banner for the
+   * Completions - Zsh Configuration command to the console.
    *
    * @param {number} sleepTimeoutMs
    */
@@ -5929,21 +5937,6 @@ declare module "shell-shock:banner/run" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Script command.
- *
- * @module shell-shock:banner/completions/zsh/script
- */
-declare module "shell-shock:banner/completions/zsh/script" {
-  /**
-   * Write the Playground command-line interface application banner for the
-   * Completions - Zsh Script command to the console.
-   *
-   * @param {number} sleepTimeoutMs
-   */
-  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
-}
-
-/**
  * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
  *
  * @module shell-shock:banner/completions/bash/script
@@ -5967,6 +5960,21 @@ declare module "shell-shock:banner/completions/fish/script" {
   /**
    * Write the Playground command-line interface application banner for the
    * Completions - Fish Script command to the console.
+   *
+   * @param {number} sleepTimeoutMs
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Script command.
+ *
+ * @module shell-shock:banner/completions/zsh/script
+ */
+declare module "shell-shock:banner/completions/zsh/script" {
+  /**
+   * Write the Playground command-line interface application banner for the
+   * Completions - Zsh Script command to the console.
    *
    * @param {number} sleepTimeoutMs
    */
@@ -6106,13 +6114,13 @@ declare module "shell-shock:help/completions" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Zsh Configuration command.
+ * A collection of utility functions that assist in displaying help information for the Completions - Fish Configuration command.
  *
- * @module shell-shock:help/completions/zsh/config
+ * @module shell-shock:help/completions/fish/config
  */
-declare module "shell-shock:help/completions/zsh/config" {
+declare module "shell-shock:help/completions/fish/config" {
   /**
-   * Display help information for the Completions - Zsh Configuration command.
+   * Display help information for the Completions - Fish Configuration command.
    */
   export function showHelp(): void;
 }
@@ -6130,13 +6138,13 @@ declare module "shell-shock:help/completions/bash/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Fish Configuration command.
+ * A collection of utility functions that assist in displaying help information for the Completions - Zsh Configuration command.
  *
- * @module shell-shock:help/completions/fish/config
+ * @module shell-shock:help/completions/zsh/config
  */
-declare module "shell-shock:help/completions/fish/config" {
+declare module "shell-shock:help/completions/zsh/config" {
   /**
-   * Display help information for the Completions - Fish Configuration command.
+   * Display help information for the Completions - Zsh Configuration command.
    */
   export function showHelp(): void;
 }
@@ -6287,13 +6295,13 @@ declare module "shell-shock:help/run" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Zsh Script command.
+ * A collection of utility functions that assist in displaying help information for the Completions - Fish Script command.
  *
- * @module shell-shock:help/completions/zsh/script
+ * @module shell-shock:help/completions/fish/script
  */
-declare module "shell-shock:help/completions/zsh/script" {
+declare module "shell-shock:help/completions/fish/script" {
   /**
-   * Display help information for the Completions - Zsh Script command.
+   * Display help information for the Completions - Fish Script command.
    */
   export function showHelp(): void;
 }
@@ -6311,13 +6319,13 @@ declare module "shell-shock:help/completions/bash/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Fish Script command.
+ * A collection of utility functions that assist in displaying help information for the Completions - Zsh Script command.
  *
- * @module shell-shock:help/completions/fish/script
+ * @module shell-shock:help/completions/zsh/script
  */
-declare module "shell-shock:help/completions/fish/script" {
+declare module "shell-shock:help/completions/zsh/script" {
   /**
-   * Display help information for the Completions - Fish Script command.
+   * Display help information for the Completions - Zsh Script command.
    */
   export function showHelp(): void;
 }
