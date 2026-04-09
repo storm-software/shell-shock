@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/preset-cli",
-  "version": "0.9.10",
+  "version": "0.9.11",
   "private": false,
   "description": "A package containing a Shell Shock plugin to generate source code given a list design tokens.",
   "keywords": [

@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.16.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.16.2) (04/09/2026)
+
+### Bug Fixes
+
+- **core:** Resolve typing issues in `state` built-in module ([4263031](https://github.com/storm-software/shell-shock/commit/4263031))
+
 ## [0.16.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.16.1) (04/07/2026)
 
 ### Bug Fixes
