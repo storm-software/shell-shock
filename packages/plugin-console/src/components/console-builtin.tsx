@@ -206,7 +206,7 @@ function ColorFunction({
   ansi16m,
   skipBackground = false
 }: ColorFunctionProps) {
-  return code` (text: string${
+  return code` (text: string | number | boolean | null | undefined${
     skipBackground ? "" : `, background = false`
   }): string => {
     try {
@@ -219,7 +219,7 @@ function ColorFunction({
       }
 
       if (colorSupportLevels.stdout === 1) {
-        return wrapAnsi(text, ${
+        return wrapAnsi(String(text), ${
           skipBackground
             ? `"${ansi16.open}", "${ansi16.close}"`
             : `background ? "${
@@ -229,7 +229,7 @@ function ColorFunction({
               }" : "${ansi16.close}"`
         });
       } else if (colorSupportLevels.stdout === 2) {
-        return wrapAnsi(text, ${
+        return wrapAnsi(String(text), ${
           skipBackground
             ? `"${ansi256.open}", "${ansi256.close}"`
             : `background ? "${
@@ -240,7 +240,7 @@ function ColorFunction({
         });
       }
 
-      return wrapAnsi(text, ${
+      return wrapAnsi(String(text), ${
         skipBackground
           ? `"${ansi16m.open}", "${ansi16m.close}"`
           : `background ? "${ansi16m.background.open}" : "${
@@ -1332,6 +1332,8 @@ export function LinkFunctionDeclaration() {
  * A component to generate the `blockquote` function declaration
  */
 export function BlockquoteFunctionDeclaration() {
+  const theme = useTheme();
+
   return (
     <>
       <Spacing />
@@ -1362,7 +1364,9 @@ export function BlockquoteFunctionDeclaration() {
           Math.max(getTerminalSize().columns, 20) - 6
         );
 
-        return lines.map((line, index) => \` \${index === 0 ? isUnicodeSupported() ? "❝" : "\\"" : " "} \${italic(line)} \${index === lines.length - 1 ? isUnicodeSupported() ? "❞" : "\\"" : " "} \`).join("\\n"); `}
+        return lines.map(line => \`\${borderColors.app.blockquote.primary(isUnicodeSupported() ? "${
+          theme.borderStyles.app.blockquote.primary.left
+        }"  : "|")}   \${italic(line)} \`).join("\\n"); `}
       </FunctionDeclaration>
     </>
   );
@@ -1403,16 +1407,16 @@ export function CodeFunctionDeclaration() {
           return "";
         }
 
+        const lines = splitText(
+          String(text),
+          Math.max(getTerminalSize().columns, 20)
+        );
+
         return \` \${borderColors.app.divider.primary("${
           theme.borderStyles.app.divider.primary.top
         }".repeat(4))}\${language ? \` \${borderColors.app.divider.primary(language)} \` : ""}\${borderColors.app.divider.primary("${
           theme.borderStyles.app.divider.primary.top
-        }".repeat(getTerminalSize().columns - (language ? language.length + 2 : 0) - 5))} \\n\${splitText(
-          String(text),
-          Math.max(getTerminalSize().columns, 20)
-        ).map(line => \`\${textColors.body.primary(line)}\`).join("\\n")}\\n \${borderColors.app.divider.primary("${
-          theme.borderStyles.app.divider.primary.bottom
-        }".repeat(getTerminalSize().columns - 2))} \`; `}
+        }".repeat(getTerminalSize().columns - (language ? language.length + 2 : 0) - 5))} \\n\${lines.map((line, index) => \` \${" ".repeat(String(lines.length).length - String(index + 1).length)}\${textColors.body.tertiary(index + 1)} \${textColors.body.primary(line)}\`).join("\\n")}\`; `}
       </FunctionDeclaration>
     </>
   );

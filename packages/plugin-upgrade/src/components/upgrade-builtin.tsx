@@ -282,7 +282,7 @@ export function GetPackageManagerFunctionDeclaration() {
           {code`return "pnpm"; `}
         </ElseIfClause>
         <ElseIfClause
-          condition={code`userAgent.startsWith("bun") || execPath.includes("bun") || typeof Bun !== "undefined" || process.versions.bun`}>
+          condition={code`userAgent.startsWith("bun") || execPath.includes("bun") || process.versions.bun`}>
           {code`return "bun"; `}
         </ElseIfClause>
         <ElseClause>

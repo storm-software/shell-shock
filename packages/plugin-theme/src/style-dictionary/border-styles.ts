@@ -113,6 +113,11 @@ export const borderStyles = (context: ThemePluginContext): Preprocessor => ({
             primary: borderStyle,
             secondary: borderStyle,
             tertiary: borderStyle
+          },
+          blockquote: {
+            primary: borderStyle,
+            secondary: borderStyle,
+            tertiary: borderStyle
           }
         }
       };
@@ -246,7 +251,8 @@ export const borderStyles = (context: ThemePluginContext): Preprocessor => ({
 
       resolvedConfig.borderStyles.app ??= {
         table: {},
-        divider: {}
+        divider: {},
+        blockquote: {}
       } as ThemeBorderStylesResolvedConfig["app"];
       const app = borderStyles.app;
 
@@ -260,6 +266,11 @@ export const borderStyles = (context: ThemePluginContext): Preprocessor => ({
             tertiary: borderStyle
           },
           divider: {
+            primary: borderStyle,
+            secondary: borderStyle,
+            tertiary: borderStyle
+          },
+          blockquote: {
             primary: borderStyle,
             secondary: borderStyle,
             tertiary: borderStyle
@@ -364,6 +375,57 @@ export const borderStyles = (context: ThemePluginContext): Preprocessor => ({
             resolvedConfig.borderStyles.app.divider.tertiary =
               resolveBorderStyle(
                 (divider as ThemeBorderStyleSectionTypesUserConfig)
+                  .tertiary as ThemeStyleBorderIdentifiers
+              );
+          }
+        }
+
+        const blockquote = (
+          app as ThemeBorderStyleAppSubItemUserConfig<ThemeBorderStyleSectionTypesUserConfig>
+        ).blockquote;
+
+        if (isSetString(blockquote)) {
+          const borderStyle = resolveBorderStyle(blockquote);
+
+          resolvedConfig.borderStyles.app.blockquote = {
+            primary: borderStyle,
+            secondary: borderStyle,
+            tertiary: borderStyle
+          };
+        } else if (isSetObject(blockquote)) {
+          resolvedConfig.borderStyles.app.blockquote =
+            {} as ThemeBorderStylesResolvedConfig["app"]["blockquote"];
+
+          if (
+            isSetString(
+              (blockquote as ThemeBorderStyleSectionTypesUserConfig).primary
+            )
+          ) {
+            resolvedConfig.borderStyles.app.blockquote.primary =
+              resolveBorderStyle(
+                (blockquote as ThemeBorderStyleSectionTypesUserConfig)
+                  .primary as ThemeStyleBorderIdentifiers
+              );
+          }
+          if (
+            isSetString(
+              (blockquote as ThemeBorderStyleSectionTypesUserConfig).secondary
+            )
+          ) {
+            resolvedConfig.borderStyles.app.blockquote.secondary =
+              resolveBorderStyle(
+                (blockquote as ThemeBorderStyleSectionTypesUserConfig)
+                  .secondary as ThemeStyleBorderIdentifiers
+              );
+          }
+          if (
+            isSetString(
+              (blockquote as ThemeBorderStyleSectionTypesUserConfig).tertiary
+            )
+          ) {
+            resolvedConfig.borderStyles.app.blockquote.tertiary =
+              resolveBorderStyle(
+                (blockquote as ThemeBorderStyleSectionTypesUserConfig)
                   .tertiary as ThemeStyleBorderIdentifiers
               );
           }

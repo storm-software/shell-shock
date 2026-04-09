@@ -95,6 +95,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
           ],
           state: [
             "useGlobal",
+            "useGlobalOptions",
             "withCommand",
             "useArgs",
             "hasFlag",

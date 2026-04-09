@@ -40,12 +40,6 @@ declare module "shell-shock:env" {
      *
      *
      */
-    comspec?: string;
-    /**
-     *
-     *
-     *
-     */
     ComSpec?: string;
     /**
      * The application's configuration data directory.
@@ -296,21 +290,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "7huDGA_cYpSbHOQsvdIED1y6sk90M4n_"
+     * @defaultValue "cgygFBSZuukiUN06E-BPvZHdO37a-Oqc"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "366bca1c-2ae7-4d35-b51e-a648244614a1"
+     * @defaultValue "2a56362f-35d5-4e40-bfb9-e5a8ad52f8db"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-09T12:14:40.832Z"
+     * @defaultValue "2026-04-09T17:58:10.609Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -541,7 +535,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "6bca1c2a-e75d-4535-9ea6-48244614a154"
+     * @defaultValue "56362f35-d54e-40ff-b9e5-a8ad52f8dbd7"
      */
     readonly RELEASE_ID: string;
     /**
@@ -1010,10 +1004,6 @@ declare module "shell-shock:state" {
   /**
    * Get the Playground Custom Commands Directory application context for the current application.
    *
-   * @param options - The options to use when getting the context. This can
-   *   include parameters for how to handle missing contexts, such as whether to
-   *   throw an error or return undefined. By default, if the context is not
-   *   available, this function will return undefined.
    * @returns The Playground Custom Commands Directory application context for the
    *   current application or undefined if the context is not available.
    *
@@ -1026,6 +1016,14 @@ declare module "shell-shock:state" {
    *
    */
   export function useArgs(): string[];
+  /**
+   * A utility hook function to get the command-line global options from the Playground Custom Commands Directory application context.
+   *
+   * @returns An object containing the global options from the application
+   *   context.
+   *
+   */
+  export function useGlobalOptions(): GlobalOptions;
   /**
    * A utility hook function to get the state of the Playground Custom Commands Directory application context.
    *
@@ -1252,8 +1250,8 @@ declare module "shell-shock:utils" {
   ):
     | false
     | 3
-    | 2
     | 0
+    | 2
     | {
         level: number;
         hasBasic: boolean;
@@ -1545,7 +1543,9 @@ declare module "shell-shock:console" {
    *   original text if the style is not supported in the current terminal.
    *
    */
-  export const reset: (text: string) => string;
+  export const reset: (
+    text: string | number | boolean | null | undefined
+  ) => string;
   /**
    * A function that applies bold styling to provided console text.
    *
@@ -1557,7 +1557,9 @@ declare module "shell-shock:console" {
    *   original text if the style is not supported in the current terminal.
    *
    */
-  export const bold: (text: string) => string;
+  export const bold: (
+    text: string | number | boolean | null | undefined
+  ) => string;
   /**
    * A function that applies dim styling to provided console text.
    *
@@ -1569,7 +1571,9 @@ declare module "shell-shock:console" {
    *   original text if the style is not supported in the current terminal.
    *
    */
-  export const dim: (text: string) => string;
+  export const dim: (
+    text: string | number | boolean | null | undefined
+  ) => string;
   /**
    * A function that applies italic styling to provided console text.
    *
@@ -1581,7 +1585,9 @@ declare module "shell-shock:console" {
    *   original text if the style is not supported in the current terminal.
    *
    */
-  export const italic: (text: string) => string;
+  export const italic: (
+    text: string | number | boolean | null | undefined
+  ) => string;
   /**
    * A function that applies underline styling to provided console text.
    *
@@ -1594,7 +1600,9 @@ declare module "shell-shock:console" {
    *   the original text if the style is not supported in the current terminal.
    *
    */
-  export const underline: (text: string) => string;
+  export const underline: (
+    text: string | number | boolean | null | undefined
+  ) => string;
   /**
    * A function that applies overline styling to provided console text.
    *
@@ -1607,7 +1615,9 @@ declare module "shell-shock:console" {
    *   original text if the style is not supported in the current terminal.
    *
    */
-  export const overline: (text: string) => string;
+  export const overline: (
+    text: string | number | boolean | null | undefined
+  ) => string;
   /**
    * A function that applies inverse styling to provided console text.
    *
@@ -1620,7 +1630,9 @@ declare module "shell-shock:console" {
    *   original text if the style is not supported in the current terminal.
    *
    */
-  export const inverse: (text: string) => string;
+  export const inverse: (
+    text: string | number | boolean | null | undefined
+  ) => string;
   /**
    * A function that applies hidden styling to provided console text.
    *
@@ -1632,7 +1644,9 @@ declare module "shell-shock:console" {
    *   original text if the style is not supported in the current terminal.
    *
    */
-  export const hidden: (text: string) => string;
+  export const hidden: (
+    text: string | number | boolean | null | undefined
+  ) => string;
   /**
    * A function that applies strikethrough styling to provided console text.
    *
@@ -1645,7 +1659,9 @@ declare module "shell-shock:console" {
    *   or the original text if the style is not supported in the current terminal.
    *
    */
-  export const strikethrough: (text: string) => string;
+  export const strikethrough: (
+    text: string | number | boolean | null | undefined
+  ) => string;
   /**
    * A helper function to color the provided text as black.
    *
@@ -1657,7 +1673,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const black: (text: string, background?: boolean) => string;
+  export const black: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as red.
    *
@@ -1669,7 +1688,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const red: (text: string, background?: boolean) => string;
+  export const red: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as green.
    *
@@ -1681,7 +1703,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const green: (text: string, background?: boolean) => string;
+  export const green: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as yellow.
    *
@@ -1693,7 +1718,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const yellow: (text: string, background?: boolean) => string;
+  export const yellow: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as blue.
    *
@@ -1705,7 +1733,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const blue: (text: string, background?: boolean) => string;
+  export const blue: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as magenta.
    *
@@ -1717,7 +1748,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const magenta: (text: string, background?: boolean) => string;
+  export const magenta: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as cyan.
    *
@@ -1729,7 +1763,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const cyan: (text: string, background?: boolean) => string;
+  export const cyan: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as white.
    *
@@ -1741,7 +1778,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const white: (text: string, background?: boolean) => string;
+  export const white: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as blackBright.
    *
@@ -1754,7 +1794,10 @@ declare module "shell-shock:console" {
    *   the original text if the color is not supported in the current terminal.
    *
    */
-  export const blackBright: (text: string, background?: boolean) => string;
+  export const blackBright: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as gray.
    *
@@ -1766,7 +1809,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const gray: (text: string, background?: boolean) => string;
+  export const gray: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as grey.
    *
@@ -1778,7 +1824,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const grey: (text: string, background?: boolean) => string;
+  export const grey: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as redBright.
    *
@@ -1791,7 +1840,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const redBright: (text: string, background?: boolean) => string;
+  export const redBright: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as greenBright.
    *
@@ -1804,7 +1856,10 @@ declare module "shell-shock:console" {
    *   the original text if the color is not supported in the current terminal.
    *
    */
-  export const greenBright: (text: string, background?: boolean) => string;
+  export const greenBright: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as yellowBright.
    *
@@ -1817,7 +1872,10 @@ declare module "shell-shock:console" {
    *   the original text if the color is not supported in the current terminal.
    *
    */
-  export const yellowBright: (text: string, background?: boolean) => string;
+  export const yellowBright: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as blueBright.
    *
@@ -1830,7 +1888,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const blueBright: (text: string, background?: boolean) => string;
+  export const blueBright: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as magentaBright.
    *
@@ -1843,7 +1904,10 @@ declare module "shell-shock:console" {
    *   the original text if the color is not supported in the current terminal.
    *
    */
-  export const magentaBright: (text: string, background?: boolean) => string;
+  export const magentaBright: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as cyanBright.
    *
@@ -1856,7 +1920,10 @@ declare module "shell-shock:console" {
    *   original text if the color is not supported in the current terminal.
    *
    */
-  export const cyanBright: (text: string, background?: boolean) => string;
+  export const cyanBright: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A helper function to color the provided text as whiteBright.
    *
@@ -1869,7 +1936,10 @@ declare module "shell-shock:console" {
    *   the original text if the color is not supported in the current terminal.
    *
    */
-  export const whiteBright: (text: string, background?: boolean) => string;
+  export const whiteBright: (
+    text: string | number | boolean | null | undefined,
+    background?: boolean
+  ) => string;
   /**
    * A nested object containing functions for applying text theme colors to the console.
    */
@@ -1897,7 +1967,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        primary: (text: string, background?: boolean) => string;
+        primary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a secondary banner title color styling to provided console text.
          *
@@ -1913,7 +1986,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        secondary: (text: string, background?: boolean) => string;
+        secondary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a tertiary banner title color styling to provided console text.
          *
@@ -1929,7 +2005,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        tertiary: (text: string, background?: boolean) => string;
+        tertiary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various banner command text theme coloring functions.
@@ -1950,7 +2029,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        primary: (text: string, background?: boolean) => string;
+        primary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a secondary banner command color styling to provided console text.
          *
@@ -1966,7 +2048,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        secondary: (text: string, background?: boolean) => string;
+        secondary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a tertiary banner command color styling to provided console text.
          *
@@ -1982,7 +2067,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        tertiary: (text: string, background?: boolean) => string;
+        tertiary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various banner description text theme coloring functions.
@@ -2003,7 +2091,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        primary: (text: string, background?: boolean) => string;
+        primary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a secondary banner description color styling to provided console text.
          *
@@ -2019,7 +2110,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        secondary: (text: string, background?: boolean) => string;
+        secondary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a tertiary banner description color styling to provided console text.
          *
@@ -2035,7 +2129,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        tertiary: (text: string, background?: boolean) => string;
+        tertiary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various banner header text theme coloring functions.
@@ -2056,7 +2153,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        primary: (text: string, background?: boolean) => string;
+        primary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a secondary banner header color styling to provided console text.
          *
@@ -2072,7 +2172,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        secondary: (text: string, background?: boolean) => string;
+        secondary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a tertiary banner header color styling to provided console text.
          *
@@ -2088,7 +2191,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        tertiary: (text: string, background?: boolean) => string;
+        tertiary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various banner footer text theme coloring functions.
@@ -2109,7 +2215,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        primary: (text: string, background?: boolean) => string;
+        primary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a secondary banner footer color styling to provided console text.
          *
@@ -2125,7 +2234,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        secondary: (text: string, background?: boolean) => string;
+        secondary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a tertiary banner footer color styling to provided console text.
          *
@@ -2141,7 +2253,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        tertiary: (text: string, background?: boolean) => string;
+        tertiary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various banner link text theme coloring functions.
@@ -2162,7 +2277,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        primary: (text: string, background?: boolean) => string;
+        primary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a secondary banner link color styling to provided console text.
          *
@@ -2178,7 +2296,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        secondary: (text: string, background?: boolean) => string;
+        secondary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a tertiary banner link color styling to provided console text.
          *
@@ -2194,7 +2315,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        tertiary: (text: string, background?: boolean) => string;
+        tertiary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
     };
     /**
@@ -2216,7 +2340,10 @@ declare module "shell-shock:console" {
        *   current terminal.
        *
        */
-      primary: (text: string, background?: boolean) => string;
+      primary: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies a secondary text heading color styling to provided console text.
        *
@@ -2232,7 +2359,10 @@ declare module "shell-shock:console" {
        *   current terminal.
        *
        */
-      secondary: (text: string, background?: boolean) => string;
+      secondary: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies a tertiary text heading color styling to provided console text.
        *
@@ -2248,7 +2378,10 @@ declare module "shell-shock:console" {
        *   current terminal.
        *
        */
-      tertiary: (text: string, background?: boolean) => string;
+      tertiary: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
     };
     /**
      * An object containing various body text theme coloring functions.
@@ -2269,7 +2402,10 @@ declare module "shell-shock:console" {
        *   terminal.
        *
        */
-      primary: (text: string, background?: boolean) => string;
+      primary: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies a secondary text body color styling to provided console text.
        *
@@ -2285,7 +2421,10 @@ declare module "shell-shock:console" {
        *   current terminal.
        *
        */
-      secondary: (text: string, background?: boolean) => string;
+      secondary: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies a tertiary text body color styling to provided console text.
        *
@@ -2301,7 +2440,10 @@ declare module "shell-shock:console" {
        *   terminal.
        *
        */
-      tertiary: (text: string, background?: boolean) => string;
+      tertiary: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies a link text body color styling to provided console text.
        *
@@ -2317,7 +2459,10 @@ declare module "shell-shock:console" {
        *   terminal.
        *
        */
-      link: (text: string, background?: boolean) => string;
+      link: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
     };
     /**
      * An object containing various message text theme coloring functions.
@@ -2342,7 +2487,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        help: (text: string, background?: boolean) => string;
+        help: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a success message description color styling to provided console text.
          *
@@ -2358,7 +2506,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        success: (text: string, background?: boolean) => string;
+        success: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an info message description color styling to provided console text.
          *
@@ -2374,7 +2525,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        info: (text: string, background?: boolean) => string;
+        info: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a debug message description color styling to provided console text.
          *
@@ -2390,7 +2544,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        debug: (text: string, background?: boolean) => string;
+        debug: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a warning message description color styling to provided console text.
          *
@@ -2406,7 +2563,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        warning: (text: string, background?: boolean) => string;
+        warning: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a danger message description color styling to provided console text.
          *
@@ -2422,7 +2582,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        danger: (text: string, background?: boolean) => string;
+        danger: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an error message description color styling to provided console text.
          *
@@ -2438,7 +2601,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        error: (text: string, background?: boolean) => string;
+        error: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various message link text theme coloring functions.
@@ -2459,7 +2625,10 @@ declare module "shell-shock:console" {
          *   terminal.
          *
          */
-        help: (text: string, background?: boolean) => string;
+        help: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a success message link color styling to provided console text.
          *
@@ -2475,7 +2644,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        success: (text: string, background?: boolean) => string;
+        success: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an info message link color styling to provided console text.
          *
@@ -2491,7 +2663,10 @@ declare module "shell-shock:console" {
          *   terminal.
          *
          */
-        info: (text: string, background?: boolean) => string;
+        info: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a debug message link color styling to provided console text.
          *
@@ -2507,7 +2682,10 @@ declare module "shell-shock:console" {
          *   terminal.
          *
          */
-        debug: (text: string, background?: boolean) => string;
+        debug: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a warning message link color styling to provided console text.
          *
@@ -2523,7 +2701,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        warning: (text: string, background?: boolean) => string;
+        warning: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a danger message link color styling to provided console text.
          *
@@ -2539,7 +2720,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        danger: (text: string, background?: boolean) => string;
+        danger: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an error message link color styling to provided console text.
          *
@@ -2555,7 +2739,10 @@ declare module "shell-shock:console" {
          *   terminal.
          *
          */
-        error: (text: string, background?: boolean) => string;
+        error: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various message header text theme coloring functions.
@@ -2576,7 +2763,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        help: (text: string, background?: boolean) => string;
+        help: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a success message header color styling to provided console text.
          *
@@ -2592,7 +2782,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        success: (text: string, background?: boolean) => string;
+        success: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an info message header color styling to provided console text.
          *
@@ -2608,7 +2801,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        info: (text: string, background?: boolean) => string;
+        info: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a debug message header color styling to provided console text.
          *
@@ -2624,7 +2820,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        debug: (text: string, background?: boolean) => string;
+        debug: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a warning message header color styling to provided console text.
          *
@@ -2640,7 +2839,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        warning: (text: string, background?: boolean) => string;
+        warning: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a danger message header color styling to provided console text.
          *
@@ -2656,7 +2858,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        danger: (text: string, background?: boolean) => string;
+        danger: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an error message header color styling to provided console text.
          *
@@ -2672,7 +2877,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        error: (text: string, background?: boolean) => string;
+        error: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various message footer text theme coloring functions.
@@ -2693,7 +2901,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        help: (text: string, background?: boolean) => string;
+        help: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a success message footer color styling to provided console text.
          *
@@ -2709,7 +2920,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        success: (text: string, background?: boolean) => string;
+        success: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an info message footer color styling to provided console text.
          *
@@ -2725,7 +2939,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        info: (text: string, background?: boolean) => string;
+        info: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a debug message footer color styling to provided console text.
          *
@@ -2741,7 +2958,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        debug: (text: string, background?: boolean) => string;
+        debug: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a warning message footer color styling to provided console text.
          *
@@ -2757,7 +2977,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        warning: (text: string, background?: boolean) => string;
+        warning: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a danger message footer color styling to provided console text.
          *
@@ -2773,7 +2996,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        danger: (text: string, background?: boolean) => string;
+        danger: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an error message footer color styling to provided console text.
          *
@@ -2789,7 +3015,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        error: (text: string, background?: boolean) => string;
+        error: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
     };
     /**
@@ -2811,7 +3040,10 @@ declare module "shell-shock:console" {
        *   terminal.
        *
        */
-      bin: (text: string, background?: boolean) => string;
+      bin: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies a command text usage color styling to provided console text.
        *
@@ -2827,7 +3059,10 @@ declare module "shell-shock:console" {
        *   terminal.
        *
        */
-      command: (text: string, background?: boolean) => string;
+      command: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies a dynamic text usage color styling to provided console text.
        *
@@ -2843,7 +3078,10 @@ declare module "shell-shock:console" {
        *   terminal.
        *
        */
-      dynamic: (text: string, background?: boolean) => string;
+      dynamic: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies an options text usage color styling to provided console text.
        *
@@ -2859,7 +3097,10 @@ declare module "shell-shock:console" {
        *   terminal.
        *
        */
-      options: (text: string, background?: boolean) => string;
+      options: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies an args text usage color styling to provided console text.
        *
@@ -2875,7 +3116,10 @@ declare module "shell-shock:console" {
        *   terminal.
        *
        */
-      args: (text: string, background?: boolean) => string;
+      args: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies a description text usage color styling to provided console text.
        *
@@ -2891,7 +3135,10 @@ declare module "shell-shock:console" {
        *   current terminal.
        *
        */
-      description: (text: string, background?: boolean) => string;
+      description: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
     };
     /**
      * An object containing various prompt text theme coloring functions.
@@ -2916,7 +3163,10 @@ declare module "shell-shock:console" {
          *   terminal.
          *
          */
-        active: (text: string, background?: boolean) => string;
+        active: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a warning prompt icon color styling to provided console text.
          *
@@ -2932,7 +3182,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        warning: (text: string, background?: boolean) => string;
+        warning: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an error prompt icon color styling to provided console text.
          *
@@ -2948,7 +3201,10 @@ declare module "shell-shock:console" {
          *   terminal.
          *
          */
-        error: (text: string, background?: boolean) => string;
+        error: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a submitted prompt icon color styling to provided console text.
          *
@@ -2964,7 +3220,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        submitted: (text: string, background?: boolean) => string;
+        submitted: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a cancelled prompt icon color styling to provided console text.
          *
@@ -2980,7 +3239,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        cancelled: (text: string, background?: boolean) => string;
+        cancelled: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a disabled prompt icon color styling to provided console text.
          *
@@ -2996,7 +3258,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        disabled: (text: string, background?: boolean) => string;
+        disabled: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various prompt message text theme coloring functions.
@@ -3017,7 +3282,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        active: (text: string, background?: boolean) => string;
+        active: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a warning prompt message color styling to provided console text.
          *
@@ -3033,7 +3301,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        warning: (text: string, background?: boolean) => string;
+        warning: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an error prompt message color styling to provided console text.
          *
@@ -3049,7 +3320,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        error: (text: string, background?: boolean) => string;
+        error: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a submitted prompt message color styling to provided console text.
          *
@@ -3065,7 +3339,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        submitted: (text: string, background?: boolean) => string;
+        submitted: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a cancelled prompt message color styling to provided console text.
          *
@@ -3081,7 +3358,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        cancelled: (text: string, background?: boolean) => string;
+        cancelled: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a disabled prompt message color styling to provided console text.
          *
@@ -3097,7 +3377,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        disabled: (text: string, background?: boolean) => string;
+        disabled: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various prompt input text theme coloring functions.
@@ -3118,7 +3401,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        active: (text: string, background?: boolean) => string;
+        active: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an inactive prompt input color styling to provided console text.
          *
@@ -3134,7 +3420,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        inactive: (text: string, background?: boolean) => string;
+        inactive: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a warning prompt input color styling to provided console text.
          *
@@ -3150,7 +3439,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        warning: (text: string, background?: boolean) => string;
+        warning: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an error prompt input color styling to provided console text.
          *
@@ -3166,7 +3458,10 @@ declare module "shell-shock:console" {
          *   terminal.
          *
          */
-        error: (text: string, background?: boolean) => string;
+        error: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a submitted prompt input color styling to provided console text.
          *
@@ -3182,7 +3477,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        submitted: (text: string, background?: boolean) => string;
+        submitted: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a cancelled prompt input color styling to provided console text.
          *
@@ -3198,7 +3496,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        cancelled: (text: string, background?: boolean) => string;
+        cancelled: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a disabled prompt input color styling to provided console text.
          *
@@ -3214,7 +3515,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        disabled: (text: string, background?: boolean) => string;
+        disabled: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a placeholder prompt input color styling to provided console text.
          *
@@ -3230,7 +3534,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        placeholder: (text: string, background?: boolean) => string;
+        placeholder: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various prompt description text theme coloring functions.
@@ -3251,7 +3558,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        active: (text: string, background?: boolean) => string;
+        active: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an inactive prompt description color styling to provided console text.
          *
@@ -3267,7 +3577,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        inactive: (text: string, background?: boolean) => string;
+        inactive: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a warning prompt description color styling to provided console text.
          *
@@ -3283,7 +3596,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        warning: (text: string, background?: boolean) => string;
+        warning: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an error prompt description color styling to provided console text.
          *
@@ -3299,7 +3615,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        error: (text: string, background?: boolean) => string;
+        error: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a submitted prompt description color styling to provided console text.
          *
@@ -3315,7 +3634,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        submitted: (text: string, background?: boolean) => string;
+        submitted: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a cancelled prompt description color styling to provided console text.
          *
@@ -3331,7 +3653,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        cancelled: (text: string, background?: boolean) => string;
+        cancelled: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a disabled prompt description color styling to provided console text.
          *
@@ -3347,7 +3672,10 @@ declare module "shell-shock:console" {
          *   supported in the current terminal.
          *
          */
-        disabled: (text: string, background?: boolean) => string;
+        disabled: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
     };
     /**
@@ -3373,7 +3701,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        active: (text: string, background?: boolean) => string;
+        active: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a warning spinner icon color styling to provided console text.
          *
@@ -3389,7 +3720,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        warning: (text: string, background?: boolean) => string;
+        warning: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an error spinner icon color styling to provided console text.
          *
@@ -3405,7 +3739,10 @@ declare module "shell-shock:console" {
          *   terminal.
          *
          */
-        error: (text: string, background?: boolean) => string;
+        error: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a success spinner icon color styling to provided console text.
          *
@@ -3421,7 +3758,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        success: (text: string, background?: boolean) => string;
+        success: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an info spinner icon color styling to provided console text.
          *
@@ -3437,7 +3777,10 @@ declare module "shell-shock:console" {
          *   terminal.
          *
          */
-        info: (text: string, background?: boolean) => string;
+        info: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a help spinner icon color styling to provided console text.
          *
@@ -3453,7 +3796,10 @@ declare module "shell-shock:console" {
          *   terminal.
          *
          */
-        help: (text: string, background?: boolean) => string;
+        help: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various spinner message text theme coloring functions.
@@ -3474,7 +3820,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        active: (text: string, background?: boolean) => string;
+        active: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a warning spinner message color styling to provided console text.
          *
@@ -3490,7 +3839,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        warning: (text: string, background?: boolean) => string;
+        warning: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an error spinner message color styling to provided console text.
          *
@@ -3506,7 +3858,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        error: (text: string, background?: boolean) => string;
+        error: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a success spinner message color styling to provided console text.
          *
@@ -3522,7 +3877,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        success: (text: string, background?: boolean) => string;
+        success: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an info spinner message color styling to provided console text.
          *
@@ -3538,7 +3896,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        info: (text: string, background?: boolean) => string;
+        info: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a help spinner message color styling to provided console text.
          *
@@ -3554,7 +3915,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        help: (text: string, background?: boolean) => string;
+        help: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
     };
     /**
@@ -3576,7 +3940,10 @@ declare module "shell-shock:console" {
        *   terminal.
        *
        */
-      default: (text: string, background?: boolean) => string;
+      default: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies an utility text tags color styling to provided console text.
        *
@@ -3592,7 +3959,10 @@ declare module "shell-shock:console" {
        *   terminal.
        *
        */
-      utility: (text: string, background?: boolean) => string;
+      utility: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies a deprecated text tags color styling to provided console text.
        *
@@ -3608,7 +3978,10 @@ declare module "shell-shock:console" {
        *   current terminal.
        *
        */
-      deprecated: (text: string, background?: boolean) => string;
+      deprecated: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
       /**
        * A function that applies an experimental text tags color styling to provided console text.
        *
@@ -3624,7 +3997,10 @@ declare module "shell-shock:console" {
        *   current terminal.
        *
        */
-      experimental: (text: string, background?: boolean) => string;
+      experimental: (
+        text: string | number | boolean | null | undefined,
+        background?: boolean
+      ) => string;
     };
   };
   /**
@@ -3654,7 +4030,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        primary: (text: string, background?: boolean) => string;
+        primary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a secondary banner divider color styling to provided console text.
          *
@@ -3670,7 +4049,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        secondary: (text: string, background?: boolean) => string;
+        secondary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a tertiary banner divider color styling to provided console text.
          *
@@ -3686,7 +4068,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        tertiary: (text: string, background?: boolean) => string;
+        tertiary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various banner outline border theme coloring functions.
@@ -3707,7 +4092,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        primary: (text: string, background?: boolean) => string;
+        primary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a secondary banner outline color styling to provided console text.
          *
@@ -3723,7 +4111,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        secondary: (text: string, background?: boolean) => string;
+        secondary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a tertiary banner outline color styling to provided console text.
          *
@@ -3739,7 +4130,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        tertiary: (text: string, background?: boolean) => string;
+        tertiary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
     };
     /**
@@ -3765,7 +4159,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        primary: (text: string, background?: boolean) => string;
+        primary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a secondary app divider color styling to provided console text.
          *
@@ -3781,7 +4178,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        secondary: (text: string, background?: boolean) => string;
+        secondary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a tertiary app divider color styling to provided console text.
          *
@@ -3797,7 +4197,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        tertiary: (text: string, background?: boolean) => string;
+        tertiary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various app table border theme coloring functions.
@@ -3818,7 +4221,10 @@ declare module "shell-shock:console" {
          *   terminal.
          *
          */
-        primary: (text: string, background?: boolean) => string;
+        primary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a secondary app table color styling to provided console text.
          *
@@ -3834,7 +4240,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        secondary: (text: string, background?: boolean) => string;
+        secondary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a tertiary app table color styling to provided console text.
          *
@@ -3850,7 +4259,10 @@ declare module "shell-shock:console" {
          *   terminal.
          *
          */
-        tertiary: (text: string, background?: boolean) => string;
+        tertiary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
     };
     /**
@@ -3876,7 +4288,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        help: (text: string, background?: boolean) => string;
+        help: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a success message divider color styling to provided console text.
          *
@@ -3892,7 +4307,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        success: (text: string, background?: boolean) => string;
+        success: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an info message divider color styling to provided console text.
          *
@@ -3908,7 +4326,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        info: (text: string, background?: boolean) => string;
+        info: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a debug message divider color styling to provided console text.
          *
@@ -3924,7 +4345,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        debug: (text: string, background?: boolean) => string;
+        debug: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a warning message divider color styling to provided console text.
          *
@@ -3940,7 +4364,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        warning: (text: string, background?: boolean) => string;
+        warning: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a danger message divider color styling to provided console text.
          *
@@ -3956,7 +4383,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        danger: (text: string, background?: boolean) => string;
+        danger: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an error message divider color styling to provided console text.
          *
@@ -3972,7 +4402,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        error: (text: string, background?: boolean) => string;
+        error: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
       /**
        * An object containing various message outline border theme coloring functions.
@@ -3993,7 +4426,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        help: (text: string, background?: boolean) => string;
+        help: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a success message outline color styling to provided console text.
          *
@@ -4009,7 +4445,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        success: (text: string, background?: boolean) => string;
+        success: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an info message outline color styling to provided console text.
          *
@@ -4025,7 +4464,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        info: (text: string, background?: boolean) => string;
+        info: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a debug message outline color styling to provided console text.
          *
@@ -4041,7 +4483,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        debug: (text: string, background?: boolean) => string;
+        debug: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a warning message outline color styling to provided console text.
          *
@@ -4057,7 +4502,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        warning: (text: string, background?: boolean) => string;
+        warning: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies a danger message outline color styling to provided console text.
          *
@@ -4073,7 +4521,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        danger: (text: string, background?: boolean) => string;
+        danger: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
         /**
          * A function that applies an error message outline color styling to provided console text.
          *
@@ -4089,7 +4540,10 @@ declare module "shell-shock:console" {
          *   current terminal.
          *
          */
-        error: (text: string, background?: boolean) => string;
+        error: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
       };
     };
   };

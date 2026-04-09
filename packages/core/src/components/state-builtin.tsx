@@ -41,7 +41,7 @@ import { computedOptions } from "../contexts/options";
 import { getAppBin } from "../plugin-utils";
 import { getAppTitle } from "../plugin-utils/context-helpers";
 import type { Context } from "../types";
-import { OptionsMember } from "./options-parser-logic";
+import { OptionsMember, OptionsParserLogic } from "./options-parser-logic";
 
 export function GlobalTypeDefinitions() {
   const context = usePowerlines<Context>();
@@ -158,6 +158,10 @@ export function ArgsUtilities() {
 export function ContextUtilities() {
   const context = usePowerlines<Context>();
 
+  const options = computed(() =>
+    Object.fromEntries(context.options.map(option => [option.name, option]))
+  );
+
   return (
     <>
       <Spacing />
@@ -174,9 +178,6 @@ export function ContextUtilities() {
         heading={`Get the ${getAppTitle(
           context
         )} application context for the current application.`}>
-        <TSDocParam name="options">
-          {`The options to use when getting the context. This can include parameters for how to handle missing contexts, such as whether to throw an error or return undefined. By default, if the context is not available, this function will return undefined.`}
-        </TSDocParam>
         <TSDocReturns>
           {`The ${getAppTitle(
             context
@@ -197,6 +198,23 @@ export function ContextUtilities() {
       </TSDoc>
       <FunctionDeclaration export name="useArgs" returnType="string[]">
         {code`return useGlobal()?.inputArgs ?? getInputArgs();`}
+      </FunctionDeclaration>
+      <Spacing />
+      <TSDoc
+        heading={`A utility hook function to get the command-line global options from the ${getAppTitle(
+          context
+        )} application context.`}>
+        <TSDocReturns>
+          {
+            "An object containing the global options from the application context."
+          }
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        name="useGlobalOptions"
+        returnType="GlobalOptions">
+        {code`return useGlobal()?.options ?? {};`}
       </FunctionDeclaration>
       <Spacing />
       <TSDoc
@@ -395,8 +413,20 @@ return result;`}
         name="withGlobal"
         parameters={[{ name: "handler", type: "() => any" }]}
         returnType="Promise<void>">
+        <VarDeclaration
+          const
+          name="args"
+          initializer={code`getInputArgs(); `}
+        />
+        <Spacing />
+        <OptionsParserLogic
+          options={options.value}
+          appSpecificEnvPrefix={context.config.appSpecificEnvPrefix}
+          isCaseSensitive={context.config.isCaseSensitive}
+        />
+        <Spacing />
         {code`
-        return unstable_globalStore.run({ options: {} as unknown as GlobalOptions, inputArgs: getInputArgs(), state: { executionId: randomUUID(), status: "initializing", isError: false, meta: new Map() } as GlobalContextState }, handler);`}
+        return unstable_globalStore.run({ options, inputArgs: args, state: { executionId: randomUUID(), status: "initializing", isError: false, meta: new Map() } as GlobalContextState }, handler);`}
       </FunctionDeclaration>
       <Spacing />
       <TSDoc
@@ -465,7 +495,7 @@ export function StateBuiltin(props: StateBuiltinProps) {
         "node:crypto": ["randomUUID"]
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
-        env: ["isCI"]
+        env: ["isCI", "env"]
       })}>
       <GlobalTypeDefinitions />
       <Spacing />

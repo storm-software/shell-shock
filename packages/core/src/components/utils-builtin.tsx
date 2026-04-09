@@ -312,8 +312,15 @@ export function TerminalSizeDeclaration() {
       <Spacing />
       <FunctionDeclaration name="devTty">
         {code`try {
-            return tty.WriteStream(openSync("/dev/tty", isMacOS ? fsConstants.O_NONBLOCK : fsConstants.O_NONBLOCK));
-          } catch {}  `}
+          const writeStream = new WriteStream(
+            openSync(
+              "/dev/tty",
+              fsConstants.O_NONBLOCK
+            )
+          ).getWindowSize();
+
+          return { columns: writeStream[0], rows: writeStream[1] };
+        } catch {}  `}
       </FunctionDeclaration>
       <Spacing />
       <TSDoc heading="A utility function that attempts to determine the size of the terminal (number of columns and rows) using various methods, and falls back to default values if it cannot be determined. This can be used to adjust output formatting based on the available terminal size.">
@@ -1643,7 +1650,7 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
           "realpathSync"
         ],
         "node:fs/promises": ["stat"],
-        "node:tty": "tty",
+        "node:tty": ["WriteStream"],
         "node:util": ["promisify"],
         "node:url": ["fileURLToPath", "pathToFileURL"],
         "node:module": ["builtinModules"]

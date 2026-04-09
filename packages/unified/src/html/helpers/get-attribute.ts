@@ -36,10 +36,10 @@ const attributeCache = new WeakMap<Tag, Map<string, string | null>>();
  * @returns Attribute value or default
  */
 export const getAttribute = (
-  tag: Tag | unknown,
+  tag: Tag,
   attributeName: string | unknown,
-  defaultValue?: string
-): string | unknown => {
+  defaultValue: string | null = null
+): string | null => {
   // Validate inputs
   if (!tag || typeof tag !== "object") {
     return defaultValue;
@@ -50,7 +50,7 @@ export const getAttribute = (
   }
 
   // Check cache first
-  let tagCache = attributeCache.get(tag as Tag);
+  let tagCache = attributeCache.get(tag);
   if (tagCache) {
     const cachedValue = tagCache.get(attributeName);
     if (cachedValue !== undefined) {
@@ -70,10 +70,7 @@ export const getAttribute = (
   }
 
   const attribute = tag.attrs.find(
-    attribute_ =>
-      attribute_ &&
-      typeof attribute_ === "object" &&
-      attribute_.name === attributeName
+    attr => attr && typeof attr === "object" && attr.name === attributeName
   );
 
   // Cache the result

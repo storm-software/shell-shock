@@ -62,19 +62,18 @@ export function ExecBuiltin(props: ExecBuiltinProps) {
         "node:stream": [{ name: "Stream", default: true, type: true }]
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
-        env: ["isWindows"]
+        env: ["isWindows", "env", { name: "Env", type: true }]
       })}>
       <FunctionDeclaration
         name="resolveCommandEnv"
         parameters={[
           {
             name: "params",
-            type: "{ argv: string[]; env?: NodeJS.ProcessEnv; baseEnv?: NodeJS.ProcessEnv; }"
+            type: "{ argv: string[]; env?: NodeJS.ProcessEnv; }"
           }
         ]}
         returnType="NodeJS.ProcessEnv">
-        {code`const baseEnv = params.baseEnv ?? process.env;
-const argv = params.argv;
+        {code`const argv = params.argv;
 const shouldSuppressNpmFund = (() => {
   const cmd = basename(argv[0] ?? "");
   if (cmd === "npm" || cmd === "npm.cmd" || cmd === "npm.exe") {
@@ -88,17 +87,19 @@ const shouldSuppressNpmFund = (() => {
   return false;
 })();
 
-const mergedEnv = params.env ? { ...baseEnv, ...params.env } : { ...baseEnv };
-const resolvedEnv = Object.fromEntries(
-  Object.entries(mergedEnv)
-    .filter(([, value]) => value !== undefined)
-    .map(([key, value]) => [key, String(value)])
+const result = Object.fromEntries(
+  Object.entries({
+  ...env,
+  ...(params.env ?? {})
+})
+  .filter(([, value]) => value !== undefined)
+  .map(([key, value]) => [key, String(value)])
 );
 if (shouldSuppressNpmFund) {
-  resolvedEnv.NPM_CONFIG_FUND ??= "false";
-  resolvedEnv.npm_config_fund ??= "false";
+  result.NPM_CONFIG_FUND ??= "false";
+  result.npm_config_fund ??= "false";
 }
-return resolvedEnv;`}
+return result; `}
       </FunctionDeclaration>
       <Spacing />
       <FunctionDeclaration
@@ -283,7 +284,7 @@ return false;`}
             defaultValue="300000"
           />
         </TSDoc>
-        <InterfaceMember name="timeoutMs" type="number" />
+        <InterfaceMember name="timeoutMs" optional type="number" />
         <Spacing />
         <TSDoc heading="The current working directory of the child process." />
         <InterfaceMember name="cwd" optional type="string" />
@@ -347,43 +348,40 @@ return false;`}
   typeof optionsOrTimeoutMs === "number"
     ? { timeoutMs: optionsOrTimeoutMs }
     : optionsOrTimeoutMs;
-const { timeoutMs, cwd, input, env, noOutputTimeoutMs } = options;
-const hasInput = input !== undefined;
-const resolvedEnv = resolveCommandEnv({ argv, env });
-const stdio = resolveCommandStdio({ hasInput, preferInherit: true });
+const { timeoutMs = 300000, cwd, input, noOutputTimeoutMs } = options;
 
-const finalArgv =
+const resolvedArgv =
   isWindows
     ? (resolveNpmArgvForWindows(argv) ?? argv)
     : argv;
 const resolvedCommand =
-  finalArgv !== argv
-    ? (finalArgv[0] ?? "")
+  resolvedArgv !== argv
+    ? (resolvedArgv[0] ?? "")
     : resolveCommand(argv[0] ?? "");
 const useCmdWrapper = isWindowsBatchCommand(resolvedCommand);
 
 const child = _spawn(
   useCmdWrapper
-    ? (process.env.ComSpec ?? "cmd.exe")
+    ? (env.COMSPEC ?? "cmd.exe")
     : resolvedCommand,
   useCmdWrapper
     ? [
         "/d",
         "/s",
         "/c",
-        buildCmdExeCommandLine(resolvedCommand, finalArgv.slice(1))
+        buildCmdExeCommandLine(resolvedCommand, resolvedArgv.slice(1))
       ]
-    : finalArgv.slice(1), {
-  stdio,
+    : resolvedArgv.slice(1), {
+  stdio: resolveCommandStdio({ hasInput: input !== undefined, preferInherit: true }),
   cwd,
-  env: resolvedEnv,
+  env: resolveCommandEnv({ argv, env: options.env }),
   windowsHide: true,
   windowsVerbatimArguments: useCmdWrapper
     ? true
     : options.windowsVerbatimArguments,
   ...(shouldSpawnWithShell({
     resolvedCommand: useCmdWrapper
-      ? (process.env.ComSpec ?? "cmd.exe")
+      ? (env.COMSPEC ?? "cmd.exe")
       : resolvedCommand,
     platform: process.platform
   })
@@ -453,7 +451,7 @@ return new Promise((resolve, reject) => {
   }, timeoutMs >= 0 ? timeoutMs : Number.POSITIVE_INFINITY);
   armNoOutputTimer();
 
-  if (hasInput && child.stdin) {
+  if (input !== undefined && child.stdin) {
     child.stdin.write(input ?? "");
     child.stdin.end();
   }
@@ -506,7 +504,7 @@ return new Promise((resolve, reject) => {
       explicitCode: childExitState?.code ?? code,
       childExitCode: child.exitCode,
       resolvedSignal,
-      usesWindowsExitCodeShim: isWindows && (useCmdWrapper || finalArgv !== argv),
+      usesWindowsExitCodeShim: isWindows && (useCmdWrapper || resolvedArgv !== argv),
       timedOut,
       noOutputTimedOut,
       killIssuedByTimeout
@@ -626,23 +624,16 @@ return new Promise((resolve, reject) => {
         name="execSync"
         parameters={[
           { name: "argv", type: "string[]" },
-          { name: "options", type: "SpawnOptions", optional: true }
+          { name: "options", type: "SpawnOptions", default: "{}" }
         ]}
         returnType="string">
         {code`return execFileSync(argv.length > 0 ? argv[0] : "", argv.slice(1), {
           encoding: "utf8",
           stdio: ["ignore", "pipe", "ignore"],
-          timeout: options?.timeoutMs ?? 300000,
-          env: options?.env ? resolveCommandEnv({ argv, env: options.env }) : process.env,
-          cwd: options?.cwd,
-          windowsHide: true,
-          windowsVerbatimArguments: options?.windowsVerbatimArguments,
-          ...(shouldSpawnWithShell({
-            resolvedCommand: argv[0] ?? "",
-            platform: process.platform
-          })
-            ? { shell: true }
-            : {})
+          timeout: options.timeoutMs ?? 300000,
+          env: resolveCommandEnv({ argv, env: options.env }),
+          cwd: options.cwd || process.cwd(),
+          windowsHide: true
         }).trim(); `}
       </FunctionDeclaration>
       <Spacing />

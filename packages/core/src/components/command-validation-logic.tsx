@@ -115,11 +115,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                 option.choices.length > 0
               }>
               <Show
-                when={
-                  (option.kind === CommandParameterKinds.string ||
-                    option.kind === CommandParameterKinds.number) &&
-                  option.variadic
-                }
+                when={!option.variadic}
                 fallback={
                   <ElseIfClause
                     condition={code`!options${

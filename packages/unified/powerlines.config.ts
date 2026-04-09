@@ -24,6 +24,9 @@ const config: UserConfig = defineConfig({
   skipCache: true,
   input: ["./src/index.ts", "./src/html/index.ts", "./src/markdown/index.ts"],
   plugins: [tsdown()],
+  resolve: {
+    skipNodeModulesBundle: true
+  },
   tsdown: {
     exports: true
   }

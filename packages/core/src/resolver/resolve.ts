@@ -62,7 +62,7 @@ async function initialize<TContext extends Context = Context>(
     tags: parent?.tags ?? [],
     ...command,
     title,
-    options: getGlobalOptions(context, command),
+    options: parent === null ? getGlobalOptions(context, command) : {},
     args: [],
     parent: parent ?? null,
     children: {}

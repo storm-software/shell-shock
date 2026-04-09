@@ -188,6 +188,7 @@ export interface ThemeColorBorderSubItemUserConfig<TState extends object> {
 export interface ThemeColorBorderAppSubItemUserConfig<TState extends object> {
   table: Partial<TState> | string;
   divider: Partial<TState> | string;
+  blockquote: Partial<TState> | string;
 }
 
 export interface ThemeColorBorderSubItemResolvedConfig<TState extends object> {
@@ -200,6 +201,7 @@ export interface ThemeColorBorderAppSubItemResolvedConfig<
 > {
   table: TState;
   divider: TState;
+  blockquote: TState;
 }
 
 export interface ThemeColorBorderItemsUserConfig {
@@ -341,6 +343,7 @@ export interface ThemeBorderStyleSubItemUserConfig<TState extends object> {
 export interface ThemeBorderStyleAppSubItemUserConfig<TState extends object> {
   table: Partial<TState> | ThemeStyleBorderType;
   divider: Partial<TState> | ThemeStyleBorderType;
+  blockquote: Partial<TState> | ThemeStyleBorderType;
 }
 
 export interface ThemeBorderStyleSubItemResolvedConfig<TState extends object> {
@@ -353,6 +356,7 @@ export interface ThemeBorderStyleAppSubItemResolvedConfig<
 > {
   table: TState;
   divider: TState;
+  blockquote: TState;
 }
 
 export interface ThemeBorderStyleSectionTypesUserConfig {

@@ -226,6 +226,7 @@ export function CommandEntry(props: CommandEntryProps) {
           utils: ["isMinimal", "isUnicodeSupported"],
           state: [
             "useGlobal",
+            "useGlobalOptions",
             "useArgs",
             "hasFlag",
             "withCommand",

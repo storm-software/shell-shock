@@ -143,7 +143,7 @@ export function BannerFunctionBodyDeclaration(
               header
             }")) + " " + borderColors.banner.outline.${variant}("${
               theme.borderStyles.banner.outline[variant].top
-            }".repeat(Math.max(process.stdout.columns - ${
+            }".repeat(Math.max(getTerminalSize().columns - ${
               6 +
               (theme.icons.banner.header[variant]
                 ? theme.icons.banner.header[variant].length + 3
@@ -153,7 +153,7 @@ export function BannerFunctionBodyDeclaration(
             }, 0)))`
           : `borderColors.banner.outline.${variant}("${
               theme.borderStyles.banner.outline[variant].top
-            }".repeat(Math.max(process.stdout.columns - ${
+            }".repeat(Math.max(getTerminalSize().columns - ${
               bannerPadding.value
             }, 0)))`
       } + borderColors.banner.outline.${variant}("${
@@ -166,13 +166,13 @@ export function BannerFunctionBodyDeclaration(
           <Show when={isSetString(title)}>
             <For each={title ? title.split("\n") : []} hardline>
               {line => code`splitText("${line}",
-          Math.max(process.stdout.columns - ${totalPadding.value}, 20)
+          Math.max(getTerminalSize().columns - ${totalPadding.value}, 20)
         ).forEach((line) => {
           writeLine(borderColors.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].left
-          }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
+          }") + " ".repeat(Math.max(Math.floor((getTerminalSize().columns - (stripAnsi(line).length + ${
             bannerPadding.value
-          })) / 2), 0)) + bold(textColors.banner.title.${variant}(line)) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+          })) / 2), 0)) + bold(textColors.banner.title.${variant}(line)) + " ".repeat(Math.max(Math.ceil((getTerminalSize().columns - (stripAnsi(line).length + ${
             bannerPadding.value
           })) / 2), 0)) + borderColors.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].right
@@ -189,7 +189,7 @@ export function BannerFunctionBodyDeclaration(
         <Show when={insertNewlineBeforeCommand}>
           {code`writeLine(borderColors.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].left
-          }") + " ".repeat(Math.max(process.stdout.columns - ${
+          }") + " ".repeat(Math.max(getTerminalSize().columns - ${
             bannerPadding.value
           })) + borderColors.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].right
@@ -197,13 +197,13 @@ export function BannerFunctionBodyDeclaration(
         </Show>
         {`writeLine(borderColors.banner.outline.${variant}("${
           theme.borderStyles.banner.outline[variant].left
-        }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi("${
+        }") + " ".repeat(Math.max(Math.floor((getTerminalSize().columns - (stripAnsi("${
           command?.title
         }").length ${command?.icon ? " + 3" : ""} + ${
           bannerPadding.value
         })) / 2), 0)) + bold(textColors.banner.command.${
           variant
-        }("${command?.icon ? `${command.icon}  ` : ""}${command?.title}")) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi("${command?.title}").length ${
+        }("${command?.icon ? `${command.icon}  ` : ""}${command?.title}")) + " ".repeat(Math.max(Math.ceil((getTerminalSize().columns - (stripAnsi("${command?.title}").length ${
           command?.icon ? " + 3" : ""
         } + ${
           bannerPadding.value
@@ -221,15 +221,15 @@ export function BannerFunctionBodyDeclaration(
           }.${variant}(\`${formatDescription(description)}\`)),
           Math.max(${
             command?.title
-              ? `${totalPadding.value} * 2 > process.stdout.columns / 2 ? process.stdout.columns - 6 : process.stdout.columns - ${totalPadding.value}`
-              : `process.stdout.columns - ${totalPadding.value}`
+              ? `${totalPadding.value} * 2 > getTerminalSize().columns / 2 ? getTerminalSize().columns - 6 : getTerminalSize().columns - ${totalPadding.value}`
+              : `getTerminalSize().columns - ${totalPadding.value}`
           } , 20)
         ).forEach((line) => {
           writeLine(borderColors.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].left
-          }") + " ".repeat(Math.max(Math.floor((process.stdout.columns - (stripAnsi(line).length + ${
+          }") + " ".repeat(Math.max(Math.floor((getTerminalSize().columns - (stripAnsi(line).length + ${
             bannerPadding.value
-          })) / 2), 0)) + textColors.banner.description.${variant}(line) + " ".repeat(Math.max(Math.ceil((process.stdout.columns - (stripAnsi(line).length + ${
+          })) / 2), 0)) + textColors.banner.description.${variant}(line) + " ".repeat(Math.max(Math.ceil((getTerminalSize().columns - (stripAnsi(line).length + ${
             bannerPadding.value
           })) / 2), 0)) + borderColors.banner.outline.${variant}("${
             theme.borderStyles.banner.outline[variant].right
@@ -239,7 +239,7 @@ export function BannerFunctionBodyDeclaration(
           insertNewlineAfterDescription
             ? `writeLine(borderColors.banner.outline.${variant}("${
                 theme.borderStyles.banner.outline[variant].left
-              }") + " ".repeat(Math.max(process.stdout.columns - ${
+              }") + " ".repeat(Math.max(getTerminalSize().columns - ${
                 bannerPadding.value
               })) + borderColors.banner.outline.${variant}("${
                 theme.borderStyles.banner.outline[variant].right
@@ -252,7 +252,7 @@ export function BannerFunctionBodyDeclaration(
           footer
             ? `borderColors.banner.outline.${variant}("${
                 theme.borderStyles.banner.outline[variant].bottom
-              }".repeat(Math.max(process.stdout.columns - ${
+              }".repeat(Math.max(getTerminalSize().columns - ${
                 8 + (footer ? footer.length : 0) + bannerPadding.value
               }, 0))) + " " + ${
                 footer
@@ -263,7 +263,7 @@ export function BannerFunctionBodyDeclaration(
               }".repeat(6))`
             : `borderColors.banner.outline.${variant}("${
                 theme.borderStyles.banner.outline[variant].bottom
-              }".repeat(Math.max(process.stdout.columns - ${
+              }".repeat(Math.max(getTerminalSize().columns - ${
                 bannerPadding.value
               }, 0)))`
         } + borderColors.banner.outline.${variant}("${

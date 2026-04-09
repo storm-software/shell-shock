@@ -111,6 +111,7 @@ export function CommandEntry(props: CommandEntryProps) {
           utils: ["sleep", "isMinimal", "isInteractive", "isUnicodeSupported"],
           state: [
             "useGlobal",
+            "useGlobalOptions",
             "withCommand",
             "useArgs",
             "hasFlag",

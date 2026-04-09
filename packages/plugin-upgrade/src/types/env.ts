@@ -16,7 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import type { ShellShockEnv } from "@shell-shock/core/types/env";
+// eslint-disable-next-line ts/consistent-type-imports
+import { ShellShockEnv } from "@shell-shock/core/types/env";
 
 export interface ShellShockUpgradePluginEnv extends ShellShockEnv {
   /**

@@ -18,9 +18,9 @@
 
 export function escapeText(text: string) {
   return text
+    .replaceAll("\\", "\\\\")
     .replaceAll("`", "\\`")
     .replaceAll("${", "\\${")
-    .replaceAll("\\", "\\\\")
     .replaceAll("\n", "\\n")
     .replaceAll("\r", "\\r")
     .replaceAll("\t", "\\t");

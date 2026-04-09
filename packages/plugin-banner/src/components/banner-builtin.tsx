@@ -66,7 +66,13 @@ export function BannerBuiltin(props: BannerBuiltinProps) {
       }
       {...rest}
       builtinImports={defu(rest.builtinImports ?? {}, {
-        utils: ["isUnicodeSupported", "isMinimal", "sleep", "isInteractive"],
+        utils: [
+          "isUnicodeSupported",
+          "isMinimal",
+          "sleep",
+          "isInteractive",
+          "getTerminalSize"
+        ],
         state: ["useGlobal", "hasFlag", "isHelp", "useMeta"],
         console: [
           "splitText",

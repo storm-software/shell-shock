@@ -16,12 +16,11 @@
 
  ------------------------------------------------------------------- */
 
-import { textNode } from "../helpers/tag-utilities";
-import { a } from "./a";
-import { abbr } from "./abbr";
+import { getAttribute } from "../helpers/get-attribute";
+import { inlineTag } from "../helpers/tag-utilities";
 
-export default {
-  "#text": textNode,
-  a,
-  abbr
-};
+export const abbr = inlineTag((value, tag) => {
+  const title = getAttribute(tag, "title", null);
+
+  return value ? (title ? `${value} (${title})` : value) : "";
+});

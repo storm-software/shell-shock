@@ -30,6 +30,7 @@ import { camelCase } from "@stryke/string-format/camel-case";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
+import type { PartialKeys } from "@stryke/types/base";
 import { computedOptions } from "../contexts/options";
 import {
   getDynamicPathSegmentName,
@@ -672,12 +673,10 @@ export function OptionsInterfaceDeclaration(props: { command: CommandTree }) {
   );
 }
 
-export interface OptionsParserLogicProps {
-  /**
-   * The command to generate the options parser logic for.
-   */
-  command: CommandTree;
-
+export interface OptionsParserLogicProps extends PartialKeys<
+  Pick<CommandTree, "segments" | "options" | "name">,
+  "segments" | "name"
+> {
   /**
    * The environment variable prefix to use for options that have an associated environment variable. This prefix will be used in the generated code to access the environment variables (e.g., `env.${appSpecificEnvPrefix}_OPTION_NAME`).
    */
@@ -695,11 +694,17 @@ export interface OptionsParserLogicProps {
  * The command options parser logic.
  */
 export function OptionsParserLogic(props: OptionsParserLogicProps) {
-  const { command, appSpecificEnvPrefix, isCaseSensitive = false } = props;
+  const {
+    segments = [],
+    options: _options,
+    name: _name,
+    appSpecificEnvPrefix,
+    isCaseSensitive = false
+  } = props;
 
   const options = computed(() =>
     computedOptions(
-      Object.entries(command.options).map(([name, option]) => ({
+      Object.entries(_options).map(([name, option]) => ({
         ...option,
         name
       }))
@@ -712,7 +717,9 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
         const
         name="options"
         initializer={code` {
-          ${Object.entries(options.value)
+          ${
+            segments.length > 0 ? "...useGlobalOptions(), " : ""
+          }${Object.entries(options.value)
             .filter(
               ([, option]) =>
                 option.env ||
@@ -769,11 +776,11 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
               return "";
             })
             .join("")}
-          } as unknown as ${pascalCase(command.name)}Options;`}
+          } as unknown as ${segments.length > 0 ? pascalCase(_name) : "Global"}Options;`}
       />
       <Spacing />
       {code`for (let i = 0; i < args.slice(${
-        command.segments.filter(segment => isDynamicPathSegment(segment)).length
+        segments.filter(segment => isDynamicPathSegment(segment)).length
       }).length; i++) { `}
       <hbr />
       <VarDeclaration
@@ -791,7 +798,6 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
           : args[i]; `}
       />
       <hbr />
-
       <For each={Object.entries(options.value)} hardline>
         {([name, option], i) => (
           <Show
@@ -831,7 +837,6 @@ export function OptionsParserLogic(props: OptionsParserLogicProps) {
           </Show>
         )}
       </For>
-
       <hbr />
       {code` } `}
       <hbr />
@@ -872,7 +877,9 @@ export function CommandParserLogic(props: CommandParserLogicProps) {
       />
       <Spacing />
       <OptionsParserLogic
-        command={command}
+        name={command.name}
+        options={command.options}
+        segments={command.segments}
         appSpecificEnvPrefix={appSpecificEnvPrefix}
         isCaseSensitive={isCaseSensitive}
       />
