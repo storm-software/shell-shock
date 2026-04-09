@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Banner
 
+## [0.1.28](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.28) (04/09/2026)
+
+### Miscellaneous
+
+- **core:** Update generated entry modules to remove duplicated options parsing ([1f40636](https://github.com/storm-software/shell-shock/commit/1f40636))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.2.5**
+- Updated **plugin-theme** to **v0.4.14**
+- Updated **core** to **v0.17.1**
+
 ## [0.1.27](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.27) (04/09/2026)
 
 ### Updated Dependencies

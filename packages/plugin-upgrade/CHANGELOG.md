@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.46](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.46) (04/09/2026)
+
+### Miscellaneous
+
+- **core:** Update generated entry modules to remove duplicated options parsing ([1f40636](https://github.com/storm-software/shell-shock/commit/1f40636))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.1**
+
 ## [0.1.45](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.45) (04/09/2026)
 
 ### Features

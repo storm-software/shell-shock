@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Unified
 
+## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/unified%400.1.4) (04/09/2026)
+
+### Miscellaneous
+
+- **core:** Update generated entry modules to remove duplicated options parsing ([1f40636](https://github.com/storm-software/shell-shock/commit/1f40636))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.1**
+
 ## [0.1.3](https://github.com/storm-software/shell-shock/releases/tag/unified%400.1.3) (04/09/2026)
 
 ### Features

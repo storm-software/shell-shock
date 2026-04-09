@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.1) (04/09/2026)
+
+### Miscellaneous
+
+- **core:** Update generated entry modules to remove duplicated options parsing ([1f40636](https://github.com/storm-software/shell-shock/commit/1f40636))
+
 ## [0.17.0](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.0) (04/09/2026)
 
 ### Features

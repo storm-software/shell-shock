@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/plugin-banner",
-  "version": "0.1.27",
+  "version": "0.1.28",
   "private": false,
   "description": "A package containing a Shell Shock plugin to generate banner built-in modules that display information about the application.",
   "keywords": [

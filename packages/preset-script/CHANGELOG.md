@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.56](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.56) (04/09/2026)
+
+### Miscellaneous
+
+- **core:** Update generated entry modules to remove duplicated options parsing ([1f40636](https://github.com/storm-software/shell-shock/commit/1f40636))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.2.5**
+- Updated **plugin-banner** to **v0.1.28**
+- Updated **plugin-theme** to **v0.4.14**
+- Updated **plugin-help** to **v0.2.19**
+- Updated **core** to **v0.17.1**
+
 ## [0.6.55](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.55) (04/09/2026)
 
 ### Updated Dependencies

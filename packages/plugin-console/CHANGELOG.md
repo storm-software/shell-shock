@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.2.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.5) (04/09/2026)
+
+### Miscellaneous
+
+- **core:** Update generated entry modules to remove duplicated options parsing ([1f40636](https://github.com/storm-software/shell-shock/commit/1f40636))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.14**
+- Updated **core** to **v0.17.1**
+
 ## [0.2.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.4) (04/09/2026)
 
 ### Features

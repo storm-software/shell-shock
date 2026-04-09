@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.14) (04/09/2026)
+
+### Miscellaneous
+
+- **core:** Update generated entry modules to remove duplicated options parsing ([1f40636](https://github.com/storm-software/shell-shock/commit/1f40636))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.1**
+
 ## [0.4.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.13) (04/09/2026)
 
 ### Features

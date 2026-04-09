@@ -2,6 +2,25 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.13](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.13) (04/09/2026)
+
+### Miscellaneous
+
+- **core:** Update generated entry modules to remove duplicated options parsing ([1f40636](https://github.com/storm-software/shell-shock/commit/1f40636))
+
+### Updated Dependencies
+
+- Updated **plugin-completions** to **v0.4.9**
+- Updated **plugin-changelog** to **v0.1.4**
+- Updated **plugin-console** to **v0.2.5**
+- Updated **plugin-prompts** to **v0.3.42**
+- Updated **plugin-upgrade** to **v0.1.46**
+- Updated **plugin-banner** to **v0.1.28**
+- Updated **preset-script** to **v0.6.56**
+- Updated **plugin-theme** to **v0.4.14**
+- Updated **plugin-help** to **v0.2.19**
+- Updated **core** to **v0.17.1**
+
 ## [0.9.12](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.12) (04/09/2026)
 
 ### Features
