@@ -234,8 +234,10 @@
   "inlinedDependencies": {
     "@mdit/plugin-alert": "0.23.2",
     "@stryke/types": "0.11.3",
+    "ansi-regex": "6.2.2",
     "ansi-styles": "6.2.3",
     "entities": ["4.5.0", "6.0.1"],
+    "get-east-asian-width": "1.5.0",
     "he": "1.2.0",
     "linkify-it": "5.0.0",
     "markdown-it": "14.1.1",
@@ -252,6 +254,8 @@
     "normalize-html-whitespace": "1.0.0",
     "parse5": "8.0.0",
     "punycode.js": "2.3.1",
+    "string-width": "8.2.0",
+    "strip-ansi": "7.2.0",
     "uc.micro": "2.1.0",
     "wrap-ansi": "10.0.0"
   }

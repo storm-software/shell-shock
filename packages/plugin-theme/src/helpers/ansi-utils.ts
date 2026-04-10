@@ -1430,6 +1430,38 @@ function buildThemeAnsiStyles(
               close: wrapAnsi16()(49)
             }
           }
+        },
+        blockquote: {
+          primary: {
+            open: wrapFn()(convertFn(theme.border.app.blockquote.primary)),
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.app.blockquote.primary)
+              ),
+              close: wrapAnsi16()(49)
+            }
+          },
+          secondary: {
+            open: wrapFn()(convertFn(theme.border.app.blockquote.secondary)),
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.app.blockquote.secondary)
+              ),
+              close: wrapAnsi16()(49)
+            }
+          },
+          tertiary: {
+            open: wrapFn()(convertFn(theme.border.app.blockquote.tertiary)),
+            close: wrapAnsi16()(39),
+            background: {
+              open: wrapFn(ANSI_BACKGROUND_OFFSET)(
+                convertFn(theme.border.app.blockquote.tertiary)
+              ),
+              close: wrapAnsi16()(49)
+            }
+          }
         }
       },
       message: {

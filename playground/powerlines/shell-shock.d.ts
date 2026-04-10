@@ -1,6 +1,3 @@
-/// <reference types="@powerlines/deepkit/vendor/type" />
-/// <reference types="node" />
-
 /* eslint-disable */
 // biome-ignore lint: disable
 
@@ -14,12 +11,6 @@
  */
 declare module "shell-shock:env" {
   import { Serializer } from "@powerlines/deepkit/vendor/type";
-  /**
-   * Object
-   *
-   * @title Object
-   *
-   */
   export interface EnvBase {
     /**
      * The application's cached data directory.
@@ -40,7 +31,7 @@ declare module "shell-shock:env" {
      *
      *
      */
-    ComSpec?: string;
+    COMSPEC?: string;
     /**
      * The application's configuration data directory.
      *
@@ -290,21 +281,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "1FYKmnNsKpIYT_PdOERgpTOiHpde1Q3i"
+     * @defaultValue "n6c_8TvyUMtqfR2tZ9Xv7r7Onjt_CPKv"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "ada0d4a0-498c-4e45-9386-01126bcd60d2"
+     * @defaultValue "b79f0db6-fac0-4b50-84c8-e8a134b0b866"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-09T18:29:13.964Z"
+     * @defaultValue "2026-04-10T09:02:05.795Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -535,7 +526,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "a0d4a049-8c1e-4553-8601-126bcd60d278"
+     * @defaultValue "9f0db6fa-c09b-4084-88e8-a134b0b86616"
      */
     readonly RELEASE_ID: string;
     /**
@@ -728,173 +719,46 @@ declare module "shell-shock:env" {
      */
     readonly XDG_STATE_HOME?: string;
   }
-  /**
-   * The environment configuration object with prefixed keys.
-   *
-   * @remarks
-   * The `Env` type extends the `EnvBase` interface by including additional keys that are prefixed according to the project's configuration. This allows for flexibility in accessing environment variables with different naming conventions.
-   */
   export type Env = {
     [Key in keyof EnvBase as
       | Key
       | `NEXT_${Key}`
-      | `NEXT_${Key}`
-      | `ONE_${Key}`
       | `ONE_${Key}`
       | `PLAYGROUND_POWERLINES_${Key}`
       | `POWERLINES_${Key}`
-      | `POWERLINES_${Key}`
-      | `STORM_STACK_${Key}`
       | `STORM_STACK_${Key}`
       | `STORM_${Key}`
-      | `STORM_${Key}`
       | `VERCEL_${Key}`
-      | `VERCEL_${Key}`
-      | `VITE_${Key}`
       | `VITE_${Key}`]: EnvBase[Key];
   };
-  /**
-   * The initial environment configuration state for the Playground Powerlines project.
-   *
-   * @title Object
-   *
-   */
   export const initialEnv: Partial<EnvBase>;
-  /**
-   * The environment configuration serializer for the Powerlines application.
-   *
-   * @see https://deepkit.io/docs/serialization/serializers
-   *
-   * @see https://github.com/marcj/untitled-code/blob/master/packages/type/src/serializer.ts#L1918
-   *
-   * @remarks
-   * This serializer is used to serialize and deserialize the Powerlines environment configuration.
-   */
   export class EnvSerializer extends Serializer {
     /**
      * Initializes a new instance of the `EnvSerializer` class.
      */
     constructor();
   }
-  /**
-   * Serialize a environment configuration object to JSON data objects (not a JSON string).
-   *
-   * @remarks
-   * The resulting JSON object can be stringified using `JSON.stringify()`.
-   * @example
-   * ```ts
-   * const json = serializeEnv(env);
-   * ```
-   * @throws ValidationError when serialization or validation fails.
-   *
-   */
   export const serializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
     EnvBase,
     any
   >;
-  /**
-   * Deserialize a environment configuration object from JSON data objects to JavaScript objects, without running any validators.
-   *
-   * @remarks
-   * Types that are already correct will be used as-is.
-   * @example
-   * ```ts
-   * const env = deserializeEnv(json);
-   * ```
-   * @throws ValidationError when deserialization fails.
-   *
-   */
   export const deserializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
     any,
     EnvBase
   >;
-  /**
-   * Initializes the Powerlines environment configuration module.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   * @param environmentConfig - The dynamic/runtime configuration - this could
-   *   include the current environment variables or any other environment-specific
-   *   settings provided by the runtime.
-   * @returns The initialized Powerlines configuration object.
-   *
-   */
   export function createEnv(environmentConfig?: Partial<Env>): Env;
-  /**
-   * The environment configuration object.
-   *
-   * @remarks
-   * This object provides access to the environment configuration parameters in the application runtime.
-   */
   export const env: Env;
-  /**
-   * Detect if the application is running in a continuous integration (CI) environment.
-   */
   export const isCI: boolean;
-  /**
-   * Detect the \`mode\` of the current runtime environment.
-   *
-   * @remarks
-   * The `mode` is determined by the `MODE` environment variable, or falls back to the `NEXT_PUBLIC_VERCEL_ENV`, `NODE_ENV`, or defaults to `production`. While the value can potentially be any string, it is generally recommended to only allow a value in the following list:
-   *
-   * - `production`
-   *
-   * - `test`
-   *
-   * - `development`
-   */
   export const mode: string;
-  /**
-   * Detect if the application is running in `"production"` mode
-   */
   export const isProduction: boolean;
-  /**
-   * Detect if the application is running in `"test"` mode
-   */
   export const isTest: boolean;
-  /**
-   * Detect if the application is running in `"development"` mode
-   */
   export const isDevelopment: boolean;
-  /**
-   * Detect if the application is currently being debugged
-   */
   export const isDebug: boolean;
-  /**
-   * An indicator specifying whether the current operating system is MacOS (darwin kernel).
-   */
   export const isWindows: boolean;
-  /**
-   * An indicator specifying whether the current operating system is Linux.
-   */
   export const isLinux: boolean;
-  /**
-   * An indicator specifying whether the current operating system is MacOS (darwin kernel).
-   */
   export const isMacOS: boolean;
-  /**
-   * The environment path types for storing things like data, config, logs, and cache in the current runtime environment.
-   *
-   * @remarks
-   * These environment path types are accessed in the {@link EnvPaths} type.
-   */
   export type EnvPathType = "data" | "config" | "cache" | "log" | "temp";
-  /**
-   * The environment paths for storing things like data, config, logs, and cache in the current runtime environment.
-   */
   export type EnvPaths = Record<EnvPathType, string>;
-  /**
-   * The resolved application directories based on the current operating system and environment variables.
-   *
-   * @remarks
-   * If the `DATA_DIR`, `CONFIG_DIR`, `CACHE_DIR`, `LOG_DIR`, or `TEMP_DIR` environment variables are set, they will be treated as overrides and used by default. If the environment variables are not set, the paths are determined based on the specific conventions for each operating system (with additional overrides available through operating system specific environment variables):
-   *
-   * - **Linux**: directories are generally created in `~/.config/<name>` (this is determined via the [XDG Base Directory spec](https://specifications.freedesktop.org/basedir-spec/latest/))
-   *
-   * - **Windows**: directories are generally created in `%AppData%/<name>`
-   *
-   * - **MacOS**: directories are generally created in `~/Library/Application Support/<name>`
-   */
   export const paths: EnvPaths;
 }
 
@@ -905,9 +769,6 @@ declare module "shell-shock:env" {
  */
 declare module "shell-shock:state" {
   import { AsyncLocalStorage } from "node:async_hooks";
-  /**
-   * An object representing the global options available for every command in the Playground Powerlines command-line application.
-   */
   export interface GlobalOptions {
     /**
      * Show help information.
@@ -930,9 +791,6 @@ declare module "shell-shock:state" {
      */
     noBanner?: boolean | undefined;
   }
-  /**
-   * The context object for the current command execution, containing the command path and segments.
-   */
   export interface CommandContext<
     THandler extends (...params: any[]) => any = any
   > {
@@ -954,9 +812,6 @@ declare module "shell-shock:state" {
     | "preparing"
     | "executing"
     | "completed";
-  /**
-   * The state object for the Playground Powerlines application context.
-   */
   export interface GlobalContextState {
     /**
      * The unique identifier for the current execution context.
@@ -975,9 +830,6 @@ declare module "shell-shock:state" {
      */
     meta: Map<string, unknown>;
   }
-  /**
-   * The context object for the Playground Powerlines application.
-   */
   export interface GlobalContext {
     /**
      * The global options shared across all commands in the application.
@@ -992,161 +844,26 @@ declare module "shell-shock:state" {
      */
     state: GlobalContextState;
   }
-  /**
-   * The global Playground Powerlines application context store instance.
-   *
-   * @internal
-   *
-   */
   export const unstable_globalStore: AsyncLocalStorage<GlobalContext>;
-  /**
-   * Get the Playground Powerlines application context for the current application.
-   *
-   * @returns The Playground Powerlines application context for the current
-   *   application or undefined if the context is not available.
-   *
-   */
   export function useGlobal(): GlobalContext;
-  /**
-   * A utility hook function to get the command-line arguments from the Playground Powerlines application context.
-   *
-   * @returns An array of command-line arguments from the application context.
-   *
-   */
   export function useArgs(): string[];
-  /**
-   * A utility hook function to get the command-line global options from the Playground Powerlines application context.
-   *
-   * @returns An object containing the global options from the application
-   *   context.
-   *
-   */
   export function useGlobalOptions(): GlobalOptions;
-  /**
-   * A utility hook function to get the state of the Playground Powerlines application context.
-   *
-   * @returns The state of the application context.
-   *
-   */
   export function useState(): GlobalContextState;
-  /**
-   * A utility function to update the state of the Playground Powerlines application context.
-   *
-   * @remarks
-   * This function will throw an error if the global context is not available, so it should only be used within a valid context scope, such as within a command handler or within the `withGlobal()` function.
-   *
-   *
-   * @param update - The new state or a function that receives the previous state
-   *   and returns the new state. This allows for both direct state updates and
-   *   functional updates based on the previous state.
-   */
   export function setState(
     update:
       | Partial<GlobalContextState>
       | ((prev: GlobalContextState) => GlobalContextState)
   ): void;
-  /**
-   * A utility hook function to get the execution ID of the Playground Powerlines application context.
-   *
-   * @returns The execution ID of the application context.
-   *
-   */
   export function useExecutionId(): string;
-  /**
-   * A utility hook function to get the metadata of the Playground Powerlines application context.
-   *
-   * @returns The metadata of the application context.
-   *
-   */
   export function useMeta(): Map<string, unknown>;
-  /**
-   * A utility hook function to get the current status of the Playground Powerlines application.
-   *
-   * @returns The current status of the application.
-   *
-   */
   export function useStatus(): GlobalContextStatus;
-  /**
-   * The global Playground Powerlines - command context store instance.
-   *
-   * @internal
-   *
-   */
   export const unstable_commandStore: AsyncLocalStorage<CommandContext<any>>;
-  /**
-   * Get the Playground Powerlines - command context for the current application.
-   *
-   * @returns The Playground Powerlines - command context for the current
-   *   application.
-   *
-   */
   export function useCommand(): CommandContext;
-  /**
-   * A utility hook function to get the individual segments of the current command path.
-   *
-   * @returns An array of command path segments.
-   *
-   */
   export function useSegments(): string[];
-  /**
-   * A utility hook function to get the full command path as a string.
-   *
-   * @returns The full command path as a string. For example, if the user runs
-   *   `playground-powerlines foo bar`, this would return `"foo bar"`. This is
-   *   useful for commands that need to know their full invocation path, such as
-   *   for help text or for commands that have dynamic behavior based on their
-   *   position in the command hierarchy.
-   *
-   */
   export function usePath(): string;
-  /**
-   * Checks if a specific flag is present in the command-line arguments.
-   *
-   * @see https://github.com/sindresorhus/has-flag/blob/main/index.js
-   *
-   * @param flag - The flag (or an array of flags/aliases) to check for, e.g.,
-   *   "color", "no-color".
-   * @param argv - The command-line arguments to check against. Defaults to global
-   *   Deno args or process args.
-   * @returns True if the flag is present, false otherwise.
-   *
-   */
   export function hasFlag(flag: string | string[], argv?: string[]): boolean;
-  /**
-   * A utility function to determine if the help flag is present or if the command is in an error state during preparation.
-   *
-   * @returns True if the help flag is present or if the command is in an error
-   *   state during preparation, false otherwise. This can be used to
-   *   conditionally display help text or to alter command behavior when the user
-   *   is likely seeking help.
-   *
-   */
   export function isHelp(): boolean;
-  /**
-   * A utility function to wrap the Playground Powerlines application within the global context scope.
-   *
-   * @param handler - The callback function to run within the global context
-   *   scope. This function will receive the global context as its argument,
-   *   allowing it to access any properties or utilities defined on the context.
-   *   The callback function can be asynchronous and can return a value or a
-   *   promise.
-   * @returns The result of the callback function, which can be a value or a
-   *   promise that resolves to a value.
-   *
-   */
   export function withGlobal(handler: () => any): Promise<Promise<void>>;
-  /**
-   * A utility function to wrap a Playground Powerlines application command handler within the command context scope.
-   *
-   * @param handler - The callback function to run within the command context
-   *   scope. This function will receive the command context as its argument,
-   *   allowing it to access any properties or utilities defined on the context.
-   *   The callback function can be asynchronous and can return a value or a
-   *   promise.
-   * @returns The result of the callback function, which can be a value or a
-   *   promise that resolves to a value.
-   *
-   */
   export function withCommand<
     THandler extends (this: CommandContext, ...params: any[]) => any = (
       this: CommandContext,
@@ -1170,76 +887,23 @@ declare module "shell-shock:state" {
  * @module shell-shock:utils
  */
 declare module "shell-shock:utils" {
-  /**
-   * A utility function to pause execution for a specified duration, which can be used in prompt interactions to create delays or timeouts. The function returns a promise that resolves after the specified duration in milliseconds, allowing it to be used with async/await syntax for easier handling of asynchronous prompt logic.
-   *
-   * @param durationMs - The duration to sleep in milliseconds.
-   * @returns A promise that resolves after the specified duration, allowing for
-   *   asynchronous delays in prompt interactions.
-   *
-   */
   export function sleep(durationMs: number): Promise<void>;
-  /**
-   * Default number of terminal columns
-   */
   export const DEFAULT_TERMINAL_COLUMNS = 80;
-  /**
-   * Default number of terminal rows
-   */
   export const DEFAULT_TERMINAL_ROWS = 24;
-  /**
-   * A utility function that attempts to determine the size of the terminal (number of columns and rows) using various methods, and falls back to default values if it cannot be determined. This can be used to adjust output formatting based on the available terminal size.
-   *
-   * @remarks
-   * The function first checks if the process is running in a TTY environment and if the stdout or stderr streams provide column and row information. If not, it attempts to use platform-specific methods (like reading from /proc/self/stat on Linux, using tput on Unix-like systems, or checking /dev/tty) to determine the terminal size. If all else fails, it returns default values.
-   *
-   *
-   * @returns An object containing the number of columns and rows of the terminal.
-   *
-   */
   export function getTerminalSize(): {
     columns: number;
     rows: number;
   };
-  /**
-   * Detect if stdout.TTY is available
-   */
   export const isTTY: boolean;
-  /**
-   * Detect if the current environment is minimal (CI, non-TTY, etc.)
-   */
   export const isMinimal: any;
-  /**
-   * Detect if the current environment is interactive
-   */
   export const isInteractive: boolean;
-  /**
-   * Check if the current environment/terminal supports hyperlinks in the terminal.
-   *
-   * @returns True if the current environment/terminal supports hyperlinks.
-   *
-   */
   export function isHyperlinkSupported(): boolean;
-  /**
-   * Options for the getColorSupportLevel function
-   */
   export interface GetColorSupportLevelOptions {
     /**
      * Indicates if the function should skip checking command-line flags for color support
      */
     ignoreFlags: boolean;
   }
-  /**
-   * Checks if a specific flag is present in the command-line arguments.
-   *
-   * @see https://github.com/sindresorhus/has-flag/blob/main/index.js
-   *
-   * @param flag - The flag to check for, e.g., "color", "no-color".
-   * @param argv - The command-line arguments to check against. Defaults to global
-   *   Deno args or process args.
-   * @returns True if the flag is present, false otherwise.
-   *
-   */
   export function getColorSupportLevel(
     stream: NodeJS.WriteStream & {
       fd: 1 | 2;
@@ -1256,9 +920,6 @@ declare module "shell-shock:utils" {
         has256: boolean;
         has16m: boolean;
       };
-  /**
-   * Detect the terminal color support level in the current environment
-   */
   export const colorSupportLevels: {
     stdout:
       | number
@@ -1279,17 +940,8 @@ declare module "shell-shock:utils" {
           has16m: boolean;
         };
   };
-  /**
-   * Detect if terminal color is supported in the current environment
-   */
   export const isColorSupported: boolean;
-  /**
-   * Detect if Unicode characters are supported in the current environment
-   */
   export const isUnicodeSupported: boolean;
-  /**
-   * Options for the `resolve` handler function.
-   */
   interface ResolveModuleOptions {
     /**
      * The parent URL to use for resolving paths.
@@ -1300,36 +952,12 @@ declare module "shell-shock:utils" {
      */
     conditions?: string[];
   }
-  /**
-   * A function to resolve module specifiers to URLs.
-   *
-   * @param specifier - The module specifier to resolve.
-   * @param options - The options for resolving the module. Defaults to an empty
-   *   object.
-   * @returns The result of the resolve operation.
-   *
-   */
   export function resolveModule(
     specifier: string,
     options?: ResolveModuleOptions
   ): Promise<Promise<string>>;
-  /**
-   * A utility function that takes an input string and a list of possible matches, and returns a list of suggested matches based on the Levenshtein distance between the input and the possible matches.
-   *
-   * @remarks
-   * This function is intended to be used to suggest corrections for potentially misspelled options or commands.
-   *
-   *
-   * @internal
-   *
-   *
-   *
-   * @param input - The input string to check for potential matches.
-   * @param options - A list of possible matches to compare against the input.
-   * @returns A list of suggested matches based on the Levenshtein distance.
-   *
-   */
   export function findSuggestions(input: string, options: string[]): string[];
+  export {};
 }
 
 /**
@@ -1338,9 +966,6 @@ declare module "shell-shock:utils" {
  * @module shell-shock:exec
  */
 declare module "shell-shock:exec" {
-  /**
-   * The result of a spawn operation.
-   */
   export interface SpawnResult {
     /**
      * The PID of the spawned child process, if available.
@@ -1375,16 +1000,13 @@ declare module "shell-shock:exec" {
      */
     noOutputTimedOut?: boolean;
   }
-  /**
-   * Options for spawning a child process.
-   */
   export interface SpawnOptions {
     /**
      * The timeout in milliseconds for the spawn operation. If the process runs longer than this, it will be killed and the spawn promise will reject. This can also be provided as a number directly to the spawn function for convenience. Providing \`-1\` will disable the timeout.
      *
      * @defaultValue 300000
      */
-    timeoutMs: number;
+    timeoutMs?: number;
     /**
      * The current working directory of the child process.
      */
@@ -1406,60 +1028,14 @@ declare module "shell-shock:exec" {
      */
     noOutputTimeoutMs?: number;
   }
-  /**
-   * Spawns a child process with the given arguments and options, returning a promise that resolves with the result of the spawn operation.
-   *
-   * @param argv - The command and its arguments to spawn.
-   * @param optionsOrTimeoutMs - The options for spawning the command, or a number
-   *   representing the timeout in milliseconds. This allows for a convenient
-   *   shorthand when only a timeout is needed. Providing `-1` will disable the
-   *   timeout. If no options or timeout are provided, a default timeout of 5
-   *   minutes will be used.
-   * @returns A promise that resolves with the result of the spawn operation,
-   *   including stdout, stderr, exit code, signal, and termination reason.
-   *
-   */
   export function spawn(
     argv: string[],
     optionsOrTimeoutMs?: number | SpawnOptions
   ): Promise<Promise<SpawnResult>>;
-  /**
-   * A helper function that executes a command and returns its stdout.
-   *
-   * @param argv - The command and its arguments to spawn. This is passed directly
-   *   to the spawn function. Remember that on Windows, commands like `npm` or
-   *   `pnpm` will be resolved to their .cmd shims, so you can just pass `npm`
-   *   without worrying about the extension.
-   * @param optionsOrTimeoutMs - The options for spawning the command, or a number
-   *   representing the timeout in milliseconds. This is passed directly to the
-   *   spawn function. Providing `-1` will disable the timeout. If no options or
-   *   timeout are provided, a default timeout of 5 minutes will be used.
-   * @returns A promise that resolves with the result of the spawn operation if
-   *   the command exits with code 0, or rejects with an error if the command
-   *   exits with a non-zero code or if there is a problem spawning the process.
-   *
-   */
   export function exec(
     argv: string[],
     optionsOrTimeoutMs?: number | SpawnOptions
   ): Promise<Promise<string>>;
-  /**
-   * A helper function that executes a command synchronously and returns its stdout. This is a thin wrapper around \`child_process.execFileSync\` with some added Windows compatibility handling.
-   *
-   * @param argv - The command and its arguments to spawn. This is passed directly
-   *   to `execFileSync` after Windows-specific resolution. Remember that on
-   *   Windows, commands like `npm` or `pnpm` will be resolved to their .cmd
-   *   shims, so you can just pass `npm` without worrying about the extension.
-   * @param options - The options for spawning the command. This is passed
-   *   directly to `execFileSync` after some processing. The timeout option is
-   *   supported, but note that it will throw an error if the process runs longer
-   *   than the specified timeout. If no options are provided, a default timeout
-   *   of 5 minutes will be used.
-   * @returns The standard output produced by the command if it exits with code 0.
-   *   If the command exits with a non-zero code or if there is a problem spawning
-   *   the process, an error will be thrown.
-   *
-   */
   export function execSync(argv: string[], options?: SpawnOptions): string;
 }
 
@@ -1469,13 +1045,9 @@ declare module "shell-shock:exec" {
  * @module shell-shock:console
  */
 declare module "shell-shock:console" {
-  /**
-   * The ASCII Bell character, which can be used to trigger a beep sound in the console.
-   */
+  import { SpinnerPreset } from "@shell-shock/plugin-theme/helpers/spinners";
+  import { ThemeSpinnerResolvedConfig } from "@shell-shock/plugin-theme/types/theme";
   export const beep = "\u0007";
-  /**
-   * An object containing ANSI escape codes for controlling the console cursor.
-   */
   export const cursor: {
     to(x: number, y?: number): string;
     move(x: number, y: number): string;
@@ -1491,9 +1063,6 @@ declare module "shell-shock:console" {
     save: string;
     restore: string;
   };
-  /**
-   * An object containing ANSI escape codes for erasing parts of the console.
-   */
   export const erase: {
     screen: string;
     up: (count?: number) => string;
@@ -1503,444 +1072,111 @@ declare module "shell-shock:console" {
     lineStart: string;
     lines(count: number): string;
   };
-  /**
-   * An object containing ANSI escape codes for scrolling the console.
-   */
   export const scroll: {
     up: (count?: number) => string;
     down: (count?: number) => string;
   };
-  /**
-   * A helper function to clear the console based on a count of lines
-   *
-   * @param {string} current - The current console output to be cleared
-   * @param {number} consoleWidth - The number of characters per line in the
-   *   console
-   */
   export function clear(current: string, consoleWidth: number): string;
-  /**
-   * Removes ANSI escape codes from a string.
-   *
-   * @example
-   * ```ts
-   * const result = stripAnsi("Hello\\x1b[31mWorld\\x1b[0mAgain"); // "HelloWorldAgain"
-   * ```
-   * @param text - The text to strip ANSI codes from.
-   * @returns The text with ANSI codes removed.
-   *
-   */
   export function stripAnsi(text: string | number): string;
-  /**
-   * A function that applies reset styling to provided console text.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the reset styling should be applied.
-   * @returns A string with ANSI escape codes applied for reset styling, or the
-   *   original text if the style is not supported in the current terminal.
-   *
-   */
   export const reset: (
     text: string | number | boolean | null | undefined
   ) => string;
-  /**
-   * A function that applies bold styling to provided console text.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the bold styling should be applied.
-   * @returns A string with ANSI escape codes applied for bold styling, or the
-   *   original text if the style is not supported in the current terminal.
-   *
-   */
   export const bold: (
     text: string | number | boolean | null | undefined
   ) => string;
-  /**
-   * A function that applies dim styling to provided console text.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the dim styling should be applied.
-   * @returns A string with ANSI escape codes applied for dim styling, or the
-   *   original text if the style is not supported in the current terminal.
-   *
-   */
   export const dim: (
     text: string | number | boolean | null | undefined
   ) => string;
-  /**
-   * A function that applies italic styling to provided console text.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the italic styling should be applied.
-   * @returns A string with ANSI escape codes applied for italic styling, or the
-   *   original text if the style is not supported in the current terminal.
-   *
-   */
   export const italic: (
     text: string | number | boolean | null | undefined
   ) => string;
-  /**
-   * A function that applies underline styling to provided console text.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the underline styling should be
-   *   applied.
-   * @returns A string with ANSI escape codes applied for underline styling, or
-   *   the original text if the style is not supported in the current terminal.
-   *
-   */
   export const underline: (
     text: string | number | boolean | null | undefined
   ) => string;
-  /**
-   * A function that applies overline styling to provided console text.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the overline styling should be
-   *   applied.
-   * @returns A string with ANSI escape codes applied for overline styling, or the
-   *   original text if the style is not supported in the current terminal.
-   *
-   */
   export const overline: (
     text: string | number | boolean | null | undefined
   ) => string;
-  /**
-   * A function that applies inverse styling to provided console text.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the inverse styling should be
-   *   applied.
-   * @returns A string with ANSI escape codes applied for inverse styling, or the
-   *   original text if the style is not supported in the current terminal.
-   *
-   */
   export const inverse: (
     text: string | number | boolean | null | undefined
   ) => string;
-  /**
-   * A function that applies hidden styling to provided console text.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the hidden styling should be applied.
-   * @returns A string with ANSI escape codes applied for hidden styling, or the
-   *   original text if the style is not supported in the current terminal.
-   *
-   */
   export const hidden: (
     text: string | number | boolean | null | undefined
   ) => string;
-  /**
-   * A function that applies strikethrough styling to provided console text.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the strikethrough styling should be
-   *   applied.
-   * @returns A string with ANSI escape codes applied for strikethrough styling,
-   *   or the original text if the style is not supported in the current terminal.
-   *
-   */
   export const strikethrough: (
     text: string | number | boolean | null | undefined
   ) => string;
-  /**
-   * A helper function to color the provided text as black.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the black color should be applied.
-   * @returns A string with ANSI escape codes applied for black color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const black: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as red.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the red color should be applied.
-   * @returns A string with ANSI escape codes applied for red color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const red: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as green.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the green color should be applied.
-   * @returns A string with ANSI escape codes applied for green color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const green: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as yellow.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the yellow color should be applied.
-   * @returns A string with ANSI escape codes applied for yellow color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const yellow: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as blue.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the blue color should be applied.
-   * @returns A string with ANSI escape codes applied for blue color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const blue: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as magenta.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the magenta color should be applied.
-   * @returns A string with ANSI escape codes applied for magenta color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const magenta: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as cyan.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the cyan color should be applied.
-   * @returns A string with ANSI escape codes applied for cyan color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const cyan: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as white.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the white color should be applied.
-   * @returns A string with ANSI escape codes applied for white color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const white: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as blackBright.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the blackBright color should be
-   *   applied.
-   * @returns A string with ANSI escape codes applied for blackBright color, or
-   *   the original text if the color is not supported in the current terminal.
-   *
-   */
   export const blackBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as gray.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the gray color should be applied.
-   * @returns A string with ANSI escape codes applied for gray color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const gray: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as grey.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the grey color should be applied.
-   * @returns A string with ANSI escape codes applied for grey color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const grey: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as redBright.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the redBright color should be
-   *   applied.
-   * @returns A string with ANSI escape codes applied for redBright color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const redBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as greenBright.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the greenBright color should be
-   *   applied.
-   * @returns A string with ANSI escape codes applied for greenBright color, or
-   *   the original text if the color is not supported in the current terminal.
-   *
-   */
   export const greenBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as yellowBright.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the yellowBright color should be
-   *   applied.
-   * @returns A string with ANSI escape codes applied for yellowBright color, or
-   *   the original text if the color is not supported in the current terminal.
-   *
-   */
   export const yellowBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as blueBright.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the blueBright color should be
-   *   applied.
-   * @returns A string with ANSI escape codes applied for blueBright color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const blueBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as magentaBright.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the magentaBright color should be
-   *   applied.
-   * @returns A string with ANSI escape codes applied for magentaBright color, or
-   *   the original text if the color is not supported in the current terminal.
-   *
-   */
   export const magentaBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as cyanBright.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the cyanBright color should be
-   *   applied.
-   * @returns A string with ANSI escape codes applied for cyanBright color, or the
-   *   original text if the color is not supported in the current terminal.
-   *
-   */
   export const cyanBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A helper function to color the provided text as whiteBright.
-   *
-   * @remarks
-   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
-   *
-   * @param text - The console text to which the whiteBright color should be
-   *   applied.
-   * @returns A string with ANSI escape codes applied for whiteBright color, or
-   *   the original text if the color is not supported in the current terminal.
-   *
-   */
   export const whiteBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
-  /**
-   * A nested object containing functions for applying text theme colors to the console.
-   */
   export const textColors: {
     /**
      * An object containing various banner text theme coloring functions.
@@ -4001,9 +3237,6 @@ declare module "shell-shock:console" {
       ) => string;
     };
   };
-  /**
-   * A nested object containing functions for applying border theme colors to the console.
-   */
   export const borderColors: {
     /**
      * An object containing various banner border theme coloring functions.
@@ -4255,6 +3488,68 @@ declare module "shell-shock:console" {
          * @returns A string with ANSI escape codes applied for tertiary app table color
          *   styling, or the original text if the style is not supported in the current
          *   terminal.
+         *
+         */
+        tertiary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
+      };
+      /**
+       * An object containing various app blockquote border theme coloring functions.
+       */
+      blockquote: {
+        /**
+         * A function that applies a primary app blockquote color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for primary app blockquote color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the primary app blockquote color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for primary app blockquote
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        primary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
+        /**
+         * A function that applies a secondary app blockquote color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for secondary app blockquote color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the secondary app blockquote color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for secondary app blockquote
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
+         *
+         */
+        secondary: (
+          text: string | number | boolean | null | undefined,
+          background?: boolean
+        ) => string;
+        /**
+         * A function that applies a tertiary app blockquote color styling to provided console text.
+         *
+         * @remarks
+         * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for tertiary app blockquote color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+         *
+         * @param text - The console text to which the tertiary app blockquote color
+         *   styling should be applied.
+         * @param background - A boolean indicating whether to apply the color as a
+         *   background. Defaults to `false`.
+         * @returns A string with ANSI escape codes applied for tertiary app blockquote
+         *   color styling, or the original text if the style is not supported in the
+         *   current terminal.
          *
          */
         tertiary: (
@@ -4545,9 +3840,6 @@ declare module "shell-shock:console" {
       };
     };
   };
-  /**
-   * Options for writing to the console.
-   */
   export interface WriteOptions {
     /**
      * Console function to use for writing to the console
@@ -4559,22 +3851,10 @@ declare module "shell-shock:console" {
      */
     consoleFn?: (text: string) => void;
   }
-  /**
-   * Write to the console.
-   *
-   * @remarks
-   * This function writes to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
-   *
-   * @param text - The text to write to the console.
-   * @param options - The options to apply when writing to the console.
-   */
   export function write(
     text?: string | number | boolean | null,
     options?: WriteOptions
   ): void;
-  /**
-   * Options for writing a line to the console.
-   */
   export interface WriteLineOptions extends WriteOptions {
     /**
      * Padding to apply to the line
@@ -4592,53 +3872,19 @@ declare module "shell-shock:console" {
      */
     color?: "primary" | "secondary" | "tertiary";
   }
-  /**
-   * Write a line to the console.
-   *
-   * @remarks
-   * This function writes a line to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
-   *
-   * @param text - The line text to write to the console.
-   * @param options - The options to apply when writing the line to the console.
-   */
   export function writeLine(
     text?: string | number | boolean | null,
     options?: WriteLineOptions
   ): void;
-  /**
-   * Split text into multiple lines based on a maximum length.
-   *
-   * @remarks
-   * This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.
-   *
-   * @param text - The text to split into multiple lines.
-   * @param maxLength - The maximum length of each line.
-   */
   export function splitText(
     text: string,
     maxLength: number | SizeToken
   ): string[];
-  /**
-   * Render a hyperlink in the console.
-   *
-   * @param url - The URL to render as a hyperlink.
-   * @param textOrExternal - The text to display for the link or a boolean
-   *   indicating whether the link is external. If no text is provided, the URL
-   *   will be used as the text. If a boolean is provided and is true, the URL
-   *   will be used as the text and the link will be rendered as an external link.
-   * @param external - A boolean indicating whether the link is external. If true,
-   *   the link will be rendered as an external link.
-   * @returns The formatted hyperlink string.
-   *
-   */
   export function link(
     url: string,
     textOrExternal?: string | boolean,
     external?: boolean
   ): string;
-  /**
-   * Options for formatting the divider line written to console.
-   */
   export interface DividerOptions {
     /**
      * The width of the divider line. If not specified, the divider will span the full width of the console, minus the padding.
@@ -4664,20 +3910,8 @@ declare module "shell-shock:console" {
      */
     padding?: number;
   }
-  /**
-   * Write a horizontal divider line to the console.
-   *
-   * @example
-   * ```ts
-   * divider({ width: 50, border: "primary" }); // Writes a horizontal divider line of width 50 with primary border.
-   * ```
-   * @param options - Options for formatting the divider line.
-   */
   export function divider(options: DividerOptions): void;
   type WriteStream = NodeJS.WriteStream;
-  /**
-   * Options for configuring the spinner.
-   */
   export interface SpinnerOptions {
     /**
      * The message text to display next to the spinner. Defaults to an empty string.
@@ -4750,124 +3984,15 @@ declare module "shell-shock:console" {
      */
     help(message: string): this;
   }
-  /**
-   * Render a spinner in the console.
-   *
-   * @param options - Options for configuring the spinner, including the message
-   *   to display, the output stream to write to, and the spinner animation to
-   *   use.
-   * @returns An instance of the Spinner class, which can be used to control the
-   *   spinner animation (e.g., start, stop, mark as success/error, etc.).
-   *
-   */
   export function createSpinner(options?: SpinnerOptions): Spinner;
-  /**
-   * Write a help message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   * @param header - An optional header to display above the message. If not
-   *   provided, a default header based on the message type and variant will be
-   *   used if defined in the theme configuration; otherwise, no header will be
-   *   displayed.
-   */
   export function help(message: string, header?: string): void;
-  /**
-   * Write a success message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   * @param header - An optional header to display above the message. If not
-   *   provided, a default header based on the message type and variant will be
-   *   used if defined in the theme configuration; otherwise, no header will be
-   *   displayed.
-   */
   export function success(message: string, header?: string): void;
-  /**
-   * Write an informational message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   * @param header - An optional header to display above the message. If not
-   *   provided, a default header based on the message type and variant will be
-   *   used if defined in the theme configuration; otherwise, no header will be
-   *   displayed.
-   */
   export function info(message: string, header?: string): void;
-  /**
-   * Write a debug message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   * @param header - An optional header to display above the message. If not
-   *   provided, a default header based on the message type and variant will be
-   *   used if defined in the theme configuration; otherwise, no header will be
-   *   displayed.
-   */
   export function debug(message: string, header?: string): void;
-  /**
-   * Write a verbose message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   * @param header - An optional header to display above the message. If not
-   *   provided, a default header based on the message type and variant will be
-   *   used if defined in the theme configuration; otherwise, no header will be
-   *   displayed.
-   */
   export function verbose(message: string, header?: string): void;
-  /**
-   * Write a warning message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   * @param header - An optional header to display above the message. If not
-   *   provided, a default header based on the message type and variant will be
-   *   used if defined in the theme configuration; otherwise, no header will be
-   *   displayed.
-   */
   export function warn(message: string, header?: string): void;
-  /**
-   * Write a destructive/danger message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   * @param header - An optional header to display above the message. If not
-   *   provided, a default header based on the message type and variant will be
-   *   used if defined in the theme configuration; otherwise, no header will be
-   *   displayed.
-   */
   export function danger(message: string, header?: string): void;
-  /**
-   * Write an error message to the console.
-   *
-   * @remarks
-   * This function initializes the Powerlines environment configuration object.
-   *
-   * @param message - The message to write to the console.
-   * @param header - An optional header to display above the message. If not
-   *   provided, a default header based on the message type and variant will be
-   *   used if defined in the theme configuration; otherwise, no header will be
-   *   displayed.
-   */
   export function error(err: string | Error, header?: string): void;
-  /**
-   * A type representing the width size of an item in the console.
-   */
   export type SizeToken =
     | "full"
     | "1/1"
@@ -4886,43 +4011,14 @@ declare module "shell-shock:console" {
     | "10%"
     | "5%"
     | "2.5%";
-  /**
-   * Determine if a value is a valid size token.
-   *
-   * @remarks
-   * This function checks if the provided value is a valid size token, which can be one of the predefined strings representing common width sizes (e.g., "full", "1/2", "1/3", etc.) or percentage strings (e.g., "50%").
-   * @param value - The value to check for being a valid size token.
-   * @returns True if the value is a valid size token, false otherwise.
-   *
-   */
-  /**
-   * Determines if the provided value is a valid size token.
-   *
-   * @param {any} value
-   */
   export function isSizeToken(value: any): value is SizeToken;
-  /**
-   * Calculate the width in characters based on the provided width size.
-   *
-   * @remarks
-   * This function calculates the width in characters based on the provided width size, which can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%"). The calculation is based on the current width of the console (getTerminalSize().columns).
-   * @param size - The width size to calculate. This can be a predefined string
-   *   (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%").
-   * @returns The calculated width in characters.
-   *
-   */
-  export function calculateWidth(size: SizeToken): number; /**
-   * The border options applied to table cells.
-   */
+  export function calculateWidth(size: SizeToken): number;
   export type BorderOption =
     | "primary"
     | "secondary"
     | "tertiary"
     | "none"
     | string;
-  /**
-   * Options to customize the output of the {@link table} function.
-   */
   export interface TableOutputOptions {
     /**
      * Border variant for the table cell.
@@ -4963,9 +4059,6 @@ declare module "shell-shock:console" {
      */
     align?: "left" | "right" | "center";
   }
-  /**
-   * Options for a specific table cell provided to the {@link table} function.
-   */
   export interface TableCellOptions extends TableOutputOptions {
     /**
      * The actual string value of the table cell.
@@ -4979,32 +4072,18 @@ declare module "shell-shock:console" {
      */
     maxWidth: number | SizeToken | undefined;
   }
-  /**
-   * Options for a specific table row provided to the {@link table} function.
-   */
   export interface TableRowOptions extends TableOutputOptions {
     /**
      * The actual string values of the table row's cells.
      */
     values?: (string | TableCellOptions)[];
   }
-  /**
-   * Options for a specific table cell provided to the {@link table} function.
-   */
   export interface TableOptions extends TableOutputOptions {
     /**
      * The actual string values of the table's rows' cells.
      */
     values?: (string | TableCellOptions)[][];
   }
-  /**
-   * Write a table to the console.
-   *
-   * @remarks
-   * This function writes a table to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
-   *
-   * @param options - Options to customize the table output.
-   */
   export function table(
     options:
       | TableOptions
@@ -5013,33 +4092,13 @@ declare module "shell-shock:console" {
       | string[]
       | string[][]
   ): void;
-  /**
-   * Format a string with blockquote styling for display in console.
-   *
-   * @param text - The text to format with blockquote styling.
-   * @returns The formatted string with blockquote styling.
-   *
-   */
   export function blockquote(text?: string | number | boolean | null): string;
-  /**
-   * Format a source code string for display in console.
-   *
-   * @param text - The source code text to format with code styling.
-   * @returns The formatted string with code styling.
-   *
-   */
   export function code(
     text?: string | number | boolean | null,
     language?: string
   ): string;
-  /**
-   * Format a string with inline code styling for display in console.
-   *
-   * @param text - The text to format with inline code styling.
-   * @returns The formatted string with inline code styling.
-   *
-   */
   export function inlineCode(text?: string | number | boolean | null): string;
+  export {};
 }
 
 /**
@@ -5048,9 +4107,6 @@ declare module "shell-shock:console" {
  * @module shell-shock:help
  */
 declare module "shell-shock:help" {
-  /**
-   * Display help information for the Playground Powerlines application.
-   */
   export function showHelp(): void;
 }
 
@@ -5060,9 +4116,6 @@ declare module "shell-shock:help" {
  * @module shell-shock:help/build
  */
 declare module "shell-shock:help/build" {
-  /**
-   * Display help information for the Build command.
-   */
   export function showHelp(): void;
 }
 
@@ -5072,9 +4125,6 @@ declare module "shell-shock:help/build" {
  * @module shell-shock:help/help
  */
 declare module "shell-shock:help/help" {
-  /**
-   * Display help information for the Help command.
-   */
   export function showHelp(): void;
 }
 
@@ -5084,9 +4134,6 @@ declare module "shell-shock:help/help" {
  * @module shell-shock:help/start
  */
 declare module "shell-shock:help/start" {
-  /**
-   * Display help information for the Start command.
-   */
   export function showHelp(): void;
 }
 
@@ -5096,12 +4143,6 @@ declare module "shell-shock:help/start" {
  * @module shell-shock:banner
  */
 declare module "shell-shock:banner" {
-  /**
-   * Write the Playground Powerlines command-line interface application banner for
-   * the command to the console.
-   *
-   * @param {number} sleepTimeoutMs
-   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -5111,12 +4152,6 @@ declare module "shell-shock:banner" {
  * @module shell-shock:banner/build
  */
 declare module "shell-shock:banner/build" {
-  /**
-   * Write the Playground Powerlines command-line interface application banner for
-   * the Build command to the console.
-   *
-   * @param {number} sleepTimeoutMs
-   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -5126,12 +4161,6 @@ declare module "shell-shock:banner/build" {
  * @module shell-shock:banner/help
  */
 declare module "shell-shock:banner/help" {
-  /**
-   * Write the Playground Powerlines command-line interface application banner for
-   * the Help command to the console.
-   *
-   * @param {number} sleepTimeoutMs
-   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -5141,11 +4170,5 @@ declare module "shell-shock:banner/help" {
  * @module shell-shock:banner/start
  */
 declare module "shell-shock:banner/start" {
-  /**
-   * Write the Playground Powerlines command-line interface application banner for
-   * the Start command to the console.
-   *
-   * @param {number} sleepTimeoutMs
-   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }

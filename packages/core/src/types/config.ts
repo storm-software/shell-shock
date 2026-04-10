@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import type { AutoMDPluginResolvedConfig } from "@powerlines/plugin-automd/types/plugin";
+import type { AutoMDPluginResolvedConfig } from "@powerlines/plugin-automd";
 import type {
   NodeJsPluginOptions,
   NodeJsPluginResolvedConfig,

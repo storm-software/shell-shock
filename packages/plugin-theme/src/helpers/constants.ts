@@ -20,3 +20,32 @@ export const DEFAULT_TAG_COLORS = {
   foreground: "#394447",
   background: "#f9fbfb"
 };
+
+export const THEME_MESSAGE_VARIANTS = [
+  "help",
+  "success",
+  "info",
+  "debug",
+  "warning",
+  "danger",
+  "error"
+] as const;
+
+export const THEME_COLOR_VARIANTS = [
+  "primary",
+  "secondary",
+  "tertiary"
+] as const;
+
+export const THEME_COLOR_SUBITEMS = [
+  "primary",
+  "secondary",
+  "tertiary"
+] as const;
+
+export const THEME_COLOR_BODY_SUBITEMS = [
+  "link",
+  "primary",
+  "secondary",
+  "tertiary"
+] as const;

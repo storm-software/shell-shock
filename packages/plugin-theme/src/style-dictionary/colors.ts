@@ -77,7 +77,7 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
       },
       border: {
         banner: { outline: {}, divider: {} },
-        app: { table: {}, divider: {} },
+        app: { table: {}, divider: {}, blockquote: {} },
         message: { outline: {}, divider: {} }
       }
     } as ThemeColorsResolvedConfig;
@@ -2063,6 +2063,34 @@ export const colors = (context: ThemePluginContext): Preprocessor => ({
       resolvedConfig.colors.border.app.divider.tertiary =
         resolvedConfig.colors.border.app.divider.primary ||
         resolvedConfig.colors.border.app.divider.secondary;
+    }
+
+    if (
+      !resolvedConfig.colors.border?.app?.blockquote?.primary &&
+      (resolvedConfig.colors.border?.app?.blockquote?.secondary ||
+        resolvedConfig.colors.border?.app?.blockquote?.tertiary)
+    ) {
+      resolvedConfig.colors.border.app.blockquote.primary =
+        resolvedConfig.colors.border.app.blockquote.secondary ||
+        resolvedConfig.colors.border.app.blockquote.tertiary;
+    }
+    if (
+      !resolvedConfig.colors.border?.app?.blockquote?.secondary &&
+      (resolvedConfig.colors.border?.app?.blockquote?.primary ||
+        resolvedConfig.colors.border?.app?.blockquote?.tertiary)
+    ) {
+      resolvedConfig.colors.border.app.blockquote.secondary =
+        resolvedConfig.colors.border.app.blockquote.primary ||
+        resolvedConfig.colors.border.app.blockquote.tertiary;
+    }
+    if (
+      !resolvedConfig.colors.border?.app?.blockquote?.tertiary &&
+      (resolvedConfig.colors.border?.app?.blockquote?.primary ||
+        resolvedConfig.colors.border?.app?.blockquote?.secondary)
+    ) {
+      resolvedConfig.colors.border.app.blockquote.tertiary =
+        resolvedConfig.colors.border.app.blockquote.primary ||
+        resolvedConfig.colors.border.app.blockquote.secondary;
     }
 
     if (

@@ -16,18 +16,15 @@
 
  ------------------------------------------------------------------- */
 
+import type {
+  THEME_COLOR_VARIANTS,
+  THEME_MESSAGE_VARIANTS
+} from "../helpers/constants";
 import type { SpinnerPreset } from "../helpers/spinners";
 
-export type ThemeMessageVariant =
-  | "help"
-  | "success"
-  | "info"
-  | "debug"
-  | "warning"
-  | "danger"
-  | "error";
+export type ThemeMessageVariant = (typeof THEME_MESSAGE_VARIANTS)[number];
 
-export type ThemeColorVariant = "primary" | "secondary" | "tertiary";
+export type ThemeColorVariant = (typeof THEME_COLOR_VARIANTS)[number];
 
 export interface ThemeColorSubItem {
   primary: string;
