@@ -27,6 +27,9 @@ import { markdownToHtml } from "./markdown-to-html";
  * @param options - Configuration options for rendering the markdown.
  * @return A string of source code that can be executed to display the rendered markdown in the terminal.
  */
-export function renderMarkdown(markdown: string, options: Options): string {
+export function renderMarkdown(
+  markdown: string,
+  options: Options = {}
+): string {
   return renderHtml(markdownToHtml(markdown), options);
 }

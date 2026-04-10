@@ -16,14 +16,9 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
-
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
-}
+export const br = () => ({
+  pre: "",
+  value: "\n",
+  post: "",
+  type: "inline"
+});

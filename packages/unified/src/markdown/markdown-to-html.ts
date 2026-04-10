@@ -17,7 +17,9 @@
  ------------------------------------------------------------------- */
 
 import { alert } from "@mdit/plugin-alert";
-import { upperCaseFirst } from "@stryke/string-format";
+import type { ThemeMessageVariant } from "@shell-shock/plugin-theme";
+import { THEME_MESSAGE_VARIANTS } from "@shell-shock/plugin-theme/helpers/constants";
+import { titleCase } from "@stryke/string-format";
 import markdownit from "markdown-it";
 import markdownItAbbr from "markdown-it-abbr";
 import markdownItContainer from "markdown-it-container";
@@ -53,75 +55,26 @@ export const createMarkdownRenderer = () => {
       openRender(tokens, index) {
         const token = tokens[index];
 
-        let color = null;
-
-        // Map alert types to colors
-        switch (token?.markup) {
-          case "important": {
-            color = "red";
-            break;
-          }
-          case "note": {
-            color = "blue";
-            break;
-          }
-          case "tip": {
-            color = "green";
-            break;
-          }
-          case "warning": {
-            color = "yellow";
-            break;
-          }
-          case "caution": {
-            color = "magenta";
-            break;
-          }
-          default: {
-            color = "blue";
-          }
+        let messageType: ThemeMessageVariant = "info";
+        if (
+          THEME_MESSAGE_VARIANTS.includes(token?.markup as ThemeMessageVariant)
+        ) {
+          messageType = token?.markup as ThemeMessageVariant;
         }
 
-        return `<blockquote data-cli-color="${color}">`;
+        return `<message class="message-type-${messageType}">`;
       },
 
       closeRender() {
-        return "</blockquote>";
+        return "</message>";
       },
 
       titleRender(tokens, index) {
         const token = tokens[index];
 
-        let color = null;
-
-        switch (token?.markup) {
-          case "important": {
-            color = "red";
-            break;
-          }
-          case "note": {
-            color = "blue";
-            break;
-          }
-          case "tip": {
-            color = "green";
-            break;
-          }
-          case "warning": {
-            color = "yellow";
-            break;
-          }
-          case "caution": {
-            color = "magenta";
-            break;
-          }
-          default: {
-            color = "blue";
-          }
-        }
-
-        return `<p><span data-cli-color="${color}"><b>${upperCaseFirst(token?.content || "")}
-        }</b></span></p>`;
+        return `<message-header>${titleCase(
+          token?.content || ""
+        )}</message-header>`;
       }
     });
 

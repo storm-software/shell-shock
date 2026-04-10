@@ -17,6 +17,14 @@
  ------------------------------------------------------------------- */
 
 import tags from "../tags";
+import type { RenderContext } from "./tag-utilities";
+
+interface HtmlNode {
+  nodeName?: string;
+  [key: string]: unknown;
+}
+
+type RenderResult = string | null | undefined;
 
 const MAX_DEPTH = 100;
 const CACHE_ENABLED = process.env.CACHE_RENDER !== "false";
@@ -25,7 +33,7 @@ const CACHE_ENABLED = process.env.CACHE_RENDER !== "false";
  * Cache for rendered subtrees (WeakMap for automatic garbage collection)
  * Key: node object, Value: Map of context hash -\> rendered result
  */
-const renderCache = new WeakMap();
+const renderCache = new WeakMap<HtmlNode, Map<string, RenderResult>>();
 
 /**
  * Get cached render result
@@ -34,7 +42,7 @@ const renderCache = new WeakMap();
  * @param context - Rendering context
  * @returns - Cached result or undefined
  */
-const getCachedRender = (node, context) => {
+const getCachedRender = (node: HtmlNode, context: RenderContext) => {
   if (!CACHE_ENABLED || !node || typeof node !== "object") {
     return;
   }
@@ -62,7 +70,11 @@ const getCachedRender = (node, context) => {
  * @param context - Rendering context
  * @param result - Render result
  */
-const setCachedRender = (node, context, result) => {
+const setCachedRender = (
+  node: HtmlNode,
+  context: RenderContext,
+  result: RenderResult
+) => {
   if (!CACHE_ENABLED || !node || typeof node !== "object") {
     return;
   }
@@ -87,7 +99,7 @@ const setCachedRender = (node, context, result) => {
   // Limit cache size per node to prevent memory bloat
   if (nodeCache.size > 10) {
     const firstKey = nodeCache.keys().next().value;
-    nodeCache.delete(firstKey);
+    nodeCache.delete(firstKey!);
   }
 };
 
@@ -99,14 +111,18 @@ const setCachedRender = (node, context, result) => {
  * @param defaultTag - Default tag function
  * @returns - Render result
  */
-export const renderTag = (node, context, defaultTag = tags.div) => {
+export const renderTag = (
+  node: HtmlNode | any,
+  context: RenderContext,
+  defaultTag = tags.div
+) => {
   // Validate inputs
   if (!node) {
     return null;
   }
 
   // Initialize depth on first call
-  const currentDepth = context.depth === undefined ? 0 : context.depth;
+  const currentDepth = context.depth ?? 0;
 
   // Check if we've exceeded maximum nesting depth
   if (currentDepth >= MAX_DEPTH) {
@@ -122,10 +138,14 @@ export const renderTag = (node, context, defaultTag = tags.div) => {
     return cached;
   }
 
-  let result = null;
+  let result: RenderResult = null;
 
   try {
-    const tagFunction = tags[node.nodeName || "#text"] || defaultTag;
+    const tagFunction =
+      (tags[(node.nodeName || "#text") as keyof typeof tags] as (
+        node: HtmlNode,
+        context: RenderContext
+      ) => RenderResult) || defaultTag;
 
     // Render tag
     result = tagFunction(node, newContext);
@@ -148,7 +168,11 @@ export const renderTag = (node, context, defaultTag = tags.div) => {
  * @param defaultTag - Default tag function
  * @returns - Array of render results
  */
-export const renderNodes = (nodes, context, defaultTag = tags.div) => {
+export const renderNodes = (
+  nodes: HtmlNode[],
+  context: RenderContext,
+  defaultTag = tags.div
+) => {
   if (!nodes || !Array.isArray(nodes) || nodes.length === 0) {
     return [];
   }

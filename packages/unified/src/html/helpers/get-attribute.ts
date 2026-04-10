@@ -16,17 +16,9 @@
 
  ------------------------------------------------------------------- */
 
-interface TagAttribute {
-  name: string;
-  value?: string;
-}
+import type { HtmlNode } from "./tag-utilities";
 
-interface Tag {
-  attrs?: TagAttribute[];
-  [key: string]: unknown;
-}
-
-const attributeCache = new WeakMap<Tag, Map<string, string | null>>();
+const attributeCache = new WeakMap<HtmlNode, Map<string, string | null>>();
 
 /**
  * Get attribute value from tag with validation and caching
@@ -36,7 +28,7 @@ const attributeCache = new WeakMap<Tag, Map<string, string | null>>();
  * @returns Attribute value or default
  */
 export const getAttribute = (
-  tag: Tag,
+  tag: HtmlNode,
   attributeName: string | unknown,
   defaultValue: string | null = null
 ): string | null => {
@@ -88,3 +80,15 @@ export const getAttribute = (
   tagCache.set(attributeName, value);
   return value;
 };
+
+export function getClassNames(tag: HtmlNode): string[] {
+  const classAttr = getAttribute(tag, "class", null);
+  if (!classAttr) {
+    return [];
+  }
+
+  return classAttr
+    .split(/\s+/)
+    .map(className => className.trim())
+    .filter(className => className.length > 0);
+}

@@ -17,14 +17,23 @@
  ------------------------------------------------------------------- */
 
 import { getAttribute } from "../helpers/get-attribute";
-import { inlineTag } from "../helpers/tag-utilities";
+import type { HtmlNode, RenderContext } from "../helpers/tag-utilities";
+import { asInline, bodyText, buildBar, getTextContent } from "./common";
 
-export const abbr = inlineTag((value, tag) => {
-  const title = getAttribute(tag, "title", null);
+export function meter(tag: HtmlNode, _context: RenderContext) {
+  const min = Number.parseFloat(getAttribute(tag, "min", "0") || "0");
+  const max = Number.parseFloat(getAttribute(tag, "max", "1") || "1");
+  const value = Number.parseFloat(
+    getAttribute(tag, "value", String(min)) || String(min)
+  );
+  const normalizedValue = Math.max(0, value - min);
+  const normalizedMax = Math.max(1, max - min);
+  const label = getTextContent(tag).trim();
+  const percent = Math.round((normalizedValue / normalizedMax) * 100);
+  const bar = buildBar(normalizedValue, normalizedMax, 10, "#", "-");
 
-  return value ? (title ? `${value} (${title})` : value) : "";
-});
-
-export const acronym = abbr;
-
-export const dfn = abbr;
+  return asInline(
+    tag.nodeName,
+    bodyText(`${label ? `${label} ` : ""}[${bar}] ${percent}%`)
+  );
+}

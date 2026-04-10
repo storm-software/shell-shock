@@ -16,14 +16,11 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
+import { blockTag } from "../helpers/tag-utilities";
+import { bodyText, quoted } from "./common";
 
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
-}
+export const dl = blockTag(undefined, { marginTop: 1, marginBottom: 1 });
+
+export const dt = blockTag(value => `bold(${quoted(value)})`);
+
+export const dd = blockTag(value => bodyText(`  ${String(value ?? "")}`));

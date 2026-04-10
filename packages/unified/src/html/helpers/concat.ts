@@ -16,60 +16,90 @@
 
  ------------------------------------------------------------------- */
 
-const toMarginNumber = value => {
+import type {
+  BlockTagInput,
+  BlockTagValue,
+  InlineTagValue
+} from "./tag-utilities";
+
+const toMarginNumber = (value: string | number | undefined) => {
+  if (value == null) {
+    return 0;
+  }
+
   const parsed = Number(value);
 
   return Number.isFinite(parsed) ? parsed : 0;
 };
 
-export const concatTwoBlockTags = (first, second) => {
-  if (first == null && second == null) {
+export const concatTwoBlockTags = (
+  first: BlockTagInput | null,
+  second: BlockTagInput | null
+): BlockTagValue | null => {
+  if (!first && !second) {
     return null;
   }
 
-  if (first == null) {
-    return second;
+  if (first) {
+    const secondMarginTop = toMarginNumber(second!.marginTop);
+    const secondMarginBottom = toMarginNumber(second!.marginBottom);
+
+    return {
+      ...second,
+      marginTop: secondMarginTop,
+      marginBottom: secondMarginBottom
+    } as BlockTagValue;
   }
 
-  if (second == null) {
-    return first;
+  if (second) {
+    const firstMarginTop = toMarginNumber(first!.marginTop);
+    const firstMarginBottom = toMarginNumber(first!.marginBottom);
+
+    return {
+      ...first!,
+      marginTop: firstMarginTop,
+      marginBottom: firstMarginBottom
+    } as BlockTagValue;
   }
 
-  const firstMarginTop = toMarginNumber(first.marginTop);
-  const firstMarginBottom = toMarginNumber(first.marginBottom);
-  const secondMarginTop = toMarginNumber(second.marginTop);
-  const secondMarginBottom = toMarginNumber(second.marginBottom);
+  const firstMarginTop = toMarginNumber(first!.marginTop);
+  const firstMarginBottom = toMarginNumber(first!.marginBottom);
+  const secondMarginTop = toMarginNumber(second!.marginTop);
+  const secondMarginBottom = toMarginNumber(second!.marginBottom);
 
-  if (second.value == null) {
+  if (!(second as unknown as BlockTagInput).value) {
     return {
       marginTop: firstMarginTop,
-      value: first.value,
+      value: first!.value,
       marginBottom: Math.max(
         firstMarginBottom,
         secondMarginTop,
         secondMarginBottom
       )
-    };
+    } as BlockTagValue;
   }
 
-  if (first.value == null) {
+  if (!(first as unknown as BlockTagInput).value) {
     return {
       marginTop: Math.max(firstMarginTop, firstMarginBottom, secondMarginTop),
-      value: second.value,
+      value: second!.value,
       marginBottom: secondMarginBottom
-    };
+    } as BlockTagValue;
   }
 
   const separatorLines = Math.max(firstMarginBottom, secondMarginTop);
 
   return {
     marginTop: firstMarginTop,
-    value: `${first.value}${"\n".repeat(separatorLines)}${second.value}`,
+    value: `${first!.value}${"\n".repeat(separatorLines)}${second!.value}`,
     marginBottom: secondMarginBottom
-  };
+  } as BlockTagValue;
 };
 
-export const concatTwoInlineTags = (first, second) => {
+export const concatTwoInlineTags = (
+  first: InlineTagValue | null,
+  second: InlineTagValue | null
+): InlineTagValue | null => {
   if (first == null && second == null) {
     return null;
   }
@@ -86,29 +116,19 @@ export const concatTwoInlineTags = (first, second) => {
     return {
       pre: first.pre,
       value: first.value,
-      post:
-        first.post == null
-          ? second.pre == null
-            ? second.post == null
-              ? ""
-              : second.post
-            : second.pre
-          : first.post
+      post: first.post ?? second.pre ?? second.post ?? "",
+      type: "inline",
+      nodeName: first.nodeName
     };
   }
 
   if (first.value == null) {
     return {
-      pre:
-        first.pre == null
-          ? first.post == null
-            ? second.pre == null
-              ? ""
-              : second.pre
-            : first.post
-          : first.pre,
+      pre: first.pre ?? first.post ?? second.pre ?? "",
       value: second.value,
-      post: second.post
+      post: second.post,
+      type: "inline",
+      nodeName: second.nodeName
     };
   }
 
@@ -116,7 +136,9 @@ export const concatTwoInlineTags = (first, second) => {
     return {
       pre: first.pre,
       value: `${first.value}${first.post}${second.value}`,
-      post: second.post
+      post: second.post,
+      type: "inline",
+      nodeName: second.nodeName
     };
   }
 
@@ -124,13 +146,17 @@ export const concatTwoInlineTags = (first, second) => {
     return {
       pre: first.pre,
       value: `${first.value}${second.pre}${second.value}`,
-      post: second.post
+      post: second.post,
+      type: "inline",
+      nodeName: second.nodeName
     };
   }
 
   return {
     pre: first.pre,
     value: `${first.value}${second.value}`,
-    post: second.post
+    post: second.post,
+    type: "inline",
+    nodeName: second.nodeName
   };
 };

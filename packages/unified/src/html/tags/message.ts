@@ -16,14 +16,24 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
+import { THEME_MESSAGE_VARIANTS } from "@shell-shock/plugin-theme/helpers/constants";
+import { escapeText } from "../helpers/escape-text";
+import { getClassNames } from "../helpers/get-attribute";
+import { inlineTag } from "../helpers/tag-utilities";
 
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
-}
+export const message = inlineTag((value, tag) => {
+  let type = getClassNames(tag)
+    .find(className => className.startsWith("message-type-"))
+    ?.replace("message-type-", "");
+  if (!type || !THEME_MESSAGE_VARIANTS.includes(type as any)) {
+    type = "info";
+  }
+
+  const header = tag.childNodes?.find(
+    child => child.type === "message-header" || child.type === "message-title"
+  )?.value;
+
+  return `${type}(${value ? `\`${escapeText(value)}\`` : "''"}${
+    header ? `, \`${escapeText(header)}\`` : ""
+  })`;
+});

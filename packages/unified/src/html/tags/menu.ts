@@ -16,14 +16,4 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
-
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
-}
+export { ul as menu, li as menuitem } from "./list";

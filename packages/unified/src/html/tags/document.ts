@@ -16,14 +16,10 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
+import { blockTag } from "../helpers/tag-utilities";
 
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
-}
+const documentTag = blockTag();
+
+export const html = documentTag;
+
+export const body = documentTag;

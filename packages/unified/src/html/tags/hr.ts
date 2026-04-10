@@ -16,14 +16,9 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
+import type { HtmlNode, RenderContext } from "../helpers/tag-utilities";
+import { asBlock } from "./common";
 
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
+export function hr(tag: HtmlNode, _context: RenderContext) {
+  return asBlock(tag.nodeName, 'divider({ border: "primary" })', 1, 1);
 }

@@ -16,14 +16,17 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
+import { getAttribute } from "../helpers/get-attribute";
+import { inlineTag } from "../helpers/tag-utilities";
+import { bodyText } from "./common";
 
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
-}
+export const data = inlineTag((value, tag) => {
+  const dataValue = getAttribute(tag, "value", null);
+  const normalized = String(value ?? "");
+
+  if (dataValue && normalized && dataValue !== normalized) {
+    return bodyText(`${normalized} (${dataValue})`);
+  }
+
+  return bodyText(normalized || dataValue || "");
+});

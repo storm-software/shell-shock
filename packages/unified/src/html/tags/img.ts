@@ -16,14 +16,14 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
+import { getAttribute } from "../helpers/get-attribute";
+import type { HtmlNode, RenderContext } from "../helpers/tag-utilities";
+import { asInline, bodyText } from "./common";
 
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
+export function img(tag: HtmlNode, _context: RenderContext) {
+  const alt = getAttribute(tag, "alt", null);
+  const src = getAttribute(tag, "src", null);
+  const value = alt || src ? `[Image: ${alt || src}]` : "[Image]";
+
+  return asInline(tag.nodeName, bodyText(value));
 }

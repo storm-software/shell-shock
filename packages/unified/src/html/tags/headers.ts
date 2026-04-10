@@ -16,14 +16,21 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
+import { blockTag } from "../helpers/tag-utilities";
+import { quoted } from "./common";
 
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
-}
+const createHeading = (level: 1 | 2 | 3 | 4 | 5 | 6) =>
+  blockTag(
+    value =>
+      `bold(textColors.heading.${
+        level === 1 ? "primary" : level === 2 ? "secondary" : "tertiary"
+      }(${quoted(value)}))`,
+    { marginTop: 1, marginBottom: 1 }
+  );
+
+export const h1 = createHeading(1);
+export const h2 = createHeading(2);
+export const h3 = createHeading(3);
+export const h4 = createHeading(4);
+export const h5 = createHeading(5);
+export const h6 = createHeading(6);

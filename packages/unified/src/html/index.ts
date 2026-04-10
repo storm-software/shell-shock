@@ -28,8 +28,8 @@ import { renderTag } from "./helpers/render";
  * @param options - Configuration options for rendering the HTML.
  * @return A string of source code that can be executed to display the rendered HTML in the terminal.
  */
-export function renderHtml(html: string, options: Options): string {
+export function renderHtml(html: string, options: Options = {}): string {
   const document = parse(html, { sourceCodeLocationInfo: true });
 
-  return `${(renderTag(document, getOptions(options)) || { value: "" }).value}\n`;
+  return `${renderTag(document, getOptions(options))}\n`;
 }

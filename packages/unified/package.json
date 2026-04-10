@@ -92,6 +92,7 @@
   "dependencies": {
     "@mdit/plugin-alert": "catalog:",
     "@shell-shock/core": "workspace:*",
+    "@shell-shock/plugin-theme": "workspace:*",
     "@stryke/path": "catalog:",
     "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",

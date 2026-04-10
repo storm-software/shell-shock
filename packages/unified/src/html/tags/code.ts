@@ -16,14 +16,24 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
+import type { HtmlNode, RenderContext } from "../helpers/tag-utilities";
+import { inlineTag } from "../helpers/tag-utilities";
+import {
+  asBlock,
+  codeBlockText,
+  extractLanguage,
+  getTextContent,
+  inlineCodeText
+} from "./common";
 
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
+export const code = inlineTag(value => inlineCodeText(value));
+
+export function pre(tag: HtmlNode, _context: RenderContext) {
+  const codeTag =
+    tag.childNodes?.find(childNode => childNode.nodeName === "code") ?? null;
+  const contentNode = codeTag ?? tag;
+  const value = getTextContent(contentNode).replaceAll(/\n+$/g, "");
+  const language = extractLanguage(codeTag ?? tag);
+
+  return asBlock(tag.nodeName, codeBlockText(value, language), 1, 1);
 }

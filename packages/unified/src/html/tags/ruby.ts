@@ -16,14 +16,14 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
+import { inlineTag, voidTag } from "../helpers/tag-utilities";
+import { bodyText } from "./common";
 
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
-}
+export const ruby = inlineTag(value => bodyText(value));
+
+export const rt = inlineTag(
+  value =>
+    `textColors.body.primary(${JSON.stringify(` (${String(value ?? "")})`)})`
+);
+
+export const rp = voidTag;

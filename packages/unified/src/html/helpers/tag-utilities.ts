@@ -41,6 +41,8 @@ export interface HtmlNode {
   value?: string;
   childNodes?: HtmlNode[];
   attrs?: HtmlAttribute[];
+  block?: BlockTagValue;
+  inline?: InlineTagValue;
   [key: string]: unknown;
 }
 
@@ -51,7 +53,6 @@ export interface RenderContext {
   listDepth?: number;
   listType?: string;
   depth?: number;
-  [key: string]: unknown;
 }
 
 export interface InlineTagValue {
@@ -62,12 +63,17 @@ export interface InlineTagValue {
   nodeName: string | undefined;
 }
 
-export interface BlockTagValue {
-  marginTop: number;
+export interface BlockTagInput {
+  marginTop?: number | string;
+  marginBottom?: number | string;
   value: string | null;
-  marginBottom: number;
   type: "block";
   nodeName: string | undefined;
+}
+
+export interface BlockTagValue extends BlockTagInput {
+  marginTop: number;
+  marginBottom: number;
 }
 
 export type RenderedTag = InlineTagValue | BlockTagValue;
@@ -95,7 +101,7 @@ export interface BlockTagMargins {
 }
 
 export const inlineToBlockTag = (
-  value: InlineTagValue | null | undefined
+  value: InlineTagValue | null
 ): BlockTagValue | null => {
   if (!value) {
     return null;
@@ -170,14 +176,14 @@ export function blockTag(
       10
     );
     const value = tag.childNodes.reduce(
-      (accumulator: BlockTagAccumulator, node: HtmlNode) => {
+      (ret: BlockTagAccumulator, node: HtmlNode) => {
         const nodeTag = renderTag(node, {
           ...context,
           liItemNumber
         }) as RenderedTag | null;
 
         if (!nodeTag) {
-          return accumulator;
+          return ret;
         }
 
         if (nodeTag.nodeName === "li") {
@@ -186,27 +192,24 @@ export function blockTag(
 
         if (nodeTag.type === "inline") {
           return {
-            block: accumulator.block,
-            inline: concatTwoInlineTags(accumulator.inline, nodeTag)
+            block: ret.block,
+            inline: concatTwoInlineTags(ret.inline, nodeTag)
           };
         }
 
-        if (accumulator.inline && accumulator.inline.value != null) {
-          accumulator.inline.value = wrapLineWidth(
-            accumulator.inline.value,
-            context
-          );
+        if (ret.inline && ret.inline.value) {
+          ret.inline.value = wrapLineWidth(ret.inline.value, context);
         }
 
-        accumulator.block = concatTwoBlockTags(
-          accumulator.block,
-          inlineToBlockTag(accumulator.inline)
+        ret.block = concatTwoBlockTags(
+          ret.block ?? null,
+          inlineToBlockTag(ret.inline) ?? null
         );
 
-        accumulator.block = concatTwoBlockTags(accumulator.block, nodeTag);
+        ret.block = concatTwoBlockTags(ret.block ?? null, nodeTag);
 
         return {
-          block: accumulator.block,
+          block: ret.block,
           inline: null
         };
       },
@@ -216,13 +219,13 @@ export function blockTag(
       } as BlockTagAccumulator
     );
 
-    if (value.inline != null && value.inline.value != null) {
+    if (value.inline && value.inline.value) {
       value.inline.value = wrapLineWidth(value.inline.value, context);
     }
 
     value.block = concatTwoBlockTags(
-      value.block,
-      inlineToBlockTag(value.inline)
+      value.block ?? null,
+      inlineToBlockTag(value.inline) ?? null
     );
 
     let topBlock = localContext?.marginTop ?? 0;
@@ -262,18 +265,18 @@ export function blockTag(
 
 export const inlineTag =
   (wrapper?: InlineTagWrapper) =>
-  (tag: HtmlNode, context: RenderContext): InlineTagValue | null => {
+  (tag: HtmlNode, context: RenderContext): InlineTagValue | undefined => {
     const wrapFunction: InlineTagWrapper =
       wrapper ?? ((argument: WrapValue) => argument ?? null);
 
     const spanTag = (tags as Record<string, unknown>).span;
 
     if (!tag || !tag.childNodes) {
-      return null;
+      return undefined;
     }
 
     const value = tag.childNodes.reduce(
-      (accumulator, node) => {
+      (accumulator: InlineTagValue | null, node: HtmlNode) => {
         const nodeTag = renderTag(
           node,
           context,
@@ -285,10 +288,10 @@ export const inlineTag =
         }
 
         return {
-          ...concatTwoInlineTags(accumulator, nodeTag),
+          ...concatTwoInlineTags(accumulator, nodeTag as InlineTagValue),
           type: "inline",
           nodeName: tag.nodeName
-        };
+        } as InlineTagValue;
       },
       null as InlineTagValue | null
     );
@@ -302,4 +305,4 @@ export const inlineTag =
     };
   };
 
-export const voidTag = (): null => null;
+export const voidTag = (): undefined => undefined;

@@ -16,14 +16,19 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
+import { getAttribute } from "../helpers/get-attribute";
+import type { HtmlNode, RenderContext } from "../helpers/tag-utilities";
+import { asInline, bodyText, buildBar, getTextContent } from "./common";
 
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
+export function progress(tag: HtmlNode, _context: RenderContext) {
+  const max = Number.parseFloat(getAttribute(tag, "max", "1") || "1");
+  const value = Number.parseFloat(getAttribute(tag, "value", "0") || "0");
+  const label = getTextContent(tag).trim();
+  const percent = Math.round((Math.max(0, value) / Math.max(1, max)) * 100);
+  const bar = buildBar(value, max, 10, "=", "-");
+
+  return asInline(
+    tag.nodeName,
+    bodyText(`${label ? `${label} ` : ""}[${bar}] ${percent}%`)
+  );
 }

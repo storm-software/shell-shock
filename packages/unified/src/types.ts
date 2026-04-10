@@ -90,11 +90,6 @@ export interface RenderAdapter {
  */
 export interface Options {
   /**
-   * The rendering components to use for console output.
-   */
-  adapter: RenderAdapter;
-
-  /**
    * Whether to wrap lines at a certain width.
    */
   pre?: boolean;

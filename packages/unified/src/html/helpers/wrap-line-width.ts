@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import wrapAnsi from "wrap-ansi";
+import type { RenderContext } from "./tag-utilities";
 
-export const wrapLineWidth = (text, context) =>
-  wrapAnsi(text, context.lineWidth, { trim: !context.pre });
+export const wrapLineWidth = (text: string, context: RenderContext) =>
+  wrapAnsi(text, context.lineWidth ?? 80, { trim: !context.pre });

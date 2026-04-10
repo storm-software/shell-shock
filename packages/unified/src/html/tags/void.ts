@@ -16,14 +16,40 @@
 
  ------------------------------------------------------------------- */
 
-import type { WrapValue } from "./tag-utilities";
-
-export function escapeText(text: WrapValue): string {
-  return String(text ?? "")
-    .replaceAll("\\", "\\\\")
-    .replaceAll("`", "\\`")
-    .replaceAll("${", "\\${")
-    .replaceAll("\n", "\\n")
-    .replaceAll("\r", "\\r")
-    .replaceAll("\t", "\\t");
-}
+export {
+  voidTag as applet,
+  voidTag as area,
+  voidTag as audio,
+  voidTag as base,
+  voidTag as basefont,
+  voidTag as bgsound,
+  voidTag as canvas,
+  voidTag as datalist,
+  voidTag as embed,
+  voidTag as frame,
+  voidTag as frameset,
+  voidTag as head,
+  voidTag as iframe,
+  voidTag as keygen,
+  voidTag as link,
+  voidTag as map,
+  voidTag as math,
+  voidTag as meta,
+  voidTag as noframes,
+  voidTag as noscript,
+  voidTag as object,
+  voidTag as param,
+  voidTag as plaintext,
+  voidTag as portal,
+  voidTag as script,
+  voidTag as slot,
+  voidTag as source,
+  voidTag as style,
+  voidTag as svg,
+  voidTag as template,
+  voidTag as title,
+  voidTag as track,
+  voidTag as video,
+  voidTag as wbr,
+  voidTag as xmp
+} from "../helpers/tag-utilities";
