@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.2) (04/10/2026)
+
+### Bug Fixes
+
+- **core:** Resolve typescript typing issues ([0b0e1aa](https://github.com/storm-software/shell-shock/commit/0b0e1aa))
+
 ## [0.17.1](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.1) (04/09/2026)
 
 ### Miscellaneous

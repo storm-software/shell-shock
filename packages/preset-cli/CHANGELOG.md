@@ -2,6 +2,25 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.14](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.14) (04/10/2026)
+
+### Bug Fixes
+
+- **core:** Resolve typescript typing issues ([0b0e1aa](https://github.com/storm-software/shell-shock/commit/0b0e1aa))
+
+### Updated Dependencies
+
+- Updated **plugin-completions** to **v0.4.10**
+- Updated **plugin-changelog** to **v0.1.5**
+- Updated **plugin-console** to **v0.2.6**
+- Updated **plugin-prompts** to **v0.3.43**
+- Updated **plugin-upgrade** to **v0.1.47**
+- Updated **plugin-banner** to **v0.1.29**
+- Updated **preset-script** to **v0.6.57**
+- Updated **plugin-theme** to **v0.4.15**
+- Updated **plugin-help** to **v0.2.20**
+- Updated **core** to **v0.17.2**
+
 ## [0.9.13](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.13) (04/09/2026)
 
 ### Miscellaneous

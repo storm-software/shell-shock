@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Changelog
 
+## [0.1.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-changelog%400.1.5) (04/10/2026)
+
+### Bug Fixes
+
+- **core:** Resolve typescript typing issues ([0b0e1aa](https://github.com/storm-software/shell-shock/commit/0b0e1aa))
+
+### Updated Dependencies
+
+- Updated **unified** to **v0.2.0**
+- Updated **core** to **v0.17.2**
+
 ## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-changelog%400.1.4) (04/09/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.15](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.15) (04/10/2026)
+
+### Bug Fixes
+
+- **core:** Resolve typescript typing issues ([0b0e1aa](https://github.com/storm-software/shell-shock/commit/0b0e1aa))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.2**
+
 ## [0.4.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.14) (04/09/2026)
 
 ### Miscellaneous
