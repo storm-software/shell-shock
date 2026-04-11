@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - Unified
 
+## [0.2.1](https://github.com/storm-software/shell-shock/releases/tag/unified%400.2.1) (04/11/2026)
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.16**
+- Updated **core** to **v0.17.3**
+
 ## [0.2.0](https://github.com/storm-software/shell-shock/releases/tag/unified%400.2.0) (04/10/2026)
 
 ### Features

@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.3](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.3) (04/11/2026)
+
+### Bug Fixes
+
+- **core:** Fixed issues resolving command modules ([87d07a9](https://github.com/storm-software/shell-shock/commit/87d07a9))
+
 ## [0.17.2](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.2) (04/10/2026)
 
 ### Bug Fixes
