@@ -2656,20 +2656,15 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
       id="console"
       description="A collection of helper utilities to assist in generating content meant for display in the console."
       imports={defu(imports, {
-        "@shell-shock/plugin-theme/types/theme": [
-          { name: "ThemeColorsResolvedConfig", type: true },
-          { name: "ThemeSpinnerResolvedConfig", type: true }
-        ],
+        "@shell-shock/plugin-theme/types/theme": ["ThemeSpinnerResolvedConfig"],
         "@shell-shock/plugin-theme/helpers/spinners": [
-          { name: "SpinnerPreset", type: true },
-          { name: "resolveSpinner" }
+          "SpinnerPreset",
+          "resolveSpinner"
         ],
-        "node:buffer": ["WithImplicitCoercion"],
         "node:util": ["stripVTControlCharacters"]
       })}
       builtinImports={defu(builtinImports, {
         utils: [
-          "isMinimal",
           "isInteractive",
           "isColorSupported",
           "colorSupportLevels",

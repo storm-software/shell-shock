@@ -262,6 +262,11 @@ export interface CommandConfig extends CommandBase {
    * Tags can be used to categorize and organize commands, and can also be utilized by plugins to provide additional functionality or filtering based on tags.
    */
   tags?: string[];
+
+  /**
+   * A string representing the source of the command, which can be "file", a specific plugin name, or any other string value that describes the source that added the command.
+   */
+  source?: "file" | string;
 }
 
 export type CommandTree = CommandConfig & {
@@ -281,12 +286,17 @@ export type CommandTree = CommandConfig & {
   alias: string[];
 
   /**
-   * Optional tags for the command.
+   * A set of tags for the command.
    *
    * @remarks
    * Tags can be used to categorize and organize commands, and can also be utilized by plugins to provide additional functionality or filtering based on tags.
    */
   tags: string[];
+
+  /**
+   * A string representing the source of the command, which can be "file", a specific plugin name, or any other string value that describes the source that added the command.
+   */
+  source: "file" | string;
 
   /**
    * The command options.

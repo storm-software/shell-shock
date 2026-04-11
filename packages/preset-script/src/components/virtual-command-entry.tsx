@@ -138,11 +138,11 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
           utils: ["isMinimal", "isUnicodeSupported", "findSuggestions"],
           state: [
             "useGlobal",
+            "GlobalOptions",
             "useGlobalOptions",
             "withCommand",
             "useArgs",
-            "hasFlag",
-            { name: "GlobalOptions", type: true }
+            "hasFlag"
           ],
           [joinPaths(
             "help",

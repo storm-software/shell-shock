@@ -1656,7 +1656,6 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
         "node:module": ["builtinModules"]
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
-        console: ["error", "verbose", "writeLine"],
         env: [
           "env",
           "isCI",

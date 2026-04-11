@@ -93,6 +93,7 @@ export const plugin = <
             }
           },
           isVirtual: false,
+          source: "upgrade-plugin",
           ...this.config.upgrade.command
         });
       }

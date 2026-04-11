@@ -101,6 +101,7 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
                 }
               },
               isVirtual: false,
+              source: "help-plugin",
               ...this.config.help.command
             });
           }

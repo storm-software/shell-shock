@@ -16,7 +16,10 @@
 
  ------------------------------------------------------------------- */
 
-export interface ShellShockEnv {
+// eslint-disable-next-line ts/consistent-type-imports
+import { EnvInterface } from "@powerlines/plugin-env/types/runtime";
+
+export interface ShellShockEnv extends EnvInterface {
   /**
    * The system PATHEXT variable, used to determine which file extensions are considered executable on Windows.
    *

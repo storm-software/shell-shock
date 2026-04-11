@@ -95,12 +95,12 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
           ],
           state: [
             "useGlobal",
+            "GlobalOptions",
             "useGlobalOptions",
             "withCommand",
             "useArgs",
             "hasFlag",
-            "isHelp",
-            { name: "GlobalOptions", type: true }
+            "isHelp"
           ],
           prompts: ["text", "numeric", "toggle", "select", "isCancel"],
           [joinPaths(

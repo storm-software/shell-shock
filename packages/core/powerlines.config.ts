@@ -32,10 +32,14 @@ const config: UserConfig = defineConfig({
     "./src/contexts/*.{ts,tsx}",
     "./src/plugin-utils/index.ts"
   ],
-  plugins: [plugin(), deepkit(), alloy()],
-  tsdown: {
-    sourcemap: true
-  }
+  plugins: [
+    plugin(),
+    deepkit({
+      reflection: "default",
+      level: "all"
+    }),
+    alloy()
+  ]
 });
 
 export default config;

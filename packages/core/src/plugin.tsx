@@ -24,7 +24,7 @@ import tsdown from "@powerlines/plugin-tsdown";
 import { toArray } from "@stryke/convert/to-array";
 import { chmodX } from "@stryke/fs/chmod-x";
 import { appendPath } from "@stryke/path/append";
-import { findFilePath, relativePath } from "@stryke/path/file-path-fns";
+import { findFilePath } from "@stryke/path/file-path-fns";
 import { isParentPath } from "@stryke/path/is-parent-path";
 import { joinPaths } from "@stryke/path/join-paths";
 import { replacePath } from "@stryke/path/replace";
@@ -294,6 +294,7 @@ export const plugin = <TContext extends Context = Context>(
               alias: [],
               tags: [],
               isVirtual: false,
+              source: "file",
               entry: {
                 ...entry,
                 file: entry.file,
@@ -348,20 +349,6 @@ export const plugin = <TContext extends Context = Context>(
               "No commands were found in the project. Please ensure at least one command exists."
             );
           } else {
-            this.debug(
-              `Shell Shock will create an application with the following commands: \n${this.inputs
-                .filter(cmd => !cmd.isVirtual)
-                .map(
-                  command =>
-                    ` - ${command.id}: ${
-                      isParentPath(command.entry.file, this.commandsPath)
-                        ? replacePath(command.entry.file, this.commandsPath)
-                        : relativePath(command.entry.file, this.commandsPath)
-                    }${command.isVirtual ? " (virtual)" : ""}`
-                )
-                .join("\n")}`
-            );
-
             this.debug(
               "Finding and adding virtual command inputs for each command previously found."
             );
@@ -431,7 +418,8 @@ export const plugin = <TContext extends Context = Context>(
                           isVirtual: true,
                           entry: {
                             file
-                          }
+                          },
+                          source: "file"
                         });
                       }
                     }
@@ -448,11 +436,11 @@ export const plugin = <TContext extends Context = Context>(
               `Final command input list: \n${this.inputs
                 .map(
                   command =>
-                    ` - ${command.id}: ${
-                      isParentPath(command.entry.file, this.commandsPath)
+                    ` - ${command.id}${command.isVirtual ? " (virtual)" : ""}: ${
+                      command.source === "file"
                         ? replacePath(command.entry.file, this.commandsPath)
-                        : replacePath(command.entry.file, this.config.root)
-                    }${command.isVirtual ? " (virtual)" : ""}`
+                        : `added by ${command.source}`
+                    }`
                 )
                 .join("\n")}`
             );

@@ -226,11 +226,11 @@ export function CommandEntry(props: CommandEntryProps) {
           utils: ["isMinimal", "isUnicodeSupported"],
           state: [
             "useGlobal",
+            "GlobalOptions",
             "useGlobalOptions",
             "useArgs",
             "hasFlag",
-            "withCommand",
-            { name: "GlobalOptions", type: true }
+            "withCommand"
           ],
           [joinPaths(
             "help",

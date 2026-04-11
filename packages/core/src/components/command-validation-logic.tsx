@@ -58,12 +58,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                 }`}>
                 {code`failures.push("Missing required ${option.name} option");`}
               </IfStatement>
-              <Show
-                when={
-                  (option.kind === CommandParameterKinds.string ||
-                    option.kind === CommandParameterKinds.number) &&
-                  option.variadic
-                }>
+              <Show when={option.variadic}>
                 <ElseIfClause
                   condition={code`options${
                     option.name.includes("?")
@@ -78,7 +73,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
             </Show>
             <Show when={option.kind === CommandParameterKinds.number}>
               <Show
-                when={(option as NumberCommandParameter).variadic}
+                when={option.variadic}
                 fallback={
                   <IfStatement
                     condition={code`options${
@@ -117,12 +112,108 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
               <Show
                 when={!option.variadic}
                 fallback={
+                  <Show
+                    when={!option.optional}
+                    fallback={
+                      <IfStatement
+                        condition={code`!options${
+                          option.name.includes("?")
+                            ? `["${option.name}"]`
+                            : `.${camelCase(option.name)}`
+                        }.every(value => [${(
+                          option as
+                            | StringCommandParameter
+                            | NumberCommandParameter
+                        ).choices
+                          ?.map(choice =>
+                            option.kind === CommandParameterKinds.string
+                              ? `"${choice}"`
+                              : choice
+                          )
+                          .join(", ")}].includes(value))`}>
+                        {code`failures.push(\`Invalid value provided for the ${
+                          option.name
+                        } option - valid values include: ${list(
+                          (
+                            option as
+                              | StringCommandParameter
+                              | NumberCommandParameter
+                          )?.choices?.map(choice => String(choice)) ?? []
+                        )}; provided: \${options${
+                          option.name.includes("?")
+                            ? `["${option.name}"]`
+                            : `.${camelCase(option.name)}`
+                        }}\`);`}
+                      </IfStatement>
+                    }>
+                    <ElseIfClause
+                      condition={code`!options${
+                        option.name.includes("?")
+                          ? `["${option.name}"]`
+                          : `.${camelCase(option.name)}`
+                      }.every(value => [${(
+                        option as
+                          | StringCommandParameter
+                          | NumberCommandParameter
+                      ).choices
+                        ?.map(choice =>
+                          option.kind === CommandParameterKinds.string
+                            ? `"${choice}"`
+                            : choice
+                        )
+                        .join(", ")}].includes(value))`}>
+                      {code`failures.push(\`Invalid value provided for the ${
+                        option.name
+                      } option - valid values include: ${list(
+                        (
+                          option as
+                            | StringCommandParameter
+                            | NumberCommandParameter
+                        )?.choices?.map(choice => String(choice)) ?? []
+                      )}; provided: \${options${
+                        option.name.includes("?")
+                          ? `["${option.name}"]`
+                          : `.${camelCase(option.name)}`
+                      }}\`);`}
+                    </ElseIfClause>
+                  </Show>
+                }>
+                <Show
+                  when={!option.optional}
+                  fallback={
+                    <IfStatement
+                      condition={code`![${(
+                        option as
+                          | StringCommandParameter
+                          | NumberCommandParameter
+                      ).choices
+                        ?.map(choice =>
+                          option.kind === CommandParameterKinds.string
+                            ? `"${choice}"`
+                            : choice
+                        )
+                        .join(", ")}].includes(options${
+                        option.name.includes("?")
+                          ? `["${option.name}"]`
+                          : `.${camelCase(option.name)}`
+                      })`}>
+                      {code`failures.push(\`Invalid value provided for the ${
+                        option.name
+                      } option - valid values include: ${list(
+                        (
+                          option as
+                            | StringCommandParameter
+                            | NumberCommandParameter
+                        )?.choices?.map(choice => String(choice)) ?? []
+                      )}; provided: \${options${
+                        option.name.includes("?")
+                          ? `["${option.name}"]`
+                          : `.${camelCase(option.name)}`
+                      }}\`);`}
+                    </IfStatement>
+                  }>
                   <ElseIfClause
-                    condition={code`!options${
-                      option.name.includes("?")
-                        ? `["${option.name}"]`
-                        : `.${camelCase(option.name)}`
-                    }.every(value => [${(
+                    condition={code`![${(
                       option as StringCommandParameter | NumberCommandParameter
                     ).choices
                       ?.map(choice =>
@@ -130,7 +221,11 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                           ? `"${choice}"`
                           : choice
                       )
-                      .join(", ")}].includes(value))`}>
+                      .join(", ")}].includes(options${
+                      option.name.includes("?")
+                        ? `["${option.name}"]`
+                        : `.${camelCase(option.name)}`
+                    })`}>
                     {code`failures.push(\`Invalid value provided for the ${
                       option.name
                     } option - valid values include: ${list(
@@ -145,33 +240,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                         : `.${camelCase(option.name)}`
                     }}\`);`}
                   </ElseIfClause>
-                }>
-                <ElseIfClause
-                  condition={code`![${(
-                    option as StringCommandParameter | NumberCommandParameter
-                  ).choices
-                    ?.map(choice =>
-                      option.kind === CommandParameterKinds.string
-                        ? `"${choice}"`
-                        : choice
-                    )
-                    .join(", ")}].includes(options${
-                    option.name.includes("?")
-                      ? `["${option.name}"]`
-                      : `.${camelCase(option.name)}`
-                  })`}>
-                  {code`failures.push(\`Invalid value provided for the ${
-                    option.name
-                  } option - valid values include: ${list(
-                    (
-                      option as StringCommandParameter | NumberCommandParameter
-                    )?.choices?.map(choice => String(choice)) ?? []
-                  )}; provided: \${options${
-                    option.name.includes("?")
-                      ? `["${option.name}"]`
-                      : `.${camelCase(option.name)}`
-                  }}\`);`}
-                </ElseIfClause>
+                </Show>
               </Show>
             </Show>
           </>

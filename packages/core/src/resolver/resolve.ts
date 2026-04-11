@@ -60,6 +60,7 @@ async function initialize<TContext extends Context = Context>(
     alias: [],
     icon: parent?.icon,
     tags: parent?.tags ?? [],
+    source: "file",
     ...command,
     title,
     options: parent === null ? getGlobalOptions(context, command) : {},
@@ -86,7 +87,7 @@ async function initialize<TContext extends Context = Context>(
     }
 
     context.debug(
-      `Adding reflection for application command: ${command.id} (file: ${
+      `Adding reflection for CLI command: ${command.id} (file: ${
         command.entry.input.file
       })`
     );
@@ -96,10 +97,14 @@ async function initialize<TContext extends Context = Context>(
       command.entry.input,
       {
         name: command.title || titleCase(command.name),
+        treeShaking: true,
+        resolve: {
+          skipNodeModulesBundle: true
+        },
         plugins: [
           esbuildPlugin(context, {
             reflection: "default",
-            reflectionLevel: "verbose"
+            level: "all"
           })
         ]
       }

@@ -92,10 +92,13 @@ export function ChangelogCommand() {
           when={!result.loading && !result.error}
           fallback={
             <Show when={!!result.error}>
-              {code` return error(\`Failed to load changelog: ${result.error!.message.replaceAll(
-                /`/g,
-                "\\\`"
-              )}\`); `}
+              {code` return error(\`Failed to load changelog: ${result
+                .error!.message.replaceAll("\\", "\\\\")
+                .replaceAll("`", "\\`")
+                .replaceAll("${", "\\${")
+                .replaceAll("\n", "\\n")
+                .replaceAll("\r", "\\r")
+                .replaceAll("\t", "\\t")}\`); `}
             </Show>
           }>
           <Show

@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import alloy from "@powerlines/plugin-alloy";
+import deepkit from "@powerlines/plugin-deepkit";
 import plugin from "@powerlines/plugin-plugin";
 import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines/config";
@@ -29,7 +30,14 @@ const config: UserConfig = defineConfig({
     "./src/components/**/*.tsx",
     "./src/components/**/*.ts"
   ],
-  plugins: [plugin(), alloy()]
+  plugins: [
+    plugin(),
+    deepkit({
+      reflection: "default",
+      level: "all"
+    }),
+    alloy()
+  ]
 });
 
 export default config;

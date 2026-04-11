@@ -88,7 +88,8 @@ export const plugin = <
             entry: {
               file: joinPaths(this.entryPath, "completions", "index.ts")
             },
-            isVirtual: true
+            isVirtual: true,
+            source: "completions-plugin"
           });
         }
 
@@ -118,7 +119,8 @@ export const plugin = <
                   "index.ts"
                 )
               },
-              isVirtual: true
+              isVirtual: true,
+              source: "completions-plugin"
             });
             this.inputs.push({
               id: "completions-bash-script",
@@ -150,7 +152,8 @@ export const plugin = <
                   )
                 }
               },
-              isVirtual: false
+              isVirtual: false,
+              source: "completions-plugin"
             });
             this.inputs.push({
               id: "completions-bash-config",
@@ -182,7 +185,8 @@ export const plugin = <
                   )
                 }
               },
-              isVirtual: false
+              isVirtual: false,
+              source: "completions-plugin"
             });
           }
         }
@@ -213,7 +217,8 @@ export const plugin = <
                   "index.ts"
                 )
               },
-              isVirtual: true
+              isVirtual: true,
+              source: "completions-plugin"
             });
             this.inputs.push({
               id: "completions-zsh-script",
@@ -245,7 +250,8 @@ export const plugin = <
                   )
                 }
               },
-              isVirtual: false
+              isVirtual: false,
+              source: "completions-plugin"
             });
             this.inputs.push({
               id: "completions-zsh-config",
@@ -277,7 +283,8 @@ export const plugin = <
                   )
                 }
               },
-              isVirtual: false
+              isVirtual: false,
+              source: "completions-plugin"
             });
           }
         }
@@ -310,7 +317,8 @@ export const plugin = <
                   "index.ts"
                 )
               },
-              isVirtual: true
+              isVirtual: true,
+              source: "completions-plugin"
             });
             this.inputs.push({
               id: "completions-powershell-script",
@@ -342,7 +350,8 @@ export const plugin = <
                   )
                 }
               },
-              isVirtual: false
+              isVirtual: false,
+              source: "completions-plugin"
             });
             this.inputs.push({
               id: "completions-powershell-config",
@@ -374,7 +383,8 @@ export const plugin = <
                   )
                 }
               },
-              isVirtual: false
+              isVirtual: false,
+              source: "completions-plugin"
             });
           }
         }
@@ -405,7 +415,8 @@ export const plugin = <
                   "index.ts"
                 )
               },
-              isVirtual: true
+              isVirtual: true,
+              source: "completions-plugin"
             });
             this.inputs.push({
               id: "completions-fish-script",
@@ -437,7 +448,8 @@ export const plugin = <
                   )
                 }
               },
-              isVirtual: false
+              isVirtual: false,
+              source: "completions-plugin"
             });
             this.inputs.push({
               id: "completions-fish-config",
@@ -469,7 +481,8 @@ export const plugin = <
                   )
                 }
               },
-              isVirtual: false
+              isVirtual: false,
+              source: "completions-plugin"
             });
           }
         }
