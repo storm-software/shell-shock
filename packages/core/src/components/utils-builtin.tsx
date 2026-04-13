@@ -1630,16 +1630,7 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
       imports={defu(rest.imports ?? {}, {
         "node:os": "os",
         "node:process": "process",
-        "node:path": [
-          "resolve",
-          "delimiter",
-          "normalize",
-          "join",
-          "posix",
-          "sep",
-          "dirname",
-          "isAbsolute"
-        ],
+        "node:path": ["join", "sep", "isAbsolute"],
         "node:fs": [
           { name: "constants", alias: "fsConstants" },
           "openSync",
@@ -1649,23 +1640,12 @@ export function UtilsBuiltin(props: UtilsBuiltinProps) {
           "statSync",
           "realpathSync"
         ],
-        "node:fs/promises": ["stat"],
         "node:tty": ["WriteStream"],
-        "node:util": ["promisify"],
         "node:url": ["fileURLToPath", "pathToFileURL"],
         "node:module": ["builtinModules"]
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
-        env: [
-          "env",
-          "isCI",
-          "isTest",
-          "isWindows",
-          "isLinux",
-          "isMacOS",
-          "isDevelopment",
-          "isDebug"
-        ],
+        env: ["env", "isCI", "isTest", "isWindows", "isLinux", "isMacOS"],
         exec: ["execSync"],
         state: ["hasFlag"]
       })}>

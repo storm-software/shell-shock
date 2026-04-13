@@ -18,6 +18,10 @@
 
 import type { AutoMDPluginResolvedConfig } from "@powerlines/plugin-automd";
 import type {
+  DeepkitPluginResolvedConfig,
+  DeepkitPluginUserConfig
+} from "@powerlines/plugin-deepkit";
+import type {
   NodeJsPluginOptions,
   NodeJsPluginResolvedConfig,
   NodeJsPluginUserConfig
@@ -134,6 +138,7 @@ export type OutputConfig = Pick<
  */
 export type UserConfig = BaseOptions &
   Partial<NodeJsPluginUserConfig> &
+  Partial<DeepkitPluginUserConfig> &
   Pick<NodeJsPluginUserConfig, "root"> & {
     /**
      * Configuration for the output of the build process
@@ -147,6 +152,7 @@ export type UserConfig = BaseOptions &
 export type ResolvedConfig = TsdownPluginResolvedConfig &
   AutoMDPluginResolvedConfig &
   NodeJsPluginResolvedConfig &
+  DeepkitPluginResolvedConfig &
   Required<Omit<Options, "bin" | "reference">> & {
     /**
      * The name of the binary (the {@link https://docs.npmjs.com/cli/v11/configuring-npm/package-json#bin | "bin" field} in package.json) that will be used to run the application through NodeJs package managers (e.g., npm, yarn, pnpm).

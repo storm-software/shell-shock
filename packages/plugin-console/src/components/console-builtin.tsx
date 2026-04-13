@@ -59,7 +59,7 @@ import {
   colorKeys,
   modifierKeys
 } from "@shell-shock/plugin-theme/helpers/ansi-utils";
-import { camelCase } from "@stryke/string-format";
+import { camelCase, titleCase } from "@stryke/string-format";
 import { getIndefiniteArticle } from "@stryke/string-format/vowels";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { defu } from "defu";
@@ -427,22 +427,18 @@ export function AnsiStyleFunctionsDeclaration() {
         {modifier => (
           <>
             <TSDoc
-              heading={`A function that applies ${
-                modifier
-              } styling to provided console text.`}>
-              <TSDocRemarks>
-                {`This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.`}
-              </TSDocRemarks>
-              <hbr />
+              heading={`A function that applies ${getIndefiniteArticle(
+                titleCase(modifier)
+              )} ${titleCase(modifier)} text-style to provided console text.`}>
               <TSDocParam name="text">
-                {`The console text to which the ${
+                {`The console text to which the ${titleCase(
                   modifier
-                } styling should be applied.`}
+                )} text-style should be applied.`}
               </TSDocParam>
               <TSDocReturns>
-                {`A string with ANSI escape codes applied for ${
+                {`A string with ANSI escape codes applied for ${titleCase(
                   modifier
-                } styling, or the original text if the style is not supported in the current terminal.`}
+                )} text-style, or the original text if the style is not supported in the current terminal.`}
               </TSDocReturns>
             </TSDoc>
             <VarDeclaration
@@ -478,16 +474,27 @@ export function AnsiStyleFunctionsDeclaration() {
         {color => (
           <>
             <TSDoc
-              heading={`A helper function to color the provided text as ${color}.`}>
+              heading={`A function that applies ${getIndefiniteArticle(
+                titleCase(color)
+              )} ${titleCase(color)} color styling to provided console text.`}>
               <TSDocRemarks>
-                {`This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for the specified color, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.`}
+                {`This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for ${getIndefiniteArticle(
+                  titleCase(color)
+                )} ${titleCase(color)} color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.`}
               </TSDocRemarks>
               <hbr />
               <TSDocParam name="text">
-                {`The console text to which the ${color} color should be applied.`}
+                {`The console text to which the ${titleCase(
+                  color
+                )} color styling should be applied.`}
+              </TSDocParam>
+              <TSDocParam name="background">
+                {`A boolean indicating whether to apply the color as a background. Defaults to \`false\`.`}
               </TSDocParam>
               <TSDocReturns>
-                {`A string with ANSI escape codes applied for ${color} color, or the original text if the color is not supported in the current terminal.`}
+                {`A string with ANSI escape codes applied for ${titleCase(
+                  color
+                )} color styling, or the original text if the style is not supported in the current terminal.`}
               </TSDocReturns>
             </TSDoc>
             <VarDeclaration
@@ -677,6 +684,57 @@ export function SplitTextFunctionDeclaration() {
         return [first.replace(/^\\s+/, "").replace(/\\s+$/, "") + closeSequence, openSequence + second.replace(/^\\s+/, "").replace(/\\s+$/, "")]; `}
       </FunctionDeclaration>
       <Spacing />
+      <FunctionDeclaration
+        name="innerSplitText"
+        parameters={[
+          {
+            name: "text",
+            type: "string"
+          },
+          {
+            name: "maxLength",
+            type: "number | SizeToken"
+          }
+        ]}>
+        {code`let line = text;
+        let result = [] as string[];
+
+        const calculatedMaxLength = isSizeToken(maxLength) ? calculateWidth(maxLength) : maxLength;
+        while (stripAnsi(line).length > calculatedMaxLength || line.indexOf("\\n") !== -1) {
+          if (line.indexOf("\\n") !== -1) {
+            result.push(...innerSplitText(line.slice(0, line.indexOf("\\n")).replace(/(\\r)?\\n/, ""), calculatedMaxLength));
+            line = line.indexOf("\\n") + 1 < line.length
+              ? line.slice(line.indexOf("\\n") + 1)
+              : "";
+          } else {
+            const index = [" ", "/", ".", ",", "-", ":", "|", "@", "+"].reduce((ret, split) => {
+              let current = ret;
+              while (stripAnsi(line).indexOf(split, current + 1) !== -1 && stripAnsi(line).indexOf(split, current + 1) <= calculatedMaxLength) {
+                current = line.indexOf(split, adjustIndex(line, current + 1));
+              }
+
+              return current;
+            }, -1);
+            if (index === -1) {
+              break;
+            }
+
+            const lines = breakLine(line, index);
+            result.push(lines[0]);
+            line = lines[1];
+          }
+        }
+
+        while (stripAnsi(line).length > calculatedMaxLength) {
+          const lines = breakLine(line, calculatedMaxLength);
+          result.push(lines[0]);
+          line = lines[1];
+        }
+
+        result.push(line);
+        return result; `}
+      </FunctionDeclaration>
+      <Spacing />
       <TSDoc heading="Split text into multiple lines based on a maximum length.">
         <TSDocRemarks>
           {`This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.`}
@@ -702,45 +760,16 @@ export function SplitTextFunctionDeclaration() {
             type: "number | SizeToken"
           }
         ]}>
-        {code`
-  let line = text;
-  let result = [] as string[];
+        {code`const timeout = setTimeout(() => {
+          throw new Error("Text splitting took too long, likely due to a very long line without spaces or a very small maxLength. Please ensure that the input text contains reasonable break points and that maxLength is set to a reasonable value.");
+        }, 1000);
 
-  const calculatedMaxLength = isSizeToken(maxLength) ? calculateWidth(maxLength) : maxLength;
-  while (stripAnsi(line).length > calculatedMaxLength || line.indexOf("\\n") !== -1) {
-    if (line.indexOf("\\n") !== -1) {
-      result.push(...splitText(line.slice(0, line.indexOf("\\n")).replace(/(\\r)?\\n/, ""), calculatedMaxLength));
-      line = line.indexOf("\\n") + 1 < line.length
-        ? line.slice(line.indexOf("\\n") + 1)
-        : "";
-    } else {
-      const index = [" ", "/", ".", ",", "-", ":", "|", "@", "+"].reduce((ret, split) => {
-        let current = ret;
-        while (stripAnsi(line).indexOf(split, current + 1) !== -1 && stripAnsi(line).indexOf(split, current + 1) <= calculatedMaxLength) {
-          current = line.indexOf(split, adjustIndex(line, current + 1));
+        try {
+          return innerSplitText(text, maxLength);
+        } finally {
+          clearTimeout(timeout);
         }
-
-        return current;
-      }, -1);
-      if (index === -1) {
-        break;
-      }
-
-      const lines = breakLine(line, index);
-      result.push(lines[0]);
-      line = lines[1];
-    }
-  }
-
-  while (stripAnsi(line).length > calculatedMaxLength) {
-    const lines = breakLine(line, calculatedMaxLength);
-    result.push(lines[0]);
-    line = lines[1];
-  }
-
-  result.push(line);
-  return result;
-`}
+         `}
       </FunctionDeclaration>
     </>
   );
@@ -1284,17 +1313,40 @@ export function LinkFunctionDeclaration() {
 
   return (
     <>
+      <InterfaceDeclaration
+        export
+        name="LinkOptions"
+        doc="Options for formatting a hyperlink in the console.">
+        <InterfaceMember
+          name="external"
+          optional
+          type="boolean"
+          doc="Whether the link is external. If true, an external link icon will be displayed next to the link text (if supported by the terminal) and the link may be styled differently based on the current theme configuration."
+        />
+        <Spacing />
+        <InterfaceMember
+          name="text"
+          optional
+          type="string"
+          doc="The text to display for the link. If not provided, the URL will be used as the text."
+        />
+        <Spacing />
+        <InterfaceMember
+          name="useTextWhenUnsupported"
+          optional
+          type="boolean"
+          doc="Whether to use the text when the hyperlink is not supported. If true, the text will be displayed even if the terminal does not support hyperlinks."
+        />
+      </InterfaceDeclaration>
+      <Spacing />
       <TSDoc heading="Render a hyperlink in the console.">
         <TSDocParam name="url">
           {`The URL to render as a hyperlink.`}
         </TSDocParam>
-        <TSDocParam name="textOrExternal">
-          {`The text to display for the link or a boolean indicating whether the link is external. If no text is provided, the URL will be used as the text. If a boolean is provided and is true, the URL will be used as the text and the link will be rendered as an external link.`}
+        <TSDocParam name="options">
+          {`Options for formatting the hyperlink.`}
         </TSDocParam>
-        <TSDocParam name="external">
-          {`A boolean indicating whether the link is external. If true, the link will be rendered as an external link.`}
-        </TSDocParam>
-        <TSDocReturns>{`The formatted hyperlink string.`}</TSDocReturns>
+        <TSDocReturns>{`The formatted hyperlink string for display in the console.`}</TSDocReturns>
       </TSDoc>
       <FunctionDeclaration
         export
@@ -1305,22 +1357,21 @@ export function LinkFunctionDeclaration() {
             type: "string",
             optional: false
           },
-          { name: "textOrExternal", type: "string | boolean", optional: true },
-          { name: "external", type: "boolean", optional: true }
+          { name: "options", type: "LinkOptions", default: "{}" }
         ]}>
         <IfStatement condition={code`isHyperlinkSupported()`}>
-          {code`return \`\\x1b]8;;\${url}\\u0007\${typeof textOrExternal === "string" && textOrExternal ? textOrExternal : url}\\x1b]8;;\\u0007\${external === true || textOrExternal === true ? "${
+          {code`return \`\\x1b]8;;\${url}\\u0007\${options.text ? options.text : url}\\x1b]8;;\\u0007\${options.external === true ? "${
             theme.icons.link.external
           }" : ""}\`;`}
         </IfStatement>
         <hbr />
         <IfStatement condition={code`isColorSupported`}>
-          {code`return \`\${underline(textColors.body.link(\`\${url}\`))}\${external === true || textOrExternal === true ? "${
+          {code`return \`\${underline(textColors.body.link(\`\${options.useTextWhenUnsupported && options.text ? options.text : url}\`))}\${options.external === true ? "${
             theme.icons.link.external
           }" : ""}\`;`}
         </IfStatement>
         <hbr />
-        {code`return \`\${url}\${external === true || textOrExternal === true ? "${
+        {code`return \`\${options.useTextWhenUnsupported && options.text ? options.text : url}\${options.external === true ? "${
           theme.icons.link.external
         }" : ""}\`;`}
       </FunctionDeclaration>
@@ -2763,7 +2814,7 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
         parameters={[
           {
             name: "err",
-            type: "string | Error",
+            type: "string | { message: string; stack?: string }",
             optional: false
           },
           {
@@ -2776,16 +2827,27 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
           <>
             <VarDeclaration let name="message" type="string | undefined" />
             <Spacing />
-            <IfStatement condition={code`(err as Error)?.message`}>
-              {code`message = (err as Error).message;`}
+            <IfStatement
+              condition={code`(err as { message: string; stack?: string })?.message`}>
+              {code`message = (err as { message: string; stack?: string }).message;`}
             </IfStatement>
             <ElseClause>{code`message = String(err);`}</ElseClause>
             <Spacing />
-            <IfStatement condition={code`env.STACKTRACE`}>
-              <IfStatement condition={code`(err as Error)?.stack`}>
-                {code`message += " \\n\\n" + ((err as Error).stack || "");`}
-              </IfStatement>
-              <ElseClause>{code`message += " \\n\\n" + ((new Error(" ")).stack || "").split("\\n").slice(2).map(line => line.trim()).join("\\n");`}</ElseClause>
+            <IfStatement
+              condition={code`env.STACKTRACE && typeof err === "object" && (err as { stack?: string })?.stack`}>
+              {code`message += " \\n\\n" + (err as { stack?: string })?.stack
+                .split("\\n")
+                .slice(1)
+                .map(line => {
+                  const match = line.match(/at (?:(.+?)\\s+\\()?(?:(.+?):(\\d+)(?::(\\d+))?|([^)]+))\\)?/);
+                  if (match) {
+                    const filePath = match[2] || match[5] || "<unknown>";
+                    return \`at \${match[1] || "<anonymous>"} (\${filePath === "<anonymous>" || filePath === "<unknown>" ? filePath : link(filePath, { text: \`\${filePath.replace(/^.*file:\\/\\//, "")}\${match[3] ? \`:\${match[3]}\${match[4] ? \`:\${match[4]}\` : ""}\` : ""}\`, useTextWhenUnsupported: true })})\`;
+                  }
+
+                  return line.trim();
+                })
+                .join("\\n"); `}
             </IfStatement>
           </>
         }

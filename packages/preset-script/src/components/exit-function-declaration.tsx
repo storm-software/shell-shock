@@ -124,9 +124,11 @@ export function ExitFunctionDeclaration() {
             }
 
             if (options.exception) {
-              error(\`A fatal error occured while running the application - please contact the ${getAppTitle(
+              error({ message: \`A fatal error occured while running the application - please contact the ${getAppTitle(
                 context
-              )} support team\${options.exception && typeof options.exception !== "symbol" ? \`: \\n\\n\${typeof options.exception === "string" ? options.exception : options.exception.message}\` : "."}\`);
+              )} support team\${options.exception && typeof options.exception !== "symbol" ? \`: \\n\\n\${typeof options.exception === "string" ? options.exception : options.exception.message}\` : "."}\`,
+                ...(options.exception && typeof options.exception === "object" ? { stack: (options.exception as { message: string; stack?: string }).stack } : {})
+              });
             }
 
             const terminate = (force = false) => { `}

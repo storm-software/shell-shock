@@ -28,7 +28,8 @@ const config: UserConfig = defineConfig({
     skipNodeModulesBundle: true
   },
   tsdown: {
-    exports: true
+    exports: true,
+    sourcemap: true
   }
 });
 

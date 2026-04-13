@@ -64,7 +64,7 @@ export const defaultRenderAdapter: RenderAdapter = {
    * Link text.
    */
   link: (url: string, text?: string) =>
-    `link("${url}"${text ? `, "${text}"` : ""})`,
+    `link("${url}", { ${text ? `text: "${text}"` : ""} })`,
 
   /**
    * Table.

@@ -105,6 +105,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
             },
             args: [],
             parent: null,
+            source: "file",
             children: this.commands
           }));
 
@@ -150,7 +151,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                     "splitText"
                   ],
                   utils: ["isMinimal", "isInteractive"],
-                  state: ["useGlobal", "useArgs", "isHelp"],
+                  state: ["useArgs", "isHelp"],
                   prompts: [
                     "text",
                     "numeric",

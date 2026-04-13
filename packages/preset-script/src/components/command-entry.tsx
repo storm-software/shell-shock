@@ -155,9 +155,9 @@ export function CommandHandlerDeclaration(
                   )
                   .join("\\n")}`
               : ""
-          }\`);
-          writeLine(""); `}
+          }\`); `}
         </IfStatement>
+        <ElseClause>{code`writeLine("");`}</ElseClause>
         <Spacing />
         {children}
         <Spacing />

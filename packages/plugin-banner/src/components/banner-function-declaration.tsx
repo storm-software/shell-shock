@@ -17,10 +17,14 @@
  ------------------------------------------------------------------- */
 
 import type { Children } from "@alloy-js/core";
-import { code, computed, For, Show } from "@alloy-js/core";
+import { code, computed, Show } from "@alloy-js/core";
 import { FunctionDeclaration, IfStatement } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
+import {
+  TSDoc,
+  TSDocParam
+} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import {
   formatDescription,
   getAppDescription,
@@ -51,19 +55,26 @@ export function BannerFunctionDeclarationWrapper(
   const context = usePowerlines<BannerPluginContext>();
 
   return (
-    <FunctionDeclaration
-      export
-      async
-      name="showBanner"
-      doc={`Write the ${getAppTitle(context, true)} command-line interface application banner ${
-        command ? `for the ${command.title} command ` : ""
-      }to the console.`}
-      parameters={[{ name: "sleepTimeoutMs", type: "number", default: 500 }]}>
-      {children}
-      <IfStatement condition={code`isInteractive && !isHelp()`}>
-        {code`await sleep(sleepTimeoutMs);`}
-      </IfStatement>
-    </FunctionDeclaration>
+    <>
+      <TSDoc
+        heading={`Write the ${getAppTitle(context, true)} command-line interface application banner ${
+          command ? `for the ${command.title} command ` : ""
+        }to the console.`}>
+        <TSDocParam name="sleepTimeoutMs">
+          {`The amount of time in milliseconds to sleep before displaying the banner. This can be used to create a delay before the banner is shown, allowing for any necessary setup or initialization to occur first. The default value is 500 milliseconds.`}
+        </TSDocParam>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        async
+        name="showBanner"
+        parameters={[{ name: "sleepTimeoutMs", type: "number", default: 500 }]}>
+        {children}
+        <IfStatement condition={code`isInteractive && !isHelp()`}>
+          {code`await sleep(sleepTimeoutMs);`}
+        </IfStatement>
+      </FunctionDeclaration>
+    </>
   );
 }
 
@@ -102,14 +113,39 @@ export function BannerFunctionBodyDeclaration(
 
   const theme = useTheme();
 
+  const borderStyle = theme.borderStyles.banner.outline[variant];
+  const icon = theme.icons.banner.header[variant];
+
   const bannerPadding = computed(
     () =>
       Math.max(theme.padding.app, 0) * 2 +
-      theme.borderStyles.banner.outline[variant].left.length +
-      theme.borderStyles.banner.outline[variant].right.length
+      borderStyle.left.length +
+      borderStyle.right.length
   );
+  const innerPadding = computed(() => Math.max(theme.padding.banner, 2));
   const totalPadding = computed(
     () => Math.max(theme.padding.banner, 0) * 2 + bannerPadding.value
+  );
+  const headerRepeat = computed(() =>
+    Math.max(Math.floor(innerPadding.value / 2) - 1, 2)
+  );
+  const headerStaticWidth = computed(
+    () =>
+      borderStyle.topLeft.length +
+      headerRepeat.value +
+      (icon ? 1 + icon.length + 1 + borderStyle.top.length + 1 : 1) +
+      (header ? header.length : 0) +
+      1 +
+      borderStyle.topRight.length
+  );
+  const footerStaticWidth = computed(
+    () =>
+      borderStyle.bottomLeft.length +
+      1 +
+      (footer ? footer.length : 0) +
+      1 +
+      headerRepeat.value +
+      borderStyle.bottomRight.length
   );
 
   return (
@@ -123,154 +159,139 @@ export function BannerFunctionBodyDeclaration(
       <Spacing />
       <Show when={insertNewlineBeforeBanner}>{code`writeLine(""); `}</Show>
       <Spacing />
-
-      {code`
-      writeLine(borderColors.banner.outline.${variant}("${
-        theme.borderStyles.banner.outline[variant].topLeft
-      }") + ${
-        theme.icons.banner.header[variant]
-          ? `borderColors.banner.outline.${variant}("${
-              theme.borderStyles.banner.outline[variant].top
-            }".repeat(6)) + " " + ${
-              theme.icons.banner.header[variant]
-                ? `textColors.banner.header.${variant}("${
-                    theme.icons.banner.header[variant]
-                  }") + " " + borderColors.banner.outline.${variant}("${
-                    theme.borderStyles.banner.outline[variant].top
-                  }") + " " +`
-                : ""
-            } bold(textColors.banner.header.${variant}("${
-              header
-            }")) + " " + borderColors.banner.outline.${variant}("${
-              theme.borderStyles.banner.outline[variant].top
-            }".repeat(Math.max(getTerminalSize().columns - ${
-              6 +
-              (theme.icons.banner.header[variant]
-                ? theme.icons.banner.header[variant].length + 3
-                : 0) +
-              (header ? header.length + 2 : 0) +
-              bannerPadding.value
-            }, 0)))`
-          : `borderColors.banner.outline.${variant}("${
-              theme.borderStyles.banner.outline[variant].top
-            }".repeat(Math.max(getTerminalSize().columns - ${
-              bannerPadding.value
-            }, 0)))`
-      } + borderColors.banner.outline.${variant}("${
-        theme.borderStyles.banner.outline[variant].topRight
-      }"), { consoleFn: console.${consoleFnName} }); `}
-
-      <Show
-        when={!!children}
-        fallback={
-          <Show when={isSetString(title)}>
-            <For each={title ? title.split("\n") : []} hardline>
-              {line => code`splitText("${line}",
-          Math.max(getTerminalSize().columns - ${totalPadding.value}, 20)
-        ).forEach((line) => {
-          writeLine(borderColors.banner.outline.${variant}("${
-            theme.borderStyles.banner.outline[variant].left
-          }") + " ".repeat(Math.max(Math.floor((getTerminalSize().columns - (stripAnsi(line).length + ${
-            bannerPadding.value
-          })) / 2), 0)) + bold(textColors.banner.title.${variant}(line)) + " ".repeat(Math.max(Math.ceil((getTerminalSize().columns - (stripAnsi(line).length + ${
-            bannerPadding.value
-          })) / 2), 0)) + borderColors.banner.outline.${variant}("${
-            theme.borderStyles.banner.outline[variant].right
-          }"), { consoleFn: console.${consoleFnName} });
-        }); `}
-            </For>
-          </Show>
-        }>
-        {children}
-      </Show>
+      {code`writeLine(borderColors.banner.outline.${variant}("${
+        borderStyle.topLeft
+      }") + borderColors.banner.outline.${
+        variant
+      }("${borderStyle.top}".repeat(${headerRepeat.value}))${
+        icon
+          ? ` + " " + textColors.banner.header.${
+              variant
+            }("${icon}") + " " + borderColors.banner.outline.${variant}("${
+              borderStyle.top
+            }")`
+          : ""
+      } + " " + bold(textColors.banner.header.${variant}("${formatDescription(
+        header || ""
+      )}")) + " " + borderColors.banner.outline.${
+        variant
+      }("${borderStyle.top}".repeat(Math.max(getTerminalSize().columns - ${
+        headerStaticWidth.value
+      }, 0))) + borderColors.banner.outline.${
+        variant
+      }("${borderStyle.topRight}"), { consoleFn: console.${consoleFnName} }); `}
       <Spacing />
-
-      <Show when={isSetString(command?.title) && !!command?.path}>
+      <Show when={isSetString(title) && !children}>
+        {code`splitText("${formatDescription(
+          title || ""
+        )}", Math.max(getTerminalSize().columns - ${
+          totalPadding.value
+        }, 20)).forEach((line) => {
+    writeLine(borderColors.banner.outline.${variant}("${
+      borderStyle.left
+    }") + " ".repeat(Math.max(Math.floor((getTerminalSize().columns - (stripAnsi(line).length + ${
+      bannerPadding.value
+    })) / 2), 0)) + bold(textColors.banner.title.${
+      variant
+    }(line)) + " ".repeat(Math.max(Math.ceil((getTerminalSize().columns - (stripAnsi(line).length + ${
+      bannerPadding.value
+    })) / 2), 0)) + borderColors.banner.outline.${variant}("${
+      borderStyle.right
+    }"), { consoleFn: console.${consoleFnName} });
+  }); `}
+      </Show>
+      {children}
+      <Show when={isSetString(command?.title)}>
         <Show when={insertNewlineBeforeCommand}>
           {code`writeLine(borderColors.banner.outline.${variant}("${
-            theme.borderStyles.banner.outline[variant].left
+            borderStyle.left
           }") + " ".repeat(Math.max(getTerminalSize().columns - ${
             bannerPadding.value
-          })) + borderColors.banner.outline.${variant}("${
-            theme.borderStyles.banner.outline[variant].right
+          }, 0)) + borderColors.banner.outline.${variant}("${
+            borderStyle.right
           }"), { consoleFn: console.${consoleFnName} }); `}
         </Show>
-        {`writeLine(borderColors.banner.outline.${variant}("${
-          theme.borderStyles.banner.outline[variant].left
-        }") + " ".repeat(Math.max(Math.floor((getTerminalSize().columns - (stripAnsi("${
-          command?.title
-        }").length ${command?.icon ? " + 3" : ""} + ${
+        {code`writeLine(borderColors.banner.outline.${variant}("${
+          borderStyle.left
+        }") + " ".repeat(Math.max(Math.floor((getTerminalSize().columns - (stripAnsi("${formatDescription(
+          command?.title || ""
+        )}").length + ${
           bannerPadding.value
         })) / 2), 0)) + bold(textColors.banner.command.${
           variant
-        }("${command?.icon ? `${command.icon}  ` : ""}${command?.title}")) + " ".repeat(Math.max(Math.ceil((getTerminalSize().columns - (stripAnsi("${command?.title}").length ${
-          command?.icon ? " + 3" : ""
-        } + ${
+        }("${formatDescription(
+          command?.title || ""
+        )}")) + " ".repeat(Math.max(Math.ceil((getTerminalSize().columns - (stripAnsi("${formatDescription(
+          command?.title || ""
+        )}").length + ${
           bannerPadding.value
         })) / 2), 0)) + borderColors.banner.outline.${variant}("${
-          theme.borderStyles.banner.outline[variant].right
+          borderStyle.right
         }"), { consoleFn: console.${consoleFnName} }); `}
       </Show>
       <Spacing />
-
-      {code`splitText(
-          bold(${
-            command?.title
-              ? "textColors.banner.description"
-              : "textColors.banner.command"
-          }.${variant}(\`${formatDescription(description)}\`)),
-          Math.max(${
-            command?.title
-              ? `${totalPadding.value} * 2 > getTerminalSize().columns / 2 ? getTerminalSize().columns - 6 : getTerminalSize().columns - ${totalPadding.value}`
-              : `getTerminalSize().columns - ${totalPadding.value}`
-          } , 20)
-        ).forEach((line) => {
-          writeLine(borderColors.banner.outline.${variant}("${
-            theme.borderStyles.banner.outline[variant].left
-          }") + " ".repeat(Math.max(Math.floor((getTerminalSize().columns - (stripAnsi(line).length + ${
-            bannerPadding.value
-          })) / 2), 0)) + textColors.banner.description.${variant}(line) + " ".repeat(Math.max(Math.ceil((getTerminalSize().columns - (stripAnsi(line).length + ${
-            bannerPadding.value
-          })) / 2), 0)) + borderColors.banner.outline.${variant}("${
-            theme.borderStyles.banner.outline[variant].right
-          }"), { consoleFn: console.${consoleFnName} });
-        });
-        ${
-          insertNewlineAfterDescription
-            ? `writeLine(borderColors.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].left
-              }") + " ".repeat(Math.max(getTerminalSize().columns - ${
-                bannerPadding.value
-              })) + borderColors.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].right
-              }"), { consoleFn: console.${consoleFnName} });`
-            : ""
-        }
-        writeLine(borderColors.banner.outline.${variant}("${
-          theme.borderStyles.banner.outline[variant].bottomLeft
-        }") + ${
-          footer
-            ? `borderColors.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].bottom
-              }".repeat(Math.max(getTerminalSize().columns - ${
-                8 + (footer ? footer.length : 0) + bannerPadding.value
-              }, 0))) + " " + ${
-                footer
-                  ? `bold(textColors.banner.footer.${variant}("${footer}"))`
-                  : ""
-              } + " " + borderColors.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].bottom
-              }".repeat(6))`
-            : `borderColors.banner.outline.${variant}("${
-                theme.borderStyles.banner.outline[variant].bottom
-              }".repeat(Math.max(getTerminalSize().columns - ${
-                bannerPadding.value
-              }, 0)))`
-        } + borderColors.banner.outline.${variant}("${
-          theme.borderStyles.banner.outline[variant].bottomRight
-        }"), { consoleFn: console.${consoleFnName} });
-
-        writeLine(""); `}
+      {code`splitText(bold(textColors.banner.${
+        command ? "description" : "command"
+      }.${variant}(\`${formatDescription(description)}\`)), Math.max(${
+        command
+          ? `${
+              totalPadding.value * 2
+            } > getTerminalSize().columns / 2 ? getTerminalSize().columns - ${Math.max(
+              bannerPadding.value + 4,
+              6
+            )} : `
+          : ""
+      }getTerminalSize().columns - ${
+        totalPadding.value
+      }, 20)).forEach((line) => {
+    writeLine(borderColors.banner.outline.${
+      variant
+    }("${borderStyle.left}") + " ".repeat(Math.max(Math.floor((getTerminalSize().columns - (stripAnsi(line).length + ${
+      bannerPadding.value
+    })) / 2), 0)) + textColors.banner.description.${
+      variant
+    }(line) + " ".repeat(Math.max(Math.ceil((getTerminalSize().columns - (stripAnsi(line).length + ${
+      bannerPadding.value
+    })) / 2), 0)) + borderColors.banner.outline.${variant}("${
+      borderStyle.right
+    }"), { consoleFn: console.${consoleFnName} });
+  }); `}
+      <Spacing />
+      <Show when={insertNewlineAfterDescription}>
+        {code`writeLine(borderColors.banner.outline.${variant}("${
+          borderStyle.left
+        }") + " ".repeat(Math.max(getTerminalSize().columns - ${
+          bannerPadding.value
+        }, 0)) + borderColors.banner.outline.${variant}("${
+          borderStyle.right
+        }"), { consoleFn: console.${consoleFnName} }); `}
+      </Show>
+      <Spacing />
+      {code`writeLine(borderColors.banner.outline.${variant}("${
+        borderStyle.bottomLeft
+      }") + ${
+        footer
+          ? `borderColors.banner.outline.${variant}("${
+              borderStyle.bottom
+            }".repeat(Math.max(getTerminalSize().columns - ${
+              footerStaticWidth.value
+            }, 0))) + " " + bold(textColors.banner.footer.${
+              variant
+            }("${formatDescription(
+              footer
+            )}")) + " " + borderColors.banner.outline.${variant}("${
+              borderStyle.bottom
+            }".repeat(${headerRepeat.value}))`
+          : `borderColors.banner.outline.${variant}("${
+              borderStyle.bottom
+            }".repeat(Math.max(getTerminalSize().columns - ${
+              borderStyle.bottomLeft.length + borderStyle.bottomRight.length
+            }, 0)))`
+      } + borderColors.banner.outline.${variant}("${
+        borderStyle.bottomRight
+      }"), { consoleFn: console.${consoleFnName} }); `}
+      <Spacing />
+      {code`writeLine(""); `}
     </>
   );
 }

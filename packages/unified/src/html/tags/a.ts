@@ -42,11 +42,11 @@ export const a = inlineTag((_, tag, __) => {
       : null;
 
   return href
-    ? `link("${href}", ${rawTitle ? `"${rawTitle}", ` : ""}${
+    ? `link("${href}", { ${rawTitle ? `text: "${rawTitle}", ` : ""}${
         href && (href.startsWith("http://") || href.startsWith("https://"))
-          ? "true"
-          : "false"
-      })`
+          ? "external: true"
+          : "external: false"
+      } })`
     : rawTitle
       ? `"${rawTitle}"`
       : "";

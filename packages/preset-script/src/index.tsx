@@ -79,7 +79,7 @@ export const plugin = <
                     "help"
                   ],
                   utils: ["isMinimal"],
-                  state: ["useGlobal", "useArgs", "hasFlag", "isHelp"]
+                  state: ["useArgs", "hasFlag", "isHelp"]
                 }}>
                 <Show when={Object.keys(this.commands).length > 0}>
                   <VarDeclaration

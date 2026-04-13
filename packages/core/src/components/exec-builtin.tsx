@@ -62,7 +62,7 @@ export function ExecBuiltin(props: ExecBuiltinProps) {
         "node:stream": [{ name: "Stream", default: true, type: true }]
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
-        env: ["isWindows", "env", { name: "Env", type: true }]
+        env: ["isWindows", "env"]
       })}>
       <FunctionDeclaration
         name="resolveCommandEnv"
@@ -74,32 +74,32 @@ export function ExecBuiltin(props: ExecBuiltinProps) {
         ]}
         returnType="NodeJS.ProcessEnv">
         {code`const argv = params.argv;
-const shouldSuppressNpmFund = (() => {
-  const cmd = basename(argv[0] ?? "");
-  if (cmd === "npm" || cmd === "npm.cmd" || cmd === "npm.exe") {
-    return true;
-  }
-  if (cmd === "node" || cmd === "node.exe") {
-    const script = argv[1] ?? "";
+          const shouldSuppressNpmFund = (() => {
+            const cmd = basename(argv[0] ?? "");
+            if (cmd === "npm" || cmd === "npm.cmd" || cmd === "npm.exe") {
+              return true;
+            }
+            if (cmd === "node" || cmd === "node.exe") {
+              const script = argv[1] ?? "";
 
-    return script.includes("npm-cli.js");
-  }
-  return false;
-})();
+              return script.includes("npm-cli.js");
+            }
+            return false;
+          })();
 
-const result = Object.fromEntries(
-  Object.entries({
-  ...env,
-  ...(params.env ?? {})
-})
-  .filter(([, value]) => value !== undefined)
-  .map(([key, value]) => [key, String(value)])
-);
-if (shouldSuppressNpmFund) {
-  result.NPM_CONFIG_FUND ??= "false";
-  result.npm_config_fund ??= "false";
-}
-return result; `}
+          const result = Object.fromEntries(
+            Object.entries({
+            ...env,
+            ...(params.env ?? {})
+          })
+            .filter(([, value]) => value !== undefined)
+            .map(([key, value]) => [key, String(value)])
+          );
+          if (shouldSuppressNpmFund) {
+            result.NPM_CONFIG_FUND ??= "false";
+            result.npm_config_fund ??= "false";
+          }
+          return result; `}
       </FunctionDeclaration>
       <Spacing />
       <FunctionDeclaration
@@ -107,11 +107,11 @@ return result; `}
         parameters={[{ name: "resolvedCommand", type: "string" }]}
         returnType="boolean">
         {code`if (!isWindows) {
-  return false;
-}
-const ext = extname(resolvedCommand).toLowerCase();
+            return false;
+          }
+          const ext = extname(resolvedCommand).toLowerCase();
 
-return ext === ".cmd" || ext === ".bat";`}
+          return ext === ".cmd" || ext === ".bat"; `}
       </FunctionDeclaration>
       <Spacing />
       <FunctionDeclaration
@@ -119,15 +119,15 @@ return ext === ".cmd" || ext === ".bat";`}
         parameters={[{ name: "arg", type: "string" }]}
         returnType="string">
         {code`if (/[&|<>^%\\\\r\\\\n]/.test(arg)) {
-  throw new Error(
-    \`Unsafe Windows cmd.exe argument detected: \${JSON.stringify(arg)}. \` +
-      "Pass an explicit shell-wrapper argv at the call site instead."
-  );
-}
-if (!arg.includes(" ") && !arg.includes('"')) {
-  return arg;
-}
-return \`"\${arg.replace(/"/g, '""')}"\`;`}
+          throw new Error(
+            \`Unsafe Windows cmd.exe argument detected: \${JSON.stringify(arg)}. \` +
+              "Pass an explicit shell-wrapper argv at the call site instead."
+          );
+        }
+        if (!arg.includes(" ") && !arg.includes('"')) {
+          return arg;
+        }
+        return \`"\${arg.replace(/"/g, '""')}"\`; `}
       </FunctionDeclaration>
       <Spacing />
       <FunctionDeclaration
@@ -138,8 +138,8 @@ return \`"\${arg.replace(/"/g, '""')}"\`;`}
         ]}
         returnType="string">
         {code`return [escapeForCmdExe(resolvedCommand), ...args.map(escapeForCmdExe)].join(
-  " "
-);`}
+          " "
+        ); `}
       </FunctionDeclaration>
       <Spacing />
       <FunctionDeclaration
@@ -148,26 +148,26 @@ return \`"\${arg.replace(/"/g, '""')}"\`;`}
         parameters={[{ name: "argv", type: "string[]" }]}
         returnType="string[] | null">
         {code`if (!isWindows || argv.length === 0) {
-  return null;
-}
-const base = basename(argv[0] ?? "")
-  .toLowerCase()
-  .replace(/\.(?:cmd|exe|bat)$/, "");
-const cliName =
-  base === "npx" ? "npx-cli.js" : base === "npm" ? "npm-cli.js" : null;
-if (!cliName) {
-  return null;
-}
-const nodeDir = dirname(process.execPath);
-const cliPath = join(nodeDir, "node_modules", "npm", "bin", cliName);
-if (!existsSync(cliPath)) {
-  const command = argv[0] ?? "";
-  const ext = extname(command).toLowerCase();
-  const shimmedCommand = ext ? command : \`\${command}.cmd\`;
+            return null;
+          }
+          const base = basename(argv[0] ?? "")
+            .toLowerCase()
+            .replace(/\.(?:cmd|exe|bat)$/, "");
+          const cliName =
+            base === "npx" ? "npx-cli.js" : base === "npm" ? "npm-cli.js" : null;
+          if (!cliName) {
+            return null;
+          }
+          const nodeDir = dirname(process.execPath);
+          const cliPath = join(nodeDir, "node_modules", "npm", "bin", cliName);
+          if (!existsSync(cliPath)) {
+            const command = argv[0] ?? "";
+            const ext = extname(command).toLowerCase();
+            const shimmedCommand = ext ? command : \`\${command}.cmd\`;
 
-  return [shimmedCommand, ...argv.slice(1)];
-}
-return [process.execPath, cliPath, ...argv.slice(1)];`}
+            return [shimmedCommand, ...argv.slice(1)];
+          }
+          return [process.execPath, cliPath, ...argv.slice(1)]; `}
       </FunctionDeclaration>
       <Spacing />
       <FunctionDeclaration
@@ -176,16 +176,16 @@ return [process.execPath, cliPath, ...argv.slice(1)];`}
         parameters={[{ name: "command", type: "string" }]}
         returnType="string">
         {code`if (!isWindows) {
-  return command;
-}
-const base = basename(command).toLowerCase();
-if (extname(base)) {
-  return command;
-}
-if (["pnpm", "yarn"].includes(base)) {
-  return \`\${command}.cmd\`;
-}
-return command;`}
+            return command;
+          }
+          const base = basename(command).toLowerCase();
+          if (extname(base)) {
+            return command;
+          }
+          if (["pnpm", "yarn"].includes(base)) {
+            return \`\${command}.cmd\`;
+          }
+          return command; `}
       </FunctionDeclaration>
       <Spacing />
       <FunctionDeclaration
@@ -198,12 +198,12 @@ return command;`}
         ]}
         returnType='["pipe" | "inherit" | "ignore", "pipe", "pipe"]'>
         {code`const stdin = params.hasInput
-  ? "pipe"
-  : params.preferInherit
-    ? "inherit"
-    : "pipe";
+          ? "pipe"
+          : params.preferInherit
+            ? "inherit"
+            : "pipe";
 
-return [stdin, "pipe", "pipe"];`}
+        return [stdin, "pipe", "pipe"]; `}
       </FunctionDeclaration>
       <Spacing />
       <FunctionDeclaration
@@ -216,16 +216,16 @@ return [stdin, "pipe", "pipe"];`}
         ]}
         returnType="number | null">
         {code`return (
-  params.explicitCode ??
-  params.childExitCode ??
-  (params.usesWindowsExitCodeShim &&
-  params.resolvedSignal == null &&
-  !params.timedOut &&
-  !params.noOutputTimedOut &&
-  !params.killIssuedByTimeout
-    ? 0
-    : null)
-);`}
+          params.explicitCode ??
+          params.childExitCode ??
+          (params.usesWindowsExitCodeShim &&
+          params.resolvedSignal == null &&
+          !params.timedOut &&
+          !params.noOutputTimedOut &&
+          !params.killIssuedByTimeout
+            ? 0
+            : null)
+        ); `}
       </FunctionDeclaration>
       <Spacing />
       <FunctionDeclaration
@@ -238,12 +238,12 @@ return [stdin, "pipe", "pipe"];`}
         ]}
         returnType="boolean">
         {code`// SECURITY: never enable \`shell\` for argv-based execution.
-// \`shell\` routes through cmd.exe on Windows, which turns untrusted argv values
-// (like chat prompts passed as CLI args) into command-injection primitives.
-// If you need a shell, use an explicit shell-wrapper argv (e.g. \`cmd.exe /c ...\`)
-// and validate/escape at the call site.
-void params;
-return false;`}
+          // \`shell\` routes through cmd.exe on Windows, which turns untrusted argv values
+          // (like chat prompts passed as CLI args) into command-injection primitives.
+          // If you need a shell, use an explicit shell-wrapper argv (e.g. \`cmd.exe /c ...\`)
+          // and validate/escape at the call site.
+          void params;
+          return false; `}
       </FunctionDeclaration>
       <Spacing />
       <TSDoc heading="The result of a spawn operation." />

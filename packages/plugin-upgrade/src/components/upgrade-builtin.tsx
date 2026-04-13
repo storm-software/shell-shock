@@ -677,7 +677,7 @@ export function UpgradeFunctionDeclaration() {
       <TypeDeclaration
         export
         name="UpgradeOptions"
-        doc="Options for the `upgrade` handler function.">{code`UpgradeBaseOptions & GetPackageManagerOptions & Parameters<typeof spawn>[2];`}</TypeDeclaration>
+        doc="Options for the `upgrade` handler function.">{code`UpgradeBaseOptions & GetPackageManagerOptions & Parameters<typeof spawn>[1];`}</TypeDeclaration>
       <Spacing />
       <TSDoc heading="Upgrade the application dependencies.">
         <TSDocRemarks>

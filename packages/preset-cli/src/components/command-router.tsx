@@ -97,12 +97,14 @@ export function CommandRouter(props: CommandRouterProps) {
 
         segments = segments.map(segment => dynamics[segment] || segment);
         const context = useGlobal();
-        context.set("args", [args.length > 0 ? args[0] : undefined, args.length > 1 ? args[1] : undefined, ...segments, ...args.slice(${
-          segments.length + 2
-        })].filter(Boolean) as string[]);
+        if (context) {
+          context.inputArgs = [args.length > 0 ? args[0] : undefined, args.length > 1 ? args[1] : undefined, ...segments, ...args.slice(${
+            segments.length + 2
+          })].filter(Boolean) as string[];
+        }
 
         command = segments[0];
-        args = context.get("args"); `}
+        args = context.inputArgs; `}
         <CommandRouterBody {...props} segments={segments} commands={commands} />
       </IfStatement>
       <Spacing />

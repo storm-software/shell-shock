@@ -461,7 +461,7 @@ return result;`}
         {code`setState({ status: "preparing", isError: false });
 
         const ctx = { path, segments, params } as CommandContext<THandler>;
-        const result = await Promise.resolve(unstable_commandStore.run(ctx, Reflect.apply(handler, ctx, params)));
+        const result = await Promise.resolve(unstable_commandStore.run(ctx, () => Reflect.apply(handler, ctx, params)));
         if (result instanceof Error || (typeof result === "object" && ((result as { error: unknown }).error instanceof Error || typeof (result as { error: unknown }).error === "string"))) {
           setState({ status: "completed", isError: true });
           return { error: result instanceof Error ? result : (result as { error: Error | string }).error };

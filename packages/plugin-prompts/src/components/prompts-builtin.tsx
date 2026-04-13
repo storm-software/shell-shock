@@ -764,50 +764,63 @@ export function BasePromptDeclarations() {
         <Spacing />
         <ClassMethod doc="A method to render the prompt" name="render" private>
           {code`if (this.#isClosed) {
-            return;
-          }
-
-          if (!this.isInitial) {
-            if (this.consoleStatus) {
-              this.output.write(cursor.down(stripAnsi(this.consoleStatus).split(/\\r?\\n/).map(line => Math.ceil(line.length / this.output.columns)).reduce((a, b) => a + b) - 1) + clear(this.consoleStatus, this.output.columns));
+              return;
             }
 
-            this.output.write(clear(this.consoleOutput, this.output.columns));
-          } else if (this.cursorHidden) {
-            this.output.write(cursor.hide);
-          }
+            const timeout = setTimeout(() => {
+              throw new Error("Rendering Timeout: Prompt render took too long, this is likely due to a long-running operation being performed during the render phase. Please ensure that any operations performed during rendering are optimized and do not block the event loop to prevent this error.");
+            }, 1000);
 
-          this.consoleOutput = \` \${
-          this.isSubmitted
-            ? textColors.prompt.icon.submitted("${
-              theme.icons.prompt.submitted
-            }")
-            : this.isCancelled
-              ? textColors.prompt.icon.cancelled("${
-                theme.icons.prompt.cancelled
-              }")
-              : this.isError
-                ? textColors.prompt.icon.error("${theme.icons.prompt.error}")
-                : textColors.prompt.icon.active("${theme.icons.prompt.active}")
-          }  \${
-            this.isCompleted
-            ? textColors.prompt.message.submitted(this.message)
-            : bold(textColors.prompt.message.active(this.message))
-          } \${
-            borderColors.app.divider.tertiary(
-              this.isCompleted
-                ? (isWindows ? "..." : "…")
-                : (isWindows ? "»" : "›")
-            )
-          } \`;
-          this.consoleOutput += this.onRender();
+            try {
+              if (!this.isInitial) {
+                if (this.consoleStatus) {
+                  this.output.write(cursor.down(stripAnsi(this.consoleStatus).split(/\\r?\\n/).map(line => Math.ceil(line.length / this.output.columns)).reduce((a, b) => a + b) - 1) + clear(this.consoleStatus, this.output.columns));
+                }
 
-          if (this.isInitial) {
-            this.isInitial = false;
-          }
+                this.output.write(clear(this.consoleOutput, this.output.columns));
+              } else if (this.cursorHidden) {
+                this.output.write(cursor.hide);
+              }
 
-          this.output.write(erase.line + cursor.to(0) + this.consoleOutput + (this.status ? cursor.save + this.status + cursor.restore + cursor.move(this.displayValue.length - (this.displayValue.length - this.cursor) - this.displayValue.length, 0) : cursor.save));
-          this.consoleStatus = this.status; `}
+              this.consoleOutput = \` \${
+              this.isSubmitted
+                ? textColors.prompt.icon.submitted("${
+                  theme.icons.prompt.submitted
+                }")
+                : this.isCancelled
+                  ? textColors.prompt.icon.cancelled("${
+                    theme.icons.prompt.cancelled
+                  }")
+                  : this.isError
+                    ? textColors.prompt.icon.error("${
+                      theme.icons.prompt.error
+                    }")
+                    : textColors.prompt.icon.active("${
+                      theme.icons.prompt.active
+                    }")
+              }  \${
+                this.isCompleted
+                ? textColors.prompt.message.submitted(this.message)
+                : bold(textColors.prompt.message.active(this.message))
+              } \${
+                borderColors.app.divider.tertiary(
+                  this.isCompleted
+                    ? (isWindows ? "..." : "…")
+                    : (isWindows ? "»" : "›")
+                )
+              } \`;
+              this.consoleOutput += this.onRender();
+
+              if (this.isInitial) {
+                this.isInitial = false;
+              }
+
+              this.output.write(erase.line + cursor.to(0) + this.consoleOutput + (this.status ? cursor.save + this.status + cursor.restore + cursor.move(this.displayValue.length - (this.displayValue.length - this.cursor) - this.displayValue.length, 0) : cursor.save));
+
+              this.consoleStatus = this.status;
+            } finally {
+              clearTimeout(timeout);
+            } `}
         </ClassMethod>
         <Spacing />
         <ClassMethod
@@ -1490,7 +1503,7 @@ export function SelectPromptDeclarations() {
                   : this.cursor === index
                     ? bold(underline(textColors.prompt.input.active(this.options[index]!.label)))
                     : textColors.prompt.input.inactive(this.options[index]!.label)
-              } \${" ".repeat(spacing - this.options[index]!.label.length - (this.options[index]!.icon ? this.options[index]!.icon!.length + 1 : 0))}\${
+              } \${" ".repeat(Math.max(0, spacing - this.options[index]!.label.length - (this.options[index]!.icon ? this.options[index]!.icon!.length + 1 : 0)))}\${
                 this.options[index]!.description && this.cursor === index
                     ? italic(textColors.prompt.description.active(this.options[index]!.description))
                     : ""
@@ -2498,7 +2511,8 @@ export function PromptsBuiltin(props: PromptsBuiltinProps) {
           "strikethrough",
           "clear",
           "stripAnsi",
-          "splitText"
+          "splitText",
+          "error"
         ],
         env: ["env", "isCI", "isTest", "isWindows", "isDevelopment", "isDebug"]
       })}>

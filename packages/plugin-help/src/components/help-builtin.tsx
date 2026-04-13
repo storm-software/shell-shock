@@ -16,15 +16,11 @@
 
  ------------------------------------------------------------------- */
 
-import { code, Show, splitProps } from "@alloy-js/core";
-import { FunctionDeclaration, IfStatement } from "@alloy-js/typescript";
+import { Show, splitProps } from "@alloy-js/core";
+import { FunctionDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import {
-  TSDoc,
-  TSDocRemarks,
-  TSDocReturns
-} from "@powerlines/plugin-alloy/typescript";
+import { TSDoc, TSDocRemarks } from "@powerlines/plugin-alloy/typescript";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import type { CommandTree } from "@shell-shock/core";
@@ -36,35 +32,6 @@ import { joinPaths } from "@stryke/path";
 import defu from "defu";
 import type { HelpPluginContext } from "../types";
 import { CommandHelpDisplay, VirtualCommandHelpDisplay } from "./display";
-
-/**
- * The `updateVersionCheckFile` handler function declaration code for the Shell Shock project.
- */
-export function HelpFunctionDeclaration() {
-  return (
-    <>
-      <TSDoc heading="A helper function that updates the version check file.">
-        <TSDocRemarks>
-          {`This function is used to update the version check file with the current timestamp. It can be used in the CLI upgrade command to record the last time a check for updates was performed. The function writes a "version-check.json" file in the data directory, which contains a timestamp of the last check for updates.`}
-        </TSDocRemarks>
-        <Spacing />
-        <TSDocReturns>
-          {`A promise that resolves to a boolean indicating whether a check for updates is required.`}
-        </TSDocReturns>
-      </TSDoc>
-      <FunctionDeclaration
-        export
-        async
-        name="updateVersionCheckFile"
-        returnType="void">
-        <IfStatement condition={code`!existsSync(paths.data)`}>
-          {code`await mkdir(paths.data, { recursive: true }); `}
-        </IfStatement>
-        {code`await writeFile(join(paths.data, "version-check.json"), JSON.stringify({ timestamp: new Date().getTime() }), "utf8"); `}
-      </FunctionDeclaration>
-    </>
-  );
-}
 
 export interface HelpBuiltinProps extends Omit<
   BuiltinFileProps,
@@ -117,6 +84,20 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
           "link"
         ]
       })}>
+      <TSDoc
+        heading={`Utility functions for displaying help information for the ${
+          command.path
+            ? `${command.title} command`
+            : `${getAppTitle(context, true)} application`
+        }.`}>
+        <TSDocRemarks>
+          {`This module contains utility functions that assist in displaying help information for the ${
+            command.path
+              ? `${command.title} command`
+              : `${getAppTitle(context, true)} application`
+          }. The main function exported by this module is the \`showHelp\` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.`}
+        </TSDocRemarks>
+      </TSDoc>
       <FunctionDeclaration
         export
         name="showHelp"
@@ -124,8 +105,7 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
           command.path
             ? `${command.title} command`
             : `${getAppTitle(context, true)} application`
-        }.`}
-        parameters={[]}>
+        }.`}>
         <Show
           when={!command.isVirtual}
           fallback={

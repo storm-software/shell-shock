@@ -11,11 +11,19 @@
  */
 declare module "shell-shock:env" {
   import { Serializer } from "@powerlines/deepkit/vendor/type";
+
+  /**
+   * Object
+   *
+   * @title Object
+   *
+   */
   export interface EnvBase {
     /**
      * The application's cached data directory.
      *
      * @title Cache Directory
+     * @runtime
      *
      */
     CACHE_DIR?: string;
@@ -23,12 +31,16 @@ declare module "shell-shock:env" {
      * An indicator that specifies the current runtime is a continuous integration environment.
      *
      * @title Continuous Integration
+     * @alias CONTINUOUS_INTEGRATION
      * @defaultValue false
      */
     CI: boolean;
     /**
+     * The COMSPEC environment variable, which specifies the command-line interpreter to use on Windows.
      *
-     *
+     * @internal
+     * @hidden
+     * @runtime
      *
      */
     COMSPEC?: string;
@@ -36,6 +48,7 @@ declare module "shell-shock:env" {
      * The application's configuration data directory.
      *
      * @title Configuration Directory
+     * @runtime
      *
      */
     CONFIG_DIR?: string;
@@ -43,6 +56,7 @@ declare module "shell-shock:env" {
      * The application's runtime data directory.
      *
      * @title Data Directory
+     * @runtime
      *
      */
     DATA_DIR?: string;
@@ -64,12 +78,6 @@ declare module "shell-shock:env" {
      * @defaultValue "America/New_York"
      */
     DEFAULT_TIMEZONE: string;
-    /**
-     * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
-     *
-     * @defaultValue "/run/user/1001/devenv-31abf12"
-     */
-    DEVENV_RUNTIME?: string;
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
@@ -105,6 +113,7 @@ declare module "shell-shock:env" {
      * The application's logging directory.
      *
      * @title Log Directory
+     * @runtime
      *
      */
     LOG_DIR?: string;
@@ -123,6 +132,9 @@ declare module "shell-shock:env" {
     /**
      * The mode in which the application is running.
      *
+     * @alias NODE_ENV
+     *
+     * @alias VERCEL_ENV
      * @defaultValue "development"
      */
     MODE: "development" | "test" | "production";
@@ -133,38 +145,54 @@ declare module "shell-shock:env" {
      */
     NO_COLOR: boolean;
     /**
+     * The npm_config_fund environment variable, which can be used to control npm's funding behavior.
      *
-     *
+     * @internal
+     * @hidden
+     * @runtime
      *
      */
     npm_config_fund?: string;
     /**
+     * The npm user agent string, which can be used to detect if the environment is running within an npm script.
      *
+     * @internal
+     * @hidden
+     * @runtime
      *
-     * @defaultValue "pnpm/10.30.0 npm/? node/v25.5.0 linux x64"
      */
     npm_config_user_agent?: string;
     /**
+     * The npm execution path, which can be used to determine the location of the npm executable.
      *
+     * @internal
+     * @hidden
+     * @runtime
      *
-     * @defaultValue "/home/development/.local/share/pnpm/.tools/pnpm/10.30.0_tmp_290199/node_modules/pnpm/bin/pnpm.cjs"
      */
     npm_execpath?: string;
     /**
      * The name of the organization that maintains the application.
      *
+     * @alias ORG
      * @defaultValue "storm-software"
      */
     ORGANIZATION: string;
     /**
+     * The system PATH variable, used to locate executable files.
      *
+     * @internal
+     * @hidden
+     * @runtime
      *
-     * @defaultValue "/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0_tmp_290199/node_modules/pnpm/dist/node-gyp-bin:/home/development/repos/shell-shock/node_modules/.bin:./node_modules/.bin:/home/development/repos/shell-shock/node_modules/.bin:/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0_tmp_290199/node_modules/pnpm/dist/node-gyp-bin:/home/development/.local/share/pnpm/nodejs/25.5.0/bin:/home/development/repos/shell-shock/node_modules/.bin:/home/development/.local/share/pnpm/.tools/pnpm/10.30.0/bin:node_modules/.bin:/nix/store/0550j0i8bmzxbcnzrg1g51zigj7y12ih-bash-interactive-5.3p9/bin:/nix/store/xam922w8zgi8y49h076xr0m9i1abnp7h-treefmt/bin:/nix/store/mi9mw6wg4aizrxfs1qg6axpqni10d179-delta-0.18.2/bin:/nix/store/716f9vxn5aan1g1pfv1pmn5jiks4gnhi-typescript-5.9.3/bin:/nix/store/jn9wngbhqmijdw4m2czilnhl4pw4jcdp-typescript-language-server-5.1.3/bin:/nix/store/hdlbanz4xxvr8dhavmslh4szvpr2ggbc-statix-0.5.8/bin:/nix/store/mwlcc213jrh3lsj92yjbkgiiw605ip9i-deadnix-1.3.1/bin:/nix/store/xkm3mbscmv9p7b4vhc5l1p7qwnq0qsi3-vulnix/bin:/nix/store/blanz7b78swbvv1y9ilj79ngf4ji0npq-nixd-2.9.0/bin:/nix/store/vjhvz25xxk44q0g8k8syjwmwp56xw4yv-cachix-1.10.1-bin/bin:/nix/store/43zji4rni42y01z3y2bv3f12c16h0ba6-nodejs-25.8.1/bin:/nix/store/qlbqwsia8a9rk3cp6v58y1x58c0j2wyk-pnpm-10.33.0/bin:/nix/store/hf1i70rggl26npz61lgc2j0p0321nffi-bootstrap/bin:/nix/store/k13ksp4yvypizb54dq0j2l8wx8w86ks6-build/bin:/nix/store/75vkfjnfsk5gkmx94vig84r0rfznljdk-build-dev/bin:/nix/store/6b0x4gawni35ks5w7r9f1yjss362l66g-clean/bin:/nix/store/wn1s379w04llg3idpbpfq7m53zp98dcq-format/bin:/nix/store/5shrr3py4a2zldhgjfq7rmjndqh9c029-lint/bin:/nix/store/5h9y71nqwmfjmwz5l146g5ysd7r2n9gd-nuke/bin:/nix/store/ihpchg53v0rj3ccg5cwg04i5jr8kimv0-release/bin:/nix/store/ri8xkla82nj918cl177fshbqpih5f6zv-update-storm/bin:/nix/store/sci2lksq97hsrly4fajj4gf3fgw3zbvh-ttyd-1.7.7/bin:/nix/store/hqdqynn0caylvl4rr86mvyqjky1pf1xa-ffmpeg-8.0.1-bin/bin:/nix/store/fwirg1hvy52kxm0k80wprsk14g0xy8mc-vhs-0.10.0/bin:/nix/store/y6mlyr480fgdd5bgpcfwwraa6vivhmwj-gnupg-2.4.9/bin:/nix/store/w4sdzmiypl23xhxwzajlg2hnrkr9gj7z-git-lfs-3.7.1/bin:/nix/store/h1d85s2nhfi6ypgfa3890hdynimq0zm8-git-crypt-0.8.0/bin:/nix/store/1vsvi6yi3w1g479dxjv7pw5mb60qh96g-zizmor-1.22.0/bin:/nix/store/xnyh9bi9wap6m3fq94q6sbav2qhh8f0d-taplo-0.10.0/bin:/nix/store/ny41wz21x8hry1glarhmgf4kcpp6zd9g-typos-1.44.0/bin:/nix/store/yb62fm7wf3ysn5rnfj2r03snmk9pwwa2-rustfmt-1.93.0/bin:/nix/store/ihzhi2cgjfhvqbap36fx91hbj524ym5l-nixfmt-1.2.0/bin:/nix/store/d4pa66qcrr0g8hh3nz2ln1vqlnvsn6jq-nixpkgs-fmt-1.3.0/bin:/nix/store/a6k0l2naclakdmypd5frw9bgzyawnlmi-python3.13-yamllint-1.37.1/bin:/nix/store/m1fw8l8y9ycxh5dzispbb7cwl6rra14l-python3-3.13.12/bin:/nix/store/4s5jnr2miz7gx0ynglzhyq9y6idac6ng-ls-lint-2.3.1/bin:/nix/store/vqvafnq8g0yz2psjvagi0nicrdidbh0g-capnproto-1.4.0/bin:/nix/store/9nww32bprhg1rr1qj423xdr5mwnqk93z-openssl-3.6.1-bin/bin:/nix/store/1nv3i8mpypy3d516f4pd95m0w72r73jy-pkg-config-wrapper-0.29.2/bin:/nix/store/590yx3aynyhs48jyk8ip37fk1mjqfhkb-patchelf-0.15.2/bin:/nix/store/kbw2j1vag664b3sj3rjwz9v53cqx87sb-gcc-wrapper-15.2.0/bin:/nix/store/sca0pf46jmxva40qahkcwys5c1lvk6n2-gcc-15.2.0/bin:/nix/store/2c48s343k15i0cmwb9cp1vi6randmzcw-glibc-2.42-51-bin/bin:/nix/store/hlxw2q9qansq7bn52xvlb5badw3z1v8s-coreutils-9.10/bin:/nix/store/4yi6jj75bb5hhdzpzlxfyf69d35wsf2x-binutils-wrapper-2.44/bin:/nix/store/9nmzd62x45ayp4vmswvn6z45h6bzrsla-binutils-2.44/bin:/nix/store/b3rx5wac9hhfxn9120xkcvdwj51mc9z2-findutils-4.10.0/bin:/nix/store/icrrz26xbyp293kagrlkab1bhc6gra0r-diffutils-3.12/bin:/nix/store/wv7qq5yb8plyhxji9x3r5gpkyfm2kf29-gnused-4.9/bin:/nix/store/8laf6k81j9ckylrigj3xsk76j69knhvl-gnugrep-3.12/bin:/nix/store/gf7b4yz4vhd0y2hnnrimhh875ghwzzzj-gawk-5.3.2/bin:/nix/store/isva9q9zx3frx6hh6cnpihh1kd2bx6bk-gnutar-1.35/bin:/nix/store/w1n7yp2vnldr395hbwbcaw9sflh413bm-gzip-1.14/bin:/nix/store/x8l7qzpab2gpdrp89g48mxlrsiz4f0gm-bzip2-1.0.8-bin/bin:/nix/store/0xw6y53ijaqwfd9c99wyaqiinychzv1f-gnumake-4.4.1/bin:/nix/store/2hjsch59amjs3nbgh7ahcfzm2bfwl8zi-bash-5.3p9/bin:/nix/store/8y5jm97n4lyw80gh71yihghbhqc11fdz-patch-2.8/bin:/nix/store/27fx8p4k6098wan3zahdbyj79ndcn03z-xz-5.8.2-bin/bin:/nix/store/p3j7lphwlci13f9w2v4rav6rbvpi80li-file-5.45/bin:/home/development/.config/carapace/bin:/home/development/.nix-profile/bin:/nix/var/nix/profiles/default/bin:/home/development/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/lib/rustup/bin:/var/lib/snapd/snap/bin"
      */
     PATH?: string;
     /**
+     * The system PATHEXT variable, used to determine which file extensions are considered executable on Windows.
      *
-     *
+     * @internal
+     * @hidden
+     * @runtime
      *
      */
     PATHEXT?: string;
@@ -184,6 +212,7 @@ declare module "shell-shock:env" {
      * The application's temporary data directory.
      *
      * @title Temporary Directory
+     * @runtime
      *
      */
     TEMP_DIR?: string;
@@ -197,6 +226,8 @@ declare module "shell-shock:env" {
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly AC_APPCIRCLE?: string;
@@ -204,6 +235,8 @@ declare module "shell-shock:env" {
      * The name of the agent running the application. This variable is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly AGENT_NAME?: string;
@@ -211,6 +244,8 @@ declare module "shell-shock:env" {
      * The agola git reference. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly AGOLA_GIT_REF?: string;
@@ -232,6 +267,8 @@ declare module "shell-shock:env" {
      * The appcenter build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly APPCENTER_BUILD_ID?: string;
@@ -239,6 +276,8 @@ declare module "shell-shock:env" {
      * A variable that specifies the application data directory on Windows.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly APPDATA?: string;
@@ -246,6 +285,8 @@ declare module "shell-shock:env" {
      * The appveyor build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly APPVEYOR?: string;
@@ -253,6 +294,8 @@ declare module "shell-shock:env" {
      * The bamboo plan key. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly bamboo_planKey?: string;
@@ -260,6 +303,8 @@ declare module "shell-shock:env" {
      * The bitbucket commit. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly BITBUCKET_COMMIT?: string;
@@ -267,6 +312,8 @@ declare module "shell-shock:env" {
      * The bitrise build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly BITRISE_IO?: string;
@@ -274,6 +321,8 @@ declare module "shell-shock:env" {
      * The buddy workspace ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly BUDDY_WORKSPACE_ID?: string;
@@ -281,27 +330,29 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "J2BOmOlZqdD8LDno_CQ8tsyFTKBWR5om"
+     * @defaultValue "lMNnm7C84YVYf--k5yxX_2GNYRFhaNz8"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "97cdbd8a-daf2-40ef-8f68-800d66223293"
+     * @defaultValue "cbfaa60a-4a80-476c-92f2-d0b64debc034"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-11T05:21:00.765Z"
+     * @defaultValue "2026-04-13T16:05:13.878Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
      * The builder output build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly BUILDER_OUTPUT?: string;
@@ -309,6 +360,8 @@ declare module "shell-shock:env" {
      * The buildkite build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly BUILDKITE?: string;
@@ -316,6 +369,8 @@ declare module "shell-shock:env" {
      * The cf build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly CF_BUILD_ID?: string;
@@ -323,6 +378,8 @@ declare module "shell-shock:env" {
      * The ci name. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly CI_NAME?: string;
@@ -330,6 +387,8 @@ declare module "shell-shock:env" {
      * The xcode project build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly CI_XCODE_PROJECT?: string;
@@ -337,6 +396,8 @@ declare module "shell-shock:env" {
      * The circleci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly CIRCLECI?: string;
@@ -344,6 +405,8 @@ declare module "shell-shock:env" {
      * The cirrus-ci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly CIRRUS_CI?: string;
@@ -351,6 +414,8 @@ declare module "shell-shock:env" {
      * The cm build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly CM_BUILD_ID?: string;
@@ -358,6 +423,8 @@ declare module "shell-shock:env" {
      * The codebuild build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly CODEBUILD?: string;
@@ -365,13 +432,17 @@ declare module "shell-shock:env" {
      * The color terminal type. This variable is set by certain terminal emulators.
      *
      * @readonly
-     * @defaultValue "truecolor"
+     * @hidden
+     * @runtime
+     *
      */
     readonly COLORTERM?: string;
     /**
      * The ConEmu task name. This variable is set by certain terminal emulators.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly ConEmuTask?: string;
@@ -379,13 +450,26 @@ declare module "shell-shock:env" {
      * The cursor trace ID. This variable is set by certain terminal emulators.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly CURSOR_TRACE_ID?: string;
     /**
+     * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly DEVENV_RUNTIME?: string;
+    /**
      * The drone build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly DRONE?: string;
@@ -393,6 +477,8 @@ declare module "shell-shock:env" {
      * The dsari build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly DSARI?: string;
@@ -400,6 +486,8 @@ declare module "shell-shock:env" {
      * The earthly build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly EARTHLY_CI?: string;
@@ -407,6 +495,8 @@ declare module "shell-shock:env" {
      * The eas build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly EAS_BUILD?: string;
@@ -414,6 +504,8 @@ declare module "shell-shock:env" {
      * The gerrit project. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly GERRIT_PROJECT?: string;
@@ -421,6 +513,8 @@ declare module "shell-shock:env" {
      * The gitea actions build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly GITEA_ACTIONS?: string;
@@ -428,6 +522,8 @@ declare module "shell-shock:env" {
      * The github actions build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly GITHUB_ACTIONS?: string;
@@ -435,6 +531,8 @@ declare module "shell-shock:env" {
      * The gitlab ci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly GITLAB_CI?: string;
@@ -442,6 +540,8 @@ declare module "shell-shock:env" {
      * The go cd build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly GOCD?: string;
@@ -449,6 +549,8 @@ declare module "shell-shock:env" {
      * The harness build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly HARNESS_BUILD_ID?: string;
@@ -456,6 +558,8 @@ declare module "shell-shock:env" {
      * The hudson build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly HUDSON?: string;
@@ -463,6 +567,8 @@ declare module "shell-shock:env" {
      * The jenkins url. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly JENKINS_URL?: string;
@@ -470,6 +576,8 @@ declare module "shell-shock:env" {
      * The layerci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly LAYERCI?: string;
@@ -477,6 +585,8 @@ declare module "shell-shock:env" {
      * A variable that specifies the current user's local application data directory on Windows.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly LOCALAPPDATA?: string;
@@ -484,6 +594,8 @@ declare module "shell-shock:env" {
      * The magnum build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly MAGNUM?: string;
@@ -491,6 +603,8 @@ declare module "shell-shock:env" {
      * The netlify build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly NETLIFY?: string;
@@ -498,6 +612,8 @@ declare module "shell-shock:env" {
      * The nevercode build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly NEVERCODE?: string;
@@ -505,6 +621,8 @@ declare module "shell-shock:env" {
      * The now builder build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly NOW_BUILDER?: string;
@@ -512,6 +630,8 @@ declare module "shell-shock:env" {
      * The prow job ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly PROW_JOB_ID?: string;
@@ -519,6 +639,8 @@ declare module "shell-shock:env" {
      * The release build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly RELEASE_BUILD_ID?: string;
@@ -526,7 +648,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "cdbd8ada-f280-4f4f-a880-0d6622329398"
+     * @defaultValue "faa60a4a-8057-4c12-b2d0-b64debc03456"
      */
     readonly RELEASE_ID: string;
     /**
@@ -540,6 +662,8 @@ declare module "shell-shock:env" {
      * The render build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly RENDER?: string;
@@ -547,6 +671,8 @@ declare module "shell-shock:env" {
      * The unique identifier for the current run. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly RUN_ID?: string;
@@ -554,6 +680,8 @@ declare module "shell-shock:env" {
      * The sailci build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly SAILCI?: string;
@@ -561,6 +689,8 @@ declare module "shell-shock:env" {
      * The screwdriver build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly SCREWDRIVER?: string;
@@ -568,6 +698,8 @@ declare module "shell-shock:env" {
      * The semaphore build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly SEMAPHORE?: string;
@@ -575,6 +707,8 @@ declare module "shell-shock:env" {
      * The sourcehut build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly SOURCEHUT?: string;
@@ -582,6 +716,8 @@ declare module "shell-shock:env" {
      * The spaceship build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly SPACESHIP_CI?: string;
@@ -589,6 +725,8 @@ declare module "shell-shock:env" {
      * The strider build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly STRIDER?: string;
@@ -596,6 +734,8 @@ declare module "shell-shock:env" {
      * The task ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly TASK_ID?: string;
@@ -603,6 +743,8 @@ declare module "shell-shock:env" {
      * The teamcity version. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly TEAMCITY_VERSION?: string;
@@ -610,13 +752,17 @@ declare module "shell-shock:env" {
      * The terminal type. This variable is set by certain CI/CD systems.
      *
      * @readonly
-     * @defaultValue "xterm-256color"
+     * @hidden
+     * @runtime
+     *
      */
     readonly TERM?: string;
     /**
      * The terminal program name. This variable is set by certain terminal emulators.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly TERM_PROGRAM?: string;
@@ -624,6 +770,8 @@ declare module "shell-shock:env" {
      * The terminal program version. This variable is set by certain terminal emulators.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly TERM_PROGRAM_VERSION?: string;
@@ -631,6 +779,8 @@ declare module "shell-shock:env" {
      * The terminal emulator name. This variable is set by certain terminal emulators.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly TERMINAL_EMULATOR?: string;
@@ -638,6 +788,8 @@ declare module "shell-shock:env" {
      * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly TERMINUS_SUBLIME?: boolean;
@@ -645,6 +797,8 @@ declare module "shell-shock:env" {
      * The task force build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly TF_BUILD?: string;
@@ -652,6 +806,8 @@ declare module "shell-shock:env" {
      * The travis build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly TRAVIS?: string;
@@ -659,6 +815,8 @@ declare module "shell-shock:env" {
      * The vela build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly VELA?: string;
@@ -666,6 +824,8 @@ declare module "shell-shock:env" {
      * The VTE version. This variable is set by certain terminal emulators.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly VTE_VERSION?: string;
@@ -673,6 +833,8 @@ declare module "shell-shock:env" {
      * The terminal emulator session ID. This variable is set by certain terminal emulators.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly WT_SESSION?: string;
@@ -680,6 +842,8 @@ declare module "shell-shock:env" {
      * The xcode server build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly XCS?: string;
@@ -687,6 +851,8 @@ declare module "shell-shock:env" {
      * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly XDG_CACHE_HOME?: string;
@@ -694,6 +860,8 @@ declare module "shell-shock:env" {
      * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly XDG_CONFIG_HOME?: string;
@@ -701,6 +869,8 @@ declare module "shell-shock:env" {
      * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly XDG_DATA_HOME?: string;
@@ -708,17 +878,27 @@ declare module "shell-shock:env" {
      * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
-     * @defaultValue "/run/user/1001"
+     * @hidden
+     * @runtime
+     *
      */
     readonly XDG_RUNTIME_DIR?: string;
     /**
      * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
      *
      * @readonly
+     * @hidden
+     * @runtime
      *
      */
     readonly XDG_STATE_HOME?: string;
   }
+  /**
+   * The environment configuration object with prefixed keys.
+   *
+   * @remarks
+   * The `Env` type extends the `EnvBase` interface by including additional keys that are prefixed according to the project's configuration. This allows for flexibility in accessing environment variables with different naming conventions.
+   */
   export type Env = {
     [Key in keyof EnvBase as
       | Key
@@ -732,34 +912,148 @@ declare module "shell-shock:env" {
       | `VERCEL_${Key}`
       | `VITE_${Key}`]: EnvBase[Key];
   };
+  /**
+   * The initial environment configuration state for the Playground Script project.
+   *
+   * @title Object
+   *
+   */
   export const initialEnv: Partial<EnvBase>;
+  /**
+   * The environment configuration serializer for the Powerlines application.
+   *
+   * @see https://deepkit.io/docs/serialization/serializers
+   *
+   * @see https://github.com/marcj/untitled-code/blob/master/packages/type/src/serializer.ts#L1918
+   *
+   * @remarks
+   * This serializer is used to serialize and deserialize the Powerlines environment configuration.
+   */
   export class EnvSerializer extends Serializer {
     /**
      * Initializes a new instance of the `EnvSerializer` class.
      */
     constructor();
   }
+  /**
+   * Serialize a environment configuration object to JSON data objects (not a JSON string).
+   *
+   * @remarks
+   * The resulting JSON object can be stringified using `JSON.stringify()`.
+   * @example
+   * ```ts
+   * const json = serializeEnv(env);
+   * ```
+   * @throws ValidationError when serialization or validation fails.
+   *
+   */
   export const serializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
     EnvBase,
     any
   >;
+  /**
+   * Deserialize a environment configuration object from JSON data objects to JavaScript objects, without running any validators.
+   *
+   * @remarks
+   * Types that are already correct will be used as-is.
+   * @example
+   * ```ts
+   * const env = deserializeEnv(json);
+   * ```
+   * @throws ValidationError when deserialization fails.
+   *
+   */
   export const deserializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
     any,
     EnvBase
   >;
+  /**
+   * Initializes the Powerlines environment configuration module.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   * @param environmentConfig - The dynamic/runtime configuration - this could
+   *   include the current environment variables or any other environment-specific
+   *   settings provided by the runtime.
+   * @returns The initialized Powerlines configuration object.
+   *
+   */
   export function createEnv(environmentConfig?: Partial<Env>): Env;
+  /**
+   * The environment configuration object.
+   *
+   * @remarks
+   * This object provides access to the environment configuration parameters in the application runtime.
+   */
   export const env: Env;
+  /**
+   * Detect if the application is running in a continuous integration (CI) environment.
+   */
   export const isCI: boolean;
+  /**
+   * Detect the \`mode\` of the current runtime environment.
+   *
+   * @remarks
+   * The `mode` is determined by the `MODE` environment variable, or falls back to the `NEXT_PUBLIC_VERCEL_ENV`, `NODE_ENV`, or defaults to `production`. While the value can potentially be any string, it is generally recommended to only allow a value in the following list:
+   *
+   * - `production`
+   *
+   * - `test`
+   *
+   * - `development`
+   */
   export const mode: string;
+  /**
+   * Detect if the application is running in `"production"` mode
+   */
   export const isProduction: boolean;
+  /**
+   * Detect if the application is running in `"test"` mode
+   */
   export const isTest: boolean;
+  /**
+   * Detect if the application is running in `"development"` mode
+   */
   export const isDevelopment: boolean;
+  /**
+   * Detect if the application is currently being debugged
+   */
   export const isDebug: boolean;
+  /**
+   * An indicator specifying whether the current operating system is MacOS (darwin kernel).
+   */
   export const isWindows: boolean;
+  /**
+   * An indicator specifying whether the current operating system is Linux.
+   */
   export const isLinux: boolean;
+  /**
+   * An indicator specifying whether the current operating system is MacOS (darwin kernel).
+   */
   export const isMacOS: boolean;
+  /**
+   * The environment path types for storing things like data, config, logs, and cache in the current runtime environment.
+   *
+   * @remarks
+   * These environment path types are accessed in the {@link EnvPaths} type.
+   */
   export type EnvPathType = "data" | "config" | "cache" | "log" | "temp";
+  /**
+   * The environment paths for storing things like data, config, logs, and cache in the current runtime environment.
+   */
   export type EnvPaths = Record<EnvPathType, string>;
+  /**
+   * The resolved application directories based on the current operating system and environment variables.
+   *
+   * @remarks
+   * If the `DATA_DIR`, `CONFIG_DIR`, `CACHE_DIR`, `LOG_DIR`, or `TEMP_DIR` environment variables are set, they will be treated as overrides and used by default. If the environment variables are not set, the paths are determined based on the specific conventions for each operating system (with additional overrides available through operating system specific environment variables):
+   *
+   * - **Linux**: directories are generally created in `~/.config/<name>` (this is determined via the [XDG Base Directory spec](https://specifications.freedesktop.org/basedir-spec/latest/))
+   *
+   * - **Windows**: directories are generally created in `%AppData%/<name>`
+   *
+   * - **MacOS**: directories are generally created in `~/Library/Application Support/<name>`
+   */
   export const paths: EnvPaths;
 }
 
@@ -770,6 +1064,10 @@ declare module "shell-shock:env" {
  */
 declare module "shell-shock:state" {
   import { AsyncLocalStorage } from "node:async_hooks";
+
+  /**
+   * An object representing the global options available for every command in the Playground Script command-line application.
+   */
   export interface GlobalOptions {
     /**
      * Show help information.
@@ -792,6 +1090,9 @@ declare module "shell-shock:state" {
      */
     noBanner?: boolean | undefined;
   }
+  /**
+   * The context object for the current command execution, containing the command path and segments.
+   */
   export interface CommandContext<
     THandler extends (...params: any[]) => any = any
   > {
@@ -813,6 +1114,9 @@ declare module "shell-shock:state" {
     | "preparing"
     | "executing"
     | "completed";
+  /**
+   * The state object for the Playground Script application context.
+   */
   export interface GlobalContextState {
     /**
      * The unique identifier for the current execution context.
@@ -831,6 +1135,9 @@ declare module "shell-shock:state" {
      */
     meta: Map<string, unknown>;
   }
+  /**
+   * The context object for the Playground Script application.
+   */
   export interface GlobalContext {
     /**
      * The global options shared across all commands in the application.
@@ -845,26 +1152,160 @@ declare module "shell-shock:state" {
      */
     state: GlobalContextState;
   }
+  /**
+   * The global Playground Script application context store instance.
+   *
+   * @internal
+   *
+   */
   export const unstable_globalStore: AsyncLocalStorage<GlobalContext>;
+  /**
+   * Get the Playground Script application context for the current application.
+   *
+   * @returns The Playground Script application context for the current
+   *   application or undefined if the context is not available.
+   *
+   */
   export function useGlobal(): GlobalContext;
+  /**
+   * A utility hook function to get the command-line arguments from the Playground Script application context.
+   *
+   * @returns An array of command-line arguments from the application context.
+   *
+   */
   export function useArgs(): string[];
+  /**
+   * A utility hook function to get the command-line global options from the Playground Script application context.
+   *
+   * @returns An object containing the global options from the application
+   *   context.
+   *
+   */
   export function useGlobalOptions(): GlobalOptions;
+  /**
+   * A utility hook function to get the state of the Playground Script application context.
+   *
+   * @returns The state of the application context.
+   *
+   */
   export function useState(): GlobalContextState;
+  /**
+   * A utility function to update the state of the Playground Script application context.
+   *
+   * @remarks
+   * This function will throw an error if the global context is not available, so it should only be used within a valid context scope, such as within a command handler or within the `withGlobal()` function.
+   *
+   *
+   * @param update - The new state or a function that receives the previous state
+   *   and returns the new state. This allows for both direct state updates and
+   *   functional updates based on the previous state.
+   */
   export function setState(
     update:
       | Partial<GlobalContextState>
       | ((prev: GlobalContextState) => GlobalContextState)
   ): void;
+  /**
+   * A utility hook function to get the execution ID of the Playground Script application context.
+   *
+   * @returns The execution ID of the application context.
+   *
+   */
   export function useExecutionId(): string;
+  /**
+   * A utility hook function to get the metadata of the Playground Script application context.
+   *
+   * @returns The metadata of the application context.
+   *
+   */
   export function useMeta(): Map<string, unknown>;
+  /**
+   * A utility hook function to get the current status of the Playground Script application.
+   *
+   * @returns The current status of the application.
+   *
+   */
   export function useStatus(): GlobalContextStatus;
+  /**
+   * The global Playground Script - command context store instance.
+   *
+   * @internal
+   *
+   */
   export const unstable_commandStore: AsyncLocalStorage<CommandContext<any>>;
+  /**
+   * Get the Playground Script - command context for the current application.
+   *
+   * @returns The Playground Script - command context for the current application.
+   *
+   */
   export function useCommand(): CommandContext;
+  /**
+   * A utility hook function to get the individual segments of the current command path.
+   *
+   * @returns An array of command path segments.
+   *
+   */
   export function useSegments(): string[];
+  /**
+   * A utility hook function to get the full command path as a string.
+   *
+   * @returns The full command path as a string. For example, if the user runs
+   *   `playground-script foo bar`, this would return `"foo bar"`. This is useful
+   *   for commands that need to know their full invocation path, such as for help
+   *   text or for commands that have dynamic behavior based on their position in
+   *   the command hierarchy.
+   *
+   */
   export function usePath(): string;
+  /**
+   * Checks if a specific flag is present in the command-line arguments.
+   *
+   * @see https://github.com/sindresorhus/has-flag/blob/main/index.js
+   *
+   * @param flag - The flag (or an array of flags/aliases) to check for, e.g.,
+   *   "color", "no-color".
+   * @param argv - The command-line arguments to check against. Defaults to global
+   *   Deno args or process args.
+   * @returns True if the flag is present, false otherwise.
+   *
+   */
   export function hasFlag(flag: string | string[], argv?: string[]): boolean;
+  /**
+   * A utility function to determine if the help flag is present or if the command is in an error state during preparation.
+   *
+   * @returns True if the help flag is present or if the command is in an error
+   *   state during preparation, false otherwise. This can be used to
+   *   conditionally display help text or to alter command behavior when the user
+   *   is likely seeking help.
+   *
+   */
   export function isHelp(): boolean;
+  /**
+   * A utility function to wrap the Playground Script application within the global context scope.
+   *
+   * @param handler - The callback function to run within the global context
+   *   scope. This function will receive the global context as its argument,
+   *   allowing it to access any properties or utilities defined on the context.
+   *   The callback function can be asynchronous and can return a value or a
+   *   promise.
+   * @returns The result of the callback function, which can be a value or a
+   *   promise that resolves to a value.
+   *
+   */
   export function withGlobal(handler: () => any): Promise<Promise<void>>;
+  /**
+   * A utility function to wrap a Playground Script application command handler within the command context scope.
+   *
+   * @param handler - The callback function to run within the command context
+   *   scope. This function will receive the command context as its argument,
+   *   allowing it to access any properties or utilities defined on the context.
+   *   The callback function can be asynchronous and can return a value or a
+   *   promise.
+   * @returns The result of the callback function, which can be a value or a
+   *   promise that resolves to a value.
+   *
+   */
   export function withCommand<
     THandler extends (this: CommandContext, ...params: any[]) => any = (
       this: CommandContext,
@@ -888,23 +1329,76 @@ declare module "shell-shock:state" {
  * @module shell-shock:utils
  */
 declare module "shell-shock:utils" {
+  /**
+   * A utility function to pause execution for a specified duration, which can be used in prompt interactions to create delays or timeouts. The function returns a promise that resolves after the specified duration in milliseconds, allowing it to be used with async/await syntax for easier handling of asynchronous prompt logic.
+   *
+   * @param durationMs - The duration to sleep in milliseconds.
+   * @returns A promise that resolves after the specified duration, allowing for
+   *   asynchronous delays in prompt interactions.
+   *
+   */
   export function sleep(durationMs: number): Promise<void>;
+  /**
+   * Default number of terminal columns
+   */
   export const DEFAULT_TERMINAL_COLUMNS = 80;
+  /**
+   * Default number of terminal rows
+   */
   export const DEFAULT_TERMINAL_ROWS = 24;
+  /**
+   * A utility function that attempts to determine the size of the terminal (number of columns and rows) using various methods, and falls back to default values if it cannot be determined. This can be used to adjust output formatting based on the available terminal size.
+   *
+   * @remarks
+   * The function first checks if the process is running in a TTY environment and if the stdout or stderr streams provide column and row information. If not, it attempts to use platform-specific methods (like reading from /proc/self/stat on Linux, using tput on Unix-like systems, or checking /dev/tty) to determine the terminal size. If all else fails, it returns default values.
+   *
+   *
+   * @returns An object containing the number of columns and rows of the terminal.
+   *
+   */
   export function getTerminalSize(): {
     columns: number;
     rows: number;
   };
+  /**
+   * Detect if stdout.TTY is available
+   */
   export const isTTY: boolean;
+  /**
+   * Detect if the current environment is minimal (CI, non-TTY, etc.)
+   */
   export const isMinimal: any;
+  /**
+   * Detect if the current environment is interactive
+   */
   export const isInteractive: boolean;
+  /**
+   * Check if the current environment/terminal supports hyperlinks in the terminal.
+   *
+   * @returns True if the current environment/terminal supports hyperlinks.
+   *
+   */
   export function isHyperlinkSupported(): boolean;
+  /**
+   * Options for the getColorSupportLevel function
+   */
   export interface GetColorSupportLevelOptions {
     /**
      * Indicates if the function should skip checking command-line flags for color support
      */
     ignoreFlags: boolean;
   }
+  /**
+   * Checks if a specific flag is present in the command-line arguments.
+   *
+   * @see https://github.com/sindresorhus/has-flag/blob/main/index.js
+   *
+   * @param flag - The flag to check for, e.g., "color", "no-color".
+   * @param argv - The command-line arguments to check against. Defaults to global
+   *   Deno args or process args.
+   * @returns True if the flag is present, false otherwise.
+   *
+   */
   export function getColorSupportLevel(
     stream: NodeJS.WriteStream & {
       fd: 1 | 2;
@@ -921,6 +1415,9 @@ declare module "shell-shock:utils" {
         has256: boolean;
         has16m: boolean;
       };
+  /**
+   * Detect the terminal color support level in the current environment
+   */
   export const colorSupportLevels: {
     stdout:
       | number
@@ -941,8 +1438,17 @@ declare module "shell-shock:utils" {
           has16m: boolean;
         };
   };
+  /**
+   * Detect if terminal color is supported in the current environment
+   */
   export const isColorSupported: boolean;
+  /**
+   * Detect if Unicode characters are supported in the current environment
+   */
   export const isUnicodeSupported: boolean;
+  /**
+   * Options for the `resolve` handler function.
+   */
   interface ResolveModuleOptions {
     /**
      * The parent URL to use for resolving paths.
@@ -953,12 +1459,36 @@ declare module "shell-shock:utils" {
      */
     conditions?: string[];
   }
+  /**
+   * A function to resolve module specifiers to URLs.
+   *
+   * @param specifier - The module specifier to resolve.
+   * @param options - The options for resolving the module. Defaults to an empty
+   *   object.
+   * @returns The result of the resolve operation.
+   *
+   */
   export function resolveModule(
     specifier: string,
     options?: ResolveModuleOptions
   ): Promise<Promise<string>>;
+  /**
+   * A utility function that takes an input string and a list of possible matches, and returns a list of suggested matches based on the Levenshtein distance between the input and the possible matches.
+   *
+   * @remarks
+   * This function is intended to be used to suggest corrections for potentially misspelled options or commands.
+   *
+   *
+   * @internal
+   *
+   *
+   *
+   * @param input - The input string to check for potential matches.
+   * @param options - A list of possible matches to compare against the input.
+   * @returns A list of suggested matches based on the Levenshtein distance.
+   *
+   */
   export function findSuggestions(input: string, options: string[]): string[];
-  export {};
 }
 
 /**
@@ -967,6 +1497,9 @@ declare module "shell-shock:utils" {
  * @module shell-shock:exec
  */
 declare module "shell-shock:exec" {
+  /**
+   * The result of a spawn operation.
+   */
   export interface SpawnResult {
     /**
      * The PID of the spawned child process, if available.
@@ -1001,6 +1534,9 @@ declare module "shell-shock:exec" {
      */
     noOutputTimedOut?: boolean;
   }
+  /**
+   * Options for spawning a child process.
+   */
   export interface SpawnOptions {
     /**
      * The timeout in milliseconds for the spawn operation. If the process runs longer than this, it will be killed and the spawn promise will reject. This can also be provided as a number directly to the spawn function for convenience. Providing \`-1\` will disable the timeout.
@@ -1029,14 +1565,60 @@ declare module "shell-shock:exec" {
      */
     noOutputTimeoutMs?: number;
   }
+  /**
+   * Spawns a child process with the given arguments and options, returning a promise that resolves with the result of the spawn operation.
+   *
+   * @param argv - The command and its arguments to spawn.
+   * @param optionsOrTimeoutMs - The options for spawning the command, or a number
+   *   representing the timeout in milliseconds. This allows for a convenient
+   *   shorthand when only a timeout is needed. Providing `-1` will disable the
+   *   timeout. If no options or timeout are provided, a default timeout of 5
+   *   minutes will be used.
+   * @returns A promise that resolves with the result of the spawn operation,
+   *   including stdout, stderr, exit code, signal, and termination reason.
+   *
+   */
   export function spawn(
     argv: string[],
     optionsOrTimeoutMs?: number | SpawnOptions
   ): Promise<Promise<SpawnResult>>;
+  /**
+   * A helper function that executes a command and returns its stdout.
+   *
+   * @param argv - The command and its arguments to spawn. This is passed directly
+   *   to the spawn function. Remember that on Windows, commands like `npm` or
+   *   `pnpm` will be resolved to their .cmd shims, so you can just pass `npm`
+   *   without worrying about the extension.
+   * @param optionsOrTimeoutMs - The options for spawning the command, or a number
+   *   representing the timeout in milliseconds. This is passed directly to the
+   *   spawn function. Providing `-1` will disable the timeout. If no options or
+   *   timeout are provided, a default timeout of 5 minutes will be used.
+   * @returns A promise that resolves with the result of the spawn operation if
+   *   the command exits with code 0, or rejects with an error if the command
+   *   exits with a non-zero code or if there is a problem spawning the process.
+   *
+   */
   export function exec(
     argv: string[],
     optionsOrTimeoutMs?: number | SpawnOptions
   ): Promise<Promise<string>>;
+  /**
+   * A helper function that executes a command synchronously and returns its stdout. This is a thin wrapper around \`child_process.execFileSync\` with some added Windows compatibility handling.
+   *
+   * @param argv - The command and its arguments to spawn. This is passed directly
+   *   to `execFileSync` after Windows-specific resolution. Remember that on
+   *   Windows, commands like `npm` or `pnpm` will be resolved to their .cmd
+   *   shims, so you can just pass `npm` without worrying about the extension.
+   * @param options - The options for spawning the command. This is passed
+   *   directly to `execFileSync` after some processing. The timeout option is
+   *   supported, but note that it will throw an error if the process runs longer
+   *   than the specified timeout. If no options are provided, a default timeout
+   *   of 5 minutes will be used.
+   * @returns The standard output produced by the command if it exits with code 0.
+   *   If the command exits with a non-zero code or if there is a problem spawning
+   *   the process, an error will be thrown.
+   *
+   */
   export function execSync(argv: string[], options?: SpawnOptions): string;
 }
 
@@ -1048,7 +1630,14 @@ declare module "shell-shock:exec" {
 declare module "shell-shock:console" {
   import { SpinnerPreset } from "@shell-shock/plugin-theme/helpers/spinners";
   import { ThemeSpinnerResolvedConfig } from "@shell-shock/plugin-theme/types/theme";
+
+  /**
+   * The ASCII Bell character, which can be used to trigger a beep sound in the console.
+   */
   export const beep = "\u0007";
+  /**
+   * An object containing ANSI escape codes for controlling the console cursor.
+   */
   export const cursor: {
     to(x: number, y?: number): string;
     move(x: number, y: number): string;
@@ -1064,6 +1653,9 @@ declare module "shell-shock:console" {
     save: string;
     restore: string;
   };
+  /**
+   * An object containing ANSI escape codes for erasing parts of the console.
+   */
   export const erase: {
     screen: string;
     up: (count?: number) => string;
@@ -1073,111 +1665,476 @@ declare module "shell-shock:console" {
     lineStart: string;
     lines(count: number): string;
   };
+  /**
+   * An object containing ANSI escape codes for scrolling the console.
+   */
   export const scroll: {
     up: (count?: number) => string;
     down: (count?: number) => string;
   };
+  /**
+   * A helper function to clear the console based on a count of lines
+   *
+   * @param {string} current - The current console output to be cleared
+   * @param {number} consoleWidth - The number of characters per line in the
+   *   console
+   */
   export function clear(current: string, consoleWidth: number): string;
+  /**
+   * Removes ANSI escape codes from a string.
+   *
+   * @example
+   * ```ts
+   * const result = stripAnsi("Hello\\x1b[31mWorld\\x1b[0mAgain"); // "HelloWorldAgain"
+   * ```
+   * @param text - The text to strip ANSI codes from.
+   * @returns The text with ANSI codes removed.
+   *
+   */
   export function stripAnsi(text: string | number): string;
+  /**
+   * A function that applies a Reset text-style to provided console text.
+   *
+   * @param text - The console text to which the Reset text-style should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for Reset text-style, or the
+   *   original text if the style is not supported in the current terminal.
+   *
+   */
   export const reset: (
     text: string | number | boolean | null | undefined
   ) => string;
+  /**
+   * A function that applies a Bold text-style to provided console text.
+   *
+   * @param text - The console text to which the Bold text-style should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for Bold text-style, or the
+   *   original text if the style is not supported in the current terminal.
+   *
+   */
   export const bold: (
     text: string | number | boolean | null | undefined
   ) => string;
+  /**
+   * A function that applies a Dim text-style to provided console text.
+   *
+   * @param text - The console text to which the Dim text-style should be applied.
+   * @returns A string with ANSI escape codes applied for Dim text-style, or the
+   *   original text if the style is not supported in the current terminal.
+   *
+   */
   export const dim: (
     text: string | number | boolean | null | undefined
   ) => string;
+  /**
+   * A function that applies an Italic text-style to provided console text.
+   *
+   * @param text - The console text to which the Italic text-style should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for Italic text-style, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const italic: (
     text: string | number | boolean | null | undefined
   ) => string;
+  /**
+   * A function that applies an Underline text-style to provided console text.
+   *
+   * @param text - The console text to which the Underline text-style should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for Underline text-style, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const underline: (
     text: string | number | boolean | null | undefined
   ) => string;
+  /**
+   * A function that applies an Overline text-style to provided console text.
+   *
+   * @param text - The console text to which the Overline text-style should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for Overline text-style, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const overline: (
     text: string | number | boolean | null | undefined
   ) => string;
+  /**
+   * A function that applies an Inverse text-style to provided console text.
+   *
+   * @param text - The console text to which the Inverse text-style should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for Inverse text-style, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const inverse: (
     text: string | number | boolean | null | undefined
   ) => string;
+  /**
+   * A function that applies a Hidden text-style to provided console text.
+   *
+   * @param text - The console text to which the Hidden text-style should be
+   *   applied.
+   * @returns A string with ANSI escape codes applied for Hidden text-style, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const hidden: (
     text: string | number | boolean | null | undefined
   ) => string;
+  /**
+   * A function that applies a Strikethrough text-style to provided console text.
+   *
+   * @param text - The console text to which the Strikethrough text-style should
+   *   be applied.
+   * @returns A string with ANSI escape codes applied for Strikethrough
+   *   text-style, or the original text if the style is not supported in the
+   *   current terminal.
+   *
+   */
   export const strikethrough: (
     text: string | number | boolean | null | undefined
   ) => string;
+  /**
+   * A function that applies a Black color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Black color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Black color styling should be
+   *   applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Black color styling, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const black: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Red color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Red color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Red color styling should be
+   *   applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Red color styling, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const red: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Green color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Green color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Green color styling should be
+   *   applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Green color styling, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const green: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Yellow color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Yellow color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Yellow color styling should be
+   *   applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Yellow color styling, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const yellow: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Blue color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Blue color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Blue color styling should be
+   *   applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Blue color styling, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const blue: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Magenta color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Magenta color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Magenta color styling should be
+   *   applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Magenta color styling,
+   *   or the original text if the style is not supported in the current terminal.
+   *
+   */
   export const magenta: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Cyan color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Cyan color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Cyan color styling should be
+   *   applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Cyan color styling, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const cyan: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a White color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a White color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the White color styling should be
+   *   applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for White color styling, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const white: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Black Bright color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Black Bright color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Black Bright color styling should
+   *   be applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Black Bright color
+   *   styling, or the original text if the style is not supported in the current
+   *   terminal.
+   *
+   */
   export const blackBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Gray color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Gray color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Gray color styling should be
+   *   applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Gray color styling, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const gray: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Grey color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Grey color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Grey color styling should be
+   *   applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Grey color styling, or
+   *   the original text if the style is not supported in the current terminal.
+   *
+   */
   export const grey: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Red Bright color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Red Bright color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Red Bright color styling should
+   *   be applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Red Bright color
+   *   styling, or the original text if the style is not supported in the current
+   *   terminal.
+   *
+   */
   export const redBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Green Bright color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Green Bright color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Green Bright color styling should
+   *   be applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Green Bright color
+   *   styling, or the original text if the style is not supported in the current
+   *   terminal.
+   *
+   */
   export const greenBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Yellow Bright color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Yellow Bright color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Yellow Bright color styling
+   *   should be applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Yellow Bright color
+   *   styling, or the original text if the style is not supported in the current
+   *   terminal.
+   *
+   */
   export const yellowBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Blue Bright color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Blue Bright color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Blue Bright color styling should
+   *   be applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Blue Bright color
+   *   styling, or the original text if the style is not supported in the current
+   *   terminal.
+   *
+   */
   export const blueBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Magenta Bright color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Magenta Bright color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Magenta Bright color styling
+   *   should be applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Magenta Bright color
+   *   styling, or the original text if the style is not supported in the current
+   *   terminal.
+   *
+   */
   export const magentaBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a Cyan Bright color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a Cyan Bright color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the Cyan Bright color styling should
+   *   be applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for Cyan Bright color
+   *   styling, or the original text if the style is not supported in the current
+   *   terminal.
+   *
+   */
   export const cyanBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A function that applies a White Bright color styling to provided console text.
+   *
+   * @remarks
+   * This function takes a string and an optional boolean indicating whether to apply the color as a background. It returns the input string wrapped in the appropriate ANSI escape codes for a White Bright color styling, based on the terminal's color support level. If colors are not supported, it simply returns the input text as a string.
+   *
+   * @param text - The console text to which the White Bright color styling should
+   *   be applied.
+   * @param background - A boolean indicating whether to apply the color as a
+   *   background. Defaults to `false`.
+   * @returns A string with ANSI escape codes applied for White Bright color
+   *   styling, or the original text if the style is not supported in the current
+   *   terminal.
+   *
+   */
   export const whiteBright: (
     text: string | number | boolean | null | undefined,
     background?: boolean
   ) => string;
+  /**
+   * A nested object containing functions for applying text theme colors to the console.
+   */
   export const textColors: {
     /**
      * An object containing various banner text theme coloring functions.
@@ -3238,6 +4195,9 @@ declare module "shell-shock:console" {
       ) => string;
     };
   };
+  /**
+   * A nested object containing functions for applying border theme colors to the console.
+   */
   export const borderColors: {
     /**
      * An object containing various banner border theme coloring functions.
@@ -3841,6 +4801,9 @@ declare module "shell-shock:console" {
       };
     };
   };
+  /**
+   * Options for writing to the console.
+   */
   export interface WriteOptions {
     /**
      * Console function to use for writing to the console
@@ -3852,10 +4815,22 @@ declare module "shell-shock:console" {
      */
     consoleFn?: (text: string) => void;
   }
+  /**
+   * Write to the console.
+   *
+   * @remarks
+   * This function writes to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
+   *
+   * @param text - The text to write to the console.
+   * @param options - The options to apply when writing to the console.
+   */
   export function write(
     text?: string | number | boolean | null,
     options?: WriteOptions
   ): void;
+  /**
+   * Options for writing a line to the console.
+   */
   export interface WriteLineOptions extends WriteOptions {
     /**
      * Padding to apply to the line
@@ -3873,19 +4848,61 @@ declare module "shell-shock:console" {
      */
     color?: "primary" | "secondary" | "tertiary";
   }
+  /**
+   * Write a line to the console.
+   *
+   * @remarks
+   * This function writes a line to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
+   *
+   * @param text - The line text to write to the console.
+   * @param options - The options to apply when writing the line to the console.
+   */
   export function writeLine(
     text?: string | number | boolean | null,
     options?: WriteLineOptions
   ): void;
+  /**
+   * Split text into multiple lines based on a maximum length.
+   *
+   * @remarks
+   * This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.
+   *
+   * @param text - The text to split into multiple lines.
+   * @param maxLength - The maximum length of each line.
+   */
   export function splitText(
     text: string,
     maxLength: number | SizeToken
   ): string[];
-  export function link(
-    url: string,
-    textOrExternal?: string | boolean,
-    external?: boolean
-  ): string;
+  /**
+   * Options for formatting a hyperlink in the console.
+   */
+  export interface LinkOptions {
+    /**
+     * Whether the link is external. If true, an external link icon will be displayed next to the link text (if supported by the terminal) and the link may be styled differently based on the current theme configuration.
+     */
+    external?: boolean;
+    /**
+     * The text to display for the link. If not provided, the URL will be used as the text.
+     */
+    text?: string;
+    /**
+     * Whether to use the text when the hyperlink is not supported. If true, the text will be displayed even if the terminal does not support hyperlinks.
+     */
+    useTextWhenUnsupported?: boolean;
+  }
+  /**
+   * Render a hyperlink in the console.
+   *
+   * @param url - The URL to render as a hyperlink.
+   * @param options - Options for formatting the hyperlink.
+   * @returns The formatted hyperlink string for display in the console.
+   *
+   */
+  export function link(url: string, options?: LinkOptions): string;
+  /**
+   * Options for formatting the divider line written to console.
+   */
   export interface DividerOptions {
     /**
      * The width of the divider line. If not specified, the divider will span the full width of the console, minus the padding.
@@ -3911,8 +4928,20 @@ declare module "shell-shock:console" {
      */
     padding?: number;
   }
+  /**
+   * Write a horizontal divider line to the console.
+   *
+   * @example
+   * ```ts
+   * divider({ width: 50, border: "primary" }); // Writes a horizontal divider line of width 50 with primary border.
+   * ```
+   * @param options - Options for formatting the divider line.
+   */
   export function divider(options: DividerOptions): void;
   type WriteStream = NodeJS.WriteStream;
+  /**
+   * Options for configuring the spinner.
+   */
   export interface SpinnerOptions {
     /**
      * The message text to display next to the spinner. Defaults to an empty string.
@@ -3985,15 +5014,132 @@ declare module "shell-shock:console" {
      */
     help(message: string): this;
   }
+  /**
+   * Render a spinner in the console.
+   *
+   * @param options - Options for configuring the spinner, including the message
+   *   to display, the output stream to write to, and the spinner animation to
+   *   use.
+   * @returns An instance of the Spinner class, which can be used to control the
+   *   spinner animation (e.g., start, stop, mark as success/error, etc.).
+   *
+   */
   export function createSpinner(options?: SpinnerOptions): Spinner;
+  /**
+   * Write a help message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
+   */
   export function help(message: string, header?: string): void;
+  /**
+   * Write a success message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
+   */
   export function success(message: string, header?: string): void;
+  /**
+   * Write an informational message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
+   */
   export function info(message: string, header?: string): void;
+  /**
+   * Write a debug message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
+   */
   export function debug(message: string, header?: string): void;
+  /**
+   * Write a verbose message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
+   */
   export function verbose(message: string, header?: string): void;
+  /**
+   * Write a warning message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
+   */
   export function warn(message: string, header?: string): void;
+  /**
+   * Write a destructive/danger message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
+   */
   export function danger(message: string, header?: string): void;
-  export function error(err: string | Error, header?: string): void;
+  /**
+   * Write an error message to the console.
+   *
+   * @remarks
+   * This function initializes the Powerlines environment configuration object.
+   *
+   * @param message - The message to write to the console.
+   * @param header - An optional header to display above the message. If not
+   *   provided, a default header based on the message type and variant will be
+   *   used if defined in the theme configuration; otherwise, no header will be
+   *   displayed.
+   */
+  export function error(
+    err:
+      | string
+      | {
+          message: string;
+          stack?: string;
+        },
+    header?: string
+  ): void;
+  /**
+   * A type representing the width size of an item in the console.
+   */
   export type SizeToken =
     | "full"
     | "1/1"
@@ -4012,7 +5158,31 @@ declare module "shell-shock:console" {
     | "10%"
     | "5%"
     | "2.5%";
+  /**
+   * Determine if a value is a valid size token.
+   *
+   * @remarks
+   * This function checks if the provided value is a valid size token, which can be one of the predefined strings representing common width sizes (e.g., "full", "1/2", "1/3", etc.) or percentage strings (e.g., "50%").
+   * @param value - The value to check for being a valid size token.
+   * @returns True if the value is a valid size token, false otherwise.
+   *
+   */
+  /**
+   * Determines if the provided value is a valid size token.
+   *
+   * @param {any} value
+   */
   export function isSizeToken(value: any): value is SizeToken;
+  /**
+   * Calculate the width in characters based on the provided width size.
+   *
+   * @remarks
+   * This function calculates the width in characters based on the provided width size, which can be a predefined string (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%"). The calculation is based on the current width of the console (getTerminalSize().columns).
+   * @param size - The width size to calculate. This can be a predefined string
+   *   (e.g., "full", "1/2", "1/3", etc.) or a percentage string (e.g., "50%").
+   * @returns The calculated width in characters.
+   *
+   */
   export function calculateWidth(size: SizeToken): number;
   export type BorderOption =
     | "primary"
@@ -4020,6 +5190,9 @@ declare module "shell-shock:console" {
     | "tertiary"
     | "none"
     | string;
+  /**
+   * Options to customize the output of the {@link table} function.
+   */
   export interface TableOutputOptions {
     /**
      * Border variant for the table cell.
@@ -4060,6 +5233,9 @@ declare module "shell-shock:console" {
      */
     align?: "left" | "right" | "center";
   }
+  /**
+   * Options for a specific table cell provided to the {@link table} function.
+   */
   export interface TableCellOptions extends TableOutputOptions {
     /**
      * The actual string value of the table cell.
@@ -4073,18 +5249,32 @@ declare module "shell-shock:console" {
      */
     maxWidth: number | SizeToken | undefined;
   }
+  /**
+   * Options for a specific table row provided to the {@link table} function.
+   */
   export interface TableRowOptions extends TableOutputOptions {
     /**
      * The actual string values of the table row's cells.
      */
     values?: (string | TableCellOptions)[];
   }
+  /**
+   * Options for a specific table cell provided to the {@link table} function.
+   */
   export interface TableOptions extends TableOutputOptions {
     /**
      * The actual string values of the table's rows' cells.
      */
     values?: (string | TableCellOptions)[][];
   }
+  /**
+   * Write a table to the console.
+   *
+   * @remarks
+   * This function writes a table to the console, applying the appropriate padding as defined in the current theme configuration and wrapping as needed.
+   *
+   * @param options - Options to customize the table output.
+   */
   export function table(
     options:
       | TableOptions
@@ -4093,13 +5283,33 @@ declare module "shell-shock:console" {
       | string[]
       | string[][]
   ): void;
+  /**
+   * Format a string with blockquote styling for display in console.
+   *
+   * @param text - The text to format with blockquote styling.
+   * @returns The formatted string with blockquote styling.
+   *
+   */
   export function blockquote(text?: string | number | boolean | null): string;
+  /**
+   * Format a source code string for display in console.
+   *
+   * @param text - The source code text to format with code styling.
+   * @returns The formatted string with code styling.
+   *
+   */
   export function code(
     text?: string | number | boolean | null,
     language?: string
   ): string;
+  /**
+   * Format a string with inline code styling for display in console.
+   *
+   * @param text - The text to format with inline code styling.
+   * @returns The formatted string with inline code styling.
+   *
+   */
   export function inlineCode(text?: string | number | boolean | null): string;
-  export {};
 }
 
 /**
@@ -4108,6 +5318,15 @@ declare module "shell-shock:console" {
  * @module shell-shock:help
  */
 declare module "shell-shock:help" {
+  /**
+   * Utility functions for displaying help information for the Playground Script application.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Playground Script application. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Playground Script application.
+   */
   export function showHelp(): void;
 }
 
@@ -4117,6 +5336,15 @@ declare module "shell-shock:help" {
  * @module shell-shock:help/new/application
  */
 declare module "shell-shock:help/new/application" {
+  /**
+   * Utility functions for displaying help information for the New - Application command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the New - Application command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the New - Application command.
+   */
   export function showHelp(): void;
 }
 
@@ -4126,6 +5354,15 @@ declare module "shell-shock:help/new/application" {
  * @module shell-shock:help/build
  */
 declare module "shell-shock:help/build" {
+  /**
+   * Utility functions for displaying help information for the Build command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Build command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Build command.
+   */
   export function showHelp(): void;
 }
 
@@ -4135,6 +5372,15 @@ declare module "shell-shock:help/build" {
  * @module shell-shock:help/copy
  */
 declare module "shell-shock:help/copy" {
+  /**
+   * Utility functions for displaying help information for the Copy command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Copy command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Copy command.
+   */
   export function showHelp(): void;
 }
 
@@ -4144,6 +5390,15 @@ declare module "shell-shock:help/copy" {
  * @module shell-shock:help/help
  */
 declare module "shell-shock:help/help" {
+  /**
+   * Utility functions for displaying help information for the Help command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Help command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Help command.
+   */
   export function showHelp(): void;
 }
 
@@ -4153,6 +5408,15 @@ declare module "shell-shock:help/help" {
  * @module shell-shock:help/new/library
  */
 declare module "shell-shock:help/new/library" {
+  /**
+   * Utility functions for displaying help information for the New - Library command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the New - Library command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the New - Library command.
+   */
   export function showHelp(): void;
 }
 
@@ -4162,6 +5426,15 @@ declare module "shell-shock:help/new/library" {
  * @module shell-shock:help/run/local
  */
 declare module "shell-shock:help/run/local" {
+  /**
+   * Utility functions for displaying help information for the Run - Local command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Run - Local command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Run - Local command.
+   */
   export function showHelp(): void;
 }
 
@@ -4171,6 +5444,15 @@ declare module "shell-shock:help/run/local" {
  * @module shell-shock:help/new
  */
 declare module "shell-shock:help/new" {
+  /**
+   * Utility functions for displaying help information for the New Commands command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the New Commands command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the New Commands command.
+   */
   export function showHelp(): void;
 }
 
@@ -4180,6 +5462,15 @@ declare module "shell-shock:help/new" {
  * @module shell-shock:help/new/project
  */
 declare module "shell-shock:help/new/project" {
+  /**
+   * Utility functions for displaying help information for the New - Project command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the New - Project command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the New - Project command.
+   */
   export function showHelp(): void;
 }
 
@@ -4189,6 +5480,15 @@ declare module "shell-shock:help/new/project" {
  * @module shell-shock:help/run/remote
  */
 declare module "shell-shock:help/run/remote" {
+  /**
+   * Utility functions for displaying help information for the Run - Remote command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Run - Remote command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Run - Remote command.
+   */
   export function showHelp(): void;
 }
 
@@ -4198,6 +5498,15 @@ declare module "shell-shock:help/run/remote" {
  * @module shell-shock:help/remove
  */
 declare module "shell-shock:help/remove" {
+  /**
+   * Utility functions for displaying help information for the Remove command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Remove command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Remove command.
+   */
   export function showHelp(): void;
 }
 
@@ -4207,6 +5516,15 @@ declare module "shell-shock:help/remove" {
  * @module shell-shock:help/run
  */
 declare module "shell-shock:help/run" {
+  /**
+   * Utility functions for displaying help information for the Run Commands command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Run Commands command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Run Commands command.
+   */
   export function showHelp(): void;
 }
 
@@ -4216,6 +5534,15 @@ declare module "shell-shock:help/run" {
  * @module shell-shock:help/start
  */
 declare module "shell-shock:help/start" {
+  /**
+   * Utility functions for displaying help information for the Start command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Start command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Start command.
+   */
   export function showHelp(): void;
 }
 
@@ -4225,6 +5552,14 @@ declare module "shell-shock:help/start" {
  * @module shell-shock:banner
  */
 declare module "shell-shock:banner" {
+  /**
+   * Write the Playground Script command-line interface application banner for the  command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -4234,6 +5569,14 @@ declare module "shell-shock:banner" {
  * @module shell-shock:banner/new/application
  */
 declare module "shell-shock:banner/new/application" {
+  /**
+   * Write the Playground Script command-line interface application banner for the New - Application command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -4243,6 +5586,14 @@ declare module "shell-shock:banner/new/application" {
  * @module shell-shock:banner/build
  */
 declare module "shell-shock:banner/build" {
+  /**
+   * Write the Playground Script command-line interface application banner for the Build command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -4252,6 +5603,14 @@ declare module "shell-shock:banner/build" {
  * @module shell-shock:banner/copy
  */
 declare module "shell-shock:banner/copy" {
+  /**
+   * Write the Playground Script command-line interface application banner for the Copy command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -4261,6 +5620,14 @@ declare module "shell-shock:banner/copy" {
  * @module shell-shock:banner/help
  */
 declare module "shell-shock:banner/help" {
+  /**
+   * Write the Playground Script command-line interface application banner for the Help command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -4270,6 +5637,14 @@ declare module "shell-shock:banner/help" {
  * @module shell-shock:banner/new/library
  */
 declare module "shell-shock:banner/new/library" {
+  /**
+   * Write the Playground Script command-line interface application banner for the New - Library command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -4279,6 +5654,14 @@ declare module "shell-shock:banner/new/library" {
  * @module shell-shock:banner/run/local
  */
 declare module "shell-shock:banner/run/local" {
+  /**
+   * Write the Playground Script command-line interface application banner for the Run - Local command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -4288,6 +5671,14 @@ declare module "shell-shock:banner/run/local" {
  * @module shell-shock:banner/new
  */
 declare module "shell-shock:banner/new" {
+  /**
+   * Write the Playground Script command-line interface application banner for the New Commands command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -4297,6 +5688,14 @@ declare module "shell-shock:banner/new" {
  * @module shell-shock:banner/new/project
  */
 declare module "shell-shock:banner/new/project" {
+  /**
+   * Write the Playground Script command-line interface application banner for the New - Project command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -4306,6 +5705,14 @@ declare module "shell-shock:banner/new/project" {
  * @module shell-shock:banner/run/remote
  */
 declare module "shell-shock:banner/run/remote" {
+  /**
+   * Write the Playground Script command-line interface application banner for the Run - Remote command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -4315,6 +5722,14 @@ declare module "shell-shock:banner/run/remote" {
  * @module shell-shock:banner/remove
  */
 declare module "shell-shock:banner/remove" {
+  /**
+   * Write the Playground Script command-line interface application banner for the Remove command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -4324,6 +5739,14 @@ declare module "shell-shock:banner/remove" {
  * @module shell-shock:banner/run
  */
 declare module "shell-shock:banner/run" {
+  /**
+   * Write the Playground Script command-line interface application banner for the Run Commands command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }
 
@@ -4333,5 +5756,13 @@ declare module "shell-shock:banner/run" {
  * @module shell-shock:banner/start
  */
 declare module "shell-shock:banner/start" {
+  /**
+   * Write the Playground Script command-line interface application banner for the Start command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
   export function showBanner(sleepTimeoutMs?: number): Promise<void>;
 }

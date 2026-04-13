@@ -90,6 +90,11 @@ export function ExecuteUpgradeFunctionDeclaration() {
                       spinner.success("Update successful! Please restart the application to apply the update.");
 
                       writeLine("");
+                      help(\`You can view the changelog for this release at any time by running the \${inlineCode("${getAppBin(
+                        context
+                      )} changelog --latest")} command.\`);
+
+                      writeLine("");
                       writeLine("Press any key to exit the application...");
 
                       await waitForKeyPress();
@@ -140,6 +145,11 @@ export function ExecuteUpgradeFunctionDeclaration() {
                   try {
                     await upgrade();
                     spinner.success("Update successful! Please restart the application to apply the update.");
+
+                    writeLine("");
+                    help(\`You can view the changelog for this release at any time by running the \${inlineCode("${getAppBin(
+                      context
+                    )} changelog --latest")} command.\`);
 
                     writeLine("");
                     writeLine("Press any key to exit the application...");
