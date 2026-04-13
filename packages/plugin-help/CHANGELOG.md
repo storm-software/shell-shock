@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.22](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.22) (04/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue deserializing config at runtime ([aa8f54d](https://github.com/storm-software/shell-shock/commit/aa8f54d))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.2.8**
+- Updated **plugin-theme** to **v0.4.17**
+- Updated **core** to **v0.17.4**
+
 ## [0.2.21](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.21) (04/11/2026)
 
 ### Bug Fixes

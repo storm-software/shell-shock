@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.4](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.4) (04/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue deserializing config at runtime ([aa8f54d](https://github.com/storm-software/shell-shock/commit/aa8f54d))
+
 ## [0.17.3](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.3) (04/11/2026)
 
 ### Bug Fixes

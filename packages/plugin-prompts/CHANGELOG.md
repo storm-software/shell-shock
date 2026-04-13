@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.45](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.45) (04/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue deserializing config at runtime ([aa8f54d](https://github.com/storm-software/shell-shock/commit/aa8f54d))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.17**
+- Updated **core** to **v0.17.4**
+
 ## [0.3.44](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.44) (04/11/2026)
 
 ### Updated Dependencies

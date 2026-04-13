@@ -2,6 +2,25 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.16](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.16) (04/13/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue deserializing config at runtime ([aa8f54d](https://github.com/storm-software/shell-shock/commit/aa8f54d))
+
+### Updated Dependencies
+
+- Updated **plugin-completions** to **v0.4.12**
+- Updated **plugin-changelog** to **v0.1.7**
+- Updated **plugin-console** to **v0.2.8**
+- Updated **plugin-prompts** to **v0.3.45**
+- Updated **plugin-upgrade** to **v0.1.49**
+- Updated **plugin-banner** to **v0.1.31**
+- Updated **preset-script** to **v0.6.59**
+- Updated **plugin-theme** to **v0.4.17**
+- Updated **plugin-help** to **v0.2.22**
+- Updated **core** to **v0.17.4**
+
 ## [0.9.15](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.15) (04/11/2026)
 
 ### Bug Fixes
