@@ -19,7 +19,6 @@
 import { For, Show } from "@alloy-js/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
 import automd from "@powerlines/plugin-automd";
-import deepkit from "@powerlines/plugin-deepkit";
 import nodejs from "@powerlines/plugin-nodejs";
 import tsdown from "@powerlines/plugin-tsdown";
 import { toArray } from "@stryke/convert/to-array";
@@ -85,7 +84,6 @@ export const plugin = <TContext extends Context = Context>(
   options: Options = {}
 ): Plugin<TContext>[] => {
   return [
-    ...deepkit<TContext>(),
     tsdown<TContext>(),
     automd<TContext>(),
     {
