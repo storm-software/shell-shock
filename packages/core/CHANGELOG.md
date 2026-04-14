@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.5](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.5) (04/13/2026)
+
+### Bug Fixes
+
+- **core:** Remove unneeded `deepkit` plugin from base plugin list ([213c07a](https://github.com/storm-software/shell-shock/commit/213c07a))
+
 ## [0.17.4](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.4) (04/13/2026)
 
 ### Bug Fixes

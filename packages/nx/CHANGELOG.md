@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.77](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.77) (04/13/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.5**
+
 ## [0.0.76](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.76) (04/13/2026)
 
 ### Updated Dependencies
