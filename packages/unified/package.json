@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/unified",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "private": false,
   "description": "A package containing a Shell Shock plugin to generate unified built-in modules that display information about the application.",
   "keywords": ["unified", "shell-shock", "powerlines", "storm-software"],

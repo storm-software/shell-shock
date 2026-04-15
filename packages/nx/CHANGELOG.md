@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.79](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.79) (04/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update Shell Shock assets' CDN url ([398b8d5](https://github.com/storm-software/shell-shock/commit/398b8d5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.7**
+
 ## [0.0.78](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.78) (04/15/2026)
 
 ### Updated Dependencies

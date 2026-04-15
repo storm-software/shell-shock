@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.20](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.20) (04/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update Shell Shock assets' CDN url ([398b8d5](https://github.com/storm-software/shell-shock/commit/398b8d5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.7**
+
 ## [0.4.19](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.19) (04/15/2026)
 
 ### Updated Dependencies

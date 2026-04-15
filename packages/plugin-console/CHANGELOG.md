@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.2.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.11) (04/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update Shell Shock assets' CDN url ([398b8d5](https://github.com/storm-software/shell-shock/commit/398b8d5))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.20**
+- Updated **core** to **v0.17.7**
+
 ## [0.2.10](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.10) (04/15/2026)
 
 ### Bug Fixes

@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.72](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.72) (04/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update Shell Shock assets' CDN url ([398b8d5](https://github.com/storm-software/shell-shock/commit/398b8d5))
+
 ## [0.0.62](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.62) (04/07/2026)
 
 ### Features

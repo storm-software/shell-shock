@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.48](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.48) (04/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update Shell Shock assets' CDN url ([398b8d5](https://github.com/storm-software/shell-shock/commit/398b8d5))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.20**
+- Updated **core** to **v0.17.7**
+
 ## [0.3.47](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.47) (04/15/2026)
 
 ### Updated Dependencies

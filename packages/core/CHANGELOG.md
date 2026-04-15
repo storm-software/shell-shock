@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.7](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.7) (04/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update Shell Shock assets' CDN url ([398b8d5](https://github.com/storm-software/shell-shock/commit/398b8d5))
+
 ## [0.17.6](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.6) (04/15/2026)
 
 ### Bug Fixes

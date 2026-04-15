@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Banner
 
+## [0.1.34](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.34) (04/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update Shell Shock assets' CDN url ([398b8d5](https://github.com/storm-software/shell-shock/commit/398b8d5))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.2.11**
+- Updated **plugin-theme** to **v0.4.20**
+- Updated **core** to **v0.17.7**
+
 ## [0.1.33](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.33) (04/15/2026)
 
 ### Bug Fixes

@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Unified
 
+## [0.2.5](https://github.com/storm-software/shell-shock/releases/tag/unified%400.2.5) (04/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update Shell Shock assets' CDN url ([398b8d5](https://github.com/storm-software/shell-shock/commit/398b8d5))
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.20**
+- Updated **core** to **v0.17.7**
+
 ## [0.2.4](https://github.com/storm-software/shell-shock/releases/tag/unified%400.2.4) (04/15/2026)
 
 ### Bug Fixes

@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.62](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.62) (04/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update Shell Shock assets' CDN url ([398b8d5](https://github.com/storm-software/shell-shock/commit/398b8d5))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.2.11**
+- Updated **plugin-banner** to **v0.1.34**
+- Updated **plugin-theme** to **v0.4.20**
+- Updated **plugin-help** to **v0.2.25**
+- Updated **core** to **v0.17.7**
+
 ## [0.6.61](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.61) (04/15/2026)
 
 ### Bug Fixes

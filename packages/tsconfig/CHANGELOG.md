@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.77](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.77) (04/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update Shell Shock assets' CDN url ([398b8d5](https://github.com/storm-software/shell-shock/commit/398b8d5))
+
 ## [0.0.61](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.61) (03/28/2026)
 
 ### Miscellaneous

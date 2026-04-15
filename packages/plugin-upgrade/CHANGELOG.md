@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.52](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.52) (04/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update Shell Shock assets' CDN url ([398b8d5](https://github.com/storm-software/shell-shock/commit/398b8d5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.7**
+
 ## [0.1.51](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.51) (04/15/2026)
 
 ### Updated Dependencies
