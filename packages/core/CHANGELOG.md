@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.6](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.6) (04/15/2026)
+
+### Bug Fixes
+
+- **core:** Resolve infinite wrapping issue in `splitText` function ([d9d18f0](https://github.com/storm-software/shell-shock/commit/d9d18f0))
+
 ## [0.17.5](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.5) (04/13/2026)
 
 ### Bug Fixes

@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.4.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.14) (04/15/2026)
+
+### Bug Fixes
+
+- **core:** Resolve infinite wrapping issue in `splitText` function ([d9d18f0](https://github.com/storm-software/shell-shock/commit/d9d18f0))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.6**
+
 ## [0.4.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.13) (04/13/2026)
 
 ### Updated Dependencies

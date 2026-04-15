@@ -2,6 +2,25 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.18](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.18) (04/15/2026)
+
+### Bug Fixes
+
+- **core:** Resolve infinite wrapping issue in `splitText` function ([d9d18f0](https://github.com/storm-software/shell-shock/commit/d9d18f0))
+
+### Updated Dependencies
+
+- Updated **plugin-completions** to **v0.4.14**
+- Updated **plugin-changelog** to **v0.1.9**
+- Updated **plugin-console** to **v0.2.10**
+- Updated **plugin-prompts** to **v0.3.47**
+- Updated **plugin-upgrade** to **v0.1.51**
+- Updated **plugin-banner** to **v0.1.33**
+- Updated **preset-script** to **v0.6.61**
+- Updated **plugin-theme** to **v0.4.19**
+- Updated **plugin-help** to **v0.2.24**
+- Updated **core** to **v0.17.6**
+
 ## [0.9.17](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.17) (04/13/2026)
 
 ### Updated Dependencies

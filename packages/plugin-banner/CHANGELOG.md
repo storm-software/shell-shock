@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Banner
 
+## [0.1.33](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.33) (04/15/2026)
+
+### Bug Fixes
+
+- **core:** Resolve infinite wrapping issue in `splitText` function ([d9d18f0](https://github.com/storm-software/shell-shock/commit/d9d18f0))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.2.10**
+- Updated **plugin-theme** to **v0.4.19**
+- Updated **core** to **v0.17.6**
+
 ## [0.1.32](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.32) (04/13/2026)
 
 ### Updated Dependencies
