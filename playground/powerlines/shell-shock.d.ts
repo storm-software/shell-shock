@@ -63,7 +63,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @defaultValue true
+     * @defaultValue false
      */
     DEBUG: boolean;
     /**
@@ -81,7 +81,7 @@ declare module "shell-shock:env" {
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @defaultValue "development"
+     * @defaultValue "production"
      */
     ENVIRONMENT: string;
     /**
@@ -94,7 +94,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue 3
+     * @defaultValue true
      */
     FORCE_COLOR: boolean | number;
     /**
@@ -135,7 +135,7 @@ declare module "shell-shock:env" {
      * @alias NODE_ENV
      *
      * @alias VERCEL_ENV
-     * @defaultValue "development"
+     * @defaultValue "production"
      */
     MODE: "development" | "test" | "production";
     /**
@@ -205,7 +205,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @defaultValue true
+     * @defaultValue false
      */
     STACKTRACE: boolean;
     /**
@@ -330,21 +330,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "gUuanHWeH4c_BNZF_CugtwaAFcldjJhT"
+     * @defaultValue "XHcMSueeDxe29FkwF4nhwRySn4rF8Dfz"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "cc769137-b646-4d4b-94d6-b80c928c3111"
+     * @defaultValue "04304f23-a325-426c-b0ae-2cec69a123ee"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-15T13:16:26.050Z"
+     * @defaultValue "2026-04-15T15:34:04.175Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -648,7 +648,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "769137b6-468d-4bd4-96b8-0c928c31119a"
+     * @defaultValue "304f23a3-2522-4c70-ae2c-ec69a123ee1b"
      */
     readonly RELEASE_ID: string;
     /**
@@ -3141,8 +3141,8 @@ declare module "shell-shock:utils" {
     options?: GetColorSupportLevelOptions
   ):
     | false
-    | 3
     | 0
+    | 3
     | 2
     | {
         level: number;

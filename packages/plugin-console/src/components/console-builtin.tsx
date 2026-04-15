@@ -721,7 +721,7 @@ export function SplitTextFunctionDeclaration() {
               : "";
           } else {
             const strippedLine = stripAnsi(line);
-            const index = [" ", "/", "+", ".", ","].reduce((ret, split) => {
+            const index = [" ", "/", "+", "="].reduce((ret, split) => {
               let cursor = ret;
               while (strippedLine.substring(cursor + 1).includes(split) &&
                 strippedLine.indexOf(split, cursor + 1) <= calculatedMaxLength) {

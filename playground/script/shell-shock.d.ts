@@ -330,21 +330,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "xWLIrvaqXBUdJYw5rIAOVOQBBbOFvyl0"
+     * @defaultValue "iAi9WACfPSEoVyRDDgTMPfSrzyuWqe5f"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "c0fbd9e5-4593-492f-8346-3c9943fc6e36"
+     * @defaultValue "2e1817df-b1ce-4401-b584-b00da08b464a"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-15T13:16:24.865Z"
+     * @defaultValue "2026-04-15T15:30:56.172Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -648,7 +648,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "fbd9e545-9329-4fc3-863c-9943fc6e36a0"
+     * @defaultValue "1817dfb1-ce64-41f5-84b0-0da08b464ace"
      */
     readonly RELEASE_ID: string;
     /**

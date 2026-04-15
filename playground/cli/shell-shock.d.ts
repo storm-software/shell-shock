@@ -364,21 +364,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "epaoS7tjHgbmUTTC4vOlu6W8qbVNVWML"
+     * @defaultValue "TWhVCzFGbpUyNMcXpTGDx_EyxSI-kol8"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "2abeb4b4-97d3-45ef-bfe5-fc07b2fdf289"
+     * @defaultValue "3048c056-d785-4064-a2c7-89698ceb9d9c"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-15T13:18:05.323Z"
+     * @defaultValue "2026-04-15T15:31:45.707Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -682,7 +682,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "beb4b497-d335-4fff-a5fc-07b2fdf289be"
+     * @defaultValue "48c056d7-85f0-4462-8789-698ceb9d9cb9"
      */
     readonly RELEASE_ID: string;
     /**
@@ -8969,13 +8969,13 @@ declare module "shell-shock:banner/completions/zsh/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Fish Configuration command.
  *
- * @module shell-shock:banner/completions/bash/config
+ * @module shell-shock:banner/completions/fish/config
  */
-declare module "shell-shock:banner/completions/bash/config" {
+declare module "shell-shock:banner/completions/fish/config" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Bash Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Fish Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -8986,13 +8986,13 @@ declare module "shell-shock:banner/completions/bash/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Fish Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
  *
- * @module shell-shock:banner/completions/fish/config
+ * @module shell-shock:banner/completions/bash/config
  */
-declare module "shell-shock:banner/completions/fish/config" {
+declare module "shell-shock:banner/completions/bash/config" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Fish Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Bash Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9224,13 +9224,13 @@ declare module "shell-shock:banner/completions/zsh/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Fish Script command.
  *
- * @module shell-shock:banner/completions/bash/script
+ * @module shell-shock:banner/completions/fish/script
  */
-declare module "shell-shock:banner/completions/bash/script" {
+declare module "shell-shock:banner/completions/fish/script" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Bash Script command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Fish Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9241,13 +9241,13 @@ declare module "shell-shock:banner/completions/bash/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Fish Script command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
  *
- * @module shell-shock:banner/completions/fish/script
+ * @module shell-shock:banner/completions/bash/script
  */
-declare module "shell-shock:banner/completions/fish/script" {
+declare module "shell-shock:banner/completions/bash/script" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Fish Script command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Bash Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9452,24 +9452,6 @@ declare module "shell-shock:help/completions/zsh/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Bash Configuration command.
- *
- * @module shell-shock:help/completions/bash/config
- */
-declare module "shell-shock:help/completions/bash/config" {
-  /**
-   * Utility functions for displaying help information for the Completions - Bash Configuration command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Bash Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Bash Configuration command.
-   */
-  export function showHelp(): void;
-}
-
-/**
  * A collection of utility functions that assist in displaying help information for the Completions - Fish Configuration command.
  *
  * @module shell-shock:help/completions/fish/config
@@ -9483,6 +9465,24 @@ declare module "shell-shock:help/completions/fish/config" {
    */
   /**
    * Display help information for the Completions - Fish Configuration command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - Bash Configuration command.
+ *
+ * @module shell-shock:help/completions/bash/config
+ */
+declare module "shell-shock:help/completions/bash/config" {
+  /**
+   * Utility functions for displaying help information for the Completions - Bash Configuration command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Bash Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Bash Configuration command.
    */
   export function showHelp(): void;
 }
@@ -9723,24 +9723,6 @@ declare module "shell-shock:help/completions/zsh/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Bash Script command.
- *
- * @module shell-shock:help/completions/bash/script
- */
-declare module "shell-shock:help/completions/bash/script" {
-  /**
-   * Utility functions for displaying help information for the Completions - Bash Script command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Bash Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Bash Script command.
-   */
-  export function showHelp(): void;
-}
-
-/**
  * A collection of utility functions that assist in displaying help information for the Completions - Fish Script command.
  *
  * @module shell-shock:help/completions/fish/script
@@ -9754,6 +9736,24 @@ declare module "shell-shock:help/completions/fish/script" {
    */
   /**
    * Display help information for the Completions - Fish Script command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - Bash Script command.
+ *
+ * @module shell-shock:help/completions/bash/script
+ */
+declare module "shell-shock:help/completions/bash/script" {
+  /**
+   * Utility functions for displaying help information for the Completions - Bash Script command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Bash Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Bash Script command.
    */
   export function showHelp(): void;
 }
