@@ -20,19 +20,19 @@ import { computed, For, Show } from "@alloy-js/core";
 import { Spacing } from "@powerlines/plugin-alloy/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
 import {
-  getAppDescription,
-  getAppName,
-  getAppTitle,
-  getCommandList
+  computeBin,
+  getCommandList,
+  isDynamicPathSegment
 } from "@shell-shock/core/plugin-utils";
 import type { CommandConfig } from "@shell-shock/core/types/command";
 import console from "@shell-shock/plugin-console";
 import theme from "@shell-shock/plugin-theme";
+import { getUniqueBy } from "@stryke/helpers/get-unique";
 import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
 import type { Plugin } from "powerlines";
-import { HelpBuiltin, HelpCommand } from "./components";
+import { HelpBuiltin, HelpCommand, TemporaryHelpCommand } from "./components";
 import type { HelpPluginContext, HelpPluginOptions } from "./types/plugin";
 
 export type * from "./types";
@@ -42,10 +42,10 @@ export type * from "./types";
  */
 export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
   options: HelpPluginOptions = {}
-) => {
+): Plugin<TContext>[] => {
   return [
-    ...theme(options.theme),
-    console(options.console),
+    ...theme<TContext>(options.theme),
+    ...console<TContext>(options.console),
     {
       name: "shell-shock:help",
       enforce: "post",
@@ -106,7 +106,7 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
             });
           }
 
-          await render(this, <HelpCommand />);
+          await render(this, <TemporaryHelpCommand />);
         }
       },
       prepare: {
@@ -119,45 +119,38 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
             } command modules.`
           );
 
-          const bin = computed(() => ({
-            id: "",
-            name: getAppName(this),
-            title: getAppTitle(this),
-            description: getAppDescription(this),
-            isVirtual: true,
-            path: null,
-            segments: [],
-            alias: [],
-            tags: [],
-            options: Object.fromEntries(
-              this.options.map(option => [option.name, option])
-            ),
-            entry: {
-              file: joinPaths(this.entryPath, "bin.ts")
-            },
-            args: [],
-            parent: null,
-            children: this.commands
-          }));
+          const segments = computed(() =>
+            getUniqueBy(
+              commands.map(command =>
+                command.segments
+                  .filter(segment => !isDynamicPathSegment(segment))
+                  .filter(segment => segment.length > 0)
+              ),
+              segments => segments.join("/")
+            )
+              .filter(segments => segments.length > 0)
+              .sort((a, b) => a.join("/").localeCompare(b.join("/")))
+          );
 
           return render(
             this,
             <>
               <Show when={this.config.help.builtins !== false}>
-                <HelpBuiltin command={bin.value} />
+                <HelpBuiltin command={computeBin(this)} />
                 <Spacing />
                 <For
                   each={commands.sort((a, b) => a.name.localeCompare(b.name))}
                   doubleHardline>
                   {command => <HelpBuiltin command={command} />}
                 </For>
+                <HelpCommand segments={segments.value} />
               </Show>
             </>
           );
         }
       }
     }
-  ] as Plugin<TContext>[];
+  ];
 };
 
 export default plugin;

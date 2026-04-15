@@ -106,7 +106,7 @@ declare module "shell-shock:env" {
    * @title Object
    *
    */
-  export interface EnvBase {
+  export interface UnprefixedEnv {
     /**
      * The application's cached data directory.
      *
@@ -364,21 +364,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "ACawzh_mICfhIojQY4sF9WP2uccuClfu"
+     * @defaultValue "epaoS7tjHgbmUTTC4vOlu6W8qbVNVWML"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "3e06ebf0-abd3-4551-a0be-ade9c5d0b2e2"
+     * @defaultValue "2abeb4b4-97d3-45ef-bfe5-fc07b2fdf289"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-14T00:03:24.196Z"
+     * @defaultValue "2026-04-15T13:18:05.323Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -682,7 +682,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "06ebf0ab-d325-41a0-bead-e9c5d0b2e205"
+     * @defaultValue "beb4b497-d335-4fff-a5fc-07b2fdf289be"
      */
     readonly RELEASE_ID: string;
     /**
@@ -931,28 +931,2474 @@ declare module "shell-shock:env" {
    * The environment configuration object with prefixed keys.
    *
    * @remarks
-   * The `Env` type extends the `EnvBase` interface by including additional keys that are prefixed according to the project's configuration. This allows for flexibility in accessing environment variables with different naming conventions.
+   * The `Env` type extends the `UnprefixedEnv` interface by including additional keys that are prefixed according to the project's configuration. This allows for flexibility in accessing environment variables with different naming conventions.
    */
-  export type Env = {
-    [Key in keyof EnvBase as
-      | Key
-      | `NEXT_${Key}`
-      | `ONE_${Key}`
-      | `PLAYGROUND_CLI_${Key}`
-      | `POWERLINES_${Key}`
-      | `SHELL_SHOCK_${Key}`
-      | `STORM_STACK_${Key}`
-      | `STORM_${Key}`
-      | `VERCEL_${Key}`
-      | `VITE_${Key}`]: EnvBase[Key];
-  };
+  export interface Env extends UnprefixedEnv {
+    /**
+     * The name of the application.
+     *
+     * @readonly
+     *
+     */
+    readonly PLAYGROUND_CLI_APP_NAME: UnprefixedEnv["APP_NAME"];
+    /**
+     * The version of the application.
+     *
+     * @readonly
+     * @defaultValue "1.0.0"
+     */
+    readonly PLAYGROUND_CLI_APP_VERSION: UnprefixedEnv["APP_VERSION"];
+    /**
+     * The unique identifier for the build.
+     *
+     * @readonly
+     *
+     */
+    readonly PLAYGROUND_CLI_BUILD_ID: UnprefixedEnv["BUILD_ID"];
+    /**
+     * The timestamp the build was ran at.
+     *
+     * @readonly
+     *
+     */
+    readonly PLAYGROUND_CLI_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
+    /**
+     * A checksum hash created during the build.
+     *
+     * @readonly
+     *
+     */
+    readonly PLAYGROUND_CLI_BUILD_CHECKSUM: UnprefixedEnv["BUILD_CHECKSUM"];
+    /**
+     * The unique identifier for the release.
+     *
+     * @readonly
+     *
+     */
+    readonly PLAYGROUND_CLI_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
+    /**
+     * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
+     *
+     * @readonly
+     *
+     */
+    readonly PLAYGROUND_CLI_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
+    /**
+     * The name of the organization that maintains the application.
+     *
+     * @alias ORG
+     *
+     */
+    PLAYGROUND_CLI_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
+    /**
+     * The platform for which the application was built.
+     *
+     * @defaultValue "neutral"
+     */
+    PLAYGROUND_CLI_PLATFORM: UnprefixedEnv["PLATFORM"];
+    /**
+     * The mode in which the application is running.
+     *
+     * @alias NODE_ENV
+     *
+     * @alias VERCEL_ENV
+     * @defaultValue "production"
+     */
+    PLAYGROUND_CLI_MODE: UnprefixedEnv["MODE"];
+    /**
+     * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
+     *
+     * @defaultValue "production"
+     */
+    PLAYGROUND_CLI_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
+    /**
+     * Indicates if the application is running in debug mode.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_DEBUG: UnprefixedEnv["DEBUG"];
+    /**
+     * An indicator that specifies the current runtime is a test environment.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_TEST: UnprefixedEnv["TEST"];
+    /**
+     * An indicator that specifies the current runtime is a minimal environment.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_MINIMAL: UnprefixedEnv["MINIMAL"];
+    /**
+     * An indicator that specifies the current runtime is a no color environment.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_NO_COLOR: UnprefixedEnv["NO_COLOR"];
+    /**
+     * An indicator that specifies the current runtime is a force color environment.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
+    /**
+     * An indicator that specifies the current runtime should force hyperlinks in terminal output.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_FORCE_HYPERLINK: UnprefixedEnv["FORCE_HYPERLINK"];
+    /**
+     * The name of the agent running the application. This variable is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_AGENT_NAME: UnprefixedEnv["AGENT_NAME"];
+    /**
+     * The color terminal type. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_COLORTERM: UnprefixedEnv["COLORTERM"];
+    /**
+     * The terminal type. This variable is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_TERM: UnprefixedEnv["TERM"];
+    /**
+     * The terminal program name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_TERM_PROGRAM: UnprefixedEnv["TERM_PROGRAM"];
+    /**
+     * The terminal program version. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_TERM_PROGRAM_VERSION: UnprefixedEnv["TERM_PROGRAM_VERSION"];
+    /**
+     * The terminal emulator name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_TERMINAL_EMULATOR: UnprefixedEnv["TERMINAL_EMULATOR"];
+    /**
+     * The terminal emulator session ID. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_WT_SESSION: UnprefixedEnv["WT_SESSION"];
+    /**
+     * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_TERMINUS_SUBLIME: UnprefixedEnv["TERMINUS_SUBLIME"];
+    /**
+     * The ConEmu task name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_ConEmuTask: UnprefixedEnv["ConEmuTask"];
+    /**
+     * The cursor trace ID. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_CURSOR_TRACE_ID: UnprefixedEnv["CURSOR_TRACE_ID"];
+    /**
+     * The VTE version. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_VTE_VERSION: UnprefixedEnv["VTE_VERSION"];
+    /**
+     * Indicates if error stack traces should be captured.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_STACKTRACE: UnprefixedEnv["STACKTRACE"];
+    /**
+     * Indicates if error data should be included.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_INCLUDE_ERROR_DATA: UnprefixedEnv["INCLUDE_ERROR_DATA"];
+    /**
+     * A web page to lookup error messages and display additional information given an error code.
+     *
+     * @title Error Details URL
+     *
+     */
+    PLAYGROUND_CLI_ERROR_URL: UnprefixedEnv["ERROR_URL"];
+    /**
+     * The default timezone for the application.
+     *
+     * @defaultValue "America/New_York"
+     */
+    PLAYGROUND_CLI_DEFAULT_TIMEZONE: UnprefixedEnv["DEFAULT_TIMEZONE"];
+    /**
+     * The default locale to be used in the application.
+     *
+     * @defaultValue "en_US"
+     */
+    PLAYGROUND_CLI_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
+    /**
+     * The default lowest log level to accept. If `null`, the logger will reject all records.
+     *
+     * @defaultValue "info"
+     */
+    PLAYGROUND_CLI_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
+    /**
+     * An indicator that specifies the current runtime is a continuous integration environment.
+     *
+     * @title Continuous Integration
+     * @alias CONTINUOUS_INTEGRATION
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_CI: UnprefixedEnv["CI"];
+    /**
+     * The unique identifier for the current run. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_RUN_ID: UnprefixedEnv["RUN_ID"];
+    /**
+     * The agola git reference. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_AGOLA_GIT_REF: UnprefixedEnv["AGOLA_GIT_REF"];
+    /**
+     * The appcircle build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_AC_APPCIRCLE: UnprefixedEnv["AC_APPCIRCLE"];
+    /**
+     * The appveyor build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_APPVEYOR: UnprefixedEnv["APPVEYOR"];
+    /**
+     * The codebuild build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_CODEBUILD: UnprefixedEnv["CODEBUILD"];
+    /**
+     * The task force build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_TF_BUILD: UnprefixedEnv["TF_BUILD"];
+    /**
+     * The bamboo plan key. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_bamboo_planKey: UnprefixedEnv["bamboo_planKey"];
+    /**
+     * The bitbucket commit. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_BITBUCKET_COMMIT: UnprefixedEnv["BITBUCKET_COMMIT"];
+    /**
+     * The bitrise build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_BITRISE_IO: UnprefixedEnv["BITRISE_IO"];
+    /**
+     * The buddy workspace ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_BUDDY_WORKSPACE_ID: UnprefixedEnv["BUDDY_WORKSPACE_ID"];
+    /**
+     * The buildkite build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_BUILDKITE: UnprefixedEnv["BUILDKITE"];
+    /**
+     * The circleci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_CIRCLECI: UnprefixedEnv["CIRCLECI"];
+    /**
+     * The cirrus-ci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_CIRRUS_CI: UnprefixedEnv["CIRRUS_CI"];
+    /**
+     * The cf build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_CF_BUILD_ID: UnprefixedEnv["CF_BUILD_ID"];
+    /**
+     * The cm build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_CM_BUILD_ID: UnprefixedEnv["CM_BUILD_ID"];
+    /**
+     * The ci name. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_CI_NAME: UnprefixedEnv["CI_NAME"];
+    /**
+     * The drone build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_DRONE: UnprefixedEnv["DRONE"];
+    /**
+     * The dsari build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_DSARI: UnprefixedEnv["DSARI"];
+    /**
+     * The earthly build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_EARTHLY_CI: UnprefixedEnv["EARTHLY_CI"];
+    /**
+     * The eas build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_EAS_BUILD: UnprefixedEnv["EAS_BUILD"];
+    /**
+     * The gerrit project. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_GERRIT_PROJECT: UnprefixedEnv["GERRIT_PROJECT"];
+    /**
+     * The gitea actions build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_GITEA_ACTIONS: UnprefixedEnv["GITEA_ACTIONS"];
+    /**
+     * The github actions build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_GITHUB_ACTIONS: UnprefixedEnv["GITHUB_ACTIONS"];
+    /**
+     * The gitlab ci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_GITLAB_CI: UnprefixedEnv["GITLAB_CI"];
+    /**
+     * The go cd build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_GOCD: UnprefixedEnv["GOCD"];
+    /**
+     * The builder output build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_BUILDER_OUTPUT: UnprefixedEnv["BUILDER_OUTPUT"];
+    /**
+     * The harness build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_HARNESS_BUILD_ID: UnprefixedEnv["HARNESS_BUILD_ID"];
+    /**
+     * The jenkins url. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_JENKINS_URL: UnprefixedEnv["JENKINS_URL"];
+    /**
+     * The layerci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_LAYERCI: UnprefixedEnv["LAYERCI"];
+    /**
+     * The magnum build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_MAGNUM: UnprefixedEnv["MAGNUM"];
+    /**
+     * The netlify build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_NETLIFY: UnprefixedEnv["NETLIFY"];
+    /**
+     * The nevercode build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_NEVERCODE: UnprefixedEnv["NEVERCODE"];
+    /**
+     * The prow job ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_PROW_JOB_ID: UnprefixedEnv["PROW_JOB_ID"];
+    /**
+     * The release build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_RELEASE_BUILD_ID: UnprefixedEnv["RELEASE_BUILD_ID"];
+    /**
+     * The render build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_RENDER: UnprefixedEnv["RENDER"];
+    /**
+     * The sailci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_SAILCI: UnprefixedEnv["SAILCI"];
+    /**
+     * The hudson build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_HUDSON: UnprefixedEnv["HUDSON"];
+    /**
+     * The screwdriver build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_SCREWDRIVER: UnprefixedEnv["SCREWDRIVER"];
+    /**
+     * The semaphore build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_SEMAPHORE: UnprefixedEnv["SEMAPHORE"];
+    /**
+     * The sourcehut build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_SOURCEHUT: UnprefixedEnv["SOURCEHUT"];
+    /**
+     * The spaceship build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_SPACESHIP_CI: UnprefixedEnv["SPACESHIP_CI"];
+    /**
+     * The strider build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_STRIDER: UnprefixedEnv["STRIDER"];
+    /**
+     * The task ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_TASK_ID: UnprefixedEnv["TASK_ID"];
+    /**
+     * The teamcity version. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_TEAMCITY_VERSION: UnprefixedEnv["TEAMCITY_VERSION"];
+    /**
+     * The travis build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_TRAVIS: UnprefixedEnv["TRAVIS"];
+    /**
+     * The vela build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_VELA: UnprefixedEnv["VELA"];
+    /**
+     * The now builder build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_NOW_BUILDER: UnprefixedEnv["NOW_BUILDER"];
+    /**
+     * The appcenter build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_APPCENTER_BUILD_ID: UnprefixedEnv["APPCENTER_BUILD_ID"];
+    /**
+     * The xcode project build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_CI_XCODE_PROJECT: UnprefixedEnv["CI_XCODE_PROJECT"];
+    /**
+     * The xcode server build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_XCS: UnprefixedEnv["XCS"];
+    /**
+     * The application's runtime data directory.
+     *
+     * @title Data Directory
+     * @runtime
+     *
+     */
+    PLAYGROUND_CLI_DATA_DIR: UnprefixedEnv["DATA_DIR"];
+    /**
+     * The application's configuration data directory.
+     *
+     * @title Configuration Directory
+     * @runtime
+     *
+     */
+    PLAYGROUND_CLI_CONFIG_DIR: UnprefixedEnv["CONFIG_DIR"];
+    /**
+     * The application's cached data directory.
+     *
+     * @title Cache Directory
+     * @runtime
+     *
+     */
+    PLAYGROUND_CLI_CACHE_DIR: UnprefixedEnv["CACHE_DIR"];
+    /**
+     * The application's logging directory.
+     *
+     * @title Log Directory
+     * @runtime
+     *
+     */
+    PLAYGROUND_CLI_LOG_DIR: UnprefixedEnv["LOG_DIR"];
+    /**
+     * The application's temporary data directory.
+     *
+     * @title Temporary Directory
+     * @runtime
+     *
+     */
+    PLAYGROUND_CLI_TEMP_DIR: UnprefixedEnv["TEMP_DIR"];
+    /**
+     * A variable that specifies the current user's local application data directory on Windows.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_LOCALAPPDATA: UnprefixedEnv["LOCALAPPDATA"];
+    /**
+     * A variable that specifies the application data directory on Windows.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_APPDATA: UnprefixedEnv["APPDATA"];
+    /**
+     * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_XDG_DATA_HOME: UnprefixedEnv["XDG_DATA_HOME"];
+    /**
+     * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_XDG_CONFIG_HOME: UnprefixedEnv["XDG_CONFIG_HOME"];
+    /**
+     * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_XDG_CACHE_HOME: UnprefixedEnv["XDG_CACHE_HOME"];
+    /**
+     * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_XDG_STATE_HOME: UnprefixedEnv["XDG_STATE_HOME"];
+    /**
+     * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_XDG_RUNTIME_DIR: UnprefixedEnv["XDG_RUNTIME_DIR"];
+    /**
+     * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_CLI_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
+    /**
+     * The name of the application.
+     *
+     * @readonly
+     *
+     */
+    readonly POWERLINES_APP_NAME: UnprefixedEnv["APP_NAME"];
+    /**
+     * The version of the application.
+     *
+     * @readonly
+     * @defaultValue "1.0.0"
+     */
+    readonly POWERLINES_APP_VERSION: UnprefixedEnv["APP_VERSION"];
+    /**
+     * The unique identifier for the build.
+     *
+     * @readonly
+     *
+     */
+    readonly POWERLINES_BUILD_ID: UnprefixedEnv["BUILD_ID"];
+    /**
+     * The timestamp the build was ran at.
+     *
+     * @readonly
+     *
+     */
+    readonly POWERLINES_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
+    /**
+     * A checksum hash created during the build.
+     *
+     * @readonly
+     *
+     */
+    readonly POWERLINES_BUILD_CHECKSUM: UnprefixedEnv["BUILD_CHECKSUM"];
+    /**
+     * The unique identifier for the release.
+     *
+     * @readonly
+     *
+     */
+    readonly POWERLINES_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
+    /**
+     * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
+     *
+     * @readonly
+     *
+     */
+    readonly POWERLINES_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
+    /**
+     * The name of the organization that maintains the application.
+     *
+     * @alias ORG
+     *
+     */
+    POWERLINES_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
+    /**
+     * The platform for which the application was built.
+     *
+     * @defaultValue "neutral"
+     */
+    POWERLINES_PLATFORM: UnprefixedEnv["PLATFORM"];
+    /**
+     * The mode in which the application is running.
+     *
+     * @alias NODE_ENV
+     *
+     * @alias VERCEL_ENV
+     * @defaultValue "production"
+     */
+    POWERLINES_MODE: UnprefixedEnv["MODE"];
+    /**
+     * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
+     *
+     * @defaultValue "production"
+     */
+    POWERLINES_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
+    /**
+     * Indicates if the application is running in debug mode.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_DEBUG: UnprefixedEnv["DEBUG"];
+    /**
+     * An indicator that specifies the current runtime is a test environment.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_TEST: UnprefixedEnv["TEST"];
+    /**
+     * An indicator that specifies the current runtime is a minimal environment.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_MINIMAL: UnprefixedEnv["MINIMAL"];
+    /**
+     * An indicator that specifies the current runtime is a no color environment.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_NO_COLOR: UnprefixedEnv["NO_COLOR"];
+    /**
+     * An indicator that specifies the current runtime is a force color environment.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
+    /**
+     * An indicator that specifies the current runtime should force hyperlinks in terminal output.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_FORCE_HYPERLINK: UnprefixedEnv["FORCE_HYPERLINK"];
+    /**
+     * The name of the agent running the application. This variable is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_AGENT_NAME: UnprefixedEnv["AGENT_NAME"];
+    /**
+     * The color terminal type. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_COLORTERM: UnprefixedEnv["COLORTERM"];
+    /**
+     * The terminal type. This variable is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TERM: UnprefixedEnv["TERM"];
+    /**
+     * The terminal program name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TERM_PROGRAM: UnprefixedEnv["TERM_PROGRAM"];
+    /**
+     * The terminal program version. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TERM_PROGRAM_VERSION: UnprefixedEnv["TERM_PROGRAM_VERSION"];
+    /**
+     * The terminal emulator name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TERMINAL_EMULATOR: UnprefixedEnv["TERMINAL_EMULATOR"];
+    /**
+     * The terminal emulator session ID. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_WT_SESSION: UnprefixedEnv["WT_SESSION"];
+    /**
+     * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TERMINUS_SUBLIME: UnprefixedEnv["TERMINUS_SUBLIME"];
+    /**
+     * The ConEmu task name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_ConEmuTask: UnprefixedEnv["ConEmuTask"];
+    /**
+     * The cursor trace ID. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CURSOR_TRACE_ID: UnprefixedEnv["CURSOR_TRACE_ID"];
+    /**
+     * The VTE version. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_VTE_VERSION: UnprefixedEnv["VTE_VERSION"];
+    /**
+     * Indicates if error stack traces should be captured.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_STACKTRACE: UnprefixedEnv["STACKTRACE"];
+    /**
+     * Indicates if error data should be included.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_INCLUDE_ERROR_DATA: UnprefixedEnv["INCLUDE_ERROR_DATA"];
+    /**
+     * A web page to lookup error messages and display additional information given an error code.
+     *
+     * @title Error Details URL
+     *
+     */
+    POWERLINES_ERROR_URL: UnprefixedEnv["ERROR_URL"];
+    /**
+     * The default timezone for the application.
+     *
+     * @defaultValue "America/New_York"
+     */
+    POWERLINES_DEFAULT_TIMEZONE: UnprefixedEnv["DEFAULT_TIMEZONE"];
+    /**
+     * The default locale to be used in the application.
+     *
+     * @defaultValue "en_US"
+     */
+    POWERLINES_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
+    /**
+     * The default lowest log level to accept. If `null`, the logger will reject all records.
+     *
+     * @defaultValue "info"
+     */
+    POWERLINES_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
+    /**
+     * An indicator that specifies the current runtime is a continuous integration environment.
+     *
+     * @title Continuous Integration
+     * @alias CONTINUOUS_INTEGRATION
+     * @defaultValue false
+     */
+    POWERLINES_CI: UnprefixedEnv["CI"];
+    /**
+     * The unique identifier for the current run. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_RUN_ID: UnprefixedEnv["RUN_ID"];
+    /**
+     * The agola git reference. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_AGOLA_GIT_REF: UnprefixedEnv["AGOLA_GIT_REF"];
+    /**
+     * The appcircle build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_AC_APPCIRCLE: UnprefixedEnv["AC_APPCIRCLE"];
+    /**
+     * The appveyor build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_APPVEYOR: UnprefixedEnv["APPVEYOR"];
+    /**
+     * The codebuild build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CODEBUILD: UnprefixedEnv["CODEBUILD"];
+    /**
+     * The task force build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TF_BUILD: UnprefixedEnv["TF_BUILD"];
+    /**
+     * The bamboo plan key. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_bamboo_planKey: UnprefixedEnv["bamboo_planKey"];
+    /**
+     * The bitbucket commit. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_BITBUCKET_COMMIT: UnprefixedEnv["BITBUCKET_COMMIT"];
+    /**
+     * The bitrise build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_BITRISE_IO: UnprefixedEnv["BITRISE_IO"];
+    /**
+     * The buddy workspace ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_BUDDY_WORKSPACE_ID: UnprefixedEnv["BUDDY_WORKSPACE_ID"];
+    /**
+     * The buildkite build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_BUILDKITE: UnprefixedEnv["BUILDKITE"];
+    /**
+     * The circleci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CIRCLECI: UnprefixedEnv["CIRCLECI"];
+    /**
+     * The cirrus-ci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CIRRUS_CI: UnprefixedEnv["CIRRUS_CI"];
+    /**
+     * The cf build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CF_BUILD_ID: UnprefixedEnv["CF_BUILD_ID"];
+    /**
+     * The cm build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CM_BUILD_ID: UnprefixedEnv["CM_BUILD_ID"];
+    /**
+     * The ci name. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CI_NAME: UnprefixedEnv["CI_NAME"];
+    /**
+     * The drone build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_DRONE: UnprefixedEnv["DRONE"];
+    /**
+     * The dsari build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_DSARI: UnprefixedEnv["DSARI"];
+    /**
+     * The earthly build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_EARTHLY_CI: UnprefixedEnv["EARTHLY_CI"];
+    /**
+     * The eas build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_EAS_BUILD: UnprefixedEnv["EAS_BUILD"];
+    /**
+     * The gerrit project. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_GERRIT_PROJECT: UnprefixedEnv["GERRIT_PROJECT"];
+    /**
+     * The gitea actions build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_GITEA_ACTIONS: UnprefixedEnv["GITEA_ACTIONS"];
+    /**
+     * The github actions build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_GITHUB_ACTIONS: UnprefixedEnv["GITHUB_ACTIONS"];
+    /**
+     * The gitlab ci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_GITLAB_CI: UnprefixedEnv["GITLAB_CI"];
+    /**
+     * The go cd build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_GOCD: UnprefixedEnv["GOCD"];
+    /**
+     * The builder output build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_BUILDER_OUTPUT: UnprefixedEnv["BUILDER_OUTPUT"];
+    /**
+     * The harness build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_HARNESS_BUILD_ID: UnprefixedEnv["HARNESS_BUILD_ID"];
+    /**
+     * The jenkins url. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_JENKINS_URL: UnprefixedEnv["JENKINS_URL"];
+    /**
+     * The layerci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_LAYERCI: UnprefixedEnv["LAYERCI"];
+    /**
+     * The magnum build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_MAGNUM: UnprefixedEnv["MAGNUM"];
+    /**
+     * The netlify build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_NETLIFY: UnprefixedEnv["NETLIFY"];
+    /**
+     * The nevercode build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_NEVERCODE: UnprefixedEnv["NEVERCODE"];
+    /**
+     * The prow job ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_PROW_JOB_ID: UnprefixedEnv["PROW_JOB_ID"];
+    /**
+     * The release build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_RELEASE_BUILD_ID: UnprefixedEnv["RELEASE_BUILD_ID"];
+    /**
+     * The render build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_RENDER: UnprefixedEnv["RENDER"];
+    /**
+     * The sailci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_SAILCI: UnprefixedEnv["SAILCI"];
+    /**
+     * The hudson build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_HUDSON: UnprefixedEnv["HUDSON"];
+    /**
+     * The screwdriver build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_SCREWDRIVER: UnprefixedEnv["SCREWDRIVER"];
+    /**
+     * The semaphore build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_SEMAPHORE: UnprefixedEnv["SEMAPHORE"];
+    /**
+     * The sourcehut build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_SOURCEHUT: UnprefixedEnv["SOURCEHUT"];
+    /**
+     * The spaceship build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_SPACESHIP_CI: UnprefixedEnv["SPACESHIP_CI"];
+    /**
+     * The strider build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_STRIDER: UnprefixedEnv["STRIDER"];
+    /**
+     * The task ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TASK_ID: UnprefixedEnv["TASK_ID"];
+    /**
+     * The teamcity version. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TEAMCITY_VERSION: UnprefixedEnv["TEAMCITY_VERSION"];
+    /**
+     * The travis build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TRAVIS: UnprefixedEnv["TRAVIS"];
+    /**
+     * The vela build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_VELA: UnprefixedEnv["VELA"];
+    /**
+     * The now builder build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_NOW_BUILDER: UnprefixedEnv["NOW_BUILDER"];
+    /**
+     * The appcenter build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_APPCENTER_BUILD_ID: UnprefixedEnv["APPCENTER_BUILD_ID"];
+    /**
+     * The xcode project build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CI_XCODE_PROJECT: UnprefixedEnv["CI_XCODE_PROJECT"];
+    /**
+     * The xcode server build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_XCS: UnprefixedEnv["XCS"];
+    /**
+     * The application's runtime data directory.
+     *
+     * @title Data Directory
+     * @runtime
+     *
+     */
+    POWERLINES_DATA_DIR: UnprefixedEnv["DATA_DIR"];
+    /**
+     * The application's configuration data directory.
+     *
+     * @title Configuration Directory
+     * @runtime
+     *
+     */
+    POWERLINES_CONFIG_DIR: UnprefixedEnv["CONFIG_DIR"];
+    /**
+     * The application's cached data directory.
+     *
+     * @title Cache Directory
+     * @runtime
+     *
+     */
+    POWERLINES_CACHE_DIR: UnprefixedEnv["CACHE_DIR"];
+    /**
+     * The application's logging directory.
+     *
+     * @title Log Directory
+     * @runtime
+     *
+     */
+    POWERLINES_LOG_DIR: UnprefixedEnv["LOG_DIR"];
+    /**
+     * The application's temporary data directory.
+     *
+     * @title Temporary Directory
+     * @runtime
+     *
+     */
+    POWERLINES_TEMP_DIR: UnprefixedEnv["TEMP_DIR"];
+    /**
+     * A variable that specifies the current user's local application data directory on Windows.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_LOCALAPPDATA: UnprefixedEnv["LOCALAPPDATA"];
+    /**
+     * A variable that specifies the application data directory on Windows.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_APPDATA: UnprefixedEnv["APPDATA"];
+    /**
+     * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_XDG_DATA_HOME: UnprefixedEnv["XDG_DATA_HOME"];
+    /**
+     * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_XDG_CONFIG_HOME: UnprefixedEnv["XDG_CONFIG_HOME"];
+    /**
+     * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_XDG_CACHE_HOME: UnprefixedEnv["XDG_CACHE_HOME"];
+    /**
+     * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_XDG_STATE_HOME: UnprefixedEnv["XDG_STATE_HOME"];
+    /**
+     * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_XDG_RUNTIME_DIR: UnprefixedEnv["XDG_RUNTIME_DIR"];
+    /**
+     * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
+    /**
+     * The name of the application.
+     *
+     * @readonly
+     *
+     */
+    readonly SHELL_SHOCK_APP_NAME: UnprefixedEnv["APP_NAME"];
+    /**
+     * The version of the application.
+     *
+     * @readonly
+     * @defaultValue "1.0.0"
+     */
+    readonly SHELL_SHOCK_APP_VERSION: UnprefixedEnv["APP_VERSION"];
+    /**
+     * The unique identifier for the build.
+     *
+     * @readonly
+     *
+     */
+    readonly SHELL_SHOCK_BUILD_ID: UnprefixedEnv["BUILD_ID"];
+    /**
+     * The timestamp the build was ran at.
+     *
+     * @readonly
+     *
+     */
+    readonly SHELL_SHOCK_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
+    /**
+     * A checksum hash created during the build.
+     *
+     * @readonly
+     *
+     */
+    readonly SHELL_SHOCK_BUILD_CHECKSUM: UnprefixedEnv["BUILD_CHECKSUM"];
+    /**
+     * The unique identifier for the release.
+     *
+     * @readonly
+     *
+     */
+    readonly SHELL_SHOCK_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
+    /**
+     * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
+     *
+     * @readonly
+     *
+     */
+    readonly SHELL_SHOCK_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
+    /**
+     * The name of the organization that maintains the application.
+     *
+     * @alias ORG
+     *
+     */
+    SHELL_SHOCK_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
+    /**
+     * The platform for which the application was built.
+     *
+     * @defaultValue "neutral"
+     */
+    SHELL_SHOCK_PLATFORM: UnprefixedEnv["PLATFORM"];
+    /**
+     * The mode in which the application is running.
+     *
+     * @alias NODE_ENV
+     *
+     * @alias VERCEL_ENV
+     * @defaultValue "production"
+     */
+    SHELL_SHOCK_MODE: UnprefixedEnv["MODE"];
+    /**
+     * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
+     *
+     * @defaultValue "production"
+     */
+    SHELL_SHOCK_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
+    /**
+     * Indicates if the application is running in debug mode.
+     *
+     * @defaultValue false
+     */
+    SHELL_SHOCK_DEBUG: UnprefixedEnv["DEBUG"];
+    /**
+     * An indicator that specifies the current runtime is a test environment.
+     *
+     * @defaultValue false
+     */
+    SHELL_SHOCK_TEST: UnprefixedEnv["TEST"];
+    /**
+     * An indicator that specifies the current runtime is a minimal environment.
+     *
+     * @defaultValue false
+     */
+    SHELL_SHOCK_MINIMAL: UnprefixedEnv["MINIMAL"];
+    /**
+     * An indicator that specifies the current runtime is a no color environment.
+     *
+     * @defaultValue false
+     */
+    SHELL_SHOCK_NO_COLOR: UnprefixedEnv["NO_COLOR"];
+    /**
+     * An indicator that specifies the current runtime is a force color environment.
+     *
+     * @defaultValue false
+     */
+    SHELL_SHOCK_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
+    /**
+     * An indicator that specifies the current runtime should force hyperlinks in terminal output.
+     *
+     * @defaultValue false
+     */
+    SHELL_SHOCK_FORCE_HYPERLINK: UnprefixedEnv["FORCE_HYPERLINK"];
+    /**
+     * The name of the agent running the application. This variable is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_AGENT_NAME: UnprefixedEnv["AGENT_NAME"];
+    /**
+     * The color terminal type. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_COLORTERM: UnprefixedEnv["COLORTERM"];
+    /**
+     * The terminal type. This variable is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_TERM: UnprefixedEnv["TERM"];
+    /**
+     * The terminal program name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_TERM_PROGRAM: UnprefixedEnv["TERM_PROGRAM"];
+    /**
+     * The terminal program version. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_TERM_PROGRAM_VERSION: UnprefixedEnv["TERM_PROGRAM_VERSION"];
+    /**
+     * The terminal emulator name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_TERMINAL_EMULATOR: UnprefixedEnv["TERMINAL_EMULATOR"];
+    /**
+     * The terminal emulator session ID. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_WT_SESSION: UnprefixedEnv["WT_SESSION"];
+    /**
+     * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_TERMINUS_SUBLIME: UnprefixedEnv["TERMINUS_SUBLIME"];
+    /**
+     * The ConEmu task name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_ConEmuTask: UnprefixedEnv["ConEmuTask"];
+    /**
+     * The cursor trace ID. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_CURSOR_TRACE_ID: UnprefixedEnv["CURSOR_TRACE_ID"];
+    /**
+     * The VTE version. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_VTE_VERSION: UnprefixedEnv["VTE_VERSION"];
+    /**
+     * Indicates if error stack traces should be captured.
+     *
+     * @defaultValue false
+     */
+    SHELL_SHOCK_STACKTRACE: UnprefixedEnv["STACKTRACE"];
+    /**
+     * Indicates if error data should be included.
+     *
+     * @defaultValue false
+     */
+    SHELL_SHOCK_INCLUDE_ERROR_DATA: UnprefixedEnv["INCLUDE_ERROR_DATA"];
+    /**
+     * A web page to lookup error messages and display additional information given an error code.
+     *
+     * @title Error Details URL
+     *
+     */
+    SHELL_SHOCK_ERROR_URL: UnprefixedEnv["ERROR_URL"];
+    /**
+     * The default timezone for the application.
+     *
+     * @defaultValue "America/New_York"
+     */
+    SHELL_SHOCK_DEFAULT_TIMEZONE: UnprefixedEnv["DEFAULT_TIMEZONE"];
+    /**
+     * The default locale to be used in the application.
+     *
+     * @defaultValue "en_US"
+     */
+    SHELL_SHOCK_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
+    /**
+     * The default lowest log level to accept. If `null`, the logger will reject all records.
+     *
+     * @defaultValue "info"
+     */
+    SHELL_SHOCK_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
+    /**
+     * An indicator that specifies the current runtime is a continuous integration environment.
+     *
+     * @title Continuous Integration
+     * @alias CONTINUOUS_INTEGRATION
+     * @defaultValue false
+     */
+    SHELL_SHOCK_CI: UnprefixedEnv["CI"];
+    /**
+     * The unique identifier for the current run. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_RUN_ID: UnprefixedEnv["RUN_ID"];
+    /**
+     * The agola git reference. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_AGOLA_GIT_REF: UnprefixedEnv["AGOLA_GIT_REF"];
+    /**
+     * The appcircle build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_AC_APPCIRCLE: UnprefixedEnv["AC_APPCIRCLE"];
+    /**
+     * The appveyor build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_APPVEYOR: UnprefixedEnv["APPVEYOR"];
+    /**
+     * The codebuild build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_CODEBUILD: UnprefixedEnv["CODEBUILD"];
+    /**
+     * The task force build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_TF_BUILD: UnprefixedEnv["TF_BUILD"];
+    /**
+     * The bamboo plan key. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_bamboo_planKey: UnprefixedEnv["bamboo_planKey"];
+    /**
+     * The bitbucket commit. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_BITBUCKET_COMMIT: UnprefixedEnv["BITBUCKET_COMMIT"];
+    /**
+     * The bitrise build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_BITRISE_IO: UnprefixedEnv["BITRISE_IO"];
+    /**
+     * The buddy workspace ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_BUDDY_WORKSPACE_ID: UnprefixedEnv["BUDDY_WORKSPACE_ID"];
+    /**
+     * The buildkite build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_BUILDKITE: UnprefixedEnv["BUILDKITE"];
+    /**
+     * The circleci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_CIRCLECI: UnprefixedEnv["CIRCLECI"];
+    /**
+     * The cirrus-ci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_CIRRUS_CI: UnprefixedEnv["CIRRUS_CI"];
+    /**
+     * The cf build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_CF_BUILD_ID: UnprefixedEnv["CF_BUILD_ID"];
+    /**
+     * The cm build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_CM_BUILD_ID: UnprefixedEnv["CM_BUILD_ID"];
+    /**
+     * The ci name. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_CI_NAME: UnprefixedEnv["CI_NAME"];
+    /**
+     * The drone build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_DRONE: UnprefixedEnv["DRONE"];
+    /**
+     * The dsari build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_DSARI: UnprefixedEnv["DSARI"];
+    /**
+     * The earthly build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_EARTHLY_CI: UnprefixedEnv["EARTHLY_CI"];
+    /**
+     * The eas build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_EAS_BUILD: UnprefixedEnv["EAS_BUILD"];
+    /**
+     * The gerrit project. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_GERRIT_PROJECT: UnprefixedEnv["GERRIT_PROJECT"];
+    /**
+     * The gitea actions build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_GITEA_ACTIONS: UnprefixedEnv["GITEA_ACTIONS"];
+    /**
+     * The github actions build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_GITHUB_ACTIONS: UnprefixedEnv["GITHUB_ACTIONS"];
+    /**
+     * The gitlab ci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_GITLAB_CI: UnprefixedEnv["GITLAB_CI"];
+    /**
+     * The go cd build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_GOCD: UnprefixedEnv["GOCD"];
+    /**
+     * The builder output build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_BUILDER_OUTPUT: UnprefixedEnv["BUILDER_OUTPUT"];
+    /**
+     * The harness build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_HARNESS_BUILD_ID: UnprefixedEnv["HARNESS_BUILD_ID"];
+    /**
+     * The jenkins url. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_JENKINS_URL: UnprefixedEnv["JENKINS_URL"];
+    /**
+     * The layerci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_LAYERCI: UnprefixedEnv["LAYERCI"];
+    /**
+     * The magnum build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_MAGNUM: UnprefixedEnv["MAGNUM"];
+    /**
+     * The netlify build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_NETLIFY: UnprefixedEnv["NETLIFY"];
+    /**
+     * The nevercode build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_NEVERCODE: UnprefixedEnv["NEVERCODE"];
+    /**
+     * The prow job ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_PROW_JOB_ID: UnprefixedEnv["PROW_JOB_ID"];
+    /**
+     * The release build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_RELEASE_BUILD_ID: UnprefixedEnv["RELEASE_BUILD_ID"];
+    /**
+     * The render build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_RENDER: UnprefixedEnv["RENDER"];
+    /**
+     * The sailci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_SAILCI: UnprefixedEnv["SAILCI"];
+    /**
+     * The hudson build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_HUDSON: UnprefixedEnv["HUDSON"];
+    /**
+     * The screwdriver build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_SCREWDRIVER: UnprefixedEnv["SCREWDRIVER"];
+    /**
+     * The semaphore build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_SEMAPHORE: UnprefixedEnv["SEMAPHORE"];
+    /**
+     * The sourcehut build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_SOURCEHUT: UnprefixedEnv["SOURCEHUT"];
+    /**
+     * The spaceship build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_SPACESHIP_CI: UnprefixedEnv["SPACESHIP_CI"];
+    /**
+     * The strider build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_STRIDER: UnprefixedEnv["STRIDER"];
+    /**
+     * The task ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_TASK_ID: UnprefixedEnv["TASK_ID"];
+    /**
+     * The teamcity version. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_TEAMCITY_VERSION: UnprefixedEnv["TEAMCITY_VERSION"];
+    /**
+     * The travis build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_TRAVIS: UnprefixedEnv["TRAVIS"];
+    /**
+     * The vela build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_VELA: UnprefixedEnv["VELA"];
+    /**
+     * The now builder build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_NOW_BUILDER: UnprefixedEnv["NOW_BUILDER"];
+    /**
+     * The appcenter build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_APPCENTER_BUILD_ID: UnprefixedEnv["APPCENTER_BUILD_ID"];
+    /**
+     * The xcode project build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_CI_XCODE_PROJECT: UnprefixedEnv["CI_XCODE_PROJECT"];
+    /**
+     * The xcode server build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_XCS: UnprefixedEnv["XCS"];
+    /**
+     * The application's runtime data directory.
+     *
+     * @title Data Directory
+     * @runtime
+     *
+     */
+    SHELL_SHOCK_DATA_DIR: UnprefixedEnv["DATA_DIR"];
+    /**
+     * The application's configuration data directory.
+     *
+     * @title Configuration Directory
+     * @runtime
+     *
+     */
+    SHELL_SHOCK_CONFIG_DIR: UnprefixedEnv["CONFIG_DIR"];
+    /**
+     * The application's cached data directory.
+     *
+     * @title Cache Directory
+     * @runtime
+     *
+     */
+    SHELL_SHOCK_CACHE_DIR: UnprefixedEnv["CACHE_DIR"];
+    /**
+     * The application's logging directory.
+     *
+     * @title Log Directory
+     * @runtime
+     *
+     */
+    SHELL_SHOCK_LOG_DIR: UnprefixedEnv["LOG_DIR"];
+    /**
+     * The application's temporary data directory.
+     *
+     * @title Temporary Directory
+     * @runtime
+     *
+     */
+    SHELL_SHOCK_TEMP_DIR: UnprefixedEnv["TEMP_DIR"];
+    /**
+     * A variable that specifies the current user's local application data directory on Windows.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_LOCALAPPDATA: UnprefixedEnv["LOCALAPPDATA"];
+    /**
+     * A variable that specifies the application data directory on Windows.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_APPDATA: UnprefixedEnv["APPDATA"];
+    /**
+     * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_XDG_DATA_HOME: UnprefixedEnv["XDG_DATA_HOME"];
+    /**
+     * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_XDG_CONFIG_HOME: UnprefixedEnv["XDG_CONFIG_HOME"];
+    /**
+     * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_XDG_CACHE_HOME: UnprefixedEnv["XDG_CACHE_HOME"];
+    /**
+     * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_XDG_STATE_HOME: UnprefixedEnv["XDG_STATE_HOME"];
+    /**
+     * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_XDG_RUNTIME_DIR: UnprefixedEnv["XDG_RUNTIME_DIR"];
+    /**
+     * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly SHELL_SHOCK_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
+  }
   /**
    * The initial environment configuration state for the Playground Command Line Interface project.
    *
    * @title Object
    *
    */
-  export const initialEnv: Partial<EnvBase>;
+  export const initialEnv: Partial<Env>;
   /**
    * The environment configuration serializer for the Powerlines application.
    *
@@ -978,13 +3424,15 @@ declare module "shell-shock:env" {
    * ```ts
    * const json = serializeEnv(env);
    * ```
+   *
+   *
+   * @param input - The environment configuration object to serialize.
+   * @returns The serialized environment configuration as JSON data objects.
+   *
    * @throws ValidationError when serialization or validation fails.
    *
    */
-  export const serializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
-    EnvBase,
-    any
-  >;
+  export function serializeEnv(input: Env): any;
   /**
    * Deserialize a environment configuration object from JSON data objects to JavaScript objects, without running any validators.
    *
@@ -997,10 +3445,7 @@ declare module "shell-shock:env" {
    * @throws ValidationError when deserialization fails.
    *
    */
-  export const deserializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
-    any,
-    EnvBase
-  >;
+  export function deserializeEnv(input: Env): Env;
   /**
    * Initializes the Powerlines environment configuration module.
    *
@@ -6411,7 +8856,7 @@ declare module "shell-shock:upgrade" {
  */
 declare module "shell-shock:banner" {
   /**
-   * Write the Playground command-line interface application banner for the  command to the console.
+   * Write the Playground command-line interface application banner for the Playground Command Line Interface command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -6473,13 +8918,13 @@ declare module "shell-shock:banner/build" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions command.
+ * A collection of utility functions that assist in displaying banner information for the Changelog command.
  *
- * @module shell-shock:banner/completions
+ * @module shell-shock:banner/changelog
  */
-declare module "shell-shock:banner/completions" {
+declare module "shell-shock:banner/changelog" {
   /**
-   * Write the Playground command-line interface application banner for the Completions command to the console.
+   * Write the Playground command-line interface application banner for the Changelog command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -6490,13 +8935,13 @@ declare module "shell-shock:banner/completions" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Fish Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions command.
  *
- * @module shell-shock:banner/completions/fish/config
+ * @module shell-shock:banner/completions
  */
-declare module "shell-shock:banner/completions/fish/config" {
+declare module "shell-shock:banner/completions" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Fish Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -6524,13 +8969,13 @@ declare module "shell-shock:banner/completions/zsh/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
  *
- * @module shell-shock:banner/completions/powershell/config
+ * @module shell-shock:banner/completions/bash/config
  */
-declare module "shell-shock:banner/completions/powershell/config" {
+declare module "shell-shock:banner/completions/bash/config" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - PowerShell Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Bash Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -6541,13 +8986,30 @@ declare module "shell-shock:banner/completions/powershell/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Fish Configuration command.
  *
- * @module shell-shock:banner/completions/bash/config
+ * @module shell-shock:banner/completions/fish/config
  */
-declare module "shell-shock:banner/completions/bash/config" {
+declare module "shell-shock:banner/completions/fish/config" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Bash Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Fish Configuration command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Configuration command.
+ *
+ * @module shell-shock:banner/completions/powershell/config
+ */
+declare module "shell-shock:banner/completions/powershell/config" {
+  /**
+   * Write the Playground command-line interface application banner for the Completions - PowerShell Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -6745,23 +9207,6 @@ declare module "shell-shock:banner/run" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Fish Script command.
- *
- * @module shell-shock:banner/completions/fish/script
- */
-declare module "shell-shock:banner/completions/fish/script" {
-  /**
-   * Write the Playground command-line interface application banner for the Completions - Fish Script command to the console.
-   *
-   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
-   *   displaying the banner. This can be used to create a delay before the banner
-   *   is shown, allowing for any necessary setup or initialization to occur
-   *   first. The default value is 500 milliseconds.
-   */
-  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
-}
-
-/**
  * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Script command.
  *
  * @module shell-shock:banner/completions/zsh/script
@@ -6779,13 +9224,13 @@ declare module "shell-shock:banner/completions/zsh/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Script command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
  *
- * @module shell-shock:banner/completions/powershell/script
+ * @module shell-shock:banner/completions/bash/script
  */
-declare module "shell-shock:banner/completions/powershell/script" {
+declare module "shell-shock:banner/completions/bash/script" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - PowerShell Script command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Bash Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -6796,13 +9241,30 @@ declare module "shell-shock:banner/completions/powershell/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Fish Script command.
  *
- * @module shell-shock:banner/completions/bash/script
+ * @module shell-shock:banner/completions/fish/script
  */
-declare module "shell-shock:banner/completions/bash/script" {
+declare module "shell-shock:banner/completions/fish/script" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Bash Script command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Fish Script command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Script command.
+ *
+ * @module shell-shock:banner/completions/powershell/script
+ */
+declare module "shell-shock:banner/completions/powershell/script" {
+  /**
+   * Write the Playground command-line interface application banner for the Completions - PowerShell Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -6936,6 +9398,24 @@ declare module "shell-shock:help/build" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying help information for the Changelog command.
+ *
+ * @module shell-shock:help/changelog
+ */
+declare module "shell-shock:help/changelog" {
+  /**
+   * Utility functions for displaying help information for the Changelog command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Changelog command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Changelog command.
+   */
+  export function showHelp(): void;
+}
+
+/**
  * A collection of utility functions that assist in displaying help information for the Completions command.
  *
  * @module shell-shock:help/completions
@@ -6949,24 +9429,6 @@ declare module "shell-shock:help/completions" {
    */
   /**
    * Display help information for the Completions command.
-   */
-  export function showHelp(): void;
-}
-
-/**
- * A collection of utility functions that assist in displaying help information for the Completions - Fish Configuration command.
- *
- * @module shell-shock:help/completions/fish/config
- */
-declare module "shell-shock:help/completions/fish/config" {
-  /**
-   * Utility functions for displaying help information for the Completions - Fish Configuration command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Fish Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Fish Configuration command.
    */
   export function showHelp(): void;
 }
@@ -6990,6 +9452,42 @@ declare module "shell-shock:help/completions/zsh/config" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying help information for the Completions - Bash Configuration command.
+ *
+ * @module shell-shock:help/completions/bash/config
+ */
+declare module "shell-shock:help/completions/bash/config" {
+  /**
+   * Utility functions for displaying help information for the Completions - Bash Configuration command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Bash Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Bash Configuration command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - Fish Configuration command.
+ *
+ * @module shell-shock:help/completions/fish/config
+ */
+declare module "shell-shock:help/completions/fish/config" {
+  /**
+   * Utility functions for displaying help information for the Completions - Fish Configuration command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Fish Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Fish Configuration command.
+   */
+  export function showHelp(): void;
+}
+
+/**
  * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Configuration command.
  *
  * @module shell-shock:help/completions/powershell/config
@@ -7004,24 +9502,6 @@ declare module "shell-shock:help/completions/powershell/config" {
   /**
    * Display help information for the Completions - PowerShell Configuration
    * command.
-   */
-  export function showHelp(): void;
-}
-
-/**
- * A collection of utility functions that assist in displaying help information for the Completions - Bash Configuration command.
- *
- * @module shell-shock:help/completions/bash/config
- */
-declare module "shell-shock:help/completions/bash/config" {
-  /**
-   * Utility functions for displaying help information for the Completions - Bash Configuration command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Bash Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Bash Configuration command.
    */
   export function showHelp(): void;
 }
@@ -7225,24 +9705,6 @@ declare module "shell-shock:help/run" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Fish Script command.
- *
- * @module shell-shock:help/completions/fish/script
- */
-declare module "shell-shock:help/completions/fish/script" {
-  /**
-   * Utility functions for displaying help information for the Completions - Fish Script command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Fish Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Fish Script command.
-   */
-  export function showHelp(): void;
-}
-
-/**
  * A collection of utility functions that assist in displaying help information for the Completions - Zsh Script command.
  *
  * @module shell-shock:help/completions/zsh/script
@@ -7261,24 +9723,6 @@ declare module "shell-shock:help/completions/zsh/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Script command.
- *
- * @module shell-shock:help/completions/powershell/script
- */
-declare module "shell-shock:help/completions/powershell/script" {
-  /**
-   * Utility functions for displaying help information for the Completions - PowerShell Script command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - PowerShell Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - PowerShell Script command.
-   */
-  export function showHelp(): void;
-}
-
-/**
  * A collection of utility functions that assist in displaying help information for the Completions - Bash Script command.
  *
  * @module shell-shock:help/completions/bash/script
@@ -7292,6 +9736,42 @@ declare module "shell-shock:help/completions/bash/script" {
    */
   /**
    * Display help information for the Completions - Bash Script command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - Fish Script command.
+ *
+ * @module shell-shock:help/completions/fish/script
+ */
+declare module "shell-shock:help/completions/fish/script" {
+  /**
+   * Utility functions for displaying help information for the Completions - Fish Script command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Fish Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Fish Script command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Script command.
+ *
+ * @module shell-shock:help/completions/powershell/script
+ */
+declare module "shell-shock:help/completions/powershell/script" {
+  /**
+   * Utility functions for displaying help information for the Completions - PowerShell Script command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - PowerShell Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - PowerShell Script command.
    */
   export function showHelp(): void;
 }

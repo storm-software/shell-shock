@@ -16,12 +16,14 @@
 
  ------------------------------------------------------------------- */
 
-import type { UnresolvedContext } from "@shell-shock/core";
 import { appendExtension } from "@stryke/path";
 import { joinPaths } from "@stryke/path/join";
 import { existsSync } from "node:fs";
 import { replacePathTokens } from "powerlines/plugin-utils";
-import type { ChangelogPluginOptions } from "../types/plugin";
+import type {
+  ChangelogPluginContext,
+  ChangelogPluginOptions
+} from "../types/plugin";
 
 const CHANGELOG_FILE_EXTENSIONS = ["md", "markdown", "txt"] as const;
 
@@ -44,7 +46,7 @@ const CHANGELOG_FILE_NAMES = [
 ] as const;
 
 function resolveChangelogFile(
-  context: UnresolvedContext,
+  context: ChangelogPluginContext,
   fileName?: string
 ): string | undefined {
   for (const ext of CHANGELOG_FILE_EXTENSIONS) {
@@ -72,7 +74,7 @@ function resolveChangelogFile(
  * @returns The resolved path to the changelog file if found, or undefined if no valid changelog file could be resolved.
  */
 export function resolveChangelog(
-  context: UnresolvedContext,
+  context: ChangelogPluginContext,
   options: ChangelogPluginOptions
 ): string | undefined {
   let changelogFile = resolveChangelogFile(context, options.file);

@@ -18,7 +18,7 @@ declare module "shell-shock:env" {
    * @title Object
    *
    */
-  export interface EnvBase {
+  export interface UnprefixedEnv {
     /**
      * The application's cached data directory.
      *
@@ -330,21 +330,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "_vEnY6w2C3GSUEV_PXZgmuIy-VAU4Jax"
+     * @defaultValue "gUuanHWeH4c_BNZF_CugtwaAFcldjJhT"
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "cde90287-b069-4c89-82f8-7ef7d04258ff"
+     * @defaultValue "cc769137-b646-4d4b-94d6-b80c928c3111"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-14T00:01:36.041Z"
+     * @defaultValue "2026-04-15T13:16:26.050Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -648,7 +648,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "e90287b0-69cc-4982-b87e-f7d04258ffda"
+     * @defaultValue "769137b6-468d-4bd4-96b8-0c928c31119a"
      */
     readonly RELEASE_ID: string;
     /**
@@ -897,27 +897,1763 @@ declare module "shell-shock:env" {
    * The environment configuration object with prefixed keys.
    *
    * @remarks
-   * The `Env` type extends the `EnvBase` interface by including additional keys that are prefixed according to the project's configuration. This allows for flexibility in accessing environment variables with different naming conventions.
+   * The `Env` type extends the `UnprefixedEnv` interface by including additional keys that are prefixed according to the project's configuration. This allows for flexibility in accessing environment variables with different naming conventions.
    */
-  export type Env = {
-    [Key in keyof EnvBase as
-      | Key
-      | `NEXT_${Key}`
-      | `ONE_${Key}`
-      | `PLAYGROUND_POWERLINES_${Key}`
-      | `POWERLINES_${Key}`
-      | `STORM_STACK_${Key}`
-      | `STORM_${Key}`
-      | `VERCEL_${Key}`
-      | `VITE_${Key}`]: EnvBase[Key];
-  };
+  export interface Env extends UnprefixedEnv {
+    /**
+     * The system PATHEXT variable, used to determine which file extensions are considered executable on Windows.
+     *
+     * @internal
+     * @hidden
+     * @runtime
+     *
+     */
+    PLAYGROUND_POWERLINES_PATHEXT: UnprefixedEnv["PATHEXT"];
+    /**
+     * The system PATH variable, used to locate executable files.
+     *
+     * @internal
+     * @hidden
+     * @runtime
+     *
+     */
+    PLAYGROUND_POWERLINES_PATH: UnprefixedEnv["PATH"];
+    /**
+     * The npm user agent string, which can be used to detect if the environment is running within an npm script.
+     *
+     * @internal
+     * @hidden
+     * @runtime
+     *
+     */
+    PLAYGROUND_POWERLINES_npm_config_user_agent: UnprefixedEnv["npm_config_user_agent"];
+    /**
+     * The npm_config_fund environment variable, which can be used to control npm's funding behavior.
+     *
+     * @internal
+     * @hidden
+     * @runtime
+     *
+     */
+    PLAYGROUND_POWERLINES_npm_config_fund: UnprefixedEnv["npm_config_fund"];
+    /**
+     * The npm execution path, which can be used to determine the location of the npm executable.
+     *
+     * @internal
+     * @hidden
+     * @runtime
+     *
+     */
+    PLAYGROUND_POWERLINES_npm_execpath: UnprefixedEnv["npm_execpath"];
+    /**
+     * The COMSPEC environment variable, which specifies the command-line interpreter to use on Windows.
+     *
+     * @internal
+     * @hidden
+     * @runtime
+     *
+     */
+    PLAYGROUND_POWERLINES_COMSPEC: UnprefixedEnv["COMSPEC"];
+    /**
+     * The name of the application.
+     *
+     * @readonly
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_APP_NAME: UnprefixedEnv["APP_NAME"];
+    /**
+     * The version of the application.
+     *
+     * @readonly
+     * @defaultValue "1.0.0"
+     */
+    readonly PLAYGROUND_POWERLINES_APP_VERSION: UnprefixedEnv["APP_VERSION"];
+    /**
+     * The unique identifier for the build.
+     *
+     * @readonly
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_BUILD_ID: UnprefixedEnv["BUILD_ID"];
+    /**
+     * The timestamp the build was ran at.
+     *
+     * @readonly
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
+    /**
+     * A checksum hash created during the build.
+     *
+     * @readonly
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_BUILD_CHECKSUM: UnprefixedEnv["BUILD_CHECKSUM"];
+    /**
+     * The unique identifier for the release.
+     *
+     * @readonly
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
+    /**
+     * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
+     *
+     * @readonly
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
+    /**
+     * The name of the organization that maintains the application.
+     *
+     * @alias ORG
+     *
+     */
+    PLAYGROUND_POWERLINES_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
+    /**
+     * The platform for which the application was built.
+     *
+     * @defaultValue "neutral"
+     */
+    PLAYGROUND_POWERLINES_PLATFORM: UnprefixedEnv["PLATFORM"];
+    /**
+     * The mode in which the application is running.
+     *
+     * @alias NODE_ENV
+     *
+     * @alias VERCEL_ENV
+     * @defaultValue "production"
+     */
+    PLAYGROUND_POWERLINES_MODE: UnprefixedEnv["MODE"];
+    /**
+     * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
+     *
+     * @defaultValue "production"
+     */
+    PLAYGROUND_POWERLINES_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
+    /**
+     * Indicates if the application is running in debug mode.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_POWERLINES_DEBUG: UnprefixedEnv["DEBUG"];
+    /**
+     * An indicator that specifies the current runtime is a test environment.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_POWERLINES_TEST: UnprefixedEnv["TEST"];
+    /**
+     * An indicator that specifies the current runtime is a minimal environment.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_POWERLINES_MINIMAL: UnprefixedEnv["MINIMAL"];
+    /**
+     * An indicator that specifies the current runtime is a no color environment.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_POWERLINES_NO_COLOR: UnprefixedEnv["NO_COLOR"];
+    /**
+     * An indicator that specifies the current runtime is a force color environment.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_POWERLINES_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
+    /**
+     * An indicator that specifies the current runtime should force hyperlinks in terminal output.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_POWERLINES_FORCE_HYPERLINK: UnprefixedEnv["FORCE_HYPERLINK"];
+    /**
+     * The name of the agent running the application. This variable is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_AGENT_NAME: UnprefixedEnv["AGENT_NAME"];
+    /**
+     * The color terminal type. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_COLORTERM: UnprefixedEnv["COLORTERM"];
+    /**
+     * The terminal type. This variable is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_TERM: UnprefixedEnv["TERM"];
+    /**
+     * The terminal program name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_TERM_PROGRAM: UnprefixedEnv["TERM_PROGRAM"];
+    /**
+     * The terminal program version. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_TERM_PROGRAM_VERSION: UnprefixedEnv["TERM_PROGRAM_VERSION"];
+    /**
+     * The terminal emulator name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_TERMINAL_EMULATOR: UnprefixedEnv["TERMINAL_EMULATOR"];
+    /**
+     * The terminal emulator session ID. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_WT_SESSION: UnprefixedEnv["WT_SESSION"];
+    /**
+     * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_TERMINUS_SUBLIME: UnprefixedEnv["TERMINUS_SUBLIME"];
+    /**
+     * The ConEmu task name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_ConEmuTask: UnprefixedEnv["ConEmuTask"];
+    /**
+     * The cursor trace ID. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_CURSOR_TRACE_ID: UnprefixedEnv["CURSOR_TRACE_ID"];
+    /**
+     * The VTE version. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_VTE_VERSION: UnprefixedEnv["VTE_VERSION"];
+    /**
+     * Indicates if error stack traces should be captured.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_POWERLINES_STACKTRACE: UnprefixedEnv["STACKTRACE"];
+    /**
+     * Indicates if error data should be included.
+     *
+     * @defaultValue false
+     */
+    PLAYGROUND_POWERLINES_INCLUDE_ERROR_DATA: UnprefixedEnv["INCLUDE_ERROR_DATA"];
+    /**
+     * A web page to lookup error messages and display additional information given an error code.
+     *
+     * @title Error Details URL
+     *
+     */
+    PLAYGROUND_POWERLINES_ERROR_URL: UnprefixedEnv["ERROR_URL"];
+    /**
+     * The default timezone for the application.
+     *
+     * @defaultValue "America/New_York"
+     */
+    PLAYGROUND_POWERLINES_DEFAULT_TIMEZONE: UnprefixedEnv["DEFAULT_TIMEZONE"];
+    /**
+     * The default locale to be used in the application.
+     *
+     * @defaultValue "en_US"
+     */
+    PLAYGROUND_POWERLINES_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
+    /**
+     * The default lowest log level to accept. If `null`, the logger will reject all records.
+     *
+     * @defaultValue "info"
+     */
+    PLAYGROUND_POWERLINES_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
+    /**
+     * An indicator that specifies the current runtime is a continuous integration environment.
+     *
+     * @title Continuous Integration
+     * @alias CONTINUOUS_INTEGRATION
+     * @defaultValue false
+     */
+    PLAYGROUND_POWERLINES_CI: UnprefixedEnv["CI"];
+    /**
+     * The unique identifier for the current run. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_RUN_ID: UnprefixedEnv["RUN_ID"];
+    /**
+     * The agola git reference. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_AGOLA_GIT_REF: UnprefixedEnv["AGOLA_GIT_REF"];
+    /**
+     * The appcircle build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_AC_APPCIRCLE: UnprefixedEnv["AC_APPCIRCLE"];
+    /**
+     * The appveyor build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_APPVEYOR: UnprefixedEnv["APPVEYOR"];
+    /**
+     * The codebuild build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_CODEBUILD: UnprefixedEnv["CODEBUILD"];
+    /**
+     * The task force build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_TF_BUILD: UnprefixedEnv["TF_BUILD"];
+    /**
+     * The bamboo plan key. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_bamboo_planKey: UnprefixedEnv["bamboo_planKey"];
+    /**
+     * The bitbucket commit. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_BITBUCKET_COMMIT: UnprefixedEnv["BITBUCKET_COMMIT"];
+    /**
+     * The bitrise build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_BITRISE_IO: UnprefixedEnv["BITRISE_IO"];
+    /**
+     * The buddy workspace ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_BUDDY_WORKSPACE_ID: UnprefixedEnv["BUDDY_WORKSPACE_ID"];
+    /**
+     * The buildkite build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_BUILDKITE: UnprefixedEnv["BUILDKITE"];
+    /**
+     * The circleci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_CIRCLECI: UnprefixedEnv["CIRCLECI"];
+    /**
+     * The cirrus-ci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_CIRRUS_CI: UnprefixedEnv["CIRRUS_CI"];
+    /**
+     * The cf build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_CF_BUILD_ID: UnprefixedEnv["CF_BUILD_ID"];
+    /**
+     * The cm build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_CM_BUILD_ID: UnprefixedEnv["CM_BUILD_ID"];
+    /**
+     * The ci name. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_CI_NAME: UnprefixedEnv["CI_NAME"];
+    /**
+     * The drone build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_DRONE: UnprefixedEnv["DRONE"];
+    /**
+     * The dsari build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_DSARI: UnprefixedEnv["DSARI"];
+    /**
+     * The earthly build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_EARTHLY_CI: UnprefixedEnv["EARTHLY_CI"];
+    /**
+     * The eas build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_EAS_BUILD: UnprefixedEnv["EAS_BUILD"];
+    /**
+     * The gerrit project. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_GERRIT_PROJECT: UnprefixedEnv["GERRIT_PROJECT"];
+    /**
+     * The gitea actions build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_GITEA_ACTIONS: UnprefixedEnv["GITEA_ACTIONS"];
+    /**
+     * The github actions build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_GITHUB_ACTIONS: UnprefixedEnv["GITHUB_ACTIONS"];
+    /**
+     * The gitlab ci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_GITLAB_CI: UnprefixedEnv["GITLAB_CI"];
+    /**
+     * The go cd build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_GOCD: UnprefixedEnv["GOCD"];
+    /**
+     * The builder output build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_BUILDER_OUTPUT: UnprefixedEnv["BUILDER_OUTPUT"];
+    /**
+     * The harness build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_HARNESS_BUILD_ID: UnprefixedEnv["HARNESS_BUILD_ID"];
+    /**
+     * The jenkins url. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_JENKINS_URL: UnprefixedEnv["JENKINS_URL"];
+    /**
+     * The layerci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_LAYERCI: UnprefixedEnv["LAYERCI"];
+    /**
+     * The magnum build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_MAGNUM: UnprefixedEnv["MAGNUM"];
+    /**
+     * The netlify build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_NETLIFY: UnprefixedEnv["NETLIFY"];
+    /**
+     * The nevercode build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_NEVERCODE: UnprefixedEnv["NEVERCODE"];
+    /**
+     * The prow job ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_PROW_JOB_ID: UnprefixedEnv["PROW_JOB_ID"];
+    /**
+     * The release build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_RELEASE_BUILD_ID: UnprefixedEnv["RELEASE_BUILD_ID"];
+    /**
+     * The render build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_RENDER: UnprefixedEnv["RENDER"];
+    /**
+     * The sailci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_SAILCI: UnprefixedEnv["SAILCI"];
+    /**
+     * The hudson build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_HUDSON: UnprefixedEnv["HUDSON"];
+    /**
+     * The screwdriver build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_SCREWDRIVER: UnprefixedEnv["SCREWDRIVER"];
+    /**
+     * The semaphore build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_SEMAPHORE: UnprefixedEnv["SEMAPHORE"];
+    /**
+     * The sourcehut build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_SOURCEHUT: UnprefixedEnv["SOURCEHUT"];
+    /**
+     * The spaceship build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_SPACESHIP_CI: UnprefixedEnv["SPACESHIP_CI"];
+    /**
+     * The strider build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_STRIDER: UnprefixedEnv["STRIDER"];
+    /**
+     * The task ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_TASK_ID: UnprefixedEnv["TASK_ID"];
+    /**
+     * The teamcity version. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_TEAMCITY_VERSION: UnprefixedEnv["TEAMCITY_VERSION"];
+    /**
+     * The travis build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_TRAVIS: UnprefixedEnv["TRAVIS"];
+    /**
+     * The vela build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_VELA: UnprefixedEnv["VELA"];
+    /**
+     * The now builder build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_NOW_BUILDER: UnprefixedEnv["NOW_BUILDER"];
+    /**
+     * The appcenter build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_APPCENTER_BUILD_ID: UnprefixedEnv["APPCENTER_BUILD_ID"];
+    /**
+     * The xcode project build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_CI_XCODE_PROJECT: UnprefixedEnv["CI_XCODE_PROJECT"];
+    /**
+     * The xcode server build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_XCS: UnprefixedEnv["XCS"];
+    /**
+     * The application's runtime data directory.
+     *
+     * @title Data Directory
+     * @runtime
+     *
+     */
+    PLAYGROUND_POWERLINES_DATA_DIR: UnprefixedEnv["DATA_DIR"];
+    /**
+     * The application's configuration data directory.
+     *
+     * @title Configuration Directory
+     * @runtime
+     *
+     */
+    PLAYGROUND_POWERLINES_CONFIG_DIR: UnprefixedEnv["CONFIG_DIR"];
+    /**
+     * The application's cached data directory.
+     *
+     * @title Cache Directory
+     * @runtime
+     *
+     */
+    PLAYGROUND_POWERLINES_CACHE_DIR: UnprefixedEnv["CACHE_DIR"];
+    /**
+     * The application's logging directory.
+     *
+     * @title Log Directory
+     * @runtime
+     *
+     */
+    PLAYGROUND_POWERLINES_LOG_DIR: UnprefixedEnv["LOG_DIR"];
+    /**
+     * The application's temporary data directory.
+     *
+     * @title Temporary Directory
+     * @runtime
+     *
+     */
+    PLAYGROUND_POWERLINES_TEMP_DIR: UnprefixedEnv["TEMP_DIR"];
+    /**
+     * A variable that specifies the current user's local application data directory on Windows.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_LOCALAPPDATA: UnprefixedEnv["LOCALAPPDATA"];
+    /**
+     * A variable that specifies the application data directory on Windows.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_APPDATA: UnprefixedEnv["APPDATA"];
+    /**
+     * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_XDG_DATA_HOME: UnprefixedEnv["XDG_DATA_HOME"];
+    /**
+     * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_XDG_CONFIG_HOME: UnprefixedEnv["XDG_CONFIG_HOME"];
+    /**
+     * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_XDG_CACHE_HOME: UnprefixedEnv["XDG_CACHE_HOME"];
+    /**
+     * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_XDG_STATE_HOME: UnprefixedEnv["XDG_STATE_HOME"];
+    /**
+     * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_XDG_RUNTIME_DIR: UnprefixedEnv["XDG_RUNTIME_DIR"];
+    /**
+     * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly PLAYGROUND_POWERLINES_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
+    /**
+     * The system PATHEXT variable, used to determine which file extensions are considered executable on Windows.
+     *
+     * @internal
+     * @hidden
+     * @runtime
+     *
+     */
+    POWERLINES_PATHEXT: UnprefixedEnv["PATHEXT"];
+    /**
+     * The system PATH variable, used to locate executable files.
+     *
+     * @internal
+     * @hidden
+     * @runtime
+     *
+     */
+    POWERLINES_PATH: UnprefixedEnv["PATH"];
+    /**
+     * The npm user agent string, which can be used to detect if the environment is running within an npm script.
+     *
+     * @internal
+     * @hidden
+     * @runtime
+     *
+     */
+    POWERLINES_npm_config_user_agent: UnprefixedEnv["npm_config_user_agent"];
+    /**
+     * The npm_config_fund environment variable, which can be used to control npm's funding behavior.
+     *
+     * @internal
+     * @hidden
+     * @runtime
+     *
+     */
+    POWERLINES_npm_config_fund: UnprefixedEnv["npm_config_fund"];
+    /**
+     * The npm execution path, which can be used to determine the location of the npm executable.
+     *
+     * @internal
+     * @hidden
+     * @runtime
+     *
+     */
+    POWERLINES_npm_execpath: UnprefixedEnv["npm_execpath"];
+    /**
+     * The COMSPEC environment variable, which specifies the command-line interpreter to use on Windows.
+     *
+     * @internal
+     * @hidden
+     * @runtime
+     *
+     */
+    POWERLINES_COMSPEC: UnprefixedEnv["COMSPEC"];
+    /**
+     * The name of the application.
+     *
+     * @readonly
+     *
+     */
+    readonly POWERLINES_APP_NAME: UnprefixedEnv["APP_NAME"];
+    /**
+     * The version of the application.
+     *
+     * @readonly
+     * @defaultValue "1.0.0"
+     */
+    readonly POWERLINES_APP_VERSION: UnprefixedEnv["APP_VERSION"];
+    /**
+     * The unique identifier for the build.
+     *
+     * @readonly
+     *
+     */
+    readonly POWERLINES_BUILD_ID: UnprefixedEnv["BUILD_ID"];
+    /**
+     * The timestamp the build was ran at.
+     *
+     * @readonly
+     *
+     */
+    readonly POWERLINES_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
+    /**
+     * A checksum hash created during the build.
+     *
+     * @readonly
+     *
+     */
+    readonly POWERLINES_BUILD_CHECKSUM: UnprefixedEnv["BUILD_CHECKSUM"];
+    /**
+     * The unique identifier for the release.
+     *
+     * @readonly
+     *
+     */
+    readonly POWERLINES_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
+    /**
+     * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
+     *
+     * @readonly
+     *
+     */
+    readonly POWERLINES_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
+    /**
+     * The name of the organization that maintains the application.
+     *
+     * @alias ORG
+     *
+     */
+    POWERLINES_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
+    /**
+     * The platform for which the application was built.
+     *
+     * @defaultValue "neutral"
+     */
+    POWERLINES_PLATFORM: UnprefixedEnv["PLATFORM"];
+    /**
+     * The mode in which the application is running.
+     *
+     * @alias NODE_ENV
+     *
+     * @alias VERCEL_ENV
+     * @defaultValue "production"
+     */
+    POWERLINES_MODE: UnprefixedEnv["MODE"];
+    /**
+     * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
+     *
+     * @defaultValue "production"
+     */
+    POWERLINES_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
+    /**
+     * Indicates if the application is running in debug mode.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_DEBUG: UnprefixedEnv["DEBUG"];
+    /**
+     * An indicator that specifies the current runtime is a test environment.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_TEST: UnprefixedEnv["TEST"];
+    /**
+     * An indicator that specifies the current runtime is a minimal environment.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_MINIMAL: UnprefixedEnv["MINIMAL"];
+    /**
+     * An indicator that specifies the current runtime is a no color environment.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_NO_COLOR: UnprefixedEnv["NO_COLOR"];
+    /**
+     * An indicator that specifies the current runtime is a force color environment.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
+    /**
+     * An indicator that specifies the current runtime should force hyperlinks in terminal output.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_FORCE_HYPERLINK: UnprefixedEnv["FORCE_HYPERLINK"];
+    /**
+     * The name of the agent running the application. This variable is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_AGENT_NAME: UnprefixedEnv["AGENT_NAME"];
+    /**
+     * The color terminal type. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_COLORTERM: UnprefixedEnv["COLORTERM"];
+    /**
+     * The terminal type. This variable is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TERM: UnprefixedEnv["TERM"];
+    /**
+     * The terminal program name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TERM_PROGRAM: UnprefixedEnv["TERM_PROGRAM"];
+    /**
+     * The terminal program version. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TERM_PROGRAM_VERSION: UnprefixedEnv["TERM_PROGRAM_VERSION"];
+    /**
+     * The terminal emulator name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TERMINAL_EMULATOR: UnprefixedEnv["TERMINAL_EMULATOR"];
+    /**
+     * The terminal emulator session ID. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_WT_SESSION: UnprefixedEnv["WT_SESSION"];
+    /**
+     * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TERMINUS_SUBLIME: UnprefixedEnv["TERMINUS_SUBLIME"];
+    /**
+     * The ConEmu task name. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_ConEmuTask: UnprefixedEnv["ConEmuTask"];
+    /**
+     * The cursor trace ID. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CURSOR_TRACE_ID: UnprefixedEnv["CURSOR_TRACE_ID"];
+    /**
+     * The VTE version. This variable is set by certain terminal emulators.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_VTE_VERSION: UnprefixedEnv["VTE_VERSION"];
+    /**
+     * Indicates if error stack traces should be captured.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_STACKTRACE: UnprefixedEnv["STACKTRACE"];
+    /**
+     * Indicates if error data should be included.
+     *
+     * @defaultValue false
+     */
+    POWERLINES_INCLUDE_ERROR_DATA: UnprefixedEnv["INCLUDE_ERROR_DATA"];
+    /**
+     * A web page to lookup error messages and display additional information given an error code.
+     *
+     * @title Error Details URL
+     *
+     */
+    POWERLINES_ERROR_URL: UnprefixedEnv["ERROR_URL"];
+    /**
+     * The default timezone for the application.
+     *
+     * @defaultValue "America/New_York"
+     */
+    POWERLINES_DEFAULT_TIMEZONE: UnprefixedEnv["DEFAULT_TIMEZONE"];
+    /**
+     * The default locale to be used in the application.
+     *
+     * @defaultValue "en_US"
+     */
+    POWERLINES_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
+    /**
+     * The default lowest log level to accept. If `null`, the logger will reject all records.
+     *
+     * @defaultValue "info"
+     */
+    POWERLINES_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
+    /**
+     * An indicator that specifies the current runtime is a continuous integration environment.
+     *
+     * @title Continuous Integration
+     * @alias CONTINUOUS_INTEGRATION
+     * @defaultValue false
+     */
+    POWERLINES_CI: UnprefixedEnv["CI"];
+    /**
+     * The unique identifier for the current run. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_RUN_ID: UnprefixedEnv["RUN_ID"];
+    /**
+     * The agola git reference. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_AGOLA_GIT_REF: UnprefixedEnv["AGOLA_GIT_REF"];
+    /**
+     * The appcircle build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_AC_APPCIRCLE: UnprefixedEnv["AC_APPCIRCLE"];
+    /**
+     * The appveyor build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_APPVEYOR: UnprefixedEnv["APPVEYOR"];
+    /**
+     * The codebuild build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CODEBUILD: UnprefixedEnv["CODEBUILD"];
+    /**
+     * The task force build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TF_BUILD: UnprefixedEnv["TF_BUILD"];
+    /**
+     * The bamboo plan key. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_bamboo_planKey: UnprefixedEnv["bamboo_planKey"];
+    /**
+     * The bitbucket commit. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_BITBUCKET_COMMIT: UnprefixedEnv["BITBUCKET_COMMIT"];
+    /**
+     * The bitrise build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_BITRISE_IO: UnprefixedEnv["BITRISE_IO"];
+    /**
+     * The buddy workspace ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_BUDDY_WORKSPACE_ID: UnprefixedEnv["BUDDY_WORKSPACE_ID"];
+    /**
+     * The buildkite build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_BUILDKITE: UnprefixedEnv["BUILDKITE"];
+    /**
+     * The circleci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CIRCLECI: UnprefixedEnv["CIRCLECI"];
+    /**
+     * The cirrus-ci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CIRRUS_CI: UnprefixedEnv["CIRRUS_CI"];
+    /**
+     * The cf build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CF_BUILD_ID: UnprefixedEnv["CF_BUILD_ID"];
+    /**
+     * The cm build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CM_BUILD_ID: UnprefixedEnv["CM_BUILD_ID"];
+    /**
+     * The ci name. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CI_NAME: UnprefixedEnv["CI_NAME"];
+    /**
+     * The drone build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_DRONE: UnprefixedEnv["DRONE"];
+    /**
+     * The dsari build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_DSARI: UnprefixedEnv["DSARI"];
+    /**
+     * The earthly build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_EARTHLY_CI: UnprefixedEnv["EARTHLY_CI"];
+    /**
+     * The eas build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_EAS_BUILD: UnprefixedEnv["EAS_BUILD"];
+    /**
+     * The gerrit project. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_GERRIT_PROJECT: UnprefixedEnv["GERRIT_PROJECT"];
+    /**
+     * The gitea actions build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_GITEA_ACTIONS: UnprefixedEnv["GITEA_ACTIONS"];
+    /**
+     * The github actions build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_GITHUB_ACTIONS: UnprefixedEnv["GITHUB_ACTIONS"];
+    /**
+     * The gitlab ci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_GITLAB_CI: UnprefixedEnv["GITLAB_CI"];
+    /**
+     * The go cd build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_GOCD: UnprefixedEnv["GOCD"];
+    /**
+     * The builder output build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_BUILDER_OUTPUT: UnprefixedEnv["BUILDER_OUTPUT"];
+    /**
+     * The harness build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_HARNESS_BUILD_ID: UnprefixedEnv["HARNESS_BUILD_ID"];
+    /**
+     * The jenkins url. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_JENKINS_URL: UnprefixedEnv["JENKINS_URL"];
+    /**
+     * The layerci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_LAYERCI: UnprefixedEnv["LAYERCI"];
+    /**
+     * The magnum build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_MAGNUM: UnprefixedEnv["MAGNUM"];
+    /**
+     * The netlify build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_NETLIFY: UnprefixedEnv["NETLIFY"];
+    /**
+     * The nevercode build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_NEVERCODE: UnprefixedEnv["NEVERCODE"];
+    /**
+     * The prow job ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_PROW_JOB_ID: UnprefixedEnv["PROW_JOB_ID"];
+    /**
+     * The release build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_RELEASE_BUILD_ID: UnprefixedEnv["RELEASE_BUILD_ID"];
+    /**
+     * The render build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_RENDER: UnprefixedEnv["RENDER"];
+    /**
+     * The sailci build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_SAILCI: UnprefixedEnv["SAILCI"];
+    /**
+     * The hudson build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_HUDSON: UnprefixedEnv["HUDSON"];
+    /**
+     * The screwdriver build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_SCREWDRIVER: UnprefixedEnv["SCREWDRIVER"];
+    /**
+     * The semaphore build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_SEMAPHORE: UnprefixedEnv["SEMAPHORE"];
+    /**
+     * The sourcehut build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_SOURCEHUT: UnprefixedEnv["SOURCEHUT"];
+    /**
+     * The spaceship build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_SPACESHIP_CI: UnprefixedEnv["SPACESHIP_CI"];
+    /**
+     * The strider build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_STRIDER: UnprefixedEnv["STRIDER"];
+    /**
+     * The task ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TASK_ID: UnprefixedEnv["TASK_ID"];
+    /**
+     * The teamcity version. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TEAMCITY_VERSION: UnprefixedEnv["TEAMCITY_VERSION"];
+    /**
+     * The travis build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_TRAVIS: UnprefixedEnv["TRAVIS"];
+    /**
+     * The vela build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_VELA: UnprefixedEnv["VELA"];
+    /**
+     * The now builder build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_NOW_BUILDER: UnprefixedEnv["NOW_BUILDER"];
+    /**
+     * The appcenter build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_APPCENTER_BUILD_ID: UnprefixedEnv["APPCENTER_BUILD_ID"];
+    /**
+     * The xcode project build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_CI_XCODE_PROJECT: UnprefixedEnv["CI_XCODE_PROJECT"];
+    /**
+     * The xcode server build ID. This value is set by certain CI/CD systems.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_XCS: UnprefixedEnv["XCS"];
+    /**
+     * The application's runtime data directory.
+     *
+     * @title Data Directory
+     * @runtime
+     *
+     */
+    POWERLINES_DATA_DIR: UnprefixedEnv["DATA_DIR"];
+    /**
+     * The application's configuration data directory.
+     *
+     * @title Configuration Directory
+     * @runtime
+     *
+     */
+    POWERLINES_CONFIG_DIR: UnprefixedEnv["CONFIG_DIR"];
+    /**
+     * The application's cached data directory.
+     *
+     * @title Cache Directory
+     * @runtime
+     *
+     */
+    POWERLINES_CACHE_DIR: UnprefixedEnv["CACHE_DIR"];
+    /**
+     * The application's logging directory.
+     *
+     * @title Log Directory
+     * @runtime
+     *
+     */
+    POWERLINES_LOG_DIR: UnprefixedEnv["LOG_DIR"];
+    /**
+     * The application's temporary data directory.
+     *
+     * @title Temporary Directory
+     * @runtime
+     *
+     */
+    POWERLINES_TEMP_DIR: UnprefixedEnv["TEMP_DIR"];
+    /**
+     * A variable that specifies the current user's local application data directory on Windows.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_LOCALAPPDATA: UnprefixedEnv["LOCALAPPDATA"];
+    /**
+     * A variable that specifies the application data directory on Windows.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_APPDATA: UnprefixedEnv["APPDATA"];
+    /**
+     * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_XDG_DATA_HOME: UnprefixedEnv["XDG_DATA_HOME"];
+    /**
+     * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_XDG_CONFIG_HOME: UnprefixedEnv["XDG_CONFIG_HOME"];
+    /**
+     * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_XDG_CACHE_HOME: UnprefixedEnv["XDG_CACHE_HOME"];
+    /**
+     * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_XDG_STATE_HOME: UnprefixedEnv["XDG_STATE_HOME"];
+    /**
+     * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_XDG_RUNTIME_DIR: UnprefixedEnv["XDG_RUNTIME_DIR"];
+    /**
+     * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
+     *
+     * @readonly
+     * @hidden
+     * @runtime
+     *
+     */
+    readonly POWERLINES_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
+  }
   /**
    * The initial environment configuration state for the Playground Powerlines project.
    *
    * @title Object
    *
    */
-  export const initialEnv: Partial<EnvBase>;
+  export const initialEnv: Partial<Env>;
   /**
    * The environment configuration serializer for the Powerlines application.
    *
@@ -943,13 +2679,15 @@ declare module "shell-shock:env" {
    * ```ts
    * const json = serializeEnv(env);
    * ```
+   *
+   *
+   * @param input - The environment configuration object to serialize.
+   * @returns The serialized environment configuration as JSON data objects.
+   *
    * @throws ValidationError when serialization or validation fails.
    *
    */
-  export const serializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
-    EnvBase,
-    any
-  >;
+  export function serializeEnv(input: Env): any;
   /**
    * Deserialize a environment configuration object from JSON data objects to JavaScript objects, without running any validators.
    *
@@ -962,10 +2700,7 @@ declare module "shell-shock:env" {
    * @throws ValidationError when deserialization fails.
    *
    */
-  export const deserializeEnv: import("@powerlines/deepkit/vendor/type").SerializeFunction<
-    any,
-    EnvBase
-  >;
+  export function deserializeEnv(input: Env): Env;
   /**
    * Initializes the Powerlines environment configuration module.
    *
@@ -5391,7 +7126,7 @@ declare module "shell-shock:help/start" {
  */
 declare module "shell-shock:banner" {
   /**
-   * Write the Playground Powerlines command-line interface application banner for the  command to the console.
+   * Write the Playground Powerlines command-line interface application banner for the Playground Powerlines command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner

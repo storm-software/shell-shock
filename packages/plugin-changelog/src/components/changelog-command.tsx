@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { code, createResource, Show } from "@alloy-js/core";
+import { code, Show } from "@alloy-js/core";
 import {
   FunctionDeclaration,
   InterfaceDeclaration
@@ -34,24 +34,19 @@ import {
   TSDocParam
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
-import { renderMarkdown } from "@shell-shock/unified/markdown";
 import { joinPaths } from "@stryke/path";
+import { isSetString } from "@stryke/type-checks/is-set-string";
 import type { ChangelogPluginContext } from "../types/plugin";
+
+export interface ChangelogCommandProps {
+  changelog: string;
+}
 
 /**
  * The Changelog command's handler wrapper for the Shell Shock project.
  */
-export function ChangelogCommand() {
+export function ChangelogCommand({ changelog }: ChangelogCommandProps) {
   const context = usePowerlines<ChangelogPluginContext>();
-
-  const result = createResource(async () => {
-    const content = await context.fs.read(context.config.changelog.file);
-    if (!content) {
-      return null;
-    }
-
-    return renderMarkdown(content);
-  });
 
   return (
     <TypescriptFile
@@ -89,23 +84,9 @@ export function ChangelogCommand() {
         name="handler"
         parameters={[{ name: "options", type: "ChangelogOptions" }]}>
         <Show
-          when={!result.loading && !result.error}
-          fallback={
-            <Show when={!!result.error}>
-              {code` return error(\`Failed to load changelog: ${result
-                .error!.message.replaceAll("\\", "\\\\")
-                .replaceAll("`", "\\`")
-                .replaceAll("${", "\\${")
-                .replaceAll("\n", "\\n")
-                .replaceAll("\r", "\\r")
-                .replaceAll("\t", "\\t")}\`); `}
-            </Show>
-          }>
-          <Show
-            when={!!result.data}
-            fallback={code` return warn("There is no changelog available for display."); `}>
-            {result.data}
-          </Show>
+          when={isSetString(changelog)}
+          fallback={code` return warn("There is no changelog available for display."); `}>
+          {changelog}
         </Show>
       </FunctionDeclaration>
     </TypescriptFile>

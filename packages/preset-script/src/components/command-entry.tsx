@@ -67,9 +67,13 @@ export function CommandInvocation(props: { command: CommandTree }) {
             ? camelCase(getDynamicPathSegmentName(segment))
             : `"${segment}"`
         )
-        .join(", ")}], [options${
+        .join(", ")}], [${
+        Object.keys(command.options).length > 0 ? `options` : ""
+      }${
         command.args.length > 0
-          ? `, ${command.args.map(arg => camelCase(arg.name)).join(", ")}`
+          ? `${
+              Object.keys(command.options).length > 0 ? ", " : ""
+            }${command.args.map(arg => camelCase(arg.name)).join(", ")}`
           : ""
       }], handle${pascalCase(command.name)}); `}
       <hbr />
@@ -123,9 +127,9 @@ export function CommandHandlerDeclaration(
         <Spacing />
         <Show when={Boolean(banner)}>{banner}</Show>
         <Spacing />
+        {code`writeLine("");`}
         <IfStatement condition={<IsDebug />}>
-          {code`writeLine("");
-          writeLine(textColors.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console."));
+          {code`writeLine(textColors.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console."));
           writeLine("");
           debug(\`Command path: ${command.segments
             .map(segment =>
@@ -157,7 +161,6 @@ export function CommandHandlerDeclaration(
               : ""
           }\`); `}
         </IfStatement>
-        <ElseClause>{code`writeLine("");`}</ElseClause>
         <Spacing />
         {children}
         <Spacing />

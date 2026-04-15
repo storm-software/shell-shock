@@ -159,7 +159,7 @@ function resolveCommandArgument(
     title: reflection.getTitle() || reflection.parameter.tags?.title,
     description: reflection.parameter.description,
     optional: reflection.isOptional(),
-    default: reflection.getDefaultValue()
+    default: reflection.getDefaultValue() || reflection.parameter.default
   };
 
   if (type.kind === ReflectionKind.array) {

@@ -13,6 +13,7 @@ permissions: {}
 jobs:
   greeting:
     runs-on: ubuntu-latest
+    environment: production
     if: github.actor != 'stormie-bot' && github.actor != 'dependabot[bot]' &&
       github.actor != 'mend-bolt-for-github[bot]'
     permissions:

@@ -65,6 +65,11 @@ export interface BaseCommandParameter {
   alias: string[];
 
   /**
+   * The default value.
+   */
+  default?: string | number | boolean | string[] | number[] | boolean[];
+
+  /**
    * The environment variable name or false to disable.
    */
   env: string | false;
@@ -80,7 +85,31 @@ export interface BaseCommandParameter {
   variadic: boolean;
 }
 
-export interface StringCommandParameter extends BaseCommandParameter {
+export interface BaseSingleCommandParameter {
+  /**
+   * The default value.
+   */
+  default?: string | number | boolean;
+
+  /**
+   * Whether the option accepts multiple values.
+   */
+  variadic: false;
+}
+
+export interface BaseVariadicCommandParameter {
+  /**
+   * The default value.
+   */
+  default?: string[] | number[] | boolean[];
+
+  /**
+   * Whether the option accepts multiple values.
+   */
+  variadic: true;
+}
+
+export interface BaseStringCommandParameter extends BaseCommandParameter {
   /**
    * The option kind.
    */
@@ -89,7 +118,7 @@ export interface StringCommandParameter extends BaseCommandParameter {
   /**
    * The default value.
    */
-  default?: string;
+  default?: string | string[];
 
   /**
    * A standard string format to validate the option value against.
@@ -111,7 +140,35 @@ export interface StringCommandParameter extends BaseCommandParameter {
   choices?: string[];
 }
 
-export interface NumberCommandParameter extends BaseCommandParameter {
+export interface SingleStringCommandParameter extends BaseStringCommandParameter {
+  /**
+   * The default value.
+   */
+  default?: string;
+
+  /**
+   * Whether the option accepts multiple values.
+   */
+  variadic: false;
+}
+
+export interface VariadicStringCommandParameter extends BaseStringCommandParameter {
+  /**
+   * The default value.
+   */
+  default?: string[];
+
+  /**
+   * Whether the option accepts multiple values.
+   */
+  variadic: true;
+}
+
+export type StringCommandParameter =
+  | SingleStringCommandParameter
+  | VariadicStringCommandParameter;
+
+export interface BaseNumberCommandParameter extends BaseCommandParameter {
   /**
    * The option kind.
    */
@@ -120,7 +177,7 @@ export interface NumberCommandParameter extends BaseCommandParameter {
   /**
    * The default value.
    */
-  default?: number;
+  default?: number | number[];
 
   /**
    * The allowed choices for the option value.
@@ -128,7 +185,35 @@ export interface NumberCommandParameter extends BaseCommandParameter {
   choices?: number[];
 }
 
-export interface BooleanCommandParameter extends BaseCommandParameter {
+export interface SingleNumberCommandParameter extends BaseNumberCommandParameter {
+  /**
+   * The default value.
+   */
+  default?: number;
+
+  /**
+   * Whether the option accepts multiple values.
+   */
+  variadic: false;
+}
+
+export interface VariadicNumberCommandParameter extends BaseNumberCommandParameter {
+  /**
+   * The default value.
+   */
+  default?: number[];
+
+  /**
+   * Whether the option accepts multiple values.
+   */
+  variadic: true;
+}
+
+export type NumberCommandParameter =
+  | SingleNumberCommandParameter
+  | VariadicNumberCommandParameter;
+
+export interface BaseBooleanCommandParameter extends BaseCommandParameter {
   /**
    * The option kind.
    */
@@ -137,8 +222,36 @@ export interface BooleanCommandParameter extends BaseCommandParameter {
   /**
    * The default value.
    */
-  default?: boolean;
+  default?: boolean | boolean[];
 }
+
+export interface SingleBooleanCommandParameter extends BaseBooleanCommandParameter {
+  /**
+   * The default value.
+   */
+  default?: boolean;
+
+  /**
+   * Whether the option accepts multiple values.
+   */
+  variadic: false;
+}
+
+export interface VariadicBooleanCommandParameter extends BaseBooleanCommandParameter {
+  /**
+   * The default value.
+   */
+  default?: boolean[];
+
+  /**
+   * Whether the option accepts multiple values.
+   */
+  variadic: true;
+}
+
+export type BooleanCommandParameter =
+  | SingleBooleanCommandParameter
+  | VariadicBooleanCommandParameter;
 
 export type CommandParameter =
   | StringCommandParameter
@@ -165,7 +278,7 @@ export type CommandParameterConfig =
   | NumberCommandParameterConfig
   | BooleanCommandParameterConfig;
 
-export interface BooleanCommandOption extends BooleanCommandParameter {
+export interface BooleanCommandOption extends SingleBooleanCommandParameter {
   /**
    * The option this negates.
    */
@@ -180,7 +293,8 @@ export interface BooleanCommandOption extends BooleanCommandParameter {
 export type CommandOption =
   | StringCommandParameter
   | NumberCommandParameter
-  | BooleanCommandOption;
+  | BooleanCommandOption
+  | VariadicBooleanCommandParameter;
 export type CommandOptionConfig = AsCommandParameterConfig<CommandOption>;
 
 export type CommandArgument =

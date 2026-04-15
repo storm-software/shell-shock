@@ -56,7 +56,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                     ? `["${option.name}"]`
                     : `.${camelCase(option.name)}`
                 }`}>
-                {code`failures.push("Missing required ${option.name} option");`}
+                {code`failures.push("Missing required \\"${option.name}\\" option");`}
               </IfStatement>
               <Show when={option.variadic}>
                 <ElseIfClause
@@ -65,9 +65,9 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                       ? `["${option.name}"]`
                       : `.${camelCase(option.name)}`
                   }.length === 0`}>
-                  {code`failures.push("No values were provided to the required ${
+                  {code`failures.push("No values were provided to the required \\"${
                     option.name
-                  } array option");`}
+                  }\\" array option");`}
                 </ElseIfClause>
               </Show>
             </Show>
@@ -85,9 +85,9 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                         ? `["${option.name}"]`
                         : `.${camelCase(option.name)}`
                     })`}>
-                    {code`failures.push("Invalid numeric value provided for the ${
+                    {code`failures.push("Invalid numeric value provided for the \\"${
                       option.name
-                    } option");`}
+                    }\\" option");`}
                   </IfStatement>
                 }>
                 <IfStatement
@@ -96,9 +96,9 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                       ? `["${option.name}"]`
                       : `.${camelCase(option.name)}`
                   }.some(value => Number.isNaN(value))`}>
-                  {code`failures.push("Invalid numeric value provided in the ${
+                  {code`failures.push("Invalid numeric value provided in the \\"${
                     option.name
-                  } array option");`}
+                  }\\" array option");`}
                 </IfStatement>
               </Show>
             </Show>
@@ -131,9 +131,9 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                               : choice
                           )
                           .join(", ")}].includes(value))`}>
-                        {code`failures.push(\`Invalid value provided for the ${
+                        {code`failures.push(\`Invalid value provided for the \\"${
                           option.name
-                        } option - valid values include: ${list(
+                        }\\" option - valid values include: ${list(
                           (
                             option as
                               | StringCommandParameter
@@ -162,9 +162,9 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                             : choice
                         )
                         .join(", ")}].includes(value))`}>
-                      {code`failures.push(\`Invalid value provided for the ${
+                      {code`failures.push(\`Invalid value provided for the \\"${
                         option.name
-                      } option - valid values include: ${list(
+                      }\\" option - valid values include: ${list(
                         (
                           option as
                             | StringCommandParameter
@@ -197,9 +197,9 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                           ? `["${option.name}"]`
                           : `.${camelCase(option.name)}`
                       })`}>
-                      {code`failures.push(\`Invalid value provided for the ${
+                      {code`failures.push(\`Invalid value provided for the \\"${
                         option.name
-                      } option - valid values include: ${list(
+                      }\\" option - valid values include: ${list(
                         (
                           option as
                             | StringCommandParameter
@@ -226,9 +226,9 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                         ? `["${option.name}"]`
                         : `.${camelCase(option.name)}`
                     })`}>
-                    {code`failures.push(\`Invalid value provided for the ${
+                    {code`failures.push(\`Invalid value provided for the \\"${
                       option.name
-                    } option - valid values include: ${list(
+                    }\\" option - valid values include: ${list(
                       (
                         option as
                           | StringCommandParameter
@@ -256,17 +256,12 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                   argument.name
                 }\\" positional argument");`}
               </IfStatement>
-              <Show
-                when={
-                  (argument.kind === CommandParameterKinds.string ||
-                    argument.kind === CommandParameterKinds.number) &&
-                  argument.variadic
-                }>
+              <Show when={argument.variadic}>
                 <ElseIfClause
                   condition={code`${camelCase(argument.name)}.length === 0`}>
-                  {code`failures.push("No values were provided to the required ${
+                  {code`failures.push("No values were provided to the required \\"${
                     argument.name
-                  } array positional argument");`}
+                  }\\" array positional argument");`}
                 </ElseIfClause>
               </Show>
             </Show>
@@ -278,16 +273,16 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                     condition={code`${camelCase(
                       argument.name
                     )} && Number.isNaN(${camelCase(argument.name)})`}>
-                    {code`failures.push("Invalid numeric value provided for the ${
+                    {code`failures.push("Invalid numeric value provided for the \\"${
                       argument.name
-                    } positional argument");`}
+                    }\\" positional argument");`}
                   </IfStatement>
                 }>
                 <IfStatement
                   condition={code`${camelCase(argument.name)}.some(value => Number.isNaN(value))`}>
-                  {code`failures.push("Invalid numeric value provided in the ${
+                  {code`failures.push("Invalid numeric value provided in the \\"${
                     argument.name
-                  } array positional argument");`}
+                  }\\" array positional argument");`}
                 </IfStatement>
               </Show>
             </Show>

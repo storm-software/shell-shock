@@ -67,6 +67,15 @@
       "console": "integratedTerminal"
     },
     {
+      "name": "Playground CLI - Help",
+      "type": "node",
+      "request": "launch",
+      "program": "./playground/cli/dist/bin.mjs",
+      "args": ["--help"],
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    },
+    {
       "name": "Playground Custom Commands Directory - Build",
       "type": "node",
       "request": "launch",

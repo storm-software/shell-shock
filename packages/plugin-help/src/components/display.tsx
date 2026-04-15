@@ -232,7 +232,10 @@ export function HelpOptionsDisplay(props: HelpOptionsDisplayProps) {
                   )}${option.variadic ? "..." : ""}>`
                 : ""
           }"), align: "right", border: "none", maxWidth: "1/3" }, { value: textColors.body.tertiary(\`${formatShortDescription(
-            option.description
+            option.description,
+            {
+              length: 200
+            }
           )
             .replace(/\.+$/, "")
             .trim()}${
@@ -283,7 +286,10 @@ export function HelpCommandsDisplay(props: HelpCommandsDisplayProps) {
           code`[{ value: textColors.body.primary("${
             child.name
           }"), align: "right", border: "none" }, { value: textColors.body.tertiary(\`${formatShortDescription(
-            child.description
+            child.description,
+            {
+              length: 200
+            }
           )
             .replace(/\.+$/, "")
             .trim()}.\`), align: "left", border: "none" }], `
@@ -457,7 +463,7 @@ export function VirtualCommandHelpDisplay(
   return (
     <>
       <hbr />
-      {code`writeLine(bold(textColors.heading.secondary("Global Options:")));`}
+      {code`writeLine(bold(textColors.heading.secondary("Common Options:")));`}
       <hbr />
       <HelpOptionsDisplay options={options} />
       {code`writeLine(""); `}
@@ -509,7 +515,11 @@ export function VirtualCommandHelpDisplay(
           context
         )} ${
           segments && segments.length > 0 ? ` ${segments.join(" ")}` : ""
-        } <specific command> --help")}) will provide additional information that is specific to that command.\`);
+        } <specific command> --help")}) or the help command with the specific command as arguments (via: \${inlineCode("${getAppBin(
+          context
+        )} ${
+          segments && segments.length > 0 ? ` ${segments.join(" ")}` : ""
+        } help <specific command>")}) will provide additional information that is specific to that command.\`);
         writeLine("");`}
       </Show>
     </>

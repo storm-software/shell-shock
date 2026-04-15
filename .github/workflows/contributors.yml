@@ -8,6 +8,7 @@ jobs:
   contributor_report:
     name: contributor report
     runs-on: ubuntu-latest
+    environment: production
     permissions:
       issues: write
     steps:

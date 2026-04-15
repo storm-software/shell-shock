@@ -37,6 +37,7 @@ import {
   isDynamicPathSegment
 } from "../plugin-utils/context-helpers";
 import type {
+  BaseVariadicCommandParameter,
   BooleanCommandOption,
   CommandOption,
   CommandTree,
@@ -196,9 +197,7 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
               when={
                 isSetString(arg.env) ||
                 arg.default !== undefined ||
-                ((arg.kind === CommandParameterKinds.string ||
-                  arg.kind === CommandParameterKinds.number) &&
-                  arg.variadic)
+                arg.variadic
               }
               fallback={
                 <>
@@ -218,11 +217,32 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
                       {code`env.${appSpecificEnvPrefix}_${constantCase(String(arg.env))} ?? `}
                     </Show>
                     <Show
-                      when={arg.default !== undefined}
-                      fallback={arg.variadic ? code`[]` : code`undefined`}>
-                      {arg.kind === CommandParameterKinds.string
-                        ? code`"${arg.default}"`
-                        : code`${arg.default}`}
+                      when={
+                        arg.default !== undefined &&
+                        (!arg.variadic ||
+                          (arg as BaseVariadicCommandParameter).default!
+                            .length > 0)
+                      }
+                      fallback={
+                        <Show when={arg.variadic} fallback={code`undefined`}>
+                          {code`[]`}
+                        </Show>
+                      }>
+                      <Show
+                        when={arg.variadic}
+                        fallback={
+                          arg.kind === CommandParameterKinds.string
+                            ? code`"${arg.default}"`
+                            : code`${arg.default}`
+                        }>
+                        {code`[${(arg as BaseVariadicCommandParameter).default
+                          ?.map(value =>
+                            arg.kind === CommandParameterKinds.string
+                              ? `"${value}"`
+                              : value
+                          )
+                          .join(", ")}]`}
+                      </Show>
                     </Show>
                     {code`) as `}
                     <CommandParameterType parameter={arg} />
@@ -435,7 +455,11 @@ export function OptionsMemberParserLogic(props: OptionsMemberParserLogicProps) {
               .variadic
           }>
           <IfStatement
-            condition={`${equalsRegex}.test(${isCaseSensitive ? "arg" : '"-" + arg.toLowerCase().replaceAll("-", "").replaceAll("_", "")'})`}>
+            condition={`${equalsRegex}.test(${
+              isCaseSensitive
+                ? "arg"
+                : '"-" + arg.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+            })`}>
             <Show when={option.kind === CommandParameterKinds.string}>
               <Show
                 when={name.includes("?") || name.includes("-")}

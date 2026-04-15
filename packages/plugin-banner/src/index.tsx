@@ -16,17 +16,12 @@
 
  ------------------------------------------------------------------- */
 
-import { computed, For } from "@alloy-js/core";
+import { For } from "@alloy-js/core";
 import { Spacing } from "@powerlines/plugin-alloy/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
-import {
-  getAppDescription,
-  getAppName,
-  getCommandList
-} from "@shell-shock/core/plugin-utils";
+import { computeBin, getCommandList } from "@shell-shock/core/plugin-utils";
 import console from "@shell-shock/plugin-console";
 import theme from "@shell-shock/plugin-theme";
-import { joinPaths } from "@stryke/path/join";
 import type { Plugin } from "powerlines";
 import { BannerBuiltin } from "./components";
 import type { BannerPluginContext, BannerPluginOptions } from "./types/plugin";
@@ -63,31 +58,10 @@ export const plugin = <
             } command modules.`
           );
 
-          const bin = computed(() => ({
-            id: "",
-            name: getAppName(this),
-            title: "",
-            description: getAppDescription(this),
-            isVirtual: true,
-            path: null,
-            segments: [],
-            alias: [],
-            tags: [],
-            options: Object.fromEntries(
-              this.options.map(option => [option.name, option])
-            ),
-            entry: {
-              file: joinPaths(this.entryPath, "bin.ts")
-            },
-            args: [],
-            parent: null,
-            children: this.commands
-          }));
-
           return render(
             this,
             <>
-              <BannerBuiltin command={bin.value} />
+              <BannerBuiltin command={computeBin(this)} />
               <Spacing />
               <For
                 each={commands.sort((a, b) => a.name.localeCompare(b.name))}

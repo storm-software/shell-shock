@@ -91,7 +91,7 @@ export function FishScriptCompletionsCommand() {
           {
             name: "path",
             type: "string",
-            default: `"${bin.value}-completions.fish"`
+            default: `"./${bin.value}-completions.fish"`
           }
         ]}>
         <IfStatement condition={code`options.display !== true`}>

@@ -16,15 +16,11 @@
 
  ------------------------------------------------------------------- */
 
-import { code, computed, For, Show } from "@alloy-js/core";
+import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
-import {
-  getAppDescription,
-  getAppName,
-  getCommandList
-} from "@shell-shock/core/plugin-utils";
+import { computeBin, getCommandList } from "@shell-shock/core/plugin-utils";
 import changelog from "@shell-shock/plugin-changelog";
 import completions from "@shell-shock/plugin-completions";
 import console from "@shell-shock/plugin-console";
@@ -32,7 +28,6 @@ import help from "@shell-shock/plugin-help";
 import prompts from "@shell-shock/plugin-prompts";
 import upgrade from "@shell-shock/plugin-upgrade";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
-import { joinPaths } from "@stryke/path";
 import type { Plugin } from "powerlines";
 import { BannerBuiltin } from "./components/banner-builtin";
 import { CommandEntry } from "./components/command-entry";
@@ -87,33 +82,11 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
             } command modules.`
           );
 
-          const bin = computed(() => ({
-            id: "",
-            name: getAppName(this),
-            title: "",
-            description: getAppDescription(this),
-            isVirtual: true,
-            path: null,
-            segments: [],
-            alias: [],
-            tags: [],
-            options: Object.fromEntries(
-              this.options.map(option => [option.name, option])
-            ),
-            entry: {
-              file: joinPaths(this.entryPath, "bin.ts")
-            },
-            args: [],
-            parent: null,
-            source: "file",
-            children: this.commands
-          }));
-
           return render(
             this,
             <>
               <UpgradeBuiltin />
-              <BannerBuiltin command={bin.value} />
+              <BannerBuiltin command={computeBin(this)} />
               <For
                 each={commands.sort((a, b) => a.name.localeCompare(b.name))}
                 doubleHardline>

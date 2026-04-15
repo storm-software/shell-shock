@@ -91,7 +91,7 @@ export function BashScriptCompletionsCommand() {
           {
             name: "path",
             type: "string",
-            default: `"${bin.value}-completions.bash"`
+            default: `"./${bin.value}-completions.bash"`
           }
         ]}>
         <IfStatement condition={code`options.display !== true`}>

@@ -75,8 +75,9 @@ export const output = inlineTag(value => bodyText(value));
 export const textarea = blockTag((value, tag) => {
   const rows = Number.parseInt(getAttribute(tag, "rows", "0") || "0", 10);
   const content = getTextContent(tag);
+
   const rendered =
-    rows > 1 || content.includes("\n")
+    content && (rows > 1 || content.includes("\n"))
       ? codeBlockText(content)
       : bodyText(value);
 

@@ -16,11 +16,10 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./compute-bin";
-export * from "./context-helpers";
-export * from "./deepkit";
-export * from "./description-helpers";
-export * from "./get-command-tree";
-export * from "./reflect";
-export * from "./traverse-command-tree";
-export * from "./type-checks";
+declare module "he" {
+  export function encode(
+    text: string,
+    options?: { useNamedReferences?: boolean }
+  ): string;
+  export function decode(text: string): string;
+}

@@ -587,37 +587,36 @@ export function SplitTextFunctionDeclaration() {
         parameters={[
           {
             name: "line",
-            type: "string"
+            type: "string",
+            doc: "An input line which may contain ANSI escape codes. This is used to adjust the index for splitting the line based on visible characters rather than raw string length, ensuring that ANSI codes do not cause incorrect splitting of the text."
           },
           {
             name: "index",
-            type: "number"
+            type: "number",
+            doc: "The index at which to split the line, based on visible characters (does not account for ANSI escape codes)."
           }
         ]}
         returnType="number">
         {code`let adjustedIndex = 0;
+        let visibleCount = 0;
+        const ansiRegex = new RegExp([
+          String.raw\`[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)\`,
+          String.raw\`(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))\`
+        ].join("|"), "g");
 
-        const segments = line.match(/\\x1b\\[(\\d|;)+m.*\\x1b\\[(\\d|;)+m/gi);
-        if (segments && segments.length > 0) {
-          segments.reduce((count, matched) => {
-            if (count < index) {
-              const stripped = stripAnsi(matched);
-              if (count + stripped.length < index) {
-                count += stripped.length;
-                adjustedIndex += matched.length;
-              } else {
-                adjustedIndex += index - count + (matched.slice(0, index - count).match(/\\x1b\\[(\\d|;)+m/g)?.join("")?.length ?? 0);
-                count = index;
-              }
-            }
+        while (visibleCount < index && adjustedIndex < line.length) {
+          ansiRegex.lastIndex = adjustedIndex;
+          const match = ansiRegex.exec(line);
 
-            return count;
-          }, 0);
-        } else {
-          adjustedIndex = index;
+          if (match && match.index === adjustedIndex) {
+            adjustedIndex += match[0].length;
+          } else {
+            adjustedIndex++;
+            visibleCount++;
+          }
         }
 
-        return adjustedIndex - (line.slice(0, adjustedIndex).match(/\\x1b\\[/g)?.length ?? 0); `}
+        return adjustedIndex; `}
       </FunctionDeclaration>
       <Spacing />
       <FunctionDeclaration
@@ -633,8 +632,9 @@ export function SplitTextFunctionDeclaration() {
           }
         ]}
         returnType="[string, string]">
-        {code`const first = line.slice(0, index);
-        const second = line.slice(index);
+        {code`const adjustedIndex = adjustIndex(line, index);
+        const first = line.slice(0, adjustedIndex);
+        const second = line.slice(adjustedIndex);
 
         // Match all ANSI escape sequences in the first string
         const ansiRegex = /[\\x1b\\u009b][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?(?:\\u0007))|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))/g;
@@ -684,8 +684,21 @@ export function SplitTextFunctionDeclaration() {
         return [first.replace(/^\\s+/, "").replace(/\\s+$/, "") + closeSequence, openSequence + second.replace(/^\\s+/, "").replace(/\\s+$/, "")]; `}
       </FunctionDeclaration>
       <Spacing />
+      <TSDoc heading="Split text into multiple lines based on a maximum length.">
+        <TSDocRemarks>
+          {`This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.`}
+        </TSDocRemarks>
+        <hbr />
+        <TSDocParam name="text">
+          {`The text to split into multiple lines.`}
+        </TSDocParam>
+        <TSDocParam name="maxLength">
+          {`The maximum length of each line.`}
+        </TSDocParam>
+      </TSDoc>
       <FunctionDeclaration
-        name="innerSplitText"
+        name="splitText"
+        export
         parameters={[
           {
             name: "text",
@@ -702,18 +715,20 @@ export function SplitTextFunctionDeclaration() {
         const calculatedMaxLength = isSizeToken(maxLength) ? calculateWidth(maxLength) : maxLength;
         while (stripAnsi(line).length > calculatedMaxLength || line.indexOf("\\n") !== -1) {
           if (line.indexOf("\\n") !== -1) {
-            result.push(...innerSplitText(line.slice(0, line.indexOf("\\n")).replace(/(\\r)?\\n/, ""), calculatedMaxLength));
+            result.push(...splitText(line.slice(0, line.indexOf("\\n")).replace(/(\\r)?\\n/, ""), calculatedMaxLength));
             line = line.indexOf("\\n") + 1 < line.length
               ? line.slice(line.indexOf("\\n") + 1)
               : "";
           } else {
-            const index = [" ", "/", ".", ",", "-", ":", "|", "@", "+"].reduce((ret, split) => {
-              let current = ret;
-              while (stripAnsi(line).indexOf(split, current + 1) !== -1 && stripAnsi(line).indexOf(split, current + 1) <= calculatedMaxLength) {
-                current = line.indexOf(split, adjustIndex(line, current + 1));
+            const strippedLine = stripAnsi(line);
+            const index = [" ", "/", "+", ".", ","].reduce((ret, split) => {
+              let cursor = ret;
+              while (strippedLine.substring(cursor + 1).includes(split) &&
+                strippedLine.indexOf(split, cursor + 1) <= calculatedMaxLength) {
+                cursor = strippedLine.indexOf(split, cursor + 1);
               }
 
-              return current;
+              return cursor;
             }, -1);
             if (index === -1) {
               break;
@@ -733,43 +748,6 @@ export function SplitTextFunctionDeclaration() {
 
         result.push(line);
         return result; `}
-      </FunctionDeclaration>
-      <Spacing />
-      <TSDoc heading="Split text into multiple lines based on a maximum length.">
-        <TSDocRemarks>
-          {`This function splits the provided text into multiple lines based on the specified maximum length, ensuring that words are not broken in the middle.`}
-        </TSDocRemarks>
-        <hbr />
-        <TSDocParam name="text">
-          {`The text to split into multiple lines.`}
-        </TSDocParam>
-        <TSDocParam name="maxLength">
-          {`The maximum length of each line.`}
-        </TSDocParam>
-      </TSDoc>
-      <FunctionDeclaration
-        export
-        name="splitText"
-        parameters={[
-          {
-            name: "text",
-            type: "string"
-          },
-          {
-            name: "maxLength",
-            type: "number | SizeToken"
-          }
-        ]}>
-        {code`const timeout = setTimeout(() => {
-          throw new Error("Text splitting took too long, likely due to a very long line without spaces or a very small maxLength. Please ensure that the input text contains reasonable break points and that maxLength is set to a reasonable value.");
-        }, 1000);
-
-        try {
-          return innerSplitText(text, maxLength);
-        } finally {
-          clearTimeout(timeout);
-        }
-         `}
       </FunctionDeclaration>
     </>
   );
@@ -1055,8 +1033,8 @@ export function MessageFunctionDeclaration(
               2 +
             theme.borderStyles.message.outline[variant].left.length +
             theme.borderStyles.message.outline[variant].right.length
-          }, 0)
-        ).forEach((line) => {
+          }, 12)
+        ).forEach(line => {
           writeLine(borderColors.message.outline.${color}("${
             theme.borderStyles.message.outline[variant].left +
             " ".repeat(Math.max(theme.padding.message, 0))
@@ -1502,7 +1480,7 @@ export function InlineCodeFunctionDeclaration() {
           return "";
         }
 
-        return textColors.body.primary(inverse(\` \${text} \`), true); `}
+        return inverse(\`\${text}\`); `}
       </FunctionDeclaration>
     </>
   );
@@ -2835,10 +2813,7 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
             <Spacing />
             <IfStatement
               condition={code`env.STACKTRACE && typeof err === "object" && (err as { stack?: string })?.stack`}>
-              {code`message += " \\n\\n" + (err as { stack?: string })?.stack
-                .split("\\n")
-                .slice(1)
-                .map(line => {
+              {code`message += " \\n\\n" + (err as { stack: string }).stack.split("\\n").slice(1).map(line => {
                   const match = line.match(/at (?:(.+?)\\s+\\()?(?:(.+?):(\\d+)(?::(\\d+))?|([^)]+))\\)?/);
                   if (match) {
                     const filePath = match[2] || match[5] || "<unknown>";
@@ -2846,8 +2821,7 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
                   }
 
                   return line.trim();
-                })
-                .join("\\n"); `}
+                }).join("\\n"); `}
             </IfStatement>
           </>
         }

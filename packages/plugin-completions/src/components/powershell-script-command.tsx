@@ -91,7 +91,7 @@ export function PowerShellScriptCompletionsCommand() {
           {
             name: "path",
             type: "string",
-            default: `"${bin.value}-completions.ps1"`
+            default: `"./${bin.value}-completions.ps1"`
           }
         ]}>
         <IfStatement condition={code`options.display !== true`}>

@@ -70,3 +70,39 @@ export async function getCommandList(context: Context): Promise<CommandTree[]> {
 
   return commandList;
 }
+
+/**
+ * Retrieves a list of all command paths defined in the context.
+ *
+ * @param context - The build context containing the command definitions.
+ * @returns A promise that resolves to an array of all command paths in the context.
+ */
+export async function getCommandPaths(context: Context): Promise<string[]> {
+  const commandPaths: string[] = [];
+  await traverseCommands(context, commandTree => {
+    if (commandTree.path) {
+      commandPaths.push(commandTree.path);
+    }
+  });
+
+  return commandPaths;
+}
+
+/**
+ * Retrieves a list of all command segments defined in the context.
+ *
+ * @param context - The build context containing the command definitions.
+ * @returns A promise that resolves to an array of all command segments in the context.
+ */
+export async function getCommandSegments(
+  context: Context
+): Promise<string[][]> {
+  const commandSegments: string[][] = [];
+  await traverseCommands(context, commandTree => {
+    if (commandTree.path) {
+      commandSegments.push(commandTree.segments);
+    }
+  });
+
+  return commandSegments;
+}

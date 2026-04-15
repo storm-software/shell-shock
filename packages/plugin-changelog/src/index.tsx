@@ -18,6 +18,7 @@
 
 import { render } from "@powerlines/plugin-alloy/render";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
+import { renderMarkdown } from "@shell-shock/unified/markdown";
 import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
@@ -50,7 +51,6 @@ export const plugin = <
       return {
         changelog: defu(
           {
-            file: resolveChangelog(this, options),
             command: {
               name: isSetString(options.command) ? options.command : "changelog"
             }
@@ -59,72 +59,77 @@ export const plugin = <
         )
       };
     },
-    configResolved() {
+    async configResolved() {
       this.debug(
         "Adding the CLI changelog commands to the application context."
       );
+
+      if (!isSetString(this.config.changelog.file)) {
+        this.config.changelog.file = resolveChangelog(this, options)!;
+      }
 
       if (isSetString(this.config.changelog.file)) {
         this.config.changelog.file = replacePathTokens(
           this,
           this.config.changelog.file
         );
-
-        if (!this.fs.existsSync(this.config.changelog.file)) {
-          this.warn(
-            `The changelog file could not be found at the resolved path: ${
-              this.config.changelog.file
-            }. The \`${
-              this.config.changelog.command.name
-            }\` command will not be added to the application. Please ensure that the changelog file exists at the specified path or adjust the \`changelog.file\` option to point to the correct location.`
-          );
-          return;
-        }
-
-        this.inputs ??= [];
-        if (
-          this.inputs.some(
-            input => input.id === this.config.changelog.command.name
-          )
-        ) {
-          this.info(
-            "The `changelog` command already exists in the commands list. If you would like the changelog command to be managed by the `@shell-shock/plugin-changelog` package, please remove or rename the command."
-          );
-        } else {
-          this.inputs.push({
-            id: this.config.changelog.command.name,
-            path: this.config.changelog.command.name,
-            segments: [this.config.changelog.command.name],
-            title: "Changelog",
-            icon: "🗃",
-            tags: ["Utility"],
-            description: `Display the ${getAppTitle(this)} changelog.`,
-            entry: {
-              file: joinPaths(this.entryPath, "changelog", "index.ts"),
-              input: {
-                file: joinPaths(this.entryPath, "changelog", "command.ts")
-              }
-            },
-            isVirtual: false,
-            source: "changelog-plugin",
-            ...this.config.changelog.command
-          });
-        }
       }
-    },
-    async prepare() {
+
       if (
-        isSetString(this.config.changelog.file) &&
+        !isSetString(this.config.changelog.file) ||
         !this.fs.existsSync(this.config.changelog.file)
       ) {
+        this.warn(
+          `The changelog file could not be found at the resolved path: ${
+            this.config.changelog.file
+          }. The \`${
+            this.config.changelog.command.name
+          }\` command will not be added to the application. Please ensure that the changelog file exists at the specified path or adjust the \`changelog.file\` option to point to the correct location.`
+        );
         return;
       }
 
-      this.debug(
-        "Rendering changelog command module for the Shell Shock `changelog` plugin."
-      );
+      this.inputs ??= [];
+      if (
+        this.inputs.some(
+          input => input.id === this.config.changelog.command.name
+        )
+      ) {
+        this.info(
+          "The `changelog` command already exists in the commands list. If you would like the changelog command to be managed by the `@shell-shock/plugin-changelog` package, please remove or rename the command."
+        );
+      } else {
+        this.inputs.push({
+          id: this.config.changelog.command.name,
+          path: this.config.changelog.command.name,
+          segments: [this.config.changelog.command.name],
+          title: "Changelog",
+          icon: "🗃",
+          tags: ["Utility"],
+          description: `Display the ${getAppTitle(this)} changelog.`,
+          entry: {
+            file: joinPaths(this.entryPath, "changelog", "index.ts"),
+            input: {
+              file: joinPaths(this.entryPath, "changelog", "command.ts")
+            }
+          },
+          isVirtual: false,
+          source: "changelog-plugin",
+          ...this.config.changelog.command
+        });
 
-      return render(this, <ChangelogCommand />);
+        this.debug(
+          "Rendering changelog command module for the Shell Shock `changelog` plugin."
+        );
+
+        const content = await this.fs.read(this.config.changelog.file);
+        if (content) {
+          await render(
+            this,
+            <ChangelogCommand changelog={renderMarkdown(content)} />
+          );
+        }
+      }
     }
   };
 };

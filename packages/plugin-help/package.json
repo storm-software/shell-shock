@@ -44,34 +44,6 @@
     }
   ],
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.cts",
-  "typings": "dist/index.d.mts",
-  "files": ["dist/**/*"],
-  "dependencies": {
-    "@alloy-js/core": "catalog:",
-    "@alloy-js/typescript": "catalog:",
-    "@powerlines/deepkit": "catalog:",
-    "@powerlines/plugin-alloy": "catalog:",
-    "@powerlines/plugin-plugin": "catalog:",
-    "@shell-shock/core": "workspace:*",
-    "@shell-shock/plugin-theme": "workspace:*",
-    "@shell-shock/plugin-console": "workspace:*",
-    "@stryke/string-format": "catalog:",
-    "@stryke/type-checks": "catalog:",
-    "@stryke/path": "catalog:",
-    "@stryke/types": "catalog:",
-    "defu": "catalog:",
-    "powerlines": "catalog:"
-  },
-  "devDependencies": {
-    "@powerlines/plugin-deepkit": "catalog:",
-    "@types/node": "catalog:"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
   "exports": {
     ".": {
       "require": {
@@ -172,5 +144,34 @@
         "default": "./dist/types/plugin.mjs"
       }
     }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "typings": "dist/index.d.mts",
+  "files": ["dist/**/*"],
+  "dependencies": {
+    "@alloy-js/core": "catalog:",
+    "@alloy-js/typescript": "catalog:",
+    "@powerlines/deepkit": "catalog:",
+    "@powerlines/plugin-alloy": "catalog:",
+    "@powerlines/plugin-plugin": "catalog:",
+    "@shell-shock/core": "workspace:*",
+    "@shell-shock/plugin-console": "workspace:*",
+    "@shell-shock/plugin-theme": "workspace:*",
+    "@stryke/helpers": "catalog:",
+    "@stryke/path": "catalog:",
+    "@stryke/string-format": "catalog:",
+    "@stryke/type-checks": "catalog:",
+    "@stryke/types": "catalog:",
+    "defu": "catalog:",
+    "powerlines": "catalog:"
+  },
+  "devDependencies": {
+    "@powerlines/plugin-deepkit": "catalog:",
+    "@types/node": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
