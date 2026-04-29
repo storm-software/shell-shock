@@ -23,7 +23,7 @@ import { joinPaths } from "@stryke/path/join-paths";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { getAppName } from "../plugin-utils/context-helpers";
-import type { UnresolvedContext } from "../types/context";
+import type { Context } from "../types/context";
 
 export function formatBinaryPath(
   format: string | string[] | undefined
@@ -35,11 +35,9 @@ export function formatBinaryPath(
   }`;
 }
 
-export async function updatePackageJsonBinary(
-  context: UnresolvedContext
-): Promise<void> {
+export async function updatePackageJsonBinary(context: Context): Promise<void> {
   const packageJsonPath = joinPaths(
-    context.workspaceConfig.workspaceRoot,
+    context.config.cwd || process.cwd(),
     context.config.root,
     "package.json"
   );
@@ -98,5 +96,5 @@ export async function updatePackageJsonBinary(
     );
   }
 
-  context.config.bin = Object.keys(context.packageJson.bin);
+  context.config.bin = context.packageJson.bin;
 }

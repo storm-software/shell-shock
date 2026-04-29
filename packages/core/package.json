@@ -394,18 +394,17 @@
     "automd": "catalog:",
     "defu": "catalog:",
     "json-schema": "catalog:",
+    "powerlines": "catalog:",
     "tsdown": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-plugin": "catalog:",
     "@types/json-schema": "catalog:",
     "@types/node": "catalog:",
-    "powerlines": "catalog:",
     "typescript": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {
-    "powerlines": ">=0.42.10",
     "zod": "^3.25.0 || ^4.0.0"
   },
   "peerDependenciesMeta": {

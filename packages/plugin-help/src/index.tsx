@@ -78,7 +78,7 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
           this.inputs ??= [];
           if (
             this.inputs.some(
-              input =>
+              (input: CommandConfig) =>
                 input.name === (this.config.help.command as CommandConfig).name
             )
           ) {

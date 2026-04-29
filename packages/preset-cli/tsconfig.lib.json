@@ -4,8 +4,6 @@
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
     "jsx": "preserve",
     "jsxImportSource": "@alloy-js/core",
-    "lib": ["esnext", "DOM"],
-    "types": ["node"],
     "outDir": "./out-tsc"
   },
   "references": [

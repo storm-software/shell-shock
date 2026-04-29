@@ -3,7 +3,7 @@
   "compilerOptions": {
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
     "jsx": "preserve",
-    "jsxImportSource": "@alloy-js/core",
+    "types": ["node"],
     "outDir": "./out-tsc"
   },
   "references": [

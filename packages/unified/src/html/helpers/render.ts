@@ -152,7 +152,10 @@ export const renderTag = (
 
     // Cache result with new context (includes updated depth)
     setCachedRender(node, newContext, result);
-  } catch {
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(`Error rendering ${node.nodeName || "text"} tag: `, e);
+
     // Return null on error to skip this tag
     result = null;
   }

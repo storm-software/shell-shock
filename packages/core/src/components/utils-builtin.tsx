@@ -1550,9 +1550,7 @@ export function ResolveModuleFunctionDeclaration() {
           roots.push(projectRootURL);
         }
 
-        const workspaceRootURL = pathToFileURL("${
-          context.workspaceConfig.workspaceRoot
-        }");
+        const workspaceRootURL = pathToFileURL("${context.config.cwd}");
         if (!roots.some(root => root.href === workspaceRootURL.href)) {
           roots.push(workspaceRootURL);
         }

@@ -228,8 +228,8 @@ export function CommandEntry(props: CommandEntryProps) {
           console: ["debug", "warn", "error", "writeLine", "textColors"],
           utils: ["isMinimal", "isUnicodeSupported"],
           state: [
+            { name: "GlobalOptions", type: true },
             "useGlobal",
-            "GlobalOptions",
             "useGlobalOptions",
             "useArgs",
             "hasFlag",

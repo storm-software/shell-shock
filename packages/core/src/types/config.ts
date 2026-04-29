@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import type { AlloyPluginResolvedConfig } from "@powerlines/plugin-alloy/types/plugin";
 import type { AutoMDPluginResolvedConfig } from "@powerlines/plugin-automd";
 import type {
   NodeJsPluginOptions,
@@ -121,7 +122,7 @@ export type Options = BaseOptions & Partial<NodeJsPluginOptions>;
  */
 export type OutputConfig = Pick<
   PowerlinesOutputConfig,
-  "path" | "copy" | "storage"
+  "path" | "copy" | "storage" | "sourceMap"
 > & {
   /**
    * An indicator specifying whether to generate TypeScript declaration files (.d.ts) during the build process.
@@ -145,6 +146,7 @@ export type UserConfig = BaseOptions &
  * The resolved configuration options for Shell Shock.
  */
 export type ResolvedConfig = TsdownPluginResolvedConfig &
+  AlloyPluginResolvedConfig &
   AutoMDPluginResolvedConfig &
   NodeJsPluginResolvedConfig &
   Required<Omit<Options, "bin" | "reference">> & {

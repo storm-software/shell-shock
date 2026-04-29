@@ -37,6 +37,7 @@ import { isSetString } from "@stryke/type-checks/is-set-string";
 import { extractJsonSchema7, isZod3Type } from "@stryke/zod";
 import { isCommandParameterConfig } from "../plugin-utils";
 import type {
+  BooleanCommandOption,
   CommandArgument,
   CommandOption,
   CommandParameterConfig,
@@ -87,11 +88,16 @@ function resolveCommandOption(
     ) {
       result.choices = (schema as JsonSchema7EnumType).enum;
     }
-  } else if (result.kind === CommandParameterKinds.boolean) {
-    result.skipAddingNegative = (
+  } else if (
+    result.kind === CommandParameterKinds.boolean &&
+    !result.variadic
+  ) {
+    (result as BooleanCommandOption).skipAddingNegative = (
       schema as { skipAddingNegative?: boolean }
     ).skipAddingNegative;
-    result.isNegativeOf = (schema as { isNegativeOf?: string }).isNegativeOf;
+    (result as BooleanCommandOption).isNegativeOf = (
+      schema as { isNegativeOf?: string }
+    ).isNegativeOf;
   }
 
   return result;
@@ -179,7 +185,7 @@ export async function resolveFromExports<TContext extends Context = Context>(
           target: "draft-07"
         });
       } else {
-        jsonSchema = ctx.module.options as JsonSchema7ObjectType;
+        jsonSchema = ctx.module.options;
       }
 
       if (!isJsonSchema7ObjectType(jsonSchema)) {
@@ -191,7 +197,7 @@ export async function resolveFromExports<TContext extends Context = Context>(
       }
 
       ctx.output.options = Object.fromEntries(
-        Object.entries((jsonSchema as JsonSchema7ObjectType).properties)
+        Object.entries(jsonSchema.properties)
           .map(([name, property]) => [
             name,
             resolveCommandOption(name, jsonSchema, property)

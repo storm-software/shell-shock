@@ -3,14 +3,21 @@
   "compilerOptions": {
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
     "jsx": "preserve",
-    "jsxImportSource": "@alloy-js/core",
     "outDir": "./out-tsc"
   },
   "references": [
-    { "path": "../../packages/plugin-theme/tsconfig.lib.json" },
-    { "path": "../../packages/preset-script/tsconfig.lib.json" },
-    { "path": "../../packages/nx/tsconfig.lib.json" },
-    { "path": "../../packages/core/tsconfig.lib.json" }
+    {
+      "path": "../../packages/plugin-theme/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/preset-script/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/nx/tsconfig.lib.json"
+    },
+    {
+      "path": "../../packages/core/tsconfig.lib.json"
+    }
   ],
   "include": [
     "src/**/*.ts",

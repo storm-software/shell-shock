@@ -16,17 +16,18 @@
 
  ------------------------------------------------------------------- */
 
+import type { PartialKeys } from "@stryke/types";
 import type {
   BuildInlineConfig,
   CleanInlineConfig,
   DocsInlineConfig,
+  EngineOptions,
   LintInlineConfig,
-  PluginConfig,
+  PowerlinesAPI,
   PrepareInlineConfig
 } from "powerlines";
-import { createPowerlines, PowerlinesAPI } from "powerlines";
+import { createAPI } from "powerlines";
 import { plugin } from "./plugin";
-import type { UserConfig } from "./types/config";
 
 /**
  * The Shell Shock API class.
@@ -37,47 +38,93 @@ import type { UserConfig } from "./types/config";
 export class ShellShockAPI {
   #powerlines: PowerlinesAPI;
 
-  public static async from(
-    config: UserConfig,
-    workspaceRoot?: string
+  /**
+   * Creates a new instance of the {@link ShellShockAPI} class using the provided configuration options. This method initializes the underlying Powerlines API with the appropriate plugins and settings for Shell Shock.
+   *
+   * @param options - The user configuration options.
+   * @returns A promise that resolves to a {@link ShellShockAPI} instance.
+   */
+  public static async fromOptions(
+    options: EngineOptions
   ): Promise<ShellShockAPI> {
-    const userConfig = {
-      framework: "shell-shock",
-      ...config,
-      plugins: [plugin(), ...(config.plugins ?? [])] as PluginConfig<any>[]
-    };
-
-    const powerlines = await (workspaceRoot
-      ? PowerlinesAPI.from(workspaceRoot, userConfig)
-      : createPowerlines(userConfig));
+    const powerlines = await createAPI(
+      { ...options, framework: "shell-shock" },
+      {
+        plugins: [plugin()]
+      }
+    );
 
     return new ShellShockAPI(powerlines);
+  }
+
+  /**
+   * Gets the current build context, which includes information about the project, environment, and configuration. This context is used internally by the Shell Shock API to manage the build process and provide relevant data to plugins and other components.
+   *
+   * @returns The current build context.
+   */
+  public get context() {
+    return this.#powerlines.context;
   }
 
   private constructor(powerlines: PowerlinesAPI) {
     this.#powerlines = powerlines;
   }
 
+  /**
+   * Executes the clean phase of the build process, which typically involves removing generated files and resetting the build environment. The `inlineConfig` parameter allows users to specify additional options or overrides for the clean operation.
+   *
+   * @param inlineConfig - The inline configuration options for the clean operation.
+   * @returns A promise that resolves when the clean operation is complete.
+   */
   public async clean(inlineConfig: CleanInlineConfig): Promise<void> {
     return this.#powerlines.clean(inlineConfig);
   }
 
+  /**
+   * Executes the prepare phase of the build process, which typically involves setting up the build environment and installing dependencies. The `inlineConfig` parameter allows users to specify additional options or overrides for the prepare operation.
+   *
+   * @param inlineConfig - The inline configuration options for the prepare operation.
+   * @returns A promise that resolves when the prepare operation is complete.
+   */
   public async prepare(inlineConfig: PrepareInlineConfig): Promise<void> {
     return this.#powerlines.prepare(inlineConfig);
   }
 
+  /**
+   * Executes the lint phase of the build process, which typically involves analyzing code for quality and style issues. The `inlineConfig` parameter allows users to specify additional options or overrides for the lint operation.
+   *
+   * @param inlineConfig - The inline configuration options for the lint operation.
+   * @returns A promise that resolves when the lint operation is complete.
+   */
   public async lint(inlineConfig: LintInlineConfig): Promise<void> {
     return this.#powerlines.lint(inlineConfig);
   }
 
+  /**
+   * Executes the build phase of the build process, which typically involves compiling source code and generating output artifacts. The `inlineConfig` parameter allows users to specify additional options or overrides for the build operation.
+   *
+   * @param inlineConfig - The inline configuration options for the build operation.
+   * @returns A promise that resolves when the build operation is complete.
+   */
   public async build(inlineConfig: BuildInlineConfig): Promise<void> {
     return this.#powerlines.build(inlineConfig);
   }
 
+  /**
+   * Executes the documentation generation phase of the build process, which typically involves creating API documentation and other project documentation. The `inlineConfig` parameter allows users to specify additional options or overrides for the documentation operation.
+   *
+   * @param inlineConfig - The inline configuration options for the documentation operation.
+   * @returns A promise that resolves when the documentation generation is complete.
+   */
   public async docs(inlineConfig: DocsInlineConfig): Promise<void> {
     return this.#powerlines.docs(inlineConfig);
   }
 
+  /**
+   * Executes the finalize phase of the build process, which typically involves cleanup tasks and final reporting. This method should be called after all other build phases have completed.
+   *
+   * @returns A promise that resolves when the finalize operation is complete.
+   */
   public async finalize(): Promise<void> {
     return this.#powerlines.finalize();
   }
@@ -90,7 +137,11 @@ export class ShellShockAPI {
  * @returns A promise that resolves to a {@link ShellShockAPI} instance.
  */
 export async function createShellShock(
-  options: Partial<UserConfig> = {}
+  options: PartialKeys<EngineOptions, "cwd" | "framework">
 ): Promise<ShellShockAPI> {
-  return ShellShockAPI.from({ root: process.cwd(), ...options });
+  return ShellShockAPI.fromOptions({
+    framework: "shell-shock",
+    cwd: process.cwd(),
+    ...options
+  });
 }

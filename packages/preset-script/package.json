@@ -200,8 +200,8 @@
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@shell-shock/plugin-banner": "workspace:*",
-    "@shell-shock/plugin-help": "workspace:*",
     "@shell-shock/plugin-console": "workspace:*",
+    "@shell-shock/plugin-help": "workspace:*",
     "@shell-shock/plugin-theme": "workspace:*",
     "@stryke/helpers": "catalog:",
     "@stryke/path": "catalog:",
@@ -210,8 +210,7 @@
     "powerlines": "catalog:"
   },
   "devDependencies": {
-    "@babel/core": "catalog:",
-    "@powerlines/plugin-alloy": "catalog:",
+    "@babel/core": "8.0.0-rc.3",
     "@types/node": "catalog:"
   },
   "publishConfig": {

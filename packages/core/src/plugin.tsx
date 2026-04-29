@@ -17,8 +17,11 @@
  ------------------------------------------------------------------- */
 
 import { For, Show } from "@alloy-js/core/components";
+import { ReflectionVisibility } from "@powerlines/deepkit/vendor/type";
+import alloy from "@powerlines/plugin-alloy";
 import { render } from "@powerlines/plugin-alloy/render";
 import automd from "@powerlines/plugin-automd";
+import { writeEnvTypeReflection } from "@powerlines/plugin-env/helpers";
 import nodejs from "@powerlines/plugin-nodejs";
 import tsdown from "@powerlines/plugin-tsdown";
 import { toArray } from "@stryke/convert/to-array";
@@ -60,6 +63,7 @@ import {
 } from "./helpers/update-package-json";
 import { formatCommandTree, getGlobalOptions } from "./helpers/utilities";
 import { validateCommand } from "./helpers/validations";
+import { extractType } from "./plugin-utils";
 import {
   getAppDescription,
   getAppName,
@@ -71,7 +75,7 @@ import {
 import { getCommandTree } from "./plugin-utils/get-command-tree";
 import { traverseCommands } from "./plugin-utils/traverse-command-tree";
 import { resolve } from "./resolver/resolve";
-import type { CommandOption, CommandTree } from "./types/command";
+import type { CommandTree } from "./types/command";
 import type { Options } from "./types/config";
 import type { Context } from "./types/context";
 
@@ -84,6 +88,7 @@ export const plugin = <TContext extends Context = Context>(
   options: Options = {}
 ): Plugin<TContext>[] => {
   return [
+    ...alloy<TContext>(),
     tsdown<TContext>(),
     automd<TContext>(),
     {
@@ -91,49 +96,36 @@ export const plugin = <TContext extends Context = Context>(
       async config() {
         this.debug("Resolving the Shell Shock configuration.");
 
-        await updatePackageJsonBinary(this);
-
-        const result = defu(
-          {
-            output: {
-              path: joinPaths(this.config.root, "dist")
-            }
+        const result = defu(options, {
+          name: getAppName(this),
+          title: getAppTitle(this),
+          description: getAppDescription(this),
+          platform: "node",
+          projectType: "application",
+          framework: "shell-shock",
+          isCaseSensitive: false,
+          output: {
+            format: "esm",
+            dts: false
           },
-          options,
-          {
-            name: getAppName(this),
-            title: getAppTitle(this),
-            description: getAppDescription(this),
-            platform: "node",
-            projectType: "application",
-            framework: "shell-shock",
-            isCaseSensitive: false,
-            output: {
-              format: "esm",
-              dts: false
-            },
-            input:
-              !this.config.input ||
-              (Array.isArray(this.config.input) &&
-                this.config.input.length === 0) ||
-              (isObject(this.config.input) &&
-                Object.keys(this.config.input).length === 0)
-                ? [
-                    joinPaths(this.config.root, "src/**/command.ts"),
-                    joinPaths(this.config.root, "src/**/command.tsx")
-                  ]
-                : undefined,
-            resolve: {
-              external: ["@powerlines/deepkit"],
-              skipNodeModulesBundle: true
-            },
-            tsdown: {
-              dts: false,
-              nodeProtocol: true,
-              unbundle: false
-            }
+          input:
+            !this.config.input ||
+            (Array.isArray(this.config.input) &&
+              this.config.input.length === 0) ||
+            (isObject(this.config.input) &&
+              Object.keys(this.config.input).length === 0)
+              ? ["src/**/command.ts", "src/**/command.tsx"]
+              : undefined,
+          resolve: {
+            external: ["@powerlines/deepkit"],
+            skipNodeModulesBundle: true
+          },
+          tsdown: {
+            dts: false,
+            nodeProtocol: true,
+            unbundle: false
           }
-        );
+        });
 
         return result;
       },
@@ -141,6 +133,8 @@ export const plugin = <TContext extends Context = Context>(
         order: "pre",
         async handler() {
           this.debug("Shell Shock configuration has been resolved.");
+
+          await updatePackageJsonBinary(this);
 
           this.config.appSpecificEnvPrefix = isSetString(
             this.config.autoAssignEnv
@@ -191,7 +185,7 @@ export const plugin = <TContext extends Context = Context>(
           }
 
           this.inputs ??= [];
-          this.options = Object.values(
+          this.globalOptions = Object.values(
             getGlobalOptions(this, {
               id: null,
               name: this.config.name,
@@ -204,15 +198,12 @@ export const plugin = <TContext extends Context = Context>(
             })
           );
 
-          this.options = this.options.map(
-            option =>
-              ({
-                ...option,
-                name: camelCase(option.name),
-                alias: option.alias ?? [],
-                optional: option.optional ?? false
-              }) as CommandOption
-          );
+          this.globalOptions = this.globalOptions.map(option => ({
+            ...option,
+            name: camelCase(option.name),
+            alias: option.alias ?? [],
+            optional: option.optional ?? false
+          }));
         }
       }
     },
@@ -227,8 +218,6 @@ export const plugin = <TContext extends Context = Context>(
     {
       name: "shell-shock:inputs",
       async configResolved() {
-        this.debug("Finding command entry point files.");
-
         this.debug(
           `Checking for commands using input: ${JSON.stringify(this.config.input)}`
         );
@@ -449,6 +438,42 @@ export const plugin = <TContext extends Context = Context>(
       }
     },
     {
+      name: "shell-shock:update-env",
+      configResolved: {
+        order: "post",
+        async handler() {
+          this.debug(
+            "Adding global options to the CLI application's environment variables."
+          );
+
+          for (const option of Object.values(this.globalOptions)
+            .filter(option => Boolean(option.env))
+            .filter(
+              option =>
+                !this.env.types.env.getPropertyOrUndefined(option.env as string)
+            )) {
+            this.env.types.env.addProperty({
+              name: option.env as string,
+              optional: option.optional ? true : undefined,
+              description: option.description,
+              visibility: ReflectionVisibility.public,
+              type: extractType(option),
+              default: option.default,
+              tags: {
+                title: option.title,
+                alias: option.alias
+                  .filter(alias => alias.length > 1)
+                  .map(alias => constantCase(alias)),
+                domain: "cli"
+              }
+            });
+          }
+
+          await writeEnvTypeReflection(this, this.env.types.env, "env");
+        }
+      }
+    },
+    {
       name: "shell-shock:resolve-commands",
       prepare: {
         order: "post",
@@ -493,7 +518,7 @@ export const plugin = <TContext extends Context = Context>(
                     name: camelCase(name),
                     alias: option.alias ?? [],
                     optional: option.optional ?? false
-                  } as CommandOption
+                  }
                 ])
               );
             });
@@ -534,7 +559,7 @@ export const plugin = <TContext extends Context = Context>(
     {
       name: "shell-shock:chmod+x",
       configResolved() {
-        this.config.tsdown.hooks ??= {} as TsdownHooks;
+        this.config.tsdown.hooks ??= {};
         (this.config.tsdown.hooks as TsdownHooks)["build:done"] = async (
           _: BuildContext & {
             chunks: RolldownChunk[];
@@ -544,7 +569,7 @@ export const plugin = <TContext extends Context = Context>(
             Object.values(this.config.bin).map(async bin => {
               const path = appendPath(
                 bin,
-                joinPaths(this.workspaceConfig.workspaceRoot, this.config.root)
+                joinPaths(this.config.cwd, this.config.root)
               );
               if (this.fs.existsSync(path)) {
                 this.debug(

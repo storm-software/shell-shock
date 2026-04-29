@@ -51,10 +51,11 @@ export function computedOptions(options: CommandOption[]) {
         },
         ret[option.name] ?? {},
         option
-      ) as CommandOption;
+      );
 
       if (
         option.kind === CommandParameterKinds.boolean &&
+        !option.variadic &&
         option.isNegativeOf
       ) {
         ret[camelCase(option.isNegativeOf)] = defu(

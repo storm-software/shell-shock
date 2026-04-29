@@ -11,9 +11,5 @@
     "@types/node": "catalog:",
     "powerlines": "catalog:"
   },
-  "bin": {
-    "playground-powerlines": "./dist/bin.cjs",
-    "playground-powerlines-cjs": "./dist/bin.cjs",
-    "playground-powerlines-esm": "./dist/bin.mjs"
-  }
+  "bin": { "playground-powerlines": "./dist/bin.mjs" }
 }

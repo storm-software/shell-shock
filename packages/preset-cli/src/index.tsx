@@ -21,6 +21,7 @@ import { VarDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
 import { computeBin, getCommandList } from "@shell-shock/core/plugin-utils";
+import type { CommandTree } from "@shell-shock/core/types/command";
 import changelog from "@shell-shock/plugin-changelog";
 import completions from "@shell-shock/plugin-completions";
 import console from "@shell-shock/plugin-console";
@@ -67,7 +68,12 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
         return {
           globalOptions: getGlobalOptions,
           isCaseSensitive: false,
-          ...options
+          ...options,
+          env: {
+            types:
+              "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradePluginEnv",
+            validate: false
+          }
         };
       },
       prepare: {
@@ -153,7 +159,11 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                 {code`return showHelp(); `}
               </BinEntry>
               <Show when={Object.values(this.commands).length > 0}>
-                <For each={Object.values(this.commands)} doubleHardline>
+                <For
+                  each={Object.values(
+                    this.commands as Record<string, CommandTree>
+                  )}
+                  doubleHardline>
                   {child => (
                     <Show
                       when={child.isVirtual}

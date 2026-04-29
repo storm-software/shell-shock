@@ -124,6 +124,15 @@ declare module "shell-shock:env" {
      */
     CI: boolean;
     /**
+     * Enable colored terminal output.
+     *
+     * @title Color
+     * @alias COLORS
+     * @domain cli
+     *
+     */
+    COLOR?: boolean;
+    /**
      * The application's configuration data directory.
      *
      * @title Configuration Directory
@@ -171,6 +180,14 @@ declare module "shell-shock:env" {
      */
     ERROR_URL: string;
     /**
+     * Show the version of the application.
+     *
+     * @title Version
+     * @domain cli
+     * @defaultValue false
+     */
+    false?: boolean;
+    /**
      * An indicator that specifies the current runtime is a force color environment.
      *
      * @defaultValue 3
@@ -188,6 +205,15 @@ declare module "shell-shock:env" {
      * @defaultValue false
      */
     INCLUDE_ERROR_DATA: boolean;
+    /**
+     * Enable interactive mode - will be set to false if running in a CI pipeline.
+     *
+     * @title Interactive
+     * @alias INTERACT
+     * @domain cli
+     * @defaultValue true
+     */
+    INTERACTIVE?: boolean;
     /**
      * The application's logging directory.
      *
@@ -218,11 +244,29 @@ declare module "shell-shock:env" {
      */
     MODE: "development" | "test" | "production";
     /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     *
+     * @title Hide Banner
+     * @alias HIDE_BANNER
+     * @domain cli
+     * @defaultValue false
+     */
+    NO_BANNER?: boolean;
+    /**
      * An indicator that specifies the current runtime is a no color environment.
      *
      * @defaultValue false
      */
     NO_COLOR: boolean;
+    /**
+     * Disable interactive mode - will be set to true if running in a CI pipeline.
+     *
+     * @title Non-Interactive
+     * @alias NO_INTERACTIVE
+     * @domain cli
+     * @defaultValue false
+     */
+    NON_INTERACTIVE?: boolean;
     /**
      * The name of the organization that maintains the application.
      *
@@ -256,6 +300,14 @@ declare module "shell-shock:env" {
      * @defaultValue false
      */
     TEST: boolean;
+    /**
+     * Enable verbose output.
+     *
+     * @title Verbose
+     * @domain cli
+     * @defaultValue false
+     */
+    VERBOSE?: boolean;
     /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
@@ -364,21 +416,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "TWhVCzFGbpUyNMcXpTGDx_EyxSI-kol8"
+     *
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "3048c056-d785-4064-a2c7-89698ceb9d9c"
+     * @defaultValue "52020bec-35a9-4268-bd6d-bc8b305b29be"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-15T15:31:45.707Z"
+     * @defaultValue "2026-04-29T14:06:46.180Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -682,7 +734,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "48c056d7-85f0-4462-8789-698ceb9d9cb9"
+     * @defaultValue "020bec35-a932-48fd-adbc-8b305b29bec8"
      */
     readonly RELEASE_ID: string;
     /**
@@ -935,31 +987,83 @@ declare module "shell-shock:env" {
    */
   export interface Env extends UnprefixedEnv {
     /**
+     * Show the version of the application.
+     *
+     * @title Version
+     * @domain cli
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_false: UnprefixedEnv["false"];
+    /**
+     * Enable verbose output.
+     *
+     * @title Verbose
+     * @domain cli
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_VERBOSE: UnprefixedEnv["VERBOSE"];
+    /**
+     * Enable colored terminal output.
+     *
+     * @title Color
+     * @alias COLORS
+     * @domain cli
+     *
+     */
+    PLAYGROUND_CLI_COLOR: UnprefixedEnv["COLOR"];
+    /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     *
+     * @title Hide Banner
+     * @alias HIDE_BANNER
+     * @domain cli
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_NO_BANNER: UnprefixedEnv["NO_BANNER"];
+    /**
+     * Enable interactive mode - will be set to false if running in a CI pipeline.
+     *
+     * @title Interactive
+     * @alias INTERACT
+     * @domain cli
+     * @defaultValue true
+     */
+    PLAYGROUND_CLI_INTERACTIVE: UnprefixedEnv["INTERACTIVE"];
+    /**
+     * Disable interactive mode - will be set to true if running in a CI pipeline.
+     *
+     * @title Non-Interactive
+     * @alias NO_INTERACTIVE
+     * @domain cli
+     * @defaultValue false
+     */
+    PLAYGROUND_CLI_NON_INTERACTIVE: UnprefixedEnv["NON_INTERACTIVE"];
+    /**
      * The name of the application.
      *
      * @readonly
-     *
+     * @defaultValue "playground-cli"
      */
     readonly PLAYGROUND_CLI_APP_NAME: UnprefixedEnv["APP_NAME"];
     /**
      * The version of the application.
      *
      * @readonly
-     * @defaultValue "1.0.0"
+     * @defaultValue "0.0.1"
      */
     readonly PLAYGROUND_CLI_APP_VERSION: UnprefixedEnv["APP_VERSION"];
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     *
+     * @defaultValue "52020bec-35a9-4268-bd6d-bc8b305b29be"
      */
     readonly PLAYGROUND_CLI_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     *
+     * @defaultValue "2026-04-29T14:06:46.180Z"
      */
     readonly PLAYGROUND_CLI_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -973,27 +1077,27 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     *
+     * @defaultValue "020bec35-a932-48fd-adbc-8b305b29bec8"
      */
     readonly PLAYGROUND_CLI_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
-     *
+     * @defaultValue "playground-cli@0.0.1"
      */
     readonly PLAYGROUND_CLI_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     *
+     * @defaultValue "storm-software"
      */
     PLAYGROUND_CLI_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "neutral"
+     * @defaultValue "node"
      */
     PLAYGROUND_CLI_PLATFORM: UnprefixedEnv["PLATFORM"];
     /**
@@ -1002,19 +1106,19 @@ declare module "shell-shock:env" {
      * @alias NODE_ENV
      *
      * @alias VERCEL_ENV
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     PLAYGROUND_CLI_MODE: UnprefixedEnv["MODE"];
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     PLAYGROUND_CLI_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     PLAYGROUND_CLI_DEBUG: UnprefixedEnv["DEBUG"];
     /**
@@ -1038,7 +1142,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue false
+     * @defaultValue 3
      */
     PLAYGROUND_CLI_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
     /**
@@ -1149,7 +1253,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     PLAYGROUND_CLI_STACKTRACE: UnprefixedEnv["STACKTRACE"];
     /**
@@ -1162,7 +1266,7 @@ declare module "shell-shock:env" {
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
-     *
+     * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
     PLAYGROUND_CLI_ERROR_URL: UnprefixedEnv["ERROR_URL"];
     /**
@@ -1174,13 +1278,13 @@ declare module "shell-shock:env" {
     /**
      * The default locale to be used in the application.
      *
-     * @defaultValue "en_US"
+     * @defaultValue "en-US"
      */
     PLAYGROUND_CLI_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "info"
+     * @defaultValue "debug"
      */
     PLAYGROUND_CLI_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
     /**
@@ -1754,31 +1858,83 @@ declare module "shell-shock:env" {
      */
     readonly PLAYGROUND_CLI_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
     /**
+     * Show the version of the application.
+     *
+     * @title Version
+     * @domain cli
+     * @defaultValue false
+     */
+    POWERLINES_false: UnprefixedEnv["false"];
+    /**
+     * Enable verbose output.
+     *
+     * @title Verbose
+     * @domain cli
+     * @defaultValue false
+     */
+    POWERLINES_VERBOSE: UnprefixedEnv["VERBOSE"];
+    /**
+     * Enable colored terminal output.
+     *
+     * @title Color
+     * @alias COLORS
+     * @domain cli
+     *
+     */
+    POWERLINES_COLOR: UnprefixedEnv["COLOR"];
+    /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     *
+     * @title Hide Banner
+     * @alias HIDE_BANNER
+     * @domain cli
+     * @defaultValue false
+     */
+    POWERLINES_NO_BANNER: UnprefixedEnv["NO_BANNER"];
+    /**
+     * Enable interactive mode - will be set to false if running in a CI pipeline.
+     *
+     * @title Interactive
+     * @alias INTERACT
+     * @domain cli
+     * @defaultValue true
+     */
+    POWERLINES_INTERACTIVE: UnprefixedEnv["INTERACTIVE"];
+    /**
+     * Disable interactive mode - will be set to true if running in a CI pipeline.
+     *
+     * @title Non-Interactive
+     * @alias NO_INTERACTIVE
+     * @domain cli
+     * @defaultValue false
+     */
+    POWERLINES_NON_INTERACTIVE: UnprefixedEnv["NON_INTERACTIVE"];
+    /**
      * The name of the application.
      *
      * @readonly
-     *
+     * @defaultValue "playground-cli"
      */
     readonly POWERLINES_APP_NAME: UnprefixedEnv["APP_NAME"];
     /**
      * The version of the application.
      *
      * @readonly
-     * @defaultValue "1.0.0"
+     * @defaultValue "0.0.1"
      */
     readonly POWERLINES_APP_VERSION: UnprefixedEnv["APP_VERSION"];
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     *
+     * @defaultValue "52020bec-35a9-4268-bd6d-bc8b305b29be"
      */
     readonly POWERLINES_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     *
+     * @defaultValue "2026-04-29T14:06:46.180Z"
      */
     readonly POWERLINES_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -1792,27 +1948,27 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     *
+     * @defaultValue "020bec35-a932-48fd-adbc-8b305b29bec8"
      */
     readonly POWERLINES_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
-     *
+     * @defaultValue "playground-cli@0.0.1"
      */
     readonly POWERLINES_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     *
+     * @defaultValue "storm-software"
      */
     POWERLINES_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "neutral"
+     * @defaultValue "node"
      */
     POWERLINES_PLATFORM: UnprefixedEnv["PLATFORM"];
     /**
@@ -1821,19 +1977,19 @@ declare module "shell-shock:env" {
      * @alias NODE_ENV
      *
      * @alias VERCEL_ENV
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     POWERLINES_MODE: UnprefixedEnv["MODE"];
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     POWERLINES_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     POWERLINES_DEBUG: UnprefixedEnv["DEBUG"];
     /**
@@ -1857,7 +2013,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue false
+     * @defaultValue 3
      */
     POWERLINES_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
     /**
@@ -1968,7 +2124,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     POWERLINES_STACKTRACE: UnprefixedEnv["STACKTRACE"];
     /**
@@ -1981,7 +2137,7 @@ declare module "shell-shock:env" {
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
-     *
+     * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
     POWERLINES_ERROR_URL: UnprefixedEnv["ERROR_URL"];
     /**
@@ -1993,13 +2149,13 @@ declare module "shell-shock:env" {
     /**
      * The default locale to be used in the application.
      *
-     * @defaultValue "en_US"
+     * @defaultValue "en-US"
      */
     POWERLINES_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "info"
+     * @defaultValue "debug"
      */
     POWERLINES_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
     /**
@@ -2573,31 +2729,83 @@ declare module "shell-shock:env" {
      */
     readonly POWERLINES_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
     /**
+     * Show the version of the application.
+     *
+     * @title Version
+     * @domain cli
+     * @defaultValue false
+     */
+    SHELL_SHOCK_false: UnprefixedEnv["false"];
+    /**
+     * Enable verbose output.
+     *
+     * @title Verbose
+     * @domain cli
+     * @defaultValue false
+     */
+    SHELL_SHOCK_VERBOSE: UnprefixedEnv["VERBOSE"];
+    /**
+     * Enable colored terminal output.
+     *
+     * @title Color
+     * @alias COLORS
+     * @domain cli
+     *
+     */
+    SHELL_SHOCK_COLOR: UnprefixedEnv["COLOR"];
+    /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     *
+     * @title Hide Banner
+     * @alias HIDE_BANNER
+     * @domain cli
+     * @defaultValue false
+     */
+    SHELL_SHOCK_NO_BANNER: UnprefixedEnv["NO_BANNER"];
+    /**
+     * Enable interactive mode - will be set to false if running in a CI pipeline.
+     *
+     * @title Interactive
+     * @alias INTERACT
+     * @domain cli
+     * @defaultValue true
+     */
+    SHELL_SHOCK_INTERACTIVE: UnprefixedEnv["INTERACTIVE"];
+    /**
+     * Disable interactive mode - will be set to true if running in a CI pipeline.
+     *
+     * @title Non-Interactive
+     * @alias NO_INTERACTIVE
+     * @domain cli
+     * @defaultValue false
+     */
+    SHELL_SHOCK_NON_INTERACTIVE: UnprefixedEnv["NON_INTERACTIVE"];
+    /**
      * The name of the application.
      *
      * @readonly
-     *
+     * @defaultValue "playground-cli"
      */
     readonly SHELL_SHOCK_APP_NAME: UnprefixedEnv["APP_NAME"];
     /**
      * The version of the application.
      *
      * @readonly
-     * @defaultValue "1.0.0"
+     * @defaultValue "0.0.1"
      */
     readonly SHELL_SHOCK_APP_VERSION: UnprefixedEnv["APP_VERSION"];
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     *
+     * @defaultValue "52020bec-35a9-4268-bd6d-bc8b305b29be"
      */
     readonly SHELL_SHOCK_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     *
+     * @defaultValue "2026-04-29T14:06:46.180Z"
      */
     readonly SHELL_SHOCK_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -2611,27 +2819,27 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     *
+     * @defaultValue "020bec35-a932-48fd-adbc-8b305b29bec8"
      */
     readonly SHELL_SHOCK_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
-     *
+     * @defaultValue "playground-cli@0.0.1"
      */
     readonly SHELL_SHOCK_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     *
+     * @defaultValue "storm-software"
      */
     SHELL_SHOCK_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "neutral"
+     * @defaultValue "node"
      */
     SHELL_SHOCK_PLATFORM: UnprefixedEnv["PLATFORM"];
     /**
@@ -2640,19 +2848,19 @@ declare module "shell-shock:env" {
      * @alias NODE_ENV
      *
      * @alias VERCEL_ENV
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     SHELL_SHOCK_MODE: UnprefixedEnv["MODE"];
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     SHELL_SHOCK_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     SHELL_SHOCK_DEBUG: UnprefixedEnv["DEBUG"];
     /**
@@ -2676,7 +2884,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue false
+     * @defaultValue 3
      */
     SHELL_SHOCK_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
     /**
@@ -2787,7 +2995,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     SHELL_SHOCK_STACKTRACE: UnprefixedEnv["STACKTRACE"];
     /**
@@ -2800,7 +3008,7 @@ declare module "shell-shock:env" {
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
-     *
+     * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
     SHELL_SHOCK_ERROR_URL: UnprefixedEnv["ERROR_URL"];
     /**
@@ -2812,13 +3020,13 @@ declare module "shell-shock:env" {
     /**
      * The default locale to be used in the application.
      *
-     * @defaultValue "en_US"
+     * @defaultValue "en-US"
      */
     SHELL_SHOCK_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "info"
+     * @defaultValue "debug"
      */
     SHELL_SHOCK_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
     /**
@@ -8952,6 +9160,23 @@ declare module "shell-shock:banner/completions" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Configuration command.
+ *
+ * @module shell-shock:banner/completions/powershell/config
+ */
+declare module "shell-shock:banner/completions/powershell/config" {
+  /**
+   * Write the Playground command-line interface application banner for the Completions - PowerShell Configuration command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
  * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Configuration command.
  *
  * @module shell-shock:banner/completions/zsh/config
@@ -8993,23 +9218,6 @@ declare module "shell-shock:banner/completions/fish/config" {
 declare module "shell-shock:banner/completions/bash/config" {
   /**
    * Write the Playground command-line interface application banner for the Completions - Bash Configuration command to the console.
-   *
-   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
-   *   displaying the banner. This can be used to create a delay before the banner
-   *   is shown, allowing for any necessary setup or initialization to occur
-   *   first. The default value is 500 milliseconds.
-   */
-  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
-}
-
-/**
- * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Configuration command.
- *
- * @module shell-shock:banner/completions/powershell/config
- */
-declare module "shell-shock:banner/completions/powershell/config" {
-  /**
-   * Write the Playground command-line interface application banner for the Completions - PowerShell Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9207,6 +9415,23 @@ declare module "shell-shock:banner/run" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Script command.
+ *
+ * @module shell-shock:banner/completions/powershell/script
+ */
+declare module "shell-shock:banner/completions/powershell/script" {
+  /**
+   * Write the Playground command-line interface application banner for the Completions - PowerShell Script command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
  * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Script command.
  *
  * @module shell-shock:banner/completions/zsh/script
@@ -9248,23 +9473,6 @@ declare module "shell-shock:banner/completions/fish/script" {
 declare module "shell-shock:banner/completions/bash/script" {
   /**
    * Write the Playground command-line interface application banner for the Completions - Bash Script command to the console.
-   *
-   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
-   *   displaying the banner. This can be used to create a delay before the banner
-   *   is shown, allowing for any necessary setup or initialization to occur
-   *   first. The default value is 500 milliseconds.
-   */
-  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
-}
-
-/**
- * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Script command.
- *
- * @module shell-shock:banner/completions/powershell/script
- */
-declare module "shell-shock:banner/completions/powershell/script" {
-  /**
-   * Write the Playground command-line interface application banner for the Completions - PowerShell Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9434,6 +9642,25 @@ declare module "shell-shock:help/completions" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Configuration command.
+ *
+ * @module shell-shock:help/completions/powershell/config
+ */
+declare module "shell-shock:help/completions/powershell/config" {
+  /**
+   * Utility functions for displaying help information for the Completions - PowerShell Configuration command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - PowerShell Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - PowerShell Configuration
+   * command.
+   */
+  export function showHelp(): void;
+}
+
+/**
  * A collection of utility functions that assist in displaying help information for the Completions - Zsh Configuration command.
  *
  * @module shell-shock:help/completions/zsh/config
@@ -9483,25 +9710,6 @@ declare module "shell-shock:help/completions/bash/config" {
    */
   /**
    * Display help information for the Completions - Bash Configuration command.
-   */
-  export function showHelp(): void;
-}
-
-/**
- * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Configuration command.
- *
- * @module shell-shock:help/completions/powershell/config
- */
-declare module "shell-shock:help/completions/powershell/config" {
-  /**
-   * Utility functions for displaying help information for the Completions - PowerShell Configuration command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - PowerShell Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - PowerShell Configuration
-   * command.
    */
   export function showHelp(): void;
 }
@@ -9705,6 +9913,24 @@ declare module "shell-shock:help/run" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Script command.
+ *
+ * @module shell-shock:help/completions/powershell/script
+ */
+declare module "shell-shock:help/completions/powershell/script" {
+  /**
+   * Utility functions for displaying help information for the Completions - PowerShell Script command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - PowerShell Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - PowerShell Script command.
+   */
+  export function showHelp(): void;
+}
+
+/**
  * A collection of utility functions that assist in displaying help information for the Completions - Zsh Script command.
  *
  * @module shell-shock:help/completions/zsh/script
@@ -9754,24 +9980,6 @@ declare module "shell-shock:help/completions/bash/script" {
    */
   /**
    * Display help information for the Completions - Bash Script command.
-   */
-  export function showHelp(): void;
-}
-
-/**
- * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Script command.
- *
- * @module shell-shock:help/completions/powershell/script
- */
-declare module "shell-shock:help/completions/powershell/script" {
-  /**
-   * Utility functions for displaying help information for the Completions - PowerShell Script command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - PowerShell Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - PowerShell Script command.
    */
   export function showHelp(): void;
 }

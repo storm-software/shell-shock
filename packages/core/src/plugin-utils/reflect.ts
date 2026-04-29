@@ -32,7 +32,10 @@ export function sortOptions(options: CommandOption[]): CommandOption[] {
 
   return options
     .filter(
-      arg => arg.kind !== CommandParameterKinds.boolean || !arg.isNegativeOf
+      arg =>
+        arg.kind !== CommandParameterKinds.boolean ||
+        arg.variadic ||
+        !arg.isNegativeOf
     )
     .sort((a, b) => a.name.localeCompare(b.name))
     .reduce((ret, arg) => {
@@ -43,6 +46,7 @@ export function sortOptions(options: CommandOption[]): CommandOption[] {
         const negativeArg = options.find(
           a =>
             a.kind === CommandParameterKinds.boolean &&
+            !a.variadic &&
             a.isNegativeOf === arg.name
         );
         if (negativeArg) {

@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import type { AlloyPluginContext } from "@powerlines/plugin-alloy/types/plugin";
 import type { NodeJsPluginContext } from "@powerlines/plugin-nodejs/types/plugin";
 import type { TsdownPluginContext } from "@powerlines/plugin-tsdown/types/plugin";
 import type { UnresolvedContext as PowerlinesUnresolvedContext } from "powerlines";
@@ -24,6 +25,7 @@ import type { ResolvedConfig } from "./config";
 
 export type Context<TResolvedConfig extends ResolvedConfig = ResolvedConfig> =
   TsdownPluginContext<TResolvedConfig> &
+    AlloyPluginContext<TResolvedConfig> &
     NodeJsPluginContext<TResolvedConfig> & {
       /**
        * The root path where commands are located.
@@ -33,7 +35,7 @@ export type Context<TResolvedConfig extends ResolvedConfig = ResolvedConfig> =
       /**
        * The default command arguments to apply to all application commands.
        */
-      options: CommandOption[];
+      globalOptions: CommandOption[];
 
       /**
        * The list of commands discovered in the project.

@@ -6,7 +6,6 @@
 
 ## `config`
 - **Type**: `string`
-- **Default**: `"{projectRoot}/powerlines.config.ts"`
 
 > Powerlines Configuration File
 
@@ -16,7 +15,6 @@ The path to the Powerlines configuration file. Alias for `configFile`.
 
 ## `configFile`
 - **Type**: `string`
-- **Default**: `"{projectRoot}/powerlines.config.ts"`
 
 > Powerlines Configuration File
 
@@ -35,7 +33,6 @@ The entry file(s) that serve as the input for the project
 
 ## `tsconfig`
 - **Type**: `string`
-- **Default**: `"{projectRoot}/tsconfig.json"`
 
 > TSConfig Path
 
@@ -71,6 +68,15 @@ A directory path to copy the build artifacts into
 Generate a sourcemap
 
 
+## `minify`
+- **Type**: `boolean`
+
+> Minify
+
+
+Minify the output
+
+
 ## `format`
 - **Type**: `array`
 - **Default**: `["cjs","esm"]`
@@ -83,7 +89,6 @@ The format to build
 
 ## `platform`
 - **Type**: `string`
-- **Default**: `"neutral"`
 
 > Platform
 
@@ -149,4 +154,6 @@ The log level to use for the build process
 
 The `assets` values
 
+
+## `additionalArgs`
 

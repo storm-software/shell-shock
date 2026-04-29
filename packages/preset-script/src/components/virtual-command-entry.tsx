@@ -137,8 +137,8 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
           console: ["warn", "error", "writeLine", "textColors"],
           utils: ["isMinimal", "isUnicodeSupported", "findSuggestions"],
           state: [
+            { name: "GlobalOptions", type: true },
             "useGlobal",
-            "GlobalOptions",
             "useGlobalOptions",
             "withCommand",
             "useArgs",

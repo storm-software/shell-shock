@@ -10,7 +10,8 @@
         "nx",
         "run",
         "core:build:development",
-        "--outputStyle=dynamic-legacy"
+        "--outputStyle=dynamic-legacy",
+        "--skipNxCache"
       ],
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal"

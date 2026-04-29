@@ -8,7 +8,6 @@ export interface LintExecutorSchema {
   * 
   * The path to the Powerlines configuration file. Alias for `configFile`.
   * 
-  * @default "{projectRoot}/powerlines.config.ts"
   * 
   * @format path
  */
@@ -19,7 +18,6 @@ export interface LintExecutorSchema {
   * 
   * The path to the Powerlines configuration file. Alias for `config`.
   * 
-  * @default "{projectRoot}/powerlines.config.ts"
   * 
   * @format path
  */
@@ -40,7 +38,6 @@ export interface LintExecutorSchema {
   * 
   * The path to the tsconfig file
   * 
-  * @default "{projectRoot}/tsconfig.json"
   * 
   * @format path
  */
@@ -75,6 +72,14 @@ export interface LintExecutorSchema {
  sourceMap?: boolean,
 
  /**
+  * Minify
+  * 
+  * Minify the output
+  * 
+ */
+ minify?: boolean,
+
+ /**
   * Format
   * 
   * The format to build
@@ -88,7 +93,6 @@ export interface LintExecutorSchema {
   * 
   * The platform to build
   * 
-  * @default "neutral"
   * 
   * @enum neutral,node,browser
  */
@@ -153,6 +157,14 @@ export interface LintExecutorSchema {
   * 
  */
  assets?: Array<{ input?: string; output?: string; glob: string; ignore?: string[]; dot?: boolean; }>,
+
+ /**
+  * Additional Arguments
+  * 
+  * The additional arguments provided during execution of the command
+  * 
+ */
+ additionalArgs?: Record<string, string>,
 
  /**
   * Auto Install

@@ -24,10 +24,8 @@ import { getAttribute } from "./get-attribute";
 import { renderTag } from "./render";
 import { wrapLineWidth } from "./wrap-line-width";
 
-const decodeHtml = he.decode as (value: string) => string;
-const normalizeHtmlWhitespace = normalizeWhitespace as (
-  value: string
-) => string;
+const decodeHtml = he.decode;
+const normalizeHtmlWhitespace = normalizeWhitespace;
 
 export type WrapValue = string | null | undefined;
 
@@ -228,20 +226,21 @@ export function blockTag(
       inlineToBlockTag(value.inline) ?? null
     );
 
-    let topBlock = localContext?.marginTop ?? 0;
-
-    topBlock = !context || !context.pre ? topBlock + 1 : topBlock;
-
-    let bottomBlock = localContext?.marginBottom ?? 0;
-
-    bottomBlock = !context || !context.pre ? bottomBlock + 1 : bottomBlock;
+    const marginTop =
+      !context || !context.pre
+        ? (localContext?.marginTop ?? 0) + 1
+        : (localContext?.marginTop ?? 0);
+    const marginBottom =
+      !context || !context.pre
+        ? (localContext?.marginBottom ?? 0) + 1
+        : (localContext?.marginBottom ?? 0);
 
     // Handle empty content - return empty string with margins instead of null
     if (!value.block || !value.block.value) {
       return {
-        marginTop: topBlock,
+        marginTop,
         value: "",
-        marginBottom: bottomBlock,
+        marginBottom,
         type: "block",
         nodeName: tag.nodeName
       };
@@ -249,14 +248,14 @@ export function blockTag(
 
     return {
       marginTop:
-        value.block.marginTop && value.block.marginTop > topBlock
+        value.block.marginTop && value.block.marginTop > marginTop
           ? value.block.marginTop
-          : topBlock,
+          : marginTop,
       value: wrapFunction(value.block.value, tag, context),
       marginBottom:
-        value.block.marginBottom && value.block.marginBottom > bottomBlock
+        value.block.marginBottom && value.block.marginBottom > marginBottom
           ? value.block.marginBottom
-          : bottomBlock,
+          : marginBottom,
       type: "block",
       nodeName: tag.nodeName
     };

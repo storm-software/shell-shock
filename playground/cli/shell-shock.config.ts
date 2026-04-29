@@ -21,7 +21,6 @@ import { defineConfig } from "@shell-shock/core/config";
 import cli from "@shell-shock/preset-cli";
 
 const config: UserConfig = defineConfig({
-  skipCache: true,
   output: {
     storage: "fs"
   },
@@ -37,7 +36,11 @@ const config: UserConfig = defineConfig({
         }
       }
     })
-  ]
+  ],
+  logLevel: {
+    general: "debug",
+    env: "debug"
+  }
 });
 
 export default config;

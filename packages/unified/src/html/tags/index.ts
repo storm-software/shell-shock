@@ -44,7 +44,7 @@ import { code, pre } from "./code";
 import { data } from "./data";
 import { dd, dl, dt } from "./definitions";
 import { details, summary } from "./details";
-import { body, html } from "./document";
+import { body, document, html } from "./document";
 import { fieldset, legend } from "./fieldset";
 import { figcaption, figure } from "./figure";
 import { h1, h2, h3, h4, h5, h6 } from "./headers";
@@ -141,6 +141,7 @@ import {
 } from "./void";
 
 export default {
+  "#document": document,
   "#text": textNode,
   a,
   abbr,
@@ -159,8 +160,6 @@ export default {
   bgsound,
   big,
   blink,
-  dialog,
-  div,
   blockquote,
   body,
   bold,
@@ -179,8 +178,8 @@ export default {
   del,
   details,
   dfn,
-  footer,
-  form,
+  dialog,
+  div,
   dl,
   dt,
   em,
@@ -189,6 +188,8 @@ export default {
   figcaption,
   figure,
   font,
+  footer,
+  form,
   frame,
   frameset,
   h1,

@@ -36,6 +36,15 @@ declare module "shell-shock:env" {
      */
     CI: boolean;
     /**
+     * Enable colored terminal output.
+     *
+     * @title Color
+     * @alias COLORS
+     * @domain cli
+     *
+     */
+    COLOR?: boolean;
+    /**
      * The COMSPEC environment variable, which specifies the command-line interpreter to use on Windows.
      *
      * @internal
@@ -92,6 +101,14 @@ declare module "shell-shock:env" {
      */
     ERROR_URL: string;
     /**
+     * Show the version of the application.
+     *
+     * @title Version
+     * @domain cli
+     * @defaultValue false
+     */
+    false?: boolean;
+    /**
      * An indicator that specifies the current runtime is a force color environment.
      *
      * @defaultValue 3
@@ -132,12 +149,21 @@ declare module "shell-shock:env" {
     /**
      * The mode in which the application is running.
      *
-     * @alias NODE_ENV
-     *
      * @alias VERCEL_ENV
+     *
+     * @alias NODE_ENV
      * @defaultValue "development"
      */
     MODE: "development" | "test" | "production";
+    /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     *
+     * @title Hide Banner
+     * @alias HIDE_BANNER
+     * @domain cli
+     * @defaultValue false
+     */
+    NO_BANNER?: boolean;
     /**
      * An indicator that specifies the current runtime is a no color environment.
      *
@@ -222,6 +248,14 @@ declare module "shell-shock:env" {
      * @defaultValue false
      */
     TEST: boolean;
+    /**
+     * Enable verbose output.
+     *
+     * @title Verbose
+     * @domain cli
+     * @defaultValue false
+     */
+    VERBOSE?: boolean;
     /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
@@ -330,21 +364,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "EKC0UcdaOjljN-USIplJvLj7Vnv-D86Z"
+     *
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "f12b3774-7e16-47cf-9325-15ea57d78bb8"
+     * @defaultValue "4a3c0928-dc80-49ae-88d0-05c7326a3444"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-15T15:30:56.244Z"
+     * @defaultValue "2026-04-29T14:05:58.577Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -648,7 +682,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "2b37747e-16d7-4f13-a515-ea57d78bb870"
+     * @defaultValue "3c0928dc-8089-4e48-9005-c7326a3444fb"
      */
     readonly RELEASE_ID: string;
     /**
@@ -901,6 +935,40 @@ declare module "shell-shock:env" {
    */
   export interface Env extends UnprefixedEnv {
     /**
+     * Show the version of the application.
+     *
+     * @title Version
+     * @domain cli
+     * @defaultValue false
+     */
+    PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_false: UnprefixedEnv["false"];
+    /**
+     * Enable verbose output.
+     *
+     * @title Verbose
+     * @domain cli
+     * @defaultValue false
+     */
+    PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_VERBOSE: UnprefixedEnv["VERBOSE"];
+    /**
+     * Enable colored terminal output.
+     *
+     * @title Color
+     * @alias COLORS
+     * @domain cli
+     *
+     */
+    PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_COLOR: UnprefixedEnv["COLOR"];
+    /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     *
+     * @title Hide Banner
+     * @alias HIDE_BANNER
+     * @domain cli
+     * @defaultValue false
+     */
+    PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_NO_BANNER: UnprefixedEnv["NO_BANNER"];
+    /**
      * The system PATHEXT variable, used to determine which file extensions are considered executable on Windows.
      *
      * @internal
@@ -958,28 +1026,28 @@ declare module "shell-shock:env" {
      * The name of the application.
      *
      * @readonly
-     *
+     * @defaultValue "playground-custom-commands-directory"
      */
     readonly PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_APP_NAME: UnprefixedEnv["APP_NAME"];
     /**
      * The version of the application.
      *
      * @readonly
-     * @defaultValue "1.0.0"
+     * @defaultValue "0.0.1"
      */
     readonly PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_APP_VERSION: UnprefixedEnv["APP_VERSION"];
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     *
+     * @defaultValue "4a3c0928-dc80-49ae-88d0-05c7326a3444"
      */
     readonly PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     *
+     * @defaultValue "2026-04-29T14:05:58.577Z"
      */
     readonly PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -993,48 +1061,48 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     *
+     * @defaultValue "3c0928dc-8089-4e48-9005-c7326a3444fb"
      */
     readonly PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
-     *
+     * @defaultValue "playground-custom-commands-directory@0.0.1"
      */
     readonly PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     *
+     * @defaultValue "storm-software"
      */
     PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "neutral"
+     * @defaultValue "node"
      */
     PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_PLATFORM: UnprefixedEnv["PLATFORM"];
     /**
      * The mode in which the application is running.
      *
-     * @alias NODE_ENV
-     *
      * @alias VERCEL_ENV
-     * @defaultValue "production"
+     *
+     * @alias NODE_ENV
+     * @defaultValue "development"
      */
     PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_MODE: UnprefixedEnv["MODE"];
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_DEBUG: UnprefixedEnv["DEBUG"];
     /**
@@ -1058,7 +1126,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue false
+     * @defaultValue 3
      */
     PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
     /**
@@ -1169,7 +1237,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_STACKTRACE: UnprefixedEnv["STACKTRACE"];
     /**
@@ -1182,7 +1250,7 @@ declare module "shell-shock:env" {
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
-     *
+     * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
     PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_ERROR_URL: UnprefixedEnv["ERROR_URL"];
     /**
@@ -1194,13 +1262,13 @@ declare module "shell-shock:env" {
     /**
      * The default locale to be used in the application.
      *
-     * @defaultValue "en_US"
+     * @defaultValue "en-US"
      */
     PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "info"
+     * @defaultValue "debug"
      */
     PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
     /**
@@ -1774,6 +1842,40 @@ declare module "shell-shock:env" {
      */
     readonly PLAYGROUND_CUSTOM_COMMANDS_DIRECTORY_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
     /**
+     * Show the version of the application.
+     *
+     * @title Version
+     * @domain cli
+     * @defaultValue false
+     */
+    POWERLINES_false: UnprefixedEnv["false"];
+    /**
+     * Enable verbose output.
+     *
+     * @title Verbose
+     * @domain cli
+     * @defaultValue false
+     */
+    POWERLINES_VERBOSE: UnprefixedEnv["VERBOSE"];
+    /**
+     * Enable colored terminal output.
+     *
+     * @title Color
+     * @alias COLORS
+     * @domain cli
+     *
+     */
+    POWERLINES_COLOR: UnprefixedEnv["COLOR"];
+    /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     *
+     * @title Hide Banner
+     * @alias HIDE_BANNER
+     * @domain cli
+     * @defaultValue false
+     */
+    POWERLINES_NO_BANNER: UnprefixedEnv["NO_BANNER"];
+    /**
      * The system PATHEXT variable, used to determine which file extensions are considered executable on Windows.
      *
      * @internal
@@ -1831,28 +1933,28 @@ declare module "shell-shock:env" {
      * The name of the application.
      *
      * @readonly
-     *
+     * @defaultValue "playground-custom-commands-directory"
      */
     readonly POWERLINES_APP_NAME: UnprefixedEnv["APP_NAME"];
     /**
      * The version of the application.
      *
      * @readonly
-     * @defaultValue "1.0.0"
+     * @defaultValue "0.0.1"
      */
     readonly POWERLINES_APP_VERSION: UnprefixedEnv["APP_VERSION"];
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     *
+     * @defaultValue "4a3c0928-dc80-49ae-88d0-05c7326a3444"
      */
     readonly POWERLINES_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     *
+     * @defaultValue "2026-04-29T14:05:58.577Z"
      */
     readonly POWERLINES_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -1866,48 +1968,48 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     *
+     * @defaultValue "3c0928dc-8089-4e48-9005-c7326a3444fb"
      */
     readonly POWERLINES_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
-     *
+     * @defaultValue "playground-custom-commands-directory@0.0.1"
      */
     readonly POWERLINES_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     *
+     * @defaultValue "storm-software"
      */
     POWERLINES_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "neutral"
+     * @defaultValue "node"
      */
     POWERLINES_PLATFORM: UnprefixedEnv["PLATFORM"];
     /**
      * The mode in which the application is running.
      *
-     * @alias NODE_ENV
-     *
      * @alias VERCEL_ENV
-     * @defaultValue "production"
+     *
+     * @alias NODE_ENV
+     * @defaultValue "development"
      */
     POWERLINES_MODE: UnprefixedEnv["MODE"];
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     POWERLINES_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     POWERLINES_DEBUG: UnprefixedEnv["DEBUG"];
     /**
@@ -1931,7 +2033,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue false
+     * @defaultValue 3
      */
     POWERLINES_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
     /**
@@ -2042,7 +2144,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     POWERLINES_STACKTRACE: UnprefixedEnv["STACKTRACE"];
     /**
@@ -2055,7 +2157,7 @@ declare module "shell-shock:env" {
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
-     *
+     * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
     POWERLINES_ERROR_URL: UnprefixedEnv["ERROR_URL"];
     /**
@@ -2067,13 +2169,13 @@ declare module "shell-shock:env" {
     /**
      * The default locale to be used in the application.
      *
-     * @defaultValue "en_US"
+     * @defaultValue "en-US"
      */
     POWERLINES_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "info"
+     * @defaultValue "debug"
      */
     POWERLINES_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
     /**
@@ -2647,6 +2749,40 @@ declare module "shell-shock:env" {
      */
     readonly POWERLINES_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
     /**
+     * Show the version of the application.
+     *
+     * @title Version
+     * @domain cli
+     * @defaultValue false
+     */
+    SHELL_SHOCK_false: UnprefixedEnv["false"];
+    /**
+     * Enable verbose output.
+     *
+     * @title Verbose
+     * @domain cli
+     * @defaultValue false
+     */
+    SHELL_SHOCK_VERBOSE: UnprefixedEnv["VERBOSE"];
+    /**
+     * Enable colored terminal output.
+     *
+     * @title Color
+     * @alias COLORS
+     * @domain cli
+     *
+     */
+    SHELL_SHOCK_COLOR: UnprefixedEnv["COLOR"];
+    /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     *
+     * @title Hide Banner
+     * @alias HIDE_BANNER
+     * @domain cli
+     * @defaultValue false
+     */
+    SHELL_SHOCK_NO_BANNER: UnprefixedEnv["NO_BANNER"];
+    /**
      * The system PATHEXT variable, used to determine which file extensions are considered executable on Windows.
      *
      * @internal
@@ -2704,28 +2840,28 @@ declare module "shell-shock:env" {
      * The name of the application.
      *
      * @readonly
-     *
+     * @defaultValue "playground-custom-commands-directory"
      */
     readonly SHELL_SHOCK_APP_NAME: UnprefixedEnv["APP_NAME"];
     /**
      * The version of the application.
      *
      * @readonly
-     * @defaultValue "1.0.0"
+     * @defaultValue "0.0.1"
      */
     readonly SHELL_SHOCK_APP_VERSION: UnprefixedEnv["APP_VERSION"];
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     *
+     * @defaultValue "4a3c0928-dc80-49ae-88d0-05c7326a3444"
      */
     readonly SHELL_SHOCK_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     *
+     * @defaultValue "2026-04-29T14:05:58.577Z"
      */
     readonly SHELL_SHOCK_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -2739,48 +2875,48 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     *
+     * @defaultValue "3c0928dc-8089-4e48-9005-c7326a3444fb"
      */
     readonly SHELL_SHOCK_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
-     *
+     * @defaultValue "playground-custom-commands-directory@0.0.1"
      */
     readonly SHELL_SHOCK_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     *
+     * @defaultValue "storm-software"
      */
     SHELL_SHOCK_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "neutral"
+     * @defaultValue "node"
      */
     SHELL_SHOCK_PLATFORM: UnprefixedEnv["PLATFORM"];
     /**
      * The mode in which the application is running.
      *
-     * @alias NODE_ENV
-     *
      * @alias VERCEL_ENV
-     * @defaultValue "production"
+     *
+     * @alias NODE_ENV
+     * @defaultValue "development"
      */
     SHELL_SHOCK_MODE: UnprefixedEnv["MODE"];
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     SHELL_SHOCK_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     SHELL_SHOCK_DEBUG: UnprefixedEnv["DEBUG"];
     /**
@@ -2804,7 +2940,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue false
+     * @defaultValue 3
      */
     SHELL_SHOCK_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
     /**
@@ -2915,7 +3051,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     SHELL_SHOCK_STACKTRACE: UnprefixedEnv["STACKTRACE"];
     /**
@@ -2928,7 +3064,7 @@ declare module "shell-shock:env" {
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
-     *
+     * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
     SHELL_SHOCK_ERROR_URL: UnprefixedEnv["ERROR_URL"];
     /**
@@ -2940,13 +3076,13 @@ declare module "shell-shock:env" {
     /**
      * The default locale to be used in the application.
      *
-     * @defaultValue "en_US"
+     * @defaultValue "en-US"
      */
     SHELL_SHOCK_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "info"
+     * @defaultValue "debug"
      */
     SHELL_SHOCK_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
     /**

@@ -91,14 +91,14 @@ export async function findCommandsRoot(context: Context): Promise<string> {
     paths = await listFiles(
       appendPath(
         appendPath(context.config.input, context.config.root),
-        context.workspaceConfig.workspaceRoot
+        context.config.cwd
       )
     );
   } else if (isTypeDefinition(context.config.input)) {
     paths = await listFiles(
       appendPath(
         appendPath(context.config.input.file, context.config.root),
-        context.workspaceConfig.workspaceRoot
+        context.config.cwd
       )
     );
   } else if (
@@ -114,7 +114,7 @@ export async function findCommandsRoot(context: Context): Promise<string> {
                 isSetString(input) ? input : input.file,
                 context.config.root
               ),
-              context.workspaceConfig.workspaceRoot
+              context.config.cwd
             )
           )
         )
@@ -134,7 +134,7 @@ export async function findCommandsRoot(context: Context): Promise<string> {
                           isSetString(i) ? i : i.file,
                           context.config.root
                         ),
-                        context.workspaceConfig.workspaceRoot
+                        context.config.cwd
                       )
                     )
                   )
@@ -146,7 +146,7 @@ export async function findCommandsRoot(context: Context): Promise<string> {
                     isSetString(input) ? input : input.file,
                     context.config.root
                   ),
-                  context.workspaceConfig.workspaceRoot
+                  context.config.cwd
                 )
               )
         )
@@ -172,14 +172,11 @@ export async function findCommandsRoot(context: Context): Promise<string> {
   paths = (
     await Promise.all([
       listFiles(
-        joinPaths(
-          appendPath(commandsPath, context.workspaceConfig.workspaceRoot),
-          "**/command.ts"
-        )
+        joinPaths(appendPath(commandsPath, context.config.cwd), "**/command.ts")
       ),
       listFiles(
         joinPaths(
-          appendPath(commandsPath, context.workspaceConfig.workspaceRoot),
+          appendPath(commandsPath, context.config.cwd),
           "**/command.tsx"
         )
       )
@@ -189,5 +186,5 @@ export async function findCommandsRoot(context: Context): Promise<string> {
     return commonPath(paths.map(p => findFilePath(p)));
   }
 
-  return appendPath(commandsPath, context.workspaceConfig.workspaceRoot);
+  return appendPath(commandsPath, context.config.cwd);
 }

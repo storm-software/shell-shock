@@ -20,6 +20,7 @@ import { code, For, Show } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
+import type { CommandTree } from "@shell-shock/core/types/command";
 import banner from "@shell-shock/plugin-banner";
 import console from "@shell-shock/plugin-console";
 import help from "@shell-shock/plugin-help";
@@ -38,7 +39,7 @@ export const plugin = <
   TContext extends ScriptPresetContext = ScriptPresetContext
 >(
   options: ScriptPresetOptions = {}
-) => {
+): Plugin<TContext>[] => {
   return [
     ...console<TContext>(options),
     ...help<TContext>(options),
@@ -55,10 +56,7 @@ export const plugin = <
           isCaseSensitive: false,
           ...options
         };
-      }
-    },
-    {
-      name: "shell-shock:script-preset:generate-entrypoint",
+      },
       prepare: {
         order: "post",
         async handler() {
@@ -98,7 +96,11 @@ export const plugin = <
                 {code`return showHelp();`}
               </BinEntry>
               <Show when={Object.values(this.commands).length > 0}>
-                <For each={Object.values(this.commands)} doubleHardline>
+                <For
+                  each={Object.values(
+                    this.commands as Record<string, CommandTree>
+                  )}
+                  doubleHardline>
                   {child => (
                     <Show
                       when={child.isVirtual}
@@ -113,7 +115,7 @@ export const plugin = <
         }
       }
     }
-  ] as Plugin<TContext>[];
+  ];
 };
 
 export default plugin;

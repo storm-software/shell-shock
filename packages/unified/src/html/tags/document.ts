@@ -20,6 +20,8 @@ import { blockTag } from "../helpers/tag-utilities";
 
 const documentTag = blockTag();
 
+export const document = documentTag;
+
 export const html = documentTag;
 
 export const body = documentTag;

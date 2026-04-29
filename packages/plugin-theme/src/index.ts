@@ -16,7 +16,6 @@
 
  ------------------------------------------------------------------- */
 
-import alloy from "@powerlines/plugin-alloy";
 import styleDictionary from "@powerlines/plugin-style-dictionary";
 import { omit } from "@stryke/helpers/omit";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
@@ -45,8 +44,6 @@ export const plugin = <
 ): Plugin<TContext>[] => {
   return [
     styleDictionary(defu({ skipBuild: false }, omit(options, ["theme"]))),
-    // eslint-disable-next-line ts/no-unnecessary-type-assertion
-    ...(alloy(options) as Plugin<TContext>[]),
     {
       name: "shell-shock:theme",
       config() {

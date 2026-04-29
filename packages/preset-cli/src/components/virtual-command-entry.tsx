@@ -94,8 +94,8 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
             "sleep"
           ],
           state: [
+            { name: "GlobalOptions", type: true },
             "useGlobal",
-            "GlobalOptions",
             "useGlobalOptions",
             "withCommand",
             "useArgs",

@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { ExecutorContext, PromiseExecutor } from "@nx/devkit";
-import type { ShellShockAPI, UserConfig } from "@shell-shock/core";
+import type { ShellShockAPI } from "@shell-shock/core";
 import { writeError } from "@storm-software/config-tools/logger";
 import type { StormWorkspaceConfig } from "@storm-software/config/types";
 import { withRunExecutor } from "@storm-software/workspace-tools/base/base-executor";
@@ -25,7 +25,12 @@ import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
 import { isError } from "@stryke/type-checks/is-error";
 import defu from "defu";
 import { createJiti } from "jiti";
-import type { InlineConfig, PowerlinesCommand } from "powerlines";
+import type {
+  InlineConfig,
+  LogLevel,
+  OutputConfig,
+  PowerlinesCommand
+} from "powerlines";
 import type { BaseExecutorSchema } from "./base-executor.schema";
 
 export type ShellShockExecutorContext<
@@ -91,26 +96,15 @@ export function withExecutor<
         context.projectsConfigurations.projects[context.projectName]!;
 
       const jiti = createJiti(context.root, { cache: false });
-      const { ShellShockAPI } = await jiti.import<{
-        ShellShockAPI: typeof import("@shell-shock/core").ShellShockAPI;
+      const { createShellShock } = await jiti.import<{
+        createShellShock: typeof import("@shell-shock/core").createShellShock;
       }>(jiti.esmResolve("@shell-shock/core"));
 
-      const api = await ShellShockAPI.from(
-        defu(
-          {
-            name: projectConfig.name,
-            root: projectConfig.root,
-            sourceRoot: projectConfig.sourceRoot,
-            description: projectConfig.metadata?.description,
-            projectType: projectConfig.projectType,
-            output: {
-              path: options.outputPath
-            }
-          },
-          options,
-          workspaceConfig.workspaceRoot
-        ) as UserConfig
-      );
+      const api = await createShellShock({
+        root: projectConfig.root,
+        cwd: workspaceConfig.workspaceRoot,
+        configFile: options.configFile
+      });
 
       try {
         return await Promise.resolve(
@@ -119,12 +113,35 @@ export function withExecutor<
               {
                 projectName: context.projectName,
                 options,
+                command,
                 workspaceConfig,
-                inlineConfig: {
-                  command,
-                  configFile: options.configFile
-                },
-                command
+                inlineConfig: defu(
+                  {
+                    command,
+                    configFile: options.configFile,
+                    description: projectConfig.metadata?.description,
+                    projectType: projectConfig.projectType,
+                    output: {
+                      path: options.outputPath,
+                      copy:
+                        options.copyPath === false
+                          ? false
+                          : {
+                              path: options.copyPath,
+                              assets: options.assets
+                            },
+                      minify: options.minify,
+                      sourceMap: options.sourceMap
+                    } as OutputConfig,
+                    logLevel: options.logLevel as LogLevel,
+                    resolve: {
+                      external: options.external,
+                      noExternal: options.noExternal,
+                      skipNodeModulesBundle: options.skipNodeModulesBundle
+                    }
+                  },
+                  options
+                )
               },
               context
             ),
@@ -153,7 +170,7 @@ ${error.stack}`
       skipReadingConfig: false,
       hooks: {
         applyDefaultOptions: (options: Partial<TExecutorSchema>) => {
-          options.outputPath ??= "dist/{projectRoot}";
+          options.copyPath ??= "dist/{projectRoot}";
           options.configFile ??= "{projectRoot}/shell-shock.config.ts";
 
           return options as TExecutorSchema;

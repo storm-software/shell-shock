@@ -23,7 +23,6 @@ import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines/config";
 
 const config: UserConfig = defineConfig({
-  skipCache: true,
   input: [
     "./src/*.ts",
     "./src/*.tsx",

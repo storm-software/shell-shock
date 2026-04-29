@@ -3,37 +3,5 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "playground/powerlines/src",
-  "targets": {
-    "clean": {
-      "cache": false,
-      "executor": "@powerlines/nx:clean"
-    },
-    "prepare": {
-      "cache": false,
-      "inputs": ["typescript", "^production"],
-      "outputs": ["{projectRoot}/.powerlines"],
-      "executor": "@powerlines/nx:prepare",
-      "dependsOn": ["^build"],
-      "options": {
-        "mode": "development"
-      }
-    },
-    "build": {
-      "cache": false,
-      "inputs": ["typescript", "^production"],
-      "outputs": ["{options.outputPath}"],
-      "executor": "@powerlines/nx:build",
-      "dependsOn": ["^build"],
-      "options": {
-        "mode": "development"
-      }
-    },
-    "docs": {
-      "cache": false,
-      "inputs": ["typescript", "^production"],
-      "outputs": ["{projectRoot}/docs"],
-      "executor": "@powerlines/nx:docs",
-      "dependsOn": ["build"]
-    }
-  }
+  "targets": {}
 }

@@ -227,8 +227,10 @@
     "@powerlines/plugin-plugin": "catalog:",
     "@powerlines/plugin-style-dictionary": "catalog:",
     "@stryke/helpers": "catalog:",
-    "@stryke/type-checks": "catalog:",
+    "@stryke/json": "catalog:",
     "@stryke/string-format": "catalog:",
+    "@stryke/type-checks": "catalog:",
+    "@stryke/types": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:",
     "style-dictionary": "catalog:"
@@ -239,5 +241,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "inlinedDependencies": {
+    "@standard-schema/spec": "1.1.0",
+    "zod": "4.3.6"
   }
 }

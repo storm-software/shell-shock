@@ -46,7 +46,7 @@ import { OptionsMember, OptionsParserLogic } from "./options-parser-logic";
 export function GlobalTypeDefinitions() {
   const context = usePowerlines<Context>();
 
-  const options = computed(() => computedOptions(context.options));
+  const options = computed(() => computedOptions(context.globalOptions));
 
   return (
     <>
@@ -159,7 +159,9 @@ export function ContextUtilities() {
   const context = usePowerlines<Context>();
 
   const options = computed(() =>
-    Object.fromEntries(context.options.map(option => [option.name, option]))
+    Object.fromEntries(
+      context.globalOptions.map(option => [option.name, option])
+    )
   );
 
   return (

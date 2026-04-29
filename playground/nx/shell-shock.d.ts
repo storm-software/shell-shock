@@ -36,6 +36,15 @@ declare module "shell-shock:env" {
      */
     CI: boolean;
     /**
+     * Enable colored terminal output.
+     *
+     * @title Color
+     * @alias COLORS
+     * @domain cli
+     *
+     */
+    COLOR?: boolean;
+    /**
      * The COMSPEC environment variable, which specifies the command-line interpreter to use on Windows.
      *
      * @internal
@@ -92,6 +101,14 @@ declare module "shell-shock:env" {
      */
     ERROR_URL: string;
     /**
+     * Show the version of the application.
+     *
+     * @title Version
+     * @domain cli
+     * @defaultValue false
+     */
+    false?: boolean;
+    /**
      * An indicator that specifies the current runtime is a force color environment.
      *
      * @defaultValue 3
@@ -132,12 +149,21 @@ declare module "shell-shock:env" {
     /**
      * The mode in which the application is running.
      *
-     * @alias NODE_ENV
-     *
      * @alias VERCEL_ENV
+     *
+     * @alias NODE_ENV
      * @defaultValue "development"
      */
     MODE: "development" | "test" | "production";
+    /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     *
+     * @title Hide Banner
+     * @alias HIDE_BANNER
+     * @domain cli
+     * @defaultValue false
+     */
+    NO_BANNER?: boolean;
     /**
      * An indicator that specifies the current runtime is a no color environment.
      *
@@ -223,6 +249,14 @@ declare module "shell-shock:env" {
      */
     TEST: boolean;
     /**
+     * Enable verbose output.
+     *
+     * @title Verbose
+     * @domain cli
+     * @defaultValue false
+     */
+    VERBOSE?: boolean;
+    /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
      * @readonly
@@ -253,7 +287,7 @@ declare module "shell-shock:env" {
      * The name of the application.
      *
      * @readonly
-     * @defaultValue "playground-nx"
+     * @defaultValue "nx"
      */
     readonly APP_NAME: string;
     /**
@@ -330,21 +364,21 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @readonly
-     * @defaultValue "dzBkiuuapxURLwOF4TQhVs47WUy05Fx4"
+     *
      */
     readonly BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "9f8a40b7-c3cd-41e2-b24f-c268d1d354ca"
+     * @defaultValue "14e63fe3-23a4-43e9-9b41-42b1a6c2fed1"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-15T15:30:56.335Z"
+     * @defaultValue "2026-04-29T14:06:08.735Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -648,14 +682,14 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "8a40b7c3-cd51-4232-8fc2-68d1d354caa1"
+     * @defaultValue "e63fe323-a483-49db-8142-b1a6c2fed18b"
      */
     readonly RELEASE_ID: string;
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
-     * @defaultValue "playground-nx@0.0.1"
+     * @defaultValue "nx@0.0.1"
      */
     readonly RELEASE_TAG: string;
     /**
@@ -901,6 +935,40 @@ declare module "shell-shock:env" {
    */
   export interface Env extends UnprefixedEnv {
     /**
+     * Show the version of the application.
+     *
+     * @title Version
+     * @domain cli
+     * @defaultValue false
+     */
+    NX_false: UnprefixedEnv["false"];
+    /**
+     * Enable verbose output.
+     *
+     * @title Verbose
+     * @domain cli
+     * @defaultValue false
+     */
+    NX_VERBOSE: UnprefixedEnv["VERBOSE"];
+    /**
+     * Enable colored terminal output.
+     *
+     * @title Color
+     * @alias COLORS
+     * @domain cli
+     *
+     */
+    NX_COLOR: UnprefixedEnv["COLOR"];
+    /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     *
+     * @title Hide Banner
+     * @alias HIDE_BANNER
+     * @domain cli
+     * @defaultValue false
+     */
+    NX_NO_BANNER: UnprefixedEnv["NO_BANNER"];
+    /**
      * The system PATHEXT variable, used to determine which file extensions are considered executable on Windows.
      *
      * @internal
@@ -908,7 +976,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    PLAYGROUND_NX_PATHEXT: UnprefixedEnv["PATHEXT"];
+    NX_PATHEXT: UnprefixedEnv["PATHEXT"];
     /**
      * The system PATH variable, used to locate executable files.
      *
@@ -917,7 +985,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    PLAYGROUND_NX_PATH: UnprefixedEnv["PATH"];
+    NX_PATH: UnprefixedEnv["PATH"];
     /**
      * The npm user agent string, which can be used to detect if the environment is running within an npm script.
      *
@@ -926,7 +994,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    PLAYGROUND_NX_npm_config_user_agent: UnprefixedEnv["npm_config_user_agent"];
+    NX_npm_config_user_agent: UnprefixedEnv["npm_config_user_agent"];
     /**
      * The npm_config_fund environment variable, which can be used to control npm's funding behavior.
      *
@@ -935,7 +1003,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    PLAYGROUND_NX_npm_config_fund: UnprefixedEnv["npm_config_fund"];
+    NX_npm_config_fund: UnprefixedEnv["npm_config_fund"];
     /**
      * The npm execution path, which can be used to determine the location of the npm executable.
      *
@@ -944,7 +1012,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    PLAYGROUND_NX_npm_execpath: UnprefixedEnv["npm_execpath"];
+    NX_npm_execpath: UnprefixedEnv["npm_execpath"];
     /**
      * The COMSPEC environment variable, which specifies the command-line interpreter to use on Windows.
      *
@@ -953,120 +1021,120 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    PLAYGROUND_NX_COMSPEC: UnprefixedEnv["COMSPEC"];
+    NX_COMSPEC: UnprefixedEnv["COMSPEC"];
     /**
      * The name of the application.
      *
      * @readonly
-     *
+     * @defaultValue "nx"
      */
-    readonly PLAYGROUND_NX_APP_NAME: UnprefixedEnv["APP_NAME"];
+    readonly NX_APP_NAME: UnprefixedEnv["APP_NAME"];
     /**
      * The version of the application.
      *
      * @readonly
-     * @defaultValue "1.0.0"
+     * @defaultValue "0.0.1"
      */
-    readonly PLAYGROUND_NX_APP_VERSION: UnprefixedEnv["APP_VERSION"];
+    readonly NX_APP_VERSION: UnprefixedEnv["APP_VERSION"];
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     *
+     * @defaultValue "14e63fe3-23a4-43e9-9b41-42b1a6c2fed1"
      */
-    readonly PLAYGROUND_NX_BUILD_ID: UnprefixedEnv["BUILD_ID"];
+    readonly NX_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     *
+     * @defaultValue "2026-04-29T14:06:08.735Z"
      */
-    readonly PLAYGROUND_NX_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
+    readonly NX_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
      * A checksum hash created during the build.
      *
      * @readonly
      *
      */
-    readonly PLAYGROUND_NX_BUILD_CHECKSUM: UnprefixedEnv["BUILD_CHECKSUM"];
+    readonly NX_BUILD_CHECKSUM: UnprefixedEnv["BUILD_CHECKSUM"];
     /**
      * The unique identifier for the release.
      *
      * @readonly
-     *
+     * @defaultValue "e63fe323-a483-49db-8142-b1a6c2fed18b"
      */
-    readonly PLAYGROUND_NX_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
+    readonly NX_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
-     *
+     * @defaultValue "nx@0.0.1"
      */
-    readonly PLAYGROUND_NX_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
+    readonly NX_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     *
+     * @defaultValue "storm-software"
      */
-    PLAYGROUND_NX_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
+    NX_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "neutral"
+     * @defaultValue "node"
      */
-    PLAYGROUND_NX_PLATFORM: UnprefixedEnv["PLATFORM"];
+    NX_PLATFORM: UnprefixedEnv["PLATFORM"];
     /**
      * The mode in which the application is running.
      *
-     * @alias NODE_ENV
-     *
      * @alias VERCEL_ENV
-     * @defaultValue "production"
+     *
+     * @alias NODE_ENV
+     * @defaultValue "development"
      */
-    PLAYGROUND_NX_MODE: UnprefixedEnv["MODE"];
+    NX_MODE: UnprefixedEnv["MODE"];
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
-    PLAYGROUND_NX_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
+    NX_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
-    PLAYGROUND_NX_DEBUG: UnprefixedEnv["DEBUG"];
+    NX_DEBUG: UnprefixedEnv["DEBUG"];
     /**
      * An indicator that specifies the current runtime is a test environment.
      *
      * @defaultValue false
      */
-    PLAYGROUND_NX_TEST: UnprefixedEnv["TEST"];
+    NX_TEST: UnprefixedEnv["TEST"];
     /**
      * An indicator that specifies the current runtime is a minimal environment.
      *
      * @defaultValue false
      */
-    PLAYGROUND_NX_MINIMAL: UnprefixedEnv["MINIMAL"];
+    NX_MINIMAL: UnprefixedEnv["MINIMAL"];
     /**
      * An indicator that specifies the current runtime is a no color environment.
      *
      * @defaultValue false
      */
-    PLAYGROUND_NX_NO_COLOR: UnprefixedEnv["NO_COLOR"];
+    NX_NO_COLOR: UnprefixedEnv["NO_COLOR"];
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue false
+     * @defaultValue 3
      */
-    PLAYGROUND_NX_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
+    NX_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
     /**
      * An indicator that specifies the current runtime should force hyperlinks in terminal output.
      *
      * @defaultValue false
      */
-    PLAYGROUND_NX_FORCE_HYPERLINK: UnprefixedEnv["FORCE_HYPERLINK"];
+    NX_FORCE_HYPERLINK: UnprefixedEnv["FORCE_HYPERLINK"];
     /**
      * The name of the agent running the application. This variable is set by certain CI/CD systems.
      *
@@ -1075,7 +1143,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_AGENT_NAME: UnprefixedEnv["AGENT_NAME"];
+    readonly NX_AGENT_NAME: UnprefixedEnv["AGENT_NAME"];
     /**
      * The color terminal type. This variable is set by certain terminal emulators.
      *
@@ -1084,7 +1152,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_COLORTERM: UnprefixedEnv["COLORTERM"];
+    readonly NX_COLORTERM: UnprefixedEnv["COLORTERM"];
     /**
      * The terminal type. This variable is set by certain CI/CD systems.
      *
@@ -1093,7 +1161,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_TERM: UnprefixedEnv["TERM"];
+    readonly NX_TERM: UnprefixedEnv["TERM"];
     /**
      * The terminal program name. This variable is set by certain terminal emulators.
      *
@@ -1102,7 +1170,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_TERM_PROGRAM: UnprefixedEnv["TERM_PROGRAM"];
+    readonly NX_TERM_PROGRAM: UnprefixedEnv["TERM_PROGRAM"];
     /**
      * The terminal program version. This variable is set by certain terminal emulators.
      *
@@ -1111,7 +1179,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_TERM_PROGRAM_VERSION: UnprefixedEnv["TERM_PROGRAM_VERSION"];
+    readonly NX_TERM_PROGRAM_VERSION: UnprefixedEnv["TERM_PROGRAM_VERSION"];
     /**
      * The terminal emulator name. This variable is set by certain terminal emulators.
      *
@@ -1120,7 +1188,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_TERMINAL_EMULATOR: UnprefixedEnv["TERMINAL_EMULATOR"];
+    readonly NX_TERMINAL_EMULATOR: UnprefixedEnv["TERMINAL_EMULATOR"];
     /**
      * The terminal emulator session ID. This variable is set by certain terminal emulators.
      *
@@ -1129,7 +1197,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_WT_SESSION: UnprefixedEnv["WT_SESSION"];
+    readonly NX_WT_SESSION: UnprefixedEnv["WT_SESSION"];
     /**
      * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
      *
@@ -1138,7 +1206,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_TERMINUS_SUBLIME: UnprefixedEnv["TERMINUS_SUBLIME"];
+    readonly NX_TERMINUS_SUBLIME: UnprefixedEnv["TERMINUS_SUBLIME"];
     /**
      * The ConEmu task name. This variable is set by certain terminal emulators.
      *
@@ -1147,7 +1215,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_ConEmuTask: UnprefixedEnv["ConEmuTask"];
+    readonly NX_ConEmuTask: UnprefixedEnv["ConEmuTask"];
     /**
      * The cursor trace ID. This variable is set by certain terminal emulators.
      *
@@ -1156,7 +1224,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_CURSOR_TRACE_ID: UnprefixedEnv["CURSOR_TRACE_ID"];
+    readonly NX_CURSOR_TRACE_ID: UnprefixedEnv["CURSOR_TRACE_ID"];
     /**
      * The VTE version. This variable is set by certain terminal emulators.
      *
@@ -1165,44 +1233,44 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_VTE_VERSION: UnprefixedEnv["VTE_VERSION"];
+    readonly NX_VTE_VERSION: UnprefixedEnv["VTE_VERSION"];
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
-    PLAYGROUND_NX_STACKTRACE: UnprefixedEnv["STACKTRACE"];
+    NX_STACKTRACE: UnprefixedEnv["STACKTRACE"];
     /**
      * Indicates if error data should be included.
      *
      * @defaultValue false
      */
-    PLAYGROUND_NX_INCLUDE_ERROR_DATA: UnprefixedEnv["INCLUDE_ERROR_DATA"];
+    NX_INCLUDE_ERROR_DATA: UnprefixedEnv["INCLUDE_ERROR_DATA"];
     /**
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
-     *
+     * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
-    PLAYGROUND_NX_ERROR_URL: UnprefixedEnv["ERROR_URL"];
+    NX_ERROR_URL: UnprefixedEnv["ERROR_URL"];
     /**
      * The default timezone for the application.
      *
      * @defaultValue "America/New_York"
      */
-    PLAYGROUND_NX_DEFAULT_TIMEZONE: UnprefixedEnv["DEFAULT_TIMEZONE"];
+    NX_DEFAULT_TIMEZONE: UnprefixedEnv["DEFAULT_TIMEZONE"];
     /**
      * The default locale to be used in the application.
      *
-     * @defaultValue "en_US"
+     * @defaultValue "en-US"
      */
-    PLAYGROUND_NX_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
+    NX_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "info"
+     * @defaultValue "debug"
      */
-    PLAYGROUND_NX_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
+    NX_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
     /**
      * An indicator that specifies the current runtime is a continuous integration environment.
      *
@@ -1210,7 +1278,7 @@ declare module "shell-shock:env" {
      * @alias CONTINUOUS_INTEGRATION
      * @defaultValue false
      */
-    PLAYGROUND_NX_CI: UnprefixedEnv["CI"];
+    NX_CI: UnprefixedEnv["CI"];
     /**
      * The unique identifier for the current run. This value is set by certain CI/CD systems.
      *
@@ -1219,7 +1287,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_RUN_ID: UnprefixedEnv["RUN_ID"];
+    readonly NX_RUN_ID: UnprefixedEnv["RUN_ID"];
     /**
      * The agola git reference. This value is set by certain CI/CD systems.
      *
@@ -1228,7 +1296,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_AGOLA_GIT_REF: UnprefixedEnv["AGOLA_GIT_REF"];
+    readonly NX_AGOLA_GIT_REF: UnprefixedEnv["AGOLA_GIT_REF"];
     /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
@@ -1237,7 +1305,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_AC_APPCIRCLE: UnprefixedEnv["AC_APPCIRCLE"];
+    readonly NX_AC_APPCIRCLE: UnprefixedEnv["AC_APPCIRCLE"];
     /**
      * The appveyor build ID. This value is set by certain CI/CD systems.
      *
@@ -1246,7 +1314,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_APPVEYOR: UnprefixedEnv["APPVEYOR"];
+    readonly NX_APPVEYOR: UnprefixedEnv["APPVEYOR"];
     /**
      * The codebuild build ID. This value is set by certain CI/CD systems.
      *
@@ -1255,7 +1323,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_CODEBUILD: UnprefixedEnv["CODEBUILD"];
+    readonly NX_CODEBUILD: UnprefixedEnv["CODEBUILD"];
     /**
      * The task force build ID. This value is set by certain CI/CD systems.
      *
@@ -1264,7 +1332,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_TF_BUILD: UnprefixedEnv["TF_BUILD"];
+    readonly NX_TF_BUILD: UnprefixedEnv["TF_BUILD"];
     /**
      * The bamboo plan key. This value is set by certain CI/CD systems.
      *
@@ -1273,7 +1341,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_bamboo_planKey: UnprefixedEnv["bamboo_planKey"];
+    readonly NX_bamboo_planKey: UnprefixedEnv["bamboo_planKey"];
     /**
      * The bitbucket commit. This value is set by certain CI/CD systems.
      *
@@ -1282,7 +1350,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_BITBUCKET_COMMIT: UnprefixedEnv["BITBUCKET_COMMIT"];
+    readonly NX_BITBUCKET_COMMIT: UnprefixedEnv["BITBUCKET_COMMIT"];
     /**
      * The bitrise build ID. This value is set by certain CI/CD systems.
      *
@@ -1291,7 +1359,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_BITRISE_IO: UnprefixedEnv["BITRISE_IO"];
+    readonly NX_BITRISE_IO: UnprefixedEnv["BITRISE_IO"];
     /**
      * The buddy workspace ID. This value is set by certain CI/CD systems.
      *
@@ -1300,7 +1368,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_BUDDY_WORKSPACE_ID: UnprefixedEnv["BUDDY_WORKSPACE_ID"];
+    readonly NX_BUDDY_WORKSPACE_ID: UnprefixedEnv["BUDDY_WORKSPACE_ID"];
     /**
      * The buildkite build ID. This value is set by certain CI/CD systems.
      *
@@ -1309,7 +1377,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_BUILDKITE: UnprefixedEnv["BUILDKITE"];
+    readonly NX_BUILDKITE: UnprefixedEnv["BUILDKITE"];
     /**
      * The circleci build ID. This value is set by certain CI/CD systems.
      *
@@ -1318,7 +1386,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_CIRCLECI: UnprefixedEnv["CIRCLECI"];
+    readonly NX_CIRCLECI: UnprefixedEnv["CIRCLECI"];
     /**
      * The cirrus-ci build ID. This value is set by certain CI/CD systems.
      *
@@ -1327,7 +1395,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_CIRRUS_CI: UnprefixedEnv["CIRRUS_CI"];
+    readonly NX_CIRRUS_CI: UnprefixedEnv["CIRRUS_CI"];
     /**
      * The cf build ID. This value is set by certain CI/CD systems.
      *
@@ -1336,7 +1404,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_CF_BUILD_ID: UnprefixedEnv["CF_BUILD_ID"];
+    readonly NX_CF_BUILD_ID: UnprefixedEnv["CF_BUILD_ID"];
     /**
      * The cm build ID. This value is set by certain CI/CD systems.
      *
@@ -1345,7 +1413,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_CM_BUILD_ID: UnprefixedEnv["CM_BUILD_ID"];
+    readonly NX_CM_BUILD_ID: UnprefixedEnv["CM_BUILD_ID"];
     /**
      * The ci name. This value is set by certain CI/CD systems.
      *
@@ -1354,7 +1422,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_CI_NAME: UnprefixedEnv["CI_NAME"];
+    readonly NX_CI_NAME: UnprefixedEnv["CI_NAME"];
     /**
      * The drone build ID. This value is set by certain CI/CD systems.
      *
@@ -1363,7 +1431,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_DRONE: UnprefixedEnv["DRONE"];
+    readonly NX_DRONE: UnprefixedEnv["DRONE"];
     /**
      * The dsari build ID. This value is set by certain CI/CD systems.
      *
@@ -1372,7 +1440,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_DSARI: UnprefixedEnv["DSARI"];
+    readonly NX_DSARI: UnprefixedEnv["DSARI"];
     /**
      * The earthly build ID. This value is set by certain CI/CD systems.
      *
@@ -1381,7 +1449,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_EARTHLY_CI: UnprefixedEnv["EARTHLY_CI"];
+    readonly NX_EARTHLY_CI: UnprefixedEnv["EARTHLY_CI"];
     /**
      * The eas build ID. This value is set by certain CI/CD systems.
      *
@@ -1390,7 +1458,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_EAS_BUILD: UnprefixedEnv["EAS_BUILD"];
+    readonly NX_EAS_BUILD: UnprefixedEnv["EAS_BUILD"];
     /**
      * The gerrit project. This value is set by certain CI/CD systems.
      *
@@ -1399,7 +1467,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_GERRIT_PROJECT: UnprefixedEnv["GERRIT_PROJECT"];
+    readonly NX_GERRIT_PROJECT: UnprefixedEnv["GERRIT_PROJECT"];
     /**
      * The gitea actions build ID. This value is set by certain CI/CD systems.
      *
@@ -1408,7 +1476,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_GITEA_ACTIONS: UnprefixedEnv["GITEA_ACTIONS"];
+    readonly NX_GITEA_ACTIONS: UnprefixedEnv["GITEA_ACTIONS"];
     /**
      * The github actions build ID. This value is set by certain CI/CD systems.
      *
@@ -1417,7 +1485,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_GITHUB_ACTIONS: UnprefixedEnv["GITHUB_ACTIONS"];
+    readonly NX_GITHUB_ACTIONS: UnprefixedEnv["GITHUB_ACTIONS"];
     /**
      * The gitlab ci build ID. This value is set by certain CI/CD systems.
      *
@@ -1426,7 +1494,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_GITLAB_CI: UnprefixedEnv["GITLAB_CI"];
+    readonly NX_GITLAB_CI: UnprefixedEnv["GITLAB_CI"];
     /**
      * The go cd build ID. This value is set by certain CI/CD systems.
      *
@@ -1435,7 +1503,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_GOCD: UnprefixedEnv["GOCD"];
+    readonly NX_GOCD: UnprefixedEnv["GOCD"];
     /**
      * The builder output build ID. This value is set by certain CI/CD systems.
      *
@@ -1444,7 +1512,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_BUILDER_OUTPUT: UnprefixedEnv["BUILDER_OUTPUT"];
+    readonly NX_BUILDER_OUTPUT: UnprefixedEnv["BUILDER_OUTPUT"];
     /**
      * The harness build ID. This value is set by certain CI/CD systems.
      *
@@ -1453,7 +1521,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_HARNESS_BUILD_ID: UnprefixedEnv["HARNESS_BUILD_ID"];
+    readonly NX_HARNESS_BUILD_ID: UnprefixedEnv["HARNESS_BUILD_ID"];
     /**
      * The jenkins url. This value is set by certain CI/CD systems.
      *
@@ -1462,7 +1530,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_JENKINS_URL: UnprefixedEnv["JENKINS_URL"];
+    readonly NX_JENKINS_URL: UnprefixedEnv["JENKINS_URL"];
     /**
      * The layerci build ID. This value is set by certain CI/CD systems.
      *
@@ -1471,7 +1539,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_LAYERCI: UnprefixedEnv["LAYERCI"];
+    readonly NX_LAYERCI: UnprefixedEnv["LAYERCI"];
     /**
      * The magnum build ID. This value is set by certain CI/CD systems.
      *
@@ -1480,7 +1548,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_MAGNUM: UnprefixedEnv["MAGNUM"];
+    readonly NX_MAGNUM: UnprefixedEnv["MAGNUM"];
     /**
      * The netlify build ID. This value is set by certain CI/CD systems.
      *
@@ -1489,7 +1557,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_NETLIFY: UnprefixedEnv["NETLIFY"];
+    readonly NX_NETLIFY: UnprefixedEnv["NETLIFY"];
     /**
      * The nevercode build ID. This value is set by certain CI/CD systems.
      *
@@ -1498,7 +1566,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_NEVERCODE: UnprefixedEnv["NEVERCODE"];
+    readonly NX_NEVERCODE: UnprefixedEnv["NEVERCODE"];
     /**
      * The prow job ID. This value is set by certain CI/CD systems.
      *
@@ -1507,7 +1575,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_PROW_JOB_ID: UnprefixedEnv["PROW_JOB_ID"];
+    readonly NX_PROW_JOB_ID: UnprefixedEnv["PROW_JOB_ID"];
     /**
      * The release build ID. This value is set by certain CI/CD systems.
      *
@@ -1516,7 +1584,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_RELEASE_BUILD_ID: UnprefixedEnv["RELEASE_BUILD_ID"];
+    readonly NX_RELEASE_BUILD_ID: UnprefixedEnv["RELEASE_BUILD_ID"];
     /**
      * The render build ID. This value is set by certain CI/CD systems.
      *
@@ -1525,7 +1593,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_RENDER: UnprefixedEnv["RENDER"];
+    readonly NX_RENDER: UnprefixedEnv["RENDER"];
     /**
      * The sailci build ID. This value is set by certain CI/CD systems.
      *
@@ -1534,7 +1602,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_SAILCI: UnprefixedEnv["SAILCI"];
+    readonly NX_SAILCI: UnprefixedEnv["SAILCI"];
     /**
      * The hudson build ID. This value is set by certain CI/CD systems.
      *
@@ -1543,7 +1611,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_HUDSON: UnprefixedEnv["HUDSON"];
+    readonly NX_HUDSON: UnprefixedEnv["HUDSON"];
     /**
      * The screwdriver build ID. This value is set by certain CI/CD systems.
      *
@@ -1552,7 +1620,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_SCREWDRIVER: UnprefixedEnv["SCREWDRIVER"];
+    readonly NX_SCREWDRIVER: UnprefixedEnv["SCREWDRIVER"];
     /**
      * The semaphore build ID. This value is set by certain CI/CD systems.
      *
@@ -1561,7 +1629,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_SEMAPHORE: UnprefixedEnv["SEMAPHORE"];
+    readonly NX_SEMAPHORE: UnprefixedEnv["SEMAPHORE"];
     /**
      * The sourcehut build ID. This value is set by certain CI/CD systems.
      *
@@ -1570,7 +1638,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_SOURCEHUT: UnprefixedEnv["SOURCEHUT"];
+    readonly NX_SOURCEHUT: UnprefixedEnv["SOURCEHUT"];
     /**
      * The spaceship build ID. This value is set by certain CI/CD systems.
      *
@@ -1579,7 +1647,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_SPACESHIP_CI: UnprefixedEnv["SPACESHIP_CI"];
+    readonly NX_SPACESHIP_CI: UnprefixedEnv["SPACESHIP_CI"];
     /**
      * The strider build ID. This value is set by certain CI/CD systems.
      *
@@ -1588,7 +1656,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_STRIDER: UnprefixedEnv["STRIDER"];
+    readonly NX_STRIDER: UnprefixedEnv["STRIDER"];
     /**
      * The task ID. This value is set by certain CI/CD systems.
      *
@@ -1597,7 +1665,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_TASK_ID: UnprefixedEnv["TASK_ID"];
+    readonly NX_TASK_ID: UnprefixedEnv["TASK_ID"];
     /**
      * The teamcity version. This value is set by certain CI/CD systems.
      *
@@ -1606,7 +1674,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_TEAMCITY_VERSION: UnprefixedEnv["TEAMCITY_VERSION"];
+    readonly NX_TEAMCITY_VERSION: UnprefixedEnv["TEAMCITY_VERSION"];
     /**
      * The travis build ID. This value is set by certain CI/CD systems.
      *
@@ -1615,7 +1683,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_TRAVIS: UnprefixedEnv["TRAVIS"];
+    readonly NX_TRAVIS: UnprefixedEnv["TRAVIS"];
     /**
      * The vela build ID. This value is set by certain CI/CD systems.
      *
@@ -1624,7 +1692,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_VELA: UnprefixedEnv["VELA"];
+    readonly NX_VELA: UnprefixedEnv["VELA"];
     /**
      * The now builder build ID. This value is set by certain CI/CD systems.
      *
@@ -1633,7 +1701,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_NOW_BUILDER: UnprefixedEnv["NOW_BUILDER"];
+    readonly NX_NOW_BUILDER: UnprefixedEnv["NOW_BUILDER"];
     /**
      * The appcenter build ID. This value is set by certain CI/CD systems.
      *
@@ -1642,7 +1710,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_APPCENTER_BUILD_ID: UnprefixedEnv["APPCENTER_BUILD_ID"];
+    readonly NX_APPCENTER_BUILD_ID: UnprefixedEnv["APPCENTER_BUILD_ID"];
     /**
      * The xcode project build ID. This value is set by certain CI/CD systems.
      *
@@ -1651,7 +1719,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_CI_XCODE_PROJECT: UnprefixedEnv["CI_XCODE_PROJECT"];
+    readonly NX_CI_XCODE_PROJECT: UnprefixedEnv["CI_XCODE_PROJECT"];
     /**
      * The xcode server build ID. This value is set by certain CI/CD systems.
      *
@@ -1660,7 +1728,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_XCS: UnprefixedEnv["XCS"];
+    readonly NX_XCS: UnprefixedEnv["XCS"];
     /**
      * The application's runtime data directory.
      *
@@ -1668,7 +1736,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    PLAYGROUND_NX_DATA_DIR: UnprefixedEnv["DATA_DIR"];
+    NX_DATA_DIR: UnprefixedEnv["DATA_DIR"];
     /**
      * The application's configuration data directory.
      *
@@ -1676,7 +1744,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    PLAYGROUND_NX_CONFIG_DIR: UnprefixedEnv["CONFIG_DIR"];
+    NX_CONFIG_DIR: UnprefixedEnv["CONFIG_DIR"];
     /**
      * The application's cached data directory.
      *
@@ -1684,7 +1752,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    PLAYGROUND_NX_CACHE_DIR: UnprefixedEnv["CACHE_DIR"];
+    NX_CACHE_DIR: UnprefixedEnv["CACHE_DIR"];
     /**
      * The application's logging directory.
      *
@@ -1692,7 +1760,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    PLAYGROUND_NX_LOG_DIR: UnprefixedEnv["LOG_DIR"];
+    NX_LOG_DIR: UnprefixedEnv["LOG_DIR"];
     /**
      * The application's temporary data directory.
      *
@@ -1700,7 +1768,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    PLAYGROUND_NX_TEMP_DIR: UnprefixedEnv["TEMP_DIR"];
+    NX_TEMP_DIR: UnprefixedEnv["TEMP_DIR"];
     /**
      * A variable that specifies the current user's local application data directory on Windows.
      *
@@ -1709,7 +1777,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_LOCALAPPDATA: UnprefixedEnv["LOCALAPPDATA"];
+    readonly NX_LOCALAPPDATA: UnprefixedEnv["LOCALAPPDATA"];
     /**
      * A variable that specifies the application data directory on Windows.
      *
@@ -1718,7 +1786,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_APPDATA: UnprefixedEnv["APPDATA"];
+    readonly NX_APPDATA: UnprefixedEnv["APPDATA"];
     /**
      * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
      *
@@ -1727,7 +1795,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_XDG_DATA_HOME: UnprefixedEnv["XDG_DATA_HOME"];
+    readonly NX_XDG_DATA_HOME: UnprefixedEnv["XDG_DATA_HOME"];
     /**
      * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
      *
@@ -1736,7 +1804,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_XDG_CONFIG_HOME: UnprefixedEnv["XDG_CONFIG_HOME"];
+    readonly NX_XDG_CONFIG_HOME: UnprefixedEnv["XDG_CONFIG_HOME"];
     /**
      * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
      *
@@ -1745,7 +1813,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_XDG_CACHE_HOME: UnprefixedEnv["XDG_CACHE_HOME"];
+    readonly NX_XDG_CACHE_HOME: UnprefixedEnv["XDG_CACHE_HOME"];
     /**
      * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
      *
@@ -1754,7 +1822,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_XDG_STATE_HOME: UnprefixedEnv["XDG_STATE_HOME"];
+    readonly NX_XDG_STATE_HOME: UnprefixedEnv["XDG_STATE_HOME"];
     /**
      * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
      *
@@ -1763,7 +1831,7 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_XDG_RUNTIME_DIR: UnprefixedEnv["XDG_RUNTIME_DIR"];
+    readonly NX_XDG_RUNTIME_DIR: UnprefixedEnv["XDG_RUNTIME_DIR"];
     /**
      * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
      *
@@ -1772,7 +1840,41 @@ declare module "shell-shock:env" {
      * @runtime
      *
      */
-    readonly PLAYGROUND_NX_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
+    readonly NX_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
+    /**
+     * Show the version of the application.
+     *
+     * @title Version
+     * @domain cli
+     * @defaultValue false
+     */
+    POWERLINES_false: UnprefixedEnv["false"];
+    /**
+     * Enable verbose output.
+     *
+     * @title Verbose
+     * @domain cli
+     * @defaultValue false
+     */
+    POWERLINES_VERBOSE: UnprefixedEnv["VERBOSE"];
+    /**
+     * Enable colored terminal output.
+     *
+     * @title Color
+     * @alias COLORS
+     * @domain cli
+     *
+     */
+    POWERLINES_COLOR: UnprefixedEnv["COLOR"];
+    /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     *
+     * @title Hide Banner
+     * @alias HIDE_BANNER
+     * @domain cli
+     * @defaultValue false
+     */
+    POWERLINES_NO_BANNER: UnprefixedEnv["NO_BANNER"];
     /**
      * The system PATHEXT variable, used to determine which file extensions are considered executable on Windows.
      *
@@ -1831,28 +1933,28 @@ declare module "shell-shock:env" {
      * The name of the application.
      *
      * @readonly
-     *
+     * @defaultValue "nx"
      */
     readonly POWERLINES_APP_NAME: UnprefixedEnv["APP_NAME"];
     /**
      * The version of the application.
      *
      * @readonly
-     * @defaultValue "1.0.0"
+     * @defaultValue "0.0.1"
      */
     readonly POWERLINES_APP_VERSION: UnprefixedEnv["APP_VERSION"];
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     *
+     * @defaultValue "14e63fe3-23a4-43e9-9b41-42b1a6c2fed1"
      */
     readonly POWERLINES_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     *
+     * @defaultValue "2026-04-29T14:06:08.735Z"
      */
     readonly POWERLINES_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -1866,48 +1968,48 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     *
+     * @defaultValue "e63fe323-a483-49db-8142-b1a6c2fed18b"
      */
     readonly POWERLINES_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
-     *
+     * @defaultValue "nx@0.0.1"
      */
     readonly POWERLINES_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     *
+     * @defaultValue "storm-software"
      */
     POWERLINES_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "neutral"
+     * @defaultValue "node"
      */
     POWERLINES_PLATFORM: UnprefixedEnv["PLATFORM"];
     /**
      * The mode in which the application is running.
      *
-     * @alias NODE_ENV
-     *
      * @alias VERCEL_ENV
-     * @defaultValue "production"
+     *
+     * @alias NODE_ENV
+     * @defaultValue "development"
      */
     POWERLINES_MODE: UnprefixedEnv["MODE"];
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     POWERLINES_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     POWERLINES_DEBUG: UnprefixedEnv["DEBUG"];
     /**
@@ -1931,7 +2033,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue false
+     * @defaultValue 3
      */
     POWERLINES_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
     /**
@@ -2042,7 +2144,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     POWERLINES_STACKTRACE: UnprefixedEnv["STACKTRACE"];
     /**
@@ -2055,7 +2157,7 @@ declare module "shell-shock:env" {
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
-     *
+     * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
     POWERLINES_ERROR_URL: UnprefixedEnv["ERROR_URL"];
     /**
@@ -2067,13 +2169,13 @@ declare module "shell-shock:env" {
     /**
      * The default locale to be used in the application.
      *
-     * @defaultValue "en_US"
+     * @defaultValue "en-US"
      */
     POWERLINES_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "info"
+     * @defaultValue "debug"
      */
     POWERLINES_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
     /**
@@ -2647,6 +2749,40 @@ declare module "shell-shock:env" {
      */
     readonly POWERLINES_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
     /**
+     * Show the version of the application.
+     *
+     * @title Version
+     * @domain cli
+     * @defaultValue false
+     */
+    SHELL_SHOCK_false: UnprefixedEnv["false"];
+    /**
+     * Enable verbose output.
+     *
+     * @title Verbose
+     * @domain cli
+     * @defaultValue false
+     */
+    SHELL_SHOCK_VERBOSE: UnprefixedEnv["VERBOSE"];
+    /**
+     * Enable colored terminal output.
+     *
+     * @title Color
+     * @alias COLORS
+     * @domain cli
+     *
+     */
+    SHELL_SHOCK_COLOR: UnprefixedEnv["COLOR"];
+    /**
+     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
+     *
+     * @title Hide Banner
+     * @alias HIDE_BANNER
+     * @domain cli
+     * @defaultValue false
+     */
+    SHELL_SHOCK_NO_BANNER: UnprefixedEnv["NO_BANNER"];
+    /**
      * The system PATHEXT variable, used to determine which file extensions are considered executable on Windows.
      *
      * @internal
@@ -2704,28 +2840,28 @@ declare module "shell-shock:env" {
      * The name of the application.
      *
      * @readonly
-     *
+     * @defaultValue "nx"
      */
     readonly SHELL_SHOCK_APP_NAME: UnprefixedEnv["APP_NAME"];
     /**
      * The version of the application.
      *
      * @readonly
-     * @defaultValue "1.0.0"
+     * @defaultValue "0.0.1"
      */
     readonly SHELL_SHOCK_APP_VERSION: UnprefixedEnv["APP_VERSION"];
     /**
      * The unique identifier for the build.
      *
      * @readonly
-     *
+     * @defaultValue "14e63fe3-23a4-43e9-9b41-42b1a6c2fed1"
      */
     readonly SHELL_SHOCK_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     *
+     * @defaultValue "2026-04-29T14:06:08.735Z"
      */
     readonly SHELL_SHOCK_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -2739,48 +2875,48 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     *
+     * @defaultValue "e63fe323-a483-49db-8142-b1a6c2fed18b"
      */
     readonly SHELL_SHOCK_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @readonly
-     *
+     * @defaultValue "nx@0.0.1"
      */
     readonly SHELL_SHOCK_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     *
+     * @defaultValue "storm-software"
      */
     SHELL_SHOCK_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "neutral"
+     * @defaultValue "node"
      */
     SHELL_SHOCK_PLATFORM: UnprefixedEnv["PLATFORM"];
     /**
      * The mode in which the application is running.
      *
-     * @alias NODE_ENV
-     *
      * @alias VERCEL_ENV
-     * @defaultValue "production"
+     *
+     * @alias NODE_ENV
+     * @defaultValue "development"
      */
     SHELL_SHOCK_MODE: UnprefixedEnv["MODE"];
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @defaultValue "production"
+     * @defaultValue "development"
      */
     SHELL_SHOCK_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     SHELL_SHOCK_DEBUG: UnprefixedEnv["DEBUG"];
     /**
@@ -2804,7 +2940,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue false
+     * @defaultValue 3
      */
     SHELL_SHOCK_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
     /**
@@ -2915,7 +3051,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @defaultValue false
+     * @defaultValue true
      */
     SHELL_SHOCK_STACKTRACE: UnprefixedEnv["STACKTRACE"];
     /**
@@ -2928,7 +3064,7 @@ declare module "shell-shock:env" {
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
-     *
+     * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
     SHELL_SHOCK_ERROR_URL: UnprefixedEnv["ERROR_URL"];
     /**
@@ -2940,13 +3076,13 @@ declare module "shell-shock:env" {
     /**
      * The default locale to be used in the application.
      *
-     * @defaultValue "en_US"
+     * @defaultValue "en-US"
      */
     SHELL_SHOCK_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "info"
+     * @defaultValue "debug"
      */
     SHELL_SHOCK_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
     /**
@@ -3521,7 +3657,7 @@ declare module "shell-shock:env" {
     readonly SHELL_SHOCK_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
   }
   /**
-   * The initial environment configuration state for the Playground Nx project.
+   * The initial environment configuration state for the Nx project.
    *
    * @title Object
    *
@@ -3673,7 +3809,7 @@ declare module "shell-shock:state" {
   import { AsyncLocalStorage } from "node:async_hooks";
 
   /**
-   * An object representing the global options available for every command in the Playground Nx command-line application.
+   * An object representing the global options available for every command in the Nx command-line application.
    */
   export interface GlobalOptions {
     /**
@@ -3704,11 +3840,11 @@ declare module "shell-shock:state" {
     THandler extends (...params: any[]) => any = any
   > {
     /**
-     * The full command path as a string. For example, if the user runs `playground-nx foo bar`, this would be `foo bar`. This is useful for commands that need to know their full invocation path, such as for help text or for commands that have dynamic behavior based on their position in the command hierarchy.
+     * The full command path as a string. For example, if the user runs `nx foo bar`, this would be `foo bar`. This is useful for commands that need to know their full invocation path, such as for help text or for commands that have dynamic behavior based on their position in the command hierarchy.
      */
     path: string;
     /**
-     * An array of command path segments. For example, if the user runs `playground-nx foo bar`, this would be `["foo", "bar"]`. This is useful for commands that need to know their individual path segments, such as for dynamic routing or for commands that have behavior based on specific segments in the command hierarchy.
+     * An array of command path segments. For example, if the user runs `nx foo bar`, this would be `["foo", "bar"]`. This is useful for commands that need to know their individual path segments, such as for dynamic routing or for commands that have behavior based on specific segments in the command hierarchy.
      */
     segments: string[];
     /**
@@ -3722,7 +3858,7 @@ declare module "shell-shock:state" {
     | "executing"
     | "completed";
   /**
-   * The state object for the Playground Nx application context.
+   * The state object for the Nx application context.
    */
   export interface GlobalContextState {
     /**
@@ -3743,7 +3879,7 @@ declare module "shell-shock:state" {
     meta: Map<string, unknown>;
   }
   /**
-   * The context object for the Playground Nx application.
+   * The context object for the Nx application.
    */
   export interface GlobalContext {
     /**
@@ -3760,29 +3896,29 @@ declare module "shell-shock:state" {
     state: GlobalContextState;
   }
   /**
-   * The global Playground Nx application context store instance.
+   * The global Nx application context store instance.
    *
    * @internal
    *
    */
   export const unstable_globalStore: AsyncLocalStorage<GlobalContext>;
   /**
-   * Get the Playground Nx application context for the current application.
+   * Get the Nx application context for the current application.
    *
-   * @returns The Playground Nx application context for the current application or
-   *   undefined if the context is not available.
+   * @returns The Nx application context for the current application or undefined
+   *   if the context is not available.
    *
    */
   export function useGlobal(): GlobalContext;
   /**
-   * A utility hook function to get the command-line arguments from the Playground Nx application context.
+   * A utility hook function to get the command-line arguments from the Nx application context.
    *
    * @returns An array of command-line arguments from the application context.
    *
    */
   export function useArgs(): string[];
   /**
-   * A utility hook function to get the command-line global options from the Playground Nx application context.
+   * A utility hook function to get the command-line global options from the Nx application context.
    *
    * @returns An object containing the global options from the application
    *   context.
@@ -3790,14 +3926,14 @@ declare module "shell-shock:state" {
    */
   export function useGlobalOptions(): GlobalOptions;
   /**
-   * A utility hook function to get the state of the Playground Nx application context.
+   * A utility hook function to get the state of the Nx application context.
    *
    * @returns The state of the application context.
    *
    */
   export function useState(): GlobalContextState;
   /**
-   * A utility function to update the state of the Playground Nx application context.
+   * A utility function to update the state of the Nx application context.
    *
    * @remarks
    * This function will throw an error if the global context is not available, so it should only be used within a valid context scope, such as within a command handler or within the `withGlobal()` function.
@@ -3813,37 +3949,37 @@ declare module "shell-shock:state" {
       | ((prev: GlobalContextState) => GlobalContextState)
   ): void;
   /**
-   * A utility hook function to get the execution ID of the Playground Nx application context.
+   * A utility hook function to get the execution ID of the Nx application context.
    *
    * @returns The execution ID of the application context.
    *
    */
   export function useExecutionId(): string;
   /**
-   * A utility hook function to get the metadata of the Playground Nx application context.
+   * A utility hook function to get the metadata of the Nx application context.
    *
    * @returns The metadata of the application context.
    *
    */
   export function useMeta(): Map<string, unknown>;
   /**
-   * A utility hook function to get the current status of the Playground Nx application.
+   * A utility hook function to get the current status of the Nx application.
    *
    * @returns The current status of the application.
    *
    */
   export function useStatus(): GlobalContextStatus;
   /**
-   * The global Playground Nx - command context store instance.
+   * The global Nx - command context store instance.
    *
    * @internal
    *
    */
   export const unstable_commandStore: AsyncLocalStorage<CommandContext<any>>;
   /**
-   * Get the Playground Nx - command context for the current application.
+   * Get the Nx - command context for the current application.
    *
-   * @returns The Playground Nx - command context for the current application.
+   * @returns The Nx - command context for the current application.
    *
    */
   export function useCommand(): CommandContext;
@@ -3857,11 +3993,11 @@ declare module "shell-shock:state" {
   /**
    * A utility hook function to get the full command path as a string.
    *
-   * @returns The full command path as a string. For example, if the user runs
-   *   `playground-nx foo bar`, this would return `"foo bar"`. This is useful for
-   *   commands that need to know their full invocation path, such as for help
-   *   text or for commands that have dynamic behavior based on their position in
-   *   the command hierarchy.
+   * @returns The full command path as a string. For example, if the user runs `nx
+   *   foo bar`, this would return `"foo bar"`. This is useful for commands that
+   *   need to know their full invocation path, such as for help text or for
+   *   commands that have dynamic behavior based on their position in the command
+   *   hierarchy.
    *
    */
   export function usePath(): string;
@@ -3889,7 +4025,7 @@ declare module "shell-shock:state" {
    */
   export function isHelp(): boolean;
   /**
-   * A utility function to wrap the Playground Nx application within the global context scope.
+   * A utility function to wrap the Nx application within the global context scope.
    *
    * @param handler - The callback function to run within the global context
    *   scope. This function will receive the global context as its argument,
@@ -3902,7 +4038,7 @@ declare module "shell-shock:state" {
    */
   export function withGlobal(handler: () => any): Promise<Promise<void>>;
   /**
-   * A utility function to wrap a Playground Nx application command handler within the command context scope.
+   * A utility function to wrap a Nx application command handler within the command context scope.
    *
    * @param handler - The callback function to run within the command context
    *   scope. This function will receive the command context as its argument,
@@ -7920,19 +8056,19 @@ declare module "shell-shock:console" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Playground Nx command-line interface application.
+ * A collection of utility functions that assist in displaying help information for the Nx command-line interface application.
  *
  * @module shell-shock:help
  */
 declare module "shell-shock:help" {
   /**
-   * Utility functions for displaying help information for the Playground Nx application.
+   * Utility functions for displaying help information for the Nx application.
    *
    * @remarks
-   * This module contains utility functions that assist in displaying help information for the Playground Nx application. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   * This module contains utility functions that assist in displaying help information for the Nx application. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
    */
   /**
-   * Display help information for the Playground Nx application.
+   * Display help information for the Nx application.
    */
   export function showHelp(): void;
 }
@@ -7992,13 +8128,13 @@ declare module "shell-shock:help/start" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Playground Nx command-line interface application.
+ * A collection of utility functions that assist in displaying banner information for the Nx command-line interface application.
  *
  * @module shell-shock:banner
  */
 declare module "shell-shock:banner" {
   /**
-   * Write the Playground Nx command-line interface application banner for the Playground Nx command to the console.
+   * Write the Nx command-line interface application banner for the Nx command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -8015,7 +8151,7 @@ declare module "shell-shock:banner" {
  */
 declare module "shell-shock:banner/build" {
   /**
-   * Write the Playground Nx command-line interface application banner for the Build command to the console.
+   * Write the Nx command-line interface application banner for the Build command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -8032,7 +8168,7 @@ declare module "shell-shock:banner/build" {
  */
 declare module "shell-shock:banner/help" {
   /**
-   * Write the Playground Nx command-line interface application banner for the Help command to the console.
+   * Write the Nx command-line interface application banner for the Help command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -8049,7 +8185,7 @@ declare module "shell-shock:banner/help" {
  */
 declare module "shell-shock:banner/start" {
   /**
-   * Write the Playground Nx command-line interface application banner for the Start command to the console.
+   * Write the Nx command-line interface application banner for the Start command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner

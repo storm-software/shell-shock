@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import { writeEnvTypeReflection } from "@powerlines/plugin-env/helpers";
 import { joinPaths } from "@stryke/path/join-paths";
 import type { CommandTree, SerializedCommandTree } from "../types";
 import type { Context } from "../types/context";
@@ -95,6 +96,9 @@ export async function readCommandsPersistence(context: Context) {
  */
 export async function writeCommandsPersistence(context: Context) {
   const filePath = getCommandsPersistencePath(context);
+
+  // Also update the environment type reflections whenever we write the command reflections, to ensure they stay in sync.
+  await writeEnvTypeReflection(context, context.env.types.env, "env");
 
   await context.fs.write(
     filePath,

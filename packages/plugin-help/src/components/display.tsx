@@ -341,8 +341,8 @@ export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
     filterGlobalOptions
       ? Object.values(command.options).filter(
           option =>
-            !context.options.some(
-              globalOption =>
+            !context.globalOptions.some(
+              (globalOption: CommandOption) =>
                 globalOption.name === option.name ||
                 option.alias.includes(globalOption.name) ||
                 globalOption.alias?.includes(option.name) ||

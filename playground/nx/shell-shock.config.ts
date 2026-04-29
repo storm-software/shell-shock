@@ -21,7 +21,6 @@ import { defineConfig } from "@shell-shock/core/config";
 import script from "@shell-shock/preset-script";
 
 const config: UserConfig = defineConfig({
-  skipCache: true,
   plugins: [
     script({
       theme: {

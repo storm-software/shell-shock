@@ -30,6 +30,7 @@ import {
   TSDocReturns
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
+import type { CommandTree } from "@shell-shock/core/types/command";
 import { getUnique } from "@stryke/helpers/get-unique";
 import { findFileName } from "@stryke/path/file-path-fns";
 import { replaceExtension } from "@stryke/path/replace";
@@ -133,7 +134,9 @@ export function BinEntry(props: BinEntryProps) {
   const { prefix, postfix, builtinImports, imports, children, ...rest } = props;
 
   const context = usePowerlines<ScriptPresetContext>();
-  const bins = computed(() => getUnique(Object.values(context.config.bin)));
+  const bins = computed<string[]>(() =>
+    getUnique(Object.values(context.config.bin))
+  );
 
   return (
     <For each={bins.value}>
@@ -143,11 +146,14 @@ export function BinEntry(props: BinEntryProps) {
           path={findFileName(replaceExtension(bin))}
           typeDefinition={{
             file: bin,
-            output: "bin"
+            output: "bin",
+            input: {
+              file: bin
+            }
           }}
           imports={defu(
             imports ?? {},
-            Object.entries(context.commands)
+            Object.entries(context.commands as Record<string, CommandTree>)
               .filter(([, command]) => command.isVirtual)
               .reduce((ret, [name, command]) => {
                 ret[`./${command.name}`] = [

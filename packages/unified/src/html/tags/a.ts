@@ -41,13 +41,25 @@ export const a = inlineTag((_, tag, __) => {
       ? rawHref
       : null;
 
-  return href
-    ? `link("${href}", { ${rawTitle ? `text: "${rawTitle}", ` : ""}${
-        href && (href.startsWith("http://") || href.startsWith("https://"))
-          ? "external: true"
-          : "external: false"
-      } })`
-    : rawTitle
-      ? `"${rawTitle}"`
-      : "";
+  let text = rawTitle;
+  if (!text && tag.childNodes) {
+    text = tag.childNodes
+      .filter(childNode => childNode.nodeName === "#text")
+      .map(childNode => childNode.value ?? "")
+      .join("")
+      .trim();
+  }
+
+  // return href
+  //   ? `link("${href}", { ${text ? `text: "${text}", ` : ""}${
+  //       href && (href.startsWith("http://") || href.startsWith("https://"))
+  //         ? "external: true"
+  //         : "external: false"
+  //     } })`
+  //   : text
+  //     ? `"${text}"`
+  //     : "";
+
+  // Temporarily return the content as just text or href until we have a better way to represent links in the output
+  return text || href || "";
 });

@@ -22,8 +22,6 @@ import { ShellShockEnv } from "@shell-shock/core/types/env";
 export interface ShellShockUpgradePluginEnv extends ShellShockEnv {
   /**
    * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the upgrade process proceeds without checking for updates, which can help speed up the process in certain scenarios.
-   *
-   * @defaultValue false
    */
   SKIP_VERSION_CHECK?: boolean;
 }

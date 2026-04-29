@@ -22,7 +22,6 @@ import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines/config";
 
 const config: UserConfig = defineConfig({
-  skipCache: true,
   input: [
     "./src/index.tsx",
     "./src/types/*.ts",
@@ -30,10 +29,7 @@ const config: UserConfig = defineConfig({
     "./src/components/**/*.ts",
     "./src/components/**/*.tsx"
   ],
-  plugins: [plugin(), alloy()],
-  tsdown: {
-    sourcemap: true
-  }
+  plugins: [plugin(), alloy()]
 });
 
 export default config;

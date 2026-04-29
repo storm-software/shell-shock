@@ -19,7 +19,7 @@
 export const DEFAULT_TAG_COLORS = {
   foreground: "#394447",
   background: "#f9fbfb"
-};
+} as const;
 
 export const THEME_MESSAGE_VARIANTS = [
   "help",

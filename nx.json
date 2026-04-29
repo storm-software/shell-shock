@@ -24,7 +24,12 @@
     },
     "@storm-software/workspace-tools/plugins/typescript",
     "@storm-software/workspace-tools/plugins/typescript/untyped",
-    "@powerlines/nx/plugin"
+    {
+      "plugin": "@powerlines/nx/plugin",
+      "options": {
+        "verboseOutput": true
+      }
+    }
   ],
   "sync": {
     "applyChanges": true,

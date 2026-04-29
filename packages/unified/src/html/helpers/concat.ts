@@ -40,37 +40,23 @@ export const concatTwoBlockTags = (
     return null;
   }
 
-  if (first) {
-    const secondMarginTop = toMarginNumber(second!.marginTop);
-    const secondMarginBottom = toMarginNumber(second!.marginBottom);
-
-    return {
-      ...second,
-      marginTop: secondMarginTop,
-      marginBottom: secondMarginBottom
-    } as BlockTagValue;
+  if (!first) {
+    return second as BlockTagValue;
   }
 
-  if (second) {
-    const firstMarginTop = toMarginNumber(first!.marginTop);
-    const firstMarginBottom = toMarginNumber(first!.marginBottom);
-
-    return {
-      ...first!,
-      marginTop: firstMarginTop,
-      marginBottom: firstMarginBottom
-    } as BlockTagValue;
+  if (!second) {
+    return first as BlockTagValue;
   }
 
-  const firstMarginTop = toMarginNumber(first!.marginTop);
-  const firstMarginBottom = toMarginNumber(first!.marginBottom);
-  const secondMarginTop = toMarginNumber(second!.marginTop);
-  const secondMarginBottom = toMarginNumber(second!.marginBottom);
+  const firstMarginTop = toMarginNumber(first.marginTop);
+  const firstMarginBottom = toMarginNumber(first.marginBottom);
+  const secondMarginTop = toMarginNumber(second.marginTop);
+  const secondMarginBottom = toMarginNumber(second.marginBottom);
 
-  if (!(second as unknown as BlockTagInput).value) {
+  if (!second.value) {
     return {
       marginTop: firstMarginTop,
-      value: first!.value,
+      value: first.value,
       marginBottom: Math.max(
         firstMarginBottom,
         secondMarginTop,
@@ -79,10 +65,10 @@ export const concatTwoBlockTags = (
     } as BlockTagValue;
   }
 
-  if (!(first as unknown as BlockTagInput).value) {
+  if (!first.value) {
     return {
       marginTop: Math.max(firstMarginTop, firstMarginBottom, secondMarginTop),
-      value: second!.value,
+      value: second.value,
       marginBottom: secondMarginBottom
     } as BlockTagValue;
   }
@@ -91,7 +77,7 @@ export const concatTwoBlockTags = (
 
   return {
     marginTop: firstMarginTop,
-    value: `${first!.value}${"\n".repeat(separatorLines)}${second!.value}`,
+    value: `${first.value}${"\n".repeat(separatorLines)}${second.value}`,
     marginBottom: secondMarginBottom
   } as BlockTagValue;
 };

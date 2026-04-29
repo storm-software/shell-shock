@@ -16,11 +16,9 @@
 
  ------------------------------------------------------------------- */
 
-import {
-  inlineTag,
-  type HtmlNode,
-  type RenderContext
-} from "../helpers/tag-utilities";
+import { isString } from "@stryke/type-checks/is-string";
+import type { HtmlNode, RenderContext } from "../helpers/tag-utilities";
+import { inlineTag } from "../helpers/tag-utilities";
 import { asBlock, normalizeText, quoted } from "./common";
 
 export const legend = inlineTag(value => `bold(${quoted(value)})`);
@@ -36,7 +34,7 @@ export function fieldset(tag: HtmlNode, _context: RenderContext) {
     (tag.childNodes ?? [])
       .filter(childNode => childNode.nodeName !== "legend")
       .map(childNode => {
-        if (typeof childNode.value === "string") {
+        if (isString(childNode.value)) {
           return childNode.value;
         }
 

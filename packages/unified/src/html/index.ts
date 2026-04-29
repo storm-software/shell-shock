@@ -16,6 +16,9 @@
 
  ------------------------------------------------------------------- */
 
+import { isSet } from "@stryke/type-checks";
+import { isSetObject } from "@stryke/type-checks/is-set-object";
+import { isSetString } from "@stryke/type-checks/is-set-string";
 import { parse } from "parse5";
 import type { Options } from "../types";
 import { getOptions } from "./helpers/options";
@@ -29,7 +32,25 @@ import { renderTag } from "./helpers/render";
  * @return A string of source code that can be executed to display the rendered HTML in the terminal.
  */
 export function renderHtml(html: string, options: Options = {}): string {
-  const document = parse(html, { sourceCodeLocationInfo: true });
+  const result = renderTag(
+    parse(html, { sourceCodeLocationInfo: true }),
+    getOptions(options)
+  );
 
-  return `${renderTag(document, getOptions(options))}\n`;
+  return (
+    isSetObject(result)
+      ? isSetString((result as { value: string }).value)
+        ? (result as { value: string }).value
+        : isSet((result as { value: string }).value)
+          ? String((result as { value: string }).value)
+          : JSON.stringify(result)
+      : isSetString(result)
+        ? result
+        : isSet(result)
+          ? String(result)
+          : ""
+  )
+    .split("\n")
+    .map(line => `console.log(${line || '""'})`)
+    .join("\n");
 }

@@ -40,7 +40,7 @@ export function computeBin(context: Context): CommandTree {
     tags: [],
     source: "file",
     options: Object.fromEntries(
-      context.options.map(option => [option.name, option])
+      context.globalOptions.map(option => [option.name, option])
     ),
     args: [],
     entry: {

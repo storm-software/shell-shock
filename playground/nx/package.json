@@ -4,7 +4,7 @@
   "type": "module",
   "description": "A playground package that uses Nx for build orchestration.",
   "private": true,
-  "bin": { "playground-nx": "./dist/bin.mjs" },
+  "bin": { "nx": "./dist/bin.mjs" },
   "devDependencies": {
     "@shell-shock/core": "workspace:*",
     "@shell-shock/nx": "workspace:*",

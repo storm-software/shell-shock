@@ -58,7 +58,11 @@ export function CommandOptionsDocs(props: CommandOptionsDocsProps) {
           defaultValue: option.default
             ? String(option.default)?.includes('"')
               ? option.default
-              : `\`${option.default}\``
+              : `\`${
+                  Array.isArray(option.default)
+                    ? option.default.join(", ")
+                    : option.default
+                }\``
             : "",
           required: option.optional || option.default ? "" : "✔"
         };
