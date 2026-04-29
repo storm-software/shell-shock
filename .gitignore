@@ -11,6 +11,9 @@ out
 .nx
 .rolldown
 
+playground/*/powerlines.d.ts
+playground/*/shell-shock.d.ts
+
 # dependencies
 node_modules
 
