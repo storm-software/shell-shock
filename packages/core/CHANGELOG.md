@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.8](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.8) (04/29/2026)
+
+### Bug Fixes
+
+- **core:** Various major fixes/updates to core processing ([0bc4fd4](https://github.com/storm-software/shell-shock/commit/0bc4fd4))
+
 ## [0.17.7](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.7) (04/15/2026)
 
 ### Miscellaneous
