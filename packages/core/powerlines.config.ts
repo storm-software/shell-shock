@@ -24,8 +24,7 @@ import { defineConfig } from "powerlines/config";
 
 const config: UserConfig = defineConfig({
   input: [
-    "./src/*.ts",
-    "./src/*.tsx",
+    "./src/*.{ts,tsx}",
     "./src/types/*.ts",
     "./src/components/*.{ts,tsx}",
     "./src/contexts/*.{ts,tsx}",

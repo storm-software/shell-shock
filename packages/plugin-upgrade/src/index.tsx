@@ -57,8 +57,7 @@ export const plugin = <
           }
         ),
         env: {
-          types:
-            "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradePluginEnv",
+          types: "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradeEnv",
           validate: false
         }
       };

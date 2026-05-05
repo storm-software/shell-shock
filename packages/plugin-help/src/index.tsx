@@ -113,6 +113,7 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
         order: "post",
         async handler() {
           const commands = await getCommandList(this);
+
           this.debug(
             `Rendering \`help\` built-ins for each of the ${
               commands.length
@@ -143,7 +144,7 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
                   doubleHardline>
                   {command => <HelpBuiltin command={command} />}
                 </For>
-                <HelpCommand segments={segments.value} />
+                <HelpCommand commands={segments.value} />
               </Show>
             </>
           );

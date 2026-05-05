@@ -20,19 +20,20 @@ import type { AlloyPluginResolvedConfig } from "@powerlines/plugin-alloy/types/p
 import type { AutoMDPluginResolvedConfig } from "@powerlines/plugin-automd";
 import type {
   NodeJsPluginOptions,
-  NodeJsPluginResolvedConfig,
-  NodeJsPluginUserConfig
+  NodeJsPluginResolvedConfig
 } from "@powerlines/plugin-nodejs/types/plugin";
+import type { TsdownPluginResolvedConfig } from "@powerlines/plugin-tsdown/types/plugin";
+import type { RequiredKeys } from "@stryke/types/base";
 import type {
-  TsdownPluginResolvedConfig,
-  TsdownPluginUserConfig
-} from "@powerlines/plugin-tsdown/types/plugin";
-import type { OutputConfig as PowerlinesOutputConfig } from "powerlines";
+  EngineOptions as PowerlinesEngineOptions,
+  OutputConfig as PowerlinesOutputConfig,
+  UserConfig as PowerlinesUserConfig
+} from "powerlines";
 import type { CommandBase, CommandOption } from "./command";
 import type { Context } from "./context";
 
 type BuildOptions = Pick<
-  TsdownPluginUserConfig,
+  PowerlinesUserConfig,
   | "root"
   | "name"
   | "title"
@@ -61,7 +62,7 @@ export interface ReferenceOptions {
   commands?: string;
 }
 
-type BaseOptions = Partial<BuildOptions> & {
+interface BaseOptions {
   /**
    * A set of global command options to apply to each command.
    *
@@ -110,7 +111,7 @@ type BaseOptions = Partial<BuildOptions> & {
    * This URL can be used in various displays of the user interface and documentation to provide users with a reference for the application. It can also be used by plugins to link to the documentation in relevant contexts. If the token `{command}` is included in the URL, it will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{reference}/command/subcommand`.
    */
   reference?: ReferenceOptions | string;
-};
+}
 
 /**
  * The plugin options for Shell Shock.
@@ -134,13 +135,18 @@ export type OutputConfig = Pick<
  * The user configuration options for Shell Shock.
  */
 export type UserConfig = BaseOptions &
-  Partial<NodeJsPluginUserConfig> &
-  Pick<NodeJsPluginUserConfig, "root"> & {
+  RequiredKeys<BuildOptions, "root" | "name"> & {
     /**
      * Configuration for the output of the build process
      */
     output?: OutputConfig;
   };
+
+export type EngineOptions = Omit<
+  PowerlinesEngineOptions,
+  "root" | "name" | "framework"
+> &
+  UserConfig;
 
 /**
  * The resolved configuration options for Shell Shock.

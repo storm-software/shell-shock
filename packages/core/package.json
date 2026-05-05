@@ -374,6 +374,7 @@
     "@alloy-js/markdown": "catalog:",
     "@alloy-js/typescript": "catalog:",
     "@powerlines/deepkit": "catalog:",
+    "@powerlines/engine": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-automd": "catalog:",
     "@powerlines/plugin-deepkit": "catalog:",

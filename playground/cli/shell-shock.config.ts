@@ -39,7 +39,7 @@ const config: UserConfig = defineConfig({
   ],
   logLevel: {
     general: "debug",
-    env: "debug"
+    config: "debug"
   }
 });
 

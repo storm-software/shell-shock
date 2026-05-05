@@ -37,64 +37,74 @@ export function formatBinaryPath(
 
 export async function updatePackageJsonBinary(context: Context): Promise<void> {
   const packageJsonPath = joinPaths(
-    context.config.cwd || process.cwd(),
+    context.config.cwd,
     context.config.root,
     "package.json"
   );
-  if (
-    context.config.bin &&
-    Array.isArray(context.config.bin) &&
-    context.config.bin.length > 0
-  ) {
-    context.packageJson.bin = Object.fromEntries(
-      getUnique(toArray(context.config.bin)).map(bin => [
-        bin,
-        formatBinaryPath(context.config.output.format)
-      ])
-    );
 
-    await context.fs.write(
-      packageJsonPath,
-      StormJSON.stringify(context.packageJson)
-    );
-  } else {
+  if (!context.packageJson) {
+    const packageJson = await context.fs.read(packageJsonPath);
+    if (packageJson) {
+      context.packageJson ??= JSON.parse(packageJson);
+    }
+  }
+
+  if (context.packageJson) {
     if (
-      Array.isArray(context.config.output.format) &&
-      context.config.output.format.length > 1
+      context.config.bin &&
+      Array.isArray(context.config.bin) &&
+      context.config.bin.length > 0
     ) {
-      context.packageJson.bin = {
-        [kebabCase(getAppName(context))]: formatBinaryPath(
-          toArray(context.config.output.format)[0]
-        )
-      };
-      context.packageJson.bin = toArray(context.config.output.format).reduce(
-        (ret, format) => {
-          ret[`${kebabCase(getAppName(context))}-${format}`] =
-            formatBinaryPath(format);
+      context.packageJson.bin = Object.fromEntries(
+        getUnique(toArray(context.config.bin)).map(bin => [
+          bin,
+          formatBinaryPath(context.config.output.format)
+        ])
+      );
 
-          return ret;
-        },
-        context.packageJson.bin
+      await context.fs.write(
+        packageJsonPath,
+        StormJSON.stringify(context.packageJson)
       );
     } else {
-      context.packageJson.bin = {
-        [kebabCase(getAppName(context))]: formatBinaryPath(
-          context.config.output.format
-        )
-      };
+      if (
+        Array.isArray(context.config.output.format) &&
+        context.config.output.format.length > 1
+      ) {
+        context.packageJson.bin = {
+          [kebabCase(getAppName(context))]: formatBinaryPath(
+            toArray(context.config.output.format)[0]
+          )
+        };
+        context.packageJson.bin = toArray(context.config.output.format).reduce(
+          (ret, format) => {
+            ret[`${kebabCase(getAppName(context))}-${format}`] =
+              formatBinaryPath(format);
+
+            return ret;
+          },
+          context.packageJson.bin
+        );
+      } else {
+        context.packageJson.bin = {
+          [kebabCase(getAppName(context))]: formatBinaryPath(
+            context.config.output.format
+          )
+        };
+      }
+
+      await context.fs.write(
+        packageJsonPath,
+        StormJSON.stringify(context.packageJson)
+      );
     }
 
-    await context.fs.write(
-      packageJsonPath,
-      StormJSON.stringify(context.packageJson)
-    );
-  }
+    if (!isSetObject(context.packageJson.bin)) {
+      throw new Error(
+        "Unable to determine the CLI binary name. Please specify the `bin` option in your Shell Shock configuration or ensure that the `name` field is set in your package.json."
+      );
+    }
 
-  if (!isSetObject(context.packageJson.bin)) {
-    throw new Error(
-      "Unable to determine the CLI binary name. Please specify the `bin` option in your Shell Shock configuration or ensure that the `name` field is set in your package.json."
-    );
+    context.config.bin = context.packageJson.bin;
   }
-
-  context.config.bin = context.packageJson.bin;
 }

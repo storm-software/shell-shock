@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 // eslint-disable-next-line ts/consistent-type-imports
-import { EnvInterface } from "@powerlines/plugin-env/types/runtime";
+import { EnvInterface } from "@powerlines/plugin-env/types/env";
 
 export interface ShellShockEnv extends EnvInterface {
   /**

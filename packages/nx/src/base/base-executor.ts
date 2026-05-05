@@ -101,6 +101,7 @@ export function withExecutor<
       }>(jiti.esmResolve("@shell-shock/core"));
 
       const api = await createShellShock({
+        name: context.projectName,
         root: projectConfig.root,
         cwd: workspaceConfig.workspaceRoot,
         configFile: options.configFile

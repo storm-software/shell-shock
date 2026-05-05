@@ -18,7 +18,6 @@
 
 import { For, Show } from "@alloy-js/core/components";
 import { ReflectionVisibility } from "@powerlines/deepkit/vendor/type";
-import alloy from "@powerlines/plugin-alloy";
 import { render } from "@powerlines/plugin-alloy/render";
 import automd from "@powerlines/plugin-automd";
 import { writeEnvTypeReflection } from "@powerlines/plugin-env/helpers";
@@ -88,7 +87,6 @@ export const plugin = <TContext extends Context = Context>(
   options: Options = {}
 ): Plugin<TContext>[] => {
   return [
-    ...alloy<TContext>(),
     tsdown<TContext>(),
     automd<TContext>(),
     {

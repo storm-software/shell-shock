@@ -62,7 +62,7 @@ export function TemporaryHelpCommand() {
 }
 
 export interface HelpCommandsProps {
-  segments: string[][];
+  commands: string[][];
 }
 
 /**
@@ -72,8 +72,8 @@ export function HelpCommand(props: HelpCommandsProps) {
   const context = usePowerlines<HelpPluginContext>();
 
   const helpImports = computed(() =>
-    props.segments
-      ? props.segments.reduce(
+    props.commands
+      ? props.commands.reduce(
           (ret, segments) => {
             ret[joinPaths("help", ...segments)] = [
               {
@@ -90,7 +90,7 @@ export function HelpCommand(props: HelpCommandsProps) {
       : {}
   );
 
-  const commandSegmentsList = props.segments ?? [];
+  const commandSegmentsList = props.commands ?? [];
 
   return (
     <TypescriptFile

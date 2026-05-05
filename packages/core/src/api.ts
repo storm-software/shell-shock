@@ -16,18 +16,17 @@
 
  ------------------------------------------------------------------- */
 
-import type { PartialKeys } from "@stryke/types";
 import type {
   BuildInlineConfig,
   CleanInlineConfig,
   DocsInlineConfig,
-  EngineOptions,
   LintInlineConfig,
-  PowerlinesAPI,
   PrepareInlineConfig
 } from "powerlines";
-import { createAPI } from "powerlines";
+import { PowerlinesAPI } from "powerlines/api";
+import type { PowerlinesExecutionContext } from "powerlines/context";
 import { plugin } from "./plugin";
+import type { EngineOptions } from "./types/config";
 
 /**
  * The Shell Shock API class.
@@ -44,13 +43,32 @@ export class ShellShockAPI {
    * @param options - The user configuration options.
    * @returns A promise that resolves to a {@link ShellShockAPI} instance.
    */
-  public static async fromOptions(
-    options: EngineOptions
-  ): Promise<ShellShockAPI> {
-    const powerlines = await createAPI(
-      { ...options, framework: "shell-shock" },
+  public static async from(options: EngineOptions): Promise<ShellShockAPI> {
+    const {
+      name,
+      root,
+      cwd,
+      mode,
+      logLevel,
+      organization,
+      configFile,
+      ...pluginOptions
+    } = options;
+
+    const powerlines = await PowerlinesAPI.from(
       {
-        plugins: [plugin()]
+        name,
+        root,
+        cwd: cwd || process.cwd(),
+        mode,
+        logLevel,
+        organization,
+        configFile,
+        framework: "shell-shock"
+      },
+      {
+        plugins: [plugin(pluginOptions)],
+        framework: "shell-shock"
       }
     );
 
@@ -62,7 +80,7 @@ export class ShellShockAPI {
    *
    * @returns The current build context.
    */
-  public get context() {
+  public get context(): PowerlinesExecutionContext {
     return this.#powerlines.context;
   }
 
@@ -137,11 +155,7 @@ export class ShellShockAPI {
  * @returns A promise that resolves to a {@link ShellShockAPI} instance.
  */
 export async function createShellShock(
-  options: PartialKeys<EngineOptions, "cwd" | "framework">
+  options: EngineOptions
 ): Promise<ShellShockAPI> {
-  return ShellShockAPI.fromOptions({
-    framework: "shell-shock",
-    cwd: process.cwd(),
-    ...options
-  });
+  return ShellShockAPI.from(options);
 }

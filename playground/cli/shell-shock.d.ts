@@ -180,14 +180,6 @@ declare module "shell-shock:env" {
      */
     ERROR_URL: string;
     /**
-     * Show the version of the application.
-     *
-     * @title Version
-     * @domain cli
-     * @defaultValue false
-     */
-    false?: boolean;
-    /**
      * An indicator that specifies the current runtime is a force color environment.
      *
      * @defaultValue 3
@@ -271,7 +263,7 @@ declare module "shell-shock:env" {
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     * @defaultValue "storm-software"
+     * @defaultValue "shell-shock-playground"
      */
     ORGANIZATION: string;
     /**
@@ -280,6 +272,18 @@ declare module "shell-shock:env" {
      * @defaultValue "node"
      */
     PLATFORM: "node" | "neutral" | "browser";
+    /**
+     * The runtime that the application is running in.
+     *
+     *
+     */
+    RUNTIME?: "nodejs" | "deno" | "workerd" | "browser";
+    /**
+     * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the upgrade process proceeds without checking for updates, which can help speed up the process in certain scenarios.
+     *
+     *
+     */
+    SKIP_VERSION_CHECK?: boolean;
     /**
      * Indicates if error stack traces should be captured.
      *
@@ -423,14 +427,14 @@ declare module "shell-shock:env" {
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "8a77b7da-a7b6-48ae-966a-0f392a931885"
+     * @defaultValue "6065ab2d-c787-4444-bdc0-653825906e23"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-29T14:19:22.163Z"
+     * @defaultValue "2026-05-05T07:38:46.850Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -734,7 +738,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "77b7daa7-b678-4ed6-aa0f-392a931885fc"
+     * @defaultValue "65ab2dc7-8734-44bd-8065-3825906e23e2"
      */
     readonly RELEASE_ID: string;
     /**
@@ -987,14 +991,6 @@ declare module "shell-shock:env" {
    */
   export interface Env extends UnprefixedEnv {
     /**
-     * Show the version of the application.
-     *
-     * @title Version
-     * @domain cli
-     * @defaultValue false
-     */
-    PLAYGROUND_CLI_false: UnprefixedEnv["false"];
-    /**
      * Enable verbose output.
      *
      * @title Verbose
@@ -1039,6 +1035,12 @@ declare module "shell-shock:env" {
      */
     PLAYGROUND_CLI_NON_INTERACTIVE: UnprefixedEnv["NON_INTERACTIVE"];
     /**
+     * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the upgrade process proceeds without checking for updates, which can help speed up the process in certain scenarios.
+     *
+     *
+     */
+    PLAYGROUND_CLI_SKIP_VERSION_CHECK: UnprefixedEnv["SKIP_VERSION_CHECK"];
+    /**
      * The name of the application.
      *
      * @readonly
@@ -1056,14 +1058,14 @@ declare module "shell-shock:env" {
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "8a77b7da-a7b6-48ae-966a-0f392a931885"
+     * @defaultValue "6065ab2d-c787-4444-bdc0-653825906e23"
      */
     readonly PLAYGROUND_CLI_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-29T14:19:22.163Z"
+     * @defaultValue "2026-05-05T07:38:46.850Z"
      */
     readonly PLAYGROUND_CLI_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -1077,7 +1079,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "77b7daa7-b678-4ed6-aa0f-392a931885fc"
+     * @defaultValue "65ab2dc7-8734-44bd-8065-3825906e23e2"
      */
     readonly PLAYGROUND_CLI_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
@@ -1091,9 +1093,15 @@ declare module "shell-shock:env" {
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     * @defaultValue "storm-software"
+     * @defaultValue "shell-shock-playground"
      */
     PLAYGROUND_CLI_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
+    /**
+     * The runtime that the application is running in.
+     *
+     *
+     */
+    PLAYGROUND_CLI_RUNTIME: UnprefixedEnv["RUNTIME"];
     /**
      * The platform for which the application was built.
      *
@@ -1858,14 +1866,6 @@ declare module "shell-shock:env" {
      */
     readonly PLAYGROUND_CLI_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
     /**
-     * Show the version of the application.
-     *
-     * @title Version
-     * @domain cli
-     * @defaultValue false
-     */
-    POWERLINES_false: UnprefixedEnv["false"];
-    /**
      * Enable verbose output.
      *
      * @title Verbose
@@ -1910,6 +1910,12 @@ declare module "shell-shock:env" {
      */
     POWERLINES_NON_INTERACTIVE: UnprefixedEnv["NON_INTERACTIVE"];
     /**
+     * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the upgrade process proceeds without checking for updates, which can help speed up the process in certain scenarios.
+     *
+     *
+     */
+    POWERLINES_SKIP_VERSION_CHECK: UnprefixedEnv["SKIP_VERSION_CHECK"];
+    /**
      * The name of the application.
      *
      * @readonly
@@ -1927,14 +1933,14 @@ declare module "shell-shock:env" {
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "8a77b7da-a7b6-48ae-966a-0f392a931885"
+     * @defaultValue "6065ab2d-c787-4444-bdc0-653825906e23"
      */
     readonly POWERLINES_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-29T14:19:22.163Z"
+     * @defaultValue "2026-05-05T07:38:46.850Z"
      */
     readonly POWERLINES_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -1948,7 +1954,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "77b7daa7-b678-4ed6-aa0f-392a931885fc"
+     * @defaultValue "65ab2dc7-8734-44bd-8065-3825906e23e2"
      */
     readonly POWERLINES_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
@@ -1962,9 +1968,15 @@ declare module "shell-shock:env" {
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     * @defaultValue "storm-software"
+     * @defaultValue "shell-shock-playground"
      */
     POWERLINES_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
+    /**
+     * The runtime that the application is running in.
+     *
+     *
+     */
+    POWERLINES_RUNTIME: UnprefixedEnv["RUNTIME"];
     /**
      * The platform for which the application was built.
      *
@@ -2729,14 +2741,6 @@ declare module "shell-shock:env" {
      */
     readonly POWERLINES_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
     /**
-     * Show the version of the application.
-     *
-     * @title Version
-     * @domain cli
-     * @defaultValue false
-     */
-    SHELL_SHOCK_false: UnprefixedEnv["false"];
-    /**
      * Enable verbose output.
      *
      * @title Verbose
@@ -2781,6 +2785,12 @@ declare module "shell-shock:env" {
      */
     SHELL_SHOCK_NON_INTERACTIVE: UnprefixedEnv["NON_INTERACTIVE"];
     /**
+     * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the upgrade process proceeds without checking for updates, which can help speed up the process in certain scenarios.
+     *
+     *
+     */
+    SHELL_SHOCK_SKIP_VERSION_CHECK: UnprefixedEnv["SKIP_VERSION_CHECK"];
+    /**
      * The name of the application.
      *
      * @readonly
@@ -2798,14 +2808,14 @@ declare module "shell-shock:env" {
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "8a77b7da-a7b6-48ae-966a-0f392a931885"
+     * @defaultValue "6065ab2d-c787-4444-bdc0-653825906e23"
      */
     readonly SHELL_SHOCK_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-04-29T14:19:22.163Z"
+     * @defaultValue "2026-05-05T07:38:46.850Z"
      */
     readonly SHELL_SHOCK_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -2819,7 +2829,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "77b7daa7-b678-4ed6-aa0f-392a931885fc"
+     * @defaultValue "65ab2dc7-8734-44bd-8065-3825906e23e2"
      */
     readonly SHELL_SHOCK_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
@@ -2833,9 +2843,15 @@ declare module "shell-shock:env" {
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     * @defaultValue "storm-software"
+     * @defaultValue "shell-shock-playground"
      */
     SHELL_SHOCK_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
+    /**
+     * The runtime that the application is running in.
+     *
+     *
+     */
+    SHELL_SHOCK_RUNTIME: UnprefixedEnv["RUNTIME"];
     /**
      * The platform for which the application was built.
      *
@@ -9160,13 +9176,13 @@ declare module "shell-shock:banner/completions" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
  *
- * @module shell-shock:banner/completions/powershell/config
+ * @module shell-shock:banner/completions/bash/config
  */
-declare module "shell-shock:banner/completions/powershell/config" {
+declare module "shell-shock:banner/completions/bash/config" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - PowerShell Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Bash Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9177,13 +9193,13 @@ declare module "shell-shock:banner/completions/powershell/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Configuration command.
  *
- * @module shell-shock:banner/completions/zsh/config
+ * @module shell-shock:banner/completions/powershell/config
  */
-declare module "shell-shock:banner/completions/zsh/config" {
+declare module "shell-shock:banner/completions/powershell/config" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Zsh Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions - PowerShell Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9211,13 +9227,13 @@ declare module "shell-shock:banner/completions/fish/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Configuration command.
  *
- * @module shell-shock:banner/completions/bash/config
+ * @module shell-shock:banner/completions/zsh/config
  */
-declare module "shell-shock:banner/completions/bash/config" {
+declare module "shell-shock:banner/completions/zsh/config" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Bash Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Zsh Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9415,13 +9431,13 @@ declare module "shell-shock:banner/run" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Script command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
  *
- * @module shell-shock:banner/completions/powershell/script
+ * @module shell-shock:banner/completions/bash/script
  */
-declare module "shell-shock:banner/completions/powershell/script" {
+declare module "shell-shock:banner/completions/bash/script" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - PowerShell Script command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Bash Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9432,13 +9448,13 @@ declare module "shell-shock:banner/completions/powershell/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Script command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Script command.
  *
- * @module shell-shock:banner/completions/zsh/script
+ * @module shell-shock:banner/completions/powershell/script
  */
-declare module "shell-shock:banner/completions/zsh/script" {
+declare module "shell-shock:banner/completions/powershell/script" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Zsh Script command to the console.
+   * Write the Playground command-line interface application banner for the Completions - PowerShell Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9466,13 +9482,13 @@ declare module "shell-shock:banner/completions/fish/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Script command.
  *
- * @module shell-shock:banner/completions/bash/script
+ * @module shell-shock:banner/completions/zsh/script
  */
-declare module "shell-shock:banner/completions/bash/script" {
+declare module "shell-shock:banner/completions/zsh/script" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Bash Script command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Zsh Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9642,6 +9658,24 @@ declare module "shell-shock:help/completions" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying help information for the Completions - Bash Configuration command.
+ *
+ * @module shell-shock:help/completions/bash/config
+ */
+declare module "shell-shock:help/completions/bash/config" {
+  /**
+   * Utility functions for displaying help information for the Completions - Bash Configuration command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Bash Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Bash Configuration command.
+   */
+  export function showHelp(): void;
+}
+
+/**
  * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Configuration command.
  *
  * @module shell-shock:help/completions/powershell/config
@@ -9656,24 +9690,6 @@ declare module "shell-shock:help/completions/powershell/config" {
   /**
    * Display help information for the Completions - PowerShell Configuration
    * command.
-   */
-  export function showHelp(): void;
-}
-
-/**
- * A collection of utility functions that assist in displaying help information for the Completions - Zsh Configuration command.
- *
- * @module shell-shock:help/completions/zsh/config
- */
-declare module "shell-shock:help/completions/zsh/config" {
-  /**
-   * Utility functions for displaying help information for the Completions - Zsh Configuration command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Zsh Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Zsh Configuration command.
    */
   export function showHelp(): void;
 }
@@ -9697,19 +9713,19 @@ declare module "shell-shock:help/completions/fish/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Bash Configuration command.
+ * A collection of utility functions that assist in displaying help information for the Completions - Zsh Configuration command.
  *
- * @module shell-shock:help/completions/bash/config
+ * @module shell-shock:help/completions/zsh/config
  */
-declare module "shell-shock:help/completions/bash/config" {
+declare module "shell-shock:help/completions/zsh/config" {
   /**
-   * Utility functions for displaying help information for the Completions - Bash Configuration command.
+   * Utility functions for displaying help information for the Completions - Zsh Configuration command.
    *
    * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Bash Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   * This module contains utility functions that assist in displaying help information for the Completions - Zsh Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
    */
   /**
-   * Display help information for the Completions - Bash Configuration command.
+   * Display help information for the Completions - Zsh Configuration command.
    */
   export function showHelp(): void;
 }
@@ -9913,6 +9929,24 @@ declare module "shell-shock:help/run" {
 }
 
 /**
+ * A collection of utility functions that assist in displaying help information for the Completions - Bash Script command.
+ *
+ * @module shell-shock:help/completions/bash/script
+ */
+declare module "shell-shock:help/completions/bash/script" {
+  /**
+   * Utility functions for displaying help information for the Completions - Bash Script command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Bash Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Bash Script command.
+   */
+  export function showHelp(): void;
+}
+
+/**
  * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Script command.
  *
  * @module shell-shock:help/completions/powershell/script
@@ -9926,24 +9960,6 @@ declare module "shell-shock:help/completions/powershell/script" {
    */
   /**
    * Display help information for the Completions - PowerShell Script command.
-   */
-  export function showHelp(): void;
-}
-
-/**
- * A collection of utility functions that assist in displaying help information for the Completions - Zsh Script command.
- *
- * @module shell-shock:help/completions/zsh/script
- */
-declare module "shell-shock:help/completions/zsh/script" {
-  /**
-   * Utility functions for displaying help information for the Completions - Zsh Script command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Zsh Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Zsh Script command.
    */
   export function showHelp(): void;
 }
@@ -9967,19 +9983,19 @@ declare module "shell-shock:help/completions/fish/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Bash Script command.
+ * A collection of utility functions that assist in displaying help information for the Completions - Zsh Script command.
  *
- * @module shell-shock:help/completions/bash/script
+ * @module shell-shock:help/completions/zsh/script
  */
-declare module "shell-shock:help/completions/bash/script" {
+declare module "shell-shock:help/completions/zsh/script" {
   /**
-   * Utility functions for displaying help information for the Completions - Bash Script command.
+   * Utility functions for displaying help information for the Completions - Zsh Script command.
    *
    * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Bash Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   * This module contains utility functions that assist in displaying help information for the Completions - Zsh Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
    */
   /**
-   * Display help information for the Completions - Bash Script command.
+   * Display help information for the Completions - Zsh Script command.
    */
   export function showHelp(): void;
 }

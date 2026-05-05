@@ -70,8 +70,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           isCaseSensitive: false,
           ...options,
           env: {
-            types:
-              "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradePluginEnv",
+            types: "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradeEnv",
             validate: false
           }
         };
