@@ -18,16 +18,16 @@ catalog:
   "@nx/plugin": 22.7.0
   "@nx/workspace": 22.7.0
   "@powerlines/deepkit": ^0.8.64
-  "@powerlines/engine": ^0.47.2
-  "@powerlines/nx": ^0.13.37
-  "@powerlines/plugin-alloy": ^0.26.82
-  "@powerlines/plugin-automd": ^0.1.463
-  "@powerlines/plugin-deepkit": ^0.11.345
-  "@powerlines/plugin-nodejs": ^0.1.391
-  "@powerlines/plugin-plugin": ^0.12.414
-  "@powerlines/plugin-style-dictionary": ^0.3.364
-  "@powerlines/plugin-tsdown": ^0.1.404
-  "@powerlines/plugin-untyped": ^0.2.417
+  "@powerlines/engine": ^0.47.4
+  "@powerlines/nx": ^0.13.39
+  "@powerlines/plugin-alloy": ^0.26.84
+  "@powerlines/plugin-automd": ^0.1.465
+  "@powerlines/plugin-deepkit": ^0.11.347
+  "@powerlines/plugin-nodejs": ^0.1.393
+  "@powerlines/plugin-plugin": ^0.12.416
+  "@powerlines/plugin-style-dictionary": ^0.3.366
+  "@powerlines/plugin-tsdown": ^0.1.406
+  "@powerlines/plugin-untyped": ^0.2.419
   "@powerlines/tsconfig": ^0.4.92
   "@powerlines/tsdoc": ^0.2.40
   "@standard-schema/spec": ^1.1.0
@@ -101,7 +101,7 @@ catalog:
   normalize-html-whitespace: ^1.0.0
   nx: 22.7.0
   parse5: ^8.0.1
-  powerlines: ^0.47.2
+  powerlines: ^0.47.4
   prettier: ^3.8.3
   rimraf: ^6.1.3
   style-dictionary: ^5.4.0

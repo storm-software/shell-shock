@@ -427,14 +427,14 @@ declare module "shell-shock:env" {
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "6065ab2d-c787-4444-bdc0-653825906e23"
+     * @defaultValue "70884f33-f81b-42fd-8f32-41833f012bc1"
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-05-05T07:38:46.850Z"
+     * @defaultValue "2026-05-05T13:05:33.746Z"
      */
     readonly BUILD_TIMESTAMP: string;
     /**
@@ -738,7 +738,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "65ab2dc7-8734-44bd-8065-3825906e23e2"
+     * @defaultValue "884f33f8-1b62-4d0f-b241-833f012bc19e"
      */
     readonly RELEASE_ID: string;
     /**
@@ -1058,14 +1058,14 @@ declare module "shell-shock:env" {
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "6065ab2d-c787-4444-bdc0-653825906e23"
+     * @defaultValue "70884f33-f81b-42fd-8f32-41833f012bc1"
      */
     readonly PLAYGROUND_CLI_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-05-05T07:38:46.850Z"
+     * @defaultValue "2026-05-05T13:05:33.746Z"
      */
     readonly PLAYGROUND_CLI_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -1079,7 +1079,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "65ab2dc7-8734-44bd-8065-3825906e23e2"
+     * @defaultValue "884f33f8-1b62-4d0f-b241-833f012bc19e"
      */
     readonly PLAYGROUND_CLI_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
@@ -1933,14 +1933,14 @@ declare module "shell-shock:env" {
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "6065ab2d-c787-4444-bdc0-653825906e23"
+     * @defaultValue "70884f33-f81b-42fd-8f32-41833f012bc1"
      */
     readonly POWERLINES_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-05-05T07:38:46.850Z"
+     * @defaultValue "2026-05-05T13:05:33.746Z"
      */
     readonly POWERLINES_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -1954,7 +1954,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "65ab2dc7-8734-44bd-8065-3825906e23e2"
+     * @defaultValue "884f33f8-1b62-4d0f-b241-833f012bc19e"
      */
     readonly POWERLINES_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
@@ -2808,14 +2808,14 @@ declare module "shell-shock:env" {
      * The unique identifier for the build.
      *
      * @readonly
-     * @defaultValue "6065ab2d-c787-4444-bdc0-653825906e23"
+     * @defaultValue "70884f33-f81b-42fd-8f32-41833f012bc1"
      */
     readonly SHELL_SHOCK_BUILD_ID: UnprefixedEnv["BUILD_ID"];
     /**
      * The timestamp the build was ran at.
      *
      * @readonly
-     * @defaultValue "2026-05-05T07:38:46.850Z"
+     * @defaultValue "2026-05-05T13:05:33.746Z"
      */
     readonly SHELL_SHOCK_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
     /**
@@ -2829,7 +2829,7 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @readonly
-     * @defaultValue "65ab2dc7-8734-44bd-8065-3825906e23e2"
+     * @defaultValue "884f33f8-1b62-4d0f-b241-833f012bc19e"
      */
     readonly SHELL_SHOCK_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
     /**
