@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.10](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.10) (05/05/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with runtime env type serialization ([9f139a5](https://github.com/storm-software/shell-shock/commit/9f139a5))
+
 ## [0.17.8](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.8) (04/29/2026)
 
 ### Bug Fixes

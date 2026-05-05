@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.28](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.28) (05/05/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with runtime env type serialization ([9f139a5](https://github.com/storm-software/shell-shock/commit/9f139a5))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.2.14**
+- Updated **plugin-theme** to **v0.4.23**
+- Updated **core** to **v0.17.10**
+
 ## [0.2.27](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.27) (04/29/2026)
 
 ### Updated Dependencies

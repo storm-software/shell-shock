@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.65](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.65) (05/05/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with runtime env type serialization ([9f139a5](https://github.com/storm-software/shell-shock/commit/9f139a5))
+
+### Updated Dependencies
+
+- Updated **plugin-console** to **v0.2.14**
+- Updated **plugin-banner** to **v0.1.37**
+- Updated **plugin-theme** to **v0.4.23**
+- Updated **plugin-help** to **v0.2.28**
+- Updated **core** to **v0.17.10**
+
 ## [0.6.64](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.64) (04/29/2026)
 
 ### Updated Dependencies

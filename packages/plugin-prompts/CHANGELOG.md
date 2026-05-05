@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.51](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.51) (05/05/2026)
+
+### Updated Dependencies
+
+- Updated **plugin-theme** to **v0.4.23**
+- Updated **core** to **v0.17.10**
+
 ## [0.3.50](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.50) (04/29/2026)
 
 ### Updated Dependencies

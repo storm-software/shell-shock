@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.82](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.82) (05/05/2026)
+
+### Miscellaneous
+
+- **nx:** Resolve typescript type linting issues ([839b872](https://github.com/storm-software/shell-shock/commit/839b872))
+
+### Bug Fixes
+
+- **core:** Resolve issue with runtime env type serialization ([9f139a5](https://github.com/storm-software/shell-shock/commit/9f139a5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.10**
+
 ## [0.0.81](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.81) (04/29/2026)
 
 ### Updated Dependencies

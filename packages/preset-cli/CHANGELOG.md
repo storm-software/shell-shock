@@ -2,6 +2,25 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.22](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.22) (05/05/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with runtime env type serialization ([9f139a5](https://github.com/storm-software/shell-shock/commit/9f139a5))
+
+### Updated Dependencies
+
+- Updated **plugin-completions** to **v0.4.18**
+- Updated **plugin-changelog** to **v0.1.13**
+- Updated **plugin-console** to **v0.2.14**
+- Updated **plugin-prompts** to **v0.3.51**
+- Updated **plugin-upgrade** to **v0.1.55**
+- Updated **plugin-banner** to **v0.1.37**
+- Updated **preset-script** to **v0.6.65**
+- Updated **plugin-theme** to **v0.4.23**
+- Updated **plugin-help** to **v0.2.28**
+- Updated **core** to **v0.17.10**
+
 ## [0.9.21](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.21) (04/29/2026)
 
 ### Updated Dependencies

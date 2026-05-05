@@ -2,6 +2,13 @@
 
 # Changelog for Shell Shock - Plugin Changelog
 
+## [0.1.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-changelog%400.1.13) (05/05/2026)
+
+### Updated Dependencies
+
+- Updated **unified** to **v0.2.8**
+- Updated **core** to **v0.17.10**
+
 ## [0.1.12](https://github.com/storm-software/shell-shock/releases/tag/plugin-changelog%400.1.12) (04/29/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.23](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.23) (05/05/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue with runtime env type serialization ([9f139a5](https://github.com/storm-software/shell-shock/commit/9f139a5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.10**
+
 ## [0.4.22](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.22) (04/29/2026)
 
 ### Updated Dependencies
