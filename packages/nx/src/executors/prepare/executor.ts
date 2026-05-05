@@ -20,7 +20,6 @@ import type { PromiseExecutor } from "@nx/devkit";
 import type { ShellShockAPI } from "@shell-shock/core";
 import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
 import defu from "defu";
-import type { PrepareInlineConfig } from "powerlines";
 import type { ShellShockExecutorContext } from "../../base/base-executor";
 import { withExecutor } from "../../base/base-executor";
 import type { PrepareExecutorSchema } from "./schema";
@@ -37,7 +36,7 @@ async function executorFn(
         autoInstall: context.options.autoInstall
       },
       context.inlineConfig
-    ) as PrepareInlineConfig
+    )
   );
 
   return {

@@ -20,7 +20,6 @@ import type { PromiseExecutor } from "@nx/devkit";
 import type { ShellShockAPI } from "@shell-shock/core/api";
 import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
 import { defu } from "defu";
-import type { CleanInlineConfig } from "powerlines";
 import type { ShellShockExecutorContext } from "../../base/base-executor";
 import { withExecutor } from "../../base/base-executor";
 import type { CleanExecutorSchema } from "./schema";
@@ -35,7 +34,7 @@ async function executorFn(
         command: "clean"
       },
       context.inlineConfig
-    ) as CleanInlineConfig
+    )
   );
 
   return {
