@@ -58,6 +58,12 @@ import type {
   PromptsPluginUserConfig
 } from "@shell-shock/plugin-prompts/types/plugin";
 import type {
+  SkillsPluginContext,
+  SkillsPluginOptions,
+  SkillsPluginResolvedConfig,
+  SkillsPluginUserConfig
+} from "@shell-shock/plugin-skills";
+import type {
   ThemePluginContext,
   ThemePluginResolvedConfig,
   ThemePluginUserConfig
@@ -136,6 +142,14 @@ export type CLIPresetOptions = Omit<ScriptPresetOptions, "globalOptions"> &
      * Configuration options for the `changelog` plugin. This field allows you to customize the behavior of the `changelog` plugin, which provides commands for displaying the application's changelog. You can specify the path to the changelog file, the command name, and other related settings.
      */
     changelog?: ChangelogPluginOptions | false;
+
+    /**
+     * Configuration options for the `skills` plugin. This field allows you to customize the behavior of the `skills` plugin, which provides commands for managing and displaying the application's skills. You can specify the command name, and other related settings.
+     *
+     * @remarks
+     * If the `skills` plugin is enabled but the specified skills path does not exist, the plugin will be automatically disabled and a warning message will be logged. By default, the plugin looks for a `skills` directory in the current working directory.
+     */
+    skills?: SkillsPluginOptions | false;
   };
 
 export type CLIPresetUserConfig = UserConfig &
@@ -146,6 +160,7 @@ export type CLIPresetUserConfig = UserConfig &
   HelpPluginUserConfig &
   CompletionsPluginUserConfig &
   ChangelogPluginUserConfig &
+  SkillsPluginUserConfig &
   UpgradePluginUserConfig &
   CLIPresetOptions;
 
@@ -157,6 +172,7 @@ export type CLIPresetResolvedConfig = ResolvedConfig &
   HelpPluginResolvedConfig &
   CompletionsPluginResolvedConfig &
   ChangelogPluginResolvedConfig &
+  SkillsPluginResolvedConfig &
   UpgradePluginResolvedConfig &
   Required<CLIPresetOptions>;
 
@@ -170,4 +186,5 @@ export type CLIPresetContext<
   HelpPluginContext<TResolvedConfig> &
   CompletionsPluginContext<TResolvedConfig> &
   ChangelogPluginContext<TResolvedConfig> &
+  SkillsPluginContext<TResolvedConfig> &
   UpgradePluginContext<TResolvedConfig>;

@@ -30,7 +30,6 @@ import type {
   NumberCommandParameter,
   StringCommandParameter
 } from "../types";
-import { CommandParameterKinds } from "../types";
 
 export interface CommandValidationLogicProps {
   command: CommandTree;
@@ -49,7 +48,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
       <For each={Object.values(command.options ?? {})} doubleHardline>
         {option => (
           <>
-            <Show when={!option.optional}>
+            <Show when={option.required}>
               <IfStatement
                 condition={code`!options${
                   option.name.includes("?")
@@ -71,7 +70,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                 </ElseIfClause>
               </Show>
             </Show>
-            <Show when={option.kind === CommandParameterKinds.number}>
+            <Show when={option.type === "number"}>
               <Show
                 when={option.variadic}
                 fallback={
@@ -104,8 +103,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
             </Show>
             <Show
               when={
-                (option.kind === CommandParameterKinds.string ||
-                  option.kind === CommandParameterKinds.number) &&
+                (option.type === "string" || option.type === "number") &&
                 option.choices &&
                 option.choices.length > 0
               }>
@@ -113,7 +111,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                 when={!option.variadic}
                 fallback={
                   <Show
-                    when={!option.optional}
+                    when={option.required}
                     fallback={
                       <IfStatement
                         condition={code`!options${
@@ -126,9 +124,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                             | NumberCommandParameter
                         ).choices
                           ?.map(choice =>
-                            option.kind === CommandParameterKinds.string
-                              ? `"${choice}"`
-                              : choice
+                            option.type === "string" ? `"${choice}"` : choice
                           )
                           .join(", ")}].includes(value))`}>
                         {code`failures.push(\`Invalid value provided for the \\"${
@@ -157,9 +153,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                           | NumberCommandParameter
                       ).choices
                         ?.map(choice =>
-                          option.kind === CommandParameterKinds.string
-                            ? `"${choice}"`
-                            : choice
+                          option.type === "string" ? `"${choice}"` : choice
                         )
                         .join(", ")}].includes(value))`}>
                       {code`failures.push(\`Invalid value provided for the \\"${
@@ -179,7 +173,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                   </Show>
                 }>
                 <Show
-                  when={!option.optional}
+                  when={option.required}
                   fallback={
                     <IfStatement
                       condition={code`![${(
@@ -188,9 +182,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                           | NumberCommandParameter
                       ).choices
                         ?.map(choice =>
-                          option.kind === CommandParameterKinds.string
-                            ? `"${choice}"`
-                            : choice
+                          option.type === "string" ? `"${choice}"` : choice
                         )
                         .join(", ")}].includes(options${
                         option.name.includes("?")
@@ -217,9 +209,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                       option as StringCommandParameter | NumberCommandParameter
                     ).choices
                       ?.map(choice =>
-                        option.kind === CommandParameterKinds.string
-                          ? `"${choice}"`
-                          : choice
+                        option.type === "string" ? `"${choice}"` : choice
                       )
                       .join(", ")}].includes(options${
                       option.name.includes("?")
@@ -250,7 +240,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
       <For each={command.args} doubleHardline>
         {argument => (
           <>
-            <Show when={!argument.optional}>
+            <Show when={argument.required}>
               <IfStatement condition={code`!${camelCase(argument.name)}`}>
                 {code`failures.push("Missing required \\"${
                   argument.name
@@ -265,7 +255,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                 </ElseIfClause>
               </Show>
             </Show>
-            <Show when={argument.kind === CommandParameterKinds.number}>
+            <Show when={argument.type === "number"}>
               <Show
                 when={(argument as NumberCommandParameter).variadic}
                 fallback={

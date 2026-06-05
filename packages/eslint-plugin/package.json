@@ -41,118 +41,38 @@
   "type": "module",
   "exports": {
     ".": {
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      },
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "default": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      }
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./configs": {
-      "require": {
-        "types": "./dist/configs/index.d.cts",
-        "default": "./dist/configs/index.cjs"
-      },
-      "import": {
-        "types": "./dist/configs/index.d.mts",
-        "default": "./dist/configs/index.mjs"
-      },
-      "default": {
-        "types": "./dist/configs/index.d.mts",
-        "default": "./dist/configs/index.mjs"
-      }
+      "import": "./dist/configs/index.mjs",
+      "require": "./dist/configs/index.cjs"
     },
     "./configs/base": {
-      "require": {
-        "types": "./dist/configs/base.d.cts",
-        "default": "./dist/configs/base.cjs"
-      },
-      "import": {
-        "types": "./dist/configs/base.d.mts",
-        "default": "./dist/configs/base.mjs"
-      },
-      "default": {
-        "types": "./dist/configs/base.d.mts",
-        "default": "./dist/configs/base.mjs"
-      }
+      "import": "./dist/configs/base.mjs",
+      "require": "./dist/configs/base.cjs"
     },
     "./configs/recommended": {
-      "require": {
-        "types": "./dist/configs/recommended.d.cts",
-        "default": "./dist/configs/recommended.cjs"
-      },
-      "import": {
-        "types": "./dist/configs/recommended.d.mts",
-        "default": "./dist/configs/recommended.mjs"
-      },
-      "default": {
-        "types": "./dist/configs/recommended.d.mts",
-        "default": "./dist/configs/recommended.mjs"
-      }
+      "import": "./dist/configs/recommended.mjs",
+      "require": "./dist/configs/recommended.cjs"
     },
-    "./package.json": "./package.json",
     "./plugin": {
-      "require": {
-        "types": "./dist/plugin.d.cts",
-        "default": "./dist/plugin.cjs"
-      },
-      "import": {
-        "types": "./dist/plugin.d.mts",
-        "default": "./dist/plugin.mjs"
-      },
-      "default": {
-        "types": "./dist/plugin.d.mts",
-        "default": "./dist/plugin.mjs"
-      }
+      "import": "./dist/plugin.mjs",
+      "require": "./dist/plugin.cjs"
     },
     "./rules/duplicate-command-path": {
-      "require": {
-        "types": "./dist/rules/duplicate-command-path.d.cts",
-        "default": "./dist/rules/duplicate-command-path.cjs"
-      },
-      "import": {
-        "types": "./dist/rules/duplicate-command-path.d.mts",
-        "default": "./dist/rules/duplicate-command-path.mjs"
-      },
-      "default": {
-        "types": "./dist/rules/duplicate-command-path.d.mts",
-        "default": "./dist/rules/duplicate-command-path.mjs"
-      }
+      "import": "./dist/rules/duplicate-command-path.mjs",
+      "require": "./dist/rules/duplicate-command-path.cjs"
     },
     "./rules/invalid-command-export": {
-      "require": {
-        "types": "./dist/rules/invalid-command-export.d.cts",
-        "default": "./dist/rules/invalid-command-export.cjs"
-      },
-      "import": {
-        "types": "./dist/rules/invalid-command-export.d.mts",
-        "default": "./dist/rules/invalid-command-export.mjs"
-      },
-      "default": {
-        "types": "./dist/rules/invalid-command-export.d.mts",
-        "default": "./dist/rules/invalid-command-export.mjs"
-      }
+      "import": "./dist/rules/invalid-command-export.mjs",
+      "require": "./dist/rules/invalid-command-export.cjs"
     },
     "./rules/invalid-handler-params": {
-      "require": {
-        "types": "./dist/rules/invalid-handler-params.d.cts",
-        "default": "./dist/rules/invalid-handler-params.cjs"
-      },
-      "import": {
-        "types": "./dist/rules/invalid-handler-params.d.mts",
-        "default": "./dist/rules/invalid-handler-params.mjs"
-      },
-      "default": {
-        "types": "./dist/rules/invalid-handler-params.d.mts",
-        "default": "./dist/rules/invalid-handler-params.mjs"
-      }
-    }
+      "import": "./dist/rules/invalid-handler-params.mjs",
+      "require": "./dist/rules/invalid-handler-params.cjs"
+    },
+    "./package.json": "./package.json"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

@@ -10,5 +10,12 @@
     "@shell-shock/nx": "workspace:*",
     "@shell-shock/preset-script": "workspace:*"
   },
-  "bin": { "playground-custom-commands-directory": "./dist/bin.mjs" }
+  "bin": { "playground-custom-commands-directory": "./dist/bin.mjs" },
+  "exports": {
+    "./bin": "./dist/bin.mjs",
+    "./build": "./dist/build.mjs",
+    "./help": "./dist/help.mjs",
+    "./package.json": "./package.json",
+    "./start": "./dist/start.mjs"
+  }
 }

@@ -250,6 +250,20 @@
         "default": "./dist/contexts/options.mjs"
       }
     },
+    "./engine": {
+      "require": {
+        "types": "./dist/engine.d.cts",
+        "default": "./dist/engine.cjs"
+      },
+      "import": {
+        "types": "./dist/engine.d.mts",
+        "default": "./dist/engine.mjs"
+      },
+      "default": {
+        "types": "./dist/engine.d.mts",
+        "default": "./dist/engine.mjs"
+      }
+    },
     "./package.json": "./package.json",
     "./plugin": {
       "require": {
@@ -368,11 +382,12 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
-  "files": ["dist/**/*"],
+  "files": ["dist"],
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/markdown": "catalog:",
     "@alloy-js/typescript": "catalog:",
+    "@powerlines/core": "catalog:",
     "@powerlines/deepkit": "catalog:",
     "@powerlines/engine": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
@@ -380,8 +395,7 @@
     "@powerlines/plugin-deepkit": "catalog:",
     "@powerlines/plugin-nodejs": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
-    "@standard-schema/spec": "catalog:",
-    "@standard-schema/utils": "catalog:",
+    "@powerlines/schema": "catalog:",
     "@stryke/cli": "catalog:",
     "@stryke/convert": "catalog:",
     "@stryke/fs": "catalog:",
@@ -391,27 +405,15 @@
     "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",
     "@stryke/types": "catalog:",
-    "@stryke/zod": "catalog:",
     "automd": "catalog:",
     "defu": "catalog:",
-    "json-schema": "catalog:",
     "powerlines": "catalog:",
     "tsdown": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-plugin": "catalog:",
-    "@types/json-schema": "catalog:",
     "@types/node": "catalog:",
-    "typescript": "catalog:",
-    "zod": "catalog:"
-  },
-  "peerDependencies": {
-    "zod": "^3.25.0 || ^4.0.0"
-  },
-  "peerDependenciesMeta": {
-    "zod": {
-      "optional": true
-    }
+    "typescript": "catalog:"
   },
   "publishConfig": {
     "access": "public"

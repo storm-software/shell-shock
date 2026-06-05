@@ -17,29 +17,322 @@
  ------------------------------------------------------------------- */
 
 import { esbuildPlugin } from "@powerlines/deepkit/esbuild-plugin";
-import { ReflectionVisibility } from "@powerlines/deepkit/vendor/type";
-import { resolveModule } from "@powerlines/plugin-esbuild/helpers/resolve";
+import {
+  addProperty,
+  extract,
+  getPropertiesList,
+  resolveModule
+} from "@powerlines/schema";
+import { toArray } from "@stryke/convert/to-array";
+import { getUnique } from "@stryke/helpers/get-unique";
+import { isJsonSchemaObjectType, isJsonSchemaTupleType } from "@stryke/json";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { titleCase } from "@stryke/string-format/title-case";
+import { isBoolean } from "@stryke/type-checks/is-boolean";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
+import { isSetString } from "@stryke/type-checks/is-set-string";
 import { getGlobalOptions } from "../helpers/utilities";
 import {
   getDynamicPathSegmentName,
   isDynamicPathSegment
 } from "../plugin-utils/context-helpers";
-import { extractType } from "../plugin-utils/deepkit";
-import type { CommandModule, CommandTree, Context } from "../types";
-import { resolveFromBytecode } from "./deepkit";
+import type {
+  CommandArgument,
+  CommandModule,
+  CommandOption,
+  CommandTree,
+  Context
+} from "../types";
 import {
   applyArgsDefaults,
   applyDefaults,
   applyOptionsDefaults,
   resolveVirtualCommand
 } from "./helpers";
-import { resolveFromExports } from "./module";
 import type { ResolverContext, ResolverInput } from "./types";
 
-async function initialize<TContext extends Context = Context>(
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value);
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+  return isSetObject(value) ? (value as Record<string, unknown>) : {};
+}
+
+function toAliasList(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return getUnique(value.filter(isSetString));
+  }
+
+  return isSetString(value) ? [value] : [];
+}
+
+function inferParameterType(
+  input: Record<string, unknown>
+): CommandOption["type"] {
+  const schemaType = input.type;
+
+  if (Array.isArray(schemaType)) {
+    const first = schemaType.find(type => type !== "null");
+    if (first === "integer" || first === "number") {
+      return "number";
+    }
+    if (first === "boolean") {
+      return "boolean";
+    }
+    if (first === "array") {
+      const nested = asRecord(input.items);
+      const nestedType = nested.type;
+      if (nestedType === "integer" || nestedType === "number") {
+        return "number";
+      }
+      if (nestedType === "boolean") {
+        return "boolean";
+      }
+
+      return "string";
+    }
+
+    return "string";
+  }
+
+  if (schemaType === "integer" || schemaType === "number") {
+    return "number";
+  }
+  if (schemaType === "boolean") {
+    return "boolean";
+  }
+  if (schemaType === "array") {
+    const nested = asRecord(input.items);
+    const nestedType = nested.type;
+    if (nestedType === "integer" || nestedType === "number") {
+      return "number";
+    }
+    if (nestedType === "boolean") {
+      return "boolean";
+    }
+
+    return "string";
+  }
+
+  if (Array.isArray(input.enum) && input.enum.length > 0) {
+    const first = input.enum.find(value => value !== null);
+    if (isFiniteNumber(first)) {
+      return "number";
+    }
+    if (isBoolean(first)) {
+      return "boolean";
+    }
+  }
+
+  if (isFiniteNumber(input.default)) {
+    return "number";
+  }
+  if (isBoolean(input.default)) {
+    return "boolean";
+  }
+
+  return "string";
+}
+
+function inferVariadic(input: Record<string, unknown>): boolean {
+  if (isBoolean(input.variadic)) {
+    return input.variadic;
+  }
+
+  return input.type === "array";
+}
+
+function normalizeDefault(
+  input: Record<string, unknown>,
+  type: CommandOption["type"],
+  variadic: boolean
+) {
+  const defaultValue = input.default;
+  if (defaultValue === undefined) {
+    return undefined;
+  }
+
+  if (type === "boolean") {
+    if (variadic) {
+      if (Array.isArray(defaultValue)) {
+        return defaultValue.filter(isBoolean);
+      }
+
+      return isBoolean(defaultValue) ? [defaultValue] : undefined;
+    }
+
+    if (Array.isArray(defaultValue)) {
+      return defaultValue.find(isBoolean);
+    }
+
+    return isBoolean(defaultValue) ? defaultValue : undefined;
+  }
+
+  if (type === "number") {
+    if (variadic) {
+      if (Array.isArray(defaultValue)) {
+        return defaultValue
+          .map(item =>
+            typeof item === "bigint" ? Number(item) : (item as unknown)
+          )
+          .filter(isFiniteNumber);
+      }
+
+      const normalized =
+        typeof defaultValue === "bigint" ? Number(defaultValue) : defaultValue;
+
+      return isFiniteNumber(normalized) ? [normalized] : undefined;
+    }
+
+    if (Array.isArray(defaultValue)) {
+      const first = defaultValue
+        .map(item =>
+          typeof item === "bigint" ? Number(item) : (item as unknown)
+        )
+        .find(isFiniteNumber);
+
+      return first;
+    }
+
+    const normalized =
+      typeof defaultValue === "bigint" ? Number(defaultValue) : defaultValue;
+
+    return isFiniteNumber(normalized) ? normalized : undefined;
+  }
+
+  if (variadic) {
+    if (Array.isArray(defaultValue)) {
+      return defaultValue.filter(isSetString);
+    }
+
+    return isSetString(defaultValue) ? [defaultValue] : undefined;
+  }
+
+  if (Array.isArray(defaultValue)) {
+    return defaultValue.find(isSetString);
+  }
+
+  return isSetString(defaultValue) ? defaultValue : undefined;
+}
+
+function normalizeStringChoices(input: Record<string, unknown>) {
+  const source = Array.isArray(input.choices) ? input.choices : input.enum;
+  if (!Array.isArray(source)) {
+    return undefined;
+  }
+
+  return source.filter(isSetString);
+}
+
+function normalizeNumberChoices(input: Record<string, unknown>) {
+  const source = Array.isArray(input.choices) ? input.choices : input.enum;
+  if (!Array.isArray(source)) {
+    return undefined;
+  }
+
+  return source
+    .map(item => (typeof item === "bigint" ? Number(item) : (item as unknown)))
+    .filter(isFiniteNumber);
+}
+
+function resolveCommandParameter(
+  schema: unknown,
+  defaults: {
+    fallbackRequired: boolean;
+    includeBooleanOptionFields: boolean;
+  }
+): CommandOption | CommandArgument {
+  const input = asRecord(schema);
+  const type = inferParameterType(input);
+  const variadic = inferVariadic(input);
+  const defaultValue = normalizeDefault(input, type, variadic);
+
+  const required = isBoolean(input.required)
+    ? input.required
+    : defaultValue === undefined
+      ? defaults.fallbackRequired
+      : false;
+
+  const env = isSetString(input.env) ? input.env : false;
+
+  const result = {
+    name: isSetString(input.name) ? input.name : "",
+    type,
+    title: isSetString(input.title) ? input.title : "",
+    description: isSetString(input.description) ? input.description : "",
+    alias: toAliasList(input.alias),
+    default: defaultValue,
+    env,
+    required,
+    variadic
+  } as unknown as CommandOption | CommandArgument;
+
+  if (type === "string") {
+    const stringChoices = normalizeStringChoices(input);
+    if (Array.isArray(stringChoices)) {
+      (result as Extract<CommandOption, { type: "string" }>).choices =
+        stringChoices;
+    }
+
+    if (isSetString(input.format)) {
+      (result as Extract<CommandOption, { type: "string" }>).format =
+        input.format;
+    }
+  }
+
+  if (type === "number") {
+    const numberChoices = normalizeNumberChoices(input);
+    if (Array.isArray(numberChoices)) {
+      (result as Extract<CommandOption, { type: "number" }>).choices =
+        numberChoices;
+    }
+  }
+
+  if (defaults.includeBooleanOptionFields && type === "boolean" && !variadic) {
+    const optionResult = result as Extract<
+      CommandOption,
+      { type: "boolean"; variadic: false }
+    >;
+
+    if (isSetString(input.isNegativeOf)) {
+      optionResult.isNegativeOf = input.isNegativeOf;
+    }
+    if (isBoolean(input.skipAddingNegative)) {
+      optionResult.skipAddingNegative = input.skipAddingNegative;
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Resolves a command option from the given schema.
+ *
+ * @param schema - The command option schema, which can be a command option configuration or a JSON schema input.
+ * @returns The resolved command option definition.
+ */
+function resolveCommandOption(schema: unknown): CommandOption {
+  return resolveCommandParameter(schema, {
+    fallbackRequired: false,
+    includeBooleanOptionFields: true
+  });
+}
+
+/**
+ * Resolves a command argument from the given schema.
+ *
+ * @param schema - The command argument schema, which can be a command argument configuration or a JSON schema input.
+ * @returns The resolved command argument definition.
+ */
+function resolveCommandArgument(schema: unknown): CommandArgument {
+  return resolveCommandParameter(schema, {
+    fallbackRequired: true,
+    includeBooleanOptionFields: false
+  });
+}
+
+async function preprocess<TContext extends Context>(
   input: ResolverInput<TContext>
 ): Promise<ResolverContext> {
   const { context, command, parent } = input;
@@ -49,12 +342,12 @@ async function initialize<TContext extends Context = Context>(
     `${
       parent?.title
         ? `${
-            parent.isVirtual
+            parent.virtual
               ? parent.title.replace(/(?:c|C)ommands?$/, "").trim()
               : parent.title
           } - `
         : ""
-    }${titleCase(command.name)}${command.isVirtual ? " Commands" : ""}`;
+    }${titleCase(command.name)}${command.virtual ? " Commands" : ""}`;
 
   const output = {
     alias: [],
@@ -74,7 +367,7 @@ async function initialize<TContext extends Context = Context>(
     output
   };
 
-  if (!command.isVirtual) {
+  if (!command.virtual) {
     if (
       !command.entry.input?.file ||
       !context.fs.existsSync(command.entry.input.file)
@@ -97,16 +390,15 @@ async function initialize<TContext extends Context = Context>(
       command.entry.input,
       {
         name: command.title || titleCase(command.name),
-        treeShaking: true,
-        resolve: {
-          skipNodeModulesBundle: true
-        },
         plugins: [
           esbuildPlugin(context, {
             reflection: "default",
             level: "all"
           })
-        ]
+        ],
+        resolve: {
+          skipNodeModulesBundle: true
+        }
       }
     );
   }
@@ -114,7 +406,7 @@ async function initialize<TContext extends Context = Context>(
   return result;
 }
 
-async function postprocess<TContext extends Context = Context>(
+async function postprocess<TContext extends Context>(
   ctx: ResolverContext<TContext>
 ): Promise<CommandTree> {
   ctx.output.options = applyOptionsDefaults(ctx);
@@ -157,40 +449,29 @@ async function postprocess<TContext extends Context = Context>(
       Object.values(ctx.output.options)
         .filter(option => Boolean(option.env))
         .forEach(option => {
-          ctx.input.context.env.types.env.addProperty({
-            name: option.env as string,
-            optional: option.optional ? true : undefined,
-            description: option.description,
-            visibility: ReflectionVisibility.public,
-            type: extractType(option),
-            default: option.default,
-            tags: {
-              title: option.title,
+          addProperty(
+            ctx.input.context.env.config.schema,
+            option.env as string,
+            {
+              ...option,
+              name: option.env as string,
               alias: option.alias
                 .filter(alias => alias.length > 1)
-                .map(alias => constantCase(alias)),
-              domain: "cli"
+                .map(alias => constantCase(alias))
             }
-          });
+          );
         });
     }
 
     ctx.output.args
       .filter(arg => Boolean(arg.env))
       .forEach(arg =>
-        ctx.input.context.env.types.env.addProperty({
+        addProperty(ctx.input.context.env.config.schema, arg.env as string, {
+          ...arg,
           name: arg.env as string,
-          optional: arg.optional ? true : undefined,
-          description: arg.description,
-          visibility: ReflectionVisibility.public,
-          type: extractType(arg),
-          default: arg.default,
-          tags: {
-            alias: arg.alias
-              .filter(alias => alias.length > 1)
-              .map(alias => constantCase(alias)),
-            domain: "cli"
-          }
+          alias: arg.alias
+            .filter(alias => alias.length > 1)
+            .map(alias => constantCase(alias))
         })
       );
   }
@@ -232,11 +513,87 @@ async function postprocess<TContext extends Context = Context>(
 export async function resolve<TContext extends Context = Context>(
   input: ResolverInput<TContext>
 ): Promise<CommandTree> {
-  const ctx = await initialize<TContext>(input);
+  const ctx = await preprocess<TContext>(input);
+  if (!ctx.output.virtual) {
+    if (!ctx.module) {
+      throw new Error(
+        `Command module at path "${
+          ctx.input.command.path
+        }" is undefined or null. Please ensure the module exports a valid command.`
+      );
+    } else if (!isSetObject(ctx.module)) {
+      throw new TypeError(
+        `Command module at path "${
+          ctx.input.command.path
+        }" is not an object. Please ensure the module exports a valid command.`
+      );
+    } else if (!("default" in ctx.module)) {
+      throw new Error(
+        `Command module at path "${
+          ctx.input.command.path
+        }" does not appear to be valid. Please ensure the module's default export is a valid command handler function.`
+      );
+    }
 
-  if (!ctx.output.isVirtual) {
-    await resolveFromExports(ctx);
-    resolveFromBytecode(ctx);
+    const metadata = ctx.module.metadata ?? {};
+    if (isSetString(metadata.title)) {
+      ctx.output.title = metadata.title;
+    }
+    if (isSetString(metadata.description)) {
+      ctx.output.description = metadata.description;
+    }
+    if (
+      isSetString(metadata.alias) ||
+      (Array.isArray(metadata.alias) && metadata.alias.length > 0)
+    ) {
+      ctx.output.alias = toArray(metadata.alias);
+    }
+    if (isSetString(metadata.icon)) {
+      ctx.output.icon = metadata.icon;
+    }
+    if (isSetString(metadata.tags)) {
+      ctx.output.tags = getUnique(
+        ctx.output.tags.concat(toArray(metadata.tags))
+      );
+    }
+
+    if (isSetObject(ctx.module.options)) {
+      const options = await extract(ctx.input.context, ctx.module.options);
+      if (!isSetObject(options) || !isJsonSchemaObjectType(options.schema)) {
+        throw new TypeError(
+          `Command options for command at path "${
+            ctx.input.command.path
+          }" must resolve to an object.`
+        );
+      }
+
+      ctx.output.options = getPropertiesList(options).reduce(
+        (ret, property) => {
+          ret[property.name] = resolveCommandOption(property);
+
+          return ret;
+        },
+        {} as Record<string, CommandOption>
+      );
+    }
+
+    if (ctx.module.args && Array.isArray(ctx.module.args)) {
+      const args = await extract(
+        ctx.input.context,
+        ctx.module.args as Parameters<typeof extract>[1]
+      );
+      if (!isSetObject(args) || !isJsonSchemaTupleType(args.schema)) {
+        throw new TypeError(
+          `Command arguments for command at path "${
+            ctx.input.command.path
+          }" must resolve to a tuple.`
+        );
+      }
+
+      ctx.output.args = args.schema.items.map(item =>
+        resolveCommandArgument(item)
+      );
+    }
   } else {
     resolveVirtualCommand(ctx);
   }

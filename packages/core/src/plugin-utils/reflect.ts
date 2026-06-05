@@ -17,7 +17,6 @@
  ------------------------------------------------------------------- */
 
 import type { CommandOption } from "../types/command";
-import { CommandParameterKinds } from "../types/command";
 
 /**
  * Sort command options alphabetically by name, placing boolean options with negatives appropriately.
@@ -31,23 +30,16 @@ export function sortOptions(options: CommandOption[]): CommandOption[] {
   }
 
   return options
-    .filter(
-      arg =>
-        arg.kind !== CommandParameterKinds.boolean ||
-        arg.variadic ||
-        !arg.isNegativeOf
-    )
+    .filter(arg => arg.type !== "boolean" || arg.variadic || !arg.isNegativeOf)
     .sort((a, b) => a.name.localeCompare(b.name))
     .reduce((ret, arg) => {
       ret.push(arg);
 
-      if (arg.kind === CommandParameterKinds.boolean) {
+      if (arg.type === "boolean") {
         // Add the negative argument if it exists
         const negativeArg = options.find(
           a =>
-            a.kind === CommandParameterKinds.boolean &&
-            !a.variadic &&
-            a.isNegativeOf === arg.name
+            a.type === "boolean" && !a.variadic && a.isNegativeOf === arg.name
         );
         if (negativeArg) {
           ret.push(negativeArg);

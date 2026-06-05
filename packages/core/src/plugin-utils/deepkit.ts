@@ -21,45 +21,39 @@ import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import type {
   BaseCommandParameter,
-  CommandParameterKind,
+  CommandParameterType,
   StringCommandParameter
 } from "../types/command";
-import { CommandParameterKinds } from "../types/command";
-import { isCommandParameterKind } from "./type-checks";
+import { isCommandParameterType } from "./type-checks";
 
 /**
- * Extracts a {@link ReflectionKind} from a {@link BaseCommandParameter} or {@link CommandParameterKind}.
+ * Extracts a {@link ReflectionKind} from a {@link BaseCommandParameter} or {@link CommandParameterType}.
  *
  * @param command - The command parameter or kind to extract the reflection kind from.
  * @param checkVariadic - Whether to check for variadic parameters (arrays).
  * @returns The extracted {@link ReflectionKind}.
  */
 export function extractReflectionKind(
-  command: BaseCommandParameter | CommandParameterKind,
+  command: BaseCommandParameter | CommandParameterType,
   checkVariadic = true
 ): ReflectionKind {
   if (
-    (isCommandParameterKind(command) &&
-      command === CommandParameterKinds.string) ||
-    (isSetObject(command as BaseCommandParameter) &&
-      (command as BaseCommandParameter).kind === CommandParameterKinds.string)
+    (isCommandParameterType(command) && command === "string") ||
+    (isSetObject(command) && command.type === "string")
   ) {
     return checkVariadic && (command as StringCommandParameter).variadic
       ? ReflectionKind.array
       : ReflectionKind.string;
   } else if (
-    (isCommandParameterKind(command) &&
-      command === CommandParameterKinds.number) ||
-    (isSetObject(command as BaseCommandParameter) &&
-      (command as BaseCommandParameter).kind === CommandParameterKinds.number)
+    (isCommandParameterType(command) && command === "number") ||
+    (isSetObject(command) && command.type === "number")
   ) {
     return checkVariadic && (command as any).variadic
       ? ReflectionKind.array
       : ReflectionKind.number;
   } else if (
-    (isCommandParameterKind(command) &&
-      command === CommandParameterKinds.boolean) ||
-    (isSetObject(command) && command.kind === CommandParameterKinds.boolean)
+    (isCommandParameterType(command) && command === "boolean") ||
+    (isSetObject(command) && command.type === "boolean")
   ) {
     return ReflectionKind.boolean;
   } else {
@@ -68,14 +62,14 @@ export function extractReflectionKind(
 }
 
 /**
- * Extracts a {@link Type} from a {@link BaseCommandParameter} or {@link CommandParameterKind}.
+ * Extracts a {@link Type} from a {@link BaseCommandParameter} or {@link CommandParameterType}.
  *
  * @param command - The command parameter or kind to extract the type from.
  * @param checkVariadic - Whether to check for variadic parameters (arrays).
  * @returns The extracted {@link Type}.
  */
 export function extractType(
-  command: BaseCommandParameter | CommandParameterKind,
+  command: BaseCommandParameter | CommandParameterType,
   checkVariadic = true
 ): Type {
   const reflectionKind = extractReflectionKind(command, checkVariadic);
@@ -86,12 +80,12 @@ export function extractType(
   } else if (reflectionKind === ReflectionKind.boolean) {
     return { kind: ReflectionKind.boolean };
   } else if (reflectionKind === ReflectionKind.array) {
-    if (isCommandParameterKind(command)) {
+    if (isCommandParameterType(command)) {
       return {
         kind: ReflectionKind.array,
         type: extractType(
           {
-            kind: command
+            type: command
           } as BaseCommandParameter,
           false
         )
@@ -102,8 +96,8 @@ export function extractType(
         type: extractType(
           {
             ...command,
-            kind: command.kind
-          } as BaseCommandParameter,
+            type: command.type
+          },
           false
         )
       };

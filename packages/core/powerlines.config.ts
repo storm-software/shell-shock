@@ -24,12 +24,18 @@ import { defineConfig } from "powerlines/config";
 
 const config: UserConfig = defineConfig({
   input: [
-    "./src/*.{ts,tsx}",
-    "./src/types/*.ts",
-    "./src/components/*.{ts,tsx}",
-    "./src/contexts/*.{ts,tsx}",
-    "./src/plugin-utils/index.ts"
+    "src/*.{ts,tsx}",
+    "src/config.ts",
+    "src/engine.ts",
+    "src/plugin.tsx",
+    "src/types/*.ts",
+    "src/components/*.{ts,tsx}",
+    "src/contexts/*.{ts,tsx}",
+    "src/plugin-utils/index.ts"
   ],
+  output: {
+    sourceMap: true
+  },
   plugins: [
     plugin(),
     deepkit({
@@ -37,7 +43,10 @@ const config: UserConfig = defineConfig({
       level: "all"
     }),
     alloy()
-  ]
+  ],
+  tsdown: {
+    minify: false
+  }
 });
 
 export default config;

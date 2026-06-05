@@ -20,6 +20,9 @@ import type { UserConfig } from "@shell-shock/core";
 import { defineConfig } from "@shell-shock/core/config";
 
 const config: UserConfig = defineConfig({
+  output: {
+    storage: "fs"
+  },
   name: "playground-minimal",
   skipCache: true
 });

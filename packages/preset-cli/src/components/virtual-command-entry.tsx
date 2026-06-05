@@ -64,7 +64,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
         imports={defu(
           imports ?? {},
           Object.entries(command.children)
-            .filter(([, child]) => child.isVirtual)
+            .filter(([, child]) => child.virtual)
             .reduce((ret, [name, child]) => {
               ret[`./${child.name}`] = [
                 { name: "handler", alias: `handle${pascalCase(name)}` }
@@ -127,7 +127,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
       <For each={Object.values(command.children)}>
         {child => (
           <Show
-            when={child.isVirtual}
+            when={child.virtual}
             fallback={<CommandEntry command={child} />}>
             <VirtualCommandEntry command={child} />
           </Show>

@@ -23,7 +23,6 @@ import {
   isDynamicPathSegment
 } from "../plugin-utils/context-helpers";
 import type { CommandTree } from "../types/command";
-import { CommandParameterKinds } from "../types/command";
 
 export interface UsageProps {
   /**
@@ -76,8 +75,7 @@ export function Usage(props: UsageProps) {
               .map(
                 param =>
                   `<${snakeCase(param.name)}${
-                    (param.kind === CommandParameterKinds.string ||
-                      param.kind === CommandParameterKinds.number) &&
+                    (param.type === "string" || param.type === "number") &&
                     param.variadic
                       ? "..."
                       : ""
@@ -111,8 +109,7 @@ export function Usage(props: UsageProps) {
                 .map(
                   param =>
                     `<${snakeCase(param.name)}${
-                      (param.kind === CommandParameterKinds.string ||
-                        param.kind === CommandParameterKinds.number) &&
+                      (param.type === "string" || param.type === "number") &&
                       param.variadic
                         ? "..."
                         : ""

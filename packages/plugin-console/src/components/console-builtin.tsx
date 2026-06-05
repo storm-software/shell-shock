@@ -29,7 +29,6 @@ import {
   TypeDeclaration,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import {
   ClassDeclaration,
@@ -768,10 +767,7 @@ export function WriteFunctionDeclaration() {
             {`The console function to use for writing to the console. If not specified, the default console function \`console.log\` will be used.`}
           </TSDocRemarks>
           <hbr />
-          <TSDocDefaultValue
-            type={ReflectionKind.method}
-            defaultValue={`\`console.log\``}
-          />
+          <TSDocDefaultValue type="any" defaultValue={`\`console.log\``} />
         </TSDoc>
         <InterfaceMember
           name="consoleFn"
@@ -1222,10 +1218,7 @@ export function DividerFunctionDeclaration() {
           <TSDocRemarks>
             {`The value provided will determine the border style and color based on the current theme configuration.`}
           </TSDocRemarks>
-          <TSDocDefaultValue
-            type={ReflectionKind.string}
-            defaultValue="primary"
-          />
+          <TSDocDefaultValue type="string" defaultValue="primary" />
         </TSDoc>
         <InterfaceMember
           name="border"
@@ -1239,7 +1232,7 @@ export function DividerFunctionDeclaration() {
             {`The amount of padding (in spaces) to apply to the line when writing to the console. This value is applied to both the left and right sides of the line. If not specified, the default padding defined in the current theme configuration will be used.`}
           </TSDocRemarks>
           <TSDocDefaultValue
-            type={ReflectionKind.number}
+            type="number"
             defaultValue={theme.padding.app * 4}
           />
         </TSDoc>
@@ -2145,10 +2138,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
             {`The border variant to use for the table cell. This determines the color and style of the border around the cell.`}
           </TSDocRemarks>
           <hbr />
-          <TSDocDefaultValue
-            type={ReflectionKind.property}
-            defaultValue="primary"
-          />
+          <TSDocDefaultValue type="any" defaultValue="primary" />
         </TSDoc>
         <InterfaceMember
           name="border"
@@ -2162,7 +2152,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
           </TSDocRemarks>
           <hbr />
           <TSDocDefaultValue
-            type={ReflectionKind.property}
+            type="any"
             defaultValue={`\`${theme.padding.table}\``}
           />
         </TSDoc>
@@ -2173,10 +2163,7 @@ export function TableFunctionDeclaration(props: TableFunctionDeclarationProps) {
             {`The alignment for the table cell. This determines how the text within the cell is aligned. If not specified, the default alignment is "left".`}
           </TSDocRemarks>
           <hbr />
-          <TSDocDefaultValue
-            type={ReflectionKind.property}
-            defaultValue="left"
-          />
+          <TSDocDefaultValue type="any" defaultValue="left" />
         </TSDoc>
         <InterfaceMember
           name="align"

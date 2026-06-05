@@ -31,5 +31,5 @@ export function renderMarkdown(
   markdown: string,
   options: Options = {}
 ): string {
-  return renderHtml(markdownToHtml(markdown), options);
+  return renderHtml(markdownToHtml(markdown, options), options);
 }

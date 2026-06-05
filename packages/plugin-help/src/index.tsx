@@ -47,7 +47,7 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
     ...theme<TContext>(options.theme),
     ...console<TContext>(options.console),
     {
-      name: "shell-shock:help",
+      name: "shell-shock/help",
       enforce: "post",
       config() {
         this.debug(
@@ -100,8 +100,7 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
                   file: joinPaths(this.entryPath, "help", "command.ts")
                 }
               },
-              isVirtual: false,
-              source: "help-plugin",
+              virtual: false,
               ...this.config.help.command
             });
           }

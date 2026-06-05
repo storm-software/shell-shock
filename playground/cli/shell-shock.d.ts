@@ -49,7 +49,7 @@ interface SpawnOptions {
   /**
    * The timeout in milliseconds for the spawn operation. If the process runs longer than this, it will be killed and the spawn promise will reject. This can also be provided as a number directly to the spawn function for convenience. Providing \`-1\` will disable the timeout.
    *
-   * @defaultValue 300000
+   * @defaultValue 300
    */
   timeoutMs?: number;
   /**
@@ -98,12 +98,10 @@ declare function spawn(
  * @module shell-shock:env
  */
 declare module "shell-shock:env" {
-  import { Serializer } from "@powerlines/deepkit/vendor/type";
-
   /**
-   * Object
+   * Env
    *
-   * @title Object
+   * @title Env
    *
    */
   export interface UnprefixedEnv {
@@ -111,6 +109,9 @@ declare module "shell-shock:env" {
      * The application's cached data directory.
      *
      * @title Cache Directory
+     * @alias PLAYGROUND_CLI_CACHE_DIR
+     *
+     * @alias SHELL_SHOCK_CACHE_DIR
      * @runtime
      *
      */
@@ -120,22 +121,24 @@ declare module "shell-shock:env" {
      *
      * @title Continuous Integration
      * @alias CONTINUOUS_INTEGRATION
-     * @defaultValue false
+     *
+     * @alias PLAYGROUND_CLI_CI
+     *
+     * @alias PLAYGROUND_CLI_CONTINUOUS_INTEGRATION
+     *
+     * @alias SHELL_SHOCK_CI
+     *
+     * @alias SHELL_SHOCK_CONTINUOUS_INTEGRATION
+     *
      */
     CI: boolean;
-    /**
-     * Enable colored terminal output.
-     *
-     * @title Color
-     * @alias COLORS
-     * @domain cli
-     *
-     */
-    COLOR?: boolean;
     /**
      * The application's configuration data directory.
      *
      * @title Configuration Directory
+     * @alias PLAYGROUND_CLI_CONFIG_DIR
+     *
+     * @alias SHELL_SHOCK_CONFIG_DIR
      * @runtime
      *
      */
@@ -144,6 +147,9 @@ declare module "shell-shock:env" {
      * The application's runtime data directory.
      *
      * @title Data Directory
+     * @alias PLAYGROUND_CLI_DATA_DIR
+     *
+     * @alias SHELL_SHOCK_DATA_DIR
      * @runtime
      *
      */
@@ -151,65 +157,83 @@ declare module "shell-shock:env" {
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @defaultValue true
+     * @alias PLAYGROUND_CLI_DEBUG
+     *
+     * @alias SHELL_SHOCK_DEBUG
+     *
      */
     DEBUG: boolean;
     /**
      * The default locale to be used in the application.
      *
-     * @defaultValue "en-US"
+     * @alias PLAYGROUND_CLI_DEFAULT_LOCALE
+     *
+     * @alias SHELL_SHOCK_DEFAULT_LOCALE
+     *
      */
     DEFAULT_LOCALE: string;
     /**
      * The default timezone for the application.
      *
-     * @defaultValue "America/New_York"
+     * @alias PLAYGROUND_CLI_DEFAULT_TIMEZONE
+     *
+     * @alias SHELL_SHOCK_DEFAULT_TIMEZONE
+     *
      */
     DEFAULT_TIMEZONE: string;
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @defaultValue "development"
+     * @alias PLAYGROUND_CLI_ENVIRONMENT
+     *
+     * @alias SHELL_SHOCK_ENVIRONMENT
+     *
      */
     ENVIRONMENT: string;
     /**
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
-     * @defaultValue "https://developer.stormsoftware.com/static/errors"
+     * @alias PLAYGROUND_CLI_ERROR_URL
+     *
+     * @alias SHELL_SHOCK_ERROR_URL
+     *
      */
-    ERROR_URL: string;
+    ERROR_URL?: string;
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue 3
+     * @alias PLAYGROUND_CLI_FORCE_COLOR
+     *
+     * @alias SHELL_SHOCK_FORCE_COLOR
+     *
      */
     FORCE_COLOR: boolean | number;
     /**
      * An indicator that specifies the current runtime should force hyperlinks in terminal output.
      *
-     * @defaultValue false
+     * @alias PLAYGROUND_CLI_FORCE_HYPERLINK
+     *
+     * @alias SHELL_SHOCK_FORCE_HYPERLINK
+     *
      */
     FORCE_HYPERLINK: boolean | number;
     /**
      * Indicates if error data should be included.
      *
-     * @defaultValue false
+     * @alias PLAYGROUND_CLI_INCLUDE_ERROR_DATA
+     *
+     * @alias SHELL_SHOCK_INCLUDE_ERROR_DATA
+     *
      */
     INCLUDE_ERROR_DATA: boolean;
-    /**
-     * Enable interactive mode - will be set to false if running in a CI pipeline.
-     *
-     * @title Interactive
-     * @alias INTERACT
-     * @domain cli
-     * @defaultValue true
-     */
-    INTERACTIVE?: boolean;
     /**
      * The application's logging directory.
      *
      * @title Log Directory
+     * @alias PLAYGROUND_CLI_LOG_DIR
+     *
+     * @alias SHELL_SHOCK_LOG_DIR
      * @runtime
      *
      */
@@ -217,13 +241,19 @@ declare module "shell-shock:env" {
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "debug"
+     * @alias PLAYGROUND_CLI_LOG_LEVEL
+     *
+     * @alias SHELL_SHOCK_LOG_LEVEL
+     *
      */
-    LOG_LEVEL?: "error" | "warn" | "info" | "debug" | null;
+    LOG_LEVEL?: unknown;
     /**
      * An indicator that specifies the current runtime is a minimal environment.
      *
-     * @defaultValue false
+     * @alias PLAYGROUND_CLI_MINIMAL
+     *
+     * @alias SHELL_SHOCK_MINIMAL
+     *
      */
     MINIMAL: boolean;
     /**
@@ -232,68 +262,88 @@ declare module "shell-shock:env" {
      * @alias NODE_ENV
      *
      * @alias VERCEL_ENV
-     * @defaultValue "development"
+     *
+     * @alias PLAYGROUND_CLI_MODE
+     *
+     * @alias PLAYGROUND_CLI_NODE_ENV
+     *
+     * @alias PLAYGROUND_CLI_VERCEL_ENV
+     *
+     * @alias SHELL_SHOCK_MODE
+     *
+     * @alias SHELL_SHOCK_NODE_ENV
+     *
+     * @alias SHELL_SHOCK_VERCEL_ENV
+     *
      */
     MODE: "development" | "test" | "production";
     /**
-     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
-     *
-     * @title Hide Banner
-     * @alias HIDE_BANNER
-     * @domain cli
-     * @defaultValue false
-     */
-    NO_BANNER?: boolean;
-    /**
      * An indicator that specifies the current runtime is a no color environment.
      *
-     * @defaultValue false
+     * @alias PLAYGROUND_CLI_NO_COLOR
+     *
+     * @alias SHELL_SHOCK_NO_COLOR
+     *
      */
     NO_COLOR: boolean;
-    /**
-     * Disable interactive mode - will be set to true if running in a CI pipeline.
-     *
-     * @title Non-Interactive
-     * @alias NO_INTERACTIVE
-     * @domain cli
-     * @defaultValue false
-     */
-    NON_INTERACTIVE?: boolean;
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     * @defaultValue "shell-shock-playground"
+     *
+     * @alias PLAYGROUND_CLI_ORGANIZATION
+     *
+     * @alias PLAYGROUND_CLI_ORG
+     *
+     * @alias SHELL_SHOCK_ORGANIZATION
+     *
+     * @alias SHELL_SHOCK_ORG
+     *
      */
     ORGANIZATION: string;
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "node"
+     * @alias PLAYGROUND_CLI_PLATFORM
+     *
+     * @alias SHELL_SHOCK_PLATFORM
+     *
      */
     PLATFORM: "node" | "neutral" | "browser";
     /**
      * The runtime that the application is running in.
      *
+     * @alias PLAYGROUND_CLI_RUNTIME
+     *
+     * @alias SHELL_SHOCK_RUNTIME
      *
      */
     RUNTIME?: "nodejs" | "deno" | "workerd" | "browser";
     /**
      * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the upgrade process proceeds without checking for updates, which can help speed up the process in certain scenarios.
      *
+     * @alias PLAYGROUND_CLI_SKIP_UPDATE_CHECK
+     *
+     * @alias SHELL_SHOCK_SKIP_UPDATE_CHECK
      *
      */
-    SKIP_VERSION_CHECK?: boolean;
+    SKIP_UPDATE_CHECK?: boolean;
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @defaultValue true
+     * @alias PLAYGROUND_CLI_STACKTRACE
+     *
+     * @alias SHELL_SHOCK_STACKTRACE
+     *
      */
     STACKTRACE: boolean;
     /**
      * The application's temporary data directory.
      *
      * @title Temporary Directory
+     * @alias PLAYGROUND_CLI_TEMP_DIR
+     *
+     * @alias SHELL_SHOCK_TEMP_DIR
      * @runtime
      *
      */
@@ -301,20 +351,18 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a test environment.
      *
-     * @defaultValue false
+     * @alias PLAYGROUND_CLI_TEST
+     *
+     * @alias SHELL_SHOCK_TEST
+     *
      */
     TEST: boolean;
     /**
-     * Enable verbose output.
-     *
-     * @title Verbose
-     * @domain cli
-     * @defaultValue false
-     */
-    VERBOSE?: boolean;
-    /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_AC_APPCIRCLE
+     *
+     * @alias SHELL_SHOCK_AC_APPCIRCLE
      * @readonly
      * @hidden
      * @runtime
@@ -324,6 +372,9 @@ declare module "shell-shock:env" {
     /**
      * The name of the agent running the application. This variable is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_AGENT_NAME
+     *
+     * @alias SHELL_SHOCK_AGENT_NAME
      * @readonly
      * @hidden
      * @runtime
@@ -333,6 +384,9 @@ declare module "shell-shock:env" {
     /**
      * The agola git reference. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_AGOLA_GIT_REF
+     *
+     * @alias SHELL_SHOCK_AGOLA_GIT_REF
      * @readonly
      * @hidden
      * @runtime
@@ -342,20 +396,29 @@ declare module "shell-shock:env" {
     /**
      * The name of the application.
      *
+     * @alias PLAYGROUND_CLI_APP_NAME
+     *
+     * @alias SHELL_SHOCK_APP_NAME
      * @readonly
-     * @defaultValue "playground-cli"
+     *
      */
     readonly APP_NAME: string;
     /**
      * The version of the application.
      *
+     * @alias PLAYGROUND_CLI_APP_VERSION
+     *
+     * @alias SHELL_SHOCK_APP_VERSION
      * @readonly
-     * @defaultValue "0.0.1"
+     *
      */
     readonly APP_VERSION: string;
     /**
      * The appcenter build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_APPCENTER_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_APPCENTER_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
@@ -365,6 +428,9 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the application data directory on Windows.
      *
+     * @alias PLAYGROUND_CLI_APPDATA
+     *
+     * @alias SHELL_SHOCK_APPDATA
      * @readonly
      * @hidden
      * @runtime
@@ -374,6 +440,9 @@ declare module "shell-shock:env" {
     /**
      * The appveyor build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_APPVEYOR
+     *
+     * @alias SHELL_SHOCK_APPVEYOR
      * @readonly
      * @hidden
      * @runtime
@@ -383,6 +452,9 @@ declare module "shell-shock:env" {
     /**
      * The bamboo plan key. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_bamboo_planKey
+     *
+     * @alias SHELL_SHOCK_bamboo_planKey
      * @readonly
      * @hidden
      * @runtime
@@ -392,6 +464,9 @@ declare module "shell-shock:env" {
     /**
      * The bitbucket commit. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BITBUCKET_COMMIT
+     *
+     * @alias SHELL_SHOCK_BITBUCKET_COMMIT
      * @readonly
      * @hidden
      * @runtime
@@ -401,6 +476,9 @@ declare module "shell-shock:env" {
     /**
      * The bitrise build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BITRISE_IO
+     *
+     * @alias SHELL_SHOCK_BITRISE_IO
      * @readonly
      * @hidden
      * @runtime
@@ -410,6 +488,9 @@ declare module "shell-shock:env" {
     /**
      * The buddy workspace ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BUDDY_WORKSPACE_ID
+     *
+     * @alias SHELL_SHOCK_BUDDY_WORKSPACE_ID
      * @readonly
      * @hidden
      * @runtime
@@ -419,6 +500,9 @@ declare module "shell-shock:env" {
     /**
      * A checksum hash created during the build.
      *
+     * @alias PLAYGROUND_CLI_BUILD_CHECKSUM
+     *
+     * @alias SHELL_SHOCK_BUILD_CHECKSUM
      * @readonly
      *
      */
@@ -426,20 +510,29 @@ declare module "shell-shock:env" {
     /**
      * The unique identifier for the build.
      *
+     * @alias PLAYGROUND_CLI_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_BUILD_ID
      * @readonly
-     * @defaultValue "70884f33-f81b-42fd-8f32-41833f012bc1"
+     *
      */
     readonly BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
+     * @alias PLAYGROUND_CLI_BUILD_TIMESTAMP
+     *
+     * @alias SHELL_SHOCK_BUILD_TIMESTAMP
      * @readonly
-     * @defaultValue "2026-05-05T13:05:33.746Z"
+     *
      */
     readonly BUILD_TIMESTAMP: string;
     /**
      * The builder output build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BUILDER_OUTPUT
+     *
+     * @alias SHELL_SHOCK_BUILDER_OUTPUT
      * @readonly
      * @hidden
      * @runtime
@@ -449,6 +542,9 @@ declare module "shell-shock:env" {
     /**
      * The buildkite build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BUILDKITE
+     *
+     * @alias SHELL_SHOCK_BUILDKITE
      * @readonly
      * @hidden
      * @runtime
@@ -458,6 +554,9 @@ declare module "shell-shock:env" {
     /**
      * The cf build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CF_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_CF_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
@@ -467,6 +566,9 @@ declare module "shell-shock:env" {
     /**
      * The ci name. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CI_NAME
+     *
+     * @alias SHELL_SHOCK_CI_NAME
      * @readonly
      * @hidden
      * @runtime
@@ -476,6 +578,9 @@ declare module "shell-shock:env" {
     /**
      * The xcode project build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CI_XCODE_PROJECT
+     *
+     * @alias SHELL_SHOCK_CI_XCODE_PROJECT
      * @readonly
      * @hidden
      * @runtime
@@ -485,6 +590,9 @@ declare module "shell-shock:env" {
     /**
      * The circleci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CIRCLECI
+     *
+     * @alias SHELL_SHOCK_CIRCLECI
      * @readonly
      * @hidden
      * @runtime
@@ -494,6 +602,9 @@ declare module "shell-shock:env" {
     /**
      * The cirrus-ci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CIRRUS_CI
+     *
+     * @alias SHELL_SHOCK_CIRRUS_CI
      * @readonly
      * @hidden
      * @runtime
@@ -503,6 +614,9 @@ declare module "shell-shock:env" {
     /**
      * The cm build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CM_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_CM_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
@@ -512,6 +626,9 @@ declare module "shell-shock:env" {
     /**
      * The codebuild build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CODEBUILD
+     *
+     * @alias SHELL_SHOCK_CODEBUILD
      * @readonly
      * @hidden
      * @runtime
@@ -521,6 +638,9 @@ declare module "shell-shock:env" {
     /**
      * The color terminal type. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_COLORTERM
+     *
+     * @alias SHELL_SHOCK_COLORTERM
      * @readonly
      * @hidden
      * @runtime
@@ -530,6 +650,9 @@ declare module "shell-shock:env" {
     /**
      * The ConEmu task name. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_ConEmuTask
+     *
+     * @alias SHELL_SHOCK_ConEmuTask
      * @readonly
      * @hidden
      * @runtime
@@ -539,6 +662,9 @@ declare module "shell-shock:env" {
     /**
      * The cursor trace ID. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_CURSOR_TRACE_ID
+     *
+     * @alias SHELL_SHOCK_CURSOR_TRACE_ID
      * @readonly
      * @hidden
      * @runtime
@@ -548,6 +674,9 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
      *
+     * @alias PLAYGROUND_CLI_DEVENV_RUNTIME
+     *
+     * @alias SHELL_SHOCK_DEVENV_RUNTIME
      * @readonly
      * @hidden
      * @runtime
@@ -557,6 +686,9 @@ declare module "shell-shock:env" {
     /**
      * The drone build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_DRONE
+     *
+     * @alias SHELL_SHOCK_DRONE
      * @readonly
      * @hidden
      * @runtime
@@ -566,6 +698,9 @@ declare module "shell-shock:env" {
     /**
      * The dsari build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_DSARI
+     *
+     * @alias SHELL_SHOCK_DSARI
      * @readonly
      * @hidden
      * @runtime
@@ -575,6 +710,9 @@ declare module "shell-shock:env" {
     /**
      * The earthly build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_EARTHLY_CI
+     *
+     * @alias SHELL_SHOCK_EARTHLY_CI
      * @readonly
      * @hidden
      * @runtime
@@ -584,6 +722,9 @@ declare module "shell-shock:env" {
     /**
      * The eas build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_EAS_BUILD
+     *
+     * @alias SHELL_SHOCK_EAS_BUILD
      * @readonly
      * @hidden
      * @runtime
@@ -593,6 +734,9 @@ declare module "shell-shock:env" {
     /**
      * The gerrit project. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GERRIT_PROJECT
+     *
+     * @alias SHELL_SHOCK_GERRIT_PROJECT
      * @readonly
      * @hidden
      * @runtime
@@ -602,6 +746,9 @@ declare module "shell-shock:env" {
     /**
      * The gitea actions build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GITEA_ACTIONS
+     *
+     * @alias SHELL_SHOCK_GITEA_ACTIONS
      * @readonly
      * @hidden
      * @runtime
@@ -611,6 +758,9 @@ declare module "shell-shock:env" {
     /**
      * The github actions build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GITHUB_ACTIONS
+     *
+     * @alias SHELL_SHOCK_GITHUB_ACTIONS
      * @readonly
      * @hidden
      * @runtime
@@ -620,6 +770,9 @@ declare module "shell-shock:env" {
     /**
      * The gitlab ci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GITLAB_CI
+     *
+     * @alias SHELL_SHOCK_GITLAB_CI
      * @readonly
      * @hidden
      * @runtime
@@ -629,6 +782,9 @@ declare module "shell-shock:env" {
     /**
      * The go cd build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GOCD
+     *
+     * @alias SHELL_SHOCK_GOCD
      * @readonly
      * @hidden
      * @runtime
@@ -638,6 +794,9 @@ declare module "shell-shock:env" {
     /**
      * The harness build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_HARNESS_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_HARNESS_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
@@ -647,6 +806,9 @@ declare module "shell-shock:env" {
     /**
      * The hudson build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_HUDSON
+     *
+     * @alias SHELL_SHOCK_HUDSON
      * @readonly
      * @hidden
      * @runtime
@@ -656,6 +818,9 @@ declare module "shell-shock:env" {
     /**
      * The jenkins url. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_JENKINS_URL
+     *
+     * @alias SHELL_SHOCK_JENKINS_URL
      * @readonly
      * @hidden
      * @runtime
@@ -665,6 +830,9 @@ declare module "shell-shock:env" {
     /**
      * The layerci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_LAYERCI
+     *
+     * @alias SHELL_SHOCK_LAYERCI
      * @readonly
      * @hidden
      * @runtime
@@ -674,6 +842,9 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the current user's local application data directory on Windows.
      *
+     * @alias PLAYGROUND_CLI_LOCALAPPDATA
+     *
+     * @alias SHELL_SHOCK_LOCALAPPDATA
      * @readonly
      * @hidden
      * @runtime
@@ -683,6 +854,9 @@ declare module "shell-shock:env" {
     /**
      * The magnum build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_MAGNUM
+     *
+     * @alias SHELL_SHOCK_MAGNUM
      * @readonly
      * @hidden
      * @runtime
@@ -692,6 +866,9 @@ declare module "shell-shock:env" {
     /**
      * The netlify build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_NETLIFY
+     *
+     * @alias SHELL_SHOCK_NETLIFY
      * @readonly
      * @hidden
      * @runtime
@@ -701,6 +878,9 @@ declare module "shell-shock:env" {
     /**
      * The nevercode build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_NEVERCODE
+     *
+     * @alias SHELL_SHOCK_NEVERCODE
      * @readonly
      * @hidden
      * @runtime
@@ -710,6 +890,9 @@ declare module "shell-shock:env" {
     /**
      * The now builder build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_NOW_BUILDER
+     *
+     * @alias SHELL_SHOCK_NOW_BUILDER
      * @readonly
      * @hidden
      * @runtime
@@ -719,6 +902,9 @@ declare module "shell-shock:env" {
     /**
      * The prow job ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_PROW_JOB_ID
+     *
+     * @alias SHELL_SHOCK_PROW_JOB_ID
      * @readonly
      * @hidden
      * @runtime
@@ -728,6 +914,9 @@ declare module "shell-shock:env" {
     /**
      * The release build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_RELEASE_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_RELEASE_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
@@ -737,20 +926,29 @@ declare module "shell-shock:env" {
     /**
      * The unique identifier for the release.
      *
+     * @alias PLAYGROUND_CLI_RELEASE_ID
+     *
+     * @alias SHELL_SHOCK_RELEASE_ID
      * @readonly
-     * @defaultValue "884f33f8-1b62-4d0f-b241-833f012bc19e"
+     *
      */
     readonly RELEASE_ID: string;
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
+     * @alias PLAYGROUND_CLI_RELEASE_TAG
+     *
+     * @alias SHELL_SHOCK_RELEASE_TAG
      * @readonly
-     * @defaultValue "playground-cli@0.0.1"
+     *
      */
     readonly RELEASE_TAG: string;
     /**
      * The render build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_RENDER
+     *
+     * @alias SHELL_SHOCK_RENDER
      * @readonly
      * @hidden
      * @runtime
@@ -760,6 +958,9 @@ declare module "shell-shock:env" {
     /**
      * The unique identifier for the current run. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_RUN_ID
+     *
+     * @alias SHELL_SHOCK_RUN_ID
      * @readonly
      * @hidden
      * @runtime
@@ -769,6 +970,9 @@ declare module "shell-shock:env" {
     /**
      * The sailci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SAILCI
+     *
+     * @alias SHELL_SHOCK_SAILCI
      * @readonly
      * @hidden
      * @runtime
@@ -778,6 +982,9 @@ declare module "shell-shock:env" {
     /**
      * The screwdriver build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SCREWDRIVER
+     *
+     * @alias SHELL_SHOCK_SCREWDRIVER
      * @readonly
      * @hidden
      * @runtime
@@ -787,6 +994,9 @@ declare module "shell-shock:env" {
     /**
      * The semaphore build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SEMAPHORE
+     *
+     * @alias SHELL_SHOCK_SEMAPHORE
      * @readonly
      * @hidden
      * @runtime
@@ -796,6 +1006,9 @@ declare module "shell-shock:env" {
     /**
      * The sourcehut build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SOURCEHUT
+     *
+     * @alias SHELL_SHOCK_SOURCEHUT
      * @readonly
      * @hidden
      * @runtime
@@ -805,6 +1018,9 @@ declare module "shell-shock:env" {
     /**
      * The spaceship build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SPACESHIP_CI
+     *
+     * @alias SHELL_SHOCK_SPACESHIP_CI
      * @readonly
      * @hidden
      * @runtime
@@ -814,6 +1030,9 @@ declare module "shell-shock:env" {
     /**
      * The strider build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_STRIDER
+     *
+     * @alias SHELL_SHOCK_STRIDER
      * @readonly
      * @hidden
      * @runtime
@@ -823,6 +1042,9 @@ declare module "shell-shock:env" {
     /**
      * The task ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TASK_ID
+     *
+     * @alias SHELL_SHOCK_TASK_ID
      * @readonly
      * @hidden
      * @runtime
@@ -832,6 +1054,9 @@ declare module "shell-shock:env" {
     /**
      * The teamcity version. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TEAMCITY_VERSION
+     *
+     * @alias SHELL_SHOCK_TEAMCITY_VERSION
      * @readonly
      * @hidden
      * @runtime
@@ -841,6 +1066,9 @@ declare module "shell-shock:env" {
     /**
      * The terminal type. This variable is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TERM
+     *
+     * @alias SHELL_SHOCK_TERM
      * @readonly
      * @hidden
      * @runtime
@@ -850,6 +1078,9 @@ declare module "shell-shock:env" {
     /**
      * The terminal program name. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_TERM_PROGRAM
+     *
+     * @alias SHELL_SHOCK_TERM_PROGRAM
      * @readonly
      * @hidden
      * @runtime
@@ -859,6 +1090,9 @@ declare module "shell-shock:env" {
     /**
      * The terminal program version. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_TERM_PROGRAM_VERSION
+     *
+     * @alias SHELL_SHOCK_TERM_PROGRAM_VERSION
      * @readonly
      * @hidden
      * @runtime
@@ -868,6 +1102,9 @@ declare module "shell-shock:env" {
     /**
      * The terminal emulator name. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_TERMINAL_EMULATOR
+     *
+     * @alias SHELL_SHOCK_TERMINAL_EMULATOR
      * @readonly
      * @hidden
      * @runtime
@@ -877,6 +1114,9 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_TERMINUS_SUBLIME
+     *
+     * @alias SHELL_SHOCK_TERMINUS_SUBLIME
      * @readonly
      * @hidden
      * @runtime
@@ -886,6 +1126,9 @@ declare module "shell-shock:env" {
     /**
      * The task force build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TF_BUILD
+     *
+     * @alias SHELL_SHOCK_TF_BUILD
      * @readonly
      * @hidden
      * @runtime
@@ -895,6 +1138,9 @@ declare module "shell-shock:env" {
     /**
      * The travis build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TRAVIS
+     *
+     * @alias SHELL_SHOCK_TRAVIS
      * @readonly
      * @hidden
      * @runtime
@@ -904,6 +1150,9 @@ declare module "shell-shock:env" {
     /**
      * The vela build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_VELA
+     *
+     * @alias SHELL_SHOCK_VELA
      * @readonly
      * @hidden
      * @runtime
@@ -913,6 +1162,9 @@ declare module "shell-shock:env" {
     /**
      * The VTE version. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_VTE_VERSION
+     *
+     * @alias SHELL_SHOCK_VTE_VERSION
      * @readonly
      * @hidden
      * @runtime
@@ -922,6 +1174,9 @@ declare module "shell-shock:env" {
     /**
      * The terminal emulator session ID. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_WT_SESSION
+     *
+     * @alias SHELL_SHOCK_WT_SESSION
      * @readonly
      * @hidden
      * @runtime
@@ -931,6 +1186,9 @@ declare module "shell-shock:env" {
     /**
      * The xcode server build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_XCS
+     *
+     * @alias SHELL_SHOCK_XCS
      * @readonly
      * @hidden
      * @runtime
@@ -940,6 +1198,9 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_CACHE_HOME
+     *
+     * @alias SHELL_SHOCK_XDG_CACHE_HOME
      * @readonly
      * @hidden
      * @runtime
@@ -949,6 +1210,9 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_CONFIG_HOME
+     *
+     * @alias SHELL_SHOCK_XDG_CONFIG_HOME
      * @readonly
      * @hidden
      * @runtime
@@ -958,6 +1222,9 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_DATA_HOME
+     *
+     * @alias SHELL_SHOCK_XDG_DATA_HOME
      * @readonly
      * @hidden
      * @runtime
@@ -967,6 +1234,9 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_RUNTIME_DIR
+     *
+     * @alias SHELL_SHOCK_XDG_RUNTIME_DIR
      * @readonly
      * @hidden
      * @runtime
@@ -976,6 +1246,9 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_STATE_HOME
+     *
+     * @alias SHELL_SHOCK_XDG_STATE_HOME
      * @readonly
      * @hidden
      * @runtime
@@ -991,2685 +1264,2339 @@ declare module "shell-shock:env" {
    */
   export interface Env extends UnprefixedEnv {
     /**
-     * Enable verbose output.
-     *
-     * @title Verbose
-     * @domain cli
-     * @defaultValue false
-     */
-    PLAYGROUND_CLI_VERBOSE: UnprefixedEnv["VERBOSE"];
-    /**
-     * Enable colored terminal output.
-     *
-     * @title Color
-     * @alias COLORS
-     * @domain cli
-     *
-     */
-    PLAYGROUND_CLI_COLOR: UnprefixedEnv["COLOR"];
-    /**
-     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
-     *
-     * @title Hide Banner
-     * @alias HIDE_BANNER
-     * @domain cli
-     * @defaultValue false
-     */
-    PLAYGROUND_CLI_NO_BANNER: UnprefixedEnv["NO_BANNER"];
-    /**
-     * Enable interactive mode - will be set to false if running in a CI pipeline.
-     *
-     * @title Interactive
-     * @alias INTERACT
-     * @domain cli
-     * @defaultValue true
-     */
-    PLAYGROUND_CLI_INTERACTIVE: UnprefixedEnv["INTERACTIVE"];
-    /**
-     * Disable interactive mode - will be set to true if running in a CI pipeline.
-     *
-     * @title Non-Interactive
-     * @alias NO_INTERACTIVE
-     * @domain cli
-     * @defaultValue false
-     */
-    PLAYGROUND_CLI_NON_INTERACTIVE: UnprefixedEnv["NON_INTERACTIVE"];
-    /**
-     * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the upgrade process proceeds without checking for updates, which can help speed up the process in certain scenarios.
-     *
-     *
-     */
-    PLAYGROUND_CLI_SKIP_VERSION_CHECK: UnprefixedEnv["SKIP_VERSION_CHECK"];
-    /**
      * The name of the application.
      *
+     * @alias PLAYGROUND_CLI_APP_NAME
+     *
+     * @alias SHELL_SHOCK_APP_NAME
      * @readonly
      * @defaultValue "playground-cli"
      */
-    readonly PLAYGROUND_CLI_APP_NAME: UnprefixedEnv["APP_NAME"];
+    readonly PLAYGROUND_CLI_APP_NAME: string;
     /**
      * The version of the application.
      *
+     * @alias PLAYGROUND_CLI_APP_VERSION
+     *
+     * @alias SHELL_SHOCK_APP_VERSION
      * @readonly
      * @defaultValue "0.0.1"
      */
-    readonly PLAYGROUND_CLI_APP_VERSION: UnprefixedEnv["APP_VERSION"];
+    readonly PLAYGROUND_CLI_APP_VERSION: string;
     /**
      * The unique identifier for the build.
      *
+     * @alias PLAYGROUND_CLI_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_BUILD_ID
      * @readonly
-     * @defaultValue "70884f33-f81b-42fd-8f32-41833f012bc1"
+     * @defaultValue "f47a9ac5-564d-409b-88ac-dda70030405b"
      */
-    readonly PLAYGROUND_CLI_BUILD_ID: UnprefixedEnv["BUILD_ID"];
+    readonly PLAYGROUND_CLI_BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
+     * @alias PLAYGROUND_CLI_BUILD_TIMESTAMP
+     *
+     * @alias SHELL_SHOCK_BUILD_TIMESTAMP
      * @readonly
-     * @defaultValue "2026-05-05T13:05:33.746Z"
+     * @defaultValue "2026-06-04T23:48:25.279Z"
      */
-    readonly PLAYGROUND_CLI_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
+    readonly PLAYGROUND_CLI_BUILD_TIMESTAMP: string;
     /**
      * A checksum hash created during the build.
      *
-     * @readonly
+     * @alias PLAYGROUND_CLI_BUILD_CHECKSUM
      *
+     * @alias SHELL_SHOCK_BUILD_CHECKSUM
+     * @readonly
+     * @defaultValue "PY1FOGh0UHG0WRsregrvoAKk60go0W5n"
      */
-    readonly PLAYGROUND_CLI_BUILD_CHECKSUM: UnprefixedEnv["BUILD_CHECKSUM"];
+    readonly PLAYGROUND_CLI_BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the release.
      *
+     * @alias PLAYGROUND_CLI_RELEASE_ID
+     *
+     * @alias SHELL_SHOCK_RELEASE_ID
      * @readonly
-     * @defaultValue "884f33f8-1b62-4d0f-b241-833f012bc19e"
+     * @defaultValue "7a9ac556-4df0-4bc8-acdd-a70030405bfe"
      */
-    readonly PLAYGROUND_CLI_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
+    readonly PLAYGROUND_CLI_RELEASE_ID: string;
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
+     * @alias PLAYGROUND_CLI_RELEASE_TAG
+     *
+     * @alias SHELL_SHOCK_RELEASE_TAG
      * @readonly
      * @defaultValue "playground-cli@0.0.1"
      */
-    readonly PLAYGROUND_CLI_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
+    readonly PLAYGROUND_CLI_RELEASE_TAG: string;
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
+     *
+     * @alias PLAYGROUND_CLI_ORGANIZATION
+     *
+     * @alias PLAYGROUND_CLI_ORG
+     *
+     * @alias SHELL_SHOCK_ORGANIZATION
+     *
+     * @alias SHELL_SHOCK_ORG
      * @defaultValue "shell-shock-playground"
      */
-    PLAYGROUND_CLI_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
+    PLAYGROUND_CLI_ORGANIZATION: string;
     /**
      * The runtime that the application is running in.
      *
+     * @alias PLAYGROUND_CLI_RUNTIME
+     *
+     * @alias SHELL_SHOCK_RUNTIME
      *
      */
-    PLAYGROUND_CLI_RUNTIME: UnprefixedEnv["RUNTIME"];
+    PLAYGROUND_CLI_RUNTIME?: "nodejs" | "deno" | "workerd" | "browser";
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "node"
+     * @alias PLAYGROUND_CLI_PLATFORM
+     *
+     * @alias SHELL_SHOCK_PLATFORM
+     *
      */
-    PLAYGROUND_CLI_PLATFORM: UnprefixedEnv["PLATFORM"];
+    PLAYGROUND_CLI_PLATFORM: "node" | "neutral" | "browser";
     /**
      * The mode in which the application is running.
      *
      * @alias NODE_ENV
      *
      * @alias VERCEL_ENV
-     * @defaultValue "development"
+     *
+     * @alias PLAYGROUND_CLI_MODE
+     *
+     * @alias PLAYGROUND_CLI_NODE_ENV
+     *
+     * @alias PLAYGROUND_CLI_VERCEL_ENV
+     *
+     * @alias SHELL_SHOCK_MODE
+     *
+     * @alias SHELL_SHOCK_NODE_ENV
+     *
+     * @alias SHELL_SHOCK_VERCEL_ENV
+     *
      */
-    PLAYGROUND_CLI_MODE: UnprefixedEnv["MODE"];
+    PLAYGROUND_CLI_MODE: "development" | "test" | "production";
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
+     * @alias PLAYGROUND_CLI_ENVIRONMENT
+     *
+     * @alias SHELL_SHOCK_ENVIRONMENT
      * @defaultValue "development"
      */
-    PLAYGROUND_CLI_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
+    PLAYGROUND_CLI_ENVIRONMENT: string;
     /**
      * Indicates if the application is running in debug mode.
      *
+     * @alias PLAYGROUND_CLI_DEBUG
+     *
+     * @alias SHELL_SHOCK_DEBUG
      * @defaultValue true
      */
-    PLAYGROUND_CLI_DEBUG: UnprefixedEnv["DEBUG"];
+    PLAYGROUND_CLI_DEBUG: boolean;
     /**
      * An indicator that specifies the current runtime is a test environment.
      *
+     * @alias PLAYGROUND_CLI_TEST
+     *
+     * @alias SHELL_SHOCK_TEST
      * @defaultValue false
      */
-    PLAYGROUND_CLI_TEST: UnprefixedEnv["TEST"];
+    PLAYGROUND_CLI_TEST: boolean;
     /**
      * An indicator that specifies the current runtime is a minimal environment.
      *
+     * @alias PLAYGROUND_CLI_MINIMAL
+     *
+     * @alias SHELL_SHOCK_MINIMAL
      * @defaultValue false
      */
-    PLAYGROUND_CLI_MINIMAL: UnprefixedEnv["MINIMAL"];
+    PLAYGROUND_CLI_MINIMAL: boolean;
     /**
      * An indicator that specifies the current runtime is a no color environment.
      *
+     * @alias PLAYGROUND_CLI_NO_COLOR
+     *
+     * @alias SHELL_SHOCK_NO_COLOR
      * @defaultValue false
      */
-    PLAYGROUND_CLI_NO_COLOR: UnprefixedEnv["NO_COLOR"];
+    PLAYGROUND_CLI_NO_COLOR: boolean;
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue 3
+     * @alias PLAYGROUND_CLI_FORCE_COLOR
+     *
+     * @alias SHELL_SHOCK_FORCE_COLOR
+     *
      */
-    PLAYGROUND_CLI_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
+    PLAYGROUND_CLI_FORCE_COLOR: boolean | number;
     /**
      * An indicator that specifies the current runtime should force hyperlinks in terminal output.
      *
-     * @defaultValue false
+     * @alias PLAYGROUND_CLI_FORCE_HYPERLINK
+     *
+     * @alias SHELL_SHOCK_FORCE_HYPERLINK
+     *
      */
-    PLAYGROUND_CLI_FORCE_HYPERLINK: UnprefixedEnv["FORCE_HYPERLINK"];
+    PLAYGROUND_CLI_FORCE_HYPERLINK: boolean | number;
     /**
      * The name of the agent running the application. This variable is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_AGENT_NAME
+     *
+     * @alias SHELL_SHOCK_AGENT_NAME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_AGENT_NAME: UnprefixedEnv["AGENT_NAME"];
+    readonly PLAYGROUND_CLI_AGENT_NAME?: string;
     /**
      * The color terminal type. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_COLORTERM
+     *
+     * @alias SHELL_SHOCK_COLORTERM
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_COLORTERM: UnprefixedEnv["COLORTERM"];
+    readonly PLAYGROUND_CLI_COLORTERM?: string;
     /**
      * The terminal type. This variable is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TERM
+     *
+     * @alias SHELL_SHOCK_TERM
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_TERM: UnprefixedEnv["TERM"];
+    readonly PLAYGROUND_CLI_TERM?: string;
     /**
      * The terminal program name. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_TERM_PROGRAM
+     *
+     * @alias SHELL_SHOCK_TERM_PROGRAM
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_TERM_PROGRAM: UnprefixedEnv["TERM_PROGRAM"];
+    readonly PLAYGROUND_CLI_TERM_PROGRAM?: string;
     /**
      * The terminal program version. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_TERM_PROGRAM_VERSION
+     *
+     * @alias SHELL_SHOCK_TERM_PROGRAM_VERSION
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_TERM_PROGRAM_VERSION: UnprefixedEnv["TERM_PROGRAM_VERSION"];
+    readonly PLAYGROUND_CLI_TERM_PROGRAM_VERSION?: string;
     /**
      * The terminal emulator name. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_TERMINAL_EMULATOR
+     *
+     * @alias SHELL_SHOCK_TERMINAL_EMULATOR
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_TERMINAL_EMULATOR: UnprefixedEnv["TERMINAL_EMULATOR"];
+    readonly PLAYGROUND_CLI_TERMINAL_EMULATOR?: string;
     /**
      * The terminal emulator session ID. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_WT_SESSION
+     *
+     * @alias SHELL_SHOCK_WT_SESSION
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_WT_SESSION: UnprefixedEnv["WT_SESSION"];
+    readonly PLAYGROUND_CLI_WT_SESSION?: string;
     /**
      * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_TERMINUS_SUBLIME
+     *
+     * @alias SHELL_SHOCK_TERMINUS_SUBLIME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_TERMINUS_SUBLIME: UnprefixedEnv["TERMINUS_SUBLIME"];
+    readonly PLAYGROUND_CLI_TERMINUS_SUBLIME?: boolean;
     /**
      * The ConEmu task name. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_ConEmuTask
+     *
+     * @alias SHELL_SHOCK_ConEmuTask
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_ConEmuTask: UnprefixedEnv["ConEmuTask"];
+    readonly PLAYGROUND_CLI_ConEmuTask?: string;
     /**
      * The cursor trace ID. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_CURSOR_TRACE_ID
+     *
+     * @alias SHELL_SHOCK_CURSOR_TRACE_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_CURSOR_TRACE_ID: UnprefixedEnv["CURSOR_TRACE_ID"];
+    readonly PLAYGROUND_CLI_CURSOR_TRACE_ID?: string;
     /**
      * The VTE version. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_VTE_VERSION
+     *
+     * @alias SHELL_SHOCK_VTE_VERSION
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_VTE_VERSION: UnprefixedEnv["VTE_VERSION"];
+    readonly PLAYGROUND_CLI_VTE_VERSION?: string;
     /**
      * Indicates if error stack traces should be captured.
      *
+     * @alias PLAYGROUND_CLI_STACKTRACE
+     *
+     * @alias SHELL_SHOCK_STACKTRACE
      * @defaultValue true
      */
-    PLAYGROUND_CLI_STACKTRACE: UnprefixedEnv["STACKTRACE"];
+    PLAYGROUND_CLI_STACKTRACE: boolean;
     /**
      * Indicates if error data should be included.
      *
+     * @alias PLAYGROUND_CLI_INCLUDE_ERROR_DATA
+     *
+     * @alias SHELL_SHOCK_INCLUDE_ERROR_DATA
      * @defaultValue false
      */
-    PLAYGROUND_CLI_INCLUDE_ERROR_DATA: UnprefixedEnv["INCLUDE_ERROR_DATA"];
+    PLAYGROUND_CLI_INCLUDE_ERROR_DATA: boolean;
     /**
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
+     * @alias PLAYGROUND_CLI_ERROR_URL
+     *
+     * @alias SHELL_SHOCK_ERROR_URL
      * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
-    PLAYGROUND_CLI_ERROR_URL: UnprefixedEnv["ERROR_URL"];
+    PLAYGROUND_CLI_ERROR_URL?: string;
     /**
      * The default timezone for the application.
      *
+     * @alias PLAYGROUND_CLI_DEFAULT_TIMEZONE
+     *
+     * @alias SHELL_SHOCK_DEFAULT_TIMEZONE
      * @defaultValue "America/New_York"
      */
-    PLAYGROUND_CLI_DEFAULT_TIMEZONE: UnprefixedEnv["DEFAULT_TIMEZONE"];
+    PLAYGROUND_CLI_DEFAULT_TIMEZONE: string;
     /**
      * The default locale to be used in the application.
      *
+     * @alias PLAYGROUND_CLI_DEFAULT_LOCALE
+     *
+     * @alias SHELL_SHOCK_DEFAULT_LOCALE
      * @defaultValue "en-US"
      */
-    PLAYGROUND_CLI_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
+    PLAYGROUND_CLI_DEFAULT_LOCALE: string;
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "debug"
+     * @alias PLAYGROUND_CLI_LOG_LEVEL
+     *
+     * @alias SHELL_SHOCK_LOG_LEVEL
+     *
      */
-    PLAYGROUND_CLI_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
+    PLAYGROUND_CLI_LOG_LEVEL?: unknown;
     /**
      * An indicator that specifies the current runtime is a continuous integration environment.
      *
      * @title Continuous Integration
      * @alias CONTINUOUS_INTEGRATION
+     *
+     * @alias PLAYGROUND_CLI_CI
+     *
+     * @alias PLAYGROUND_CLI_CONTINUOUS_INTEGRATION
+     *
+     * @alias SHELL_SHOCK_CI
+     *
+     * @alias SHELL_SHOCK_CONTINUOUS_INTEGRATION
      * @defaultValue false
      */
-    PLAYGROUND_CLI_CI: UnprefixedEnv["CI"];
+    PLAYGROUND_CLI_CI: boolean;
     /**
      * The unique identifier for the current run. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_RUN_ID
+     *
+     * @alias SHELL_SHOCK_RUN_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_RUN_ID: UnprefixedEnv["RUN_ID"];
+    readonly PLAYGROUND_CLI_RUN_ID?: string;
     /**
      * The agola git reference. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_AGOLA_GIT_REF
+     *
+     * @alias SHELL_SHOCK_AGOLA_GIT_REF
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_AGOLA_GIT_REF: UnprefixedEnv["AGOLA_GIT_REF"];
+    readonly PLAYGROUND_CLI_AGOLA_GIT_REF?: string;
     /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_AC_APPCIRCLE
+     *
+     * @alias SHELL_SHOCK_AC_APPCIRCLE
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_AC_APPCIRCLE: UnprefixedEnv["AC_APPCIRCLE"];
+    readonly PLAYGROUND_CLI_AC_APPCIRCLE?: string;
     /**
      * The appveyor build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_APPVEYOR
+     *
+     * @alias SHELL_SHOCK_APPVEYOR
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_APPVEYOR: UnprefixedEnv["APPVEYOR"];
+    readonly PLAYGROUND_CLI_APPVEYOR?: string;
     /**
      * The codebuild build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CODEBUILD
+     *
+     * @alias SHELL_SHOCK_CODEBUILD
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_CODEBUILD: UnprefixedEnv["CODEBUILD"];
+    readonly PLAYGROUND_CLI_CODEBUILD?: string;
     /**
      * The task force build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TF_BUILD
+     *
+     * @alias SHELL_SHOCK_TF_BUILD
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_TF_BUILD: UnprefixedEnv["TF_BUILD"];
+    readonly PLAYGROUND_CLI_TF_BUILD?: string;
     /**
      * The bamboo plan key. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_bamboo_planKey
+     *
+     * @alias SHELL_SHOCK_bamboo_planKey
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_bamboo_planKey: UnprefixedEnv["bamboo_planKey"];
+    readonly PLAYGROUND_CLI_bamboo_planKey?: string;
     /**
      * The bitbucket commit. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BITBUCKET_COMMIT
+     *
+     * @alias SHELL_SHOCK_BITBUCKET_COMMIT
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_BITBUCKET_COMMIT: UnprefixedEnv["BITBUCKET_COMMIT"];
+    readonly PLAYGROUND_CLI_BITBUCKET_COMMIT?: string;
     /**
      * The bitrise build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BITRISE_IO
+     *
+     * @alias SHELL_SHOCK_BITRISE_IO
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_BITRISE_IO: UnprefixedEnv["BITRISE_IO"];
+    readonly PLAYGROUND_CLI_BITRISE_IO?: string;
     /**
      * The buddy workspace ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BUDDY_WORKSPACE_ID
+     *
+     * @alias SHELL_SHOCK_BUDDY_WORKSPACE_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_BUDDY_WORKSPACE_ID: UnprefixedEnv["BUDDY_WORKSPACE_ID"];
+    readonly PLAYGROUND_CLI_BUDDY_WORKSPACE_ID?: string;
     /**
      * The buildkite build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BUILDKITE
+     *
+     * @alias SHELL_SHOCK_BUILDKITE
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_BUILDKITE: UnprefixedEnv["BUILDKITE"];
+    readonly PLAYGROUND_CLI_BUILDKITE?: string;
     /**
      * The circleci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CIRCLECI
+     *
+     * @alias SHELL_SHOCK_CIRCLECI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_CIRCLECI: UnprefixedEnv["CIRCLECI"];
+    readonly PLAYGROUND_CLI_CIRCLECI?: string;
     /**
      * The cirrus-ci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CIRRUS_CI
+     *
+     * @alias SHELL_SHOCK_CIRRUS_CI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_CIRRUS_CI: UnprefixedEnv["CIRRUS_CI"];
+    readonly PLAYGROUND_CLI_CIRRUS_CI?: string;
     /**
      * The cf build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CF_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_CF_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_CF_BUILD_ID: UnprefixedEnv["CF_BUILD_ID"];
+    readonly PLAYGROUND_CLI_CF_BUILD_ID?: string;
     /**
      * The cm build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CM_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_CM_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_CM_BUILD_ID: UnprefixedEnv["CM_BUILD_ID"];
+    readonly PLAYGROUND_CLI_CM_BUILD_ID?: string;
     /**
      * The ci name. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CI_NAME
+     *
+     * @alias SHELL_SHOCK_CI_NAME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_CI_NAME: UnprefixedEnv["CI_NAME"];
+    readonly PLAYGROUND_CLI_CI_NAME?: string;
     /**
      * The drone build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_DRONE
+     *
+     * @alias SHELL_SHOCK_DRONE
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_DRONE: UnprefixedEnv["DRONE"];
+    readonly PLAYGROUND_CLI_DRONE?: string;
     /**
      * The dsari build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_DSARI
+     *
+     * @alias SHELL_SHOCK_DSARI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_DSARI: UnprefixedEnv["DSARI"];
+    readonly PLAYGROUND_CLI_DSARI?: string;
     /**
      * The earthly build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_EARTHLY_CI
+     *
+     * @alias SHELL_SHOCK_EARTHLY_CI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_EARTHLY_CI: UnprefixedEnv["EARTHLY_CI"];
+    readonly PLAYGROUND_CLI_EARTHLY_CI?: string;
     /**
      * The eas build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_EAS_BUILD
+     *
+     * @alias SHELL_SHOCK_EAS_BUILD
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_EAS_BUILD: UnprefixedEnv["EAS_BUILD"];
+    readonly PLAYGROUND_CLI_EAS_BUILD?: string;
     /**
      * The gerrit project. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GERRIT_PROJECT
+     *
+     * @alias SHELL_SHOCK_GERRIT_PROJECT
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_GERRIT_PROJECT: UnprefixedEnv["GERRIT_PROJECT"];
+    readonly PLAYGROUND_CLI_GERRIT_PROJECT?: string;
     /**
      * The gitea actions build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GITEA_ACTIONS
+     *
+     * @alias SHELL_SHOCK_GITEA_ACTIONS
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_GITEA_ACTIONS: UnprefixedEnv["GITEA_ACTIONS"];
+    readonly PLAYGROUND_CLI_GITEA_ACTIONS?: string;
     /**
      * The github actions build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GITHUB_ACTIONS
+     *
+     * @alias SHELL_SHOCK_GITHUB_ACTIONS
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_GITHUB_ACTIONS: UnprefixedEnv["GITHUB_ACTIONS"];
+    readonly PLAYGROUND_CLI_GITHUB_ACTIONS?: string;
     /**
      * The gitlab ci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GITLAB_CI
+     *
+     * @alias SHELL_SHOCK_GITLAB_CI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_GITLAB_CI: UnprefixedEnv["GITLAB_CI"];
+    readonly PLAYGROUND_CLI_GITLAB_CI?: string;
     /**
      * The go cd build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GOCD
+     *
+     * @alias SHELL_SHOCK_GOCD
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_GOCD: UnprefixedEnv["GOCD"];
+    readonly PLAYGROUND_CLI_GOCD?: string;
     /**
      * The builder output build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BUILDER_OUTPUT
+     *
+     * @alias SHELL_SHOCK_BUILDER_OUTPUT
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_BUILDER_OUTPUT: UnprefixedEnv["BUILDER_OUTPUT"];
+    readonly PLAYGROUND_CLI_BUILDER_OUTPUT?: string;
     /**
      * The harness build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_HARNESS_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_HARNESS_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_HARNESS_BUILD_ID: UnprefixedEnv["HARNESS_BUILD_ID"];
+    readonly PLAYGROUND_CLI_HARNESS_BUILD_ID?: string;
     /**
      * The jenkins url. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_JENKINS_URL
+     *
+     * @alias SHELL_SHOCK_JENKINS_URL
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_JENKINS_URL: UnprefixedEnv["JENKINS_URL"];
+    readonly PLAYGROUND_CLI_JENKINS_URL?: string;
     /**
      * The layerci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_LAYERCI
+     *
+     * @alias SHELL_SHOCK_LAYERCI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_LAYERCI: UnprefixedEnv["LAYERCI"];
+    readonly PLAYGROUND_CLI_LAYERCI?: string;
     /**
      * The magnum build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_MAGNUM
+     *
+     * @alias SHELL_SHOCK_MAGNUM
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_MAGNUM: UnprefixedEnv["MAGNUM"];
+    readonly PLAYGROUND_CLI_MAGNUM?: string;
     /**
      * The netlify build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_NETLIFY
+     *
+     * @alias SHELL_SHOCK_NETLIFY
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_NETLIFY: UnprefixedEnv["NETLIFY"];
+    readonly PLAYGROUND_CLI_NETLIFY?: string;
     /**
      * The nevercode build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_NEVERCODE
+     *
+     * @alias SHELL_SHOCK_NEVERCODE
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_NEVERCODE: UnprefixedEnv["NEVERCODE"];
+    readonly PLAYGROUND_CLI_NEVERCODE?: string;
     /**
      * The prow job ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_PROW_JOB_ID
+     *
+     * @alias SHELL_SHOCK_PROW_JOB_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_PROW_JOB_ID: UnprefixedEnv["PROW_JOB_ID"];
+    readonly PLAYGROUND_CLI_PROW_JOB_ID?: string;
     /**
      * The release build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_RELEASE_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_RELEASE_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_RELEASE_BUILD_ID: UnprefixedEnv["RELEASE_BUILD_ID"];
+    readonly PLAYGROUND_CLI_RELEASE_BUILD_ID?: string;
     /**
      * The render build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_RENDER
+     *
+     * @alias SHELL_SHOCK_RENDER
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_RENDER: UnprefixedEnv["RENDER"];
+    readonly PLAYGROUND_CLI_RENDER?: string;
     /**
      * The sailci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SAILCI
+     *
+     * @alias SHELL_SHOCK_SAILCI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_SAILCI: UnprefixedEnv["SAILCI"];
+    readonly PLAYGROUND_CLI_SAILCI?: string;
     /**
      * The hudson build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_HUDSON
+     *
+     * @alias SHELL_SHOCK_HUDSON
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_HUDSON: UnprefixedEnv["HUDSON"];
+    readonly PLAYGROUND_CLI_HUDSON?: string;
     /**
      * The screwdriver build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SCREWDRIVER
+     *
+     * @alias SHELL_SHOCK_SCREWDRIVER
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_SCREWDRIVER: UnprefixedEnv["SCREWDRIVER"];
+    readonly PLAYGROUND_CLI_SCREWDRIVER?: string;
     /**
      * The semaphore build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SEMAPHORE
+     *
+     * @alias SHELL_SHOCK_SEMAPHORE
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_SEMAPHORE: UnprefixedEnv["SEMAPHORE"];
+    readonly PLAYGROUND_CLI_SEMAPHORE?: string;
     /**
      * The sourcehut build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SOURCEHUT
+     *
+     * @alias SHELL_SHOCK_SOURCEHUT
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_SOURCEHUT: UnprefixedEnv["SOURCEHUT"];
+    readonly PLAYGROUND_CLI_SOURCEHUT?: string;
     /**
      * The spaceship build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SPACESHIP_CI
+     *
+     * @alias SHELL_SHOCK_SPACESHIP_CI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_SPACESHIP_CI: UnprefixedEnv["SPACESHIP_CI"];
+    readonly PLAYGROUND_CLI_SPACESHIP_CI?: string;
     /**
      * The strider build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_STRIDER
+     *
+     * @alias SHELL_SHOCK_STRIDER
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_STRIDER: UnprefixedEnv["STRIDER"];
+    readonly PLAYGROUND_CLI_STRIDER?: string;
     /**
      * The task ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TASK_ID
+     *
+     * @alias SHELL_SHOCK_TASK_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_TASK_ID: UnprefixedEnv["TASK_ID"];
+    readonly PLAYGROUND_CLI_TASK_ID?: string;
     /**
      * The teamcity version. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TEAMCITY_VERSION
+     *
+     * @alias SHELL_SHOCK_TEAMCITY_VERSION
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_TEAMCITY_VERSION: UnprefixedEnv["TEAMCITY_VERSION"];
+    readonly PLAYGROUND_CLI_TEAMCITY_VERSION?: string;
     /**
      * The travis build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TRAVIS
+     *
+     * @alias SHELL_SHOCK_TRAVIS
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_TRAVIS: UnprefixedEnv["TRAVIS"];
+    readonly PLAYGROUND_CLI_TRAVIS?: string;
     /**
      * The vela build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_VELA
+     *
+     * @alias SHELL_SHOCK_VELA
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_VELA: UnprefixedEnv["VELA"];
+    readonly PLAYGROUND_CLI_VELA?: string;
     /**
      * The now builder build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_NOW_BUILDER
+     *
+     * @alias SHELL_SHOCK_NOW_BUILDER
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_NOW_BUILDER: UnprefixedEnv["NOW_BUILDER"];
+    readonly PLAYGROUND_CLI_NOW_BUILDER?: string;
     /**
      * The appcenter build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_APPCENTER_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_APPCENTER_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_APPCENTER_BUILD_ID: UnprefixedEnv["APPCENTER_BUILD_ID"];
+    readonly PLAYGROUND_CLI_APPCENTER_BUILD_ID?: string;
     /**
      * The xcode project build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CI_XCODE_PROJECT
+     *
+     * @alias SHELL_SHOCK_CI_XCODE_PROJECT
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_CI_XCODE_PROJECT: UnprefixedEnv["CI_XCODE_PROJECT"];
+    readonly PLAYGROUND_CLI_CI_XCODE_PROJECT?: string;
     /**
      * The xcode server build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_XCS
+     *
+     * @alias SHELL_SHOCK_XCS
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_XCS: UnprefixedEnv["XCS"];
+    readonly PLAYGROUND_CLI_XCS?: string;
     /**
      * The application's runtime data directory.
      *
      * @title Data Directory
+     * @alias PLAYGROUND_CLI_DATA_DIR
+     *
+     * @alias SHELL_SHOCK_DATA_DIR
      * @runtime
      *
      */
-    PLAYGROUND_CLI_DATA_DIR: UnprefixedEnv["DATA_DIR"];
+    PLAYGROUND_CLI_DATA_DIR?: string;
     /**
      * The application's configuration data directory.
      *
      * @title Configuration Directory
+     * @alias PLAYGROUND_CLI_CONFIG_DIR
+     *
+     * @alias SHELL_SHOCK_CONFIG_DIR
      * @runtime
      *
      */
-    PLAYGROUND_CLI_CONFIG_DIR: UnprefixedEnv["CONFIG_DIR"];
+    PLAYGROUND_CLI_CONFIG_DIR?: string;
     /**
      * The application's cached data directory.
      *
      * @title Cache Directory
+     * @alias PLAYGROUND_CLI_CACHE_DIR
+     *
+     * @alias SHELL_SHOCK_CACHE_DIR
      * @runtime
      *
      */
-    PLAYGROUND_CLI_CACHE_DIR: UnprefixedEnv["CACHE_DIR"];
+    PLAYGROUND_CLI_CACHE_DIR?: string;
     /**
      * The application's logging directory.
      *
      * @title Log Directory
+     * @alias PLAYGROUND_CLI_LOG_DIR
+     *
+     * @alias SHELL_SHOCK_LOG_DIR
      * @runtime
      *
      */
-    PLAYGROUND_CLI_LOG_DIR: UnprefixedEnv["LOG_DIR"];
+    PLAYGROUND_CLI_LOG_DIR?: string;
     /**
      * The application's temporary data directory.
      *
      * @title Temporary Directory
+     * @alias PLAYGROUND_CLI_TEMP_DIR
+     *
+     * @alias SHELL_SHOCK_TEMP_DIR
      * @runtime
      *
      */
-    PLAYGROUND_CLI_TEMP_DIR: UnprefixedEnv["TEMP_DIR"];
+    PLAYGROUND_CLI_TEMP_DIR?: string;
     /**
      * A variable that specifies the current user's local application data directory on Windows.
      *
+     * @alias PLAYGROUND_CLI_LOCALAPPDATA
+     *
+     * @alias SHELL_SHOCK_LOCALAPPDATA
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_LOCALAPPDATA: UnprefixedEnv["LOCALAPPDATA"];
+    readonly PLAYGROUND_CLI_LOCALAPPDATA?: string;
     /**
      * A variable that specifies the application data directory on Windows.
      *
+     * @alias PLAYGROUND_CLI_APPDATA
+     *
+     * @alias SHELL_SHOCK_APPDATA
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_APPDATA: UnprefixedEnv["APPDATA"];
+    readonly PLAYGROUND_CLI_APPDATA?: string;
     /**
      * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_DATA_HOME
+     *
+     * @alias SHELL_SHOCK_XDG_DATA_HOME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_XDG_DATA_HOME: UnprefixedEnv["XDG_DATA_HOME"];
+    readonly PLAYGROUND_CLI_XDG_DATA_HOME?: string;
     /**
      * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_CONFIG_HOME
+     *
+     * @alias SHELL_SHOCK_XDG_CONFIG_HOME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_XDG_CONFIG_HOME: UnprefixedEnv["XDG_CONFIG_HOME"];
+    readonly PLAYGROUND_CLI_XDG_CONFIG_HOME?: string;
     /**
      * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_CACHE_HOME
+     *
+     * @alias SHELL_SHOCK_XDG_CACHE_HOME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_XDG_CACHE_HOME: UnprefixedEnv["XDG_CACHE_HOME"];
+    readonly PLAYGROUND_CLI_XDG_CACHE_HOME?: string;
     /**
      * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_STATE_HOME
+     *
+     * @alias SHELL_SHOCK_XDG_STATE_HOME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_XDG_STATE_HOME: UnprefixedEnv["XDG_STATE_HOME"];
+    readonly PLAYGROUND_CLI_XDG_STATE_HOME?: string;
     /**
      * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_RUNTIME_DIR
+     *
+     * @alias SHELL_SHOCK_XDG_RUNTIME_DIR
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_XDG_RUNTIME_DIR: UnprefixedEnv["XDG_RUNTIME_DIR"];
+    readonly PLAYGROUND_CLI_XDG_RUNTIME_DIR?: string;
     /**
      * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
      *
+     * @alias PLAYGROUND_CLI_DEVENV_RUNTIME
+     *
+     * @alias SHELL_SHOCK_DEVENV_RUNTIME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly PLAYGROUND_CLI_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
-    /**
-     * Enable verbose output.
-     *
-     * @title Verbose
-     * @domain cli
-     * @defaultValue false
-     */
-    POWERLINES_VERBOSE: UnprefixedEnv["VERBOSE"];
-    /**
-     * Enable colored terminal output.
-     *
-     * @title Color
-     * @alias COLORS
-     * @domain cli
-     *
-     */
-    POWERLINES_COLOR: UnprefixedEnv["COLOR"];
-    /**
-     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
-     *
-     * @title Hide Banner
-     * @alias HIDE_BANNER
-     * @domain cli
-     * @defaultValue false
-     */
-    POWERLINES_NO_BANNER: UnprefixedEnv["NO_BANNER"];
-    /**
-     * Enable interactive mode - will be set to false if running in a CI pipeline.
-     *
-     * @title Interactive
-     * @alias INTERACT
-     * @domain cli
-     * @defaultValue true
-     */
-    POWERLINES_INTERACTIVE: UnprefixedEnv["INTERACTIVE"];
-    /**
-     * Disable interactive mode - will be set to true if running in a CI pipeline.
-     *
-     * @title Non-Interactive
-     * @alias NO_INTERACTIVE
-     * @domain cli
-     * @defaultValue false
-     */
-    POWERLINES_NON_INTERACTIVE: UnprefixedEnv["NON_INTERACTIVE"];
+    readonly PLAYGROUND_CLI_DEVENV_RUNTIME?: string;
     /**
      * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the upgrade process proceeds without checking for updates, which can help speed up the process in certain scenarios.
      *
+     * @alias PLAYGROUND_CLI_SKIP_UPDATE_CHECK
+     *
+     * @alias SHELL_SHOCK_SKIP_UPDATE_CHECK
      *
      */
-    POWERLINES_SKIP_VERSION_CHECK: UnprefixedEnv["SKIP_VERSION_CHECK"];
+    PLAYGROUND_CLI_SKIP_UPDATE_CHECK?: boolean;
     /**
      * The name of the application.
      *
+     * @alias PLAYGROUND_CLI_APP_NAME
+     *
+     * @alias SHELL_SHOCK_APP_NAME
      * @readonly
      * @defaultValue "playground-cli"
      */
-    readonly POWERLINES_APP_NAME: UnprefixedEnv["APP_NAME"];
+    readonly SHELL_SHOCK_APP_NAME: string;
     /**
      * The version of the application.
      *
+     * @alias PLAYGROUND_CLI_APP_VERSION
+     *
+     * @alias SHELL_SHOCK_APP_VERSION
      * @readonly
      * @defaultValue "0.0.1"
      */
-    readonly POWERLINES_APP_VERSION: UnprefixedEnv["APP_VERSION"];
+    readonly SHELL_SHOCK_APP_VERSION: string;
     /**
      * The unique identifier for the build.
      *
+     * @alias PLAYGROUND_CLI_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_BUILD_ID
      * @readonly
-     * @defaultValue "70884f33-f81b-42fd-8f32-41833f012bc1"
+     * @defaultValue "f47a9ac5-564d-409b-88ac-dda70030405b"
      */
-    readonly POWERLINES_BUILD_ID: UnprefixedEnv["BUILD_ID"];
+    readonly SHELL_SHOCK_BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
+     * @alias PLAYGROUND_CLI_BUILD_TIMESTAMP
+     *
+     * @alias SHELL_SHOCK_BUILD_TIMESTAMP
      * @readonly
-     * @defaultValue "2026-05-05T13:05:33.746Z"
+     * @defaultValue "2026-06-04T23:48:25.279Z"
      */
-    readonly POWERLINES_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
+    readonly SHELL_SHOCK_BUILD_TIMESTAMP: string;
     /**
      * A checksum hash created during the build.
      *
-     * @readonly
+     * @alias PLAYGROUND_CLI_BUILD_CHECKSUM
      *
+     * @alias SHELL_SHOCK_BUILD_CHECKSUM
+     * @readonly
+     * @defaultValue "PY1FOGh0UHG0WRsregrvoAKk60go0W5n"
      */
-    readonly POWERLINES_BUILD_CHECKSUM: UnprefixedEnv["BUILD_CHECKSUM"];
+    readonly SHELL_SHOCK_BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the release.
      *
+     * @alias PLAYGROUND_CLI_RELEASE_ID
+     *
+     * @alias SHELL_SHOCK_RELEASE_ID
      * @readonly
-     * @defaultValue "884f33f8-1b62-4d0f-b241-833f012bc19e"
+     * @defaultValue "7a9ac556-4df0-4bc8-acdd-a70030405bfe"
      */
-    readonly POWERLINES_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
+    readonly SHELL_SHOCK_RELEASE_ID: string;
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
+     * @alias PLAYGROUND_CLI_RELEASE_TAG
+     *
+     * @alias SHELL_SHOCK_RELEASE_TAG
      * @readonly
      * @defaultValue "playground-cli@0.0.1"
      */
-    readonly POWERLINES_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
+    readonly SHELL_SHOCK_RELEASE_TAG: string;
     /**
      * The name of the organization that maintains the application.
      *
      * @alias ORG
+     *
+     * @alias PLAYGROUND_CLI_ORGANIZATION
+     *
+     * @alias PLAYGROUND_CLI_ORG
+     *
+     * @alias SHELL_SHOCK_ORGANIZATION
+     *
+     * @alias SHELL_SHOCK_ORG
      * @defaultValue "shell-shock-playground"
      */
-    POWERLINES_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
+    SHELL_SHOCK_ORGANIZATION: string;
     /**
      * The runtime that the application is running in.
      *
+     * @alias PLAYGROUND_CLI_RUNTIME
+     *
+     * @alias SHELL_SHOCK_RUNTIME
      *
      */
-    POWERLINES_RUNTIME: UnprefixedEnv["RUNTIME"];
+    SHELL_SHOCK_RUNTIME?: "nodejs" | "deno" | "workerd" | "browser";
     /**
      * The platform for which the application was built.
      *
-     * @defaultValue "node"
+     * @alias PLAYGROUND_CLI_PLATFORM
+     *
+     * @alias SHELL_SHOCK_PLATFORM
+     *
      */
-    POWERLINES_PLATFORM: UnprefixedEnv["PLATFORM"];
+    SHELL_SHOCK_PLATFORM: "node" | "neutral" | "browser";
     /**
      * The mode in which the application is running.
      *
      * @alias NODE_ENV
      *
      * @alias VERCEL_ENV
-     * @defaultValue "development"
+     *
+     * @alias PLAYGROUND_CLI_MODE
+     *
+     * @alias PLAYGROUND_CLI_NODE_ENV
+     *
+     * @alias PLAYGROUND_CLI_VERCEL_ENV
+     *
+     * @alias SHELL_SHOCK_MODE
+     *
+     * @alias SHELL_SHOCK_NODE_ENV
+     *
+     * @alias SHELL_SHOCK_VERCEL_ENV
+     *
      */
-    POWERLINES_MODE: UnprefixedEnv["MODE"];
+    SHELL_SHOCK_MODE: "development" | "test" | "production";
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
+     * @alias PLAYGROUND_CLI_ENVIRONMENT
+     *
+     * @alias SHELL_SHOCK_ENVIRONMENT
      * @defaultValue "development"
      */
-    POWERLINES_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
+    SHELL_SHOCK_ENVIRONMENT: string;
     /**
      * Indicates if the application is running in debug mode.
      *
+     * @alias PLAYGROUND_CLI_DEBUG
+     *
+     * @alias SHELL_SHOCK_DEBUG
      * @defaultValue true
      */
-    POWERLINES_DEBUG: UnprefixedEnv["DEBUG"];
+    SHELL_SHOCK_DEBUG: boolean;
     /**
      * An indicator that specifies the current runtime is a test environment.
      *
+     * @alias PLAYGROUND_CLI_TEST
+     *
+     * @alias SHELL_SHOCK_TEST
      * @defaultValue false
      */
-    POWERLINES_TEST: UnprefixedEnv["TEST"];
+    SHELL_SHOCK_TEST: boolean;
     /**
      * An indicator that specifies the current runtime is a minimal environment.
      *
+     * @alias PLAYGROUND_CLI_MINIMAL
+     *
+     * @alias SHELL_SHOCK_MINIMAL
      * @defaultValue false
      */
-    POWERLINES_MINIMAL: UnprefixedEnv["MINIMAL"];
+    SHELL_SHOCK_MINIMAL: boolean;
     /**
      * An indicator that specifies the current runtime is a no color environment.
      *
+     * @alias PLAYGROUND_CLI_NO_COLOR
+     *
+     * @alias SHELL_SHOCK_NO_COLOR
      * @defaultValue false
      */
-    POWERLINES_NO_COLOR: UnprefixedEnv["NO_COLOR"];
+    SHELL_SHOCK_NO_COLOR: boolean;
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @defaultValue 3
+     * @alias PLAYGROUND_CLI_FORCE_COLOR
+     *
+     * @alias SHELL_SHOCK_FORCE_COLOR
+     *
      */
-    POWERLINES_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
+    SHELL_SHOCK_FORCE_COLOR: boolean | number;
     /**
      * An indicator that specifies the current runtime should force hyperlinks in terminal output.
      *
-     * @defaultValue false
+     * @alias PLAYGROUND_CLI_FORCE_HYPERLINK
+     *
+     * @alias SHELL_SHOCK_FORCE_HYPERLINK
+     *
      */
-    POWERLINES_FORCE_HYPERLINK: UnprefixedEnv["FORCE_HYPERLINK"];
+    SHELL_SHOCK_FORCE_HYPERLINK: boolean | number;
     /**
      * The name of the agent running the application. This variable is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_AGENT_NAME
+     *
+     * @alias SHELL_SHOCK_AGENT_NAME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_AGENT_NAME: UnprefixedEnv["AGENT_NAME"];
+    readonly SHELL_SHOCK_AGENT_NAME?: string;
     /**
      * The color terminal type. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_COLORTERM
+     *
+     * @alias SHELL_SHOCK_COLORTERM
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_COLORTERM: UnprefixedEnv["COLORTERM"];
+    readonly SHELL_SHOCK_COLORTERM?: string;
     /**
      * The terminal type. This variable is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TERM
+     *
+     * @alias SHELL_SHOCK_TERM
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_TERM: UnprefixedEnv["TERM"];
+    readonly SHELL_SHOCK_TERM?: string;
     /**
      * The terminal program name. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_TERM_PROGRAM
+     *
+     * @alias SHELL_SHOCK_TERM_PROGRAM
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_TERM_PROGRAM: UnprefixedEnv["TERM_PROGRAM"];
+    readonly SHELL_SHOCK_TERM_PROGRAM?: string;
     /**
      * The terminal program version. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_TERM_PROGRAM_VERSION
+     *
+     * @alias SHELL_SHOCK_TERM_PROGRAM_VERSION
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_TERM_PROGRAM_VERSION: UnprefixedEnv["TERM_PROGRAM_VERSION"];
+    readonly SHELL_SHOCK_TERM_PROGRAM_VERSION?: string;
     /**
      * The terminal emulator name. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_TERMINAL_EMULATOR
+     *
+     * @alias SHELL_SHOCK_TERMINAL_EMULATOR
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_TERMINAL_EMULATOR: UnprefixedEnv["TERMINAL_EMULATOR"];
+    readonly SHELL_SHOCK_TERMINAL_EMULATOR?: string;
     /**
      * The terminal emulator session ID. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_WT_SESSION
+     *
+     * @alias SHELL_SHOCK_WT_SESSION
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_WT_SESSION: UnprefixedEnv["WT_SESSION"];
+    readonly SHELL_SHOCK_WT_SESSION?: string;
     /**
      * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_TERMINUS_SUBLIME
+     *
+     * @alias SHELL_SHOCK_TERMINUS_SUBLIME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_TERMINUS_SUBLIME: UnprefixedEnv["TERMINUS_SUBLIME"];
+    readonly SHELL_SHOCK_TERMINUS_SUBLIME?: boolean;
     /**
      * The ConEmu task name. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_ConEmuTask
+     *
+     * @alias SHELL_SHOCK_ConEmuTask
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_ConEmuTask: UnprefixedEnv["ConEmuTask"];
+    readonly SHELL_SHOCK_ConEmuTask?: string;
     /**
      * The cursor trace ID. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_CURSOR_TRACE_ID
+     *
+     * @alias SHELL_SHOCK_CURSOR_TRACE_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_CURSOR_TRACE_ID: UnprefixedEnv["CURSOR_TRACE_ID"];
+    readonly SHELL_SHOCK_CURSOR_TRACE_ID?: string;
     /**
      * The VTE version. This variable is set by certain terminal emulators.
      *
+     * @alias PLAYGROUND_CLI_VTE_VERSION
+     *
+     * @alias SHELL_SHOCK_VTE_VERSION
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_VTE_VERSION: UnprefixedEnv["VTE_VERSION"];
+    readonly SHELL_SHOCK_VTE_VERSION?: string;
     /**
      * Indicates if error stack traces should be captured.
      *
+     * @alias PLAYGROUND_CLI_STACKTRACE
+     *
+     * @alias SHELL_SHOCK_STACKTRACE
      * @defaultValue true
      */
-    POWERLINES_STACKTRACE: UnprefixedEnv["STACKTRACE"];
+    SHELL_SHOCK_STACKTRACE: boolean;
     /**
      * Indicates if error data should be included.
      *
+     * @alias PLAYGROUND_CLI_INCLUDE_ERROR_DATA
+     *
+     * @alias SHELL_SHOCK_INCLUDE_ERROR_DATA
      * @defaultValue false
      */
-    POWERLINES_INCLUDE_ERROR_DATA: UnprefixedEnv["INCLUDE_ERROR_DATA"];
+    SHELL_SHOCK_INCLUDE_ERROR_DATA: boolean;
     /**
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
+     * @alias PLAYGROUND_CLI_ERROR_URL
+     *
+     * @alias SHELL_SHOCK_ERROR_URL
      * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
-    POWERLINES_ERROR_URL: UnprefixedEnv["ERROR_URL"];
+    SHELL_SHOCK_ERROR_URL?: string;
     /**
      * The default timezone for the application.
      *
+     * @alias PLAYGROUND_CLI_DEFAULT_TIMEZONE
+     *
+     * @alias SHELL_SHOCK_DEFAULT_TIMEZONE
      * @defaultValue "America/New_York"
      */
-    POWERLINES_DEFAULT_TIMEZONE: UnprefixedEnv["DEFAULT_TIMEZONE"];
+    SHELL_SHOCK_DEFAULT_TIMEZONE: string;
     /**
      * The default locale to be used in the application.
      *
+     * @alias PLAYGROUND_CLI_DEFAULT_LOCALE
+     *
+     * @alias SHELL_SHOCK_DEFAULT_LOCALE
      * @defaultValue "en-US"
      */
-    POWERLINES_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
+    SHELL_SHOCK_DEFAULT_LOCALE: string;
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @defaultValue "debug"
+     * @alias PLAYGROUND_CLI_LOG_LEVEL
+     *
+     * @alias SHELL_SHOCK_LOG_LEVEL
+     *
      */
-    POWERLINES_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
+    SHELL_SHOCK_LOG_LEVEL?: unknown;
     /**
      * An indicator that specifies the current runtime is a continuous integration environment.
      *
      * @title Continuous Integration
      * @alias CONTINUOUS_INTEGRATION
+     *
+     * @alias PLAYGROUND_CLI_CI
+     *
+     * @alias PLAYGROUND_CLI_CONTINUOUS_INTEGRATION
+     *
+     * @alias SHELL_SHOCK_CI
+     *
+     * @alias SHELL_SHOCK_CONTINUOUS_INTEGRATION
      * @defaultValue false
      */
-    POWERLINES_CI: UnprefixedEnv["CI"];
+    SHELL_SHOCK_CI: boolean;
     /**
      * The unique identifier for the current run. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_RUN_ID
+     *
+     * @alias SHELL_SHOCK_RUN_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_RUN_ID: UnprefixedEnv["RUN_ID"];
+    readonly SHELL_SHOCK_RUN_ID?: string;
     /**
      * The agola git reference. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_AGOLA_GIT_REF
+     *
+     * @alias SHELL_SHOCK_AGOLA_GIT_REF
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_AGOLA_GIT_REF: UnprefixedEnv["AGOLA_GIT_REF"];
+    readonly SHELL_SHOCK_AGOLA_GIT_REF?: string;
     /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_AC_APPCIRCLE
+     *
+     * @alias SHELL_SHOCK_AC_APPCIRCLE
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_AC_APPCIRCLE: UnprefixedEnv["AC_APPCIRCLE"];
+    readonly SHELL_SHOCK_AC_APPCIRCLE?: string;
     /**
      * The appveyor build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_APPVEYOR
+     *
+     * @alias SHELL_SHOCK_APPVEYOR
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_APPVEYOR: UnprefixedEnv["APPVEYOR"];
+    readonly SHELL_SHOCK_APPVEYOR?: string;
     /**
      * The codebuild build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CODEBUILD
+     *
+     * @alias SHELL_SHOCK_CODEBUILD
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_CODEBUILD: UnprefixedEnv["CODEBUILD"];
+    readonly SHELL_SHOCK_CODEBUILD?: string;
     /**
      * The task force build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TF_BUILD
+     *
+     * @alias SHELL_SHOCK_TF_BUILD
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_TF_BUILD: UnprefixedEnv["TF_BUILD"];
+    readonly SHELL_SHOCK_TF_BUILD?: string;
     /**
      * The bamboo plan key. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_bamboo_planKey
+     *
+     * @alias SHELL_SHOCK_bamboo_planKey
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_bamboo_planKey: UnprefixedEnv["bamboo_planKey"];
+    readonly SHELL_SHOCK_bamboo_planKey?: string;
     /**
      * The bitbucket commit. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BITBUCKET_COMMIT
+     *
+     * @alias SHELL_SHOCK_BITBUCKET_COMMIT
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_BITBUCKET_COMMIT: UnprefixedEnv["BITBUCKET_COMMIT"];
+    readonly SHELL_SHOCK_BITBUCKET_COMMIT?: string;
     /**
      * The bitrise build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BITRISE_IO
+     *
+     * @alias SHELL_SHOCK_BITRISE_IO
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_BITRISE_IO: UnprefixedEnv["BITRISE_IO"];
+    readonly SHELL_SHOCK_BITRISE_IO?: string;
     /**
      * The buddy workspace ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BUDDY_WORKSPACE_ID
+     *
+     * @alias SHELL_SHOCK_BUDDY_WORKSPACE_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_BUDDY_WORKSPACE_ID: UnprefixedEnv["BUDDY_WORKSPACE_ID"];
+    readonly SHELL_SHOCK_BUDDY_WORKSPACE_ID?: string;
     /**
      * The buildkite build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BUILDKITE
+     *
+     * @alias SHELL_SHOCK_BUILDKITE
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_BUILDKITE: UnprefixedEnv["BUILDKITE"];
+    readonly SHELL_SHOCK_BUILDKITE?: string;
     /**
      * The circleci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CIRCLECI
+     *
+     * @alias SHELL_SHOCK_CIRCLECI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_CIRCLECI: UnprefixedEnv["CIRCLECI"];
+    readonly SHELL_SHOCK_CIRCLECI?: string;
     /**
      * The cirrus-ci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CIRRUS_CI
+     *
+     * @alias SHELL_SHOCK_CIRRUS_CI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_CIRRUS_CI: UnprefixedEnv["CIRRUS_CI"];
+    readonly SHELL_SHOCK_CIRRUS_CI?: string;
     /**
      * The cf build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CF_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_CF_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_CF_BUILD_ID: UnprefixedEnv["CF_BUILD_ID"];
+    readonly SHELL_SHOCK_CF_BUILD_ID?: string;
     /**
      * The cm build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CM_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_CM_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_CM_BUILD_ID: UnprefixedEnv["CM_BUILD_ID"];
+    readonly SHELL_SHOCK_CM_BUILD_ID?: string;
     /**
      * The ci name. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CI_NAME
+     *
+     * @alias SHELL_SHOCK_CI_NAME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_CI_NAME: UnprefixedEnv["CI_NAME"];
+    readonly SHELL_SHOCK_CI_NAME?: string;
     /**
      * The drone build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_DRONE
+     *
+     * @alias SHELL_SHOCK_DRONE
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_DRONE: UnprefixedEnv["DRONE"];
+    readonly SHELL_SHOCK_DRONE?: string;
     /**
      * The dsari build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_DSARI
+     *
+     * @alias SHELL_SHOCK_DSARI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_DSARI: UnprefixedEnv["DSARI"];
+    readonly SHELL_SHOCK_DSARI?: string;
     /**
      * The earthly build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_EARTHLY_CI
+     *
+     * @alias SHELL_SHOCK_EARTHLY_CI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_EARTHLY_CI: UnprefixedEnv["EARTHLY_CI"];
+    readonly SHELL_SHOCK_EARTHLY_CI?: string;
     /**
      * The eas build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_EAS_BUILD
+     *
+     * @alias SHELL_SHOCK_EAS_BUILD
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_EAS_BUILD: UnprefixedEnv["EAS_BUILD"];
+    readonly SHELL_SHOCK_EAS_BUILD?: string;
     /**
      * The gerrit project. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GERRIT_PROJECT
+     *
+     * @alias SHELL_SHOCK_GERRIT_PROJECT
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_GERRIT_PROJECT: UnprefixedEnv["GERRIT_PROJECT"];
+    readonly SHELL_SHOCK_GERRIT_PROJECT?: string;
     /**
      * The gitea actions build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GITEA_ACTIONS
+     *
+     * @alias SHELL_SHOCK_GITEA_ACTIONS
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_GITEA_ACTIONS: UnprefixedEnv["GITEA_ACTIONS"];
+    readonly SHELL_SHOCK_GITEA_ACTIONS?: string;
     /**
      * The github actions build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GITHUB_ACTIONS
+     *
+     * @alias SHELL_SHOCK_GITHUB_ACTIONS
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_GITHUB_ACTIONS: UnprefixedEnv["GITHUB_ACTIONS"];
+    readonly SHELL_SHOCK_GITHUB_ACTIONS?: string;
     /**
      * The gitlab ci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GITLAB_CI
+     *
+     * @alias SHELL_SHOCK_GITLAB_CI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_GITLAB_CI: UnprefixedEnv["GITLAB_CI"];
+    readonly SHELL_SHOCK_GITLAB_CI?: string;
     /**
      * The go cd build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_GOCD
+     *
+     * @alias SHELL_SHOCK_GOCD
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_GOCD: UnprefixedEnv["GOCD"];
+    readonly SHELL_SHOCK_GOCD?: string;
     /**
      * The builder output build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_BUILDER_OUTPUT
+     *
+     * @alias SHELL_SHOCK_BUILDER_OUTPUT
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_BUILDER_OUTPUT: UnprefixedEnv["BUILDER_OUTPUT"];
+    readonly SHELL_SHOCK_BUILDER_OUTPUT?: string;
     /**
      * The harness build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_HARNESS_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_HARNESS_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_HARNESS_BUILD_ID: UnprefixedEnv["HARNESS_BUILD_ID"];
+    readonly SHELL_SHOCK_HARNESS_BUILD_ID?: string;
     /**
      * The jenkins url. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_JENKINS_URL
+     *
+     * @alias SHELL_SHOCK_JENKINS_URL
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_JENKINS_URL: UnprefixedEnv["JENKINS_URL"];
+    readonly SHELL_SHOCK_JENKINS_URL?: string;
     /**
      * The layerci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_LAYERCI
+     *
+     * @alias SHELL_SHOCK_LAYERCI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_LAYERCI: UnprefixedEnv["LAYERCI"];
+    readonly SHELL_SHOCK_LAYERCI?: string;
     /**
      * The magnum build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_MAGNUM
+     *
+     * @alias SHELL_SHOCK_MAGNUM
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_MAGNUM: UnprefixedEnv["MAGNUM"];
+    readonly SHELL_SHOCK_MAGNUM?: string;
     /**
      * The netlify build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_NETLIFY
+     *
+     * @alias SHELL_SHOCK_NETLIFY
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_NETLIFY: UnprefixedEnv["NETLIFY"];
+    readonly SHELL_SHOCK_NETLIFY?: string;
     /**
      * The nevercode build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_NEVERCODE
+     *
+     * @alias SHELL_SHOCK_NEVERCODE
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_NEVERCODE: UnprefixedEnv["NEVERCODE"];
+    readonly SHELL_SHOCK_NEVERCODE?: string;
     /**
      * The prow job ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_PROW_JOB_ID
+     *
+     * @alias SHELL_SHOCK_PROW_JOB_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_PROW_JOB_ID: UnprefixedEnv["PROW_JOB_ID"];
+    readonly SHELL_SHOCK_PROW_JOB_ID?: string;
     /**
      * The release build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_RELEASE_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_RELEASE_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_RELEASE_BUILD_ID: UnprefixedEnv["RELEASE_BUILD_ID"];
+    readonly SHELL_SHOCK_RELEASE_BUILD_ID?: string;
     /**
      * The render build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_RENDER
+     *
+     * @alias SHELL_SHOCK_RENDER
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_RENDER: UnprefixedEnv["RENDER"];
+    readonly SHELL_SHOCK_RENDER?: string;
     /**
      * The sailci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SAILCI
+     *
+     * @alias SHELL_SHOCK_SAILCI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_SAILCI: UnprefixedEnv["SAILCI"];
+    readonly SHELL_SHOCK_SAILCI?: string;
     /**
      * The hudson build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_HUDSON
+     *
+     * @alias SHELL_SHOCK_HUDSON
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_HUDSON: UnprefixedEnv["HUDSON"];
+    readonly SHELL_SHOCK_HUDSON?: string;
     /**
      * The screwdriver build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SCREWDRIVER
+     *
+     * @alias SHELL_SHOCK_SCREWDRIVER
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_SCREWDRIVER: UnprefixedEnv["SCREWDRIVER"];
+    readonly SHELL_SHOCK_SCREWDRIVER?: string;
     /**
      * The semaphore build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SEMAPHORE
+     *
+     * @alias SHELL_SHOCK_SEMAPHORE
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_SEMAPHORE: UnprefixedEnv["SEMAPHORE"];
+    readonly SHELL_SHOCK_SEMAPHORE?: string;
     /**
      * The sourcehut build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SOURCEHUT
+     *
+     * @alias SHELL_SHOCK_SOURCEHUT
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_SOURCEHUT: UnprefixedEnv["SOURCEHUT"];
+    readonly SHELL_SHOCK_SOURCEHUT?: string;
     /**
      * The spaceship build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_SPACESHIP_CI
+     *
+     * @alias SHELL_SHOCK_SPACESHIP_CI
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_SPACESHIP_CI: UnprefixedEnv["SPACESHIP_CI"];
+    readonly SHELL_SHOCK_SPACESHIP_CI?: string;
     /**
      * The strider build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_STRIDER
+     *
+     * @alias SHELL_SHOCK_STRIDER
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_STRIDER: UnprefixedEnv["STRIDER"];
+    readonly SHELL_SHOCK_STRIDER?: string;
     /**
      * The task ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TASK_ID
+     *
+     * @alias SHELL_SHOCK_TASK_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_TASK_ID: UnprefixedEnv["TASK_ID"];
+    readonly SHELL_SHOCK_TASK_ID?: string;
     /**
      * The teamcity version. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TEAMCITY_VERSION
+     *
+     * @alias SHELL_SHOCK_TEAMCITY_VERSION
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_TEAMCITY_VERSION: UnprefixedEnv["TEAMCITY_VERSION"];
+    readonly SHELL_SHOCK_TEAMCITY_VERSION?: string;
     /**
      * The travis build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_TRAVIS
+     *
+     * @alias SHELL_SHOCK_TRAVIS
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_TRAVIS: UnprefixedEnv["TRAVIS"];
+    readonly SHELL_SHOCK_TRAVIS?: string;
     /**
      * The vela build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_VELA
+     *
+     * @alias SHELL_SHOCK_VELA
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_VELA: UnprefixedEnv["VELA"];
+    readonly SHELL_SHOCK_VELA?: string;
     /**
      * The now builder build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_NOW_BUILDER
+     *
+     * @alias SHELL_SHOCK_NOW_BUILDER
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_NOW_BUILDER: UnprefixedEnv["NOW_BUILDER"];
+    readonly SHELL_SHOCK_NOW_BUILDER?: string;
     /**
      * The appcenter build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_APPCENTER_BUILD_ID
+     *
+     * @alias SHELL_SHOCK_APPCENTER_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_APPCENTER_BUILD_ID: UnprefixedEnv["APPCENTER_BUILD_ID"];
+    readonly SHELL_SHOCK_APPCENTER_BUILD_ID?: string;
     /**
      * The xcode project build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_CI_XCODE_PROJECT
+     *
+     * @alias SHELL_SHOCK_CI_XCODE_PROJECT
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_CI_XCODE_PROJECT: UnprefixedEnv["CI_XCODE_PROJECT"];
+    readonly SHELL_SHOCK_CI_XCODE_PROJECT?: string;
     /**
      * The xcode server build ID. This value is set by certain CI/CD systems.
      *
+     * @alias PLAYGROUND_CLI_XCS
+     *
+     * @alias SHELL_SHOCK_XCS
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_XCS: UnprefixedEnv["XCS"];
+    readonly SHELL_SHOCK_XCS?: string;
     /**
      * The application's runtime data directory.
      *
      * @title Data Directory
+     * @alias PLAYGROUND_CLI_DATA_DIR
+     *
+     * @alias SHELL_SHOCK_DATA_DIR
      * @runtime
      *
      */
-    POWERLINES_DATA_DIR: UnprefixedEnv["DATA_DIR"];
+    SHELL_SHOCK_DATA_DIR?: string;
     /**
      * The application's configuration data directory.
      *
      * @title Configuration Directory
+     * @alias PLAYGROUND_CLI_CONFIG_DIR
+     *
+     * @alias SHELL_SHOCK_CONFIG_DIR
      * @runtime
      *
      */
-    POWERLINES_CONFIG_DIR: UnprefixedEnv["CONFIG_DIR"];
+    SHELL_SHOCK_CONFIG_DIR?: string;
     /**
      * The application's cached data directory.
      *
      * @title Cache Directory
+     * @alias PLAYGROUND_CLI_CACHE_DIR
+     *
+     * @alias SHELL_SHOCK_CACHE_DIR
      * @runtime
      *
      */
-    POWERLINES_CACHE_DIR: UnprefixedEnv["CACHE_DIR"];
+    SHELL_SHOCK_CACHE_DIR?: string;
     /**
      * The application's logging directory.
      *
      * @title Log Directory
+     * @alias PLAYGROUND_CLI_LOG_DIR
+     *
+     * @alias SHELL_SHOCK_LOG_DIR
      * @runtime
      *
      */
-    POWERLINES_LOG_DIR: UnprefixedEnv["LOG_DIR"];
+    SHELL_SHOCK_LOG_DIR?: string;
     /**
      * The application's temporary data directory.
      *
      * @title Temporary Directory
+     * @alias PLAYGROUND_CLI_TEMP_DIR
+     *
+     * @alias SHELL_SHOCK_TEMP_DIR
      * @runtime
      *
      */
-    POWERLINES_TEMP_DIR: UnprefixedEnv["TEMP_DIR"];
+    SHELL_SHOCK_TEMP_DIR?: string;
     /**
      * A variable that specifies the current user's local application data directory on Windows.
      *
+     * @alias PLAYGROUND_CLI_LOCALAPPDATA
+     *
+     * @alias SHELL_SHOCK_LOCALAPPDATA
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_LOCALAPPDATA: UnprefixedEnv["LOCALAPPDATA"];
+    readonly SHELL_SHOCK_LOCALAPPDATA?: string;
     /**
      * A variable that specifies the application data directory on Windows.
      *
+     * @alias PLAYGROUND_CLI_APPDATA
+     *
+     * @alias SHELL_SHOCK_APPDATA
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_APPDATA: UnprefixedEnv["APPDATA"];
+    readonly SHELL_SHOCK_APPDATA?: string;
     /**
      * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_DATA_HOME
+     *
+     * @alias SHELL_SHOCK_XDG_DATA_HOME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_XDG_DATA_HOME: UnprefixedEnv["XDG_DATA_HOME"];
+    readonly SHELL_SHOCK_XDG_DATA_HOME?: string;
     /**
      * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_CONFIG_HOME
+     *
+     * @alias SHELL_SHOCK_XDG_CONFIG_HOME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_XDG_CONFIG_HOME: UnprefixedEnv["XDG_CONFIG_HOME"];
+    readonly SHELL_SHOCK_XDG_CONFIG_HOME?: string;
     /**
      * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_CACHE_HOME
+     *
+     * @alias SHELL_SHOCK_XDG_CACHE_HOME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_XDG_CACHE_HOME: UnprefixedEnv["XDG_CACHE_HOME"];
+    readonly SHELL_SHOCK_XDG_CACHE_HOME?: string;
     /**
      * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_STATE_HOME
+     *
+     * @alias SHELL_SHOCK_XDG_STATE_HOME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_XDG_STATE_HOME: UnprefixedEnv["XDG_STATE_HOME"];
+    readonly SHELL_SHOCK_XDG_STATE_HOME?: string;
     /**
      * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
      *
+     * @alias PLAYGROUND_CLI_XDG_RUNTIME_DIR
+     *
+     * @alias SHELL_SHOCK_XDG_RUNTIME_DIR
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_XDG_RUNTIME_DIR: UnprefixedEnv["XDG_RUNTIME_DIR"];
+    readonly SHELL_SHOCK_XDG_RUNTIME_DIR?: string;
     /**
      * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
      *
+     * @alias PLAYGROUND_CLI_DEVENV_RUNTIME
+     *
+     * @alias SHELL_SHOCK_DEVENV_RUNTIME
      * @readonly
      * @hidden
      * @runtime
      *
      */
-    readonly POWERLINES_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
-    /**
-     * Enable verbose output.
-     *
-     * @title Verbose
-     * @domain cli
-     * @defaultValue false
-     */
-    SHELL_SHOCK_VERBOSE: UnprefixedEnv["VERBOSE"];
-    /**
-     * Enable colored terminal output.
-     *
-     * @title Color
-     * @alias COLORS
-     * @domain cli
-     *
-     */
-    SHELL_SHOCK_COLOR: UnprefixedEnv["COLOR"];
-    /**
-     * Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.
-     *
-     * @title Hide Banner
-     * @alias HIDE_BANNER
-     * @domain cli
-     * @defaultValue false
-     */
-    SHELL_SHOCK_NO_BANNER: UnprefixedEnv["NO_BANNER"];
-    /**
-     * Enable interactive mode - will be set to false if running in a CI pipeline.
-     *
-     * @title Interactive
-     * @alias INTERACT
-     * @domain cli
-     * @defaultValue true
-     */
-    SHELL_SHOCK_INTERACTIVE: UnprefixedEnv["INTERACTIVE"];
-    /**
-     * Disable interactive mode - will be set to true if running in a CI pipeline.
-     *
-     * @title Non-Interactive
-     * @alias NO_INTERACTIVE
-     * @domain cli
-     * @defaultValue false
-     */
-    SHELL_SHOCK_NON_INTERACTIVE: UnprefixedEnv["NON_INTERACTIVE"];
+    readonly SHELL_SHOCK_DEVENV_RUNTIME?: string;
     /**
      * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the upgrade process proceeds without checking for updates, which can help speed up the process in certain scenarios.
      *
+     * @alias PLAYGROUND_CLI_SKIP_UPDATE_CHECK
      *
-     */
-    SHELL_SHOCK_SKIP_VERSION_CHECK: UnprefixedEnv["SKIP_VERSION_CHECK"];
-    /**
-     * The name of the application.
-     *
-     * @readonly
-     * @defaultValue "playground-cli"
-     */
-    readonly SHELL_SHOCK_APP_NAME: UnprefixedEnv["APP_NAME"];
-    /**
-     * The version of the application.
-     *
-     * @readonly
-     * @defaultValue "0.0.1"
-     */
-    readonly SHELL_SHOCK_APP_VERSION: UnprefixedEnv["APP_VERSION"];
-    /**
-     * The unique identifier for the build.
-     *
-     * @readonly
-     * @defaultValue "70884f33-f81b-42fd-8f32-41833f012bc1"
-     */
-    readonly SHELL_SHOCK_BUILD_ID: UnprefixedEnv["BUILD_ID"];
-    /**
-     * The timestamp the build was ran at.
-     *
-     * @readonly
-     * @defaultValue "2026-05-05T13:05:33.746Z"
-     */
-    readonly SHELL_SHOCK_BUILD_TIMESTAMP: UnprefixedEnv["BUILD_TIMESTAMP"];
-    /**
-     * A checksum hash created during the build.
-     *
-     * @readonly
-     *
-     */
-    readonly SHELL_SHOCK_BUILD_CHECKSUM: UnprefixedEnv["BUILD_CHECKSUM"];
-    /**
-     * The unique identifier for the release.
-     *
-     * @readonly
-     * @defaultValue "884f33f8-1b62-4d0f-b241-833f012bc19e"
-     */
-    readonly SHELL_SHOCK_RELEASE_ID: UnprefixedEnv["RELEASE_ID"];
-    /**
-     * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
-     *
-     * @readonly
-     * @defaultValue "playground-cli@0.0.1"
-     */
-    readonly SHELL_SHOCK_RELEASE_TAG: UnprefixedEnv["RELEASE_TAG"];
-    /**
-     * The name of the organization that maintains the application.
-     *
-     * @alias ORG
-     * @defaultValue "shell-shock-playground"
-     */
-    SHELL_SHOCK_ORGANIZATION: UnprefixedEnv["ORGANIZATION"];
-    /**
-     * The runtime that the application is running in.
-     *
-     *
-     */
-    SHELL_SHOCK_RUNTIME: UnprefixedEnv["RUNTIME"];
-    /**
-     * The platform for which the application was built.
-     *
-     * @defaultValue "node"
-     */
-    SHELL_SHOCK_PLATFORM: UnprefixedEnv["PLATFORM"];
-    /**
-     * The mode in which the application is running.
-     *
-     * @alias NODE_ENV
-     *
-     * @alias VERCEL_ENV
-     * @defaultValue "development"
-     */
-    SHELL_SHOCK_MODE: UnprefixedEnv["MODE"];
-    /**
-     * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
-     *
-     * @defaultValue "development"
-     */
-    SHELL_SHOCK_ENVIRONMENT: UnprefixedEnv["ENVIRONMENT"];
-    /**
-     * Indicates if the application is running in debug mode.
-     *
-     * @defaultValue true
-     */
-    SHELL_SHOCK_DEBUG: UnprefixedEnv["DEBUG"];
-    /**
-     * An indicator that specifies the current runtime is a test environment.
-     *
-     * @defaultValue false
-     */
-    SHELL_SHOCK_TEST: UnprefixedEnv["TEST"];
-    /**
-     * An indicator that specifies the current runtime is a minimal environment.
-     *
-     * @defaultValue false
-     */
-    SHELL_SHOCK_MINIMAL: UnprefixedEnv["MINIMAL"];
-    /**
-     * An indicator that specifies the current runtime is a no color environment.
-     *
-     * @defaultValue false
-     */
-    SHELL_SHOCK_NO_COLOR: UnprefixedEnv["NO_COLOR"];
-    /**
-     * An indicator that specifies the current runtime is a force color environment.
-     *
-     * @defaultValue 3
-     */
-    SHELL_SHOCK_FORCE_COLOR: UnprefixedEnv["FORCE_COLOR"];
-    /**
-     * An indicator that specifies the current runtime should force hyperlinks in terminal output.
-     *
-     * @defaultValue false
-     */
-    SHELL_SHOCK_FORCE_HYPERLINK: UnprefixedEnv["FORCE_HYPERLINK"];
-    /**
-     * The name of the agent running the application. This variable is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_AGENT_NAME: UnprefixedEnv["AGENT_NAME"];
-    /**
-     * The color terminal type. This variable is set by certain terminal emulators.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_COLORTERM: UnprefixedEnv["COLORTERM"];
-    /**
-     * The terminal type. This variable is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_TERM: UnprefixedEnv["TERM"];
-    /**
-     * The terminal program name. This variable is set by certain terminal emulators.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_TERM_PROGRAM: UnprefixedEnv["TERM_PROGRAM"];
-    /**
-     * The terminal program version. This variable is set by certain terminal emulators.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_TERM_PROGRAM_VERSION: UnprefixedEnv["TERM_PROGRAM_VERSION"];
-    /**
-     * The terminal emulator name. This variable is set by certain terminal emulators.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_TERMINAL_EMULATOR: UnprefixedEnv["TERMINAL_EMULATOR"];
-    /**
-     * The terminal emulator session ID. This variable is set by certain terminal emulators.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_WT_SESSION: UnprefixedEnv["WT_SESSION"];
-    /**
-     * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_TERMINUS_SUBLIME: UnprefixedEnv["TERMINUS_SUBLIME"];
-    /**
-     * The ConEmu task name. This variable is set by certain terminal emulators.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_ConEmuTask: UnprefixedEnv["ConEmuTask"];
-    /**
-     * The cursor trace ID. This variable is set by certain terminal emulators.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_CURSOR_TRACE_ID: UnprefixedEnv["CURSOR_TRACE_ID"];
-    /**
-     * The VTE version. This variable is set by certain terminal emulators.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_VTE_VERSION: UnprefixedEnv["VTE_VERSION"];
-    /**
-     * Indicates if error stack traces should be captured.
-     *
-     * @defaultValue true
-     */
-    SHELL_SHOCK_STACKTRACE: UnprefixedEnv["STACKTRACE"];
-    /**
-     * Indicates if error data should be included.
-     *
-     * @defaultValue false
-     */
-    SHELL_SHOCK_INCLUDE_ERROR_DATA: UnprefixedEnv["INCLUDE_ERROR_DATA"];
-    /**
-     * A web page to lookup error messages and display additional information given an error code.
-     *
-     * @title Error Details URL
-     * @defaultValue "https://developer.stormsoftware.com/static/errors"
-     */
-    SHELL_SHOCK_ERROR_URL: UnprefixedEnv["ERROR_URL"];
-    /**
-     * The default timezone for the application.
-     *
-     * @defaultValue "America/New_York"
-     */
-    SHELL_SHOCK_DEFAULT_TIMEZONE: UnprefixedEnv["DEFAULT_TIMEZONE"];
-    /**
-     * The default locale to be used in the application.
-     *
-     * @defaultValue "en-US"
-     */
-    SHELL_SHOCK_DEFAULT_LOCALE: UnprefixedEnv["DEFAULT_LOCALE"];
-    /**
-     * The default lowest log level to accept. If `null`, the logger will reject all records.
-     *
-     * @defaultValue "debug"
-     */
-    SHELL_SHOCK_LOG_LEVEL: UnprefixedEnv["LOG_LEVEL"];
-    /**
-     * An indicator that specifies the current runtime is a continuous integration environment.
-     *
-     * @title Continuous Integration
-     * @alias CONTINUOUS_INTEGRATION
-     * @defaultValue false
-     */
-    SHELL_SHOCK_CI: UnprefixedEnv["CI"];
-    /**
-     * The unique identifier for the current run. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_RUN_ID: UnprefixedEnv["RUN_ID"];
-    /**
-     * The agola git reference. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_AGOLA_GIT_REF: UnprefixedEnv["AGOLA_GIT_REF"];
-    /**
-     * The appcircle build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_AC_APPCIRCLE: UnprefixedEnv["AC_APPCIRCLE"];
-    /**
-     * The appveyor build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_APPVEYOR: UnprefixedEnv["APPVEYOR"];
-    /**
-     * The codebuild build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_CODEBUILD: UnprefixedEnv["CODEBUILD"];
-    /**
-     * The task force build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_TF_BUILD: UnprefixedEnv["TF_BUILD"];
-    /**
-     * The bamboo plan key. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_bamboo_planKey: UnprefixedEnv["bamboo_planKey"];
-    /**
-     * The bitbucket commit. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_BITBUCKET_COMMIT: UnprefixedEnv["BITBUCKET_COMMIT"];
-    /**
-     * The bitrise build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_BITRISE_IO: UnprefixedEnv["BITRISE_IO"];
-    /**
-     * The buddy workspace ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_BUDDY_WORKSPACE_ID: UnprefixedEnv["BUDDY_WORKSPACE_ID"];
-    /**
-     * The buildkite build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_BUILDKITE: UnprefixedEnv["BUILDKITE"];
-    /**
-     * The circleci build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_CIRCLECI: UnprefixedEnv["CIRCLECI"];
-    /**
-     * The cirrus-ci build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_CIRRUS_CI: UnprefixedEnv["CIRRUS_CI"];
-    /**
-     * The cf build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_CF_BUILD_ID: UnprefixedEnv["CF_BUILD_ID"];
-    /**
-     * The cm build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_CM_BUILD_ID: UnprefixedEnv["CM_BUILD_ID"];
-    /**
-     * The ci name. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_CI_NAME: UnprefixedEnv["CI_NAME"];
-    /**
-     * The drone build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_DRONE: UnprefixedEnv["DRONE"];
-    /**
-     * The dsari build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_DSARI: UnprefixedEnv["DSARI"];
-    /**
-     * The earthly build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_EARTHLY_CI: UnprefixedEnv["EARTHLY_CI"];
-    /**
-     * The eas build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_EAS_BUILD: UnprefixedEnv["EAS_BUILD"];
-    /**
-     * The gerrit project. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_GERRIT_PROJECT: UnprefixedEnv["GERRIT_PROJECT"];
-    /**
-     * The gitea actions build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_GITEA_ACTIONS: UnprefixedEnv["GITEA_ACTIONS"];
-    /**
-     * The github actions build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_GITHUB_ACTIONS: UnprefixedEnv["GITHUB_ACTIONS"];
-    /**
-     * The gitlab ci build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_GITLAB_CI: UnprefixedEnv["GITLAB_CI"];
-    /**
-     * The go cd build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_GOCD: UnprefixedEnv["GOCD"];
-    /**
-     * The builder output build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_BUILDER_OUTPUT: UnprefixedEnv["BUILDER_OUTPUT"];
-    /**
-     * The harness build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_HARNESS_BUILD_ID: UnprefixedEnv["HARNESS_BUILD_ID"];
-    /**
-     * The jenkins url. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_JENKINS_URL: UnprefixedEnv["JENKINS_URL"];
-    /**
-     * The layerci build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_LAYERCI: UnprefixedEnv["LAYERCI"];
-    /**
-     * The magnum build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_MAGNUM: UnprefixedEnv["MAGNUM"];
-    /**
-     * The netlify build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_NETLIFY: UnprefixedEnv["NETLIFY"];
-    /**
-     * The nevercode build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_NEVERCODE: UnprefixedEnv["NEVERCODE"];
-    /**
-     * The prow job ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_PROW_JOB_ID: UnprefixedEnv["PROW_JOB_ID"];
-    /**
-     * The release build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_RELEASE_BUILD_ID: UnprefixedEnv["RELEASE_BUILD_ID"];
-    /**
-     * The render build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_RENDER: UnprefixedEnv["RENDER"];
-    /**
-     * The sailci build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_SAILCI: UnprefixedEnv["SAILCI"];
-    /**
-     * The hudson build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_HUDSON: UnprefixedEnv["HUDSON"];
-    /**
-     * The screwdriver build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_SCREWDRIVER: UnprefixedEnv["SCREWDRIVER"];
-    /**
-     * The semaphore build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_SEMAPHORE: UnprefixedEnv["SEMAPHORE"];
-    /**
-     * The sourcehut build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_SOURCEHUT: UnprefixedEnv["SOURCEHUT"];
-    /**
-     * The spaceship build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_SPACESHIP_CI: UnprefixedEnv["SPACESHIP_CI"];
-    /**
-     * The strider build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_STRIDER: UnprefixedEnv["STRIDER"];
-    /**
-     * The task ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_TASK_ID: UnprefixedEnv["TASK_ID"];
-    /**
-     * The teamcity version. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_TEAMCITY_VERSION: UnprefixedEnv["TEAMCITY_VERSION"];
-    /**
-     * The travis build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_TRAVIS: UnprefixedEnv["TRAVIS"];
-    /**
-     * The vela build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_VELA: UnprefixedEnv["VELA"];
-    /**
-     * The now builder build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_NOW_BUILDER: UnprefixedEnv["NOW_BUILDER"];
-    /**
-     * The appcenter build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_APPCENTER_BUILD_ID: UnprefixedEnv["APPCENTER_BUILD_ID"];
-    /**
-     * The xcode project build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_CI_XCODE_PROJECT: UnprefixedEnv["CI_XCODE_PROJECT"];
-    /**
-     * The xcode server build ID. This value is set by certain CI/CD systems.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_XCS: UnprefixedEnv["XCS"];
-    /**
-     * The application's runtime data directory.
-     *
-     * @title Data Directory
-     * @runtime
-     *
-     */
-    SHELL_SHOCK_DATA_DIR: UnprefixedEnv["DATA_DIR"];
-    /**
-     * The application's configuration data directory.
-     *
-     * @title Configuration Directory
-     * @runtime
-     *
-     */
-    SHELL_SHOCK_CONFIG_DIR: UnprefixedEnv["CONFIG_DIR"];
-    /**
-     * The application's cached data directory.
-     *
-     * @title Cache Directory
-     * @runtime
-     *
-     */
-    SHELL_SHOCK_CACHE_DIR: UnprefixedEnv["CACHE_DIR"];
-    /**
-     * The application's logging directory.
-     *
-     * @title Log Directory
-     * @runtime
-     *
-     */
-    SHELL_SHOCK_LOG_DIR: UnprefixedEnv["LOG_DIR"];
-    /**
-     * The application's temporary data directory.
-     *
-     * @title Temporary Directory
-     * @runtime
-     *
-     */
-    SHELL_SHOCK_TEMP_DIR: UnprefixedEnv["TEMP_DIR"];
-    /**
-     * A variable that specifies the current user's local application data directory on Windows.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_LOCALAPPDATA: UnprefixedEnv["LOCALAPPDATA"];
-    /**
-     * A variable that specifies the application data directory on Windows.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_APPDATA: UnprefixedEnv["APPDATA"];
-    /**
-     * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_XDG_DATA_HOME: UnprefixedEnv["XDG_DATA_HOME"];
-    /**
-     * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_XDG_CONFIG_HOME: UnprefixedEnv["XDG_CONFIG_HOME"];
-    /**
-     * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_XDG_CACHE_HOME: UnprefixedEnv["XDG_CACHE_HOME"];
-    /**
-     * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_XDG_STATE_HOME: UnprefixedEnv["XDG_STATE_HOME"];
-    /**
-     * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
-     *
-     */
-    readonly SHELL_SHOCK_XDG_RUNTIME_DIR: UnprefixedEnv["XDG_RUNTIME_DIR"];
-    /**
-     * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
-     *
-     * @readonly
-     * @hidden
-     * @runtime
+     * @alias SHELL_SHOCK_SKIP_UPDATE_CHECK
      *
      */
-    readonly SHELL_SHOCK_DEVENV_RUNTIME: UnprefixedEnv["DEVENV_RUNTIME"];
+    SHELL_SHOCK_SKIP_UPDATE_CHECK?: boolean;
   }
   /**
-   * The initial environment configuration state for the Playground Command Line Interface project.
+   * Env
    *
-   * @title Object
+   * @title Env
    *
    */
   export const initialEnv: Partial<Env>;
   /**
-   * The environment configuration serializer for the Powerlines application.
-   *
-   * @see https://deepkit.io/docs/serialization/serializers
-   *
-   * @see https://github.com/marcj/untitled-code/blob/master/packages/type/src/serializer.ts#L1918
+   * Safely parses an input value into the type described by the JSON Schema, returning an array of validation errors when the value cannot be converted into a valid result.
    *
    * @remarks
-   * This serializer is used to serialize and deserialize the Powerlines environment configuration.
+   * The parser applies default values for missing properties, coerces primitive values to the declared type, and returns an array of validation errors when the value cannot be converted into a valid result.
+   *
+   * @param value - The input value to parse.
+   * @returns The parsed value conforming to the schema or an array of validation errors.
    */
-  export class EnvSerializer extends Serializer {
-    /**
-     * Initializes a new instance of the `EnvSerializer` class.
-     */
-    constructor();
-  }
+  export function parseSafe(value: Record<string, unknown>):
+    | Env
+    | {
+        path: string;
+        failure: string;
+      }[];
   /**
-   * Serialize a environment configuration object to JSON data objects (not a JSON string).
+   * Parses an input value into the type described by the JSON Schema, throwing an error if the value cannot be converted into a valid result.
    *
    * @remarks
-   * The resulting JSON object can be stringified using `JSON.stringify()`.
-   * @example
-   * ```ts
-   * const json = serializeEnv(env);
-   * ```
+   * The parser applies default values for missing properties, coerces primitive values to the declared type, and throws a {@link Error} (containing a detailed list of validation errors) when the value cannot be converted into a valid result.
    *
-   *
-   * @param input - The environment configuration object to serialize.
-   * @returns The serialized environment configuration as JSON data objects.
-   *
-   * @throws ValidationError when serialization or validation fails.
-   *
+   * @param value - The input value to parse.
+   * @returns The parsed value conforming to the schema.
+   * @throws {Error} When the input value cannot be parsed into a valid result according to the schema. The error contains a detailed list of validation errors with their respective paths and failure messages.
    */
-  export function serializeEnv(input: Env): any;
-  /**
-   * Deserialize a environment configuration object from JSON data objects to JavaScript objects, without running any validators.
-   *
-   * @remarks
-   * Types that are already correct will be used as-is.
-   * @example
-   * ```ts
-   * const env = deserializeEnv(json);
-   * ```
-   * @throws ValidationError when deserialization fails.
-   *
-   */
-  export function deserializeEnv(input: Env): Env;
+  export function parse(value: Record<string, unknown>): Env;
   /**
    * Initializes the Powerlines environment configuration module.
    *
@@ -4118,8 +4045,8 @@ declare module "shell-shock:utils" {
     options?: GetColorSupportLevelOptions
   ):
     | false
-    | 3
     | 0
+    | 3
     | 2
     | {
         level: number;
@@ -7984,11 +7911,11 @@ declare module "shell-shock:prompts" {
     /**
      * The current value of the prompt
      */
-    value: TValue;
+    value?: TValue;
     /**
      * Indicates whether the prompt is in an error state
      */
-    isError: boolean;
+    isError?: boolean;
     /**
      * If the prompt is in an error state, this will contain the error message to display
      */
@@ -7996,15 +7923,15 @@ declare module "shell-shock:prompts" {
     /**
      * Indicates whether the prompt is submitted
      */
-    isSubmitted: boolean;
+    isSubmitted?: boolean;
     /**
      * Indicates whether the prompt is cancelled
      */
-    isCancelled: boolean;
+    isCancelled?: boolean;
     /**
      * Indicates whether the prompt is completed, which can be used to indicate that the prompt interaction is finished regardless of whether it was submitted or cancelled
      */
-    isCompleted: boolean;
+    isCompleted?: boolean;
   }
   /**
    * Configuration options for creating a prompt
@@ -8021,7 +7948,7 @@ declare module "shell-shock:prompts" {
     /**
      * The prompt message to display
      */
-    message: string;
+    message?: string;
     /**
      * The prompt description message to display
      */
@@ -8300,7 +8227,7 @@ declare module "shell-shock:prompts" {
     /**
      * The value of the option
      */
-    value: TValue;
+    value?: TValue;
     /**
      * The description of the option
      */
@@ -8323,18 +8250,18 @@ declare module "shell-shock:prompts" {
     /**
      * The message label for the option
      */
-    label: string; /**
+    label?: string; /**
      * The index of the option
      */
-    index: number;
+    index?: number;
     /**
      * Whether the option is selected
      */
-    selected: boolean;
+    selected?: boolean;
     /**
      * Whether the option is disabled
      */
-    disabled: boolean;
+    disabled?: boolean;
   }
   /**
    * An options object for configuring a select prompt
@@ -8347,7 +8274,7 @@ declare module "shell-shock:prompts" {
     /**
      * The options available for the select prompt
      */
-    options: Array<string | PromptOptionConfig<TValue>>;
+    options?: Array<string | PromptOptionConfig<TValue>>;
     /**
      * The number of options to display per page, defaults to 8
      */
@@ -8399,6 +8326,75 @@ declare module "shell-shock:prompts" {
    *
    */
   export function select(config: SelectConfig): Promise<string | symbol>;
+  /**
+   * An options object for configuring a multi-select prompt
+   */
+  interface MultiSelectPromptConfig<TValue = string> extends PromptConfig<
+    TValue[]
+  > {
+    /**
+     * The options available for the multi-select prompt
+     */
+    options?: Array<string | PromptOptionConfig<TValue>>;
+    /**
+     * Whether at least one option must be selected, defaults to true
+     */
+    required?: boolean;
+    /**
+     * The initial selected values
+     */
+    initialValue?: TValue[];
+    /**
+     * A value indicating which option should be focused initially
+     */
+    cursorAt?: TValue;
+    /**
+     * The number of options to display per page, defaults to 8
+     */
+    optionsPerPage?: number;
+  }
+  /**
+   * A type definition for the configuration options to pass to the multi-select prompt, which extends the base PromptConfig with additional options specific to multi-select prompts.
+   */
+  export type MultiSelectConfig = PromptFactoryConfig<string[]> &
+    MultiSelectPromptConfig;
+  /**
+   * A function to create and run a multi-select prompt, which returns a promise that resolves with the submitted values or a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.
+   *
+   * @example
+   * ```ts
+   * import { multiselect, isCancel } from "shell-shock:prompts";
+   *
+   * async function run() {
+   *   const tools = await multiselect({
+   *     message: "Select tools",
+   *     options: [
+   *       { value: "eslint", label: "ESLint" },
+   *       { value: "prettier", label: "Prettier" },
+   *       { value: "vitest", label: "Vitest", disabled: true }
+   *     ]
+   *   });
+   *
+   *   if (isCancel(tools)) {
+   *     console.log("Prompt was cancelled");
+   *     return;
+   *   }
+   *
+   *   console.log("Selected tools:", tools.join(", "));
+   * }
+   *
+   * run();
+   * ```
+   *
+   *
+   * @param config - The configuration options to pass to the multi-select prompt
+   * @returns A promise that resolves with the selected values or a {@link
+   *   CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled
+   *
+   */
+  export function multiselect(
+    config: MultiSelectConfig
+  ): Promise<string[] | symbol>;
   /**
    * Configuration options for creating a numeric prompt
    */
@@ -8813,11 +8809,11 @@ declare module "shell-shock:upgrade" {
     /**
      * The email of the npm package maintainer.
      */
-    email: string;
+    email?: string;
     /**
      * The username of the npm package maintainer.
      */
-    username: string;
+    username?: string;
   }
   /**
    * Represents the links of an npm package.
@@ -8847,15 +8843,15 @@ declare module "shell-shock:upgrade" {
     /**
      * The name of the npm package.
      */
-    name: string;
+    name?: string;
     /**
      * The date when the npm package was last updated.
      */
-    date: Date;
+    date?: Date;
     /**
      * The version of the npm package.
      */
-    version: string;
+    version?: string;
     /**
      * The description of the npm package.
      */
@@ -8863,7 +8859,7 @@ declare module "shell-shock:upgrade" {
     /**
      * A list of keywords associated with the npm package.
      */
-    keywords: string[];
+    keywords?: string[];
     /**
      * The license of the npm package.
      */
@@ -8871,11 +8867,11 @@ declare module "shell-shock:upgrade" {
     /**
      * The maintainers of the npm package.
      */
-    maintainers: NpmPackageMaintainer[];
+    maintainers?: NpmPackageMaintainer[];
     /**
      * The links of the npm package.
      */
-    links: NpmPackageLinks;
+    links?: NpmPackageLinks;
   }
   /**
    * Represents an npm package search result item.
@@ -8884,7 +8880,7 @@ declare module "shell-shock:upgrade" {
     /**
      * The npm package details.
      */
-    package: NpmPackage;
+    package?: NpmPackage;
   }
   /**
    * Represents an npm package search result.
@@ -8893,7 +8889,7 @@ declare module "shell-shock:upgrade" {
     /**
      * The list of npm package search result items.
      */
-    objects: NpmPackageSearchResultItem[];
+    objects?: NpmPackageSearchResultItem[];
   }
   /**
    * Fetch details of an npm package.
@@ -9000,15 +8996,15 @@ declare module "shell-shock:upgrade" {
     /**
      * The latest version of the application dependencies.
      */
-    latestVersion: string;
+    latestVersion?: string;
     /**
      * The current version of the application dependencies.
      */
-    currentVersion: string;
+    currentVersion?: string;
     /**
      * Indicates whether the application dependencies are up-to-date.
      */
-    isUpToDate: boolean;
+    isUpToDate?: boolean;
     /**
      * The npm package that was checked for updates.
      */
@@ -9018,7 +9014,7 @@ declare module "shell-shock:upgrade" {
     /**
      * The error that occurred while checking for updates.
      */
-    error: Error;
+    error?: Error;
   }
   /**
    * The result for the `checkForUpdates` handler function.
@@ -9176,23 +9172,6 @@ declare module "shell-shock:banner/completions" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
- *
- * @module shell-shock:banner/completions/bash/config
- */
-declare module "shell-shock:banner/completions/bash/config" {
-  /**
-   * Write the Playground command-line interface application banner for the Completions - Bash Configuration command to the console.
-   *
-   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
-   *   displaying the banner. This can be used to create a delay before the banner
-   *   is shown, allowing for any necessary setup or initialization to occur
-   *   first. The default value is 500 milliseconds.
-   */
-  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
-}
-
-/**
  * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Configuration command.
  *
  * @module shell-shock:banner/completions/powershell/config
@@ -9210,13 +9189,13 @@ declare module "shell-shock:banner/completions/powershell/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Fish Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
  *
- * @module shell-shock:banner/completions/fish/config
+ * @module shell-shock:banner/completions/bash/config
  */
-declare module "shell-shock:banner/completions/fish/config" {
+declare module "shell-shock:banner/completions/bash/config" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Fish Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Bash Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9234,6 +9213,23 @@ declare module "shell-shock:banner/completions/fish/config" {
 declare module "shell-shock:banner/completions/zsh/config" {
   /**
    * Write the Playground command-line interface application banner for the Completions - Zsh Configuration command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Completions - Fish Configuration command.
+ *
+ * @module shell-shock:banner/completions/fish/config
+ */
+declare module "shell-shock:banner/completions/fish/config" {
+  /**
+   * Write the Playground command-line interface application banner for the Completions - Fish Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9431,23 +9427,6 @@ declare module "shell-shock:banner/run" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
- *
- * @module shell-shock:banner/completions/bash/script
- */
-declare module "shell-shock:banner/completions/bash/script" {
-  /**
-   * Write the Playground command-line interface application banner for the Completions - Bash Script command to the console.
-   *
-   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
-   *   displaying the banner. This can be used to create a delay before the banner
-   *   is shown, allowing for any necessary setup or initialization to occur
-   *   first. The default value is 500 milliseconds.
-   */
-  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
-}
-
-/**
  * A collection of utility functions that assist in displaying banner information for the Completions - PowerShell Script command.
  *
  * @module shell-shock:banner/completions/powershell/script
@@ -9465,13 +9444,13 @@ declare module "shell-shock:banner/completions/powershell/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Fish Script command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
  *
- * @module shell-shock:banner/completions/fish/script
+ * @module shell-shock:banner/completions/bash/script
  */
-declare module "shell-shock:banner/completions/fish/script" {
+declare module "shell-shock:banner/completions/bash/script" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Fish Script command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Bash Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9489,6 +9468,23 @@ declare module "shell-shock:banner/completions/fish/script" {
 declare module "shell-shock:banner/completions/zsh/script" {
   /**
    * Write the Playground command-line interface application banner for the Completions - Zsh Script command to the console.
+   *
+   * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
+   *   displaying the banner. This can be used to create a delay before the banner
+   *   is shown, allowing for any necessary setup or initialization to occur
+   *   first. The default value is 500 milliseconds.
+   */
+  export function showBanner(sleepTimeoutMs?: number): Promise<void>;
+}
+
+/**
+ * A collection of utility functions that assist in displaying banner information for the Completions - Fish Script command.
+ *
+ * @module shell-shock:banner/completions/fish/script
+ */
+declare module "shell-shock:banner/completions/fish/script" {
+  /**
+   * Write the Playground command-line interface application banner for the Completions - Fish Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9658,24 +9654,6 @@ declare module "shell-shock:help/completions" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Bash Configuration command.
- *
- * @module shell-shock:help/completions/bash/config
- */
-declare module "shell-shock:help/completions/bash/config" {
-  /**
-   * Utility functions for displaying help information for the Completions - Bash Configuration command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Bash Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Bash Configuration command.
-   */
-  export function showHelp(): void;
-}
-
-/**
  * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Configuration command.
  *
  * @module shell-shock:help/completions/powershell/config
@@ -9695,19 +9673,19 @@ declare module "shell-shock:help/completions/powershell/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Fish Configuration command.
+ * A collection of utility functions that assist in displaying help information for the Completions - Bash Configuration command.
  *
- * @module shell-shock:help/completions/fish/config
+ * @module shell-shock:help/completions/bash/config
  */
-declare module "shell-shock:help/completions/fish/config" {
+declare module "shell-shock:help/completions/bash/config" {
   /**
-   * Utility functions for displaying help information for the Completions - Fish Configuration command.
+   * Utility functions for displaying help information for the Completions - Bash Configuration command.
    *
    * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Fish Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   * This module contains utility functions that assist in displaying help information for the Completions - Bash Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
    */
   /**
-   * Display help information for the Completions - Fish Configuration command.
+   * Display help information for the Completions - Bash Configuration command.
    */
   export function showHelp(): void;
 }
@@ -9726,6 +9704,24 @@ declare module "shell-shock:help/completions/zsh/config" {
    */
   /**
    * Display help information for the Completions - Zsh Configuration command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - Fish Configuration command.
+ *
+ * @module shell-shock:help/completions/fish/config
+ */
+declare module "shell-shock:help/completions/fish/config" {
+  /**
+   * Utility functions for displaying help information for the Completions - Fish Configuration command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Fish Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Fish Configuration command.
    */
   export function showHelp(): void;
 }
@@ -9929,24 +9925,6 @@ declare module "shell-shock:help/run" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Bash Script command.
- *
- * @module shell-shock:help/completions/bash/script
- */
-declare module "shell-shock:help/completions/bash/script" {
-  /**
-   * Utility functions for displaying help information for the Completions - Bash Script command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Bash Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Bash Script command.
-   */
-  export function showHelp(): void;
-}
-
-/**
  * A collection of utility functions that assist in displaying help information for the Completions - PowerShell Script command.
  *
  * @module shell-shock:help/completions/powershell/script
@@ -9965,19 +9943,19 @@ declare module "shell-shock:help/completions/powershell/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Fish Script command.
+ * A collection of utility functions that assist in displaying help information for the Completions - Bash Script command.
  *
- * @module shell-shock:help/completions/fish/script
+ * @module shell-shock:help/completions/bash/script
  */
-declare module "shell-shock:help/completions/fish/script" {
+declare module "shell-shock:help/completions/bash/script" {
   /**
-   * Utility functions for displaying help information for the Completions - Fish Script command.
+   * Utility functions for displaying help information for the Completions - Bash Script command.
    *
    * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Fish Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   * This module contains utility functions that assist in displaying help information for the Completions - Bash Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
    */
   /**
-   * Display help information for the Completions - Fish Script command.
+   * Display help information for the Completions - Bash Script command.
    */
   export function showHelp(): void;
 }
@@ -9996,6 +9974,24 @@ declare module "shell-shock:help/completions/zsh/script" {
    */
   /**
    * Display help information for the Completions - Zsh Script command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - Fish Script command.
+ *
+ * @module shell-shock:help/completions/fish/script
+ */
+declare module "shell-shock:help/completions/fish/script" {
+  /**
+   * Utility functions for displaying help information for the Completions - Fish Script command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Fish Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Fish Script command.
    */
   export function showHelp(): void;
 }

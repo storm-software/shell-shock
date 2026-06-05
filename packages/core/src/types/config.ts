@@ -25,21 +25,27 @@ import type {
 import type { TsdownPluginResolvedConfig } from "@powerlines/plugin-tsdown/types/plugin";
 import type { RequiredKeys } from "@stryke/types/base";
 import type {
-  EngineOptions as PowerlinesEngineOptions,
+  ConfigParams,
   OutputConfig as PowerlinesOutputConfig,
   UserConfig as PowerlinesUserConfig
 } from "powerlines";
+import type { EngineOptions as PowerlinesEngineOptions } from "powerlines/engine";
 import type { CommandBase, CommandOption } from "./command";
 import type { Context } from "./context";
 
 type BuildOptions = Pick<
   PowerlinesUserConfig,
-  | "root"
   | "name"
   | "title"
   | "description"
+  | "input"
+  | "output"
   | "logLevel"
   | "mode"
+  | "define"
+  | "inject"
+  | "resolve"
+  | "organization"
   | "skipCache"
   | "autoInstall"
   | "plugins"
@@ -57,7 +63,7 @@ export interface ReferenceOptions {
    * A URL to the application command specific documentation or reference.
    *
    * @remarks
-   * This URL is expected to contain the token `{command}`, which will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{reference}/command/subcommand`.
+   * This URL is expected to contain the token `{command}`, which will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{docs}/command/subcommand`.
    */
   commands?: string;
 }
@@ -71,7 +77,7 @@ interface BaseOptions {
    */
   globalOptions?:
     | CommandOption[]
-    | ((context: Context, input: CommandBase) => CommandOption[])
+    | ((context: Context<any>, input: CommandBase) => CommandOption[])
     | false;
 
   /**
@@ -108,9 +114,9 @@ interface BaseOptions {
    * A URL to the application documentation or reference.
    *
    * @remarks
-   * This URL can be used in various displays of the user interface and documentation to provide users with a reference for the application. It can also be used by plugins to link to the documentation in relevant contexts. If the token `{command}` is included in the URL, it will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{reference}/command/subcommand`.
+   * This URL can be used in various displays of the user interface and documentation to provide users with a reference for the application. It can also be used by plugins to link to the documentation in relevant contexts. If the token `{command}` is included in the URL, it will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{docs}/command/subcommand`.
    */
-  reference?: ReferenceOptions | string;
+  docs?: ReferenceOptions | string;
 }
 
 /**
@@ -135,18 +141,35 @@ export type OutputConfig = Pick<
  * The user configuration options for Shell Shock.
  */
 export type UserConfig = BaseOptions &
-  RequiredKeys<BuildOptions, "root" | "name"> & {
+  RequiredKeys<BuildOptions, "name"> & {
     /**
      * Configuration for the output of the build process
      */
     output?: OutputConfig;
   };
 
+export type UserConfigFnObject = (
+  env: ConfigParams
+) => UserConfig | UserConfig[];
+export type UserConfigFnPromise = (
+  env: ConfigParams
+) => Promise<UserConfig | UserConfig[]>;
+export type UserConfigFn = (
+  env: ConfigParams
+) => UserConfig | UserConfig[] | Promise<UserConfig | UserConfig[]>;
+
+export type UserConfigExport =
+  | UserConfig
+  | UserConfig[]
+  | Promise<UserConfig | UserConfig[]>
+  | UserConfigFnObject
+  | UserConfigFnPromise
+  | UserConfigFn;
+
 export type EngineOptions = Omit<
   PowerlinesEngineOptions,
   "root" | "name" | "framework"
-> &
-  UserConfig;
+>;
 
 /**
  * The resolved configuration options for Shell Shock.

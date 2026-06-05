@@ -49,472 +49,440 @@ export const plugin = <
   TContext extends CompletionsPluginContext = CompletionsPluginContext
 >(
   options: CompletionsPluginOptions = {}
-): Plugin<TContext>[] => {
-  return [
-    {
-      name: "shell-shock:completions",
-      config() {
-        this.debug(
-          "Providing default configuration for the Shell Shock `completions` plugin."
-        );
+): Plugin<TContext> => {
+  return {
+    name: "shell-shock/completions",
+    config() {
+      this.debug(
+        "Providing default configuration for the Shell Shock `completions` plugin."
+      );
 
-        return {
-          completions: { shells: [...SHELL_TYPES], ...options }
-        };
-      },
-      configResolved() {
-        this.debug(
-          "Adding the CLI completion commands to the application context."
-        );
+      return {
+        completions: { shells: [...SHELL_TYPES], ...options }
+      };
+    },
+    configResolved() {
+      this.debug(
+        "Adding the CLI completion commands to the application context."
+      );
 
-        this.inputs ??= [];
-        if (this.inputs.some(input => input.id === "completions")) {
+      this.inputs ??= [];
+      if (this.inputs.some(input => input.id === "completions")) {
+        this.info(
+          "The `completions` command already exists in the commands list. If you would like the completions command to be managed by the `@shell-shock/plugin-completions` package, please remove or rename the command."
+        );
+      } else {
+        this.inputs.push({
+          id: "completions",
+          name: "completions",
+          alias: ["completion"],
+          path: "completions",
+          segments: ["completions"],
+          title: "Completions",
+          icon: "🖵",
+          tags: ["Utility"],
+          description: `Commands for generating shell completion scripts for ${getAppTitle(
+            this
+          )}.`,
+          entry: {
+            file: joinPaths(this.entryPath, "completions", "index.ts")
+          },
+          virtual: true
+        });
+      }
+
+      if (this.config.completions.shells.includes("bash")) {
+        if (this.inputs.some(input => input.id === "completions-bash")) {
           this.info(
-            "The `completions` command already exists in the commands list. If you would like the completions command to be managed by the `@shell-shock/plugin-completions` package, please remove or rename the command."
+            "The `completions-bash` command already exists in the commands list. If you would like the completions-bash command to be managed by the `@shell-shock/plugin-completions` package, please remove or rename the command."
           );
         } else {
           this.inputs.push({
-            id: "completions",
-            name: "completions",
-            alias: ["completion"],
-            path: "completions",
-            segments: ["completions"],
-            title: "Completions",
-            icon: "🖵",
+            id: "completions-bash",
+            name: "bash",
+            description: `Commands to setup bash completions for the ${getAppTitle(
+              this,
+              true
+            )} command-line interface.`,
+            alias: [],
+            path: "completions/bash",
+            segments: ["completions", "bash"],
+            title: "Completions - Bash",
             tags: ["Utility"],
-            description: `Commands for generating shell completion scripts for ${getAppTitle(
-              this
-            )}.`,
             entry: {
-              file: joinPaths(this.entryPath, "completions", "index.ts")
+              file: joinPaths(this.entryPath, "completions", "bash", "index.ts")
             },
-            isVirtual: true,
-            source: "completions-plugin"
+            virtual: true
+          });
+          this.inputs.push({
+            id: "completions-bash-script",
+            name: "script",
+            description: `Generate a bash completion script for the ${getAppTitle(
+              this,
+              true
+            )} command-line interface.`,
+            alias: [],
+            path: "completions/bash/script",
+            segments: ["completions", "bash", "script"],
+            title: "Completions - Bash Script",
+            tags: ["Utility"],
+            entry: {
+              file: joinPaths(
+                this.entryPath,
+                "completions",
+                "bash",
+                "script",
+                "index.ts"
+              ),
+              input: {
+                file: joinPaths(
+                  this.entryPath,
+                  "completions",
+                  "bash",
+                  "script",
+                  "command.ts"
+                )
+              }
+            },
+            virtual: false
+          });
+          this.inputs.push({
+            id: "completions-bash-config",
+            name: "config",
+            description: `Update the current system's bash shell configuration to include completions for the ${getAppTitle(
+              this,
+              true
+            )} command-line interface.`,
+            alias: [],
+            path: "completions/bash/config",
+            segments: ["completions", "bash", "config"],
+            title: "Completions - Bash Configuration",
+            tags: ["Utility"],
+            entry: {
+              file: joinPaths(
+                this.entryPath,
+                "completions",
+                "bash",
+                "config",
+                "index.ts"
+              ),
+              input: {
+                file: joinPaths(
+                  this.entryPath,
+                  "completions",
+                  "bash",
+                  "config",
+                  "command.ts"
+                )
+              }
+            },
+            virtual: false
           });
         }
+      }
 
-        if (this.config.completions.shells.includes("bash")) {
-          if (this.inputs.some(input => input.id === "completions-bash")) {
-            this.info(
-              "The `completions-bash` command already exists in the commands list. If you would like the completions-bash command to be managed by the `@shell-shock/plugin-completions` package, please remove or rename the command."
-            );
-          } else {
-            this.inputs.push({
-              id: "completions-bash",
-              name: "bash",
-              description: `Commands to setup bash completions for the ${getAppTitle(
-                this,
-                true
-              )} command-line interface.`,
-              alias: [],
-              path: "completions/bash",
-              segments: ["completions", "bash"],
-              title: "Completions - Bash",
-              tags: ["Utility"],
-              entry: {
-                file: joinPaths(
-                  this.entryPath,
-                  "completions",
-                  "bash",
-                  "index.ts"
-                )
-              },
-              isVirtual: true,
-              source: "completions-plugin"
-            });
-            this.inputs.push({
-              id: "completions-bash-script",
-              name: "script",
-              description: `Generate a bash completion script for the ${getAppTitle(
-                this,
-                true
-              )} command-line interface.`,
-              alias: [],
-              path: "completions/bash/script",
-              segments: ["completions", "bash", "script"],
-              title: "Completions - Bash Script",
-              tags: ["Utility"],
-              entry: {
-                file: joinPaths(
-                  this.entryPath,
-                  "completions",
-                  "bash",
-                  "script",
-                  "index.ts"
-                ),
-                input: {
-                  file: joinPaths(
-                    this.entryPath,
-                    "completions",
-                    "bash",
-                    "script",
-                    "command.ts"
-                  )
-                }
-              },
-              isVirtual: false,
-              source: "completions-plugin"
-            });
-            this.inputs.push({
-              id: "completions-bash-config",
-              name: "config",
-              description: `Update the current system's bash shell configuration to include completions for the ${getAppTitle(
-                this,
-                true
-              )} command-line interface.`,
-              alias: [],
-              path: "completions/bash/config",
-              segments: ["completions", "bash", "config"],
-              title: "Completions - Bash Configuration",
-              tags: ["Utility"],
-              entry: {
-                file: joinPaths(
-                  this.entryPath,
-                  "completions",
-                  "bash",
-                  "config",
-                  "index.ts"
-                ),
-                input: {
-                  file: joinPaths(
-                    this.entryPath,
-                    "completions",
-                    "bash",
-                    "config",
-                    "command.ts"
-                  )
-                }
-              },
-              isVirtual: false,
-              source: "completions-plugin"
-            });
-          }
-        }
-
-        if (this.config.completions.shells.includes("zsh")) {
-          if (this.inputs.some(input => input.id === "completions-zsh")) {
-            this.info(
-              "The `completions-zsh` command already exists in the commands list. If you would like the completions-zsh command to be managed by the `@shell-shock/plugin-completions` package, please remove or rename the command."
-            );
-          } else {
-            this.inputs.push({
-              id: "completions-zsh",
-              name: "zsh",
-              description: `Commands to setup Zsh completions for the ${getAppTitle(
-                this,
-                true
-              )} command-line interface.`,
-              alias: [],
-              path: "completions/zsh",
-              segments: ["completions", "zsh"],
-              title: "Completions - Zsh",
-              tags: ["Utility"],
-              entry: {
-                file: joinPaths(
-                  this.entryPath,
-                  "completions",
-                  "zsh",
-                  "index.ts"
-                )
-              },
-              isVirtual: true,
-              source: "completions-plugin"
-            });
-            this.inputs.push({
-              id: "completions-zsh-script",
-              name: "script",
-              description: `Generate a Zsh completion script for the ${getAppTitle(
-                this,
-                true
-              )} command-line interface.`,
-              alias: [],
-              path: "completions/zsh/script",
-              segments: ["completions", "zsh", "script"],
-              title: "Completions - Zsh Script",
-              tags: ["Utility"],
-              entry: {
-                file: joinPaths(
-                  this.entryPath,
-                  "completions",
-                  "zsh",
-                  "script",
-                  "index.ts"
-                ),
-                input: {
-                  file: joinPaths(
-                    this.entryPath,
-                    "completions",
-                    "zsh",
-                    "script",
-                    "command.ts"
-                  )
-                }
-              },
-              isVirtual: false,
-              source: "completions-plugin"
-            });
-            this.inputs.push({
-              id: "completions-zsh-config",
-              name: "config",
-              description: `Update the current system's Zsh shell configuration to include completions for the ${getAppTitle(
-                this,
-                true
-              )} command-line interface.`,
-              alias: [],
-              path: "completions/zsh/config",
-              segments: ["completions", "zsh", "config"],
-              title: "Completions - Zsh Configuration",
-              tags: ["Utility"],
-              entry: {
-                file: joinPaths(
-                  this.entryPath,
-                  "completions",
-                  "zsh",
-                  "config",
-                  "index.ts"
-                ),
-                input: {
-                  file: joinPaths(
-                    this.entryPath,
-                    "completions",
-                    "zsh",
-                    "config",
-                    "command.ts"
-                  )
-                }
-              },
-              isVirtual: false,
-              source: "completions-plugin"
-            });
-          }
-        }
-
-        if (this.config.completions.shells.includes("powershell")) {
-          if (
-            this.inputs.some(input => input.id === "completions-powershell")
-          ) {
-            this.info(
-              "The `completions-powershell` command already exists in the commands list. If you would like the completions-powershell command to be managed by the `@shell-shock/plugin-completions` package, please remove or rename the command."
-            );
-          } else {
-            this.inputs.push({
-              id: "completions-powershell",
-              name: "powershell",
-              description: `Commands to setup PowerShell completions for the ${getAppTitle(
-                this,
-                true
-              )} command-line interface.`,
-              alias: [],
-              path: "completions/powershell",
-              segments: ["completions", "powershell"],
-              title: "Completions - PowerShell",
-              tags: ["Utility"],
-              entry: {
-                file: joinPaths(
-                  this.entryPath,
-                  "completions",
-                  "powershell",
-                  "index.ts"
-                )
-              },
-              isVirtual: true,
-              source: "completions-plugin"
-            });
-            this.inputs.push({
-              id: "completions-powershell-script",
-              name: "script",
-              description: `Generate a PowerShell completion script for the ${getAppTitle(
-                this,
-                true
-              )} command-line interface.`,
-              alias: [],
-              path: "completions/powershell/script",
-              segments: ["completions", "powershell", "script"],
-              title: "Completions - PowerShell Script",
-              tags: ["Utility"],
-              entry: {
-                file: joinPaths(
-                  this.entryPath,
-                  "completions",
-                  "powershell",
-                  "script",
-                  "index.ts"
-                ),
-                input: {
-                  file: joinPaths(
-                    this.entryPath,
-                    "completions",
-                    "powershell",
-                    "script",
-                    "command.ts"
-                  )
-                }
-              },
-              isVirtual: false,
-              source: "completions-plugin"
-            });
-            this.inputs.push({
-              id: "completions-powershell-config",
-              name: "config",
-              description: `Update the current system's PowerShell configuration to include completions for the ${getAppTitle(
-                this,
-                true
-              )} command-line interface.`,
-              alias: [],
-              path: "completions/powershell/config",
-              segments: ["completions", "powershell", "config"],
-              title: "Completions - PowerShell Configuration",
-              tags: ["Utility"],
-              entry: {
-                file: joinPaths(
-                  this.entryPath,
-                  "completions",
-                  "powershell",
-                  "config",
-                  "index.ts"
-                ),
-                input: {
-                  file: joinPaths(
-                    this.entryPath,
-                    "completions",
-                    "powershell",
-                    "config",
-                    "command.ts"
-                  )
-                }
-              },
-              isVirtual: false,
-              source: "completions-plugin"
-            });
-          }
-        }
-
-        if (this.config.completions.shells.includes("fish")) {
-          if (this.inputs.some(input => input.id === "completions-fish")) {
-            this.info(
-              "The `completions-fish` command already exists in the commands list. If you would like the completions-fish command to be managed by the `@shell-shock/plugin-completions` package, please remove or rename the command."
-            );
-          } else {
-            this.inputs.push({
-              id: "completions-fish",
-              name: "fish",
-              description: `Commands to setup Fish completions for the ${getAppTitle(
-                this,
-                true
-              )} command-line interface.`,
-              alias: [],
-              path: "completions/fish",
-              segments: ["completions", "fish"],
-              title: "Completions - Fish",
-              tags: ["Utility"],
-              entry: {
-                file: joinPaths(
-                  this.entryPath,
-                  "completions",
-                  "fish",
-                  "index.ts"
-                )
-              },
-              isVirtual: true,
-              source: "completions-plugin"
-            });
-            this.inputs.push({
-              id: "completions-fish-script",
-              name: "script",
-              description: `Generate a Fish completion script for the ${getAppTitle(
-                this,
-                true
-              )} command-line interface.`,
-              alias: [],
-              path: "completions/fish/script",
-              segments: ["completions", "fish", "script"],
-              title: "Completions - Fish Script",
-              tags: ["Utility"],
-              entry: {
-                file: joinPaths(
-                  this.entryPath,
-                  "completions",
-                  "fish",
-                  "script",
-                  "index.ts"
-                ),
-                input: {
-                  file: joinPaths(
-                    this.entryPath,
-                    "completions",
-                    "fish",
-                    "script",
-                    "command.ts"
-                  )
-                }
-              },
-              isVirtual: false,
-              source: "completions-plugin"
-            });
-            this.inputs.push({
-              id: "completions-fish-config",
-              name: "config",
-              description: `Update the current system's Fish shell configuration to include completions for the ${getAppTitle(
-                this,
-                true
-              )} command-line interface.`,
-              alias: [],
-              path: "completions/fish/config",
-              segments: ["completions", "fish", "config"],
-              title: "Completions - Fish Configuration",
-              tags: ["Utility"],
-              entry: {
-                file: joinPaths(
-                  this.entryPath,
-                  "completions",
-                  "fish",
-                  "config",
-                  "index.ts"
-                ),
-                input: {
-                  file: joinPaths(
-                    this.entryPath,
-                    "completions",
-                    "fish",
-                    "config",
-                    "command.ts"
-                  )
-                }
-              },
-              isVirtual: false,
-              source: "completions-plugin"
-            });
-          }
-        }
-      },
-      prepare: {
-        order: "pre",
-        async handler() {
-          this.debug(
-            "Rendering command handling modules for the Shell Shock `completions` plugin."
+      if (this.config.completions.shells.includes("zsh")) {
+        if (this.inputs.some(input => input.id === "completions-zsh")) {
+          this.info(
+            "The `completions-zsh` command already exists in the commands list. If you would like the completions-zsh command to be managed by the `@shell-shock/plugin-completions` package, please remove or rename the command."
           );
-
-          return render(
-            this,
-            <>
-              <BashCompletionsShared />
-              <BashScriptCompletionsCommand />
-              <BashConfigCompletionsCommand />
-              <ZshCompletionsShared />
-              <ZshScriptCompletionsCommand />
-              <ZshConfigCompletionsCommand />
-              <PowerShellCompletionsShared />
-              <PowerShellScriptCompletionsCommand />
-              <PowerShellConfigCompletionsCommand />
-              <FishCompletionsShared />
-              <FishScriptCompletionsCommand />
-              <FishConfigCompletionsCommand />
-            </>
-          );
+        } else {
+          this.inputs.push({
+            id: "completions-zsh",
+            name: "zsh",
+            description: `Commands to setup Zsh completions for the ${getAppTitle(
+              this,
+              true
+            )} command-line interface.`,
+            alias: [],
+            path: "completions/zsh",
+            segments: ["completions", "zsh"],
+            title: "Completions - Zsh",
+            tags: ["Utility"],
+            entry: {
+              file: joinPaths(this.entryPath, "completions", "zsh", "index.ts")
+            },
+            virtual: true
+          });
+          this.inputs.push({
+            id: "completions-zsh-script",
+            name: "script",
+            description: `Generate a Zsh completion script for the ${getAppTitle(
+              this,
+              true
+            )} command-line interface.`,
+            alias: [],
+            path: "completions/zsh/script",
+            segments: ["completions", "zsh", "script"],
+            title: "Completions - Zsh Script",
+            tags: ["Utility"],
+            entry: {
+              file: joinPaths(
+                this.entryPath,
+                "completions",
+                "zsh",
+                "script",
+                "index.ts"
+              ),
+              input: {
+                file: joinPaths(
+                  this.entryPath,
+                  "completions",
+                  "zsh",
+                  "script",
+                  "command.ts"
+                )
+              }
+            },
+            virtual: false
+          });
+          this.inputs.push({
+            id: "completions-zsh-config",
+            name: "config",
+            description: `Update the current system's Zsh shell configuration to include completions for the ${getAppTitle(
+              this,
+              true
+            )} command-line interface.`,
+            alias: [],
+            path: "completions/zsh/config",
+            segments: ["completions", "zsh", "config"],
+            title: "Completions - Zsh Configuration",
+            tags: ["Utility"],
+            entry: {
+              file: joinPaths(
+                this.entryPath,
+                "completions",
+                "zsh",
+                "config",
+                "index.ts"
+              ),
+              input: {
+                file: joinPaths(
+                  this.entryPath,
+                  "completions",
+                  "zsh",
+                  "config",
+                  "command.ts"
+                )
+              }
+            },
+            virtual: false
+          });
         }
       }
+
+      if (this.config.completions.shells.includes("powershell")) {
+        if (this.inputs.some(input => input.id === "completions-powershell")) {
+          this.info(
+            "The `completions-powershell` command already exists in the commands list. If you would like the completions-powershell command to be managed by the `@shell-shock/plugin-completions` package, please remove or rename the command."
+          );
+        } else {
+          this.inputs.push({
+            id: "completions-powershell",
+            name: "powershell",
+            description: `Commands to setup PowerShell completions for the ${getAppTitle(
+              this,
+              true
+            )} command-line interface.`,
+            alias: [],
+            path: "completions/powershell",
+            segments: ["completions", "powershell"],
+            title: "Completions - PowerShell",
+            tags: ["Utility"],
+            entry: {
+              file: joinPaths(
+                this.entryPath,
+                "completions",
+                "powershell",
+                "index.ts"
+              )
+            },
+            virtual: true
+          });
+          this.inputs.push({
+            id: "completions-powershell-script",
+            name: "script",
+            description: `Generate a PowerShell completion script for the ${getAppTitle(
+              this,
+              true
+            )} command-line interface.`,
+            alias: [],
+            path: "completions/powershell/script",
+            segments: ["completions", "powershell", "script"],
+            title: "Completions - PowerShell Script",
+            tags: ["Utility"],
+            entry: {
+              file: joinPaths(
+                this.entryPath,
+                "completions",
+                "powershell",
+                "script",
+                "index.ts"
+              ),
+              input: {
+                file: joinPaths(
+                  this.entryPath,
+                  "completions",
+                  "powershell",
+                  "script",
+                  "command.ts"
+                )
+              }
+            },
+            virtual: false
+          });
+          this.inputs.push({
+            id: "completions-powershell-config",
+            name: "config",
+            description: `Update the current system's PowerShell configuration to include completions for the ${getAppTitle(
+              this,
+              true
+            )} command-line interface.`,
+            alias: [],
+            path: "completions/powershell/config",
+            segments: ["completions", "powershell", "config"],
+            title: "Completions - PowerShell Configuration",
+            tags: ["Utility"],
+            entry: {
+              file: joinPaths(
+                this.entryPath,
+                "completions",
+                "powershell",
+                "config",
+                "index.ts"
+              ),
+              input: {
+                file: joinPaths(
+                  this.entryPath,
+                  "completions",
+                  "powershell",
+                  "config",
+                  "command.ts"
+                )
+              }
+            },
+            virtual: false
+          });
+        }
+      }
+
+      if (this.config.completions.shells.includes("fish")) {
+        if (this.inputs.some(input => input.id === "completions-fish")) {
+          this.info(
+            "The `completions-fish` command already exists in the commands list. If you would like the completions-fish command to be managed by the `@shell-shock/plugin-completions` package, please remove or rename the command."
+          );
+        } else {
+          this.inputs.push({
+            id: "completions-fish",
+            name: "fish",
+            description: `Commands to setup Fish completions for the ${getAppTitle(
+              this,
+              true
+            )} command-line interface.`,
+            alias: [],
+            path: "completions/fish",
+            segments: ["completions", "fish"],
+            title: "Completions - Fish",
+            tags: ["Utility"],
+            entry: {
+              file: joinPaths(this.entryPath, "completions", "fish", "index.ts")
+            },
+            virtual: true
+          });
+          this.inputs.push({
+            id: "completions-fish-script",
+            name: "script",
+            description: `Generate a Fish completion script for the ${getAppTitle(
+              this,
+              true
+            )} command-line interface.`,
+            alias: [],
+            path: "completions/fish/script",
+            segments: ["completions", "fish", "script"],
+            title: "Completions - Fish Script",
+            tags: ["Utility"],
+            entry: {
+              file: joinPaths(
+                this.entryPath,
+                "completions",
+                "fish",
+                "script",
+                "index.ts"
+              ),
+              input: {
+                file: joinPaths(
+                  this.entryPath,
+                  "completions",
+                  "fish",
+                  "script",
+                  "command.ts"
+                )
+              }
+            },
+            virtual: false
+          });
+          this.inputs.push({
+            id: "completions-fish-config",
+            name: "config",
+            description: `Update the current system's Fish shell configuration to include completions for the ${getAppTitle(
+              this,
+              true
+            )} command-line interface.`,
+            alias: [],
+            path: "completions/fish/config",
+            segments: ["completions", "fish", "config"],
+            title: "Completions - Fish Configuration",
+            tags: ["Utility"],
+            entry: {
+              file: joinPaths(
+                this.entryPath,
+                "completions",
+                "fish",
+                "config",
+                "index.ts"
+              ),
+              input: {
+                file: joinPaths(
+                  this.entryPath,
+                  "completions",
+                  "fish",
+                  "config",
+                  "command.ts"
+                )
+              }
+            },
+            virtual: false
+          });
+        }
+      }
+    },
+    prepare: {
+      order: "pre",
+      async handler() {
+        this.debug(
+          "Rendering command handling modules for the Shell Shock `completions` plugin."
+        );
+
+        return render(
+          this,
+          <>
+            <BashCompletionsShared />
+            <BashScriptCompletionsCommand />
+            <BashConfigCompletionsCommand />
+            <ZshCompletionsShared />
+            <ZshScriptCompletionsCommand />
+            <ZshConfigCompletionsCommand />
+            <PowerShellCompletionsShared />
+            <PowerShellScriptCompletionsCommand />
+            <PowerShellConfigCompletionsCommand />
+            <FishCompletionsShared />
+            <FishScriptCompletionsCommand />
+            <FishConfigCompletionsCommand />
+          </>
+        );
+      }
     }
-  ];
+  };
 };
 
 export default plugin;

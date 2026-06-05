@@ -26,7 +26,7 @@ import type { Context } from "../types/context";
 
 function innerFormatCommandTree(command: CommandTree): TreeItem {
   return {
-    name: `${command.name}${command.isVirtual ? " (virtual)" : ""}`,
+    name: `${command.name}${command.virtual ? " (virtual)" : ""}`,
     children: Object.values(command.children ?? {}).map(innerFormatCommandTree)
   };
 }

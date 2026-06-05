@@ -45,7 +45,7 @@ export const plugin = <
     ...help<TContext>(options),
     ...banner<TContext>(options.banner),
     {
-      name: "shell-shock:script-preset",
+      name: "shell-shock/script-preset",
       config() {
         this.debug(
           "Providing default configuration for the Shell Shock `script` preset."
@@ -103,7 +103,7 @@ export const plugin = <
                   doubleHardline>
                   {child => (
                     <Show
-                      when={child.isVirtual}
+                      when={child.virtual}
                       fallback={<CommandEntry command={child} />}>
                       <VirtualCommandEntry command={child} />
                     </Show>

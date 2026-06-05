@@ -38,7 +38,7 @@ export const plugin = <
       theme: options.theme
     }),
     {
-      name: "shell-shock:prompts",
+      name: "shell-shock/prompts",
       config() {
         this.debug(
           "Providing default configuration for the Shell Shock `prompts` plugin."

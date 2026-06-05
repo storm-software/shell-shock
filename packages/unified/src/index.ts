@@ -16,7 +16,6 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./adapter";
 export * from "./html";
 export * from "./markdown";
 

@@ -26,8 +26,7 @@ import {
   getAppTitle,
   isDynamicPathSegment
 } from "../plugin-utils/context-helpers";
-import type { CommandArgument, CommandParameterKind } from "../types/command";
-import { CommandParameterKinds } from "../types/command";
+import type { CommandArgument } from "../types/command";
 import type { Context } from "../types/context";
 import type { ResolverContext } from "./types";
 
@@ -35,8 +34,8 @@ import type { ResolverContext } from "./types";
  * Resolves the description for a command option based on its reflection.
  *
  * @param name - The name of the command option.
- * @param kind - The reflection kind of the command option.
- * @param optional - Whether the command option is optional.
+ * @param type - The reflection kind of the command option.
+ * @param required - Whether the command option is required.
  * @param variadic - Whether the command option is variadic (i.e., an array).
  * @param title - The title of the command option, if any.
  * @param defaultValue - The default value of the command option, if any.
@@ -44,24 +43,24 @@ import type { ResolverContext } from "./types";
  */
 export function resolveCommandOptionDescription(
   name: string,
-  kind: CommandParameterKind,
-  optional = false,
+  type: "string" | "number" | "boolean",
+  required = true,
   variadic = false,
   title?: string,
   defaultValue?: any
 ): string {
-  return `A${optional && !defaultValue ? "n optional" : ""} command-line ${
-    kind === CommandParameterKinds.boolean ? "flag" : "option"
+  return `A${!required && !defaultValue ? "n optional" : ""} command-line ${
+    type === "boolean" ? "flag" : "option"
   } that allows the user to ${
-    kind === CommandParameterKinds.boolean
+    type === "boolean"
       ? "set the"
       : variadic
         ? "specify custom"
         : "specify a custom"
   } ${title?.trim() || titleCase(name)} ${
-    kind === CommandParameterKinds.boolean
+    type === "boolean"
       ? "indicator"
-      : `${kind === CommandParameterKinds.number ? "numeric" : "string"} value${
+      : `${type === "number" ? "numeric" : "string"} value${
           variadic ? "s" : ""
         }`
   }.`;
@@ -71,8 +70,8 @@ export function resolveCommandOptionDescription(
  * Resolves the description for a command argument based on its reflection.
  *
  * @param name - The name of the command argument.
- * @param kind - The reflection kind of the command argument.
- * @param optional - Whether the command argument is optional.
+ * @param type - The reflection kind of the command argument.
+ * @param required - Whether the command argument is required.
  * @param variadic - Whether the command argument is variadic (i.e., an array).
  * @param title - The title of the command argument, if any.
  * @param defaultValue - The default value of the command argument, if any.
@@ -80,24 +79,24 @@ export function resolveCommandOptionDescription(
  */
 export function resolveCommandArgumentDescription(
   name: string,
-  kind: CommandParameterKind,
-  optional = false,
+  type: "string" | "number" | "boolean",
+  required = true,
   variadic = false,
   title?: string,
   defaultValue?: any
 ): string {
   return `An${
-    optional && !defaultValue ? " optional" : ""
+    !required && !defaultValue ? " optional" : ""
   } argument that allows the user to ${
-    kind === CommandParameterKinds.boolean
+    type === "boolean"
       ? "set the"
       : variadic
         ? "specify custom"
         : "specify a custom"
   } ${title?.trim() || titleCase(name)} ${
-    kind === CommandParameterKinds.boolean
+    type === "boolean"
       ? "indicator"
-      : `${kind === CommandParameterKinds.number ? "numeric" : "string"} value${
+      : `${type === "number" ? "numeric" : "string"} value${
           variadic ? "s" : ""
         }`
   }.`;
@@ -119,9 +118,9 @@ export function applyOptionsDefaults(ctx: ResolverContext) {
             option.description ||
             resolveCommandOptionDescription(
               name,
-              option.kind,
-              option.optional,
-              option.kind !== CommandParameterKinds.boolean && option.variadic,
+              option.type,
+              option.required,
+              option.type !== "boolean" && option.variadic,
               title,
               option.default
             ),
@@ -150,9 +149,9 @@ export function applyArgsDefaults(ctx: ResolverContext): CommandArgument[] {
         arg.description ||
         resolveCommandArgumentDescription(
           name,
-          arg.kind,
-          arg.optional,
-          arg.kind !== CommandParameterKinds.boolean && arg.variadic,
+          arg.type,
+          arg.required,
+          arg.type !== "boolean" && arg.variadic,
           title,
           arg.default
         ),
@@ -173,7 +172,7 @@ export function applyDefaults(ctx: ResolverContext) {
     isSetString(ctx.input.context.config.reference?.commands) &&
     ctx.input.context.config.reference.commands.includes("{command}")
   ) {
-    ctx.output.reference ??= ctx.input.context.config.reference.commands
+    ctx.output.docs ??= ctx.input.context.config.reference.commands
       ? ctx.input.context.config.reference.commands.replace(
           "{command}",
           ctx.input.command.segments
@@ -184,6 +183,12 @@ export function applyDefaults(ctx: ResolverContext) {
   }
 }
 
+/**
+ * Resolves a virtual command by applying default values to its title and description based on the command name and application title.
+ *
+ * @template TContext - The type of the context object.
+ * @param ctx - The resolver context containing the input and output for the command resolution process.
+ */
 export function resolveVirtualCommand<TContext extends Context = Context>(
   ctx: ResolverContext<TContext>
 ) {

@@ -17,7 +17,6 @@
  ------------------------------------------------------------------- */
 
 import type { CommandOption } from "@shell-shock/core";
-import { CommandParameterKinds } from "@shell-shock/core";
 
 /**
  * Get the default command options.
@@ -32,8 +31,8 @@ export function getGlobalOptions(): CommandOption[] {
       description: "Show help information.",
       env: false,
       alias: ["h", "?"],
-      kind: CommandParameterKinds.boolean,
-      optional: true,
+      type: "boolean",
+      required: false,
       default: false,
       variadic: false,
       skipAddingNegative: true
@@ -44,8 +43,8 @@ export function getGlobalOptions(): CommandOption[] {
       description: "Show the version of the application.",
       env: false,
       alias: ["v"],
-      kind: CommandParameterKinds.boolean,
-      optional: true,
+      type: "boolean",
+      required: false,
       default: false,
       variadic: false,
       skipAddingNegative: true
@@ -56,8 +55,8 @@ export function getGlobalOptions(): CommandOption[] {
       description: "Enable verbose output.",
       env: "VERBOSE",
       alias: ["V"],
-      kind: CommandParameterKinds.boolean,
-      optional: true,
+      type: "boolean",
+      required: false,
       default: false,
       variadic: false,
       skipAddingNegative: true
@@ -68,8 +67,8 @@ export function getGlobalOptions(): CommandOption[] {
       description: "Enable colored terminal output.",
       env: "COLOR",
       alias: ["colors"],
-      kind: CommandParameterKinds.boolean,
-      optional: true,
+      type: "boolean",
+      required: false,
       variadic: false,
       skipAddingNegative: false
     },
@@ -80,8 +79,8 @@ export function getGlobalOptions(): CommandOption[] {
         "Do not display the application banner displayed while running the CLI - will be set to true if running in a CI pipeline.",
       env: "NO_BANNER",
       alias: ["hide-banner"],
-      kind: CommandParameterKinds.boolean,
-      optional: true,
+      type: "boolean",
+      required: false,
       variadic: false,
       default: false
     }

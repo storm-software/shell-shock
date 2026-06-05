@@ -37,7 +37,7 @@ export const plugin = <
   options: UpgradePluginOptions = {}
 ): Plugin<TContext> => {
   return {
-    name: "shell-shock:upgrade",
+    name: "shell-shock/upgrade",
     config() {
       this.debug(
         "Providing default configuration for the Shell Shock `upgrade` plugin."
@@ -57,7 +57,7 @@ export const plugin = <
           }
         ),
         env: {
-          types: "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradeEnv",
+          config: "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradeEnv",
           validate: false
         }
       };
@@ -91,8 +91,7 @@ export const plugin = <
               file: joinPaths(this.entryPath, "upgrade", "command.ts")
             }
           },
-          isVirtual: false,
-          source: "upgrade-plugin",
+          virtual: false,
           ...this.config.upgrade.command
         });
       }

@@ -16,167 +16,40 @@
 
  ------------------------------------------------------------------- */
 
-import type { ExecutorContext, PromiseExecutor } from "@nx/devkit";
-import type { ShellShockAPI } from "@shell-shock/core";
-import { writeError } from "@storm-software/config-tools/logger";
-import type { StormWorkspaceConfig } from "@storm-software/config/types";
-import { withRunExecutor } from "@storm-software/workspace-tools/base/base-executor";
-import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
-import { isError } from "@stryke/type-checks/is-error";
-import defu from "defu";
-import { createJiti } from "jiti";
+import type { PromiseExecutor } from "@nx/devkit";
 import type {
-  InlineConfig,
-  LogLevel,
-  OutputConfig,
-  PowerlinesCommand
-} from "powerlines";
+  PowerlinesExecutorApi,
+  PowerlinesExecutorContext
+} from "@powerlines/nx/base/base-executor";
+import { withExecutor as withPowerlinesExecutor } from "@powerlines/nx/base/base-executor";
+import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
 import type { BaseExecutorSchema } from "./base-executor.schema";
 
-export type ShellShockExecutorContext<
-  TCommand extends PowerlinesCommand = PowerlinesCommand,
-  TExecutorSchema extends BaseExecutorSchema = BaseExecutorSchema
-> = ExecutorContext & {
-  projectName: string;
-  command: TCommand;
-  options: TExecutorSchema;
-  inlineConfig: InlineConfig;
-  workspaceConfig: StormWorkspaceConfig;
-};
-
 /**
- * A utility function to create a Shell Shock executor that can be used with the `withRunExecutor` function.
+ * A higher-order function that wraps a Powerlines executor function, providing a consistent interface for Nx executors in the Shell Shock project. This function abstracts away the integration details with Powerlines, allowing developers to focus on implementing the core logic of their executors.
  *
- * @remarks
- * This function is designed to simplify the creation of Shell Shock executors by providing a consistent interface and error handling.
- *
- * @param command - The command that the executor will handle (e.g., "new", "prepare", "build", etc.).
- * @param executorFn - The function that will be executed when the command is run.
- * @returns A Promise that resolves to the result of the executor function.
+ * @param command - The name of the command that this executor will handle (e.g., "build", "lint").
+ * @param executorFn - The actual executor function that contains the logic to be executed. It receives a PowerlinesExecutorContext and PowerlinesExecutorApi as parameters.
+ * @returns A PromiseExecutor function that can be used as an Nx executor.
  */
 export function withExecutor<
-  TCommand extends PowerlinesCommand = PowerlinesCommand,
   TExecutorSchema extends BaseExecutorSchema = BaseExecutorSchema
 >(
-  command: TCommand,
+  command: string,
   executorFn: (
-    context: ShellShockExecutorContext<TCommand, TExecutorSchema>,
-    api: ShellShockAPI
+    context: PowerlinesExecutorContext<TExecutorSchema>,
+    api: PowerlinesExecutorApi
   ) =>
     | Promise<BaseExecutorResult | null | undefined>
     | BaseExecutorResult
     | null
     | undefined
 ): PromiseExecutor<TExecutorSchema> {
-  return withRunExecutor(
-    `Shell Shock ${command} command executor`,
-    async (
-      options: TExecutorSchema,
-      context: ExecutorContext,
-      workspaceConfig: StormWorkspaceConfig
-    ): Promise<BaseExecutorResult | null | undefined> => {
-      if (!context.projectName) {
-        throw new Error(
-          "The executor requires `projectName` on the context object."
-        );
-      }
-
-      if (
-        !context.projectName ||
-        !context.projectsConfigurations?.projects ||
-        !context.projectsConfigurations.projects[context.projectName] ||
-        !context.projectsConfigurations.projects[context.projectName]?.root
-      ) {
-        throw new Error(
-          "The executor requires `projectsConfigurations` on the context object."
-        );
-      }
-
-      const projectConfig =
-        context.projectsConfigurations.projects[context.projectName]!;
-
-      const jiti = createJiti(context.root, { cache: false });
-      const { createShellShock } = await jiti.import<{
-        createShellShock: typeof import("@shell-shock/core").createShellShock;
-      }>(jiti.esmResolve("@shell-shock/core"));
-
-      const api = await createShellShock({
-        name: context.projectName,
-        root: projectConfig.root,
-        cwd: workspaceConfig.workspaceRoot,
-        configFile: options.configFile
-      });
-
-      try {
-        return await Promise.resolve(
-          executorFn(
-            defu(
-              {
-                projectName: context.projectName,
-                options,
-                command,
-                workspaceConfig,
-                inlineConfig: defu(
-                  {
-                    command,
-                    configFile: options.configFile,
-                    description: projectConfig.metadata?.description,
-                    projectType: projectConfig.projectType,
-                    output: {
-                      path: options.outputPath,
-                      copy:
-                        options.copyPath === false
-                          ? false
-                          : {
-                              path: options.copyPath,
-                              assets: options.assets
-                            },
-                      minify: options.minify,
-                      sourceMap: options.sourceMap
-                    } as OutputConfig,
-                    logLevel: options.logLevel as LogLevel,
-                    resolve: {
-                      external: options.external,
-                      noExternal: options.noExternal,
-                      skipNodeModulesBundle: options.skipNodeModulesBundle
-                    }
-                  },
-                  options
-                )
-              },
-              context
-            ),
-            api
-          )
-        );
-      } catch (error) {
-        writeError(
-          `An error occurred while executing the Shell Shock ${
-            command
-          } command executor: ${
-            isError(error)
-              ? `${error.message}
-
-${error.stack}`
-              : "Unknown error"
-          }`
-        );
-
-        return { success: false };
-      } finally {
-        await api.finalize();
-      }
-    },
-    {
-      skipReadingConfig: false,
-      hooks: {
-        applyDefaultOptions: (options: Partial<TExecutorSchema>) => {
-          options.copyPath ??= "dist/{projectRoot}";
-          options.configFile ??= "{projectRoot}/shell-shock.config.ts";
-
-          return options as TExecutorSchema;
-        }
-      }
+  return withPowerlinesExecutor<TExecutorSchema>(command, executorFn, {
+    importPath: "@shell-shock/core/api",
+    framework: {
+      name: "shell-shock",
+      orgId: "storm-software"
     }
-  );
+  });
 }

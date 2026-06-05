@@ -64,7 +64,7 @@ export function CommandOptionsDocs(props: CommandOptionsDocsProps) {
                     : option.default
                 }\``
             : "",
-          required: option.optional || option.default ? "" : "✔"
+          required: !option.required || option.default ? "" : "✔"
         };
       })}
     />
@@ -217,8 +217,8 @@ export function CommandDocsFile(props: CommandDocsFileProps) {
           id: command.id,
           name: command.name,
           path: command.path,
-          reference: command.reference,
-          isVirtual: command.isVirtual,
+          reference: command.docs,
+          virtual: command.virtual,
           title: command.title,
           description: command.description,
           tags: command.tags

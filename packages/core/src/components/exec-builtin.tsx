@@ -23,7 +23,6 @@ import {
   InterfaceMember,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
@@ -278,10 +277,7 @@ export function ExecBuiltin(props: ExecBuiltinProps) {
       <TSDoc heading="Options for spawning a child process." />
       <InterfaceDeclaration export name="SpawnOptions">
         <TSDoc heading="The timeout in milliseconds for the spawn operation. If the process runs longer than this, it will be killed and the spawn promise will reject. This can also be provided as a number directly to the spawn function for convenience. Providing \`-1\` will disable the timeout.">
-          <TSDocDefaultValue
-            type={ReflectionKind.number}
-            defaultValue="300000"
-          />
+          <TSDocDefaultValue type="number" defaultValue="300_000" />
         </TSDoc>
         <InterfaceMember name="timeoutMs" optional type="number" />
         <Spacing />
@@ -339,7 +335,7 @@ export function ExecBuiltin(props: ExecBuiltinProps) {
           {
             name: "optionsOrTimeoutMs",
             type: "number | SpawnOptions",
-            default: "300000"
+            default: "300_000"
           }
         ]}
         returnType="Promise<SpawnResult>">
@@ -347,7 +343,7 @@ export function ExecBuiltin(props: ExecBuiltinProps) {
   typeof optionsOrTimeoutMs === "number"
     ? { timeoutMs: optionsOrTimeoutMs }
     : optionsOrTimeoutMs;
-const { timeoutMs = 300000, cwd, input, noOutputTimeoutMs } = options;
+const { timeoutMs = 300_000, cwd, input, noOutputTimeoutMs } = options;
 
 const resolvedArgv =
   isWindows
@@ -591,7 +587,7 @@ return new Promise((resolve, reject) => {
           {
             name: "optionsOrTimeoutMs",
             type: "number | SpawnOptions",
-            default: "300000"
+            default: "300_000"
           }
         ]}
         returnType="Promise<string>">
@@ -629,7 +625,7 @@ return new Promise((resolve, reject) => {
         {code`return execFileSync(argv.length > 0 ? argv[0] : "", argv.slice(1), {
           encoding: "utf8",
           stdio: ["ignore", "pipe", "ignore"],
-          timeout: options.timeoutMs ?? 300000,
+          timeout: options.timeoutMs ?? 300_000,
           env: resolveCommandEnv({ argv, env: options.env }),
           cwd: options.cwd || process.cwd(),
           windowsHide: true

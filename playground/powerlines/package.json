@@ -11,5 +11,12 @@
     "@types/node": "catalog:",
     "powerlines": "catalog:"
   },
-  "bin": { "playground-powerlines": "./dist/bin.mjs" }
+  "bin": { "playground-powerlines": "./dist/bin.mjs" },
+  "exports": {
+    "./bin": "./dist/bin.mjs",
+    "./build": "./dist/build.mjs",
+    "./help": "./dist/help.mjs",
+    "./package.json": "./package.json",
+    "./start": "./dist/start.mjs"
+  }
 }

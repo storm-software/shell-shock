@@ -18,7 +18,6 @@
 
 import { code } from "@alloy-js/core";
 import type { CommandParameter } from "../types";
-import { CommandParameterKinds } from "../types";
 
 export interface BooleanInputParserLogicProps {
   name: string;
@@ -106,19 +105,18 @@ export function CommandParameterType(props: { parameter: CommandParameter }) {
   const { parameter } = props;
 
   return code`${
-    (parameter.kind === CommandParameterKinds.string ||
-      parameter.kind === CommandParameterKinds.number) &&
+    (parameter.type === "string" || parameter.type === "number") &&
     parameter.choices &&
     parameter.choices.length > 0
       ? parameter.choices
           .map(choice => (typeof choice === "string" ? `"${choice}"` : choice))
           .join(" | ")
-      : parameter.kind === CommandParameterKinds.boolean
+      : parameter.type === "boolean"
         ? "boolean"
-        : parameter.kind === CommandParameterKinds.number
+        : parameter.type === "number"
           ? "number"
           : "string"
   }${
     parameter.variadic ? "[]" : ""
-  }${parameter.optional ? " | undefined" : ""}`;
+  }${!parameter.required ? " | undefined" : ""}`;
 }

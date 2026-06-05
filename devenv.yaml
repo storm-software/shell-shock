@@ -6,7 +6,7 @@ inputs:
   nixpkgs:
     url: github:cachix/devenv-nixpkgs/rolling
   nixpkgs-unstable:
-    url: github:nixos/nixpkgs/nixpkgs-unstable
+    url: github:NixOS/nixpkgs/nixpkgs-unstable
   treefmt-nix:
     url: github:numtide/treefmt-nix
     inputs:
@@ -15,5 +15,5 @@ inputs:
 imports:
   - storm-ops/devenv-modules/base
   - storm-ops/devenv-modules/core
-  - storm-ops/devenv-modules/ai
+  - storm-ops/devenv-modules/claude
   - storm-ops/devenv-modules/vhs

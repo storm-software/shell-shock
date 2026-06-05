@@ -42,7 +42,7 @@ export const plugin = <
   options: ChangelogPluginOptions = {}
 ): Plugin<TContext> => {
   return {
-    name: "shell-shock:changelog",
+    name: "shell-shock/changelog",
     config() {
       this.debug(
         "Providing default configuration for the Shell Shock `changelog` plugin."
@@ -99,34 +99,46 @@ export const plugin = <
           "The `changelog` command already exists in the commands list. If you would like the changelog command to be managed by the `@shell-shock/plugin-changelog` package, please remove or rename the command."
         );
       } else {
-        this.inputs.push({
-          id: this.config.changelog.command.name,
-          path: this.config.changelog.command.name,
-          segments: [this.config.changelog.command.name],
-          title: "Changelog",
-          icon: "🗃",
-          tags: ["Utility"],
-          description: `Display the ${getAppTitle(this)} changelog.`,
-          entry: {
-            file: joinPaths(this.entryPath, "changelog", "index.ts"),
-            input: {
-              file: joinPaths(this.entryPath, "changelog", "command.ts")
-            }
-          },
-          isVirtual: false,
-          source: "changelog-plugin",
-          ...this.config.changelog.command
-        });
-
-        this.debug(
-          "Rendering changelog command module for the Shell Shock `changelog` plugin."
-        );
-
         const content = await this.fs.read(this.config.changelog.file);
         if (content) {
+          this.inputs.push({
+            id: this.config.changelog.command.name,
+            path: this.config.changelog.command.name,
+            segments: [this.config.changelog.command.name],
+            title: "Changelog",
+            icon: "🗃",
+            tags: ["Utility"],
+            description: `Display the ${getAppTitle(this)} changelog.`,
+            entry: {
+              file: joinPaths(this.entryPath, "changelog", "index.ts"),
+              input: {
+                file: joinPaths(this.entryPath, "changelog", "command.ts")
+              }
+            },
+            virtual: false,
+            ...this.config.changelog.command
+          });
+
+          this.debug(
+            "Rendering changelog command module for the Shell Shock `changelog` plugin."
+          );
+
           await render(
             this,
-            <ChangelogCommand changelog={renderMarkdown(content)} />
+            <ChangelogCommand
+              changelog={`\`${renderMarkdown(content)
+                .split("\n")
+                .map(line => (isSetString(line) ? `\${${line}}` : ""))
+                .join("\n")}\``}
+            />
+          );
+        } else {
+          this.warn(
+            `The changelog file at the resolved path: ${
+              this.config.changelog.file
+            } could not be read or is empty. The \`${
+              this.config.changelog.command.name
+            }\` command will not be added to the application. Please ensure that the changelog file exists at the specified path and contains valid content.`
           );
         }
       }

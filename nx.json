@@ -5,10 +5,7 @@
     "groups": {
       "packages": {
         "projects": ["packages/*"],
-        "projectsRelationship": "independent",
-        "releaseTag": {
-          "pattern": "{projectName}@{version}"
-        }
+        "projectsRelationship": "independent"
       }
     }
   },

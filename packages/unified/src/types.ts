@@ -17,78 +17,27 @@
  ------------------------------------------------------------------- */
 
 import type { PartialKeys } from "@stryke/types/base";
+import type { Token } from "markdown-it/dist/markdown-it.min.js";
 
-export interface RenderAdapter {
-  /**
-   * Heading text.
-   */
-  heading: (text: string, level: number) => string;
+/**
+ * A type representing a markdown token, which is a fundamental unit of parsed markdown content. This type is based on the Token type from the markdown-it library, and includes properties such as type, tag, content, and children that describe the structure and content of the markdown element represented by the token. Markdown tokens are used during the parsing and rendering process to convert markdown text into HTML or other formats.
+ */
+export type MarkdownToken = Token;
 
+export interface MarkdownToHtmlOptions {
   /**
-   * Body text.
+   * A function that takes an array of markdown-it tokens and returns a modified array of tokens. This allows for custom processing or filtering of the tokens before they are rendered to HTML. For example, you could use this function to remove certain types of tokens, modify token content, or add new tokens based on specific criteria.
+   *
+   * @param tokens - An array of markdown-it tokens to be processed.
+   * @returns A modified array of markdown-it tokens.
    */
-  body: (text: string) => string;
-
-  /**
-   * Bold text.
-   */
-  bold: (text: string) => string;
-
-  /**
-   * Italic text.
-   */
-  italic: (text: string) => string;
-
-  /**
-   * Strikethrough text.
-   */
-  strikethrough: (text: string) => string;
-
-  /**
-   * Underlined text.
-   */
-  underline: (text: string) => string;
-
-  /**
-   * Blockquote text.
-   */
-  blockquote: (text: string) => string;
-
-  /**
-   * Link text.
-   */
-  link: (url: string, text?: string) => string;
-
-  /**
-   * Table.
-   */
-  table: (cells: string[][]) => string;
-
-  /**
-   * Code block.
-   */
-  code: (text: string, language?: string) => string;
-
-  /**
-   * Inline code.
-   */
-  inlineCode: (text: string) => string;
-
-  /**
-   * Line break.
-   */
-  break: () => string;
-
-  /**
-   * Horizontal divider.
-   */
-  divider: () => string;
+  filter?: (tokens: MarkdownToken[]) => MarkdownToken[];
 }
 
 /**
- * Options for {@link toConsole}.
+ * Options for rendering HTML or Markdown content in the terminal. This interface extends the MarkdownToHtmlOptions, allowing for additional configuration options specific to rendering in the terminal, such as line wrapping, font attributes, and ASCII mode.
  */
-export interface Options {
+export interface Options extends MarkdownToHtmlOptions {
   /**
    * Whether to wrap lines at a certain width.
    */
@@ -120,4 +69,7 @@ export interface Options {
   postProcess?: (output: string) => string;
 }
 
-export type ResolvedOptions = PartialKeys<Required<Options>, "postProcess">;
+export type ResolvedOptions = PartialKeys<
+  Required<Options>,
+  "filter" | "postProcess"
+>;

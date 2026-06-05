@@ -17,24 +17,12 @@
  ------------------------------------------------------------------- */
 
 import { code, Show } from "@alloy-js/core";
-import {
-  FunctionDeclaration,
-  InterfaceDeclaration
-} from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
-import { Spacing } from "@powerlines/plugin-alloy/core";
+import { FunctionDeclaration } from "@alloy-js/typescript";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import {
-  InterfaceMember,
-  TypescriptFile
-} from "@powerlines/plugin-alloy/typescript";
-import {
-  TSDoc,
-  TSDocDefaultValue,
-  TSDocParam
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+import { TypescriptFile } from "@powerlines/plugin-alloy/typescript";
+import { TSDoc } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
-import { joinPaths } from "@stryke/path";
+import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import type { ChangelogPluginContext } from "../types/plugin";
 
@@ -51,42 +39,15 @@ export function ChangelogCommand({ changelog }: ChangelogCommandProps) {
   return (
     <TypescriptFile
       path={joinPaths(context.entryPath, "changelog", "command.ts")}
-      imports={{
-        "node:os": "os",
-        "node:fs/promises": ["readFile", "writeFile"]
-      }}
       builtinImports={{
         console: ["textColors", "bold", "writeLine", "error", "warn"]
       }}>
-      <TSDoc heading="Options for the Changelog command." />
-      <InterfaceDeclaration export name="ChangelogOptions">
-        <TSDoc heading="An optional starting version for the changelog. The command will attempt to display changes starting from the specified version. The version should be a valid semantic version string. If not specified, the changelog will start from the earliest version available." />
-        <InterfaceMember name="start" optional type="string" />
-        <Spacing />
-        <TSDoc heading="An optional ending version for the changelog. The command will attempt to display changes up to the specified version. The version should be a valid semantic version string. If not specified, the changelog will display changes up to the latest version available.">
-          <TSDocDefaultValue
-            type={ReflectionKind.string}
-            defaultValue="latest"
-          />
-        </TSDoc>
-        <InterfaceMember name="end" optional type="string" />
-      </InterfaceDeclaration>
-      <Spacing />
-      <TSDoc heading={`Display the ${getAppTitle(context)} changelog.`}>
-        <TSDocParam name="options">
-          {code`An object containing options for displaying the changelog.`}
-        </TSDocParam>
-      </TSDoc>
-      <FunctionDeclaration
-        export
-        default
-        async
-        name="handler"
-        parameters={[{ name: "options", type: "ChangelogOptions" }]}>
+      <TSDoc heading={`Display the ${getAppTitle(context)} changelog.`} />
+      <FunctionDeclaration export default name="handler">
         <Show
           when={isSetString(changelog)}
           fallback={code` return warn("There is no changelog available for display."); `}>
-          {changelog}
+          {code`console.log(${changelog});`}
         </Show>
       </FunctionDeclaration>
     </TypescriptFile>

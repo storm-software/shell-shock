@@ -16,8 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { code } from "@alloy-js/core";
-import { For, Show } from "@alloy-js/core/components";
+import { code, For, Show } from "@alloy-js/core";
 import { Heading } from "@alloy-js/markdown";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { renderString } from "@powerlines/plugin-alloy/render";
@@ -51,7 +50,7 @@ export const commands = (context: Context) =>
             <Spacing />
             <For each={Object.values(context.commands)} doubleHardline>
               {child => (
-                <Show when={!child.isVirtual}>
+                <Show when={!child.virtual}>
                   <CommandDocs command={child} levelOffset={2} />
                 </Show>
               )}

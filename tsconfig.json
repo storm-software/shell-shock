@@ -40,6 +40,9 @@
       "path": "./packages/plugin-changelog"
     },
     {
+      "path": "./packages/plugin-skills"
+    },
+    {
       "path": "./packages/plugin-upgrade"
     },
     {

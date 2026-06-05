@@ -1516,8 +1516,10 @@ export function ResolveModuleFunctionDeclaration() {
           ? new Set(options.conditions)
           : DEFAULT_CONDITIONS_SET;
 
-        // Handle protocol-prefixed specifiers (node:, data:, http:, https:, ${context.config.framework}:)
-        if (/^(?:node|data|https?|${context.config.framework}):/.test(specifier)) {
+        // Handle protocol-prefixed specifiers (node:, data:, http:, https:, ${context.config.framework?.name || "shell-shock"}:)
+        if (/^(?:node|data|https?|${
+          context.config.framework?.name || "shell-shock"
+        }):/.test(specifier)) {
           return specifier;
         }
 

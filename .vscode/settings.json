@@ -2,22 +2,47 @@
   "files.eol": "\n",
   "files.insertFinalNewline": true,
   "search.exclude": {
-    "**/bower_components": true,
-    "**/*.code-search": true,
-    "**/.tamagui": true,
-    "**/.next/**": true,
-    "**/.next-dev/**": true,
-    "**/dist/**": true,
-    "**/dist-dev/**": true,
+    "**/.agents/**": true,
+    "**/.claude/**": true,
+    "**/.codex/**": true,
+    "**/.devenv": true,
+    "**/.devenv/**": true,
+    "**/.direnv/**": true,
+    "**/.docusaurus": true,
     "**/.docusaurus/**": true,
-    "**/CHANGELOG.json": true,
-    "docs/spec.html": true,
-    "**/node_modules/**": true,
+    "**/.git": true,
+    "**/.github/skills": true,
+    "**/.github/agents": true,
+    "**/.next": true,
+    "**/.next/**": true,
+    "**/.next-dev": true,
+    "**/.next-dev/**": true,
+    "**/.nx": true,
+    "**/.opencode/**": true,
+    "**/.tamagui": true,
     "**/.tsbuildinfo": true,
-    "packages/compiler/templates/__snapshots__/**": true,
-    "packages/website/versioned_docs/**": true,
-    "packages/http-client-csharp/**/Generated/**": true,
-    "packages/samples/scratch/**": false // Those files are in gitignore but we still want to search for them
+    "**/*.code-search": true,
+    "**/CHANGELOG.json": true,
+    "**/CHANGELOG.md": true,
+    "**/bower_components": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "**/dist/**": true,
+    "**/dist-dev": true,
+    "**/dist-dev/**": true,
+    "**/docs/spec.html": true,
+    "**/node_modules": true,
+    "**/node_modules/**": true,
+    "**/out": true,
+    "**/out-dev": true,
+    "**/public": true,
+    "**/public-dev": true,
+    "**/storybook-static": true,
+    "**/storybook-static-dev": true,
+    "**/temp": true,
+    "**/tmp": true,
+    "docs/spec.html": true,
+    "pnpm-lock.yaml": true
   },
   "files.exclude": {
     "**/common/temp/**": true,
@@ -26,9 +51,6 @@
     "**/.git": true,
     "**/.DS_Store": true
   },
-  "relay.autoStartCompiler": true,
-  "relay.rootDirectory": "../",
-  "relay.pathToConfig": "../packages/graphql-tools/config/relay.config.js",
   "rust-analyzer.procMacro.ignored": {
     "napi-derive": ["napi"]
   },
@@ -81,8 +103,8 @@
     "statusBar.foreground": "#1fb2a6"
   },
   "peacock.color": "#1fb2a6",
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true,
   "tailwindCSS.experimental.classRegex": [
     [
       "cva(?:<[^>]*>)?(([^)]*))",
@@ -210,10 +232,14 @@
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[nix]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "brettm12345.nixfmt-vscode"
+  },
   "terminal.integrated.shellIntegration.enabled": true,
   "terminal.integrated.defaultProfile.linux": "zsh",
   "terminal.integrated.defaultProfile.osx": "zsh",
   "terminal.integrated.defaultProfile.windows": "PowerShell",
   "chat.mcp.gallery.enabled": true,
-  "nixEnvSelector.nixFile": "${workspaceFolder}/devenv.nix"
+  "typescript.native-preview.tsdk": "/home/development/repos/shell-shock/node_modules/@typescript/native-preview"
 }

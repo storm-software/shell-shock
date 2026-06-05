@@ -154,7 +154,7 @@ export function BinEntry(props: BinEntryProps) {
           imports={defu(
             imports ?? {},
             Object.entries(context.commands as Record<string, CommandTree>)
-              .filter(([, command]) => command.isVirtual)
+              .filter(([, command]) => command.virtual)
               .reduce((ret, [name, command]) => {
                 ret[`./${command.name}`] = [
                   { name: "handler", alias: `handle${pascalCase(name)}` }

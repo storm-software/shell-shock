@@ -43,7 +43,7 @@ export function CommandRouterSelectOptions(
   return (
     <For each={Object.values(commands ?? {})} joiner="," hardline>
       {command =>
-        command.isVirtual ? (
+        command.virtual ? (
           <CommandRouterSelectOptions commands={command.children ?? {}} />
         ) : (
           code`{ value: [${command.segments

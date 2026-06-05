@@ -16,27 +16,11 @@
 
  ------------------------------------------------------------------- */
 
-import type { StandardJSONSchemaV1 } from "@standard-schema/spec";
-import type { JsonSchema7TupleType } from "@stryke/json";
-import type { AnyFunction } from "@stryke/types/base";
-import type { JSONSchema7Object } from "json-schema";
-import type { ResolvedEntryTypeDefinition } from "powerlines";
-import type * as z3 from "zod/v3";
+import type { JsonSchemaStringFormat, SchemaInput } from "@powerlines/schema";
+import type { AnyFunction, RequiredKeys } from "@stryke/types/base";
+import type { ResolvedEntryFileReference } from "powerlines";
 
-export type CommandParameterType =
-  | string
-  | number
-  | boolean
-  | (string | number)[];
-
-export const CommandParameterKinds = {
-  string: "string",
-  number: "number",
-  boolean: "boolean"
-} as const;
-
-export type CommandParameterKind =
-  (typeof CommandParameterKinds)[keyof typeof CommandParameterKinds];
+export type CommandParameterType = "string" | "number" | "boolean";
 
 export interface BaseCommandParameter {
   /**
@@ -47,7 +31,7 @@ export interface BaseCommandParameter {
   /**
    * The option kind.
    */
-  kind: CommandParameterKind;
+  type: CommandParameterType;
 
   /**
    * The display title.
@@ -75,9 +59,9 @@ export interface BaseCommandParameter {
   env: string | false;
 
   /**
-   * Whether the option is optional.
+   * Whether the option is required.
    */
-  optional: boolean;
+  required: boolean;
 
   /**
    * Whether the option accepts multiple values.
@@ -113,7 +97,7 @@ export interface BaseStringCommandParameter extends BaseCommandParameter {
   /**
    * The option kind.
    */
-  kind: "string";
+  type: "string";
 
   /**
    * The default value.
@@ -123,16 +107,7 @@ export interface BaseStringCommandParameter extends BaseCommandParameter {
   /**
    * A standard string format to validate the option value against.
    */
-  format?:
-    | "email"
-    | "uri"
-    | "uuid"
-    | "ipv4"
-    | "ipv6"
-    | "date"
-    | "time"
-    | "date-time"
-    | "duration";
+  format?: JsonSchemaStringFormat | string;
 
   /**
    * The allowed choices for the option value.
@@ -172,7 +147,7 @@ export interface BaseNumberCommandParameter extends BaseCommandParameter {
   /**
    * The option kind.
    */
-  kind: "number";
+  type: "number";
 
   /**
    * The default value.
@@ -217,7 +192,7 @@ export interface BaseBooleanCommandParameter extends BaseCommandParameter {
   /**
    * The option kind.
    */
-  kind: "boolean";
+  type: "boolean";
 
   /**
    * The default value.
@@ -260,9 +235,9 @@ export type CommandParameter =
 
 export type AsCommandParameterConfig<T extends BaseCommandParameter> = Pick<
   T,
-  "kind" | "alias"
+  "type"
 > &
-  Partial<Omit<T, "kind" | "alias">> & {
+  Partial<Omit<T, "type" | "alias">> & {
     alias?: string | string[];
   };
 
@@ -302,147 +277,6 @@ export type CommandArgument =
   | NumberCommandParameter
   | BooleanCommandParameter;
 export type CommandArgumentConfig = AsCommandParameterConfig<CommandArgument>;
-
-export interface CommandBase {
-  /**
-   * The command id.
-   */
-  id: string | null;
-
-  /**
-   * The command name.
-   */
-  name: string;
-
-  /**
-   * The full command path value.
-   */
-  path: string | null;
-
-  /**
-   * The path segments.
-   */
-  segments: string[];
-
-  /**
-   * The display title.
-   */
-  title?: string;
-
-  /**
-   * The command description.
-   */
-  description?: string;
-
-  /**
-   * Alternative command names.
-   */
-  alias?: string[];
-
-  /**
-   * The command icon.
-   */
-  icon?: string;
-
-  /**
-   * A URL to the command documentation or reference.
-   */
-  reference?: string;
-
-  /**
-   * Whether the command is virtual.
-   *
-   * @remarks
-   * Virtual commands are considered forks in the command tree and are not directly executable. They are used to group related subcommands together without having an actual command handler or entry point.
-   */
-  isVirtual: boolean;
-}
-
-export interface CommandConfig extends CommandBase {
-  /**
-   * The command id.
-   */
-  id: string;
-
-  /**
-   * The resolved entry definition.
-   */
-  entry: ResolvedEntryTypeDefinition;
-
-  /**
-   * Optional tags for the command.
-   *
-   * @remarks
-   * Tags can be used to categorize and organize commands, and can also be utilized by plugins to provide additional functionality or filtering based on tags.
-   */
-  tags?: string[];
-
-  /**
-   * A string representing the source of the command, which can be "file", a specific plugin name, or any other string value that describes the source that added the command.
-   */
-  source?: "file" | string;
-}
-
-export type CommandTree = CommandConfig & {
-  /**
-   * The display title.
-   */
-  title: string;
-
-  /**
-   * The command description.
-   */
-  description: string;
-
-  /**
-   * Alternative command names.
-   */
-  alias: string[];
-
-  /**
-   * A set of tags for the command.
-   *
-   * @remarks
-   * Tags can be used to categorize and organize commands, and can also be utilized by plugins to provide additional functionality or filtering based on tags.
-   */
-  tags: string[];
-
-  /**
-   * A string representing the source of the command, which can be "file", a specific plugin name, or any other string value that describes the source that added the command.
-   */
-  source: "file" | string;
-
-  /**
-   * The command options.
-   */
-  options: Record<string, CommandOption>;
-
-  /**
-   * The positional arguments provided to the command.
-   */
-  args: CommandArgument[];
-
-  /**
-   * The parent command.
-   */
-  parent: null | CommandTree;
-
-  /**
-   * Child commands.
-   */
-  children: Record<string, CommandTree>;
-};
-
-export type SerializedCommandTree = Omit<CommandTree, "parent" | "children"> & {
-  /**
-   * The parent command id.
-   */
-  parent: null | string;
-  /**
-   * Serialized child commands.
-   */
-  children: Record<string, SerializedCommandTree>;
-};
 
 export interface CommandMetadata {
   /**
@@ -486,22 +320,100 @@ export interface CommandMetadata {
    * A URL to the command documentation or reference.
    *
    * @remarks
-   * This URL can be used in various displays of the user interface and documentation to provide users with a reference for the command. It can also be used by plugins to link to the documentation in relevant contexts. If the token `{command}` is included in the URL, it will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{referenceLink}/command/subcommand`.
+   * This URL can be used in various displays of the user interface and documentation to provide users with a reference for the command. It can also be used by plugins to link to the documentation in relevant contexts. If the token `{command}` is included in the URL, it will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{docs}/command/subcommand`.
    */
-  reference?: string;
+  docs?: string;
 }
+
+export interface CommandBase extends CommandMetadata {
+  /**
+   * The command id.
+   */
+  id: string | null;
+
+  /**
+   * The command name.
+   */
+  name: string;
+
+  /**
+   * The full command path value.
+   */
+  path: string | null;
+
+  /**
+   * The path segments.
+   */
+  segments: string[];
+
+  /**
+   * Alternative command names.
+   */
+  alias?: string[];
+
+  /**
+   * Whether the command is virtual.
+   *
+   * @remarks
+   * Virtual commands are considered forks in the command tree and are not directly executable. They are used to group related subcommands together without having an actual command handler or entry point.
+   */
+  virtual: boolean;
+}
+
+export interface CommandConfig extends CommandBase {
+  /**
+   * The command id.
+   */
+  id: string;
+
+  /**
+   * The resolved entry definition.
+   */
+  entry: ResolvedEntryFileReference;
+
+  tags?: CommandMetadata["tags"];
+}
+
+export type CommandTree = RequiredKeys<
+  CommandConfig,
+  "title" | "description" | "alias" | "tags"
+> & {
+  /**
+   * The command options.
+   */
+  options: Record<string, CommandOption>;
+
+  /**
+   * The positional arguments provided to the command.
+   */
+  args: CommandArgument[];
+
+  /**
+   * The parent command.
+   */
+  parent: null | CommandTree;
+
+  /**
+   * Child commands.
+   */
+  children: Record<string, CommandTree>;
+};
+
+export type SerializedCommandTree = Omit<CommandTree, "parent" | "children"> & {
+  /**
+   * The parent command id.
+   */
+  parent: null | string;
+
+  /**
+   * Serialized child commands.
+   */
+  children: Record<string, SerializedCommandTree>;
+};
 
 export interface CommandModule {
   metadata?: CommandMetadata;
-  options?:
-    | Record<string, CommandOptionConfig>
-    | JSONSchema7Object
-    | StandardJSONSchemaV1<Record<string, CommandParameterType>>
-    | z3.AnyZodObject;
-  args?:
-    | CommandArgumentConfig[]
-    | JsonSchema7TupleType
-    | StandardJSONSchemaV1<CommandParameterType[]>
-    | z3.AnyZodTuple;
+  options?: Record<string, CommandOptionConfig> | SchemaInput;
+  args?: (CommandArgumentConfig | SchemaInput)[];
   default?: AnyFunction;
 }

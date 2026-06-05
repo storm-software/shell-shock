@@ -19,7 +19,10 @@
 import type { AlloyPluginContext } from "@powerlines/plugin-alloy/types/plugin";
 import type { NodeJsPluginContext } from "@powerlines/plugin-nodejs/types/plugin";
 import type { TsdownPluginContext } from "@powerlines/plugin-tsdown/types/plugin";
-import type { UnresolvedContext as PowerlinesUnresolvedContext } from "powerlines";
+import type {
+  ExecutionContext as PowerlinesExecutionContext,
+  UnresolvedContext as PowerlinesUnresolvedContext
+} from "powerlines";
 import type { CommandConfig, CommandOption, CommandTree } from "./command";
 import type { ResolvedConfig } from "./config";
 
@@ -47,6 +50,10 @@ export type Context<TResolvedConfig extends ResolvedConfig = ResolvedConfig> =
        */
       commands: Record<string, CommandTree>;
     };
+
+export type ExecutionContext<
+  TResolvedConfig extends ResolvedConfig = ResolvedConfig
+> = PowerlinesExecutionContext<TResolvedConfig>;
 
 export type UnresolvedContext<
   TResolvedConfig extends ResolvedConfig = ResolvedConfig

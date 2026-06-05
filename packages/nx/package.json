@@ -7,10 +7,7 @@
     "url": "https://github.com/storm-software/shell-shock.git",
     "directory": "packages/nx"
   },
-  "private": false,
   "type": "commonjs",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "exports": {
     "./package.json": "./package.json",
     "./docs/*": "./docs/*",
@@ -89,34 +86,35 @@
     "./executors/*/executor.js": "./dist/executors/*/executor.js",
     "./executors/*/executor.mjs": "./dist/executors/*/executor.mjs"
   },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
-  "peerDependencies": {
-    "nx": ">=22.5.0",
-    "powerlines": ">=0.42.32"
-  },
   "dependencies": {
     "@nx/devkit": "catalog:",
+    "@powerlines/nx": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@storm-software/config": "catalog:",
     "@storm-software/config-tools": "catalog:",
     "@storm-software/workspace-tools": "catalog:",
-    "@stryke/type-checks": "catalog:",
-    "@stryke/string-format": "catalog:",
     "@stryke/hash": "catalog:",
     "@stryke/path": "catalog:",
+    "@stryke/string-format": "catalog:",
+    "@stryke/type-checks": "catalog:",
     "defu": "catalog:",
     "jiti": "catalog:",
+    "powerlines": "catalog:",
     "untyped": "catalog:"
   },
   "devDependencies": {
-    "@powerlines/nx": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
     "@powerlines/plugin-untyped": "catalog:",
     "@storm-software/testing-tools": "catalog:",
     "@types/node": "catalog:",
     "eslint-flat-config-utils": "catalog:",
-    "jsonc-eslint-parser": "catalog:",
-    "powerlines": "catalog:"
+    "jsonc-eslint-parser": "catalog:"
+  },
+  "peerDependencies": {
+    "nx": ">=22.7.0"
   },
   "publishConfig": {
     "access": "public"

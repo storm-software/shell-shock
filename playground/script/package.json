@@ -10,5 +10,19 @@
     "@shell-shock/core": "workspace:*",
     "@shell-shock/nx": "workspace:*",
     "@shell-shock/preset-script": "workspace:*"
+  },
+  "exports": {
+    "./bin": "./dist/bin.mjs",
+    "./build": "./dist/build.mjs",
+    "./copy": "./dist/copy.mjs",
+    "./help": "./dist/help.mjs",
+    "./new-application": "./dist/new-application.mjs",
+    "./new-library": "./dist/new-library.mjs",
+    "./new-project": "./dist/new-project.mjs",
+    "./package.json": "./package.json",
+    "./remove": "./dist/remove.mjs",
+    "./run-local": "./dist/run-local.mjs",
+    "./run-remote": "./dist/run-remote.mjs",
+    "./start": "./dist/start.mjs"
   }
 }

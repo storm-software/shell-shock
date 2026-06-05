@@ -38,7 +38,7 @@ export const plugin = <
   return [
     ...theme(options),
     {
-      name: "shell-shock:console",
+      name: "shell-shock/console",
       config() {
         this.debug(
           "Providing default configuration for the Shell Shock `console` plugin."

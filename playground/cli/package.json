@@ -14,5 +14,29 @@
     "@shell-shock/nx": "workspace:*",
     "@shell-shock/preset-cli": "workspace:*",
     "@types/node": "catalog:"
+  },
+  "exports": {
+    "./bin": "./dist/bin.mjs",
+    "./build": "./dist/build.mjs",
+    "./changelog": "./dist/changelog.mjs",
+    "./completions-bash-config": "./dist/completions-bash-config.mjs",
+    "./completions-bash-script": "./dist/completions-bash-script.mjs",
+    "./completions-fish-config": "./dist/completions-fish-config.mjs",
+    "./completions-fish-script": "./dist/completions-fish-script.mjs",
+    "./completions-powershell-config": "./dist/completions-powershell-config.mjs",
+    "./completions-powershell-script": "./dist/completions-powershell-script.mjs",
+    "./completions-zsh-config": "./dist/completions-zsh-config.mjs",
+    "./completions-zsh-script": "./dist/completions-zsh-script.mjs",
+    "./copy": "./dist/copy.mjs",
+    "./help": "./dist/help.mjs",
+    "./new-application": "./dist/new-application.mjs",
+    "./new-library": "./dist/new-library.mjs",
+    "./new-project": "./dist/new-project.mjs",
+    "./package.json": "./package.json",
+    "./remove": "./dist/remove.mjs",
+    "./run-local": "./dist/run-local.mjs",
+    "./run-remote": "./dist/run-remote.mjs",
+    "./start": "./dist/start.mjs",
+    "./upgrade": "./dist/upgrade.mjs"
   }
 }

@@ -21,7 +21,6 @@ import {
   FunctionDeclaration,
   InterfaceDeclaration
 } from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { Spacing } from "@powerlines/plugin-alloy/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import {
@@ -63,21 +62,15 @@ export function UpgradeCommand() {
       <InterfaceDeclaration export name="UpgradeOptions">
         <TSDoc heading="Whether to upgrade to the latest version.">
           <TSDocRemarks>{`If set to \`true\`, the command will attempt to upgrade to the latest version. This option takes precedence over the \`version\` option.`}</TSDocRemarks>
-          <TSDocDefaultValue
-            type={ReflectionKind.boolean}
-            defaultValue={false}
-          />
+          <TSDocDefaultValue type="boolean" defaultValue={false} />
         </TSDoc>
-        <InterfaceMember name="latest" optional type="boolean" />
+        <InterfaceMember name="latest" type="boolean" />
         <Spacing />
         <TSDoc heading="A specific application version to upgrade to.">
           <TSDocRemarks>{`The command will attempt to upgrade to the specified version. The version should be a valid semantic version string, or \`latest\` to upgrade to the latest version.`}</TSDocRemarks>
-          <TSDocDefaultValue
-            type={ReflectionKind.string}
-            defaultValue="latest"
-          />
+          <TSDocDefaultValue type="string" defaultValue="latest" />
         </TSDoc>
-        <InterfaceMember name="version" optional type="string" />
+        <InterfaceMember name="version" type="string" />
       </InterfaceDeclaration>
       <Spacing />
       <TSDoc heading="Handler logic for the \`upgrade\` command."></TSDoc>

@@ -17,34 +17,26 @@
  ------------------------------------------------------------------- */
 
 import type { PromiseExecutor } from "@nx/devkit";
-import type { ShellShockAPI } from "@shell-shock/core";
+import type {
+  PowerlinesExecutorApi,
+  PowerlinesExecutorContext
+} from "@powerlines/nx";
 import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
-import defu from "defu";
-import type { ShellShockExecutorContext } from "../../base/base-executor";
 import { withExecutor } from "../../base/base-executor";
 import type { LintExecutorSchema } from "./schema";
 
 async function executorFn(
-  context: ShellShockExecutorContext<"lint", LintExecutorSchema>,
-  api: ShellShockAPI
+  context: PowerlinesExecutorContext<LintExecutorSchema>,
+  api: PowerlinesExecutorApi
 ): Promise<BaseExecutorResult> {
-  await api.lint(
-    defu(
-      {
-        command: "lint"
-      },
-      context.inlineConfig
-    )
-  );
+  await api(context.inlineConfig);
 
   return {
     success: true
   };
 }
 
-const executor: PromiseExecutor<LintExecutorSchema> = withExecutor<
-  "lint",
-  LintExecutorSchema
->("lint", executorFn);
+const executor: PromiseExecutor<LintExecutorSchema> =
+  withExecutor<LintExecutorSchema>("lint", executorFn);
 
 export default executor;

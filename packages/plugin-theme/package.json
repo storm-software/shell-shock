@@ -220,7 +220,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
-  "files": ["dist/**/*"],
+  "files": ["dist"],
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
@@ -236,14 +236,9 @@
     "style-dictionary": "catalog:"
   },
   "devDependencies": {
-    "@powerlines/plugin-deepkit": "catalog:",
     "@types/node": "catalog:"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "inlinedDependencies": {
-    "@standard-schema/spec": "1.1.0",
-    "zod": "4.4.3"
   }
 }

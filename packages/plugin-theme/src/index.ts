@@ -45,7 +45,7 @@ export const plugin = <
   return [
     styleDictionary(defu({ skipBuild: false }, omit(options, ["theme"]))),
     {
-      name: "shell-shock:theme",
+      name: "shell-shock/theme",
       config() {
         this.debug(
           "Providing default configuration for the Shell Shock `theme` plugin."

@@ -4,6 +4,42 @@
   "projectType": "library",
   "sourceRoot": "packages/core/src",
   "targets": {
+    // "build-case": {
+    //   "cache": false,
+    //   "inputs": ["typescript", "^production"],
+    //   "outputs": ["{options.outputPath}"],
+    //   "executor": "@powerlines/nx:build",
+    //   "dependsOn": ["^build"],
+    //   "options": {
+    //     "configFile": "packages/core/powerlines.plugin.ts",
+    //     "outputPath": "packages/core/dist"
+    //   }
+    // },
+    // "build-api": {
+    //   "cache": false,
+    //   "inputs": ["typescript", "^production"],
+    //   "outputs": ["{options.outputPath}"],
+    //   "executor": "@powerlines/nx:build",
+    //   "dependsOn": ["^build"],
+    //   "options": {
+    //     "configFile": "packages/core/powerlines.api.ts",
+    //     "outputPath": "packages/core/dist"
+    //   }
+    // },
+    // "build": {
+    //   "cache": false,
+    //   "inputs": ["typescript", "^production"],
+    //   "outputs": ["{projectRoot}/dist", "{workspaceRoot}/dist/packages/core"],
+    //   "executor": "nx:run-commands",
+    //   "dependsOn": ["build-base", "build-api"],
+    //   "options": {
+    //     "commands": [
+    //       "pnpm copyfiles LICENSE dist/packages/core",
+    //       "pnpm copyfiles --up=2 \"packages/core/*.md\" packages/core/package.json dist/packages/core"
+    //     ],
+    //     "parallel": false
+    //   }
+    // },
     "nx-release-publish": {
       "executor": "@storm-software/workspace-tools:npm-publish"
     }

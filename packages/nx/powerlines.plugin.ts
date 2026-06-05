@@ -17,10 +17,9 @@
  ------------------------------------------------------------------- */
 
 import tsdown from "@powerlines/plugin-tsdown";
-import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines/config";
 
-const config: UserConfig = defineConfig({
+export default defineConfig({
   skipCache: true,
   name: "nx-plugin",
   input: ["./src/plugin/index.ts"],
@@ -35,5 +34,3 @@ const config: UserConfig = defineConfig({
     fixedExtension: false
   }
 });
-
-export default config;

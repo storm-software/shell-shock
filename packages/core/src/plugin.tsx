@@ -16,17 +16,22 @@
 
  ------------------------------------------------------------------- */
 
-import { For, Show } from "@alloy-js/core/components";
-import { ReflectionVisibility } from "@powerlines/deepkit/vendor/type";
+import { For, Show } from "@alloy-js/core";
 import { render } from "@powerlines/plugin-alloy/render";
 import automd from "@powerlines/plugin-automd";
-import { writeEnvTypeReflection } from "@powerlines/plugin-env/helpers";
+import { extractEnv, writeEnv } from "@powerlines/plugin-env/helpers/schema";
 import nodejs from "@powerlines/plugin-nodejs";
 import tsdown from "@powerlines/plugin-tsdown";
+import {
+  addProperty,
+  getCacheFilePath,
+  getProperties,
+  isJsonSchemaObject
+} from "@powerlines/schema";
 import { toArray } from "@stryke/convert/to-array";
 import { chmodX } from "@stryke/fs/chmod-x";
 import { appendPath } from "@stryke/path/append";
-import { findFilePath } from "@stryke/path/file-path-fns";
+import { findFilePath } from "@stryke/path/find";
 import { isParentPath } from "@stryke/path/is-parent-path";
 import { joinPaths } from "@stryke/path/join-paths";
 import { replacePath } from "@stryke/path/replace";
@@ -35,9 +40,11 @@ import { camelCase } from "@stryke/string-format/camel-case";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { kebabCase } from "@stryke/string-format/kebab-case";
 import { isObject } from "@stryke/type-checks/is-object";
+import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { defu } from "defu";
 import type { Plugin } from "powerlines";
+import { isFileReference } from "powerlines";
 import { resolveInputs } from "powerlines/utils";
 import type { BuildContext, RolldownChunk, TsdownHooks } from "tsdown";
 import { CommandDocsFile } from "./components/docs";
@@ -45,24 +52,20 @@ import { ExecBuiltin } from "./components/exec-builtin";
 import { StateBuiltin } from "./components/state-builtin";
 import { UtilsBuiltin } from "./components/utils-builtin";
 import { commands } from "./helpers/automd";
+import { getFramework } from "./helpers/get-framework";
 import {
   findCommandsRoot,
   resolveCommandId,
   resolveCommandName,
   resolveCommandPath
 } from "./helpers/paths";
-import {
-  getCommandsPersistencePath,
-  readCommandsPersistence,
-  writeCommandsPersistence
-} from "./helpers/persistence";
+import { writeCommandsPersistence } from "./helpers/persistence";
 import {
   formatBinaryPath,
   updatePackageJsonBinary
 } from "./helpers/update-package-json";
 import { formatCommandTree, getGlobalOptions } from "./helpers/utilities";
 import { validateCommand } from "./helpers/validations";
-import { extractType } from "./plugin-utils";
 import {
   getAppDescription,
   getAppName,
@@ -90,17 +93,17 @@ export const plugin = <TContext extends Context = Context>(
     tsdown<TContext>(),
     automd<TContext>(),
     {
-      name: "shell-shock:config",
+      name: "shell-shock/core:config",
       async config() {
         this.debug("Resolving the Shell Shock configuration.");
 
         const result = defu(options, {
-          name: getAppName(this),
-          title: getAppTitle(this),
-          description: getAppDescription(this),
+          name: getAppName(this as TContext),
+          title: getAppTitle(this as TContext),
+          description: getAppDescription(this as TContext),
           platform: "node",
           projectType: "application",
-          framework: "shell-shock",
+          framework: getFramework(),
           isCaseSensitive: false,
           output: {
             format: "esm",
@@ -192,7 +195,7 @@ export const plugin = <TContext extends Context = Context>(
               title: this.config.title,
               description: this.config.description,
               alias: [],
-              isVirtual: false
+              virtual: false
             })
           );
 
@@ -200,7 +203,7 @@ export const plugin = <TContext extends Context = Context>(
             ...option,
             name: camelCase(option.name),
             alias: option.alias ?? [],
-            optional: option.optional ?? false
+            required: option.required ?? true
           }));
         }
       }
@@ -208,16 +211,57 @@ export const plugin = <TContext extends Context = Context>(
     ...nodejs<TContext>(
       defu(options ?? {}, {
         env: {
-          types: "@shell-shock/core/types/env#ShellShockEnv",
+          config: "@shell-shock/core/types/env#ShellShockEnv",
           validate: false
         }
       })
     ),
     {
-      name: "shell-shock:inputs",
+      name: "shell-shock/core:inputs",
       async configResolved() {
+        const toInputLocation = (value: unknown): string | null => {
+          if (isSetString(value)) {
+            return value;
+          }
+
+          if (isSetObject(value) && isFileReference(value)) {
+            return String(value.file);
+          }
+
+          return null;
+        };
+
+        const configuredInputs: string[] = [];
+
+        if (Array.isArray(this.config.input)) {
+          configuredInputs.push(
+            ...this.config.input
+              .map(toInputLocation)
+              .filter((value): value is string => isSetString(value))
+          );
+        } else if (isSetString(this.config.input)) {
+          configuredInputs.push(this.config.input);
+        } else if (
+          isSetObject(this.config.input) &&
+          isFileReference(this.config.input)
+        ) {
+          configuredInputs.push(String(this.config.input.file));
+        } else if (isSetObject(this.config.input)) {
+          configuredInputs.push(
+            ...Object.values(this.config.input)
+              .map(toInputLocation)
+              .filter((value): value is string => isSetString(value))
+          );
+        }
+
         this.debug(
-          `Checking for commands using input: ${JSON.stringify(this.config.input)}`
+          configuredInputs.length <= 1
+            ? `Checking for command modules in the following location: ${
+                configuredInputs[0] ?? "(none configured)"
+              }.`
+            : `Checking for command modules in the following locations:\n${configuredInputs
+                .map(input => ` - ${input}`)
+                .join("\n")}`
         );
 
         this.commandsPath = await findCommandsRoot(this);
@@ -280,14 +324,12 @@ export const plugin = <TContext extends Context = Context>(
               name,
               alias: [],
               tags: [],
-              isVirtual: false,
-              source: "file",
+              virtual: false,
               entry: {
                 ...entry,
-                file: entry.file,
                 input: {
                   file: entry.file,
-                  name: entry.name
+                  export: entry.export
                 },
                 output: name
               }
@@ -327,7 +369,7 @@ export const plugin = <TContext extends Context = Context>(
       }
     },
     {
-      name: "shell-shock:virtual-inputs",
+      name: "shell-shock/core:virtual-inputs",
       configResolved: {
         order: "post",
         async handler() {
@@ -402,11 +444,10 @@ export const plugin = <TContext extends Context = Context>(
                           name,
                           alias: [],
                           tags: [],
-                          isVirtual: true,
+                          virtual: true,
                           entry: {
                             file
-                          },
-                          source: "file"
+                          }
                         });
                       }
                     }
@@ -423,11 +464,7 @@ export const plugin = <TContext extends Context = Context>(
               `Final command input list: \n${this.inputs
                 .map(
                   command =>
-                    ` - ${command.id}${command.isVirtual ? " (virtual)" : ""}: ${
-                      command.source === "file"
-                        ? replacePath(command.entry.file, this.commandsPath)
-                        : `added by ${command.source}`
-                    }`
+                    ` - ${command.id}${command.virtual ? " (virtual)" : ""}`
                 )
                 .join("\n")}`
             );
@@ -436,7 +473,7 @@ export const plugin = <TContext extends Context = Context>(
       }
     },
     {
-      name: "shell-shock:update-env",
+      name: "shell-shock/core:update-env",
       configResolved: {
         order: "post",
         async handler() {
@@ -444,35 +481,42 @@ export const plugin = <TContext extends Context = Context>(
             "Adding global options to the CLI application's environment variables."
           );
 
+          if (!this.env.config) {
+            this.debug(
+              "Environment variable schema not found in plugin context. Extracting environment variable schema from type definitions provided in plugin options."
+            );
+
+            await extractEnv(this);
+            if (!this.env.config) {
+              throw new Error(
+                "Failed to extract environment variable schema from type definitions provided in plugin options. Please ensure the `env.types` option is correctly specified and points to a valid TypeScript type definition file."
+              );
+            }
+          }
+
+          if (!isJsonSchemaObject(this.env.config.schema)) {
+            throw new Error("Invalid environment variable schema extracted.");
+          }
+
+          const env = getProperties(this.env.config);
           for (const option of Object.values(this.globalOptions)
             .filter(option => Boolean(option.env))
-            .filter(
-              option =>
-                !this.env.types.env.getPropertyOrUndefined(option.env as string)
-            )) {
-            this.env.types.env.addProperty({
+            .filter(option => isSetString(option.env) && !env[option.env])) {
+            addProperty(this.env.config, option.env as string, {
+              ...option,
               name: option.env as string,
-              optional: option.optional ? true : undefined,
-              description: option.description,
-              visibility: ReflectionVisibility.public,
-              type: extractType(option),
-              default: option.default,
-              tags: {
-                title: option.title,
-                alias: option.alias
-                  .filter(alias => alias.length > 1)
-                  .map(alias => constantCase(alias)),
-                domain: "cli"
-              }
+              alias: option.alias
+                .filter(alias => alias.length > 1)
+                .map(alias => constantCase(alias))
             });
           }
 
-          await writeEnvTypeReflection(this, this.env.types.env, "env");
+          await writeEnv(this);
         }
       }
     },
     {
-      name: "shell-shock:resolve-commands",
+      name: "shell-shock/core:resolve-commands",
       prepare: {
         order: "post",
         async handler() {
@@ -483,13 +527,13 @@ export const plugin = <TContext extends Context = Context>(
             this.config.command !== "prepare" &&
             this.config.skipCache !== true &&
             this.persistedMeta?.checksum === this.meta.checksum &&
-            this.fs.existsSync(getCommandsPersistencePath(this))
+            this.fs.existsSync(getCacheFilePath(this, this.env.config))
           ) {
             this.debug(
               `Skipping command resolution as the meta checksum has not changed.`
             );
 
-            await readCommandsPersistence(this);
+            await extractEnv(this);
           } else {
             for (const input of this.inputs.filter(
               input =>
@@ -515,7 +559,7 @@ export const plugin = <TContext extends Context = Context>(
                     ...option,
                     name: camelCase(name),
                     alias: option.alias ?? [],
-                    optional: option.optional ?? false
+                    required: option.required ?? true
                   }
                 ])
               );
@@ -555,7 +599,7 @@ export const plugin = <TContext extends Context = Context>(
       }
     },
     {
-      name: "shell-shock:chmod+x",
+      name: "shell-shock/core:chmod+x",
       configResolved() {
         this.config.tsdown.hooks ??= {};
         (this.config.tsdown.hooks as TsdownHooks)["build:done"] = async (
@@ -606,7 +650,7 @@ export const plugin = <TContext extends Context = Context>(
       }
     },
     {
-      name: "shell-shock:docs",
+      name: "shell-shock/core:docs",
       configResolved() {
         this.config.automd ??= {};
         this.config.automd.generators = {
@@ -627,7 +671,7 @@ export const plugin = <TContext extends Context = Context>(
           this,
           <For each={Object.values(commands)} doubleHardline>
             {child => (
-              <Show when={!child.isVirtual}>
+              <Show when={!child.virtual}>
                 <CommandDocsFile command={child} />
               </Show>
             )}

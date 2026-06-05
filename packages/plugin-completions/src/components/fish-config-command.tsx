@@ -21,14 +21,16 @@ import {
   ElseClause,
   FunctionDeclaration,
   IfStatement,
-  InterfaceDeclaration,
-  InterfaceMember,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { Spacing } from "@powerlines/plugin-alloy/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import { TSDoc, TSDocDefaultValue } from "@powerlines/plugin-alloy/typescript";
+import {
+  InterfaceDeclaration,
+  InterfaceMember,
+  TSDoc,
+  TSDocDefaultValue
+} from "@powerlines/plugin-alloy/typescript";
 import { TypescriptFile } from "@powerlines/plugin-alloy/typescript/components/typescript-file";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
@@ -61,12 +63,9 @@ export function FishConfigCompletionsCommand() {
       <TSDoc heading="Options for the Fish Completions - Configuration command." />
       <InterfaceDeclaration export name="FishConfigCompletionsOptions">
         <TSDoc heading="Should the generated completion script be written to console output instead of an actual file on disk? This is useful for debugging purposes or if you want to manually handle the output.">
-          <TSDocDefaultValue
-            type={ReflectionKind.boolean}
-            defaultValue={false}
-          />
+          <TSDocDefaultValue type="boolean" defaultValue={false} />
         </TSDoc>
-        <InterfaceMember name="display" optional type="boolean" />
+        <InterfaceMember name="display" type="boolean" />
       </InterfaceDeclaration>
       <Spacing />
       <TSDoc heading="Handler logic for the \`completions fish config\` command."></TSDoc>

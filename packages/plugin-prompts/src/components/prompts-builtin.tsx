@@ -18,7 +18,6 @@
 
 import { code, Show, splitProps } from "@alloy-js/core";
 import { FunctionDeclaration, VarDeclaration } from "@alloy-js/typescript";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
@@ -125,7 +124,7 @@ export function BasePromptDeclarations() {
         <Spacing />
         <InterfaceMember
           name="errorMessage"
-          optional
+          required={false}
           type="string"
           doc="If the prompt is in an error state, this will contain the error message to display"
         />
@@ -161,14 +160,14 @@ export function BasePromptDeclarations() {
         ]}>
         <InterfaceMember
           name="input"
-          optional
+          required={false}
           type="NodeJS.ReadStream"
           doc="The readable stream to use for prompt input, defaults to process.stdin"
         />
         <Spacing />
         <InterfaceMember
           name="output"
-          optional
+          required={false}
           type="NodeJS.WriteStream"
           doc="The writable stream to use for prompt output, defaults to process.stdout"
         />
@@ -181,63 +180,63 @@ export function BasePromptDeclarations() {
         <Spacing />
         <InterfaceMember
           name="description"
-          optional
+          required={false}
           type="string"
           doc="The prompt description message to display"
         />
         <Spacing />
         <InterfaceMember
           name="initialValue"
-          optional
+          required={false}
           type="TValue"
           doc="The initial value of the prompt"
         />
         <Spacing />
         <InterfaceMember
           name="validate"
-          optional
+          required={false}
           type="(value: TValue) => boolean | string | null | undefined | Promise<boolean | string | null | undefined>"
           doc="A validation function that returns true if the input is valid, false or a string error message if the input is invalid"
         />
         <Spacing />
         <InterfaceMember
           name="parse"
-          optional
+          required={false}
           type="PromptParser<TValue>"
           doc="A function that parses the input value and returns the parsed result or throws an error if the input is invalid"
         />
         <Spacing />
         <InterfaceMember
           name="format"
-          optional
+          required={false}
           type="PromptFormatter<TValue>"
           doc="A function that formats the input value and returns the formatted result or throws an error if the input is invalid"
         />
         <Spacing />
         <InterfaceMember
           name="mask"
-          optional
+          required={false}
           type="(input: string) => string"
           doc="A function that masks the input value and returns the masked result. This can be used to create password inputs or other sensitive input types where the actual input value should not be displayed. If not provided, the prompt will display the input as is without masking."
         />
         <Spacing />
         <InterfaceMember
           name="maskCompleted"
-          optional
+          required={false}
           type="(input: string) => string"
           doc="A function that masks the value submitted by the user so that it can then be used in the console output or elsewhere without exposing sensitive information. If not provided, the prompt will use the same mask function for both input and submitted value masking."
         />
         <Spacing />
         <InterfaceMember
           name="defaultErrorMessage"
-          optional
+          required={false}
           type="string"
           doc="The default error message to display when validation fails"
         />
         <Spacing />
         <InterfaceMember
           name="timeout"
-          optional
+          required={false}
           type="number"
           doc="The timeout duration in milliseconds for the prompt. If none is provided, the prompt will not time out."
         />
@@ -256,7 +255,7 @@ export function BasePromptDeclarations() {
         ]}>
         <ClassField name="readline" isPrivateMember type="Interface" />
         <hbr />
-        <ClassField name="value" isPrivateMember optional type="TValue" />
+        <ClassField name="value" isPrivateMember type="TValue | undefined" />
         <hbr />
         <ClassField name="isKeyPressed" isPrivateMember type="boolean">
           {code`false; `}
@@ -856,21 +855,21 @@ export function BasePromptDeclarations() {
         typeParameters={[{ name: "TValue", default: "string" }]}>
         <InterfaceMember
           name="onState"
-          optional
+          required={false}
           type="(state: PromptState<TValue>) => any"
           doc="A function that is called when the prompt state changes, useful for updating the prompt message or other properties dynamically"
         />
         <Spacing />
         <InterfaceMember
           name="onSubmit"
-          optional
+          required={false}
           type="(value: TValue) => any"
           doc="A function that is called when the prompt is submitted, useful for handling the submitted value or performing actions based on the prompt state"
         />
         <Spacing />
         <InterfaceMember
           name="onCancel"
-          optional
+          required={false}
           type="(event: any) => any"
           doc="A function that is called when the prompt is canceled, useful for handling the canceled value or performing actions based on the prompt state"
         />
@@ -915,14 +914,14 @@ export function TextPromptDeclarations() {
         doc="Configuration options for creating a text-based prompt">
         <InterfaceMember
           name="initialValue"
-          optional
+          required={false}
           type="string"
           doc="The initial value of the prompt"
         />
         <Spacing />
         <InterfaceMember
           name="mask"
-          optional
+          required={false}
           type="(input: string) => string"
           doc="A function that masks the input value and returns the masked result"
         />
@@ -1164,15 +1163,15 @@ export function SelectPromptDeclarations() {
         ]}>
         <InterfaceMember
           name="label"
-          optional
-          type="string"
+          schema={{ type: "string" }}
+          required={false}
           doc="The message label for the option"
         />
         <Spacing />
         <InterfaceMember
           name="icon"
-          optional
-          type="string"
+          schema={{ type: "string" }}
+          required={false}
           doc="An icon for the option"
         />
         <Spacing />
@@ -1184,22 +1183,22 @@ export function SelectPromptDeclarations() {
         <Spacing />
         <InterfaceMember
           name="description"
-          optional
-          type="string"
+          schema={{ type: "string" }}
+          required={false}
           doc="The description of the option"
         />
         <Spacing />
         <InterfaceMember
           name="selected"
-          optional
-          type="boolean"
+          schema={{ type: "boolean" }}
+          required={false}
           doc="Whether the option is selected"
         />
         <Spacing />
         <InterfaceMember
           name="disabled"
-          optional
-          type="boolean"
+          schema={{ type: "boolean" }}
+          required={false}
           doc="Whether the option is disabled"
         />
       </InterfaceDeclaration>
@@ -1251,7 +1250,7 @@ export function SelectPromptDeclarations() {
         ]}>
         <InterfaceMember
           name="hint"
-          optional
+          required={false}
           type="string"
           doc="A hint to display to the user"
         />
@@ -1264,7 +1263,7 @@ export function SelectPromptDeclarations() {
         <Spacing />
         <InterfaceMember
           name="optionsPerPage"
-          optional
+          required={false}
           type="number"
           doc="The number of options to display per page, defaults to 8"
         />
@@ -1584,6 +1583,391 @@ run(); `}
 }
 
 /**
+ * Declarations for a multi-select prompt that allows users to choose multiple options from a list, with support for disabled options, bulk selection shortcuts, and required validation. This prompt type is useful for scenarios where users need to select one or more values from a predefined set.
+ */
+export function MultiSelectPromptDeclarations() {
+  return (
+    <>
+      <InterfaceDeclaration
+        name="MultiSelectPromptConfig"
+        extends="PromptConfig<TValue[]>"
+        doc="An options object for configuring a multi-select prompt"
+        typeParameters={[
+          {
+            name: "TValue",
+            default: "string"
+          }
+        ]}>
+        <InterfaceMember
+          name="options"
+          type="Array<string | PromptOptionConfig<TValue>>"
+          doc="The options available for the multi-select prompt"
+        />
+        <Spacing />
+        <InterfaceMember
+          name="required"
+          required={false}
+          type="boolean"
+          doc="Whether at least one option must be selected, defaults to true"
+        />
+        <Spacing />
+        <InterfaceMember
+          name="initialValue"
+          required={false}
+          type="TValue[]"
+          doc="The initial selected values"
+        />
+        <Spacing />
+        <InterfaceMember
+          name="cursorAt"
+          required={false}
+          type="TValue"
+          doc="A value indicating which option should be focused initially"
+        />
+        <Spacing />
+        <InterfaceMember
+          name="optionsPerPage"
+          required={false}
+          type="number"
+          doc="The number of options to display per page, defaults to 8"
+        />
+      </InterfaceDeclaration>
+      <Spacing />
+      <ClassDeclaration
+        name="MultiSelectPrompt"
+        doc="A prompt for selecting multiple options from a list"
+        extends="Prompt<TValue[]>"
+        typeParameters={[{ name: "TValue", default: "string" }]}>
+        <ClassField name="initialValue" protected override type="TValue[]">
+          {code`[]; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="required" protected type="boolean">
+          {code`true; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="optionsPerPage" protected type="number">
+          {code`8; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="options" protected type="PromptOption<TValue>[]">
+          {code`[]; `}
+        </ClassField>
+        <hbr />
+        <ClassField name="cursorHidden" protected override type="boolean">
+          {code`true; `}
+        </ClassField>
+        <Spacing />
+        {code`constructor(config: MultiSelectPromptConfig<TValue>) {
+          super(config);
+
+          this.required = config.required ?? true;
+          this.initialValue = Array.isArray(config.initialValue) ? [...config.initialValue] : [];
+
+          if (config.optionsPerPage) {
+            this.optionsPerPage = config.optionsPerPage;
+          }
+
+          this.options = config.options.map((opt, index) => {
+            let option = {} as Partial<PromptOption<TValue>>;
+            if (typeof opt === "string") {
+              option = {
+                label: opt,
+                value: opt as TValue,
+                selected: this.initialValue.includes(opt as TValue),
+                disabled: false
+              };
+            } else if (typeof opt === "object" && opt !== null) {
+              option = {
+                ...opt,
+                selected: this.initialValue.includes(opt.value as TValue) || !!opt.selected
+              };
+            } else {
+              throw new Error("Invalid option provided to MultiSelectPrompt at index #" + index);
+            }
+
+            return {
+              label: option.label || String(option.value),
+              ...option,
+              description: option.description,
+              selected: !!option.selected,
+              disabled: !!option.disabled,
+              index
+            } as PromptOption<TValue>;
+          });
+
+          if (config.cursorAt !== undefined) {
+            const index = this.options.findIndex(option => option.value === config.cursorAt);
+            if (index > -1) {
+              this.cursor = index;
+            }
+          }
+
+          if (this.options[this.cursor]?.disabled) {
+            this.moveCursor(this.findNextEnabled(this.cursor, 1));
+          } else {
+            this.changeValue(this.getSelectedValues());
+          }
+
+          this.sync();
+        }
+
+        protected getAction(key: Key): string | false {
+          let action = super.getAction(key);
+          if (!action) {
+            if (key.name === "j") action = "down";
+            if (key.name === "k") action = "up";
+            if (key.name === "a") action = "toggleAll";
+            if (key.name === "i") action = "toggleInvert";
+            if (key.name === "space") action = "toggleCurrent";
+          }
+
+          return action || false;
+        }
+
+        protected override async submit() {
+          const selectedValues = this.getSelectedValues();
+          if (this.required && selectedValues.length === 0) {
+            this.error(
+              "Please select at least one option. Press <space> to toggle and <enter> to submit."
+            );
+            this.bell();
+            return;
+          }
+
+          this.changeValue(selectedValues);
+          await super.submit();
+        }
+
+        protected toggleCurrent() {
+          const option = this.options[this.cursor];
+          if (!option || option.disabled) {
+            this.bell();
+            return;
+          }
+
+          option.selected = !option.selected;
+          this.changeValue(this.getSelectedValues());
+          this.sync();
+        }
+
+        protected toggleAll() {
+          const enabled = this.options.filter(option => !option.disabled);
+          const areAllSelected = enabled.every(option => option.selected);
+          for (const option of enabled) {
+            option.selected = !areAllSelected;
+          }
+
+          this.changeValue(this.getSelectedValues());
+          this.sync();
+        }
+
+        protected toggleInvert() {
+          for (const option of this.options) {
+            if (!option.disabled) {
+              option.selected = !option.selected;
+            }
+          }
+
+          this.changeValue(this.getSelectedValues());
+          this.sync();
+        }
+
+        protected findNextEnabled(from: number, direction: 1 | -1): number {
+          if (this.options.length === 0) {
+            return 0;
+          }
+
+          let index = from;
+          for (let i = 0; i < this.options.length; i++) {
+            index = (index + direction + this.options.length) % this.options.length;
+            if (!this.options[index]?.disabled) {
+              return index;
+            }
+          }
+
+          return from;
+        }
+
+        protected getSelectedValues(): TValue[] {
+          return this.options
+            .filter(option => option.selected)
+            .map(option => option.value as TValue);
+        }
+
+        protected next() {
+          this.moveCursor(this.findNextEnabled(this.cursor, 1));
+          this.sync();
+        }
+
+        protected up() {
+          this.moveCursor(this.findNextEnabled(this.cursor, -1));
+          this.sync();
+        }
+
+        protected down() {
+          this.moveCursor(this.findNextEnabled(this.cursor, 1));
+          this.sync();
+        }
+
+        protected first() {
+          this.moveCursor(this.findNextEnabled(0, 1));
+          this.sync();
+        }
+
+        protected last() {
+          this.moveCursor(this.findNextEnabled(this.options.length - 1, -1));
+          this.sync();
+        }
+
+        protected override moveCursor(count: number) {
+          this.cursor = count;
+          this.changeValue(this.getSelectedValues());
+          this.sync();
+        }
+
+        protected override onRender() {
+          const spacing = Math.max(...this.options.map(option => option.label?.length || 0), 0) + 2;
+          const startIndex = Math.max(
+            Math.min(
+              this.options.length - this.optionsPerPage,
+              this.cursor - Math.floor(this.optionsPerPage / 2)
+            ),
+            0
+          );
+          const endIndex = Math.min(startIndex + this.optionsPerPage, this.options.length);
+
+          let output = "";
+          if (!this.isCompleted) {
+            output += " \\\n";
+
+            for (let index = startIndex; index < endIndex; index++) {
+              const option = this.options[index]!;
+              const active = this.cursor === index;
+              const selected = !!option.selected;
+              const disabled = !!option.disabled;
+
+              const pointer = disabled
+                ? active
+                  ? bold(textColors.prompt.input.disabled(">"))
+                  : index === startIndex
+                    ? borderColors.app.divider.tertiary("↑")
+                    : index === endIndex - 1
+                      ? borderColors.app.divider.tertiary("↓")
+                      : " "
+                : active
+                  ? bold(textColors.prompt.input.active(">"))
+                  : index === startIndex
+                    ? borderColors.app.divider.tertiary("↑")
+                    : index === endIndex - 1
+                      ? borderColors.app.divider.tertiary("↓")
+                      : " ";
+
+              const marker = isUnicodeSupported ? (selected ? "🗹" : "☐") : (selected ? "[x]" : "[ ]");
+              const markerText = disabled
+                ? active
+                  ? bold(textColors.prompt.input.disabled(marker))
+                  : textColors.prompt.input.disabled(marker)
+                : active
+                  ? bold(textColors.prompt.input.active(marker))
+                  : textColors.prompt.input.inactive(marker);
+
+              const labelText = disabled
+                ? active
+                  ? bold(underline(textColors.prompt.input.disabled(option.label)))
+                  : strikethrough(textColors.prompt.input.disabled(option.label))
+                : active
+                  ? bold(underline(textColors.prompt.input.active(option.label)))
+                  : selected
+                    ? textColors.prompt.input.active(option.label)
+                    : textColors.prompt.input.inactive(option.label);
+
+              output +=
+                pointer +
+                " " +
+                markerText +
+                " " +
+                labelText +
+                " " +
+                " ".repeat(Math.max(0, spacing - option.label.length)) +
+                (option.description && active
+                  ? italic(textColors.prompt.description.active(option.description))
+                  : "") +
+                " \\\n";
+            }
+          } else {
+            const selected = this.options.filter(option => option.selected);
+            this.displayValue =
+              selected.length > 0
+                ? selected.map(option => option.label).join(", ")
+                : "(none)";
+            output += super.onRender();
+          }
+
+          return output;
+        }`}
+      </ClassDeclaration>
+      <Spacing />
+      <TSDoc heading="A type definition for the configuration options to pass to the multi-select prompt, which extends the base PromptConfig with additional options specific to multi-select prompts." />
+      <TypeDeclaration export name="MultiSelectConfig">
+        {code`PromptFactoryConfig<string[]> & MultiSelectPromptConfig; `}
+      </TypeDeclaration>
+      <Spacing />
+      <TSDoc heading="A function to create and run a multi-select prompt, which returns a promise that resolves with the submitted values or a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled.">
+        <TSDocExample>
+          {`import { multiselect, isCancel } from "shell-shock:prompts";
+
+async function run() {
+  const tools = await multiselect({
+    message: "Select tools",
+    options: [
+      { value: "eslint", label: "ESLint" },
+      { value: "prettier", label: "Prettier" },
+      { value: "vitest", label: "Vitest", disabled: true }
+    ]
+  });
+
+  if (isCancel(tools)) {
+    console.log("Prompt was cancelled");
+    return;
+  }
+
+  console.log("Selected tools:", tools.join(", "));
+}
+
+run(); `}
+        </TSDocExample>
+        <Spacing />
+        <TSDocParam name="config">
+          {`The configuration options to pass to the multi-select prompt`}
+        </TSDocParam>
+        <TSDocReturns>
+          {`A promise that resolves with the selected values or a {@link CANCEL_SYMBOL | cancel symbol} if the prompt is cancelled`}
+        </TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        name="multiselect"
+        export
+        parameters={[
+          {
+            name: "config",
+            type: "MultiSelectConfig"
+          }
+        ]}
+        returnType="Promise<string[] | symbol>">
+        {code`return new Promise<string[] | symbol>((response, reject) => {
+            const prompt = new MultiSelectPrompt(config);
+
+            prompt.on("state", state => config.onState?.(state));
+            prompt.on("submit", value => response(value));
+            prompt.on("cancel", event => response(CANCEL_SYMBOL));
+          });`}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
  * A component that renders the declarations for the built-in numeric prompt, which allows users to input and select numeric values with various configuration options such as floating point support, precision, increment, and min/max values.
  */
 export function NumericPromptDeclarations() {
@@ -1595,35 +1979,35 @@ export function NumericPromptDeclarations() {
         doc="Configuration options for creating a numeric prompt">
         <InterfaceMember
           name="isFloat"
-          optional
+          required={false}
           type="boolean"
           doc="Whether the prompt should accept floating point numbers"
         />
         <Spacing />
         <InterfaceMember
           name="precision"
-          optional
+          required={false}
           type="number"
           doc="The number of decimal places to round the input to, defaults to 2"
         />
         <Spacing />
         <InterfaceMember
           name="increment"
-          optional
+          required={false}
           type="number"
           doc="The increment value for the number prompt, defaults to 1"
         />
         <Spacing />
         <InterfaceMember
           name="min"
-          optional
+          required={false}
           type="number"
           doc="The minimum value for the number prompt, defaults to -Infinity"
         />
         <Spacing />
         <InterfaceMember
           name="max"
-          optional
+          required={false}
           type="number"
           doc="The maximum value for the number prompt, defaults to Infinity"
         />
@@ -1945,14 +2329,14 @@ export function TogglePromptDeclarations() {
         doc="Configuration options for creating a boolean toggle prompt">
         <InterfaceMember
           name="trueMessage"
-          optional
+          required={false}
           type="string"
           doc="The message for the true state of the prompt"
         />
         <Spacing />
         <InterfaceMember
           name="falseMessage"
-          optional
+          required={false}
           type="string"
           doc="The message for the false state of the prompt"
         />
@@ -2180,30 +2564,24 @@ export function ConfirmPromptDeclarations() {
         extends="PromptConfig<boolean>"
         doc="Configuration options for creating a boolean confirm prompt">
         <TSDoc heading="The message for the \`Yes\` state of the prompt">
-          <TSDocDefaultValue type={ReflectionKind.string} defaultValue="Yes" />
+          <TSDocDefaultValue type="string" defaultValue="Yes" />
         </TSDoc>
-        <InterfaceMember name="yesMessage" optional type="string" />
+        <InterfaceMember name="yesMessage" required={false} type="string" />
         <Spacing />
         <TSDoc heading="The \`Yes\` option when choosing between yes/no">
-          <TSDocDefaultValue type={ReflectionKind.string} defaultValue="1" />
+          <TSDocDefaultValue type="string" defaultValue="1" />
         </TSDoc>
-        <InterfaceMember name="yesOption" optional type="string" />
+        <InterfaceMember name="yesOption" required={false} type="string" />
         <Spacing />
         <TSDoc heading="The message for the \`No\` state of the prompt">
-          <TSDocDefaultValue
-            type={ReflectionKind.string}
-            defaultValue="(Y/n)"
-          />
+          <TSDocDefaultValue type="string" defaultValue="(Y/n)" />
         </TSDoc>
-        <InterfaceMember name="noMessage" optional type="string" />
+        <InterfaceMember name="noMessage" required={false} type="string" />
         <Spacing />
         <TSDoc heading="The \`No\` option when choosing between yes/no">
-          <TSDocDefaultValue
-            type={ReflectionKind.string}
-            defaultValue="(y/N)"
-          />
+          <TSDocDefaultValue type="string" defaultValue="(y/N)" />
         </TSDoc>
-        <InterfaceMember name="noOption" optional type="string" />
+        <InterfaceMember name="noOption" required={false} type="string" />
       </InterfaceDeclaration>
       <Spacing />
       <ClassDeclaration
@@ -2514,6 +2892,7 @@ export function PromptsBuiltin(props: PromptsBuiltinProps) {
           "splitText",
           "error"
         ],
+        utils: ["isUnicodeSupported"],
         env: ["env", "isCI", "isTest", "isWindows", "isDevelopment", "isDebug"]
       })}>
       <Spacing />
@@ -2522,6 +2901,8 @@ export function PromptsBuiltin(props: PromptsBuiltinProps) {
       <TextPromptDeclarations />
       <Spacing />
       <SelectPromptDeclarations />
+      <Spacing />
+      <MultiSelectPromptDeclarations />
       <Spacing />
       <NumericPromptDeclarations />
       <Spacing />

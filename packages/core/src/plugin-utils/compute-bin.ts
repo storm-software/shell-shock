@@ -16,29 +16,27 @@
 
  ------------------------------------------------------------------- */
 
-import { computed } from "@alloy-js/core";
 import { joinPaths } from "@stryke/path/join-paths";
 import type { CommandTree, Context } from "../types";
 import { getAppDescription, getAppName, getAppTitle } from "./context-helpers";
 
 /**
- * Compute the command tree for the CLI application, starting from the root bin command. This will be used to determine which commands are available in the CLI application and their respective details.
+ * Computes the command tree for the root binary command based on the provided context.
  *
  * @param context - The plugin context containing the necessary information to compute the command tree.
- * @returns The computed command tree for the CLI application, starting from the root bin command. This will include all commands discovered in the project and their respective details, organized in a hierarchical structure based on their segments and paths.
+ * @returns The computed command tree for the root binary command.
  */
 export function computeBin(context: Context): CommandTree {
-  const bin = computed(() => ({
+  return {
     id: "",
     name: getAppName(context),
     title: getAppTitle(context),
     description: getAppDescription(context),
-    isVirtual: true,
+    virtual: true,
     path: null,
     segments: [],
     alias: [],
     tags: [],
-    source: "file",
     options: Object.fromEntries(
       context.globalOptions.map(option => [option.name, option])
     ),
@@ -48,7 +46,5 @@ export function computeBin(context: Context): CommandTree {
     },
     parent: null,
     children: context.commands
-  }));
-
-  return bin.value;
+  };
 }

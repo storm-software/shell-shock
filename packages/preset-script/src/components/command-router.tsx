@@ -37,7 +37,7 @@ export function CommandRouterRoute() {
 
   return (
     <>
-      <Show when={!command.isVirtual}>
+      <Show when={!command.virtual}>
         <DynamicImportStatement
           name={`handle${pascalCase(command.name)}`}
           importPath={`./${

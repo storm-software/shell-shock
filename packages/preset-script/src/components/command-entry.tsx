@@ -266,7 +266,7 @@ export function CommandEntry(props: CommandEntryProps) {
       <For each={Object.values(command.children)}>
         {child => (
           <Show
-            when={child.isVirtual}
+            when={child.virtual}
             fallback={<CommandEntry command={child} />}>
             <VirtualCommandEntry command={child} />
           </Show>

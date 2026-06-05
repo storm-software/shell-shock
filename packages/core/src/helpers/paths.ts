@@ -26,7 +26,7 @@ import { resolveParentPath } from "@stryke/path/resolve-parent-path";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { existsSync } from "node:fs";
-import { isTypeDefinition } from "powerlines/utils";
+import { isFileReference } from "powerlines/utils";
 import {
   getDynamicPathSegmentName,
   isDynamicPathSegment,
@@ -94,7 +94,7 @@ export async function findCommandsRoot(context: Context): Promise<string> {
         context.config.cwd
       )
     );
-  } else if (isTypeDefinition(context.config.input)) {
+  } else if (isFileReference(context.config.input)) {
     paths = await listFiles(
       appendPath(
         appendPath(context.config.input.file, context.config.root),

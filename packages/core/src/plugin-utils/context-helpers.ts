@@ -46,7 +46,9 @@ export function sortArgAliases(aliases: string[]): string[] {
  * @returns The application name in kebab-case format.
  * @throws An error if no valid application name is found.
  */
-export function getAppName(context: UnresolvedContext | Context): string {
+export function getAppName<TContext extends UnresolvedContext | Context>(
+  context: TContext
+): string {
   const result =
     context.config.name ||
     (isSetString(context.config.bin) ||
@@ -73,8 +75,8 @@ export function getAppName(context: UnresolvedContext | Context): string {
  * @param replaceCLI - Whether to replace CLI-related terms in the title with the application name.
  * @returns The application title in title-case format.
  */
-export function getAppTitle(
-  context: UnresolvedContext | Context,
+export function getAppTitle<TContext extends UnresolvedContext | Context>(
+  context: TContext,
   replaceCLI = false
 ): string {
   const title =
@@ -97,8 +99,8 @@ export function getAppTitle(
  * @param context - The build context containing workspace and package information.
  * @returns The application description.
  */
-export function getAppDescription(
-  context: UnresolvedContext | Context
+export function getAppDescription<TContext extends UnresolvedContext | Context>(
+  context: TContext
 ): string {
   return (
     context.config.description ||
@@ -113,7 +115,9 @@ export function getAppDescription(
  * @param context - The build context containing workspace and package information.
  * @returns The primary binary name as a string.
  */
-export function getAppBin(context: Context): string {
+export function getAppBin<TContext extends UnresolvedContext | Context>(
+  context: TContext
+): string {
   return isSetObject(context.config.bin)
     ? Object.keys(context.config.bin)[0]!
     : kebabCase(getAppName(context));

@@ -17,8 +17,7 @@
  ------------------------------------------------------------------- */
 
 import type { CommandBase, CommandOption } from "@shell-shock/core";
-import { CommandParameterKinds } from "@shell-shock/core";
-import { getGlobalOptions as _getGlobalOptions } from "@shell-shock/preset-script/helpers/get-global-options";
+import { getGlobalOptions as getGlobalOptionsBase } from "@shell-shock/preset-script/helpers/get-global-options";
 import type { CLIPresetContext } from "../types";
 
 /**
@@ -33,7 +32,7 @@ export function getGlobalOptions(
   _: CommandBase
 ): CommandOption[] {
   return [
-    ..._getGlobalOptions(),
+    ...getGlobalOptionsBase(),
     context.config.interactive !== "never" &&
       context.config.interactive !== true && {
         name: "interactive",
@@ -41,8 +40,8 @@ export function getGlobalOptions(
         description:
           "Enable interactive mode - will be set to false if running in a CI pipeline.",
         alias: ["i", "interact"],
-        kind: CommandParameterKinds.boolean,
-        optional: true,
+        type: "boolean",
+        required: false,
         default: context.config.interactive !== false
       },
     context.config.interactive !== "never" &&
@@ -52,8 +51,8 @@ export function getGlobalOptions(
         description:
           "Disable interactive mode - will be set to true if running in a CI pipeline.",
         alias: ["no-interactive"],
-        kind: CommandParameterKinds.boolean,
-        optional: true,
+        type: "boolean",
+        required: false,
         default: false,
         isNegativeOf: "interactive"
       }

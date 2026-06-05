@@ -24,7 +24,7 @@ import { defineConfig } from "powerlines/config";
 const config: UserConfig = defineConfig({
   skipCache: true,
   name: "nx-base",
-  input: ["./src/index.ts", "./src/executors/*/executor.ts"],
+  input: ["src/index.ts", "src/executors/*/executor.ts"],
   plugins: [untyped(), tsdown()],
   platform: "node",
   resolve: {

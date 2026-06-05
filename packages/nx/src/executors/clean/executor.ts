@@ -17,34 +17,26 @@
  ------------------------------------------------------------------- */
 
 import type { PromiseExecutor } from "@nx/devkit";
-import type { ShellShockAPI } from "@shell-shock/core/api";
+import type {
+  PowerlinesExecutorApi,
+  PowerlinesExecutorContext
+} from "@powerlines/nx";
 import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
-import { defu } from "defu";
-import type { ShellShockExecutorContext } from "../../base/base-executor";
 import { withExecutor } from "../../base/base-executor";
 import type { CleanExecutorSchema } from "./schema";
 
 async function executorFn(
-  context: ShellShockExecutorContext<"clean", CleanExecutorSchema>,
-  api: ShellShockAPI
+  context: PowerlinesExecutorContext<CleanExecutorSchema>,
+  api: PowerlinesExecutorApi
 ): Promise<BaseExecutorResult> {
-  await api.clean(
-    defu(
-      {
-        command: "clean"
-      },
-      context.inlineConfig
-    )
-  );
+  await api(context.inlineConfig);
 
   return {
     success: true
   };
 }
 
-const executor: PromiseExecutor<CleanExecutorSchema> = withExecutor<
-  "clean",
-  CleanExecutorSchema
->("clean", executorFn);
+const executor: PromiseExecutor<CleanExecutorSchema> =
+  withExecutor<CleanExecutorSchema>("clean", executorFn);
 
 export default executor;

@@ -41,46 +41,16 @@
   "type": "module",
   "exports": {
     ".": {
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      },
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "default": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      }
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     },
     "./html": {
-      "require": {
-        "types": "./dist/html/index.d.cts",
-        "default": "./dist/html/index.cjs"
-      },
-      "import": {
-        "types": "./dist/html/index.d.mts",
-        "default": "./dist/html/index.mjs"
-      },
-      "default": {
-        "types": "./dist/html/index.d.mts",
-        "default": "./dist/html/index.mjs"
-      }
+      "import": "./dist/html/index.mjs",
+      "require": "./dist/html/index.cjs"
     },
     "./markdown": {
-      "require": {
-        "types": "./dist/markdown/index.d.cts",
-        "default": "./dist/markdown/index.cjs"
-      },
-      "import": {
-        "types": "./dist/markdown/index.d.mts",
-        "default": "./dist/markdown/index.mjs"
-      },
-      "default": {
-        "types": "./dist/markdown/index.d.mts",
-        "default": "./dist/markdown/index.mjs"
-      }
+      "import": "./dist/markdown/index.mjs",
+      "require": "./dist/markdown/index.cjs"
     },
     "./package.json": "./package.json"
   },

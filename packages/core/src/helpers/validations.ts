@@ -17,7 +17,6 @@
  ------------------------------------------------------------------- */
 
 import type { CommandTree } from "../types";
-import { CommandParameterKinds } from "../types";
 
 export interface ValidationFailure {
   code: string;
@@ -30,8 +29,7 @@ export function validateArguments(command: CommandTree): ValidationFailure[] {
   let sequential = false;
   for (const argument of command.args ?? []) {
     if (
-      (argument.kind === CommandParameterKinds.string ||
-        argument.kind === CommandParameterKinds.number) &&
+      (argument.type === "string" || argument.type === "number") &&
       argument.variadic
     ) {
       if (!sequential) {

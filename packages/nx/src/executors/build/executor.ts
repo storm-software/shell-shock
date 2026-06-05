@@ -17,26 +17,28 @@
  ------------------------------------------------------------------- */
 
 import type { PromiseExecutor } from "@nx/devkit";
-import type { ShellShockAPI } from "@shell-shock/core/api";
+import type {
+  PowerlinesExecutorApi,
+  PowerlinesExecutorContext
+} from "@powerlines/nx";
 import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
 import defu from "defu";
-import type { ShellShockExecutorContext } from "../../base/base-executor";
+import type { InlineConfig } from "powerlines";
 import { withExecutor } from "../../base/base-executor";
 import type { BuildExecutorSchema } from "./schema";
 
 async function executorFn(
-  context: ShellShockExecutorContext<"build", BuildExecutorSchema>,
-  api: ShellShockAPI
+  context: PowerlinesExecutorContext<BuildExecutorSchema>,
+  api: PowerlinesExecutorApi
 ): Promise<BaseExecutorResult> {
-  await api.build(
+  await api(
     defu(
       {
-        command: "build",
         skipCache: context.options.skipCache,
         autoInstall: context.options.autoInstall
       },
       context.inlineConfig
-    )
+    ) as InlineConfig
   );
 
   return {
@@ -44,9 +46,7 @@ async function executorFn(
   };
 }
 
-const executor: PromiseExecutor<BuildExecutorSchema> = withExecutor<
-  "build",
-  BuildExecutorSchema
->("build", executorFn);
+const executor: PromiseExecutor<BuildExecutorSchema> =
+  withExecutor<BuildExecutorSchema>("build", executorFn);
 
 export default executor;

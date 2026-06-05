@@ -20,7 +20,6 @@ import { code, computed, For, Show } from "@alloy-js/core";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { CommandOption, CommandTree } from "@shell-shock/core";
-import { CommandParameterKinds } from "@shell-shock/core";
 import {
   formatDescription,
   formatShortDescription,
@@ -93,19 +92,18 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
             ? ` ${command.args
                 .map(
                   arg =>
-                    `\${textColors.usage.args("<${snakeCase(
-                      (arg.kind === CommandParameterKinds.string ||
-                        arg.kind === CommandParameterKinds.number) &&
-                        arg.choices &&
-                        arg.choices.length > 0
-                        ? arg.choices.join("|")
-                        : arg.kind === CommandParameterKinds.string &&
-                            arg.format
-                          ? arg.format
-                          : arg.name
-                    )}${
-                      (arg.kind === CommandParameterKinds.string ||
-                        arg.kind === CommandParameterKinds.number) &&
+                    `\${textColors.usage.args("<${
+                      (arg.type === "string" || arg.type === "number") &&
+                      arg.choices &&
+                      arg.choices.length > 0
+                        ? arg.choices
+                            .map(choice => snakeCase(String(choice)))
+                            .join("|")
+                        : arg.type === "string" && arg.format
+                          ? snakeCase(arg.format)
+                          : snakeCase(arg.name)
+                    }${
+                      (arg.type === "string" || arg.type === "number") &&
                       arg.variadic
                         ? "..."
                         : ""
@@ -146,19 +144,18 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
             ? ` ${command.args
                 .map(
                   arg =>
-                    `\${textColors.usage.args("<${snakeCase(
-                      (arg.kind === CommandParameterKinds.string ||
-                        arg.kind === CommandParameterKinds.number) &&
-                        arg.choices &&
-                        arg.choices.length > 0
-                        ? arg.choices.join("|")
-                        : arg.kind === CommandParameterKinds.string &&
-                            arg.format
-                          ? arg.format
-                          : arg.name
-                    )}${
-                      (arg.kind === CommandParameterKinds.string ||
-                        arg.kind === CommandParameterKinds.number) &&
+                    `\${textColors.usage.args("<${
+                      (arg.type === "string" || arg.type === "number") &&
+                      arg.choices &&
+                      arg.choices.length > 0
+                        ? arg.choices
+                            .map(choice => snakeCase(String(choice)))
+                            .join("|")
+                        : arg.type === "string" && arg.format
+                          ? snakeCase(arg.format)
+                          : snakeCase(arg.name)
+                    }${
+                      (arg.type === "string" || arg.type === "number") &&
                       arg.variadic
                         ? "..."
                         : ""
@@ -216,20 +213,24 @@ export function HelpOptionsDisplay(props: HelpOptionsDisplayProps) {
               ? `${flags.sort().join(", ")}${names.length > 0 ? ", " : ""}`
               : ""
           }${names.length > 0 ? names.sort().join(", ") : ""}${
-            option.kind === CommandParameterKinds.string
-              ? ` <${snakeCase(
+            option.type === "string"
+              ? ` <${
                   option.choices && option.choices.length > 0
-                    ? option.choices.join("|")
+                    ? option.choices
+                        .map(choice => snakeCase(String(choice)))
+                        .join("|")
                     : option.format
-                      ? option.format
-                      : option.name
-                )}${option.variadic ? "..." : ""}>`
-              : option.kind === CommandParameterKinds.number
-                ? ` <${snakeCase(
+                      ? snakeCase(option.format)
+                      : snakeCase(option.name)
+                }${option.variadic ? "..." : ""}>`
+              : option.type === "number"
+                ? ` <${
                     option.choices && option.choices.length > 0
-                      ? option.choices.join("|")
-                      : option.name
-                  )}${option.variadic ? "..." : ""}>`
+                      ? option.choices
+                          .map(choice => snakeCase(String(choice)))
+                          .join("|")
+                      : snakeCase(option.name)
+                  }${option.variadic ? "..." : ""}>`
                 : ""
           }"), align: "right", border: "none", maxWidth: "1/3" }, { value: textColors.body.tertiary(\`${formatShortDescription(
             option.description,
@@ -378,10 +379,10 @@ export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
         <HelpCommandsDisplay commands={command.children} />
         <Spacing />
       </Show>
-      <Show when={isSetString(command.reference)}>
+      <Show when={isSetString(command.docs)}>
         {code`writeLine("");
       writeLine(textColors.heading.tertiary(\`More information about this command can be found in the reference documentation at \${link("${
-        command.reference
+        command.docs
       }")}\`)${
         indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
       });`}
@@ -488,7 +489,7 @@ export function VirtualCommandHelpDisplay(
                   child.icon
                     ? `(isUnicodeSupported ? " ${child.icon}  " : "") + `
                     : ""
-                }\`${child.title} ${child.isVirtual ? "" : "Command"}${
+                }\`${child.title} ${child.virtual ? "" : "Command"}${
                   child.tags?.length > 0
                     ? ` - ${child.tags
                         .map(
@@ -565,7 +566,7 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
                   child.icon
                     ? `(isUnicodeSupported ? " ${child.icon}  " : "") + `
                     : ""
-                }\`${child.title} ${child.isVirtual ? "" : "Command"}${
+                }\`${child.title} ${child.virtual ? "" : "Command"}${
                   child.tags?.length > 0
                     ? ` - ${child.tags
                         .map(

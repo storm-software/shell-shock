@@ -54,14 +54,12 @@ export function LocatePackageJsonFunctionDeclaration() {
         doc="Options for the `locatePackageJson` handler function.">
         <InterfaceMember
           name="cwd"
-          optional
           type="string"
           doc="The current working directory to use. If not provided, the process's current working directory will be used."
         />
         <Spacing />
         <InterfaceMember
           name="isDependencyRequired"
-          optional
           type="boolean"
           doc="Whether to only locate a package.json file if it contains the application as a dependency. If set to `true`, the function will check if the located package.json file has the application listed as a dependency in its dependencies, devDependencies, peerDependencies, or optionalDependencies before returning its path. This can be useful in monorepo setups where multiple package.json files may exist, but only the one that includes the application as a dependency is relevant for upgrade purposes."
         />
@@ -148,7 +146,6 @@ export function LocateLockfileFunctionDeclaration() {
         doc="Options for the `locateLockfile` handler function.">
         <InterfaceMember
           name="cwd"
-          optional
           type="string"
           doc="The current working directory to use. If not provided, the process's current working directory will be used."
         />
@@ -391,28 +388,24 @@ export function FetchNpmPackageFunctionDeclaration() {
         <InterfaceMember
           name="homepage"
           type="string"
-          optional
           doc="The homepage of the npm package."
         />
         <hbr />
         <InterfaceMember
           name="repository"
           type="string"
-          optional
           doc="The repository of the npm package."
         />
         <hbr />
         <InterfaceMember
           name="bugs"
           type="string"
-          optional
           doc="The bugs page of the npm package."
         />
         <hbr />
         <InterfaceMember
           name="npm"
           type="string"
-          optional
           doc="The npm page of the npm package."
         />
       </InterfaceDeclaration>
@@ -442,7 +435,6 @@ export function FetchNpmPackageFunctionDeclaration() {
         <InterfaceMember
           name="description"
           type="string"
-          optional
           doc="The description of the npm package."
         />
         <hbr />
@@ -455,7 +447,6 @@ export function FetchNpmPackageFunctionDeclaration() {
         <InterfaceMember
           name="license"
           type="string"
-          optional
           doc="The license of the npm package."
         />
         <hbr />
@@ -661,14 +652,12 @@ export function UpgradeFunctionDeclaration() {
         doc="Options for the `upgrade` handler function.">
         <InterfaceMember
           name="stdout"
-          optional
           type="(data: string) => void"
           doc="A callback function that is called with the stdout output of the command."
         />
         <hbr />
         <InterfaceMember
           name="stderr"
-          optional
           type="(err: string) => void"
           doc="A callback function that is called with the stderr output of the command."
         />
@@ -787,7 +776,7 @@ export function IsCheckForUpdatesRequiredFunctionDeclaration() {
       </TSDoc>
       <FunctionDeclaration export async name="isCheckForUpdatesRequired">
         <IfStatement
-          condition={code`!isInteractive || isCI || env.SKIP_VERSION_CHECK`}>
+          condition={code`!isInteractive || isCI || env.SKIP_UPDATE_CHECK`}>
           {code`return false; `}
         </IfStatement>
         <Spacing />
@@ -838,7 +827,6 @@ export function CheckForUpdatesFunctionDeclaration() {
         doc="Options for the `checkForUpdates` handler function.">
         <InterfaceMember
           name="force"
-          optional
           type="boolean"
           doc="Whether to force a check for updates regardless of the last check timestamp. If set to `true`, the function will bypass the timestamp check and perform a check for updates, updating the timestamp in the process. This can be useful if you want to ensure that a check for updates is performed even if one was recently done, such as when the user explicitly requests it or when certain conditions are met that warrant an immediate check."
         />
@@ -848,7 +836,6 @@ export function CheckForUpdatesFunctionDeclaration() {
         <InterfaceMember
           name="isError"
           type="boolean"
-          optional
           doc="Indicates whether an error occurred while checking for updates."
         />
       </InterfaceDeclaration>
@@ -877,7 +864,6 @@ export function CheckForUpdatesFunctionDeclaration() {
         <InterfaceMember
           name="package"
           type="NpmPackage"
-          optional
           doc="The npm package that was checked for updates."
         />
       </InterfaceDeclaration>
@@ -973,14 +959,12 @@ export function GetChangelogFunctionDeclaration() {
         doc="Options for the `getChangelog` handler function.">
         <InterfaceMember
           name="start"
-          optional
           type="string"
           doc="The starting version for the changelog."
         />
         <hbr />
         <InterfaceMember
           name="end"
-          optional
           type="string"
           doc="The ending version for the changelog."
         />

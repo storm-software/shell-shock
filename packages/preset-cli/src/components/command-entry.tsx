@@ -27,7 +27,6 @@ import type {
   NumberCommandParameter,
   StringCommandParameter
 } from "@shell-shock/core";
-import { CommandParameterKinds } from "@shell-shock/core";
 import { CommandValidationLogic } from "@shell-shock/core/components/command-validation-logic";
 import {
   formatDescription,
@@ -152,19 +151,18 @@ export function CommandEntry(props: CommandEntryProps) {
           <Show
             when={
               Object.values(command.options ?? {}).filter(
-                option => !option.optional
+                option => option.required
               ).length > 0 ||
-              Object.values(command.args ?? {}).filter(arg => !arg.optional)
+              Object.values(command.args ?? {}).filter(arg => arg.required)
                 .length > 0
             }>
             <ElseIfClause
               condition={code`!isHelp() && (${Object.values(
                 command.options ?? {}
               )
-                .filter(option => !option.optional)
+                .filter(option => option.required)
                 .map(option =>
-                  (option.kind === CommandParameterKinds.string ||
-                    option.kind === CommandParameterKinds.number) &&
+                  (option.type === "string" || option.type === "number") &&
                   option.variadic
                     ? `(!options${
                         option.name.includes("?")
@@ -183,17 +181,16 @@ export function CommandEntry(props: CommandEntryProps) {
                 )
                 .join(" || ")}${
                 Object.values(command.options ?? {}).filter(
-                  option => !option.optional
+                  option => option.required
                 ).length > 0 &&
-                Object.values(command.args ?? {}).filter(arg => !arg.optional)
+                Object.values(command.args ?? {}).filter(arg => arg.required)
                   .length > 0
                   ? " || "
                   : ""
               }${Object.values(command.args ?? {})
-                .filter(arg => !arg.optional)
+                .filter(arg => arg.required)
                 .map(arg =>
-                  (arg.kind === CommandParameterKinds.string ||
-                    arg.kind === CommandParameterKinds.number) &&
+                  (arg.type === "string" || arg.type === "number") &&
                   arg.variadic
                     ? `(!${camelCase(
                         arg.name
@@ -206,7 +203,7 @@ export function CommandEntry(props: CommandEntryProps) {
               <For each={Object.values(command.options ?? {})} doubleHardline>
                 {option => (
                   <>
-                    <Show when={!option.optional}>
+                    <Show when={option.required}>
                       <IfStatement
                         condition={code`!options${
                           option.name.includes("?")
@@ -215,7 +212,7 @@ export function CommandEntry(props: CommandEntryProps) {
                         }`}>
                         <Show
                           when={
-                            option.kind === CommandParameterKinds.boolean ||
+                            option.type === "boolean" ||
                             !option.choices ||
                             option.choices.length === 0
                           }
@@ -259,10 +256,7 @@ export function CommandEntry(props: CommandEntryProps) {
                             } = value;
                           `}>
                           <Switch>
-                            <Match
-                              when={
-                                option.kind === CommandParameterKinds.string
-                              }>{code`
+                            <Match when={option.type === "string"}>{code`
                             const value = await text({
                               message: \`Please provide a value for the \${italic("${
                                 option.name
@@ -292,10 +286,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                 : `.${camelCase(option.name)}`
                             } = value;
                           `}</Match>
-                            <Match
-                              when={
-                                option.kind === CommandParameterKinds.number
-                              }>{code`
+                            <Match when={option.type === "number"}>{code`
                             const value = await numeric({
                               message: \`Please provide a numeric value for the \${italic("${option.name}")} option\`,
                               ${
@@ -317,10 +308,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                 : `.${camelCase(option.name)}`
                             } = value;
                           `}</Match>
-                            <Match
-                              when={
-                                option.kind === CommandParameterKinds.boolean
-                              }>{code`
+                            <Match when={option.type === "boolean"}>{code`
                             const value = await toggle({
                               message: \`Please select a value for the \${italic("${option.name}")} option\`,
                             ${
@@ -347,8 +335,8 @@ export function CommandEntry(props: CommandEntryProps) {
                       </IfStatement>
                       <Show
                         when={
-                          (option.kind === CommandParameterKinds.string ||
-                            option.kind === CommandParameterKinds.number) &&
+                          (option.type === "string" ||
+                            option.type === "number") &&
                           option.variadic
                         }>
                         <ElseIfClause
@@ -360,9 +348,7 @@ export function CommandEntry(props: CommandEntryProps) {
                           {code`
                             const value = await text({
                               message: \`Please provide one or more${
-                                option.kind === CommandParameterKinds.number
-                                  ? " numeric"
-                                  : ""
+                                option.type === "number" ? " numeric" : ""
                               } values for the \${italic("${
                                 option.name
                               }")} option (values are separated by a \\",\\" character)\`,
@@ -381,7 +367,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                   return "At least one value must be provided for this option";
                                 }
                                 ${
-                                  option.kind === CommandParameterKinds.number
+                                  option.type === "number"
                                     ? `const invalidIndex = val.split(",").map(v => v.trim()).filter(Boolean).findIndex(v => Number.isNaN(Number(v));
                                     if (invalidIndex !== -1) {
                                       return \`Invalid numeric value provided for item #\${invalidIndex + 1} - all provided items must be a valid number\`;
@@ -400,9 +386,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                 ? `["${option.name}"]`
                                 : `.${camelCase(option.name)}`
                             } = value.split(",").map(value => value.trim()).filter(Boolean)${
-                              option.kind === CommandParameterKinds.number
-                                ? `.map(Number)`
-                                : ""
+                              option.type === "number" ? `.map(Number)` : ""
                             } ;
                           `}
                         </ElseIfClause>
@@ -415,11 +399,11 @@ export function CommandEntry(props: CommandEntryProps) {
               <For each={command.args} doubleHardline>
                 {arg => (
                   <>
-                    <Show when={!arg.optional}>
+                    <Show when={arg.required}>
                       <IfStatement condition={code`!${camelCase(arg.name)}`}>
                         <Show
                           when={
-                            arg.kind === CommandParameterKinds.boolean ||
+                            arg.type === "boolean" ||
                             !arg.choices ||
                             arg.choices.length === 0
                           }
@@ -460,10 +444,7 @@ export function CommandEntry(props: CommandEntryProps) {
                             ${camelCase(arg.name)} = value;
                           `}>
                           <Switch>
-                            <Match
-                              when={
-                                arg.kind === CommandParameterKinds.string
-                              }>{code`
+                            <Match when={arg.type === "string"}>{code`
                             const value = await text({
                               message: \`Please provide a value for the \${italic("${arg.name}")} argument\`,
                               ${
@@ -487,10 +468,7 @@ export function CommandEntry(props: CommandEntryProps) {
 
                             ${camelCase(arg.name)} = value;
                           `}</Match>
-                            <Match
-                              when={
-                                arg.kind === CommandParameterKinds.number
-                              }>{code`
+                            <Match when={arg.type === "number"}>{code`
                             const value = await numeric({
                               message: \`Please provide a numeric value for the \${italic("${arg.name}")} argument\`,
                               ${
@@ -508,10 +486,7 @@ export function CommandEntry(props: CommandEntryProps) {
 
                             ${camelCase(arg.name)} = value;
                           `}</Match>
-                            <Match
-                              when={
-                                arg.kind === CommandParameterKinds.boolean
-                              }>{code`
+                            <Match when={arg.type === "boolean"}>{code`
                             const value = await toggle({
                               message: \`Please select a value for the \${italic("${arg.name}")} argument\`,
                               ${
@@ -538,9 +513,7 @@ export function CommandEntry(props: CommandEntryProps) {
                           {code`
                             const value = await text({
                               message: \`Please provide one or more${
-                                arg.kind === CommandParameterKinds.number
-                                  ? " numeric"
-                                  : ""
+                                arg.type === "number" ? " numeric" : ""
                               } values for the \${italic("${arg.name}")} argument (values are separated by a \\",\\" character)\`,
                               ${
                                 arg.description
@@ -557,7 +530,7 @@ export function CommandEntry(props: CommandEntryProps) {
                                   return "At least one value must be provided for this argument";
                                 }
                                 ${
-                                  arg.kind === CommandParameterKinds.number
+                                  arg.type === "number"
                                     ? `const invalidIndex = val.split(",").map(v => v.trim()).filter(Boolean).findIndex(v => Number.isNaN(Number(v));
                                     if (invalidIndex !== -1) {
                                       return \`Invalid numeric value provided for item #\${invalidIndex + 1} - all provided items must be a valid number\`;
@@ -573,9 +546,9 @@ export function CommandEntry(props: CommandEntryProps) {
                             }
 
                             ${camelCase(arg.name)} = value.split(",").map(value => value.trim()).filter(Boolean)${
-                              arg.kind === CommandParameterKinds.number
+                              arg.type === "number"
                                 ? `.map(Number)`
-                                : arg.kind === CommandParameterKinds.boolean
+                                : arg.type === "boolean"
                                   ? `.map(Boolean)`
                                   : ""
                             } ;
@@ -602,7 +575,7 @@ export function CommandEntry(props: CommandEntryProps) {
       <For each={Object.values(command.children)}>
         {child => (
           <Show
-            when={child.isVirtual}
+            when={child.virtual}
             fallback={<CommandEntry command={child} />}>
             <VirtualCommandEntry command={child} />
           </Show>

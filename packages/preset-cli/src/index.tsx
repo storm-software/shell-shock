@@ -22,14 +22,22 @@ import { Spacing } from "@powerlines/plugin-alloy/core/components";
 import { render } from "@powerlines/plugin-alloy/render";
 import { computeBin, getCommandList } from "@shell-shock/core/plugin-utils";
 import type { CommandTree } from "@shell-shock/core/types/command";
+import type { ChangelogPluginOptions } from "@shell-shock/plugin-changelog";
 import changelog from "@shell-shock/plugin-changelog";
+import type { CompletionsPluginOptions } from "@shell-shock/plugin-completions";
 import completions from "@shell-shock/plugin-completions";
 import console from "@shell-shock/plugin-console";
 import help from "@shell-shock/plugin-help";
 import prompts from "@shell-shock/plugin-prompts";
+import type { SkillsPluginOptions } from "@shell-shock/plugin-skills";
+import skills from "@shell-shock/plugin-skills";
 import upgrade from "@shell-shock/plugin-upgrade";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
+import { joinPaths } from "@stryke/path/join";
+import { isSetObject } from "@stryke/type-checks/is-set-object";
+import { existsSync } from "node:fs";
 import type { Plugin } from "powerlines";
+import { enable } from "powerlines";
 import { BannerBuiltin } from "./components/banner-builtin";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
@@ -51,15 +59,26 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
     ...console<TContext>(options),
     ...help<TContext>(options),
     ...prompts<TContext>(options),
-    ...(options.changelog !== false
-      ? [changelog<TContext>(options.changelog)]
-      : []),
-    ...(options.completions !== false
-      ? completions<TContext>(options.completions)
-      : []),
+    ...enable(
+      changelog<TContext>(options.changelog as ChangelogPluginOptions),
+      options.changelog !== false
+    ),
+    ...enable(
+      completions<TContext>(options.completions as CompletionsPluginOptions),
+      options.completions !== false
+    ),
+    ...enable(
+      skills<TContext>(options.skills as SkillsPluginOptions),
+      options.skills !== false &&
+        existsSync(
+          isSetObject(options.skills) && options.skills.path
+            ? options.skills.path
+            : joinPaths(process.cwd(), "skills")
+        )
+    ),
     upgrade<TContext>(options),
     {
-      name: "shell-shock:cli-preset",
+      name: "shell-shock/cli-preset:main",
       config() {
         this.debug(
           "Providing default configuration for the Shell Shock `cli` preset."
@@ -70,7 +89,8 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           isCaseSensitive: false,
           ...options,
           env: {
-            types: "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradeEnv",
+            config:
+              "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradeEnv",
             validate: false
           }
         };
@@ -103,7 +123,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
       }
     },
     {
-      name: "shell-shock:cli-preset:generate-entrypoint",
+      name: "shell-shock/cli-preset:generate-entrypoint",
       prepare: {
         order: "post",
         async handler() {
@@ -165,7 +185,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                   doubleHardline>
                   {child => (
                     <Show
-                      when={child.isVirtual}
+                      when={child.virtual}
                       fallback={<CommandEntry command={child} />}>
                       <VirtualCommandEntry command={child} />
                     </Show>

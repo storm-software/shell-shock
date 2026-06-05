@@ -22,7 +22,6 @@ import { camelCase } from "@stryke/string-format/camel-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
 import type { BooleanCommandOption, CommandOption } from "../types/command";
-import { CommandParameterKinds } from "../types/command";
 
 /**
  * The reflection parameter context used in template rendering.
@@ -54,7 +53,7 @@ export function computedOptions(options: CommandOption[]) {
       );
 
       if (
-        option.kind === CommandParameterKinds.boolean &&
+        option.type === "boolean" &&
         !option.variadic &&
         option.isNegativeOf
       ) {

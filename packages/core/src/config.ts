@@ -16,17 +16,49 @@
 
  ------------------------------------------------------------------- */
 
-import type { UserConfig } from "./types/config";
+import type {
+  UserConfig,
+  UserConfigExport,
+  UserConfigFn,
+  UserConfigFnObject,
+  UserConfigFnPromise
+} from "./types/config";
+
+export type * from "./types/config";
 
 /**
- * A utility function to define a Shell Shock user configuration.
+ * Type helper to make it easier to use `shell-shock.config.ts` files. Accepts a direct {@link UserConfig} object, or a function that returns it. The function receives a {@link ConfigParams} object.
  *
- * @remarks
- * This function is used to create a user configuration object for Shell Shock projects. It ensures that the configuration adheres to the expected structure.
+ * @example
+ * ```ts
+ * import { defineConfig } from '@shell-shock/core/config';
  *
- * @param config - A partial user configuration object.
- * @returns A complete user configuration object.
+ * export default defineConfig({
+ *   // Your configuration here
+ * });
+ *
+ * // Or with a function
+ * export default defineConfig((env) => {
+ *   console.log(`Running command: ${env.command} in mode: ${env.mode}`);
+ *   return {
+ *     // Your configuration here
+ *   };
+ * });
+ * ```
+ *
+ * @param config - The user configuration object or a function that returns it.
+ * @returns The provided configuration, unmodified.
  */
-export function defineConfig(config: Partial<UserConfig>): UserConfig {
-  return config as UserConfig;
+export function defineConfig(config: UserConfig): UserConfig;
+export function defineConfig(config: UserConfig[]): UserConfig[];
+export function defineConfig(config: Promise<UserConfig>): Promise<UserConfig>;
+export function defineConfig(
+  config: Promise<UserConfig[]>
+): Promise<UserConfig[]>;
+export function defineConfig(config: UserConfigFnObject): UserConfigFnObject;
+export function defineConfig(config: UserConfigFnPromise): UserConfigFnPromise;
+export function defineConfig(config: UserConfigFn): UserConfigFn;
+export function defineConfig(config: UserConfigExport): UserConfigExport;
+export function defineConfig(config: UserConfigExport): UserConfigExport {
+  return config;
 }

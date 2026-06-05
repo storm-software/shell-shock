@@ -40,7 +40,7 @@ export const plugin = <
     ...theme(options.theme),
     console(options.console),
     {
-      name: "shell-shock:banner",
+      name: "shell-shock/banner",
       enforce: "post",
       config() {
         return {

@@ -107,7 +107,7 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
             : `${getAppTitle(context, true)} application`
         }.`}>
         <Show
-          when={!command.isVirtual}
+          when={!command.virtual}
           fallback={
             <VirtualCommandHelpDisplay
               options={Object.values(command.options)}

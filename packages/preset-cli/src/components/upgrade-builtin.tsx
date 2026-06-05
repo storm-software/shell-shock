@@ -90,9 +90,9 @@ export function ExecuteUpgradeFunctionDeclaration() {
                       spinner.success("Update successful! Please restart the application to apply the update.");
 
                       writeLine("");
-                      help(\`You can view the changelog for this release at any time by running the \${inlineCode("${getAppBin(
+                      help(\`The changelog for this release can be viewed by running the \${inlineCode("${getAppBin(
                         context
-                      )} changelog --latest")} command.\`);
+                      )} changelog")} command.\`);
 
                       writeLine("");
                       writeLine("Press any key to exit the application...");
@@ -147,9 +147,9 @@ export function ExecuteUpgradeFunctionDeclaration() {
                     spinner.success("Update successful! Please restart the application to apply the update.");
 
                     writeLine("");
-                    help(\`You can view the changelog for this release at any time by running the \${inlineCode("${getAppBin(
+                    help(\`The changelog for this release can be viewed by running the \${inlineCode("${getAppBin(
                       context
-                    )} changelog --latest")} command.\`);
+                    )} changelog")} command.\`);
 
                     writeLine("");
                     writeLine("Press any key to exit the application...");
