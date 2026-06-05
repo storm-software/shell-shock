@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.66](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.66) (06/05/2026)
+
+### Features
+
+- **monorepo:** Updated to use latest powerlines and added skills plugin ([e2f66d3](https://github.com/storm-software/shell-shock/commit/e2f66d3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.11**
+- Updated **plugin-banner** to **v0.1.38**
+- Updated **plugin-console** to **v0.2.15**
+- Updated **plugin-help** to **v0.2.29**
+- Updated **plugin-theme** to **v0.4.24**
+
 ## [0.6.65](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.65) (05/05/2026)
 
 ### Bug Fixes

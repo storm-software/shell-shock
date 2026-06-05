@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.4.19](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.19) (06/05/2026)
+
+### Features
+
+- **monorepo:** Updated to use latest powerlines and added skills plugin ([e2f66d3](https://github.com/storm-software/shell-shock/commit/e2f66d3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.11**
+
 ## [0.4.18](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.18) (05/05/2026)
 
 ### Updated Dependencies

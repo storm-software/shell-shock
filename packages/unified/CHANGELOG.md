@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Unified
 
+## [0.2.9](https://github.com/storm-software/shell-shock/releases/tag/unified%400.2.9) (06/05/2026)
+
+### Features
+
+- **monorepo:** Updated to use latest powerlines and added skills plugin ([e2f66d3](https://github.com/storm-software/shell-shock/commit/e2f66d3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.11**
+- Updated **plugin-theme** to **v0.4.24**
+
 ## [0.2.8](https://github.com/storm-software/shell-shock/releases/tag/unified%400.2.8) (05/05/2026)
 
 ### Updated Dependencies

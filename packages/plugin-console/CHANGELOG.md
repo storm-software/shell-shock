@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.2.15](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.15) (06/05/2026)
+
+### Features
+
+- **monorepo:** Updated to use latest powerlines and added skills plugin ([e2f66d3](https://github.com/storm-software/shell-shock/commit/e2f66d3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.11**
+- Updated **plugin-theme** to **v0.4.24**
+
 ## [0.2.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.14) (05/05/2026)
 
 ### Updated Dependencies

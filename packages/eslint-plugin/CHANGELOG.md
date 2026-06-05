@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.76](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.76) (06/05/2026)
+
+### Features
+
+- **monorepo:** Updated to use latest powerlines and added skills plugin ([e2f66d3](https://github.com/storm-software/shell-shock/commit/e2f66d3))
+
 ## [0.0.72](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.72) (04/15/2026)
 
 ### Miscellaneous

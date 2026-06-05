@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Upgrade
 
+## [0.1.56](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.56) (06/05/2026)
+
+### Features
+
+- **monorepo:** Updated to use latest powerlines and added skills plugin ([e2f66d3](https://github.com/storm-software/shell-shock/commit/e2f66d3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.11**
+
 ## [0.1.55](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.55) (05/05/2026)
 
 ### Bug Fixes

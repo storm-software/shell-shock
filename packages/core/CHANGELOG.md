@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.11](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.11) (06/05/2026)
+
+### Features
+
+- **monorepo:** Updated to use latest powerlines and added skills plugin ([e2f66d3](https://github.com/storm-software/shell-shock/commit/e2f66d3))
+
 ## [0.17.10](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.10) (05/05/2026)
 
 ### Bug Fixes

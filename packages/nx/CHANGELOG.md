@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.83](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.83) (06/05/2026)
+
+### Features
+
+- **monorepo:** Updated to use latest powerlines and added skills plugin ([e2f66d3](https://github.com/storm-software/shell-shock/commit/e2f66d3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.11**
+
 ## [0.0.82](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.82) (05/05/2026)
 
 ### Miscellaneous
