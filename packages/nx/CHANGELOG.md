@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.84](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.84) (06/05/2026)
+
+### Bug Fixes
+
+- **nx:** Resolve issue with unbundled `plugin-utilities` package module ([4f6a511](https://github.com/storm-software/shell-shock/commit/4f6a511))
+
 ## [0.0.83](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.83) (06/05/2026)
 
 ### Features
