@@ -25,10 +25,10 @@ export default defineConfig({
   input: ["./src/plugin/index.ts"],
   plugins: [tsdown()],
   platform: "node",
+  resolve: {
+    noExternal: ["@powerlines/nx/helpers/plugin-utilities"]
+  },
   tsdown: {
-    deps: {
-      alwaysBundle: ["@powerlines/nx"]
-    },
     minify: false,
     exports: false,
     fixedExtension: false
