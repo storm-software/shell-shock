@@ -1,8 +1,8 @@
 {
-  "name": "@shell-shock/plugin-upgrade",
+  "name": "@shell-shock/plugin-update",
   "version": "0.1.57",
   "private": false,
-  "description": "A package containing a Shell Shock plugin to manage upgrading the local application's version.",
+  "description": "A package containing a Shell Shock plugin to manage updating the local application's version.",
   "keywords": [
     "shell-shock",
     "shell-shock-plugin",
@@ -17,7 +17,7 @@
   "repository": {
     "type": "github",
     "url": "https://github.com/storm-software/shell-shock.git",
-    "directory": "packages/plugin-upgrade"
+    "directory": "packages/plugin-update"
   },
   "funding": {
     "type": "github",
@@ -73,32 +73,32 @@
         "default": "./dist/components/index.mjs"
       }
     },
-    "./components/upgrade-builtin": {
+    "./components/update-builtin": {
       "require": {
-        "types": "./dist/components/upgrade-builtin.d.cts",
-        "default": "./dist/components/upgrade-builtin.cjs"
+        "types": "./dist/components/update-builtin.d.cts",
+        "default": "./dist/components/update-builtin.cjs"
       },
       "import": {
-        "types": "./dist/components/upgrade-builtin.d.mts",
-        "default": "./dist/components/upgrade-builtin.mjs"
+        "types": "./dist/components/update-builtin.d.mts",
+        "default": "./dist/components/update-builtin.mjs"
       },
       "default": {
-        "types": "./dist/components/upgrade-builtin.d.mts",
-        "default": "./dist/components/upgrade-builtin.mjs"
+        "types": "./dist/components/update-builtin.d.mts",
+        "default": "./dist/components/update-builtin.mjs"
       }
     },
-    "./components/upgrade-command": {
+    "./components/update-command": {
       "require": {
-        "types": "./dist/components/upgrade-command.d.cts",
-        "default": "./dist/components/upgrade-command.cjs"
+        "types": "./dist/components/update-command.d.cts",
+        "default": "./dist/components/update-command.cjs"
       },
       "import": {
-        "types": "./dist/components/upgrade-command.d.mts",
-        "default": "./dist/components/upgrade-command.mjs"
+        "types": "./dist/components/update-command.d.mts",
+        "default": "./dist/components/update-command.mjs"
       },
       "default": {
-        "types": "./dist/components/upgrade-command.d.mts",
-        "default": "./dist/components/upgrade-command.mjs"
+        "types": "./dist/components/update-command.d.mts",
+        "default": "./dist/components/update-command.mjs"
       }
     },
     "./package.json": "./package.json",

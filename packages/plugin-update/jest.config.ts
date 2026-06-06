@@ -1,7 +1,7 @@
 import { declarePackage } from "@storm-software/testing-tools";
 
 export default declarePackage({
-  projectRoot: "packages/plugin-upgrade",
+  projectRoot: "packages/plugin-update",
   isNode: true,
-  displayName: "@shell-shock/plugin-upgrade"
+  displayName: "@shell-shock/plugin-update"
 });

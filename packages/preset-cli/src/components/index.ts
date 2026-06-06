@@ -19,5 +19,5 @@
 export * from "./banner-builtin";
 export * from "./command-entry";
 export * from "./command-router";
-export * from "./upgrade-builtin";
+export * from "./update-builtin";
 export * from "./virtual-command-entry";

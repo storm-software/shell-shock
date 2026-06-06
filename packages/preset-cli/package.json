@@ -115,18 +115,18 @@
         "default": "./dist/components/command-router.mjs"
       }
     },
-    "./components/upgrade-builtin": {
+    "./components/update-builtin": {
       "require": {
-        "types": "./dist/components/upgrade-builtin.d.cts",
-        "default": "./dist/components/upgrade-builtin.cjs"
+        "types": "./dist/components/update-builtin.d.cts",
+        "default": "./dist/components/update-builtin.cjs"
       },
       "import": {
-        "types": "./dist/components/upgrade-builtin.d.mts",
-        "default": "./dist/components/upgrade-builtin.mjs"
+        "types": "./dist/components/update-builtin.d.mts",
+        "default": "./dist/components/update-builtin.mjs"
       },
       "default": {
-        "types": "./dist/components/upgrade-builtin.d.mts",
-        "default": "./dist/components/upgrade-builtin.mjs"
+        "types": "./dist/components/update-builtin.d.mts",
+        "default": "./dist/components/update-builtin.mjs"
       }
     },
     "./components/virtual-command-entry": {
@@ -193,7 +193,7 @@
     "@shell-shock/plugin-prompts": "workspace:*",
     "@shell-shock/plugin-skills": "workspace:*",
     "@shell-shock/plugin-theme": "workspace:*",
-    "@shell-shock/plugin-upgrade": "workspace:*",
+    "@shell-shock/plugin-update": "workspace:*",
     "@shell-shock/preset-script": "workspace:*",
     "@stryke/path": "catalog:",
     "@stryke/string-format": "catalog:",

@@ -4,7 +4,9 @@
   "type": "module",
   "description": "A playground package containing an example command-line application and project setup.",
   "private": true,
-  "bin": { "playground-cli": "./dist/bin.mjs" },
+  "bin": {
+    "playground-cli": "./dist/bin.mjs"
+  },
   "dependencies": {
     "@shell-shock/core": "workspace:*",
     "@shell-shock/plugin-theme": "workspace:*",
@@ -37,6 +39,6 @@
     "./run-local": "./dist/run-local.mjs",
     "./run-remote": "./dist/run-remote.mjs",
     "./start": "./dist/start.mjs",
-    "./upgrade": "./dist/upgrade.mjs"
+    "./update": "./dist/update.mjs"
   }
 }

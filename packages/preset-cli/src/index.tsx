@@ -31,7 +31,7 @@ import help from "@shell-shock/plugin-help";
 import prompts from "@shell-shock/plugin-prompts";
 import type { SkillsPluginOptions } from "@shell-shock/plugin-skills";
 import skills from "@shell-shock/plugin-skills";
-import upgrade from "@shell-shock/plugin-upgrade";
+import update from "@shell-shock/plugin-update";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
 import { joinPaths } from "@stryke/path/join";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
@@ -41,7 +41,7 @@ import { enable } from "powerlines";
 import { BannerBuiltin } from "./components/banner-builtin";
 import { CommandEntry } from "./components/command-entry";
 import { CommandRouter } from "./components/command-router";
-import { UpgradeBuiltin } from "./components/upgrade-builtin";
+import { UpdateBuiltin } from "./components/update-builtin";
 import { VirtualCommandEntry } from "./components/virtual-command-entry";
 import { getGlobalOptions } from "./helpers/get-global-options";
 import type { CLIPresetContext, CLIPresetOptions } from "./types/plugin";
@@ -50,7 +50,7 @@ import type { CLIPresetContext, CLIPresetOptions } from "./types/plugin";
  * The Shell Shock CLI Preset plugin.
  *
  * @remarks
- * This preset includes a set of built-in modules and commands to create a CLI application, as well as configuration options to customize the generated code. It also includes the `prompts` plugin to provide interactive prompts in the CLI application, and the `upgrade` plugin to manage upgrading the local application's version.
+ * This preset includes a set of built-in modules and commands to create a CLI application, as well as configuration options to customize the generated code. It also includes the `prompts` plugin to provide interactive prompts in the CLI application, and the `update` plugin to manage upgrading the local application's version.
  */
 export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
   options: CLIPresetOptions = {}
@@ -76,7 +76,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
             : joinPaths(process.cwd(), "skills")
         )
     ),
-    upgrade<TContext>(options),
+    update<TContext>(options),
     {
       name: "shell-shock/cli-preset:main",
       config() {
@@ -89,8 +89,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           isCaseSensitive: false,
           ...options,
           env: {
-            config:
-              "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradeEnv",
+            config: "@shell-shock/plugin-update/types/env#ShellShockUpdateEnv",
             validate: false
           }
         };
@@ -110,7 +109,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           return render(
             this,
             <>
-              <UpgradeBuiltin />
+              <UpdateBuiltin />
               <BannerBuiltin command={computeBin(this)} />
               <For
                 each={commands.sort((a, b) => a.name.localeCompare(b.name))}
@@ -159,7 +158,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
                     "isCancel"
                   ],
                   env: ["env", "paths"],
-                  upgrade: ["executeUpgrade"]
+                  update: ["executeUpdate"]
                 }}>
                 <Show when={Object.keys(this.commands).length > 0}>
                   <VarDeclaration

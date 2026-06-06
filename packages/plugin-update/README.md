@@ -49,7 +49,7 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 <!-- END header -->
 
-# Shell Shock - Upgrade Plugin
+# Shell Shock - Update Plugin
 
 A **Shell Shock** plugin that checks if the current installed command-line application is the latest version, and if not, provides the option to install the it.
 
@@ -58,14 +58,14 @@ A **Shell Shock** plugin that checks if the current installed command-line appli
 Using [pnpm](http://pnpm.io):
 
 ```bash
-pnpm add -D @shell-shock/plugin-upgrade
+pnpm add -D @shell-shock/plugin-update
 ```
 
 <details>
   <summary>Using npm</summary>
 
 ```bash
-npm install -D @shell-shock/plugin-upgrade
+npm install -D @shell-shock/plugin-update
 ```
 
 </details>
@@ -74,18 +74,18 @@ npm install -D @shell-shock/plugin-upgrade
   <summary>Using yarn</summary>
 
 ```bash
-yarn add -D @shell-shock/plugin-upgrade
+yarn add -D @shell-shock/plugin-update
 ```
 
 </details>
 
 ## Building
 
-Run `nx build plugin-upgrade` to build the library.
+Run `nx build plugin-update` to build the library.
 
 ## Running unit tests
 
-Run `nx test plugin-upgrade` to execute the unit tests via [Jest](https://jestjs.io).
+Run `nx test plugin-update` to execute the unit tests via [Jest](https://jestjs.io).
 
 <!-- START footer -->
 <!-- prettier-ignore-start -->

@@ -156,7 +156,7 @@ overrides:
   "@shell-shock/plugin-help": workspace:*
   "@shell-shock/plugin-prompts": workspace:*
   "@shell-shock/plugin-theme": workspace:*
-  "@shell-shock/plugin-upgrade": workspace:*
+  "@shell-shock/plugin-update": workspace:*
   "@shell-shock/preset-cli": workspace:*
   "@shell-shock/preset-script": workspace:*
   "@shell-shock/tsconfig": workspace:*

@@ -1,14 +1,14 @@
 ![Shell Shock's logo banner](https://public.storm-cdn.com/shell-shock/banner-1280x320-dark.gif)
 
-# Changelog for Shell Shock - Plugin Upgrade
+# Changelog for Shell Shock - Plugin Update
 
-## [0.1.57](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.57) (06/05/2026)
+## [0.1.57](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.57) (06/05/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.17.12**
 
-## [0.1.56](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.56) (06/05/2026)
+## [0.1.56](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.56) (06/05/2026)
 
 ### Features
 
@@ -18,7 +18,7 @@
 
 - Updated **core** to **v0.17.11**
 
-## [0.1.55](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.55) (05/05/2026)
+## [0.1.55](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.55) (05/05/2026)
 
 ### Bug Fixes
 
@@ -28,13 +28,13 @@
 
 - Updated **core** to **v0.17.10**
 
-## [0.1.54](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.54) (04/29/2026)
+## [0.1.54](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.54) (04/29/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.17.9**
 
-## [0.1.53](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.53) (04/29/2026)
+## [0.1.53](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.53) (04/29/2026)
 
 ### Bug Fixes
 
@@ -44,7 +44,7 @@
 
 - Updated **core** to **v0.17.8**
 
-## [0.1.52](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.52) (04/15/2026)
+## [0.1.52](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.52) (04/15/2026)
 
 ### Miscellaneous
 
@@ -54,19 +54,19 @@
 
 - Updated **core** to **v0.17.7**
 
-## [0.1.51](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.51) (04/15/2026)
+## [0.1.51](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.51) (04/15/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.17.6**
 
-## [0.1.50](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.50) (04/13/2026)
+## [0.1.50](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.50) (04/13/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.17.5**
 
-## [0.1.49](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.49) (04/13/2026)
+## [0.1.49](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.49) (04/13/2026)
 
 ### Bug Fixes
 
@@ -76,7 +76,7 @@
 
 - Updated **core** to **v0.17.4**
 
-## [0.1.48](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.48) (04/11/2026)
+## [0.1.48](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.48) (04/11/2026)
 
 ### Bug Fixes
 
@@ -86,13 +86,13 @@
 
 - Updated **core** to **v0.17.3**
 
-## [0.1.47](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.47) (04/10/2026)
+## [0.1.47](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.47) (04/10/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.17.2**
 
-## [0.1.46](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.46) (04/09/2026)
+## [0.1.46](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.46) (04/09/2026)
 
 ### Miscellaneous
 
@@ -102,7 +102,7 @@
 
 - Updated **core** to **v0.17.1**
 
-## [0.1.45](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.45) (04/09/2026)
+## [0.1.45](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.45) (04/09/2026)
 
 ### Features
 
@@ -112,19 +112,19 @@
 
 - Updated **core** to **v0.17.0**
 
-## [0.1.44](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.44) (04/09/2026)
+## [0.1.44](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.44) (04/09/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.16.2**
 
-## [0.1.43](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.43) (04/07/2026)
+## [0.1.43](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.43) (04/07/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.16.1**
 
-## [0.1.42](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.42) (04/07/2026)
+## [0.1.42](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.42) (04/07/2026)
 
 ### Features
 
@@ -134,7 +134,7 @@
 
 - Updated **core** to **v0.16.0**
 
-## [0.1.41](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.41) (04/03/2026)
+## [0.1.41](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.41) (04/03/2026)
 
 ### Features
 
@@ -144,13 +144,13 @@
 
 - Updated **core** to **v0.15.2**
 
-## [0.1.40](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.40) (04/02/2026)
+## [0.1.40](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.40) (04/02/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.15.1**
 
-## [0.1.39](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.39) (04/01/2026)
+## [0.1.39](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.39) (04/01/2026)
 
 ### Features
 
@@ -160,13 +160,13 @@
 
 - Updated **core** to **v0.15.0**
 
-## [0.1.38](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.38) (03/29/2026)
+## [0.1.38](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.38) (03/29/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.14.6**
 
-## [0.1.37](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.37) (03/29/2026)
+## [0.1.37](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.37) (03/29/2026)
 
 ### Features
 
@@ -176,7 +176,7 @@
 
 - Updated **core** to **v0.14.5**
 
-## [0.1.36](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.36) (03/28/2026)
+## [0.1.36](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.36) (03/28/2026)
 
 ### Miscellaneous
 
@@ -186,13 +186,13 @@
 
 - Updated **core** to **v0.14.4**
 
-## [0.1.35](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.35) (03/28/2026)
+## [0.1.35](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.35) (03/28/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.14.3**
 
-## [0.1.34](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.34) (03/27/2026)
+## [0.1.34](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.34) (03/27/2026)
 
 ### Miscellaneous
 
@@ -207,13 +207,13 @@
 
 - Updated **core** to **v0.14.2**
 
-## [0.1.33](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.33) (03/27/2026)
+## [0.1.33](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.33) (03/27/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.14.1**
 
-## [0.1.32](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.32) (03/27/2026)
+## [0.1.32](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.32) (03/27/2026)
 
 ### Miscellaneous
 
@@ -227,42 +227,42 @@
 
 - Updated **core** to **v0.14.0**
 
-## [0.1.31](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.31) (03/27/2026)
+## [0.1.31](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.31) (03/27/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.13.14**
 
-## [0.1.30](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.30) (03/27/2026)
+## [0.1.30](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.30) (03/27/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.13.13**
 
-## [0.1.29](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.29) (03/27/2026)
+## [0.1.29](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.29) (03/27/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.13.12**
 
-## [0.1.28](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.28) (03/27/2026)
+## [0.1.28](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.28) (03/27/2026)
 
 ### Miscellaneous
 
 - **monorepo:** Regenerate `README.md` files ([96cbd33](https://github.com/storm-software/shell-shock/commit/96cbd33))
-- **plugin-upgrade:** Added the `command` option to override command config ([6402159](https://github.com/storm-software/shell-shock/commit/6402159))
+- **plugin-update:** Added the `command` option to override command config ([6402159](https://github.com/storm-software/shell-shock/commit/6402159))
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.13.11**
 
-## [0.1.27](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.27) (03/26/2026)
+## [0.1.27](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.27) (03/26/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.13.10**
 
-## [0.1.26](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.26) (03/26/2026)
+## [0.1.26](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.26) (03/26/2026)
 
 ### Miscellaneous
 
@@ -272,37 +272,37 @@
 
 - Updated **core** to **v0.13.9**
 
-## [0.1.25](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.25) (03/22/2026)
+## [0.1.25](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.25) (03/22/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.13.8**
 
-## [0.1.24](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.24) (03/22/2026)
+## [0.1.24](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.24) (03/22/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.13.7**
 
-## [0.1.23](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.23) (03/22/2026)
+## [0.1.23](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.23) (03/22/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.13.6**
 
-## [0.1.22](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.22) (03/22/2026)
+## [0.1.22](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.22) (03/22/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.13.5**
 
-## [0.1.21](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.21) (03/22/2026)
+## [0.1.21](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.21) (03/22/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.13.4**
 
-## [0.1.20](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.20) (03/21/2026)
+## [0.1.20](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.20) (03/21/2026)
 
 ### Bug Fixes
 
@@ -312,7 +312,7 @@
 
 - Updated **core** to **v0.13.3**
 
-## [0.1.19](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.19) (03/19/2026)
+## [0.1.19](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.19) (03/19/2026)
 
 ### Bug Fixes
 
@@ -322,13 +322,13 @@
 
 - Updated **core** to **v0.13.2**
 
-## [0.1.18](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.18) (03/17/2026)
+## [0.1.18](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.18) (03/17/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.13.1**
 
-## [0.1.17](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.17) (03/16/2026)
+## [0.1.17](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.17) (03/16/2026)
 
 ### Features
 
@@ -338,13 +338,13 @@
 
 - Updated **core** to **v0.13.0**
 
-## [0.1.16](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.16) (03/06/2026)
+## [0.1.16](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.16) (03/06/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.12.2**
 
-## [0.1.15](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.15) (03/06/2026)
+## [0.1.15](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.15) (03/06/2026)
 
 ### Miscellaneous
 
@@ -358,19 +358,19 @@
 
 - Updated **core** to **v0.12.1**
 
-## [0.1.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.14) (03/04/2026)
+## [0.1.14](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.14) (03/04/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.12.0**
 
-## [0.1.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.13) (03/03/2026)
+## [0.1.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.13) (03/03/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.11.0**
 
-## [0.1.12](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.12) (03/02/2026)
+## [0.1.12](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.12) (03/02/2026)
 
 ### Features
 
@@ -380,37 +380,37 @@
 
 - Updated **core** to **v0.10.0**
 
-## [0.1.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.11) (02/26/2026)
+## [0.1.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.11) (02/26/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.9.7**
 
-## [0.1.10](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.10) (02/26/2026)
+## [0.1.10](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.10) (02/26/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.9.6**
 
-## [0.1.9](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.9) (02/26/2026)
+## [0.1.9](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.9) (02/26/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.9.5**
 
-## [0.1.8](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.8) (02/25/2026)
+## [0.1.8](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.8) (02/25/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.9.4**
 
-## [0.1.7](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.7) (02/25/2026)
+## [0.1.7](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.7) (02/25/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.9.3**
 
-## [0.1.6](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.6) (02/23/2026)
+## [0.1.6](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.6) (02/23/2026)
 
 ### Features
 
@@ -420,11 +420,11 @@
 
 - Updated **core** to **v0.9.2**
 
-## [0.1.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.5) (02/21/2026)
+## [0.1.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.5) (02/21/2026)
 
 ### Bug Fixes
 
-- **plugin-upgrade:** Resolve issues with generated `upgrade` built-in module ([7920ca7](https://github.com/storm-software/shell-shock/commit/7920ca7))
+- **plugin-update:** Resolve issues with generated `upgrade` built-in module ([7920ca7](https://github.com/storm-software/shell-shock/commit/7920ca7))
 
 ### Features
 
@@ -434,7 +434,7 @@
 
 - Updated **core** to **v0.9.1**
 
-## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.4) (02/21/2026)
+## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.4) (02/21/2026)
 
 ### Features
 
@@ -444,29 +444,29 @@
 
 - Updated **core** to **v0.9.0**
 
-## [0.1.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.3) (02/20/2026)
+## [0.1.3](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.3) (02/20/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.8.13**
 
-## [0.1.2](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.2) (02/20/2026)
+## [0.1.2](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.2) (02/20/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.8.12**
 
-## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.1) (02/19/2026)
+## [0.1.1](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.1) (02/19/2026)
 
 ### Updated Dependencies
 
 - Updated **core** to **v0.8.11**
 
-## [0.1.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-upgrade%400.1.0) (02/19/2026)
+## [0.1.0](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.0) (02/19/2026)
 
 ### Features
 
-- **plugin-upgrade:** Initial check-in of the `upgrade` plugin ([0c1f2c0](https://github.com/storm-software/shell-shock/commit/0c1f2c0))
+- **plugin-update:** Initial check-in of the `upgrade` plugin ([0c1f2c0](https://github.com/storm-software/shell-shock/commit/0c1f2c0))
 
 ### Updated Dependencies
 

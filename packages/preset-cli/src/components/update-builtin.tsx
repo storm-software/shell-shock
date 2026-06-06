@@ -27,24 +27,24 @@ import {
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { getAppBin, getAppTitle } from "@shell-shock/core/plugin-utils";
-import type { UpgradeBuiltinProps } from "@shell-shock/plugin-upgrade/components/upgrade-builtin";
-import { UpgradeBuiltin as BaseUpgradeBuiltin } from "@shell-shock/plugin-upgrade/components/upgrade-builtin";
+import type { UpdateBuiltinProps } from "@shell-shock/plugin-update/components/update-builtin";
+import { UpdateBuiltin as BaseUpdateBuiltin } from "@shell-shock/plugin-update/components/update-builtin";
 import { defu } from "defu";
 import type { CLIPresetContext } from "../types/plugin";
 
 /**
- * A component to generate the `executeUpgrade` function in the `shell-shock:upgrade` builtin module.
+ * A component to generate the `executeUpdate` function in the `shell-shock:update` builtin module.
  */
-export function ExecuteUpgradeFunctionDeclaration() {
+export function ExecuteUpdateFunctionDeclaration() {
   const context = usePowerlines<CLIPresetContext>();
 
   return (
-    <Show when={context.config.upgradeType !== false}>
+    <Show when={context.config.updateType !== false}>
       <FunctionDeclaration
         export
         async
-        name="executeUpgrade"
-        doc={`Run upgrade processing for the ${getAppTitle(
+        name="executeUpdate"
+        doc={`Run update processing for the ${getAppTitle(
           context,
           true
         )} application.`}>
@@ -73,9 +73,9 @@ export function ExecuteUpgradeFunctionDeclaration() {
             condition={code`!(result as CheckForUpdatesSuccessResult)?.isUpToDate`}>
             <Show
               when={
-                context.config.upgradeType !== false &&
-                (context.config.upgradeType === "confirm" ||
-                  context.config.upgradeType === "manual")
+                context.config.updateType !== false &&
+                (context.config.updateType === "confirm" ||
+                  context.config.updateType === "manual")
               }
               fallback={
                 <>
@@ -86,7 +86,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                     )} is available: \${red(\`v\${(result as CheckForUpdatesSuccessResult).currentVersion}\`)} \${textColors.body.tertiary("➜")} \${green(\`v\${(result as CheckForUpdatesSuccessResult).latestVersion}\`)}\${(result as CheckForUpdatesSuccessResult).package?.date ? textColors.body.tertiary(\` (updated on \${(result as CheckForUpdatesSuccessResult).package?.date})\`) : ""}\`);
 
                     try {
-                      await upgrade();
+                      await update();
                       spinner.success("Update successful! Please restart the application to apply the update.");
 
                       writeLine("");
@@ -114,28 +114,28 @@ export function ExecuteUpgradeFunctionDeclaration() {
                   context,
                   true
                 )} is available: \${red(\`v\${(result as CheckForUpdatesSuccessResult).currentVersion}\`)} \${textColors.body.tertiary("➜")} \${green(\`v\${(result as CheckForUpdatesSuccessResult).latestVersion}\`)}\${(result as CheckForUpdatesSuccessResult).package.date ? textColors.body.tertiary(\` (updated on \${(result as CheckForUpdatesSuccessResult).package.date})\`) : ""}${
-                  context.config.upgradeType !== false &&
-                  context.config.upgradeType === "manual"
+                  context.config.updateType !== false &&
+                  context.config.updateType === "manual"
                     ? ` \\nPlease run \`${getAppBin(
                         context
-                      )} upgrade\` to upgrade to the latest version.`
+                      )} update\` to update to the latest version.`
                     : ""
                 }\`); `}
               <Spacing />
               <Show
                 when={
-                  context.config.upgradeType !== false &&
-                  context.config.upgradeType === "confirm"
+                  context.config.updateType !== false &&
+                  context.config.updateType === "confirm"
                 }>
-                {code`const willUpgradeNow = await confirm({
+                {code`const willUpdateNow = await confirm({
                   message: \`Would you like to update to v\${(result as CheckForUpdatesSuccessResult).latestVersion} now?\`,
                   initialValue: true
                 });
-                if (isCancel(willUpgradeNow)) {
+                if (isCancel(willUpdateNow)) {
                   return;
                 }
 
-                if (willUpgradeNow) {
+                if (willUpdateNow) {
                   spinner.text = \`Updating ${getAppTitle(
                     context,
                     true
@@ -143,7 +143,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                   spinner.start();
 
                   try {
-                    await upgrade();
+                    await update();
                     spinner.success("Update successful! Please restart the application to apply the update.");
 
                     writeLine("");
@@ -166,7 +166,7 @@ export function ExecuteUpgradeFunctionDeclaration() {
                 } else {
                   help("Updates can be performed at any time by running the \`${getAppBin(
                     context
-                  )} upgrade\` command. Please remember that keeping your application up to date is important for ensuring you have the latest features, performance improvements, and security patches.");
+                  )} update\` command. Please remember that keeping your application up to date is important for ensuring you have the latest features, performance improvements, and security patches.");
                 } `}
               </Show>
             </Show>
@@ -184,24 +184,24 @@ export function ExecuteUpgradeFunctionDeclaration() {
 }
 
 /**
- * A built-in upgrade module for Shell Shock.
+ * A built-in update module for Shell Shock.
  */
-export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
+export function UpdateBuiltin(props: UpdateBuiltinProps) {
   const [{ children, builtinImports }, rest] = splitProps(props, [
     "children",
     "builtinImports"
   ]);
 
   return (
-    <BaseUpgradeBuiltin
+    <BaseUpdateBuiltin
       {...rest}
       builtinImports={defu(builtinImports ?? {}, {
         console: ["createSpinner", "debug", "info"],
         prompts: ["waitForKeyPress"]
       })}>
-      <ExecuteUpgradeFunctionDeclaration />
+      <ExecuteUpdateFunctionDeclaration />
       <Spacing />
       <Show when={Boolean(children)}>{children}</Show>
-    </BaseUpgradeBuiltin>
+    </BaseUpdateBuiltin>
   );
 }

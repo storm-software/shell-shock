@@ -16,5 +16,5 @@
 
  ------------------------------------------------------------------- */
 
-export * from "./upgrade-builtin";
-export * from "./upgrade-command";
+export * from "./update-builtin";
+export * from "./update-command";

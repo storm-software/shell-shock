@@ -138,13 +138,13 @@ export function CommandEntry(props: CommandEntryProps) {
               segment => !isDynamicPathSegment(segment)
             )
           )]: ["showBanner"],
-          upgrade: ["executeUpgrade"]
+          update: ["executeUpdate"]
         })}>
         <Spacing />
         <CommandHandlerDeclaration
           command={command}
           banner={code`await showBanner();
-          await executeUpgrade(); `}>
+          await executeUpdate(); `}>
           <IfStatement condition={code`!isInteractive`}>
             <CommandValidationLogic command={command} />
           </IfStatement>

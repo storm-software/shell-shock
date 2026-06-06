@@ -8,7 +8,7 @@
   },
   "references": [
     { "path": "../preset-script/tsconfig.lib.json" },
-    { "path": "../plugin-upgrade/tsconfig.lib.json" },
+    { "path": "../plugin-update/tsconfig.lib.json" },
     { "path": "../plugin-theme/tsconfig.lib.json" },
     { "path": "../plugin-skills/tsconfig.lib.json" },
     { "path": "../plugin-prompts/tsconfig.lib.json" },

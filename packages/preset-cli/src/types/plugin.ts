@@ -68,15 +68,15 @@ import type {
   ThemePluginUserConfig
 } from "@shell-shock/plugin-theme/types/plugin";
 import type {
-  UpgradePluginContext,
-  UpgradePluginOptions,
-  UpgradePluginResolvedConfig,
-  UpgradePluginUserConfig
-} from "@shell-shock/plugin-upgrade/types/plugin";
+  UpdatePluginContext,
+  UpdatePluginOptions,
+  UpdatePluginResolvedConfig,
+  UpdatePluginUserConfig
+} from "@shell-shock/plugin-update/types/plugin";
 import type { ScriptPresetOptions } from "@shell-shock/preset-script/types/plugin";
 import type { ResolvedConfig } from "powerlines";
 
-export type UpgradeType = "confirm" | "auto" | "manual";
+export type UpdateType = "confirm" | "auto" | "manual";
 
 export type CLIPresetBannerFontOption =
   | "console"
@@ -210,7 +210,7 @@ export interface CLIPresetBannerOption {
 export type CLIPresetOptions = Omit<ScriptPresetOptions, "globalOptions"> &
   HelpPluginOptions &
   PromptsPluginOptions &
-  UpgradePluginOptions & {
+  UpdatePluginOptions & {
     /**
      * The default interactive mode to apply to commands.
      *
@@ -244,17 +244,17 @@ export type CLIPresetOptions = Omit<ScriptPresetOptions, "globalOptions"> &
       | false;
 
     /**
-     * The type of upgrade to perform. This option determines how the upgrade process will be handled.
+     * The type of update to perform. This option determines how the update process will be handled.
      *
      * @remarks
-     * The upgrade logic will behave differently based on the value of this field:
-     * - `"confirm"` - the user will be prompted to confirm the upgrade before it is performed. This is the default behavior and is recommended for most users, as it provides an extra layer of safety against unintended upgrades.
-     * - `"auto"` - the upgrade will be performed automatically without any user confirmation. This option is suitable for advanced users who want a seamless upgrade experience and are confident in the stability of new versions.
-     * - `"manual"` - the command will only display the latest available version without performing any upgrade. This option is useful for users who want to check for updates without making any changes to their system.
+     * The update logic will behave differently based on the value of this field:
+     * - `"confirm"` - the user will be prompted to confirm the update before it is performed. This is the default behavior and is recommended for most users, as it provides an extra layer of safety against unintended updates.
+     * - `"auto"` - the update will be performed automatically without any user confirmation. This option is suitable for advanced users who want a seamless update experience and are confident in the stability of new versions.
+     * - `"manual"` - the command will only display the latest available version without performing any update. This option is useful for users who want to check for updates without making any changes to their system.
      *
      * @defaultValue "confirm"
      */
-    upgradeType?: UpgradeType | false;
+    updateType?: UpdateType | false;
 
     /**
      * The title to display in the banner for the CLI application. If not specified, the application name will be used.
@@ -289,7 +289,7 @@ export type CLIPresetUserConfig = UserConfig &
   CompletionsPluginUserConfig &
   ChangelogPluginUserConfig &
   SkillsPluginUserConfig &
-  UpgradePluginUserConfig &
+  UpdatePluginUserConfig &
   CLIPresetOptions;
 
 export type CLIPresetResolvedConfig = ResolvedConfig &
@@ -301,7 +301,7 @@ export type CLIPresetResolvedConfig = ResolvedConfig &
   CompletionsPluginResolvedConfig &
   ChangelogPluginResolvedConfig &
   SkillsPluginResolvedConfig &
-  UpgradePluginResolvedConfig &
+  UpdatePluginResolvedConfig &
   Required<CLIPresetOptions>;
 
 export type CLIPresetContext<
@@ -315,4 +315,4 @@ export type CLIPresetContext<
   CompletionsPluginContext<TResolvedConfig> &
   ChangelogPluginContext<TResolvedConfig> &
   SkillsPluginContext<TResolvedConfig> &
-  UpgradePluginContext<TResolvedConfig>;
+  UpdatePluginContext<TResolvedConfig>;

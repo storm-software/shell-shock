@@ -22,32 +22,29 @@ import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
 import type { Plugin } from "powerlines";
-import { UpgradeBuiltin, UpgradeCommand } from "./components";
-import type {
-  UpgradePluginContext,
-  UpgradePluginOptions
-} from "./types/plugin";
+import { UpdateBuiltin, UpdateCommand } from "./components";
+import type { UpdatePluginContext, UpdatePluginOptions } from "./types/plugin";
 
 /**
- * The Upgrade - Shell Shock plugin to add version check functionality and upgrade commands to a Shell Shock application.
+ * The Update - Shell Shock plugin to add version check functionality and update commands to a Shell Shock application.
  */
 export const plugin = <
-  TContext extends UpgradePluginContext = UpgradePluginContext
+  TContext extends UpdatePluginContext = UpdatePluginContext
 >(
-  options: UpgradePluginOptions = {}
+  options: UpdatePluginOptions = {}
 ): Plugin<TContext> => {
   return {
-    name: "shell-shock/upgrade",
+    name: "shell-shock/update",
     config() {
       this.debug(
-        "Providing default configuration for the Shell Shock `upgrade` plugin."
+        "Providing default configuration for the Shell Shock `update` plugin."
       );
 
       return {
-        upgrade: defu(
+        update: defu(
           {
             command: {
-              name: isSetString(options.command) ? options.command : "upgrade"
+              name: isSetString(options.command) ? options.command : "update"
             }
           },
           options,
@@ -57,55 +54,55 @@ export const plugin = <
           }
         ),
         env: {
-          config: "@shell-shock/plugin-upgrade/types/env#ShellShockUpgradeEnv",
+          config: "@shell-shock/plugin-update/types/env#ShellShockUpdateEnv",
           validate: false
         }
       };
     },
     configResolved() {
-      this.debug("Adding the CLI upgrade commands to the application context.");
+      this.debug("Adding the CLI update commands to the application context.");
 
       this.inputs ??= [];
       if (
-        this.inputs.some(input => input.id === this.config.upgrade.command.name)
+        this.inputs.some(input => input.id === this.config.update.command.name)
       ) {
         this.info(
-          "The `upgrade` command already exists in the commands list. If you would like the upgrade command to be managed by the `@shell-shock/plugin-upgrade` package, please remove or rename the command."
+          "The `update` command already exists in the commands list. If you would like the update command to be managed by the `@shell-shock/plugin-update` package, please remove or rename the command."
         );
       } else {
         this.inputs.push({
-          id: this.config.upgrade.command.name,
-          alias: ["up", "update"],
-          path: this.config.upgrade.command.name,
-          segments: [this.config.upgrade.command.name],
-          title: "Upgrade",
+          id: this.config.update.command.name,
+          alias: ["up"],
+          path: this.config.update.command.name,
+          segments: [this.config.update.command.name],
+          title: "Update",
           icon: "🖒",
           tags: ["Utility"],
-          description: `A command for checking and upgrading the version of the ${getAppTitle(
+          description: `A command for checking and updating the version of the ${getAppTitle(
             this,
             true
           )} command-line interface application.`,
           entry: {
-            file: joinPaths(this.entryPath, "upgrade", "index.ts"),
+            file: joinPaths(this.entryPath, "update", "index.ts"),
             input: {
-              file: joinPaths(this.entryPath, "upgrade", "command.ts")
+              file: joinPaths(this.entryPath, "update", "command.ts")
             }
           },
           virtual: false,
-          ...this.config.upgrade.command
+          ...this.config.update.command
         });
       }
     },
     async prepare() {
       this.debug(
-        "Rendering upgrade built-in and command modules for the Shell Shock `upgrade` plugin."
+        "Rendering update built-in and command modules for the Shell Shock `update` plugin."
       );
 
       return render(
         this,
         <>
-          <UpgradeBuiltin />
-          <UpgradeCommand />
+          <UpdateBuiltin />
+          <UpdateCommand />
         </>
       );
     }

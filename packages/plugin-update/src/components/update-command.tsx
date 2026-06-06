@@ -33,17 +33,17 @@ import {
   TSDocRemarks
 } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
 import { joinPaths } from "@stryke/path";
-import type { UpgradePluginContext } from "../types/plugin";
+import type { UpdatePluginContext } from "../types/plugin";
 
 /**
- * The Upgrade command's handler wrapper for the Shell Shock project.
+ * The Update command's handler wrapper for the Shell Shock project.
  */
-export function UpgradeCommand() {
-  const context = usePowerlines<UpgradePluginContext>();
+export function UpdateCommand() {
+  const context = usePowerlines<UpdatePluginContext>();
 
   return (
     <TypescriptFile
-      path={joinPaths(context.entryPath, "upgrade", "command.ts")}
+      path={joinPaths(context.entryPath, "update", "command.ts")}
       imports={{
         "node:os": "os",
         "node:fs/promises": ["readFile", "writeFile"]
@@ -58,28 +58,28 @@ export function UpgradeCommand() {
           "stripAnsi"
         ]
       }}>
-      <TSDoc heading="Options for the Upgrade command." />
-      <InterfaceDeclaration export name="UpgradeOptions">
-        <TSDoc heading="Whether to upgrade to the latest version.">
-          <TSDocRemarks>{`If set to \`true\`, the command will attempt to upgrade to the latest version. This option takes precedence over the \`version\` option.`}</TSDocRemarks>
+      <TSDoc heading="Options for the Update command." />
+      <InterfaceDeclaration export name="UpdateOptions">
+        <TSDoc heading="Whether to update to the latest version.">
+          <TSDocRemarks>{`If set to \`true\`, the command will attempt to update to the latest version. This option takes precedence over the \`version\` option.`}</TSDocRemarks>
           <TSDocDefaultValue type="boolean" defaultValue={false} />
         </TSDoc>
         <InterfaceMember name="latest" type="boolean" />
         <Spacing />
-        <TSDoc heading="A specific application version to upgrade to.">
-          <TSDocRemarks>{`The command will attempt to upgrade to the specified version. The version should be a valid semantic version string, or \`latest\` to upgrade to the latest version.`}</TSDocRemarks>
+        <TSDoc heading="A specific application version to update to.">
+          <TSDocRemarks>{`The command will attempt to update to the specified version. The version should be a valid semantic version string, or \`latest\` to update to the latest version.`}</TSDocRemarks>
           <TSDocDefaultValue type="string" defaultValue="latest" />
         </TSDoc>
         <InterfaceMember name="version" type="string" />
       </InterfaceDeclaration>
       <Spacing />
-      <TSDoc heading="Handler logic for the \`upgrade\` command."></TSDoc>
+      <TSDoc heading="Handler logic for the \`update\` command."></TSDoc>
       <FunctionDeclaration
         export
         default
         async
         name="handler"
-        parameters={[{ name: "options", type: "UpgradeOptions" }]}>
+        parameters={[{ name: "options", type: "UpdateOptions" }]}>
         {code` return;`}
       </FunctionDeclaration>
     </TypescriptFile>

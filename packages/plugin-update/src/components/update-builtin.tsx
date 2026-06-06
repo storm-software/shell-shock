@@ -38,13 +38,13 @@ import {
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import defu from "defu";
-import type { UpgradePluginContext } from "../types/plugin";
+import type { UpdatePluginContext } from "../types/plugin";
 
 /**
  * The `locatePackageJson` handler function declaration code for the Shell Shock project.
  */
 export function LocatePackageJsonFunctionDeclaration() {
-  const context = usePowerlines<UpgradePluginContext>();
+  const context = usePowerlines<UpdatePluginContext>();
 
   return (
     <>
@@ -61,13 +61,13 @@ export function LocatePackageJsonFunctionDeclaration() {
         <InterfaceMember
           name="isDependencyRequired"
           type="boolean"
-          doc="Whether to only locate a package.json file if it contains the application as a dependency. If set to `true`, the function will check if the located package.json file has the application listed as a dependency in its dependencies, devDependencies, peerDependencies, or optionalDependencies before returning its path. This can be useful in monorepo setups where multiple package.json files may exist, but only the one that includes the application as a dependency is relevant for upgrade purposes."
+          doc="Whether to only locate a package.json file if it contains the application as a dependency. If set to `true`, the function will check if the located package.json file has the application listed as a dependency in its dependencies, devDependencies, peerDependencies, or optionalDependencies before returning its path. This can be useful in monorepo setups where multiple package.json files may exist, but only the one that includes the application as a dependency is relevant for update purposes."
         />
       </InterfaceDeclaration>
       <Spacing />
       <TSDoc heading="Locate the package.json file currently being used by the command-line/workspace.">
         <TSDocRemarks>
-          {`This function is used to determine the package.json file currently being used by the command-line/workspace. It can be used in the CLI upgrade command to check if the application is using npm, yarn, or another package manager.`}
+          {`This function is used to determine the package.json file currently being used by the command-line/workspace. It can be used in the CLI update command to check if the application is using npm, yarn, or another package manager.`}
         </TSDocRemarks>
         <Spacing />
         <TSDocParam name="options">
@@ -153,7 +153,7 @@ export function LocateLockfileFunctionDeclaration() {
       <Spacing />
       <TSDoc heading="Locate the lockfile currently being used by the command-line/workspace.">
         <TSDocRemarks>
-          {`This function is used to determine the lockfile currently being used by the command-line/workspace. It can be used in the CLI upgrade command to check if the application is using npm, yarn, or another package manager.`}
+          {`This function is used to determine the lockfile currently being used by the command-line/workspace. It can be used in the CLI update command to check if the application is using npm, yarn, or another package manager.`}
         </TSDocRemarks>
         <Spacing />
         <TSDocParam name="options">
@@ -234,7 +234,7 @@ export function GetPackageManagerFunctionDeclaration() {
       <Spacing />
       <TSDoc heading="Get the package manager currently being used by the command-line/workspace.">
         <TSDocRemarks>
-          {`This function is used to determine the package manager currently being used by the command-line/workspace. It can be used in the CLI upgrade command to check if the application is using npm, yarn, or another package manager.`}
+          {`This function is used to determine the package manager currently being used by the command-line/workspace. It can be used in the CLI update command to check if the application is using npm, yarn, or another package manager.`}
         </TSDocRemarks>
         <Spacing />
         <TSDocParam name="options">
@@ -488,7 +488,7 @@ export function FetchNpmPackageFunctionDeclaration() {
       <Spacing />
       <TSDoc heading="Fetch details of an npm package.">
         <TSDocRemarks>
-          {`This function is used to fetch an npm package. It can be used in the CLI upgrade command to check if the application is using npm, yarn, or another package manager.`}
+          {`This function is used to fetch an npm package. It can be used in the CLI update command to check if the application is using npm, yarn, or another package manager.`}
         </TSDocRemarks>
         <Spacing />
         <TSDocParam name="packageName">
@@ -529,13 +529,13 @@ export function FetchNpmPackageFunctionDeclaration() {
  * The `getLatestVersion` handler function declaration code for the Shell Shock project.
  */
 export function GetLatestVersionFunctionDeclaration() {
-  const context = usePowerlines<UpgradePluginContext>();
+  const context = usePowerlines<UpdatePluginContext>();
 
   return (
     <>
       <TSDoc heading="Get the latest version of the application from the npm registry.">
         <TSDocRemarks>
-          {`This function is used to retrieve the latest version of the application from the npm registry. It can be used in the CLI upgrade command to check if there is a newer version of the application available.`}
+          {`This function is used to retrieve the latest version of the application from the npm registry. It can be used in the CLI update command to check if there is a newer version of the application available.`}
         </TSDocRemarks>
         <Spacing />
         <TSDocParam name="packageName">
@@ -569,32 +569,32 @@ export function GetLatestVersionFunctionDeclaration() {
 }
 
 /**
- * The `upgrade` handler function declaration code for the Shell Shock project.
+ * The `update` handler function declaration code for the Shell Shock project.
  */
-export function GetUpgradeCommandFunctionDeclaration() {
-  const context = usePowerlines<UpgradePluginContext>();
+export function GetUpdateCommandFunctionDeclaration() {
+  const context = usePowerlines<UpdatePluginContext>();
 
   return (
     <>
-      <TSDoc heading="A function to get the upgrade command for a specific package manager.">
+      <TSDoc heading="A function to get the update command for a specific package manager.">
         <TSDocRemarks>
-          {`This function is used to get the appropriate upgrade command for a specific package manager. It can be used in the CLI upgrade command to determine which command to run based on the package manager being used by the application.`}
+          {`This function is used to get the appropriate update command for a specific package manager. It can be used in the CLI update command to determine which command to run based on the package manager being used by the application.`}
         </TSDocRemarks>
         <Spacing />
         <TSDocParam name="packageManager">
-          {`The name of the package manager to get the upgrade command for. This should be one of "npm", "yarn", "pnpm", "deno", or "bun".`}
+          {`The name of the package manager to get the update command for. This should be one of "npm", "yarn", "pnpm", "deno", or "bun".`}
         </TSDocParam>
         <TSDocParam name="cwd">
-          {`The current working directory to use when determining the upgrade command. This can be used to locate the appropriate package.json and lockfile to determine how to run the upgrade command. If not provided, the process's current working directory will be used.`}
+          {`The current working directory to use when determining the update command. This can be used to locate the appropriate package.json and lockfile to determine how to run the update command. If not provided, the process's current working directory will be used.`}
         </TSDocParam>
         <TSDocReturns>
-          {`An array of strings representing the command and its arguments to run in order to upgrade the application dependencies using the specified package manager.`}
+          {`An array of strings representing the command and its arguments to run in order to update the application dependencies using the specified package manager.`}
         </TSDocReturns>
       </TSDoc>
       <FunctionDeclaration
         export
         async
-        name="getUpgradeCommand"
+        name="getUpdateCommand"
         parameters={[
           {
             name: "packageManager",
@@ -642,14 +642,14 @@ export function GetUpgradeCommandFunctionDeclaration() {
 }
 
 /**
- * The `upgrade` handler function declaration code for the Shell Shock project.
+ * The `update` handler function declaration code for the Shell Shock project.
  */
-export function UpgradeFunctionDeclaration() {
+export function UpdateFunctionDeclaration() {
   return (
     <>
       <InterfaceDeclaration
-        name="UpgradeBaseOptions"
-        doc="Options for the `upgrade` handler function.">
+        name="UpdateBaseOptions"
+        doc="Options for the `update` handler function.">
         <InterfaceMember
           name="stdout"
           type="(data: string) => void"
@@ -665,29 +665,29 @@ export function UpgradeFunctionDeclaration() {
       <Spacing />
       <TypeDeclaration
         export
-        name="UpgradeOptions"
-        doc="Options for the `upgrade` handler function.">{code`UpgradeBaseOptions & GetPackageManagerOptions & Parameters<typeof spawn>[1];`}</TypeDeclaration>
+        name="UpdateOptions"
+        doc="Options for the `update` handler function.">{code`UpdateBaseOptions & GetPackageManagerOptions & Parameters<typeof spawn>[1];`}</TypeDeclaration>
       <Spacing />
-      <TSDoc heading="Upgrade the application dependencies.">
+      <TSDoc heading="Update the application dependencies.">
         <TSDocRemarks>
-          {`This function is used to upgrade the application dependencies. It can be used in the CLI upgrade command to ensure that all necessary dependencies are up-to-date.`}
+          {`This function is used to update the application dependencies. It can be used in the CLI update command to ensure that all necessary dependencies are up-to-date.`}
         </TSDocRemarks>
         <Spacing />
         <TSDocParam name="options">
-          {`The options for the \`upgrade\` function. Currently, there are no options available, but this parameter is included for future extensibility.`}
+          {`The options for the \`update\` function. Currently, there are no options available, but this parameter is included for future extensibility.`}
         </TSDocParam>
         <TSDocReturns>
-          {`A promise that resolves when the upgrade of dependencies is complete.`}
+          {`A promise that resolves when the update of dependencies is complete.`}
         </TSDocReturns>
       </TSDoc>
       <FunctionDeclaration
         export
         async
-        name="upgrade"
+        name="update"
         parameters={[
           {
             name: "options",
-            type: "UpgradeOptions",
+            type: "UpdateOptions",
             default: "{}"
           }
         ]}>
@@ -700,7 +700,7 @@ export function UpgradeFunctionDeclaration() {
         <VarDeclaration
           const
           name="args"
-          initializer={code`await getUpgradeCommand(packageManager, options.cwd); `}
+          initializer={code`await getUpdateCommand(packageManager, options.cwd); `}
         />
         <hbr />
         <VarDeclaration let name="output" initializer={code`""; `} />
@@ -736,7 +736,7 @@ export function UpdateVersionCheckFileFunctionDeclaration() {
     <>
       <TSDoc heading="A helper function that updates the version check file.">
         <TSDocRemarks>
-          {`This function is used to update the version check file with the current timestamp. It can be used in the CLI upgrade command to record the last time a check for updates was performed. The function writes a "version-check.json" file in the data directory, which contains a timestamp of the last check for updates.`}
+          {`This function is used to update the version check file with the current timestamp. It can be used in the CLI update command to record the last time a check for updates was performed. The function writes a "update-check.json" file in the data directory, which contains a timestamp of the last check for updates.`}
         </TSDocRemarks>
         <Spacing />
         <TSDocReturns>
@@ -751,7 +751,7 @@ export function UpdateVersionCheckFileFunctionDeclaration() {
         <IfStatement condition={code`!existsSync(paths.data)`}>
           {code`await mkdir(paths.data, { recursive: true }); `}
         </IfStatement>
-        {code`await writeFile(join(paths.data, "version-check.json"), JSON.stringify({ timestamp: new Date().getTime() }), "utf8"); `}
+        {code`await writeFile(join(paths.data, "update-check.json"), JSON.stringify({ timestamp: new Date().getTime() }), "utf8"); `}
       </FunctionDeclaration>
     </>
   );
@@ -761,13 +761,13 @@ export function UpdateVersionCheckFileFunctionDeclaration() {
  * The `isCheckForUpdatesRequired` handler function declaration code for the Shell Shock project.
  */
 export function IsCheckForUpdatesRequiredFunctionDeclaration() {
-  const context = usePowerlines<UpgradePluginContext>();
+  const context = usePowerlines<UpdatePluginContext>();
 
   return (
     <>
       <TSDoc heading="A helper function that verifies if a check for updates is required.">
         <TSDocRemarks>
-          {`This function is used to determine if a check for updates is required based on the last time a check was performed. It can be used in the CLI upgrade command to avoid unnecessary checks for updates if one was recently performed. The function checks for the existence of a "version-check.json" file in the data directory, which contains a timestamp of the last check for updates. If the file does not exist or if the timestamp is older than a specified stale time, the function will return true, indicating that a check for updates is required. Otherwise, it will return false.`}
+          {`This function is used to determine if a check for updates is required based on the last time a check was performed. It can be used in the CLI update command to avoid unnecessary checks for updates if one was recently performed. The function checks for the existence of a "update-check.json" file in the data directory, which contains a timestamp of the last check for updates. If the file does not exist or if the timestamp is older than a specified stale time, the function will return true, indicating that a check for updates is required. Otherwise, it will return false.`}
         </TSDocRemarks>
         <Spacing />
         <TSDocReturns>
@@ -783,7 +783,7 @@ export function IsCheckForUpdatesRequiredFunctionDeclaration() {
         <VarDeclaration
           const
           name="filePath"
-          initializer={code`join(paths.data, "version-check.json"); `}
+          initializer={code`join(paths.data, "update-check.json"); `}
         />
         <IfStatement condition={code`existsSync(filePath)`}>
           <VarDeclaration
@@ -798,7 +798,7 @@ export function IsCheckForUpdatesRequiredFunctionDeclaration() {
           </IfStatement>
           <ElseIfClause
             condition={code`new Date().getTime() - file.timestamp < ${
-              context.config.upgrade.staleTime
+              context.config.update.staleTime
             }`}>
             {code`return false; `}
           </ElseIfClause>
@@ -816,7 +816,7 @@ export function IsCheckForUpdatesRequiredFunctionDeclaration() {
  * The `checkForUpdates` handler function declaration code for the Shell Shock project.
  */
 export function CheckForUpdatesFunctionDeclaration() {
-  const context = usePowerlines<UpgradePluginContext>();
+  const context = usePowerlines<UpdatePluginContext>();
 
   return (
     <>
@@ -887,7 +887,7 @@ export function CheckForUpdatesFunctionDeclaration() {
       <Spacing />
       <TSDoc heading="Check for updates to the application dependencies.">
         <TSDocRemarks>
-          {`This function is used to check for updates to the application dependencies. It can be used in the CLI upgrade command to ensure that all necessary dependencies are up-to-date.`}
+          {`This function is used to check for updates to the application dependencies. It can be used in the CLI update command to ensure that all necessary dependencies are up-to-date.`}
         </TSDocRemarks>
         <Spacing />
         <TSDocParam name="options">
@@ -949,7 +949,7 @@ export function CheckForUpdatesFunctionDeclaration() {
  * The `getChangelog` handler function declaration code for the Shell Shock project.
  */
 export function GetChangelogFunctionDeclaration() {
-  const context = usePowerlines<UpgradePluginContext>();
+  const context = usePowerlines<UpdatePluginContext>();
 
   return (
     <>
@@ -973,7 +973,7 @@ export function GetChangelogFunctionDeclaration() {
       <Spacing />
       <TSDoc heading="Get the changelog for the application dependencies.">
         <TSDocRemarks>
-          {`This function is used to get the changelog for the application dependencies. It can be used in the CLI upgrade command to view the changes between versions.`}
+          {`This function is used to get the changelog for the application dependencies. It can be used in the CLI update command to view the changes between versions.`}
         </TSDocRemarks>
         <Spacing />
         <TSDocParam name="options">
@@ -1063,21 +1063,21 @@ export function GetChangelogFunctionDeclaration() {
   );
 }
 
-export interface UpgradeBuiltinProps extends Omit<
+export interface UpdateBuiltinProps extends Omit<
   BuiltinFileProps,
   "id" | "description"
 > {}
 
 /**
- * A built-in upgrade module for Shell Shock.
+ * A built-in update module for Shell Shock.
  */
-export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
+export function UpdateBuiltin(props: UpdateBuiltinProps) {
   const [{ children }, rest] = splitProps(props, ["children"]);
 
   return (
     <BuiltinFile
-      id="upgrade"
-      description="A collection of application upgrade utility functions for Shell Shock."
+      id="update"
+      description="A collection of application update utility functions for Shell Shock."
       {...rest}
       imports={defu(rest.imports ?? {}, {
         "node:os": "os",
@@ -1123,9 +1123,9 @@ export function UpgradeBuiltin(props: UpgradeBuiltinProps) {
       <Spacing />
       <GetLatestVersionFunctionDeclaration />
       <Spacing />
-      <GetUpgradeCommandFunctionDeclaration />
+      <GetUpdateCommandFunctionDeclaration />
       <Spacing />
-      <UpgradeFunctionDeclaration />
+      <UpdateFunctionDeclaration />
       <Spacing />
       <CheckForUpdatesFunctionDeclaration />
       <Spacing />

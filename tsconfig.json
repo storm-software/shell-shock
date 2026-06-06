@@ -43,7 +43,7 @@
       "path": "./packages/plugin-skills"
     },
     {
-      "path": "./packages/plugin-upgrade"
+      "path": "./packages/plugin-update"
     },
     {
       "path": "./packages/preset-script"

@@ -24,7 +24,7 @@ import type {
 } from "@shell-shock/core";
 import type { RequiredKeys } from "@stryke/types/base";
 
-export interface UpgradePluginOptions {
+export interface UpdatePluginOptions {
   /**
    * The time in milliseconds after which previously retrieved version data is considered stale.
    *
@@ -36,36 +36,36 @@ export interface UpgradePluginOptions {
   staleTime?: number;
 
   /**
-   * Should the plugin add the `upgrade` command?
+   * Should the plugin add the `update` command?
    *
    * @remarks
-   * This can be set to a string to specify a custom command name for the `upgrade` command or an object to override the default command configuration. By default, the command name will be `"upgrade"`.
+   * This can be set to a string to specify a custom command name for the `update` command or an object to override the default command configuration. By default, the command name will be `"update"`.
    *
-   * @defaultValue "upgrade"
+   * @defaultValue "update"
    */
   command?: Partial<CommandConfig> | string;
 }
 
-export type UpgradePluginUserConfig = UserConfig & {
+export type UpdatePluginUserConfig = UserConfig & {
   /**
-   * Resolved upgrade configuration for the plugin.
+   * Resolved update configuration for the plugin.
    */
-  upgrade: UpgradePluginOptions;
+  update: UpdatePluginOptions;
 };
 
-export type UpgradePluginResolvedConfig = ResolvedConfig & {
+export type UpdatePluginResolvedConfig = ResolvedConfig & {
   /**
-   * Resolved upgrade configuration for the plugin.
+   * Resolved update configuration for the plugin.
    */
-  upgrade: Required<Omit<UpgradePluginOptions, "command">> & {
+  update: Required<Omit<UpdatePluginOptions, "command">> & {
     /**
-     * Resolved command configuration for the upgrade command.
+     * Resolved command configuration for the update command.
      */
     command: RequiredKeys<Partial<CommandConfig>, "name">;
   };
 };
 
-export type UpgradePluginContext<
-  TResolvedConfig extends UpgradePluginResolvedConfig =
-    UpgradePluginResolvedConfig
+export type UpdatePluginContext<
+  TResolvedConfig extends UpdatePluginResolvedConfig =
+    UpdatePluginResolvedConfig
 > = Context<TResolvedConfig>;
