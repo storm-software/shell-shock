@@ -26,6 +26,7 @@ import {
 import { toArray } from "@stryke/convert/to-array";
 import { getUnique } from "@stryke/helpers/get-unique";
 import { isJsonSchemaObjectType, isJsonSchemaTupleType } from "@stryke/json";
+import { replacePath } from "@stryke/path/replace";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { titleCase } from "@stryke/string-format/title-case";
 import { isBoolean } from "@stryke/type-checks/is-boolean";
@@ -380,16 +381,17 @@ async function preprocess<TContext extends Context>(
     }
 
     context.debug(
-      `Adding reflection for CLI command: ${command.id} (file: ${
-        command.entry.input.file
-      })`
+      `Adding reflection for CLI command: ${command.id} (file: ${replacePath(
+        command.entry.input.file,
+        context.config.cwd
+      )})`
     );
 
     result.module = await resolveModule<CommandModule>(
       context,
       command.entry.input,
       {
-        name: command.title || titleCase(command.name),
+        name: `${command.title || titleCase(command.name)} Command Bundler`,
         plugins: [
           esbuildPlugin(context, {
             reflection: "default",

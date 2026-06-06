@@ -103,7 +103,7 @@ interface BaseOptions {
    * Should Shell Shock attempt to automatically assign environment variables to manipulate default values for command options based on the option name?
    *
    * @remarks
-   * If set to a string, Shell Shock will use the provided string as an application specific environment variable prefix, convert the option name to {@link https://stringcase.org/cases/constant/ | constant case}, and prepend the provided `string` value to determine the corresponding environment variable name. For example, if an option is named `"configPath"` and the `autoAssignEnv` is `"MY_APP_"`, Shell Shock will look for an environment variable named `"MY_APP_CONFIG_PATH"` and assign its value to the option if it exists. If set to `true`, Shell Shock will use a default environment variable prefix derived from the {@link Options.name | application name}.
+   * If set to a string, Shell Shock will use the provided string as an application specific environment variable prefix, convert the option name to {@link https://stringcase.org/cases/constant/ | constant case}, and prepend the provided `string` value to determine the corresponding environment variable name. For example, if an option is named `"configPath"` and the `autoAssignEnv` is `"MY_APP"`, Shell Shock will look for an environment variable named `"MY_APP_CONFIG_PATH"` and assign its value to the option if it exists. If set to `true`, Shell Shock will use a default environment variable prefix derived from the {@link Options.name | application name}.
    *
    * @see https://medium.com/chingu/an-introduction-to-environment-variables-and-how-to-use-them-f602f66d15fa
    * @see https://stringcase.org/cases/constant/

@@ -489,7 +489,7 @@ export function VirtualCommandHelpDisplay(
                   child.icon
                     ? `(isUnicodeSupported ? " ${child.icon}  " : "") + `
                     : ""
-                }\`${child.title} ${child.virtual ? "" : "Command"}${
+                }\`${child.title}${
                   child.tags?.length > 0
                     ? ` - ${child.tags
                         .map(
@@ -566,7 +566,7 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
                   child.icon
                     ? `(isUnicodeSupported ? " ${child.icon}  " : "") + `
                     : ""
-                }\`${child.title} ${child.virtual ? "" : "Command"}${
+                }\`${child.title}${
                   child.tags?.length > 0
                     ? ` - ${child.tags
                         .map(
@@ -591,9 +591,9 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
         </For>
         {code`help(\`Running a specific command with the help flag (via: \${inlineCode("${getAppBin(
           context
-        )} ${command.segments.join(
-          " "
-        )} <specific command> --help")}) will provide additional information that is specific to that command.\`);
+        )}${
+          command.segments.length > 0 ? ` ${command.segments.join(" ")}` : ""
+        } <specific command> --help")}) will provide additional information that is specific to that command.\`);
         writeLine("");`}
       </Show>
     </>

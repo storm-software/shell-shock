@@ -22,7 +22,7 @@ import { defineConfig } from "powerlines/config";
 export default defineConfig({
   skipCache: true,
   name: "nx-plugin",
-  input: ["./src/plugin/index.ts"],
+  input: ["src/plugin/index.ts"],
   plugins: [tsdown()],
   platform: "node",
   resolve: {

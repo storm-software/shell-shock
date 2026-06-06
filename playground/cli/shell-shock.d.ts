@@ -110,7 +110,6 @@ declare module "shell-shock:env" {
      *
      * @title Cache Directory
      * @alias PLAYGROUND_CLI_CACHE_DIR
-     *
      * @alias SHELL_SHOCK_CACHE_DIR
      * @runtime
      *
@@ -121,13 +120,9 @@ declare module "shell-shock:env" {
      *
      * @title Continuous Integration
      * @alias CONTINUOUS_INTEGRATION
-     *
      * @alias PLAYGROUND_CLI_CI
-     *
      * @alias PLAYGROUND_CLI_CONTINUOUS_INTEGRATION
-     *
      * @alias SHELL_SHOCK_CI
-     *
      * @alias SHELL_SHOCK_CONTINUOUS_INTEGRATION
      *
      */
@@ -137,7 +132,6 @@ declare module "shell-shock:env" {
      *
      * @title Configuration Directory
      * @alias PLAYGROUND_CLI_CONFIG_DIR
-     *
      * @alias SHELL_SHOCK_CONFIG_DIR
      * @runtime
      *
@@ -148,7 +142,6 @@ declare module "shell-shock:env" {
      *
      * @title Data Directory
      * @alias PLAYGROUND_CLI_DATA_DIR
-     *
      * @alias SHELL_SHOCK_DATA_DIR
      * @runtime
      *
@@ -158,7 +151,6 @@ declare module "shell-shock:env" {
      * Indicates if the application is running in debug mode.
      *
      * @alias PLAYGROUND_CLI_DEBUG
-     *
      * @alias SHELL_SHOCK_DEBUG
      *
      */
@@ -167,7 +159,6 @@ declare module "shell-shock:env" {
      * The default locale to be used in the application.
      *
      * @alias PLAYGROUND_CLI_DEFAULT_LOCALE
-     *
      * @alias SHELL_SHOCK_DEFAULT_LOCALE
      *
      */
@@ -176,7 +167,6 @@ declare module "shell-shock:env" {
      * The default timezone for the application.
      *
      * @alias PLAYGROUND_CLI_DEFAULT_TIMEZONE
-     *
      * @alias SHELL_SHOCK_DEFAULT_TIMEZONE
      *
      */
@@ -185,7 +175,6 @@ declare module "shell-shock:env" {
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
      * @alias PLAYGROUND_CLI_ENVIRONMENT
-     *
      * @alias SHELL_SHOCK_ENVIRONMENT
      *
      */
@@ -195,7 +184,6 @@ declare module "shell-shock:env" {
      *
      * @title Error Details URL
      * @alias PLAYGROUND_CLI_ERROR_URL
-     *
      * @alias SHELL_SHOCK_ERROR_URL
      *
      */
@@ -204,7 +192,6 @@ declare module "shell-shock:env" {
      * An indicator that specifies the current runtime is a force color environment.
      *
      * @alias PLAYGROUND_CLI_FORCE_COLOR
-     *
      * @alias SHELL_SHOCK_FORCE_COLOR
      *
      */
@@ -213,7 +200,6 @@ declare module "shell-shock:env" {
      * An indicator that specifies the current runtime should force hyperlinks in terminal output.
      *
      * @alias PLAYGROUND_CLI_FORCE_HYPERLINK
-     *
      * @alias SHELL_SHOCK_FORCE_HYPERLINK
      *
      */
@@ -222,7 +208,6 @@ declare module "shell-shock:env" {
      * Indicates if error data should be included.
      *
      * @alias PLAYGROUND_CLI_INCLUDE_ERROR_DATA
-     *
      * @alias SHELL_SHOCK_INCLUDE_ERROR_DATA
      *
      */
@@ -232,7 +217,6 @@ declare module "shell-shock:env" {
      *
      * @title Log Directory
      * @alias PLAYGROUND_CLI_LOG_DIR
-     *
      * @alias SHELL_SHOCK_LOG_DIR
      * @runtime
      *
@@ -242,7 +226,6 @@ declare module "shell-shock:env" {
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
      * @alias PLAYGROUND_CLI_LOG_LEVEL
-     *
      * @alias SHELL_SHOCK_LOG_LEVEL
      *
      */
@@ -251,7 +234,6 @@ declare module "shell-shock:env" {
      * An indicator that specifies the current runtime is a minimal environment.
      *
      * @alias PLAYGROUND_CLI_MINIMAL
-     *
      * @alias SHELL_SHOCK_MINIMAL
      *
      */
@@ -260,19 +242,12 @@ declare module "shell-shock:env" {
      * The mode in which the application is running.
      *
      * @alias NODE_ENV
-     *
      * @alias VERCEL_ENV
-     *
      * @alias PLAYGROUND_CLI_MODE
-     *
      * @alias PLAYGROUND_CLI_NODE_ENV
-     *
      * @alias PLAYGROUND_CLI_VERCEL_ENV
-     *
      * @alias SHELL_SHOCK_MODE
-     *
      * @alias SHELL_SHOCK_NODE_ENV
-     *
      * @alias SHELL_SHOCK_VERCEL_ENV
      *
      */
@@ -281,7 +256,6 @@ declare module "shell-shock:env" {
      * An indicator that specifies the current runtime is a no color environment.
      *
      * @alias PLAYGROUND_CLI_NO_COLOR
-     *
      * @alias SHELL_SHOCK_NO_COLOR
      *
      */
@@ -290,13 +264,9 @@ declare module "shell-shock:env" {
      * The name of the organization that maintains the application.
      *
      * @alias ORG
-     *
      * @alias PLAYGROUND_CLI_ORGANIZATION
-     *
      * @alias PLAYGROUND_CLI_ORG
-     *
      * @alias SHELL_SHOCK_ORGANIZATION
-     *
      * @alias SHELL_SHOCK_ORG
      *
      */
@@ -305,7 +275,6 @@ declare module "shell-shock:env" {
      * The platform for which the application was built.
      *
      * @alias PLAYGROUND_CLI_PLATFORM
-     *
      * @alias SHELL_SHOCK_PLATFORM
      *
      */
@@ -314,7 +283,6 @@ declare module "shell-shock:env" {
      * The runtime that the application is running in.
      *
      * @alias PLAYGROUND_CLI_RUNTIME
-     *
      * @alias SHELL_SHOCK_RUNTIME
      *
      */
@@ -323,7 +291,6 @@ declare module "shell-shock:env" {
      * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the upgrade process proceeds without checking for updates, which can help speed up the process in certain scenarios.
      *
      * @alias PLAYGROUND_CLI_SKIP_UPDATE_CHECK
-     *
      * @alias SHELL_SHOCK_SKIP_UPDATE_CHECK
      *
      */
@@ -332,7 +299,6 @@ declare module "shell-shock:env" {
      * Indicates if error stack traces should be captured.
      *
      * @alias PLAYGROUND_CLI_STACKTRACE
-     *
      * @alias SHELL_SHOCK_STACKTRACE
      *
      */
@@ -342,7 +308,6 @@ declare module "shell-shock:env" {
      *
      * @title Temporary Directory
      * @alias PLAYGROUND_CLI_TEMP_DIR
-     *
      * @alias SHELL_SHOCK_TEMP_DIR
      * @runtime
      *
@@ -352,7 +317,6 @@ declare module "shell-shock:env" {
      * An indicator that specifies the current runtime is a test environment.
      *
      * @alias PLAYGROUND_CLI_TEST
-     *
      * @alias SHELL_SHOCK_TEST
      *
      */
@@ -361,7 +325,6 @@ declare module "shell-shock:env" {
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_AC_APPCIRCLE
-     *
      * @alias SHELL_SHOCK_AC_APPCIRCLE
      * @readonly
      * @hidden
@@ -373,7 +336,6 @@ declare module "shell-shock:env" {
      * The name of the agent running the application. This variable is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_AGENT_NAME
-     *
      * @alias SHELL_SHOCK_AGENT_NAME
      * @readonly
      * @hidden
@@ -385,7 +347,6 @@ declare module "shell-shock:env" {
      * The agola git reference. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_AGOLA_GIT_REF
-     *
      * @alias SHELL_SHOCK_AGOLA_GIT_REF
      * @readonly
      * @hidden
@@ -397,7 +358,6 @@ declare module "shell-shock:env" {
      * The name of the application.
      *
      * @alias PLAYGROUND_CLI_APP_NAME
-     *
      * @alias SHELL_SHOCK_APP_NAME
      * @readonly
      *
@@ -407,7 +367,6 @@ declare module "shell-shock:env" {
      * The version of the application.
      *
      * @alias PLAYGROUND_CLI_APP_VERSION
-     *
      * @alias SHELL_SHOCK_APP_VERSION
      * @readonly
      *
@@ -417,7 +376,6 @@ declare module "shell-shock:env" {
      * The appcenter build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_APPCENTER_BUILD_ID
-     *
      * @alias SHELL_SHOCK_APPCENTER_BUILD_ID
      * @readonly
      * @hidden
@@ -429,7 +387,6 @@ declare module "shell-shock:env" {
      * A variable that specifies the application data directory on Windows.
      *
      * @alias PLAYGROUND_CLI_APPDATA
-     *
      * @alias SHELL_SHOCK_APPDATA
      * @readonly
      * @hidden
@@ -441,7 +398,6 @@ declare module "shell-shock:env" {
      * The appveyor build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_APPVEYOR
-     *
      * @alias SHELL_SHOCK_APPVEYOR
      * @readonly
      * @hidden
@@ -453,7 +409,6 @@ declare module "shell-shock:env" {
      * The bamboo plan key. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_bamboo_planKey
-     *
      * @alias SHELL_SHOCK_bamboo_planKey
      * @readonly
      * @hidden
@@ -465,7 +420,6 @@ declare module "shell-shock:env" {
      * The bitbucket commit. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_BITBUCKET_COMMIT
-     *
      * @alias SHELL_SHOCK_BITBUCKET_COMMIT
      * @readonly
      * @hidden
@@ -477,7 +431,6 @@ declare module "shell-shock:env" {
      * The bitrise build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_BITRISE_IO
-     *
      * @alias SHELL_SHOCK_BITRISE_IO
      * @readonly
      * @hidden
@@ -489,7 +442,6 @@ declare module "shell-shock:env" {
      * The buddy workspace ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_BUDDY_WORKSPACE_ID
-     *
      * @alias SHELL_SHOCK_BUDDY_WORKSPACE_ID
      * @readonly
      * @hidden
@@ -501,7 +453,6 @@ declare module "shell-shock:env" {
      * A checksum hash created during the build.
      *
      * @alias PLAYGROUND_CLI_BUILD_CHECKSUM
-     *
      * @alias SHELL_SHOCK_BUILD_CHECKSUM
      * @readonly
      *
@@ -511,7 +462,6 @@ declare module "shell-shock:env" {
      * The unique identifier for the build.
      *
      * @alias PLAYGROUND_CLI_BUILD_ID
-     *
      * @alias SHELL_SHOCK_BUILD_ID
      * @readonly
      *
@@ -521,7 +471,6 @@ declare module "shell-shock:env" {
      * The timestamp the build was ran at.
      *
      * @alias PLAYGROUND_CLI_BUILD_TIMESTAMP
-     *
      * @alias SHELL_SHOCK_BUILD_TIMESTAMP
      * @readonly
      *
@@ -531,7 +480,6 @@ declare module "shell-shock:env" {
      * The builder output build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_BUILDER_OUTPUT
-     *
      * @alias SHELL_SHOCK_BUILDER_OUTPUT
      * @readonly
      * @hidden
@@ -543,7 +491,6 @@ declare module "shell-shock:env" {
      * The buildkite build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_BUILDKITE
-     *
      * @alias SHELL_SHOCK_BUILDKITE
      * @readonly
      * @hidden
@@ -555,7 +502,6 @@ declare module "shell-shock:env" {
      * The cf build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_CF_BUILD_ID
-     *
      * @alias SHELL_SHOCK_CF_BUILD_ID
      * @readonly
      * @hidden
@@ -567,7 +513,6 @@ declare module "shell-shock:env" {
      * The ci name. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_CI_NAME
-     *
      * @alias SHELL_SHOCK_CI_NAME
      * @readonly
      * @hidden
@@ -579,7 +524,6 @@ declare module "shell-shock:env" {
      * The xcode project build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_CI_XCODE_PROJECT
-     *
      * @alias SHELL_SHOCK_CI_XCODE_PROJECT
      * @readonly
      * @hidden
@@ -591,7 +535,6 @@ declare module "shell-shock:env" {
      * The circleci build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_CIRCLECI
-     *
      * @alias SHELL_SHOCK_CIRCLECI
      * @readonly
      * @hidden
@@ -603,7 +546,6 @@ declare module "shell-shock:env" {
      * The cirrus-ci build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_CIRRUS_CI
-     *
      * @alias SHELL_SHOCK_CIRRUS_CI
      * @readonly
      * @hidden
@@ -615,7 +557,6 @@ declare module "shell-shock:env" {
      * The cm build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_CM_BUILD_ID
-     *
      * @alias SHELL_SHOCK_CM_BUILD_ID
      * @readonly
      * @hidden
@@ -627,7 +568,6 @@ declare module "shell-shock:env" {
      * The codebuild build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_CODEBUILD
-     *
      * @alias SHELL_SHOCK_CODEBUILD
      * @readonly
      * @hidden
@@ -639,7 +579,6 @@ declare module "shell-shock:env" {
      * The color terminal type. This variable is set by certain terminal emulators.
      *
      * @alias PLAYGROUND_CLI_COLORTERM
-     *
      * @alias SHELL_SHOCK_COLORTERM
      * @readonly
      * @hidden
@@ -651,7 +590,6 @@ declare module "shell-shock:env" {
      * The ConEmu task name. This variable is set by certain terminal emulators.
      *
      * @alias PLAYGROUND_CLI_ConEmuTask
-     *
      * @alias SHELL_SHOCK_ConEmuTask
      * @readonly
      * @hidden
@@ -663,7 +601,6 @@ declare module "shell-shock:env" {
      * The cursor trace ID. This variable is set by certain terminal emulators.
      *
      * @alias PLAYGROUND_CLI_CURSOR_TRACE_ID
-     *
      * @alias SHELL_SHOCK_CURSOR_TRACE_ID
      * @readonly
      * @hidden
@@ -675,7 +612,6 @@ declare module "shell-shock:env" {
      * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
      *
      * @alias PLAYGROUND_CLI_DEVENV_RUNTIME
-     *
      * @alias SHELL_SHOCK_DEVENV_RUNTIME
      * @readonly
      * @hidden
@@ -687,7 +623,6 @@ declare module "shell-shock:env" {
      * The drone build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_DRONE
-     *
      * @alias SHELL_SHOCK_DRONE
      * @readonly
      * @hidden
@@ -699,7 +634,6 @@ declare module "shell-shock:env" {
      * The dsari build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_DSARI
-     *
      * @alias SHELL_SHOCK_DSARI
      * @readonly
      * @hidden
@@ -711,7 +645,6 @@ declare module "shell-shock:env" {
      * The earthly build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_EARTHLY_CI
-     *
      * @alias SHELL_SHOCK_EARTHLY_CI
      * @readonly
      * @hidden
@@ -723,7 +656,6 @@ declare module "shell-shock:env" {
      * The eas build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_EAS_BUILD
-     *
      * @alias SHELL_SHOCK_EAS_BUILD
      * @readonly
      * @hidden
@@ -735,7 +667,6 @@ declare module "shell-shock:env" {
      * The gerrit project. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_GERRIT_PROJECT
-     *
      * @alias SHELL_SHOCK_GERRIT_PROJECT
      * @readonly
      * @hidden
@@ -747,7 +678,6 @@ declare module "shell-shock:env" {
      * The gitea actions build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_GITEA_ACTIONS
-     *
      * @alias SHELL_SHOCK_GITEA_ACTIONS
      * @readonly
      * @hidden
@@ -759,7 +689,6 @@ declare module "shell-shock:env" {
      * The github actions build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_GITHUB_ACTIONS
-     *
      * @alias SHELL_SHOCK_GITHUB_ACTIONS
      * @readonly
      * @hidden
@@ -771,7 +700,6 @@ declare module "shell-shock:env" {
      * The gitlab ci build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_GITLAB_CI
-     *
      * @alias SHELL_SHOCK_GITLAB_CI
      * @readonly
      * @hidden
@@ -783,7 +711,6 @@ declare module "shell-shock:env" {
      * The go cd build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_GOCD
-     *
      * @alias SHELL_SHOCK_GOCD
      * @readonly
      * @hidden
@@ -795,7 +722,6 @@ declare module "shell-shock:env" {
      * The harness build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_HARNESS_BUILD_ID
-     *
      * @alias SHELL_SHOCK_HARNESS_BUILD_ID
      * @readonly
      * @hidden
@@ -807,7 +733,6 @@ declare module "shell-shock:env" {
      * The hudson build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_HUDSON
-     *
      * @alias SHELL_SHOCK_HUDSON
      * @readonly
      * @hidden
@@ -819,7 +744,6 @@ declare module "shell-shock:env" {
      * The jenkins url. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_JENKINS_URL
-     *
      * @alias SHELL_SHOCK_JENKINS_URL
      * @readonly
      * @hidden
@@ -831,7 +755,6 @@ declare module "shell-shock:env" {
      * The layerci build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_LAYERCI
-     *
      * @alias SHELL_SHOCK_LAYERCI
      * @readonly
      * @hidden
@@ -843,7 +766,6 @@ declare module "shell-shock:env" {
      * A variable that specifies the current user's local application data directory on Windows.
      *
      * @alias PLAYGROUND_CLI_LOCALAPPDATA
-     *
      * @alias SHELL_SHOCK_LOCALAPPDATA
      * @readonly
      * @hidden
@@ -855,7 +777,6 @@ declare module "shell-shock:env" {
      * The magnum build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_MAGNUM
-     *
      * @alias SHELL_SHOCK_MAGNUM
      * @readonly
      * @hidden
@@ -867,7 +788,6 @@ declare module "shell-shock:env" {
      * The netlify build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_NETLIFY
-     *
      * @alias SHELL_SHOCK_NETLIFY
      * @readonly
      * @hidden
@@ -879,7 +799,6 @@ declare module "shell-shock:env" {
      * The nevercode build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_NEVERCODE
-     *
      * @alias SHELL_SHOCK_NEVERCODE
      * @readonly
      * @hidden
@@ -891,7 +810,6 @@ declare module "shell-shock:env" {
      * The now builder build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_NOW_BUILDER
-     *
      * @alias SHELL_SHOCK_NOW_BUILDER
      * @readonly
      * @hidden
@@ -903,7 +821,6 @@ declare module "shell-shock:env" {
      * The prow job ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_PROW_JOB_ID
-     *
      * @alias SHELL_SHOCK_PROW_JOB_ID
      * @readonly
      * @hidden
@@ -915,7 +832,6 @@ declare module "shell-shock:env" {
      * The release build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_RELEASE_BUILD_ID
-     *
      * @alias SHELL_SHOCK_RELEASE_BUILD_ID
      * @readonly
      * @hidden
@@ -927,7 +843,6 @@ declare module "shell-shock:env" {
      * The unique identifier for the release.
      *
      * @alias PLAYGROUND_CLI_RELEASE_ID
-     *
      * @alias SHELL_SHOCK_RELEASE_ID
      * @readonly
      *
@@ -937,7 +852,6 @@ declare module "shell-shock:env" {
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
      * @alias PLAYGROUND_CLI_RELEASE_TAG
-     *
      * @alias SHELL_SHOCK_RELEASE_TAG
      * @readonly
      *
@@ -947,7 +861,6 @@ declare module "shell-shock:env" {
      * The render build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_RENDER
-     *
      * @alias SHELL_SHOCK_RENDER
      * @readonly
      * @hidden
@@ -959,7 +872,6 @@ declare module "shell-shock:env" {
      * The unique identifier for the current run. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_RUN_ID
-     *
      * @alias SHELL_SHOCK_RUN_ID
      * @readonly
      * @hidden
@@ -971,7 +883,6 @@ declare module "shell-shock:env" {
      * The sailci build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_SAILCI
-     *
      * @alias SHELL_SHOCK_SAILCI
      * @readonly
      * @hidden
@@ -983,7 +894,6 @@ declare module "shell-shock:env" {
      * The screwdriver build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_SCREWDRIVER
-     *
      * @alias SHELL_SHOCK_SCREWDRIVER
      * @readonly
      * @hidden
@@ -995,7 +905,6 @@ declare module "shell-shock:env" {
      * The semaphore build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_SEMAPHORE
-     *
      * @alias SHELL_SHOCK_SEMAPHORE
      * @readonly
      * @hidden
@@ -1007,7 +916,6 @@ declare module "shell-shock:env" {
      * The sourcehut build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_SOURCEHUT
-     *
      * @alias SHELL_SHOCK_SOURCEHUT
      * @readonly
      * @hidden
@@ -1019,7 +927,6 @@ declare module "shell-shock:env" {
      * The spaceship build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_SPACESHIP_CI
-     *
      * @alias SHELL_SHOCK_SPACESHIP_CI
      * @readonly
      * @hidden
@@ -1031,7 +938,6 @@ declare module "shell-shock:env" {
      * The strider build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_STRIDER
-     *
      * @alias SHELL_SHOCK_STRIDER
      * @readonly
      * @hidden
@@ -1043,7 +949,6 @@ declare module "shell-shock:env" {
      * The task ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_TASK_ID
-     *
      * @alias SHELL_SHOCK_TASK_ID
      * @readonly
      * @hidden
@@ -1055,7 +960,6 @@ declare module "shell-shock:env" {
      * The teamcity version. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_TEAMCITY_VERSION
-     *
      * @alias SHELL_SHOCK_TEAMCITY_VERSION
      * @readonly
      * @hidden
@@ -1067,7 +971,6 @@ declare module "shell-shock:env" {
      * The terminal type. This variable is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_TERM
-     *
      * @alias SHELL_SHOCK_TERM
      * @readonly
      * @hidden
@@ -1079,7 +982,6 @@ declare module "shell-shock:env" {
      * The terminal program name. This variable is set by certain terminal emulators.
      *
      * @alias PLAYGROUND_CLI_TERM_PROGRAM
-     *
      * @alias SHELL_SHOCK_TERM_PROGRAM
      * @readonly
      * @hidden
@@ -1091,7 +993,6 @@ declare module "shell-shock:env" {
      * The terminal program version. This variable is set by certain terminal emulators.
      *
      * @alias PLAYGROUND_CLI_TERM_PROGRAM_VERSION
-     *
      * @alias SHELL_SHOCK_TERM_PROGRAM_VERSION
      * @readonly
      * @hidden
@@ -1103,7 +1004,6 @@ declare module "shell-shock:env" {
      * The terminal emulator name. This variable is set by certain terminal emulators.
      *
      * @alias PLAYGROUND_CLI_TERMINAL_EMULATOR
-     *
      * @alias SHELL_SHOCK_TERMINAL_EMULATOR
      * @readonly
      * @hidden
@@ -1115,7 +1015,6 @@ declare module "shell-shock:env" {
      * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
      *
      * @alias PLAYGROUND_CLI_TERMINUS_SUBLIME
-     *
      * @alias SHELL_SHOCK_TERMINUS_SUBLIME
      * @readonly
      * @hidden
@@ -1127,7 +1026,6 @@ declare module "shell-shock:env" {
      * The task force build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_TF_BUILD
-     *
      * @alias SHELL_SHOCK_TF_BUILD
      * @readonly
      * @hidden
@@ -1139,7 +1037,6 @@ declare module "shell-shock:env" {
      * The travis build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_TRAVIS
-     *
      * @alias SHELL_SHOCK_TRAVIS
      * @readonly
      * @hidden
@@ -1151,7 +1048,6 @@ declare module "shell-shock:env" {
      * The vela build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_VELA
-     *
      * @alias SHELL_SHOCK_VELA
      * @readonly
      * @hidden
@@ -1163,7 +1059,6 @@ declare module "shell-shock:env" {
      * The VTE version. This variable is set by certain terminal emulators.
      *
      * @alias PLAYGROUND_CLI_VTE_VERSION
-     *
      * @alias SHELL_SHOCK_VTE_VERSION
      * @readonly
      * @hidden
@@ -1175,7 +1070,6 @@ declare module "shell-shock:env" {
      * The terminal emulator session ID. This variable is set by certain terminal emulators.
      *
      * @alias PLAYGROUND_CLI_WT_SESSION
-     *
      * @alias SHELL_SHOCK_WT_SESSION
      * @readonly
      * @hidden
@@ -1187,7 +1081,6 @@ declare module "shell-shock:env" {
      * The xcode server build ID. This value is set by certain CI/CD systems.
      *
      * @alias PLAYGROUND_CLI_XCS
-     *
      * @alias SHELL_SHOCK_XCS
      * @readonly
      * @hidden
@@ -1199,7 +1092,6 @@ declare module "shell-shock:env" {
      * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @alias PLAYGROUND_CLI_XDG_CACHE_HOME
-     *
      * @alias SHELL_SHOCK_XDG_CACHE_HOME
      * @readonly
      * @hidden
@@ -1211,7 +1103,6 @@ declare module "shell-shock:env" {
      * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @alias PLAYGROUND_CLI_XDG_CONFIG_HOME
-     *
      * @alias SHELL_SHOCK_XDG_CONFIG_HOME
      * @readonly
      * @hidden
@@ -1223,7 +1114,6 @@ declare module "shell-shock:env" {
      * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
      *
      * @alias PLAYGROUND_CLI_XDG_DATA_HOME
-     *
      * @alias SHELL_SHOCK_XDG_DATA_HOME
      * @readonly
      * @hidden
@@ -1235,7 +1125,6 @@ declare module "shell-shock:env" {
      * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
      *
      * @alias PLAYGROUND_CLI_XDG_RUNTIME_DIR
-     *
      * @alias SHELL_SHOCK_XDG_RUNTIME_DIR
      * @readonly
      * @hidden
@@ -1247,7 +1136,6 @@ declare module "shell-shock:env" {
      * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
      *
      * @alias PLAYGROUND_CLI_XDG_STATE_HOME
-     *
      * @alias SHELL_SHOCK_XDG_STATE_HOME
      * @readonly
      * @hidden
@@ -1266,8 +1154,7 @@ declare module "shell-shock:env" {
     /**
      * The name of the application.
      *
-     * @alias PLAYGROUND_CLI_APP_NAME
-     *
+     * @alias APP_NAME
      * @alias SHELL_SHOCK_APP_NAME
      * @readonly
      * @defaultValue "playground-cli"
@@ -1276,8 +1163,7 @@ declare module "shell-shock:env" {
     /**
      * The version of the application.
      *
-     * @alias PLAYGROUND_CLI_APP_VERSION
-     *
+     * @alias APP_VERSION
      * @alias SHELL_SHOCK_APP_VERSION
      * @readonly
      * @defaultValue "0.0.1"
@@ -1286,48 +1172,43 @@ declare module "shell-shock:env" {
     /**
      * The unique identifier for the build.
      *
-     * @alias PLAYGROUND_CLI_BUILD_ID
-     *
+     * @alias BUILD_ID
      * @alias SHELL_SHOCK_BUILD_ID
      * @readonly
-     * @defaultValue "fa1ba1a7-6045-49a6-9db1-0822b20668c1"
+     * @defaultValue "69d76896-e1ea-4695-a806-1ce8502ef716"
      */
     readonly PLAYGROUND_CLI_BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
-     * @alias PLAYGROUND_CLI_BUILD_TIMESTAMP
-     *
+     * @alias BUILD_TIMESTAMP
      * @alias SHELL_SHOCK_BUILD_TIMESTAMP
      * @readonly
-     * @defaultValue "2026-06-05T04:01:52.597Z"
+     * @defaultValue "2026-06-05T23:29:05.316Z"
      */
     readonly PLAYGROUND_CLI_BUILD_TIMESTAMP: string;
     /**
      * A checksum hash created during the build.
      *
-     * @alias PLAYGROUND_CLI_BUILD_CHECKSUM
-     *
+     * @alias BUILD_CHECKSUM
      * @alias SHELL_SHOCK_BUILD_CHECKSUM
      * @readonly
-     * @defaultValue "PY1FOGh0UHG0WRsregrvoAKk60go0W5n"
+     * @defaultValue "ThU6PlwAYKQdLR8oT9pzTjEdubC67JeC"
      */
     readonly PLAYGROUND_CLI_BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the release.
      *
-     * @alias PLAYGROUND_CLI_RELEASE_ID
-     *
+     * @alias RELEASE_ID
      * @alias SHELL_SHOCK_RELEASE_ID
      * @readonly
-     * @defaultValue "1ba1a760-4519-469d-b108-22b20668c152"
+     * @defaultValue "d76896e1-ea66-45e8-861c-e8502ef7166e"
      */
     readonly PLAYGROUND_CLI_RELEASE_ID: string;
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
-     * @alias PLAYGROUND_CLI_RELEASE_TAG
-     *
+     * @alias RELEASE_TAG
      * @alias SHELL_SHOCK_RELEASE_TAG
      * @readonly
      * @defaultValue "playground-cli@0.0.1"
@@ -1336,14 +1217,10 @@ declare module "shell-shock:env" {
     /**
      * The name of the organization that maintains the application.
      *
+     * @alias ORGANIZATION
      * @alias ORG
-     *
-     * @alias PLAYGROUND_CLI_ORGANIZATION
-     *
      * @alias PLAYGROUND_CLI_ORG
-     *
      * @alias SHELL_SHOCK_ORGANIZATION
-     *
      * @alias SHELL_SHOCK_ORG
      * @defaultValue "shell-shock-playground"
      */
@@ -1351,8 +1228,7 @@ declare module "shell-shock:env" {
     /**
      * The runtime that the application is running in.
      *
-     * @alias PLAYGROUND_CLI_RUNTIME
-     *
+     * @alias RUNTIME
      * @alias SHELL_SHOCK_RUNTIME
      *
      */
@@ -1360,8 +1236,7 @@ declare module "shell-shock:env" {
     /**
      * The platform for which the application was built.
      *
-     * @alias PLAYGROUND_CLI_PLATFORM
-     *
+     * @alias PLATFORM
      * @alias SHELL_SHOCK_PLATFORM
      *
      */
@@ -1369,20 +1244,13 @@ declare module "shell-shock:env" {
     /**
      * The mode in which the application is running.
      *
+     * @alias MODE
      * @alias NODE_ENV
-     *
      * @alias VERCEL_ENV
-     *
-     * @alias PLAYGROUND_CLI_MODE
-     *
      * @alias PLAYGROUND_CLI_NODE_ENV
-     *
      * @alias PLAYGROUND_CLI_VERCEL_ENV
-     *
      * @alias SHELL_SHOCK_MODE
-     *
      * @alias SHELL_SHOCK_NODE_ENV
-     *
      * @alias SHELL_SHOCK_VERCEL_ENV
      *
      */
@@ -1390,8 +1258,7 @@ declare module "shell-shock:env" {
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
-     * @alias PLAYGROUND_CLI_ENVIRONMENT
-     *
+     * @alias ENVIRONMENT
      * @alias SHELL_SHOCK_ENVIRONMENT
      * @defaultValue "development"
      */
@@ -1399,8 +1266,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if the application is running in debug mode.
      *
-     * @alias PLAYGROUND_CLI_DEBUG
-     *
+     * @alias DEBUG
      * @alias SHELL_SHOCK_DEBUG
      * @defaultValue true
      */
@@ -1408,8 +1274,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a test environment.
      *
-     * @alias PLAYGROUND_CLI_TEST
-     *
+     * @alias TEST
      * @alias SHELL_SHOCK_TEST
      * @defaultValue false
      */
@@ -1417,8 +1282,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a minimal environment.
      *
-     * @alias PLAYGROUND_CLI_MINIMAL
-     *
+     * @alias MINIMAL
      * @alias SHELL_SHOCK_MINIMAL
      * @defaultValue false
      */
@@ -1426,8 +1290,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a no color environment.
      *
-     * @alias PLAYGROUND_CLI_NO_COLOR
-     *
+     * @alias NO_COLOR
      * @alias SHELL_SHOCK_NO_COLOR
      * @defaultValue false
      */
@@ -1435,8 +1298,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
-     * @alias PLAYGROUND_CLI_FORCE_COLOR
-     *
+     * @alias FORCE_COLOR
      * @alias SHELL_SHOCK_FORCE_COLOR
      *
      */
@@ -1444,8 +1306,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current runtime should force hyperlinks in terminal output.
      *
-     * @alias PLAYGROUND_CLI_FORCE_HYPERLINK
-     *
+     * @alias FORCE_HYPERLINK
      * @alias SHELL_SHOCK_FORCE_HYPERLINK
      *
      */
@@ -1453,8 +1314,7 @@ declare module "shell-shock:env" {
     /**
      * The name of the agent running the application. This variable is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_AGENT_NAME
-     *
+     * @alias AGENT_NAME
      * @alias SHELL_SHOCK_AGENT_NAME
      * @readonly
      * @hidden
@@ -1465,8 +1325,7 @@ declare module "shell-shock:env" {
     /**
      * The color terminal type. This variable is set by certain terminal emulators.
      *
-     * @alias PLAYGROUND_CLI_COLORTERM
-     *
+     * @alias COLORTERM
      * @alias SHELL_SHOCK_COLORTERM
      * @readonly
      * @hidden
@@ -1477,8 +1336,7 @@ declare module "shell-shock:env" {
     /**
      * The terminal type. This variable is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_TERM
-     *
+     * @alias TERM
      * @alias SHELL_SHOCK_TERM
      * @readonly
      * @hidden
@@ -1489,8 +1347,7 @@ declare module "shell-shock:env" {
     /**
      * The terminal program name. This variable is set by certain terminal emulators.
      *
-     * @alias PLAYGROUND_CLI_TERM_PROGRAM
-     *
+     * @alias TERM_PROGRAM
      * @alias SHELL_SHOCK_TERM_PROGRAM
      * @readonly
      * @hidden
@@ -1501,8 +1358,7 @@ declare module "shell-shock:env" {
     /**
      * The terminal program version. This variable is set by certain terminal emulators.
      *
-     * @alias PLAYGROUND_CLI_TERM_PROGRAM_VERSION
-     *
+     * @alias TERM_PROGRAM_VERSION
      * @alias SHELL_SHOCK_TERM_PROGRAM_VERSION
      * @readonly
      * @hidden
@@ -1513,8 +1369,7 @@ declare module "shell-shock:env" {
     /**
      * The terminal emulator name. This variable is set by certain terminal emulators.
      *
-     * @alias PLAYGROUND_CLI_TERMINAL_EMULATOR
-     *
+     * @alias TERMINAL_EMULATOR
      * @alias SHELL_SHOCK_TERMINAL_EMULATOR
      * @readonly
      * @hidden
@@ -1525,8 +1380,7 @@ declare module "shell-shock:env" {
     /**
      * The terminal emulator session ID. This variable is set by certain terminal emulators.
      *
-     * @alias PLAYGROUND_CLI_WT_SESSION
-     *
+     * @alias WT_SESSION
      * @alias SHELL_SHOCK_WT_SESSION
      * @readonly
      * @hidden
@@ -1537,8 +1391,7 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
      *
-     * @alias PLAYGROUND_CLI_TERMINUS_SUBLIME
-     *
+     * @alias TERMINUS_SUBLIME
      * @alias SHELL_SHOCK_TERMINUS_SUBLIME
      * @readonly
      * @hidden
@@ -1549,8 +1402,7 @@ declare module "shell-shock:env" {
     /**
      * The ConEmu task name. This variable is set by certain terminal emulators.
      *
-     * @alias PLAYGROUND_CLI_ConEmuTask
-     *
+     * @alias ConEmuTask
      * @alias SHELL_SHOCK_ConEmuTask
      * @readonly
      * @hidden
@@ -1561,8 +1413,7 @@ declare module "shell-shock:env" {
     /**
      * The cursor trace ID. This variable is set by certain terminal emulators.
      *
-     * @alias PLAYGROUND_CLI_CURSOR_TRACE_ID
-     *
+     * @alias CURSOR_TRACE_ID
      * @alias SHELL_SHOCK_CURSOR_TRACE_ID
      * @readonly
      * @hidden
@@ -1573,8 +1424,7 @@ declare module "shell-shock:env" {
     /**
      * The VTE version. This variable is set by certain terminal emulators.
      *
-     * @alias PLAYGROUND_CLI_VTE_VERSION
-     *
+     * @alias VTE_VERSION
      * @alias SHELL_SHOCK_VTE_VERSION
      * @readonly
      * @hidden
@@ -1585,8 +1435,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if error stack traces should be captured.
      *
-     * @alias PLAYGROUND_CLI_STACKTRACE
-     *
+     * @alias STACKTRACE
      * @alias SHELL_SHOCK_STACKTRACE
      * @defaultValue true
      */
@@ -1594,8 +1443,7 @@ declare module "shell-shock:env" {
     /**
      * Indicates if error data should be included.
      *
-     * @alias PLAYGROUND_CLI_INCLUDE_ERROR_DATA
-     *
+     * @alias INCLUDE_ERROR_DATA
      * @alias SHELL_SHOCK_INCLUDE_ERROR_DATA
      * @defaultValue false
      */
@@ -1604,8 +1452,7 @@ declare module "shell-shock:env" {
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
-     * @alias PLAYGROUND_CLI_ERROR_URL
-     *
+     * @alias ERROR_URL
      * @alias SHELL_SHOCK_ERROR_URL
      * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
@@ -1613,8 +1460,7 @@ declare module "shell-shock:env" {
     /**
      * The default timezone for the application.
      *
-     * @alias PLAYGROUND_CLI_DEFAULT_TIMEZONE
-     *
+     * @alias DEFAULT_TIMEZONE
      * @alias SHELL_SHOCK_DEFAULT_TIMEZONE
      * @defaultValue "America/New_York"
      */
@@ -1622,8 +1468,7 @@ declare module "shell-shock:env" {
     /**
      * The default locale to be used in the application.
      *
-     * @alias PLAYGROUND_CLI_DEFAULT_LOCALE
-     *
+     * @alias DEFAULT_LOCALE
      * @alias SHELL_SHOCK_DEFAULT_LOCALE
      * @defaultValue "en-US"
      */
@@ -1631,8 +1476,7 @@ declare module "shell-shock:env" {
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
-     * @alias PLAYGROUND_CLI_LOG_LEVEL
-     *
+     * @alias LOG_LEVEL
      * @alias SHELL_SHOCK_LOG_LEVEL
      *
      */
@@ -1641,14 +1485,10 @@ declare module "shell-shock:env" {
      * An indicator that specifies the current runtime is a continuous integration environment.
      *
      * @title Continuous Integration
+     * @alias CI
      * @alias CONTINUOUS_INTEGRATION
-     *
-     * @alias PLAYGROUND_CLI_CI
-     *
      * @alias PLAYGROUND_CLI_CONTINUOUS_INTEGRATION
-     *
      * @alias SHELL_SHOCK_CI
-     *
      * @alias SHELL_SHOCK_CONTINUOUS_INTEGRATION
      * @defaultValue false
      */
@@ -1656,8 +1496,7 @@ declare module "shell-shock:env" {
     /**
      * The unique identifier for the current run. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_RUN_ID
-     *
+     * @alias RUN_ID
      * @alias SHELL_SHOCK_RUN_ID
      * @readonly
      * @hidden
@@ -1668,8 +1507,7 @@ declare module "shell-shock:env" {
     /**
      * The agola git reference. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_AGOLA_GIT_REF
-     *
+     * @alias AGOLA_GIT_REF
      * @alias SHELL_SHOCK_AGOLA_GIT_REF
      * @readonly
      * @hidden
@@ -1680,8 +1518,7 @@ declare module "shell-shock:env" {
     /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_AC_APPCIRCLE
-     *
+     * @alias AC_APPCIRCLE
      * @alias SHELL_SHOCK_AC_APPCIRCLE
      * @readonly
      * @hidden
@@ -1692,8 +1529,7 @@ declare module "shell-shock:env" {
     /**
      * The appveyor build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_APPVEYOR
-     *
+     * @alias APPVEYOR
      * @alias SHELL_SHOCK_APPVEYOR
      * @readonly
      * @hidden
@@ -1704,8 +1540,7 @@ declare module "shell-shock:env" {
     /**
      * The codebuild build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_CODEBUILD
-     *
+     * @alias CODEBUILD
      * @alias SHELL_SHOCK_CODEBUILD
      * @readonly
      * @hidden
@@ -1716,8 +1551,7 @@ declare module "shell-shock:env" {
     /**
      * The task force build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_TF_BUILD
-     *
+     * @alias TF_BUILD
      * @alias SHELL_SHOCK_TF_BUILD
      * @readonly
      * @hidden
@@ -1728,8 +1562,7 @@ declare module "shell-shock:env" {
     /**
      * The bamboo plan key. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_bamboo_planKey
-     *
+     * @alias bamboo_planKey
      * @alias SHELL_SHOCK_bamboo_planKey
      * @readonly
      * @hidden
@@ -1740,8 +1573,7 @@ declare module "shell-shock:env" {
     /**
      * The bitbucket commit. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_BITBUCKET_COMMIT
-     *
+     * @alias BITBUCKET_COMMIT
      * @alias SHELL_SHOCK_BITBUCKET_COMMIT
      * @readonly
      * @hidden
@@ -1752,8 +1584,7 @@ declare module "shell-shock:env" {
     /**
      * The bitrise build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_BITRISE_IO
-     *
+     * @alias BITRISE_IO
      * @alias SHELL_SHOCK_BITRISE_IO
      * @readonly
      * @hidden
@@ -1764,8 +1595,7 @@ declare module "shell-shock:env" {
     /**
      * The buddy workspace ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_BUDDY_WORKSPACE_ID
-     *
+     * @alias BUDDY_WORKSPACE_ID
      * @alias SHELL_SHOCK_BUDDY_WORKSPACE_ID
      * @readonly
      * @hidden
@@ -1776,8 +1606,7 @@ declare module "shell-shock:env" {
     /**
      * The buildkite build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_BUILDKITE
-     *
+     * @alias BUILDKITE
      * @alias SHELL_SHOCK_BUILDKITE
      * @readonly
      * @hidden
@@ -1788,8 +1617,7 @@ declare module "shell-shock:env" {
     /**
      * The circleci build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_CIRCLECI
-     *
+     * @alias CIRCLECI
      * @alias SHELL_SHOCK_CIRCLECI
      * @readonly
      * @hidden
@@ -1800,8 +1628,7 @@ declare module "shell-shock:env" {
     /**
      * The cirrus-ci build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_CIRRUS_CI
-     *
+     * @alias CIRRUS_CI
      * @alias SHELL_SHOCK_CIRRUS_CI
      * @readonly
      * @hidden
@@ -1812,8 +1639,7 @@ declare module "shell-shock:env" {
     /**
      * The cf build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_CF_BUILD_ID
-     *
+     * @alias CF_BUILD_ID
      * @alias SHELL_SHOCK_CF_BUILD_ID
      * @readonly
      * @hidden
@@ -1824,8 +1650,7 @@ declare module "shell-shock:env" {
     /**
      * The cm build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_CM_BUILD_ID
-     *
+     * @alias CM_BUILD_ID
      * @alias SHELL_SHOCK_CM_BUILD_ID
      * @readonly
      * @hidden
@@ -1836,8 +1661,7 @@ declare module "shell-shock:env" {
     /**
      * The ci name. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_CI_NAME
-     *
+     * @alias CI_NAME
      * @alias SHELL_SHOCK_CI_NAME
      * @readonly
      * @hidden
@@ -1848,8 +1672,7 @@ declare module "shell-shock:env" {
     /**
      * The drone build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_DRONE
-     *
+     * @alias DRONE
      * @alias SHELL_SHOCK_DRONE
      * @readonly
      * @hidden
@@ -1860,8 +1683,7 @@ declare module "shell-shock:env" {
     /**
      * The dsari build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_DSARI
-     *
+     * @alias DSARI
      * @alias SHELL_SHOCK_DSARI
      * @readonly
      * @hidden
@@ -1872,8 +1694,7 @@ declare module "shell-shock:env" {
     /**
      * The earthly build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_EARTHLY_CI
-     *
+     * @alias EARTHLY_CI
      * @alias SHELL_SHOCK_EARTHLY_CI
      * @readonly
      * @hidden
@@ -1884,8 +1705,7 @@ declare module "shell-shock:env" {
     /**
      * The eas build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_EAS_BUILD
-     *
+     * @alias EAS_BUILD
      * @alias SHELL_SHOCK_EAS_BUILD
      * @readonly
      * @hidden
@@ -1896,8 +1716,7 @@ declare module "shell-shock:env" {
     /**
      * The gerrit project. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_GERRIT_PROJECT
-     *
+     * @alias GERRIT_PROJECT
      * @alias SHELL_SHOCK_GERRIT_PROJECT
      * @readonly
      * @hidden
@@ -1908,8 +1727,7 @@ declare module "shell-shock:env" {
     /**
      * The gitea actions build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_GITEA_ACTIONS
-     *
+     * @alias GITEA_ACTIONS
      * @alias SHELL_SHOCK_GITEA_ACTIONS
      * @readonly
      * @hidden
@@ -1920,8 +1738,7 @@ declare module "shell-shock:env" {
     /**
      * The github actions build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_GITHUB_ACTIONS
-     *
+     * @alias GITHUB_ACTIONS
      * @alias SHELL_SHOCK_GITHUB_ACTIONS
      * @readonly
      * @hidden
@@ -1932,8 +1749,7 @@ declare module "shell-shock:env" {
     /**
      * The gitlab ci build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_GITLAB_CI
-     *
+     * @alias GITLAB_CI
      * @alias SHELL_SHOCK_GITLAB_CI
      * @readonly
      * @hidden
@@ -1944,8 +1760,7 @@ declare module "shell-shock:env" {
     /**
      * The go cd build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_GOCD
-     *
+     * @alias GOCD
      * @alias SHELL_SHOCK_GOCD
      * @readonly
      * @hidden
@@ -1956,8 +1771,7 @@ declare module "shell-shock:env" {
     /**
      * The builder output build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_BUILDER_OUTPUT
-     *
+     * @alias BUILDER_OUTPUT
      * @alias SHELL_SHOCK_BUILDER_OUTPUT
      * @readonly
      * @hidden
@@ -1968,8 +1782,7 @@ declare module "shell-shock:env" {
     /**
      * The harness build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_HARNESS_BUILD_ID
-     *
+     * @alias HARNESS_BUILD_ID
      * @alias SHELL_SHOCK_HARNESS_BUILD_ID
      * @readonly
      * @hidden
@@ -1980,8 +1793,7 @@ declare module "shell-shock:env" {
     /**
      * The jenkins url. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_JENKINS_URL
-     *
+     * @alias JENKINS_URL
      * @alias SHELL_SHOCK_JENKINS_URL
      * @readonly
      * @hidden
@@ -1992,8 +1804,7 @@ declare module "shell-shock:env" {
     /**
      * The layerci build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_LAYERCI
-     *
+     * @alias LAYERCI
      * @alias SHELL_SHOCK_LAYERCI
      * @readonly
      * @hidden
@@ -2004,8 +1815,7 @@ declare module "shell-shock:env" {
     /**
      * The magnum build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_MAGNUM
-     *
+     * @alias MAGNUM
      * @alias SHELL_SHOCK_MAGNUM
      * @readonly
      * @hidden
@@ -2016,8 +1826,7 @@ declare module "shell-shock:env" {
     /**
      * The netlify build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_NETLIFY
-     *
+     * @alias NETLIFY
      * @alias SHELL_SHOCK_NETLIFY
      * @readonly
      * @hidden
@@ -2028,8 +1837,7 @@ declare module "shell-shock:env" {
     /**
      * The nevercode build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_NEVERCODE
-     *
+     * @alias NEVERCODE
      * @alias SHELL_SHOCK_NEVERCODE
      * @readonly
      * @hidden
@@ -2040,8 +1848,7 @@ declare module "shell-shock:env" {
     /**
      * The prow job ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_PROW_JOB_ID
-     *
+     * @alias PROW_JOB_ID
      * @alias SHELL_SHOCK_PROW_JOB_ID
      * @readonly
      * @hidden
@@ -2052,8 +1859,7 @@ declare module "shell-shock:env" {
     /**
      * The release build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_RELEASE_BUILD_ID
-     *
+     * @alias RELEASE_BUILD_ID
      * @alias SHELL_SHOCK_RELEASE_BUILD_ID
      * @readonly
      * @hidden
@@ -2064,8 +1870,7 @@ declare module "shell-shock:env" {
     /**
      * The render build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_RENDER
-     *
+     * @alias RENDER
      * @alias SHELL_SHOCK_RENDER
      * @readonly
      * @hidden
@@ -2076,8 +1881,7 @@ declare module "shell-shock:env" {
     /**
      * The sailci build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_SAILCI
-     *
+     * @alias SAILCI
      * @alias SHELL_SHOCK_SAILCI
      * @readonly
      * @hidden
@@ -2088,8 +1892,7 @@ declare module "shell-shock:env" {
     /**
      * The hudson build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_HUDSON
-     *
+     * @alias HUDSON
      * @alias SHELL_SHOCK_HUDSON
      * @readonly
      * @hidden
@@ -2100,8 +1903,7 @@ declare module "shell-shock:env" {
     /**
      * The screwdriver build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_SCREWDRIVER
-     *
+     * @alias SCREWDRIVER
      * @alias SHELL_SHOCK_SCREWDRIVER
      * @readonly
      * @hidden
@@ -2112,8 +1914,7 @@ declare module "shell-shock:env" {
     /**
      * The semaphore build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_SEMAPHORE
-     *
+     * @alias SEMAPHORE
      * @alias SHELL_SHOCK_SEMAPHORE
      * @readonly
      * @hidden
@@ -2124,8 +1925,7 @@ declare module "shell-shock:env" {
     /**
      * The sourcehut build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_SOURCEHUT
-     *
+     * @alias SOURCEHUT
      * @alias SHELL_SHOCK_SOURCEHUT
      * @readonly
      * @hidden
@@ -2136,8 +1936,7 @@ declare module "shell-shock:env" {
     /**
      * The spaceship build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_SPACESHIP_CI
-     *
+     * @alias SPACESHIP_CI
      * @alias SHELL_SHOCK_SPACESHIP_CI
      * @readonly
      * @hidden
@@ -2148,8 +1947,7 @@ declare module "shell-shock:env" {
     /**
      * The strider build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_STRIDER
-     *
+     * @alias STRIDER
      * @alias SHELL_SHOCK_STRIDER
      * @readonly
      * @hidden
@@ -2160,8 +1958,7 @@ declare module "shell-shock:env" {
     /**
      * The task ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_TASK_ID
-     *
+     * @alias TASK_ID
      * @alias SHELL_SHOCK_TASK_ID
      * @readonly
      * @hidden
@@ -2172,8 +1969,7 @@ declare module "shell-shock:env" {
     /**
      * The teamcity version. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_TEAMCITY_VERSION
-     *
+     * @alias TEAMCITY_VERSION
      * @alias SHELL_SHOCK_TEAMCITY_VERSION
      * @readonly
      * @hidden
@@ -2184,8 +1980,7 @@ declare module "shell-shock:env" {
     /**
      * The travis build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_TRAVIS
-     *
+     * @alias TRAVIS
      * @alias SHELL_SHOCK_TRAVIS
      * @readonly
      * @hidden
@@ -2196,8 +1991,7 @@ declare module "shell-shock:env" {
     /**
      * The vela build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_VELA
-     *
+     * @alias VELA
      * @alias SHELL_SHOCK_VELA
      * @readonly
      * @hidden
@@ -2208,8 +2002,7 @@ declare module "shell-shock:env" {
     /**
      * The now builder build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_NOW_BUILDER
-     *
+     * @alias NOW_BUILDER
      * @alias SHELL_SHOCK_NOW_BUILDER
      * @readonly
      * @hidden
@@ -2220,8 +2013,7 @@ declare module "shell-shock:env" {
     /**
      * The appcenter build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_APPCENTER_BUILD_ID
-     *
+     * @alias APPCENTER_BUILD_ID
      * @alias SHELL_SHOCK_APPCENTER_BUILD_ID
      * @readonly
      * @hidden
@@ -2232,8 +2024,7 @@ declare module "shell-shock:env" {
     /**
      * The xcode project build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_CI_XCODE_PROJECT
-     *
+     * @alias CI_XCODE_PROJECT
      * @alias SHELL_SHOCK_CI_XCODE_PROJECT
      * @readonly
      * @hidden
@@ -2244,8 +2035,7 @@ declare module "shell-shock:env" {
     /**
      * The xcode server build ID. This value is set by certain CI/CD systems.
      *
-     * @alias PLAYGROUND_CLI_XCS
-     *
+     * @alias XCS
      * @alias SHELL_SHOCK_XCS
      * @readonly
      * @hidden
@@ -2257,8 +2047,7 @@ declare module "shell-shock:env" {
      * The application's runtime data directory.
      *
      * @title Data Directory
-     * @alias PLAYGROUND_CLI_DATA_DIR
-     *
+     * @alias DATA_DIR
      * @alias SHELL_SHOCK_DATA_DIR
      * @runtime
      *
@@ -2268,8 +2057,7 @@ declare module "shell-shock:env" {
      * The application's configuration data directory.
      *
      * @title Configuration Directory
-     * @alias PLAYGROUND_CLI_CONFIG_DIR
-     *
+     * @alias CONFIG_DIR
      * @alias SHELL_SHOCK_CONFIG_DIR
      * @runtime
      *
@@ -2279,8 +2067,7 @@ declare module "shell-shock:env" {
      * The application's cached data directory.
      *
      * @title Cache Directory
-     * @alias PLAYGROUND_CLI_CACHE_DIR
-     *
+     * @alias CACHE_DIR
      * @alias SHELL_SHOCK_CACHE_DIR
      * @runtime
      *
@@ -2290,8 +2077,7 @@ declare module "shell-shock:env" {
      * The application's logging directory.
      *
      * @title Log Directory
-     * @alias PLAYGROUND_CLI_LOG_DIR
-     *
+     * @alias LOG_DIR
      * @alias SHELL_SHOCK_LOG_DIR
      * @runtime
      *
@@ -2301,8 +2087,7 @@ declare module "shell-shock:env" {
      * The application's temporary data directory.
      *
      * @title Temporary Directory
-     * @alias PLAYGROUND_CLI_TEMP_DIR
-     *
+     * @alias TEMP_DIR
      * @alias SHELL_SHOCK_TEMP_DIR
      * @runtime
      *
@@ -2311,8 +2096,7 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the current user's local application data directory on Windows.
      *
-     * @alias PLAYGROUND_CLI_LOCALAPPDATA
-     *
+     * @alias LOCALAPPDATA
      * @alias SHELL_SHOCK_LOCALAPPDATA
      * @readonly
      * @hidden
@@ -2323,8 +2107,7 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the application data directory on Windows.
      *
-     * @alias PLAYGROUND_CLI_APPDATA
-     *
+     * @alias APPDATA
      * @alias SHELL_SHOCK_APPDATA
      * @readonly
      * @hidden
@@ -2335,8 +2118,7 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
      *
-     * @alias PLAYGROUND_CLI_XDG_DATA_HOME
-     *
+     * @alias XDG_DATA_HOME
      * @alias SHELL_SHOCK_XDG_DATA_HOME
      * @readonly
      * @hidden
@@ -2347,8 +2129,7 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
      *
-     * @alias PLAYGROUND_CLI_XDG_CONFIG_HOME
-     *
+     * @alias XDG_CONFIG_HOME
      * @alias SHELL_SHOCK_XDG_CONFIG_HOME
      * @readonly
      * @hidden
@@ -2359,8 +2140,7 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
      *
-     * @alias PLAYGROUND_CLI_XDG_CACHE_HOME
-     *
+     * @alias XDG_CACHE_HOME
      * @alias SHELL_SHOCK_XDG_CACHE_HOME
      * @readonly
      * @hidden
@@ -2371,8 +2151,7 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
      *
-     * @alias PLAYGROUND_CLI_XDG_STATE_HOME
-     *
+     * @alias XDG_STATE_HOME
      * @alias SHELL_SHOCK_XDG_STATE_HOME
      * @readonly
      * @hidden
@@ -2383,8 +2162,7 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
      *
-     * @alias PLAYGROUND_CLI_XDG_RUNTIME_DIR
-     *
+     * @alias XDG_RUNTIME_DIR
      * @alias SHELL_SHOCK_XDG_RUNTIME_DIR
      * @readonly
      * @hidden
@@ -2395,8 +2173,7 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
      *
-     * @alias PLAYGROUND_CLI_DEVENV_RUNTIME
-     *
+     * @alias DEVENV_RUNTIME
      * @alias SHELL_SHOCK_DEVENV_RUNTIME
      * @readonly
      * @hidden
@@ -2407,8 +2184,7 @@ declare module "shell-shock:env" {
     /**
      * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the upgrade process proceeds without checking for updates, which can help speed up the process in certain scenarios.
      *
-     * @alias PLAYGROUND_CLI_SKIP_UPDATE_CHECK
-     *
+     * @alias SKIP_UPDATE_CHECK
      * @alias SHELL_SHOCK_SKIP_UPDATE_CHECK
      *
      */
@@ -2416,9 +2192,8 @@ declare module "shell-shock:env" {
     /**
      * The name of the application.
      *
+     * @alias APP_NAME
      * @alias PLAYGROUND_CLI_APP_NAME
-     *
-     * @alias SHELL_SHOCK_APP_NAME
      * @readonly
      * @defaultValue "playground-cli"
      */
@@ -2426,9 +2201,8 @@ declare module "shell-shock:env" {
     /**
      * The version of the application.
      *
+     * @alias APP_VERSION
      * @alias PLAYGROUND_CLI_APP_VERSION
-     *
-     * @alias SHELL_SHOCK_APP_VERSION
      * @readonly
      * @defaultValue "0.0.1"
      */
@@ -2436,49 +2210,44 @@ declare module "shell-shock:env" {
     /**
      * The unique identifier for the build.
      *
+     * @alias BUILD_ID
      * @alias PLAYGROUND_CLI_BUILD_ID
-     *
-     * @alias SHELL_SHOCK_BUILD_ID
      * @readonly
-     * @defaultValue "fa1ba1a7-6045-49a6-9db1-0822b20668c1"
+     * @defaultValue "69d76896-e1ea-4695-a806-1ce8502ef716"
      */
     readonly SHELL_SHOCK_BUILD_ID: string;
     /**
      * The timestamp the build was ran at.
      *
+     * @alias BUILD_TIMESTAMP
      * @alias PLAYGROUND_CLI_BUILD_TIMESTAMP
-     *
-     * @alias SHELL_SHOCK_BUILD_TIMESTAMP
      * @readonly
-     * @defaultValue "2026-06-05T04:01:52.597Z"
+     * @defaultValue "2026-06-05T23:29:05.316Z"
      */
     readonly SHELL_SHOCK_BUILD_TIMESTAMP: string;
     /**
      * A checksum hash created during the build.
      *
+     * @alias BUILD_CHECKSUM
      * @alias PLAYGROUND_CLI_BUILD_CHECKSUM
-     *
-     * @alias SHELL_SHOCK_BUILD_CHECKSUM
      * @readonly
-     * @defaultValue "PY1FOGh0UHG0WRsregrvoAKk60go0W5n"
+     * @defaultValue "ThU6PlwAYKQdLR8oT9pzTjEdubC67JeC"
      */
     readonly SHELL_SHOCK_BUILD_CHECKSUM: string;
     /**
      * The unique identifier for the release.
      *
+     * @alias RELEASE_ID
      * @alias PLAYGROUND_CLI_RELEASE_ID
-     *
-     * @alias SHELL_SHOCK_RELEASE_ID
      * @readonly
-     * @defaultValue "1ba1a760-4519-469d-b108-22b20668c152"
+     * @defaultValue "d76896e1-ea66-45e8-861c-e8502ef7166e"
      */
     readonly SHELL_SHOCK_RELEASE_ID: string;
     /**
      * The tag for the release. This is generally in the format of "\<APP_NAME\>\@\<APP_VERSION\>".
      *
+     * @alias RELEASE_TAG
      * @alias PLAYGROUND_CLI_RELEASE_TAG
-     *
-     * @alias SHELL_SHOCK_RELEASE_TAG
      * @readonly
      * @defaultValue "playground-cli@0.0.1"
      */
@@ -2486,14 +2255,10 @@ declare module "shell-shock:env" {
     /**
      * The name of the organization that maintains the application.
      *
+     * @alias ORGANIZATION
      * @alias ORG
-     *
      * @alias PLAYGROUND_CLI_ORGANIZATION
-     *
      * @alias PLAYGROUND_CLI_ORG
-     *
-     * @alias SHELL_SHOCK_ORGANIZATION
-     *
      * @alias SHELL_SHOCK_ORG
      * @defaultValue "shell-shock-playground"
      */
@@ -2501,38 +2266,29 @@ declare module "shell-shock:env" {
     /**
      * The runtime that the application is running in.
      *
+     * @alias RUNTIME
      * @alias PLAYGROUND_CLI_RUNTIME
-     *
-     * @alias SHELL_SHOCK_RUNTIME
      *
      */
     SHELL_SHOCK_RUNTIME?: "nodejs" | "deno" | "workerd" | "browser";
     /**
      * The platform for which the application was built.
      *
+     * @alias PLATFORM
      * @alias PLAYGROUND_CLI_PLATFORM
-     *
-     * @alias SHELL_SHOCK_PLATFORM
      *
      */
     SHELL_SHOCK_PLATFORM: "node" | "neutral" | "browser";
     /**
      * The mode in which the application is running.
      *
+     * @alias MODE
      * @alias NODE_ENV
-     *
      * @alias VERCEL_ENV
-     *
      * @alias PLAYGROUND_CLI_MODE
-     *
      * @alias PLAYGROUND_CLI_NODE_ENV
-     *
      * @alias PLAYGROUND_CLI_VERCEL_ENV
-     *
-     * @alias SHELL_SHOCK_MODE
-     *
      * @alias SHELL_SHOCK_NODE_ENV
-     *
      * @alias SHELL_SHOCK_VERCEL_ENV
      *
      */
@@ -2540,72 +2296,64 @@ declare module "shell-shock:env" {
     /**
      * The environment the application is running in. This value will be populated with the value of `MODE` if not provided.
      *
+     * @alias ENVIRONMENT
      * @alias PLAYGROUND_CLI_ENVIRONMENT
-     *
-     * @alias SHELL_SHOCK_ENVIRONMENT
      * @defaultValue "development"
      */
     SHELL_SHOCK_ENVIRONMENT: string;
     /**
      * Indicates if the application is running in debug mode.
      *
+     * @alias DEBUG
      * @alias PLAYGROUND_CLI_DEBUG
-     *
-     * @alias SHELL_SHOCK_DEBUG
      * @defaultValue true
      */
     SHELL_SHOCK_DEBUG: boolean;
     /**
      * An indicator that specifies the current runtime is a test environment.
      *
+     * @alias TEST
      * @alias PLAYGROUND_CLI_TEST
-     *
-     * @alias SHELL_SHOCK_TEST
      * @defaultValue false
      */
     SHELL_SHOCK_TEST: boolean;
     /**
      * An indicator that specifies the current runtime is a minimal environment.
      *
+     * @alias MINIMAL
      * @alias PLAYGROUND_CLI_MINIMAL
-     *
-     * @alias SHELL_SHOCK_MINIMAL
      * @defaultValue false
      */
     SHELL_SHOCK_MINIMAL: boolean;
     /**
      * An indicator that specifies the current runtime is a no color environment.
      *
+     * @alias NO_COLOR
      * @alias PLAYGROUND_CLI_NO_COLOR
-     *
-     * @alias SHELL_SHOCK_NO_COLOR
      * @defaultValue false
      */
     SHELL_SHOCK_NO_COLOR: boolean;
     /**
      * An indicator that specifies the current runtime is a force color environment.
      *
+     * @alias FORCE_COLOR
      * @alias PLAYGROUND_CLI_FORCE_COLOR
-     *
-     * @alias SHELL_SHOCK_FORCE_COLOR
      *
      */
     SHELL_SHOCK_FORCE_COLOR: boolean | number;
     /**
      * An indicator that specifies the current runtime should force hyperlinks in terminal output.
      *
+     * @alias FORCE_HYPERLINK
      * @alias PLAYGROUND_CLI_FORCE_HYPERLINK
-     *
-     * @alias SHELL_SHOCK_FORCE_HYPERLINK
      *
      */
     SHELL_SHOCK_FORCE_HYPERLINK: boolean | number;
     /**
      * The name of the agent running the application. This variable is set by certain CI/CD systems.
      *
+     * @alias AGENT_NAME
      * @alias PLAYGROUND_CLI_AGENT_NAME
-     *
-     * @alias SHELL_SHOCK_AGENT_NAME
      * @readonly
      * @hidden
      * @runtime
@@ -2615,9 +2363,8 @@ declare module "shell-shock:env" {
     /**
      * The color terminal type. This variable is set by certain terminal emulators.
      *
+     * @alias COLORTERM
      * @alias PLAYGROUND_CLI_COLORTERM
-     *
-     * @alias SHELL_SHOCK_COLORTERM
      * @readonly
      * @hidden
      * @runtime
@@ -2627,9 +2374,8 @@ declare module "shell-shock:env" {
     /**
      * The terminal type. This variable is set by certain CI/CD systems.
      *
+     * @alias TERM
      * @alias PLAYGROUND_CLI_TERM
-     *
-     * @alias SHELL_SHOCK_TERM
      * @readonly
      * @hidden
      * @runtime
@@ -2639,9 +2385,8 @@ declare module "shell-shock:env" {
     /**
      * The terminal program name. This variable is set by certain terminal emulators.
      *
+     * @alias TERM_PROGRAM
      * @alias PLAYGROUND_CLI_TERM_PROGRAM
-     *
-     * @alias SHELL_SHOCK_TERM_PROGRAM
      * @readonly
      * @hidden
      * @runtime
@@ -2651,9 +2396,8 @@ declare module "shell-shock:env" {
     /**
      * The terminal program version. This variable is set by certain terminal emulators.
      *
+     * @alias TERM_PROGRAM_VERSION
      * @alias PLAYGROUND_CLI_TERM_PROGRAM_VERSION
-     *
-     * @alias SHELL_SHOCK_TERM_PROGRAM_VERSION
      * @readonly
      * @hidden
      * @runtime
@@ -2663,9 +2407,8 @@ declare module "shell-shock:env" {
     /**
      * The terminal emulator name. This variable is set by certain terminal emulators.
      *
+     * @alias TERMINAL_EMULATOR
      * @alias PLAYGROUND_CLI_TERMINAL_EMULATOR
-     *
-     * @alias SHELL_SHOCK_TERMINAL_EMULATOR
      * @readonly
      * @hidden
      * @runtime
@@ -2675,9 +2418,8 @@ declare module "shell-shock:env" {
     /**
      * The terminal emulator session ID. This variable is set by certain terminal emulators.
      *
+     * @alias WT_SESSION
      * @alias PLAYGROUND_CLI_WT_SESSION
-     *
-     * @alias SHELL_SHOCK_WT_SESSION
      * @readonly
      * @hidden
      * @runtime
@@ -2687,9 +2429,8 @@ declare module "shell-shock:env" {
     /**
      * An indicator that specifies the current terminal is running Terminus Sublime. This variable is set by certain terminal emulators.
      *
+     * @alias TERMINUS_SUBLIME
      * @alias PLAYGROUND_CLI_TERMINUS_SUBLIME
-     *
-     * @alias SHELL_SHOCK_TERMINUS_SUBLIME
      * @readonly
      * @hidden
      * @runtime
@@ -2699,9 +2440,8 @@ declare module "shell-shock:env" {
     /**
      * The ConEmu task name. This variable is set by certain terminal emulators.
      *
+     * @alias ConEmuTask
      * @alias PLAYGROUND_CLI_ConEmuTask
-     *
-     * @alias SHELL_SHOCK_ConEmuTask
      * @readonly
      * @hidden
      * @runtime
@@ -2711,9 +2451,8 @@ declare module "shell-shock:env" {
     /**
      * The cursor trace ID. This variable is set by certain terminal emulators.
      *
+     * @alias CURSOR_TRACE_ID
      * @alias PLAYGROUND_CLI_CURSOR_TRACE_ID
-     *
-     * @alias SHELL_SHOCK_CURSOR_TRACE_ID
      * @readonly
      * @hidden
      * @runtime
@@ -2723,9 +2462,8 @@ declare module "shell-shock:env" {
     /**
      * The VTE version. This variable is set by certain terminal emulators.
      *
+     * @alias VTE_VERSION
      * @alias PLAYGROUND_CLI_VTE_VERSION
-     *
-     * @alias SHELL_SHOCK_VTE_VERSION
      * @readonly
      * @hidden
      * @runtime
@@ -2735,18 +2473,16 @@ declare module "shell-shock:env" {
     /**
      * Indicates if error stack traces should be captured.
      *
+     * @alias STACKTRACE
      * @alias PLAYGROUND_CLI_STACKTRACE
-     *
-     * @alias SHELL_SHOCK_STACKTRACE
      * @defaultValue true
      */
     SHELL_SHOCK_STACKTRACE: boolean;
     /**
      * Indicates if error data should be included.
      *
+     * @alias INCLUDE_ERROR_DATA
      * @alias PLAYGROUND_CLI_INCLUDE_ERROR_DATA
-     *
-     * @alias SHELL_SHOCK_INCLUDE_ERROR_DATA
      * @defaultValue false
      */
     SHELL_SHOCK_INCLUDE_ERROR_DATA: boolean;
@@ -2754,36 +2490,32 @@ declare module "shell-shock:env" {
      * A web page to lookup error messages and display additional information given an error code.
      *
      * @title Error Details URL
+     * @alias ERROR_URL
      * @alias PLAYGROUND_CLI_ERROR_URL
-     *
-     * @alias SHELL_SHOCK_ERROR_URL
      * @defaultValue "https://developer.stormsoftware.com/static/errors"
      */
     SHELL_SHOCK_ERROR_URL?: string;
     /**
      * The default timezone for the application.
      *
+     * @alias DEFAULT_TIMEZONE
      * @alias PLAYGROUND_CLI_DEFAULT_TIMEZONE
-     *
-     * @alias SHELL_SHOCK_DEFAULT_TIMEZONE
      * @defaultValue "America/New_York"
      */
     SHELL_SHOCK_DEFAULT_TIMEZONE: string;
     /**
      * The default locale to be used in the application.
      *
+     * @alias DEFAULT_LOCALE
      * @alias PLAYGROUND_CLI_DEFAULT_LOCALE
-     *
-     * @alias SHELL_SHOCK_DEFAULT_LOCALE
      * @defaultValue "en-US"
      */
     SHELL_SHOCK_DEFAULT_LOCALE: string;
     /**
      * The default lowest log level to accept. If `null`, the logger will reject all records.
      *
+     * @alias LOG_LEVEL
      * @alias PLAYGROUND_CLI_LOG_LEVEL
-     *
-     * @alias SHELL_SHOCK_LOG_LEVEL
      *
      */
     SHELL_SHOCK_LOG_LEVEL?: unknown;
@@ -2791,14 +2523,10 @@ declare module "shell-shock:env" {
      * An indicator that specifies the current runtime is a continuous integration environment.
      *
      * @title Continuous Integration
+     * @alias CI
      * @alias CONTINUOUS_INTEGRATION
-     *
      * @alias PLAYGROUND_CLI_CI
-     *
      * @alias PLAYGROUND_CLI_CONTINUOUS_INTEGRATION
-     *
-     * @alias SHELL_SHOCK_CI
-     *
      * @alias SHELL_SHOCK_CONTINUOUS_INTEGRATION
      * @defaultValue false
      */
@@ -2806,9 +2534,8 @@ declare module "shell-shock:env" {
     /**
      * The unique identifier for the current run. This value is set by certain CI/CD systems.
      *
+     * @alias RUN_ID
      * @alias PLAYGROUND_CLI_RUN_ID
-     *
-     * @alias SHELL_SHOCK_RUN_ID
      * @readonly
      * @hidden
      * @runtime
@@ -2818,9 +2545,8 @@ declare module "shell-shock:env" {
     /**
      * The agola git reference. This value is set by certain CI/CD systems.
      *
+     * @alias AGOLA_GIT_REF
      * @alias PLAYGROUND_CLI_AGOLA_GIT_REF
-     *
-     * @alias SHELL_SHOCK_AGOLA_GIT_REF
      * @readonly
      * @hidden
      * @runtime
@@ -2830,9 +2556,8 @@ declare module "shell-shock:env" {
     /**
      * The appcircle build ID. This value is set by certain CI/CD systems.
      *
+     * @alias AC_APPCIRCLE
      * @alias PLAYGROUND_CLI_AC_APPCIRCLE
-     *
-     * @alias SHELL_SHOCK_AC_APPCIRCLE
      * @readonly
      * @hidden
      * @runtime
@@ -2842,9 +2567,8 @@ declare module "shell-shock:env" {
     /**
      * The appveyor build ID. This value is set by certain CI/CD systems.
      *
+     * @alias APPVEYOR
      * @alias PLAYGROUND_CLI_APPVEYOR
-     *
-     * @alias SHELL_SHOCK_APPVEYOR
      * @readonly
      * @hidden
      * @runtime
@@ -2854,9 +2578,8 @@ declare module "shell-shock:env" {
     /**
      * The codebuild build ID. This value is set by certain CI/CD systems.
      *
+     * @alias CODEBUILD
      * @alias PLAYGROUND_CLI_CODEBUILD
-     *
-     * @alias SHELL_SHOCK_CODEBUILD
      * @readonly
      * @hidden
      * @runtime
@@ -2866,9 +2589,8 @@ declare module "shell-shock:env" {
     /**
      * The task force build ID. This value is set by certain CI/CD systems.
      *
+     * @alias TF_BUILD
      * @alias PLAYGROUND_CLI_TF_BUILD
-     *
-     * @alias SHELL_SHOCK_TF_BUILD
      * @readonly
      * @hidden
      * @runtime
@@ -2878,9 +2600,8 @@ declare module "shell-shock:env" {
     /**
      * The bamboo plan key. This value is set by certain CI/CD systems.
      *
+     * @alias bamboo_planKey
      * @alias PLAYGROUND_CLI_bamboo_planKey
-     *
-     * @alias SHELL_SHOCK_bamboo_planKey
      * @readonly
      * @hidden
      * @runtime
@@ -2890,9 +2611,8 @@ declare module "shell-shock:env" {
     /**
      * The bitbucket commit. This value is set by certain CI/CD systems.
      *
+     * @alias BITBUCKET_COMMIT
      * @alias PLAYGROUND_CLI_BITBUCKET_COMMIT
-     *
-     * @alias SHELL_SHOCK_BITBUCKET_COMMIT
      * @readonly
      * @hidden
      * @runtime
@@ -2902,9 +2622,8 @@ declare module "shell-shock:env" {
     /**
      * The bitrise build ID. This value is set by certain CI/CD systems.
      *
+     * @alias BITRISE_IO
      * @alias PLAYGROUND_CLI_BITRISE_IO
-     *
-     * @alias SHELL_SHOCK_BITRISE_IO
      * @readonly
      * @hidden
      * @runtime
@@ -2914,9 +2633,8 @@ declare module "shell-shock:env" {
     /**
      * The buddy workspace ID. This value is set by certain CI/CD systems.
      *
+     * @alias BUDDY_WORKSPACE_ID
      * @alias PLAYGROUND_CLI_BUDDY_WORKSPACE_ID
-     *
-     * @alias SHELL_SHOCK_BUDDY_WORKSPACE_ID
      * @readonly
      * @hidden
      * @runtime
@@ -2926,9 +2644,8 @@ declare module "shell-shock:env" {
     /**
      * The buildkite build ID. This value is set by certain CI/CD systems.
      *
+     * @alias BUILDKITE
      * @alias PLAYGROUND_CLI_BUILDKITE
-     *
-     * @alias SHELL_SHOCK_BUILDKITE
      * @readonly
      * @hidden
      * @runtime
@@ -2938,9 +2655,8 @@ declare module "shell-shock:env" {
     /**
      * The circleci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias CIRCLECI
      * @alias PLAYGROUND_CLI_CIRCLECI
-     *
-     * @alias SHELL_SHOCK_CIRCLECI
      * @readonly
      * @hidden
      * @runtime
@@ -2950,9 +2666,8 @@ declare module "shell-shock:env" {
     /**
      * The cirrus-ci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias CIRRUS_CI
      * @alias PLAYGROUND_CLI_CIRRUS_CI
-     *
-     * @alias SHELL_SHOCK_CIRRUS_CI
      * @readonly
      * @hidden
      * @runtime
@@ -2962,9 +2677,8 @@ declare module "shell-shock:env" {
     /**
      * The cf build ID. This value is set by certain CI/CD systems.
      *
+     * @alias CF_BUILD_ID
      * @alias PLAYGROUND_CLI_CF_BUILD_ID
-     *
-     * @alias SHELL_SHOCK_CF_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
@@ -2974,9 +2688,8 @@ declare module "shell-shock:env" {
     /**
      * The cm build ID. This value is set by certain CI/CD systems.
      *
+     * @alias CM_BUILD_ID
      * @alias PLAYGROUND_CLI_CM_BUILD_ID
-     *
-     * @alias SHELL_SHOCK_CM_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
@@ -2986,9 +2699,8 @@ declare module "shell-shock:env" {
     /**
      * The ci name. This value is set by certain CI/CD systems.
      *
+     * @alias CI_NAME
      * @alias PLAYGROUND_CLI_CI_NAME
-     *
-     * @alias SHELL_SHOCK_CI_NAME
      * @readonly
      * @hidden
      * @runtime
@@ -2998,9 +2710,8 @@ declare module "shell-shock:env" {
     /**
      * The drone build ID. This value is set by certain CI/CD systems.
      *
+     * @alias DRONE
      * @alias PLAYGROUND_CLI_DRONE
-     *
-     * @alias SHELL_SHOCK_DRONE
      * @readonly
      * @hidden
      * @runtime
@@ -3010,9 +2721,8 @@ declare module "shell-shock:env" {
     /**
      * The dsari build ID. This value is set by certain CI/CD systems.
      *
+     * @alias DSARI
      * @alias PLAYGROUND_CLI_DSARI
-     *
-     * @alias SHELL_SHOCK_DSARI
      * @readonly
      * @hidden
      * @runtime
@@ -3022,9 +2732,8 @@ declare module "shell-shock:env" {
     /**
      * The earthly build ID. This value is set by certain CI/CD systems.
      *
+     * @alias EARTHLY_CI
      * @alias PLAYGROUND_CLI_EARTHLY_CI
-     *
-     * @alias SHELL_SHOCK_EARTHLY_CI
      * @readonly
      * @hidden
      * @runtime
@@ -3034,9 +2743,8 @@ declare module "shell-shock:env" {
     /**
      * The eas build ID. This value is set by certain CI/CD systems.
      *
+     * @alias EAS_BUILD
      * @alias PLAYGROUND_CLI_EAS_BUILD
-     *
-     * @alias SHELL_SHOCK_EAS_BUILD
      * @readonly
      * @hidden
      * @runtime
@@ -3046,9 +2754,8 @@ declare module "shell-shock:env" {
     /**
      * The gerrit project. This value is set by certain CI/CD systems.
      *
+     * @alias GERRIT_PROJECT
      * @alias PLAYGROUND_CLI_GERRIT_PROJECT
-     *
-     * @alias SHELL_SHOCK_GERRIT_PROJECT
      * @readonly
      * @hidden
      * @runtime
@@ -3058,9 +2765,8 @@ declare module "shell-shock:env" {
     /**
      * The gitea actions build ID. This value is set by certain CI/CD systems.
      *
+     * @alias GITEA_ACTIONS
      * @alias PLAYGROUND_CLI_GITEA_ACTIONS
-     *
-     * @alias SHELL_SHOCK_GITEA_ACTIONS
      * @readonly
      * @hidden
      * @runtime
@@ -3070,9 +2776,8 @@ declare module "shell-shock:env" {
     /**
      * The github actions build ID. This value is set by certain CI/CD systems.
      *
+     * @alias GITHUB_ACTIONS
      * @alias PLAYGROUND_CLI_GITHUB_ACTIONS
-     *
-     * @alias SHELL_SHOCK_GITHUB_ACTIONS
      * @readonly
      * @hidden
      * @runtime
@@ -3082,9 +2787,8 @@ declare module "shell-shock:env" {
     /**
      * The gitlab ci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias GITLAB_CI
      * @alias PLAYGROUND_CLI_GITLAB_CI
-     *
-     * @alias SHELL_SHOCK_GITLAB_CI
      * @readonly
      * @hidden
      * @runtime
@@ -3094,9 +2798,8 @@ declare module "shell-shock:env" {
     /**
      * The go cd build ID. This value is set by certain CI/CD systems.
      *
+     * @alias GOCD
      * @alias PLAYGROUND_CLI_GOCD
-     *
-     * @alias SHELL_SHOCK_GOCD
      * @readonly
      * @hidden
      * @runtime
@@ -3106,9 +2809,8 @@ declare module "shell-shock:env" {
     /**
      * The builder output build ID. This value is set by certain CI/CD systems.
      *
+     * @alias BUILDER_OUTPUT
      * @alias PLAYGROUND_CLI_BUILDER_OUTPUT
-     *
-     * @alias SHELL_SHOCK_BUILDER_OUTPUT
      * @readonly
      * @hidden
      * @runtime
@@ -3118,9 +2820,8 @@ declare module "shell-shock:env" {
     /**
      * The harness build ID. This value is set by certain CI/CD systems.
      *
+     * @alias HARNESS_BUILD_ID
      * @alias PLAYGROUND_CLI_HARNESS_BUILD_ID
-     *
-     * @alias SHELL_SHOCK_HARNESS_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
@@ -3130,9 +2831,8 @@ declare module "shell-shock:env" {
     /**
      * The jenkins url. This value is set by certain CI/CD systems.
      *
+     * @alias JENKINS_URL
      * @alias PLAYGROUND_CLI_JENKINS_URL
-     *
-     * @alias SHELL_SHOCK_JENKINS_URL
      * @readonly
      * @hidden
      * @runtime
@@ -3142,9 +2842,8 @@ declare module "shell-shock:env" {
     /**
      * The layerci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias LAYERCI
      * @alias PLAYGROUND_CLI_LAYERCI
-     *
-     * @alias SHELL_SHOCK_LAYERCI
      * @readonly
      * @hidden
      * @runtime
@@ -3154,9 +2853,8 @@ declare module "shell-shock:env" {
     /**
      * The magnum build ID. This value is set by certain CI/CD systems.
      *
+     * @alias MAGNUM
      * @alias PLAYGROUND_CLI_MAGNUM
-     *
-     * @alias SHELL_SHOCK_MAGNUM
      * @readonly
      * @hidden
      * @runtime
@@ -3166,9 +2864,8 @@ declare module "shell-shock:env" {
     /**
      * The netlify build ID. This value is set by certain CI/CD systems.
      *
+     * @alias NETLIFY
      * @alias PLAYGROUND_CLI_NETLIFY
-     *
-     * @alias SHELL_SHOCK_NETLIFY
      * @readonly
      * @hidden
      * @runtime
@@ -3178,9 +2875,8 @@ declare module "shell-shock:env" {
     /**
      * The nevercode build ID. This value is set by certain CI/CD systems.
      *
+     * @alias NEVERCODE
      * @alias PLAYGROUND_CLI_NEVERCODE
-     *
-     * @alias SHELL_SHOCK_NEVERCODE
      * @readonly
      * @hidden
      * @runtime
@@ -3190,9 +2886,8 @@ declare module "shell-shock:env" {
     /**
      * The prow job ID. This value is set by certain CI/CD systems.
      *
+     * @alias PROW_JOB_ID
      * @alias PLAYGROUND_CLI_PROW_JOB_ID
-     *
-     * @alias SHELL_SHOCK_PROW_JOB_ID
      * @readonly
      * @hidden
      * @runtime
@@ -3202,9 +2897,8 @@ declare module "shell-shock:env" {
     /**
      * The release build ID. This value is set by certain CI/CD systems.
      *
+     * @alias RELEASE_BUILD_ID
      * @alias PLAYGROUND_CLI_RELEASE_BUILD_ID
-     *
-     * @alias SHELL_SHOCK_RELEASE_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
@@ -3214,9 +2908,8 @@ declare module "shell-shock:env" {
     /**
      * The render build ID. This value is set by certain CI/CD systems.
      *
+     * @alias RENDER
      * @alias PLAYGROUND_CLI_RENDER
-     *
-     * @alias SHELL_SHOCK_RENDER
      * @readonly
      * @hidden
      * @runtime
@@ -3226,9 +2919,8 @@ declare module "shell-shock:env" {
     /**
      * The sailci build ID. This value is set by certain CI/CD systems.
      *
+     * @alias SAILCI
      * @alias PLAYGROUND_CLI_SAILCI
-     *
-     * @alias SHELL_SHOCK_SAILCI
      * @readonly
      * @hidden
      * @runtime
@@ -3238,9 +2930,8 @@ declare module "shell-shock:env" {
     /**
      * The hudson build ID. This value is set by certain CI/CD systems.
      *
+     * @alias HUDSON
      * @alias PLAYGROUND_CLI_HUDSON
-     *
-     * @alias SHELL_SHOCK_HUDSON
      * @readonly
      * @hidden
      * @runtime
@@ -3250,9 +2941,8 @@ declare module "shell-shock:env" {
     /**
      * The screwdriver build ID. This value is set by certain CI/CD systems.
      *
+     * @alias SCREWDRIVER
      * @alias PLAYGROUND_CLI_SCREWDRIVER
-     *
-     * @alias SHELL_SHOCK_SCREWDRIVER
      * @readonly
      * @hidden
      * @runtime
@@ -3262,9 +2952,8 @@ declare module "shell-shock:env" {
     /**
      * The semaphore build ID. This value is set by certain CI/CD systems.
      *
+     * @alias SEMAPHORE
      * @alias PLAYGROUND_CLI_SEMAPHORE
-     *
-     * @alias SHELL_SHOCK_SEMAPHORE
      * @readonly
      * @hidden
      * @runtime
@@ -3274,9 +2963,8 @@ declare module "shell-shock:env" {
     /**
      * The sourcehut build ID. This value is set by certain CI/CD systems.
      *
+     * @alias SOURCEHUT
      * @alias PLAYGROUND_CLI_SOURCEHUT
-     *
-     * @alias SHELL_SHOCK_SOURCEHUT
      * @readonly
      * @hidden
      * @runtime
@@ -3286,9 +2974,8 @@ declare module "shell-shock:env" {
     /**
      * The spaceship build ID. This value is set by certain CI/CD systems.
      *
+     * @alias SPACESHIP_CI
      * @alias PLAYGROUND_CLI_SPACESHIP_CI
-     *
-     * @alias SHELL_SHOCK_SPACESHIP_CI
      * @readonly
      * @hidden
      * @runtime
@@ -3298,9 +2985,8 @@ declare module "shell-shock:env" {
     /**
      * The strider build ID. This value is set by certain CI/CD systems.
      *
+     * @alias STRIDER
      * @alias PLAYGROUND_CLI_STRIDER
-     *
-     * @alias SHELL_SHOCK_STRIDER
      * @readonly
      * @hidden
      * @runtime
@@ -3310,9 +2996,8 @@ declare module "shell-shock:env" {
     /**
      * The task ID. This value is set by certain CI/CD systems.
      *
+     * @alias TASK_ID
      * @alias PLAYGROUND_CLI_TASK_ID
-     *
-     * @alias SHELL_SHOCK_TASK_ID
      * @readonly
      * @hidden
      * @runtime
@@ -3322,9 +3007,8 @@ declare module "shell-shock:env" {
     /**
      * The teamcity version. This value is set by certain CI/CD systems.
      *
+     * @alias TEAMCITY_VERSION
      * @alias PLAYGROUND_CLI_TEAMCITY_VERSION
-     *
-     * @alias SHELL_SHOCK_TEAMCITY_VERSION
      * @readonly
      * @hidden
      * @runtime
@@ -3334,9 +3018,8 @@ declare module "shell-shock:env" {
     /**
      * The travis build ID. This value is set by certain CI/CD systems.
      *
+     * @alias TRAVIS
      * @alias PLAYGROUND_CLI_TRAVIS
-     *
-     * @alias SHELL_SHOCK_TRAVIS
      * @readonly
      * @hidden
      * @runtime
@@ -3346,9 +3029,8 @@ declare module "shell-shock:env" {
     /**
      * The vela build ID. This value is set by certain CI/CD systems.
      *
+     * @alias VELA
      * @alias PLAYGROUND_CLI_VELA
-     *
-     * @alias SHELL_SHOCK_VELA
      * @readonly
      * @hidden
      * @runtime
@@ -3358,9 +3040,8 @@ declare module "shell-shock:env" {
     /**
      * The now builder build ID. This value is set by certain CI/CD systems.
      *
+     * @alias NOW_BUILDER
      * @alias PLAYGROUND_CLI_NOW_BUILDER
-     *
-     * @alias SHELL_SHOCK_NOW_BUILDER
      * @readonly
      * @hidden
      * @runtime
@@ -3370,9 +3051,8 @@ declare module "shell-shock:env" {
     /**
      * The appcenter build ID. This value is set by certain CI/CD systems.
      *
+     * @alias APPCENTER_BUILD_ID
      * @alias PLAYGROUND_CLI_APPCENTER_BUILD_ID
-     *
-     * @alias SHELL_SHOCK_APPCENTER_BUILD_ID
      * @readonly
      * @hidden
      * @runtime
@@ -3382,9 +3062,8 @@ declare module "shell-shock:env" {
     /**
      * The xcode project build ID. This value is set by certain CI/CD systems.
      *
+     * @alias CI_XCODE_PROJECT
      * @alias PLAYGROUND_CLI_CI_XCODE_PROJECT
-     *
-     * @alias SHELL_SHOCK_CI_XCODE_PROJECT
      * @readonly
      * @hidden
      * @runtime
@@ -3394,9 +3073,8 @@ declare module "shell-shock:env" {
     /**
      * The xcode server build ID. This value is set by certain CI/CD systems.
      *
+     * @alias XCS
      * @alias PLAYGROUND_CLI_XCS
-     *
-     * @alias SHELL_SHOCK_XCS
      * @readonly
      * @hidden
      * @runtime
@@ -3407,9 +3085,8 @@ declare module "shell-shock:env" {
      * The application's runtime data directory.
      *
      * @title Data Directory
+     * @alias DATA_DIR
      * @alias PLAYGROUND_CLI_DATA_DIR
-     *
-     * @alias SHELL_SHOCK_DATA_DIR
      * @runtime
      *
      */
@@ -3418,9 +3095,8 @@ declare module "shell-shock:env" {
      * The application's configuration data directory.
      *
      * @title Configuration Directory
+     * @alias CONFIG_DIR
      * @alias PLAYGROUND_CLI_CONFIG_DIR
-     *
-     * @alias SHELL_SHOCK_CONFIG_DIR
      * @runtime
      *
      */
@@ -3429,9 +3105,8 @@ declare module "shell-shock:env" {
      * The application's cached data directory.
      *
      * @title Cache Directory
+     * @alias CACHE_DIR
      * @alias PLAYGROUND_CLI_CACHE_DIR
-     *
-     * @alias SHELL_SHOCK_CACHE_DIR
      * @runtime
      *
      */
@@ -3440,9 +3115,8 @@ declare module "shell-shock:env" {
      * The application's logging directory.
      *
      * @title Log Directory
+     * @alias LOG_DIR
      * @alias PLAYGROUND_CLI_LOG_DIR
-     *
-     * @alias SHELL_SHOCK_LOG_DIR
      * @runtime
      *
      */
@@ -3451,9 +3125,8 @@ declare module "shell-shock:env" {
      * The application's temporary data directory.
      *
      * @title Temporary Directory
+     * @alias TEMP_DIR
      * @alias PLAYGROUND_CLI_TEMP_DIR
-     *
-     * @alias SHELL_SHOCK_TEMP_DIR
      * @runtime
      *
      */
@@ -3461,9 +3134,8 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the current user's local application data directory on Windows.
      *
+     * @alias LOCALAPPDATA
      * @alias PLAYGROUND_CLI_LOCALAPPDATA
-     *
-     * @alias SHELL_SHOCK_LOCALAPPDATA
      * @readonly
      * @hidden
      * @runtime
@@ -3473,9 +3145,8 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the application data directory on Windows.
      *
+     * @alias APPDATA
      * @alias PLAYGROUND_CLI_APPDATA
-     *
-     * @alias SHELL_SHOCK_APPDATA
      * @readonly
      * @hidden
      * @runtime
@@ -3485,9 +3156,8 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the data path in the home directory on Linux systems using the XDG base directory specification.
      *
+     * @alias XDG_DATA_HOME
      * @alias PLAYGROUND_CLI_XDG_DATA_HOME
-     *
-     * @alias SHELL_SHOCK_XDG_DATA_HOME
      * @readonly
      * @hidden
      * @runtime
@@ -3497,9 +3167,8 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the configuration path in the home directory on Linux systems using the XDG base directory specification.
      *
+     * @alias XDG_CONFIG_HOME
      * @alias PLAYGROUND_CLI_XDG_CONFIG_HOME
-     *
-     * @alias SHELL_SHOCK_XDG_CONFIG_HOME
      * @readonly
      * @hidden
      * @runtime
@@ -3509,9 +3178,8 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the cache path in the home directory on Linux systems using the XDG base directory specification.
      *
+     * @alias XDG_CACHE_HOME
      * @alias PLAYGROUND_CLI_XDG_CACHE_HOME
-     *
-     * @alias SHELL_SHOCK_XDG_CACHE_HOME
      * @readonly
      * @hidden
      * @runtime
@@ -3521,9 +3189,8 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the state directory on Linux systems using the XDG base directory specification.
      *
+     * @alias XDG_STATE_HOME
      * @alias PLAYGROUND_CLI_XDG_STATE_HOME
-     *
-     * @alias SHELL_SHOCK_XDG_STATE_HOME
      * @readonly
      * @hidden
      * @runtime
@@ -3533,9 +3200,8 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the runtime directory on Linux systems using the XDG base directory specification.
      *
+     * @alias XDG_RUNTIME_DIR
      * @alias PLAYGROUND_CLI_XDG_RUNTIME_DIR
-     *
-     * @alias SHELL_SHOCK_XDG_RUNTIME_DIR
      * @readonly
      * @hidden
      * @runtime
@@ -3545,9 +3211,8 @@ declare module "shell-shock:env" {
     /**
      * A variable that specifies the [Devenv](https://devenv.sh/) runtime directory.
      *
+     * @alias DEVENV_RUNTIME
      * @alias PLAYGROUND_CLI_DEVENV_RUNTIME
-     *
-     * @alias SHELL_SHOCK_DEVENV_RUNTIME
      * @readonly
      * @hidden
      * @runtime
@@ -3557,9 +3222,8 @@ declare module "shell-shock:env" {
     /**
      * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the upgrade process proceeds without checking for updates, which can help speed up the process in certain scenarios.
      *
+     * @alias SKIP_UPDATE_CHECK
      * @alias PLAYGROUND_CLI_SKIP_UPDATE_CHECK
-     *
-     * @alias SHELL_SHOCK_SKIP_UPDATE_CHECK
      *
      */
     SHELL_SHOCK_SKIP_UPDATE_CHECK?: boolean;
@@ -3598,22 +3262,22 @@ declare module "shell-shock:env" {
    */
   export function parse(value: Record<string, unknown>): Env;
   /**
-   * Initializes the Powerlines environment configuration module.
+   * Initializes the shell-shock environment configuration module.
    *
    * @remarks
-   * This function initializes the Powerlines environment configuration object.
+   * This function initializes the shell-shock environment configuration object.
    * @param environmentConfig - The dynamic/runtime configuration - this could
    *   include the current environment variables or any other environment-specific
    *   settings provided by the runtime.
-   * @returns The initialized Powerlines configuration object.
+   * @returns The initialized shell-shock configuration object.
    *
    */
   export function createEnv(environmentConfig?: Partial<Env>): Env;
   /**
-   * The environment configuration object.
+   * The shell-shock environment configuration object.
    *
    * @remarks
-   * This object provides access to the environment configuration parameters in the application runtime.
+   * This object provides access to the shell-shock environment configuration parameters in the application runtime.
    */
   export const env: Env;
   /**
@@ -9172,13 +8836,13 @@ declare module "shell-shock:banner/completions" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Fish Configuration command.
  *
- * @module shell-shock:banner/completions/zsh/config
+ * @module shell-shock:banner/completions/fish/config
  */
-declare module "shell-shock:banner/completions/zsh/config" {
+declare module "shell-shock:banner/completions/fish/config" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Zsh Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Fish Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9189,13 +8853,13 @@ declare module "shell-shock:banner/completions/zsh/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Fish Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Configuration command.
  *
- * @module shell-shock:banner/completions/fish/config
+ * @module shell-shock:banner/completions/zsh/config
  */
-declare module "shell-shock:banner/completions/fish/config" {
+declare module "shell-shock:banner/completions/zsh/config" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Fish Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Zsh Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9427,13 +9091,13 @@ declare module "shell-shock:banner/run" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Script command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Fish Script command.
  *
- * @module shell-shock:banner/completions/zsh/script
+ * @module shell-shock:banner/completions/fish/script
  */
-declare module "shell-shock:banner/completions/zsh/script" {
+declare module "shell-shock:banner/completions/fish/script" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Zsh Script command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Fish Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9444,13 +9108,13 @@ declare module "shell-shock:banner/completions/zsh/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Fish Script command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Script command.
  *
- * @module shell-shock:banner/completions/fish/script
+ * @module shell-shock:banner/completions/zsh/script
  */
-declare module "shell-shock:banner/completions/fish/script" {
+declare module "shell-shock:banner/completions/zsh/script" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Fish Script command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Zsh Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9654,24 +9318,6 @@ declare module "shell-shock:help/completions" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Zsh Configuration command.
- *
- * @module shell-shock:help/completions/zsh/config
- */
-declare module "shell-shock:help/completions/zsh/config" {
-  /**
-   * Utility functions for displaying help information for the Completions - Zsh Configuration command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Zsh Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Zsh Configuration command.
-   */
-  export function showHelp(): void;
-}
-
-/**
  * A collection of utility functions that assist in displaying help information for the Completions - Fish Configuration command.
  *
  * @module shell-shock:help/completions/fish/config
@@ -9685,6 +9331,24 @@ declare module "shell-shock:help/completions/fish/config" {
    */
   /**
    * Display help information for the Completions - Fish Configuration command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - Zsh Configuration command.
+ *
+ * @module shell-shock:help/completions/zsh/config
+ */
+declare module "shell-shock:help/completions/zsh/config" {
+  /**
+   * Utility functions for displaying help information for the Completions - Zsh Configuration command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Zsh Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Zsh Configuration command.
    */
   export function showHelp(): void;
 }
@@ -9925,24 +9589,6 @@ declare module "shell-shock:help/run" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Zsh Script command.
- *
- * @module shell-shock:help/completions/zsh/script
- */
-declare module "shell-shock:help/completions/zsh/script" {
-  /**
-   * Utility functions for displaying help information for the Completions - Zsh Script command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Zsh Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Zsh Script command.
-   */
-  export function showHelp(): void;
-}
-
-/**
  * A collection of utility functions that assist in displaying help information for the Completions - Fish Script command.
  *
  * @module shell-shock:help/completions/fish/script
@@ -9956,6 +9602,24 @@ declare module "shell-shock:help/completions/fish/script" {
    */
   /**
    * Display help information for the Completions - Fish Script command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - Zsh Script command.
+ *
+ * @module shell-shock:help/completions/zsh/script
+ */
+declare module "shell-shock:help/completions/zsh/script" {
+  /**
+   * Utility functions for displaying help information for the Completions - Zsh Script command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Zsh Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Zsh Script command.
    */
   export function showHelp(): void;
 }

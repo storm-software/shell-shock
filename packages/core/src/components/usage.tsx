@@ -52,7 +52,6 @@ export function Usage(props: UsageProps) {
 
   return (
     <>
-      {code`$ `}
       <Switch>
         <Match when={packageManager === "npm"}>{`npx `}</Match>
         <Match when={packageManager === "yarn"}>{`yarn exec `}</Match>
