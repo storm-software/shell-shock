@@ -26,6 +26,7 @@ const config: UserConfig = defineConfig({
     storage: "fs"
   },
   name: "playground-cli",
+  docs: "https://docs.stormsoftware.com/projects/shell-shock/reference/cli/{command}",
   plugins: [
     cli({
       theme: {

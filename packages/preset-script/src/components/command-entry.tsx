@@ -50,7 +50,6 @@ import { joinPaths } from "@stryke/path/join";
 import { replaceExtension } from "@stryke/path/replace";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { constantCase } from "@stryke/string-format/constant-case";
-import { kebabCase } from "@stryke/string-format/kebab-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import defu from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
@@ -127,39 +126,11 @@ export function CommandHandlerDeclaration(
         <Spacing />
         <Show when={Boolean(banner)}>{banner}</Show>
         <Spacing />
-        {code`writeLine("");`}
-        <IfStatement condition={<IsDebug />}>
-          {code`writeLine(textColors.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console."));
-          writeLine("");
-          debug(\`Command path: ${command.segments
-            .map(segment =>
-              isDynamicPathSegment(segment)
-                ? `\${${camelCase(getDynamicPathSegmentName(segment))}}`
-                : segment
-            )
-            .join(" / ")} \\n\\nOptions: \\n${Object.values(command.options)
-            .map(
-              option =>
-                ` - ${kebabCase(option.name)}: \${options.${camelCase(
-                  option.name
-                )} === undefined ? "" : JSON.stringify(options.${camelCase(
-                  option.name
-                )})}`
-            )
-            .join("\\n")}${
-            command.args.length > 0
-              ? ` \\n\\nArguments: \\n${command.args
-                  .map(
-                    arg =>
-                      ` - ${kebabCase(arg.name)}: \${${camelCase(
-                        arg.name
-                      )} === undefined ? "" : JSON.stringify(${camelCase(
-                        arg.name
-                      )})}`
-                  )
-                  .join("\\n")}`
-              : ""
-          }\`); `}
+        <IfStatement condition={code`!isHelp()`}>
+          {code`writeLine("");`}
+          <IfStatement condition={<IsDebug />}>
+            {code`writeLine(textColors.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console.")); `}
+          </IfStatement>
         </IfStatement>
         <Spacing />
         {children}
@@ -233,6 +204,7 @@ export function CommandEntry(props: CommandEntryProps) {
             "useGlobalOptions",
             "useArgs",
             "hasFlag",
+            "isHelp",
             "withCommand"
           ],
           [joinPaths(

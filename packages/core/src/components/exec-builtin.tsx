@@ -338,7 +338,7 @@ export function ExecBuiltin(props: ExecBuiltinProps) {
             default: "300_000"
           }
         ]}
-        returnType="Promise<SpawnResult>">
+        returnType="SpawnResult">
         {code`const options: SpawnOptions =
   typeof optionsOrTimeoutMs === "number"
     ? { timeoutMs: optionsOrTimeoutMs }

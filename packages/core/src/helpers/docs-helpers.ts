@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { joinPaths } from "@stryke/path/join";
+import { getDocsOutputPath as getBaseDocsOutputPath } from "powerlines/plugin-utils";
 import type { Context } from "../types/context";
 
 /**
@@ -26,5 +27,5 @@ import type { Context } from "../types/context";
  * @returns The output path for the generated documentation.
  */
 export function getDocsOutputPath(context: Context): string {
-  return joinPaths(context.config.root, "docs", "generated");
+  return joinPaths(getBaseDocsOutputPath(context.config.root), "cli");
 }

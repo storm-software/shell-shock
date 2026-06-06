@@ -169,17 +169,25 @@ export function applyArgsDefaults(ctx: ResolverContext): CommandArgument[] {
 export function applyDefaults(ctx: ResolverContext) {
   ctx.output.description ??= `The ${ctx.output.title.replace(/(?:c|C)ommands?$/, "").trim()} executable command-line interface.`;
   if (
-    isSetString(ctx.input.context.config.reference?.commands) &&
-    ctx.input.context.config.reference.commands.includes("{command}")
+    ctx.input.command.segments.length &&
+    isSetString(ctx.input.context.config.docs?.commands) &&
+    /\{(?:(?:C|c)ommands?|(?:C|c)mds?)\}/.test(
+      ctx.input.context.config.docs.commands
+    )
   ) {
-    ctx.output.docs ??= ctx.input.context.config.reference.commands
-      ? ctx.input.context.config.reference.commands.replace(
-          "{command}",
+    ctx.output.docs ??= ctx.input.context.config.docs.commands
+      ? ctx.input.context.config.docs.commands.replace(
+          /\{(?:(?:C|c)ommands?|(?:C|c)mds?)\}/,
           ctx.input.command.segments
             .filter(segment => !isDynamicPathSegment(segment))
             .join("/")
         )
       : undefined;
+  } else if (
+    !ctx.input.command.segments.length &&
+    isSetString(ctx.input.context.config.docs?.app)
+  ) {
+    ctx.output.docs ??= ctx.input.context.config.docs.app;
   }
 }
 

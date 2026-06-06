@@ -53,7 +53,7 @@ type BuildOptions = Pick<
   | "tsconfigRaw"
 >;
 
-export interface ReferenceOptions {
+export interface DocsOptions {
   /**
    * A URL to the application documentation or reference.
    */
@@ -63,7 +63,7 @@ export interface ReferenceOptions {
    * A URL to the application command specific documentation or reference.
    *
    * @remarks
-   * This URL is expected to contain the token `{command}`, which will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{docs}/command/subcommand`.
+   * This URL is expected to contain the token `{command}` or `{cmd}`, which will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{docs}/command/subcommand`.
    */
   commands?: string;
 }
@@ -111,12 +111,12 @@ interface BaseOptions {
   autoAssignEnv?: true | string;
 
   /**
-   * A URL to the application documentation or reference.
+   * A URL to the command-line interface application's reference documentation.
    *
    * @remarks
-   * This URL can be used in various displays of the user interface and documentation to provide users with a reference for the application. It can also be used by plugins to link to the documentation in relevant contexts. If the token `{command}` is included in the URL, it will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{docs}/command/subcommand`.
+   * This URL can be used in various displays of the user interface and documentation to provide users with a reference for the application. It can also be used by plugins to link to the documentation in relevant contexts. If the token `{command}` (or `{cmd}`) is included in the URL, it will be replaced with the full command path to provide links to command specific documentation. For example, `myapp command subcommand` will be translated to `{docs}/command/subcommand`.
    */
-  docs?: ReferenceOptions | string;
+  docs?: DocsOptions | string;
 }
 
 /**
@@ -178,7 +178,7 @@ export type ResolvedConfig = TsdownPluginResolvedConfig &
   AlloyPluginResolvedConfig &
   AutoMDPluginResolvedConfig &
   NodeJsPluginResolvedConfig &
-  Required<Omit<Options, "bin" | "reference">> & {
+  Required<Omit<Options, "bin" | "docs">> & {
     /**
      * The name of the binary (the {@link https://docs.npmjs.com/cli/v11/configuring-npm/package-json#bin | "bin" field} in package.json) that will be used to run the application through NodeJs package managers (e.g., npm, yarn, pnpm).
      *
@@ -192,9 +192,9 @@ export type ResolvedConfig = TsdownPluginResolvedConfig &
     bin: Record<string, string>;
 
     /**
-     * The URL(s) to the application documentation or reference.
+     * The URL(s) to the command-line interface application's reference documentation.
      */
-    reference: ReferenceOptions;
+    docs: DocsOptions;
 
     /**
      * The command-line application specific environment variable prefix used for automatically assigning environment variables to command options.

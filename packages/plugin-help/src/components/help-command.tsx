@@ -108,6 +108,7 @@ export function HelpCommand(props: HelpCommandsProps) {
           "inlineCode",
           "textColors",
           "inverse",
+          "underline",
           "bold",
           "help",
           "table",

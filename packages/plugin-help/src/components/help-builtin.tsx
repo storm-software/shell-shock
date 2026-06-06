@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { Show, splitProps } from "@alloy-js/core";
+import { code, Show, splitProps } from "@alloy-js/core";
 import { FunctionDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
@@ -25,10 +25,14 @@ import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/compo
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import type { CommandTree } from "@shell-shock/core";
 import {
+  getAppBin,
   getAppTitle,
   isDynamicPathSegment
 } from "@shell-shock/core/plugin-utils";
+import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import { joinPaths } from "@stryke/path";
+import { camelCase } from "@stryke/string-format/camel-case";
+import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
 import type { HelpPluginContext } from "../types";
 import { CommandHelpDisplay, VirtualCommandHelpDisplay } from "./display";
@@ -51,7 +55,9 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
     "command",
     "children"
   ]);
+
   const context = usePowerlines<HelpPluginContext>();
+  const theme = useTheme();
 
   return (
     <BuiltinFile
@@ -78,6 +84,7 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
           "inlineCode",
           "textColors",
           "inverse",
+          "underline",
           "bold",
           "help",
           "table",
@@ -106,6 +113,18 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
             ? `${command.title} command`
             : `${getAppTitle(context, true)} application`
         }.`}>
+        <Show when={command.tags && command.tags.length > 0}>
+          {code`writeLine(\`\${bold(textColors.heading.secondary("Tags: "))} ${command.tags
+            .map(
+              tag =>
+                `\${textColors.tags.${camelCase(
+                  tag
+                )} ? textColors.tags.${camelCase(
+                  tag
+                )}(inverse(" ${tag} ")) : textColors.tags.$default(inverse(" ${tag} "))}`
+            )
+            .join(" ")}\`, { padding: ${theme.padding.app * 2} }); `}
+        </Show>
         <Show
           when={!command.virtual}
           fallback={
@@ -115,6 +134,33 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
             />
           }>
           <CommandHelpDisplay command={command} />
+        </Show>
+        <Show when={isSetString(command.docs)}>
+          {code`writeLine(textColors.body.tertiary(\`More information can be found in the ${
+            command.path
+              ? `${command.title} command`
+              : getAppTitle(context, false)
+          } documentation at \${link("${
+            command.docs
+          }")}\${textColors.body.tertiary(".")}\`), { padding: ${theme.padding.app * 2} });
+          writeLine(""); `}
+          <hbr />
+        </Show>
+        <Show when={Object.keys(command.children).length > 0}>
+          {code`help(\`Running a specific command with the help flag (via: \${inlineCode("${getAppBin(
+            context
+          )}${
+            command.segments && command.segments.length > 0
+              ? ` ${command.segments.join(" ")}`
+              : ""
+          } <specific command> --help")}) or the help command with the specific command as arguments (via: \${inlineCode("${getAppBin(
+            context
+          )} ${
+            command.segments && command.segments.length > 0
+              ? ` ${command.segments.join(" ")}`
+              : ""
+          } help <specific command>")}) will provide additional information that is specific to that command.\`);
+        writeLine("");`}
         </Show>
       </FunctionDeclaration>
       <Spacing />

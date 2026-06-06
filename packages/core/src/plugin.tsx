@@ -163,26 +163,20 @@ export const plugin = <TContext extends Context = Context>(
             )
           };
 
-          if (isSetString(this.config.reference)) {
-            if (this.config.reference.includes("{command}")) {
-              this.config.reference = {
-                app: this.config.reference
-                  .substring(0, this.config.reference.indexOf("{command}"))
-                  .replace(/\/?$/, "/"),
-                commands: this.config.reference
-              };
-            } else if (this.config.reference.includes("{commands}")) {
-              this.config.reference = {
-                app: this.config.reference
-                  .substring(0, this.config.reference.indexOf("{commands}"))
-                  .replace(/\/?$/, "/"),
-                commands: this.config.reference
-              };
-            } else {
-              this.config.reference = {
-                app: this.config.reference
-              };
-            }
+          if (isSetString(this.config.docs)) {
+            const docsWithoutCommandPath = this.config.docs.replace(
+              /\/?\{(?:command|cmd)\}.*$/,
+              ""
+            );
+
+            this.config.docs = {
+              commands: this.config.docs,
+              app: this.config.docs.endsWith("/")
+                ? docsWithoutCommandPath.endsWith("/")
+                  ? docsWithoutCommandPath
+                  : `${docsWithoutCommandPath}/`
+                : docsWithoutCommandPath
+            };
           }
 
           this.inputs ??= [];

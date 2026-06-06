@@ -75,8 +75,8 @@ export const plugin = <
         this.inputs.push({
           id: "completions",
           name: "completions",
-          alias: ["completion"],
           path: "completions",
+          alias: [],
           segments: ["completions"],
           title: "Completions",
           icon: "🖵",

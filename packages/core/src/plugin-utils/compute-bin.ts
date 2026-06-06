@@ -45,6 +45,7 @@ export function computeBin(context: Context): CommandTree {
       file: joinPaths(context.entryPath, "bin.ts")
     },
     parent: null,
-    children: context.commands
+    children: context.commands,
+    docs: context.config.docs?.app
   };
 }

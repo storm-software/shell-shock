@@ -29,7 +29,10 @@ import {
   BannerFunctionBodyDeclaration as BaseBannerFunctionBodyDeclaration
 } from "@shell-shock/plugin-banner/components/banner-function-declaration";
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
+import { isSetObject } from "@stryke/type-checks/is-set-object";
+import { isSetString } from "@stryke/type-checks/is-set-string";
 import { render } from "cfonts";
+import defu from "defu";
 import type { CLIPresetContext } from "../types/plugin";
 
 /**
@@ -64,16 +67,24 @@ export function BannerFunctionBodyDeclaration(
   );
 
   const titleLines = computed(() => {
-    const result = render(getAppTitle(context, true), {
-      font: "tiny",
-      align: "left",
-      background: "transparent",
-      letterSpacing: 1,
-      lineHeight: 1,
-      gradient: false,
-      transitionGradient: false,
-      env: "node"
-    });
+    const result = render(
+      isSetString(context.config.banner)
+        ? context.config.banner
+        : isSetObject(context.config.banner) &&
+            isSetString(context.config.banner.text)
+          ? context.config.banner.text
+          : getAppTitle(context, true),
+      defu(isSetObject(context.config.banner) ? context.config.banner : {}, {
+        font: "tiny",
+        align: "left",
+        background: "transparent",
+        letterSpacing: 1,
+        lineHeight: 1,
+        gradient: false,
+        transitionGradient: false,
+        env: "node"
+      })
+    );
     if (!result) {
       return [`${getAppTitle(context, true)} Command-Line Interface`];
     }
@@ -98,7 +109,9 @@ export function BannerFunctionBodyDeclaration(
       footer={footer.value}
       variant={variant}
       consoleFnName={consoleFnName}
-      command={command}
+      command={
+        { ...command, title: command?.path ? command.title : "" } as CommandTree
+      }
       insertNewlineAfterDescription>
       {code`const titleLines = [${titleLines.value
         .map(line => JSON.stringify(line.trim()))
