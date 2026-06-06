@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.12](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.12) (06/05/2026)
+
+### Bug Fixes
+
+- **core:** Various fixes to log message formatting ([c6499f5](https://github.com/storm-software/shell-shock/commit/c6499f5))
+
 ## [0.17.11](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.11) (06/05/2026)
 
 ### Features

@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.85](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.85) (06/05/2026)
+
+### Bug Fixes
+
+- **core:** Various fixes to log message formatting ([c6499f5](https://github.com/storm-software/shell-shock/commit/c6499f5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.12**
+
 ## [0.0.84](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.84) (06/05/2026)
 
 ### Bug Fixes

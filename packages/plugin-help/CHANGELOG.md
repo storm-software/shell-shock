@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.30](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.30) (06/05/2026)
+
+### Bug Fixes
+
+- **core:** Various fixes to log message formatting ([c6499f5](https://github.com/storm-software/shell-shock/commit/c6499f5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.12**
+- Updated **plugin-console** to **v0.2.16**
+- Updated **plugin-theme** to **v0.4.25**
+
 ## [0.2.29](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.29) (06/05/2026)
 
 ### Features
