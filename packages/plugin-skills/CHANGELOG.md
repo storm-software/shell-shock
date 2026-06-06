@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Skills
 
+## [0.0.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-skills%400.0.5) (06/06/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.14**
+
 ## [0.0.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-skills%400.0.4) (06/06/2026)
 
 ### Updated Dependencies

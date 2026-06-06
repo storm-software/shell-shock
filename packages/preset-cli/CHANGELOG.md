@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.26](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.26) (06/06/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.14**
+- Updated **plugin-banner** to **v0.1.41**
+- Updated **plugin-changelog** to **v0.1.17**
+- Updated **plugin-completions** to **v0.4.22**
+- Updated **plugin-console** to **v0.2.18**
+- Updated **plugin-help** to **v0.2.32**
+- Updated **plugin-prompts** to **v0.3.55**
+- Updated **plugin-skills** to **v0.0.5**
+- Updated **plugin-theme** to **v0.4.27**
+- Updated **plugin-update** to **v0.1.59**
+- Updated **preset-script** to **v0.6.69**
+
 ## [0.9.25](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.25) (06/06/2026)
 
 ### Bug Fixes
