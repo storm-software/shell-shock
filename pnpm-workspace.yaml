@@ -176,4 +176,4 @@ overrides:
   shell-quote: ">=1.8.2"
   simple-git: ">=3.27.0"
 shamefullyHoist: true
-useNodeVersion: 26.2.0
+useNodeVersion: 26.3.0
