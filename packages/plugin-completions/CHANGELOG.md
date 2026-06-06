@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.4.21](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.21) (06/06/2026)
+
+### Bug Fixes
+
+- **core:** Resolved various issues around commands display and `docs` option ([b38f04f](https://github.com/storm-software/shell-shock/commit/b38f04f))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.13**
+
 ## [0.4.20](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.20) (06/05/2026)
 
 ### Updated Dependencies

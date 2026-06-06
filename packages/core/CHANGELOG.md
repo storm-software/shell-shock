@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.13](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.13) (06/06/2026)
+
+### Bug Fixes
+
+- **core:** Resolved various issues around commands display and `docs` option ([b38f04f](https://github.com/storm-software/shell-shock/commit/b38f04f))
+
 ## [0.17.12](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.12) (06/05/2026)
 
 ### Bug Fixes

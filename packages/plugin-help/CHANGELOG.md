@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.31](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.31) (06/06/2026)
+
+### Bug Fixes
+
+- **core:** Resolved various issues around commands display and `docs` option ([b38f04f](https://github.com/storm-software/shell-shock/commit/b38f04f))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.13**
+- Updated **plugin-console** to **v0.2.17**
+- Updated **plugin-theme** to **v0.4.26**
+
 ## [0.2.30](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.30) (06/05/2026)
 
 ### Bug Fixes
