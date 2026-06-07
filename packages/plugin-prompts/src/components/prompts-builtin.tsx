@@ -2722,8 +2722,10 @@ run(); `}
           }
         ]}
         returnType="Promise<boolean | symbol>">
-        {code`return new Promise<boolean | symbol>((response, reject) => {
-            const prompt = new ConfirmPrompt(config);
+        {code`return hasFlag("yes") || hasFlag("y")
+          ? Promise.resolve(true)
+          : new Promise<boolean | symbol>((response, reject) => {
+              const prompt = new ConfirmPrompt(config);
 
             prompt.on("state", state => config.onState?.(state));
             prompt.on("submit", value => response(value));

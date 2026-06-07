@@ -55,6 +55,17 @@ export function getGlobalOptions(
         required: false,
         default: false,
         isNegativeOf: "interactive"
+      },
+    context.config.interactive !== "never" &&
+      context.config.interactive !== false && {
+        name: "yes",
+        title: "Yes",
+        description:
+          "Skip all prompts by answering yes to all of them - will be set to true if running in a CI pipeline.",
+        alias: ["y"],
+        type: "boolean",
+        required: false,
+        default: false
       }
   ].filter(Boolean) as CommandOption[];
 }
