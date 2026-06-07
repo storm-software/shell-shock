@@ -2,6 +2,26 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.27](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.27) (06/07/2026)
+
+### Features
+
+- **preset-cli:** Use `figlet` to generate banner fonts ([920b01c](https://github.com/storm-software/shell-shock/commit/920b01c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.15**
+- Updated **plugin-banner** to **v0.1.42**
+- Updated **plugin-changelog** to **v0.1.18**
+- Updated **plugin-completions** to **v0.4.23**
+- Updated **plugin-console** to **v0.2.19**
+- Updated **plugin-help** to **v0.2.33**
+- Updated **plugin-prompts** to **v0.3.56**
+- Updated **plugin-skills** to **v0.0.6**
+- Updated **plugin-theme** to **v0.4.28**
+- Updated **plugin-update** to **v0.1.60**
+- Updated **preset-script** to **v0.6.70**
+
 ## [0.9.26](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.26) (06/06/2026)
 
 ### Updated Dependencies

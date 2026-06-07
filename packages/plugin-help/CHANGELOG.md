@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.33](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.33) (06/07/2026)
+
+### Features
+
+- **preset-cli:** Use `figlet` to generate banner fonts ([920b01c](https://github.com/storm-software/shell-shock/commit/920b01c))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.15**
+- Updated **plugin-console** to **v0.2.19**
+- Updated **plugin-theme** to **v0.4.28**
+
 ## [0.2.32](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.32) (06/06/2026)
 
 ### Updated Dependencies
