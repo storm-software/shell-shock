@@ -64,9 +64,20 @@ export function getGlobalOptions(): CommandOption[] {
     {
       name: "color",
       title: "Color",
-      description: "Enable colored terminal output.",
+      description: "Force colored terminal output.",
       env: "COLOR",
       alias: ["colors"],
+      type: "boolean",
+      required: false,
+      variadic: false,
+      skipAddingNegative: false
+    },
+    {
+      name: "no-color",
+      title: "No Color",
+      description: "Force disable colored terminal output.",
+      env: "NO_COLOR",
+      alias: ["no-colors"],
       type: "boolean",
       required: false,
       variadic: false,
