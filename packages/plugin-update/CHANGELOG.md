@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Update
 
+## [0.1.62](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.62) (06/07/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue extracting options and arguments from commands ([73e6101](https://github.com/storm-software/shell-shock/commit/73e6101))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.17**
+
 ## [0.1.61](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.61) (06/07/2026)
 
 ### Bug Fixes

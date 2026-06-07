@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.17](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.17) (06/07/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue extracting options and arguments from commands ([73e6101](https://github.com/storm-software/shell-shock/commit/73e6101))
+
 ## [0.17.13](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.13) (06/06/2026)
 
 ### Bug Fixes

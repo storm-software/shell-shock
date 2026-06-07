@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.72](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.72) (06/07/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue extracting options and arguments from commands ([73e6101](https://github.com/storm-software/shell-shock/commit/73e6101))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.17**
+- Updated **plugin-banner** to **v0.1.44**
+- Updated **plugin-console** to **v0.2.21**
+- Updated **plugin-help** to **v0.2.35**
+- Updated **plugin-theme** to **v0.4.30**
+
 ## [0.6.71](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.71) (06/07/2026)
 
 ### Features

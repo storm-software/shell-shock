@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.30](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.30) (06/07/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue extracting options and arguments from commands ([73e6101](https://github.com/storm-software/shell-shock/commit/73e6101))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.17**
+
 ## [0.4.29](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.29) (06/07/2026)
 
 ### Updated Dependencies
