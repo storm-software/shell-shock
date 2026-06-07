@@ -1093,7 +1093,9 @@ export function UpdateBuiltin(props: UpdateBuiltinProps) {
           "writeLine",
           "red",
           "green",
-          "textColors"
+          "textColors",
+          "inlineCode",
+          "help"
         ],
         env: ["paths", "isWindows", "isCI", "env"],
         utils: ["isColorSupported", "isInteractive", "resolveModule"],
