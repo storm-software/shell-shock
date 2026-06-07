@@ -13080,8 +13080,8 @@ packages:
     resolution: {integrity: sha512-4yqz8a3n5HmGTlsbADNtr/dJlhkh/55Rq798G6ibiULcXbDtaLpTl1pvdqcbFfeoj3iSi52lePFM7h9H21cw/A==}
     engines: {node: '>=18.17'}
 
-  undici@7.27.1:
-    resolution: {integrity: sha512-UDdpiex+mzigiyrXrGbiUaF4HzTNhKbh2vRNFaTMzcqmLIPrZxaCtwo/1TMSuWoM1Xz3WiTo9KdgI3kRqYzJGg==}
+  undici@7.27.2:
+    resolution: {integrity: sha512-uZsKNuzQxDMUY6M3pIMvy5tvlGmtq8XJ2oLAkfRKGNu+1VQAIvLy2xIVG5ATZl5wDXl/tddByAWCizRbOme+TA==}
     engines: {node: '>=20.18.1'}
 
   unicode-canonical-property-names-ecmascript@2.0.1:
@@ -17322,7 +17322,7 @@ snapshots:
       oxc-resolver: 11.20.0
       prettier: 3.8.3
       ts-morph: 27.0.2
-      undici: 7.27.1
+      undici: 7.27.2
       unplugin: 3.0.0
       unplugin-combine: 2.4.0(esbuild@0.25.12)(rollup@4.61.1)(unplugin@3.0.0)
     transitivePeerDependencies:
@@ -17379,7 +17379,7 @@ snapshots:
       oxc-resolver: 11.20.0
       prettier: 3.8.3
       ts-morph: 27.0.2
-      undici: 7.27.1
+      undici: 7.27.2
       unplugin: 3.0.0
       unplugin-combine: 2.4.0(esbuild@0.27.7)(rolldown@1.1.0)(rollup@4.61.1)(unplugin@3.0.0)
     transitivePeerDependencies:
@@ -17436,7 +17436,7 @@ snapshots:
       oxc-resolver: 11.20.0
       prettier: 3.8.3
       ts-morph: 27.0.2
-      undici: 7.27.1
+      undici: 7.27.2
       unplugin: 3.0.0
       unplugin-combine: 2.4.0(esbuild@0.27.7)(rolldown@1.1.0)(rollup@4.61.1)(unplugin@3.0.0)
     transitivePeerDependencies:
@@ -28839,7 +28839,7 @@ snapshots:
 
   undici@6.26.0: {}
 
-  undici@7.27.1: {}
+  undici@7.27.2: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1: {}
 
