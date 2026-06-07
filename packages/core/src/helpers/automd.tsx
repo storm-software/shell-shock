@@ -21,7 +21,13 @@ import { Heading } from "@alloy-js/markdown";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { renderString } from "@powerlines/plugin-alloy/render";
 import { defineGenerator } from "automd";
-import { CommandDocs } from "../components/docs";
+import type { CommandDocsUsageExampleProps } from "../components/docs";
+import {
+  CommandArgumentDocs,
+  CommandDocs,
+  CommandDocsUsageExample,
+  CommandOptionsDocs
+} from "../components/docs";
 import { getAppTitle } from "../plugin-utils";
 import type { Context } from "../types/context";
 
@@ -36,19 +42,34 @@ import type { Context } from "../types/context";
 export const commands = (context: Context) =>
   defineGenerator({
     name: "commands",
-    async generate() {
+    async generate(ctx) {
+      let commands = Object.values(context.commands).filter(
+        cmd => !cmd.virtual
+      );
+      if (ctx.args.command) {
+        if (!context.commands[ctx.args.command]) {
+          throw new Error(
+            `The command "${ctx.args.command}" does not exist in the application.`
+          );
+        }
+
+        commands = [context.commands[ctx.args.command]!];
+      }
+
       return {
         contents: renderString(
           context,
           <>
-            <Heading level={2}>Commands</Heading>
-            <Spacing />
-            {code`The following commands are available in the ${getAppTitle(
-              context,
-              true
-            )} command-line interface application:`}
-            <Spacing />
-            <For each={Object.values(context.commands)} doubleHardline>
+            <Show when={!ctx.args.command}>
+              <Heading level={2}>Commands</Heading>
+              <Spacing />
+              {code`The following commands are available in the ${getAppTitle(
+                context,
+                true
+              )} command-line interface application:`}
+              <Spacing />
+            </Show>
+            <For each={commands} doubleHardline>
               {child => (
                 <Show when={!child.virtual}>
                   <CommandDocs command={child} levelOffset={2} />
@@ -57,6 +78,122 @@ export const commands = (context: Context) =>
             </For>
             <Spacing />
           </>
+        )
+      };
+    }
+  });
+
+/**
+ * AutoMD generator to generate usage examples for a specific command.
+ *
+ * @param context - The generator context.
+ * @returns The generated usage content.
+ */
+export const usage = (context: Context) =>
+  defineGenerator({
+    name: "usage",
+    async generate(ctx) {
+      if (!ctx.args.command) {
+        throw new Error(
+          "The 'usage' generator requires the \"command\" argument."
+        );
+      }
+      if (!context.commands[ctx.args.command]) {
+        throw new Error(
+          `The command "${ctx.args.command}" does not exist in the application.`
+        );
+      }
+
+      let packageManagers = ["npm", "yarn", "pnpm", "bun"];
+      if (ctx.args.packageManager) {
+        packageManagers = [String(ctx.args.packageManager)];
+      }
+
+      if (
+        packageManagers.some(pm => !["npm", "yarn", "pnpm", "bun"].includes(pm))
+      ) {
+        throw new Error(
+          `Invalid package manager specified. Supported package managers are: npm, yarn, pnpm, and bun.`
+        );
+      }
+
+      return {
+        contents: renderString(
+          context,
+          <>
+            <For each={packageManagers} doubleHardline>
+              {packageManager => (
+                <>
+                  <CommandDocsUsageExample
+                    packageManager={
+                      packageManager as CommandDocsUsageExampleProps["packageManager"]
+                    }
+                    command={context.commands[ctx.args.command]!}
+                  />
+                </>
+              )}
+            </For>
+          </>
+        )
+      };
+    }
+  });
+
+/**
+ * AutoMD generator to generate options for a specific command.
+ *
+ * @param context - The generator context.
+ * @returns The generated options content.
+ */
+export const options = (context: Context) =>
+  defineGenerator({
+    name: "options",
+    async generate(ctx) {
+      if (!ctx.args.command) {
+        throw new Error(
+          "The 'options' generator requires the \"command\" argument."
+        );
+      }
+      if (!context.commands[ctx.args.command]) {
+        throw new Error(
+          `The command "${ctx.args.command}" does not exist in the application.`
+        );
+      }
+
+      return {
+        contents: renderString(
+          context,
+          <CommandOptionsDocs command={context.commands[ctx.args.command]!} />
+        )
+      };
+    }
+  });
+
+/**
+ * AutoMD generator to generate arguments for a specific command.
+ *
+ * @param context - The generator context.
+ * @returns The generated arguments content.
+ */
+export const args = (context: Context) =>
+  defineGenerator({
+    name: "args",
+    async generate(ctx) {
+      if (!ctx.args.command) {
+        throw new Error(
+          "The 'args' generator requires the \"command\" argument."
+        );
+      }
+      if (!context.commands[ctx.args.command]) {
+        throw new Error(
+          `The command "${ctx.args.command}" does not exist in the application.`
+        );
+      }
+
+      return {
+        contents: renderString(
+          context,
+          <CommandArgumentDocs command={context.commands[ctx.args.command]!} />
         )
       };
     }

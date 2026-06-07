@@ -51,7 +51,12 @@ import { CommandDocsFile } from "./components/docs";
 import { ExecBuiltin } from "./components/exec-builtin";
 import { StateBuiltin } from "./components/state-builtin";
 import { UtilsBuiltin } from "./components/utils-builtin";
-import { commands } from "./helpers/automd";
+import {
+  args as argsGenerator,
+  commands as commandsGenerator,
+  options as optionsGenerator,
+  usage as usageGenerator
+} from "./helpers/automd";
 import { getFramework } from "./helpers/get-framework";
 import {
   findCommandsRoot,
@@ -649,12 +654,15 @@ export const plugin = <TContext extends Context = Context>(
         this.config.automd ??= {};
         this.config.automd.generators = {
           ...(this.config.automd.generators ?? {}),
-          commands: commands(this)
+          commands: commandsGenerator(this),
+          usage: usageGenerator(this),
+          options: optionsGenerator(this),
+          args: argsGenerator(this)
         };
       },
       async docs() {
         this.debug(
-          "Rendering entrypoint modules for the Shell Shock `script` preset."
+          "Rendering CLI command reference documentation and writing to the output directory."
         );
 
         const commands = this.inputs
