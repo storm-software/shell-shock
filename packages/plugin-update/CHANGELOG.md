@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Update
 
+## [0.1.61](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.61) (06/07/2026)
+
+### Bug Fixes
+
+- **plugin-update:** Resolve issue with missing imports in builtin file ([a8975ea](https://github.com/storm-software/shell-shock/commit/a8975ea))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.16**
+
 ## [0.1.60](https://github.com/storm-software/shell-shock/releases/tag/plugin-update%400.1.60) (06/07/2026)
 
 ### Updated Dependencies

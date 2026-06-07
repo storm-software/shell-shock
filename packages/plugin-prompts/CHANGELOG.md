@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.57](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.57) (06/07/2026)
+
+### Features
+
+- **preset-cli:** Added the `yes` common option ([085e7cb](https://github.com/storm-software/shell-shock/commit/085e7cb))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.16**
+- Updated **plugin-theme** to **v0.4.29**
+
 ## [0.3.56](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.56) (06/07/2026)
 
 ### Updated Dependencies

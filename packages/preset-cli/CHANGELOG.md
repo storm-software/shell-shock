@@ -2,6 +2,26 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.28](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.28) (06/07/2026)
+
+### Features
+
+- **preset-cli:** Added the `yes` common option ([085e7cb](https://github.com/storm-software/shell-shock/commit/085e7cb))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.16**
+- Updated **plugin-banner** to **v0.1.43**
+- Updated **plugin-changelog** to **v0.1.19**
+- Updated **plugin-completions** to **v0.4.24**
+- Updated **plugin-console** to **v0.2.20**
+- Updated **plugin-help** to **v0.2.34**
+- Updated **plugin-prompts** to **v0.3.57**
+- Updated **plugin-skills** to **v0.0.7**
+- Updated **plugin-theme** to **v0.4.29**
+- Updated **plugin-update** to **v0.1.61**
+- Updated **preset-script** to **v0.6.71**
+
 ## [0.9.27](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.27) (06/07/2026)
 
 ### Features

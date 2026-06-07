@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.71](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.71) (06/07/2026)
+
+### Features
+
+- **preset-script:** Added the `no-color` common option ([a2d5bc3](https://github.com/storm-software/shell-shock/commit/a2d5bc3))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.16**
+- Updated **plugin-banner** to **v0.1.43**
+- Updated **plugin-console** to **v0.2.20**
+- Updated **plugin-help** to **v0.2.34**
+- Updated **plugin-theme** to **v0.4.29**
+
 ## [0.6.70](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.70) (06/07/2026)
 
 ### Updated Dependencies
