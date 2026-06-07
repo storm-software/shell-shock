@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.18](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.18) (06/07/2026)
+
+### Miscellaneous
+
+- **core:** Clean up docs and help command display ([46a8266](https://github.com/storm-software/shell-shock/commit/46a8266))
+
 ## [0.17.17](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.17) (06/07/2026)
 
 ### Bug Fixes

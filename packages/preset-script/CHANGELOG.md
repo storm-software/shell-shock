@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.73](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.73) (06/07/2026)
+
+### Miscellaneous
+
+- **core:** Clean up docs and help command display ([46a8266](https://github.com/storm-software/shell-shock/commit/46a8266))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.18**
+- Updated **plugin-banner** to **v0.1.45**
+- Updated **plugin-console** to **v0.2.22**
+- Updated **plugin-help** to **v0.2.36**
+- Updated **plugin-theme** to **v0.4.31**
+
 ## [0.6.72](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.72) (06/07/2026)
 
 ### Bug Fixes

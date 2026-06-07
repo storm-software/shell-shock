@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.36](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.36) (06/07/2026)
+
+### Miscellaneous
+
+- **core:** Clean up docs and help command display ([46a8266](https://github.com/storm-software/shell-shock/commit/46a8266))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.18**
+- Updated **plugin-console** to **v0.2.22**
+- Updated **plugin-theme** to **v0.4.31**
+
 ## [0.2.35](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.35) (06/07/2026)
 
 ### Bug Fixes
