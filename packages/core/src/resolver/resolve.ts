@@ -18,9 +18,17 @@
 
 import { esbuildPlugin } from "@powerlines/deepkit/esbuild-plugin";
 import {
+  reflect,
+  ReflectionClass,
+  ReflectionFunction,
+  ReflectionKind
+} from "@powerlines/deepkit/vendor/type";
+import type { JsonSchemaLike, SchemaInput } from "@powerlines/schema";
+import {
   addProperty,
   extract,
   getPropertiesList,
+  isJsonSchemaArray,
   resolveModule
 } from "@powerlines/schema";
 import { toArray } from "@stryke/convert/to-array";
@@ -30,6 +38,7 @@ import { replacePath } from "@stryke/path/replace";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { titleCase } from "@stryke/string-format/title-case";
 import { isBoolean } from "@stryke/type-checks/is-boolean";
+import { isFunction } from "@stryke/type-checks/is-function";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { getGlobalOptions } from "../helpers/utilities";
@@ -44,6 +53,7 @@ import type {
   CommandTree,
   Context
 } from "../types";
+import { resolveCommandArgument, resolveCommandOption } from "./deepkit";
 import {
   applyArgsDefaults,
   applyDefaults,
@@ -307,32 +317,6 @@ function resolveCommandParameter(
   return result;
 }
 
-/**
- * Resolves a command option from the given schema.
- *
- * @param schema - The command option schema, which can be a command option configuration or a JSON schema input.
- * @returns The resolved command option definition.
- */
-function resolveCommandOption(schema: unknown): CommandOption {
-  return resolveCommandParameter(schema, {
-    fallbackRequired: false,
-    includeBooleanOptionFields: true
-  });
-}
-
-/**
- * Resolves a command argument from the given schema.
- *
- * @param schema - The command argument schema, which can be a command argument configuration or a JSON schema input.
- * @returns The resolved command argument definition.
- */
-function resolveCommandArgument(schema: unknown): CommandArgument {
-  return resolveCommandParameter(schema, {
-    fallbackRequired: true,
-    includeBooleanOptionFields: false
-  });
-}
-
 async function preprocess<TContext extends Context>(
   input: ResolverInput<TContext>
 ): Promise<ResolverContext> {
@@ -354,7 +338,6 @@ async function preprocess<TContext extends Context>(
     alias: [],
     icon: parent?.icon,
     tags: parent?.tags ?? [],
-    source: "file",
     ...command,
     title,
     options: parent === null ? getGlobalOptions(context, command) : {},
@@ -363,10 +346,10 @@ async function preprocess<TContext extends Context>(
     children: {}
   } as CommandTree;
 
-  const result: ResolverContext = {
+  const result = {
     input,
     output
-  };
+  } as ResolverContext<TContext>;
 
   if (!command.virtual) {
     if (
@@ -403,6 +386,27 @@ async function preprocess<TContext extends Context>(
         }
       }
     );
+  }
+
+  if (!command.virtual) {
+    if (!result.module?.default) {
+      throw new Error(
+        `The command entry file "${
+          input.command.entry.input?.file || input.command.path
+        }" does not include a handler function as its default export - this is required for command resolution and execution.`
+      );
+    }
+
+    const type = reflect(result.module.default);
+    if (type.kind !== ReflectionKind.function) {
+      throw new Error(
+        `The command entry file "${
+          input.command.entry.input?.file || input.command.path
+        }" does not have a valid function as its default export - this is required for command resolution and execution.`
+      );
+    }
+
+    result.reflection = new ReflectionFunction(type);
   }
 
   return result;
@@ -559,7 +563,15 @@ export async function resolve<TContext extends Context = Context>(
       );
     }
 
-    if (isSetObject(ctx.module.options)) {
+    ctx.output.description ??= (
+      ctx.input.command.description ||
+      // eslint-disable-next-line ts/unbound-method
+      isFunction(ctx.reflection?.getDescription)
+        ? ctx.reflection?.getDescription()
+        : ctx.reflection?.description
+    ) as string;
+
+    if (ctx.module.options) {
       const options = await extract(ctx.input.context, ctx.module.options);
       if (!isSetObject(options) || !isJsonSchemaObjectType(options.schema)) {
         throw new TypeError(
@@ -571,7 +583,10 @@ export async function resolve<TContext extends Context = Context>(
 
       ctx.output.options = getPropertiesList(options).reduce(
         (ret, property) => {
-          ret[property.name] = resolveCommandOption(property);
+          ret[property.name] = resolveCommandParameter(property, {
+            fallbackRequired: false,
+            includeBooleanOptionFields: true
+          });
 
           return ret;
         },
@@ -579,22 +594,59 @@ export async function resolve<TContext extends Context = Context>(
       );
     }
 
-    if (ctx.module.args && Array.isArray(ctx.module.args)) {
+    if (ctx.module.args) {
       const args = await extract(
         ctx.input.context,
-        ctx.module.args as Parameters<typeof extract>[1]
+        ctx.module.args as SchemaInput
       );
-      if (!isSetObject(args) || !isJsonSchemaTupleType(args.schema)) {
-        throw new TypeError(
-          `Command arguments for command at path "${
-            ctx.input.command.path
-          }" must resolve to a tuple.`
-        );
+      if (isSetObject(args)) {
+        if (
+          !isJsonSchemaTupleType(args.schema) &&
+          !isJsonSchemaArray(args.schema)
+        ) {
+          throw new TypeError(
+            `Command arguments for command at path "${
+              ctx.input.command.path
+            }" must resolve to a tuple${
+              (args?.schema as JsonSchemaLike)?.type
+                ? `, instead received ${JSON.stringify((args.schema as JsonSchemaLike).type)}`
+                : ""
+            }.`
+          );
+        }
+
+        if (Array.isArray(args.schema.items)) {
+          ctx.output.args = args.schema.items.map(item =>
+            resolveCommandParameter(item, {
+              fallbackRequired: true,
+              includeBooleanOptionFields: false
+            })
+          );
+        }
+      }
+    }
+
+    const parameters = ctx.reflection?.getParameters() ?? [];
+    if (parameters.length > 0) {
+      const hasOptions =
+        parameters[0] &&
+        (parameters[0].type.kind === ReflectionKind.objectLiteral ||
+          parameters[0].type.kind === ReflectionKind.class);
+      if (hasOptions && !ctx.module.options) {
+        const optionsReflection = ReflectionClass.from(parameters[0]?.type);
+        for (const property of optionsReflection.getProperties()) {
+          ctx.output.options[property.getNameAsString()] = resolveCommandOption(
+            ctx,
+            property
+          );
+        }
       }
 
-      ctx.output.args = args.schema.items.map(item =>
-        resolveCommandArgument(item)
-      );
+      if (!ctx.module.args) {
+        ctx.output.args = (hasOptions ? parameters.slice(1) : parameters).map(
+          (arg, index) => resolveCommandArgument(ctx, index, arg)
+        );
+      }
     }
   } else {
     resolveVirtualCommand(ctx);

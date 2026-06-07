@@ -16,17 +16,15 @@
 
  ------------------------------------------------------------------- */
 
-import { code } from "@alloy-js/core";
 import {
   FunctionDeclaration,
-  IfStatement,
   InterfaceDeclaration,
   InterfaceMember,
   VarDeclaration
 } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import { IsVerbose } from "@shell-shock/core/components/helpers";
+import { code } from "@powerlines/plugin-alloy/core/helpers/code";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import type { ScriptPresetContext } from "../types/plugin";
 
@@ -132,14 +130,12 @@ export function ExitFunctionDeclaration() {
             }
 
             const terminate = (force = false) => { `}
-        <IfStatement
-          condition={<IsVerbose />}>{code`writeLine("");`}</IfStatement>
         <hbr />
         {code`
               verbose(\`The ${getAppTitle(
                 context,
                 true
-              )} application exited \${options.exception ? \`early due to an exception\` : "successfully"}\${options.startDate ? \`. Total processing time is \${Date.now() - options.startDate.getTime() > 5000 ? Math.floor((Date.now() - options.startDate.getTime()) / 1000) : Date.now() - options.startDate.getTime()} \${Date.now() - options.startDate.getTime() > 5000 ? "seconds" : "milliseconds"}\` : ""}...\`);
+              )} application exited \${options.exception ? \`early due to an exception\` : "successfully"}\${options.startDate ? \`. Total run time is \${Date.now() - options.startDate.getTime() > 5000 ? Math.floor((Date.now() - options.startDate.getTime()) / 1000) : Date.now() - options.startDate.getTime()} \${Date.now() - options.startDate.getTime() > 5000 ? "seconds" : "milliseconds"}\` : ""}...\`);
               if (!options.skipProcessExit) {
                 process.nextTick(() => process.exit(exitCode));
               }

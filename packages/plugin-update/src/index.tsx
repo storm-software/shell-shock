@@ -72,7 +72,7 @@ export const plugin = <
       } else {
         this.inputs.push({
           id: this.config.update.command.name,
-          alias: ["up"],
+          alias: ["upgrade"],
           path: this.config.update.command.name,
           segments: [this.config.update.command.name],
           title: "Update",

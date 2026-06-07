@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import type { ReflectionFunction } from "@powerlines/deepkit/vendor/type";
 import type {
   CommandConfig,
   CommandModule,
@@ -32,5 +33,6 @@ export interface ResolverInput<TContext extends Context = Context> {
 export interface ResolverContext<TContext extends Context = Context> {
   input: ResolverInput<TContext>;
   module?: CommandModule;
+  reflection?: ReflectionFunction;
   output: CommandTree;
 }

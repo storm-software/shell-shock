@@ -110,7 +110,7 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
                 .join(" ")}`
             : ""
         } \${textColors.usage.options("[options]")}\`), { padding: ${
-          theme.padding.app * indent
+          (theme.padding.app ?? 1) * indent
         } }
       );`}
       <hbr />
@@ -164,7 +164,7 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
                 .join(" ")}`
             : ""
         } \${textColors.usage.options("[options]")}\`), { padding: ${
-          theme.padding.app * indent
+          (theme.padding.app ?? 1) * indent
         } }
       );`}
         </For>
@@ -217,7 +217,7 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
                 )
                 .join(" ")}`
             : ""
-        }\`), { padding: ${theme.padding.app * indent} }
+        }\`), { padding: ${(theme.padding.app ?? 1) * indent} }
       );`}
         <hbr />
       </Show>
@@ -402,7 +402,7 @@ export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
       : [
           ...Object.values(command.options),
           ...context.globalOptions.filter(
-            globalOption =>
+            (globalOption: CommandOption) =>
               !Object.values(command.options).some(
                 option =>
                   option.name.toLowerCase() === globalOption.name.toLowerCase()
@@ -421,7 +421,7 @@ export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
   return (
     <>
       {code`writeLine(bold(textColors.heading.secondary("Usage:"))${
-        indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
+        indent > 1 ? `, { padding: ${(theme.padding.app ?? 1) * indent} }` : ""
       });`}
       <hbr />
       <HelpUsageDisplay command={command} indent={indent} />
@@ -429,7 +429,7 @@ export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
       <Show when={options.value.length > 0}>
         {code`writeLine("");
       writeLine(bold(textColors.heading.secondary("Options:"))${
-        indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
+        indent > 1 ? `, { padding: ${(theme.padding.app ?? 1) * indent} }` : ""
       });`}
         <hbr />
         <HelpOptionsDisplay options={options.value} />
@@ -438,7 +438,7 @@ export function BaseHelpDisplay(props: BaseHelpDisplayProps) {
       <Show when={Object.keys(command.children).length > 0}>
         {code`writeLine("");
       writeLine(bold(textColors.heading.secondary("Commands:"))${
-        indent > 1 ? `, { padding: ${theme.padding.app * indent} }` : ""
+        indent > 1 ? `, { padding: ${(theme.padding.app ?? 1) * indent} }` : ""
       });`}
         <hbr />
         <HelpCommandsDisplay commands={command.children} />

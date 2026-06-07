@@ -123,7 +123,7 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
                   tag
                 )}(inverse(" ${tag} ")) : textColors.tags.$default(inverse(" ${tag} "))}`
             )
-            .join(" ")}\`, { padding: ${theme.padding.app * 2} }); `}
+            .join(" ")}\`, { padding: ${(theme.padding.app ?? 1) * 2} }); `}
         </Show>
         <Show
           when={!command.virtual}
@@ -142,7 +142,7 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
               : getAppTitle(context, false)
           } documentation at \${link("${
             command.docs
-          }")}\${textColors.body.tertiary(".")}\`), { padding: ${theme.padding.app * 2} });
+          }")}\${textColors.body.tertiary(".")}\`), { padding: ${(theme.padding.app ?? 1) * 2} });
           writeLine(""); `}
           <hbr />
         </Show>

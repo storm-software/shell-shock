@@ -70,7 +70,7 @@ export function getGlobalOptions(): CommandOption[] {
       type: "boolean",
       required: false,
       variadic: false,
-      skipAddingNegative: false
+      isNegativeOf: "no-color"
     },
     {
       name: "no-color",
@@ -81,7 +81,7 @@ export function getGlobalOptions(): CommandOption[] {
       type: "boolean",
       required: false,
       variadic: false,
-      skipAddingNegative: false
+      isNegativeOf: "color"
     },
     {
       name: "no-banner",
