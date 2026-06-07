@@ -199,8 +199,8 @@
     "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",
     "@stryke/types": "catalog:",
-    "cfonts": "catalog:",
     "defu": "catalog:",
+    "figlet": "catalog:",
     "powerlines": "catalog:"
   },
   "devDependencies": {

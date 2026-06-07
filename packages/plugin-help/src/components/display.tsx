@@ -64,7 +64,7 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
   return (
     <>
       {code`writeLine(
-        textColors.body.secondary(\`\${textColors.usage.bin("$_ ${getAppBin(
+        textColors.body.secondary(\`\${textColors.usage.bin(">_ ${getAppBin(
           context
         )}")}${
           command.segments.length > 0
@@ -117,7 +117,7 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
       <Show when={command.alias.length > 0}>
         <For each={command.alias} hardline>
           {alias => code`writeLine(
-        textColors.body.secondary(\`\${textColors.usage.bin("$_ ${getAppBin(
+        textColors.body.secondary(\`\${textColors.usage.bin(">_ ${getAppBin(
           context
         )}")}${
           command.segments.length > 1
@@ -174,7 +174,7 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
         <hbr />
         {code`
       writeLine(
-        textColors.body.secondary(\`\${textColors.usage.bin("$_ ${getAppBin(context)}")}${
+        textColors.body.secondary(\`\${textColors.usage.bin(">_ ${getAppBin(context)}")}${
           command.segments.length > 0
             ? ` ${command.segments
                 .map(

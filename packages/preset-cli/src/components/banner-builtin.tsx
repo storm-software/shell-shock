@@ -31,8 +31,8 @@ import {
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import { render } from "cfonts";
 import defu from "defu";
+import figlet from "figlet";
 import type { CLIPresetContext } from "../types/plugin";
 
 /**
@@ -67,7 +67,7 @@ export function BannerFunctionBodyDeclaration(
   );
 
   const titleLines = computed(() => {
-    const result = render(
+    const result = figlet.textSync(
       isSetString(context.config.banner)
         ? context.config.banner
         : isSetObject(context.config.banner) &&
@@ -75,21 +75,14 @@ export function BannerFunctionBodyDeclaration(
           ? context.config.banner.text
           : getAppTitle(context, true),
       defu(isSetObject(context.config.banner) ? context.config.banner : {}, {
-        font: "tiny",
-        align: "left",
-        background: "transparent",
-        letterSpacing: 1,
-        lineHeight: 1,
-        gradient: false,
-        transitionGradient: false,
-        env: "node"
+        font: "ANSI Compact"
       })
     );
     if (!result) {
       return [`${getAppTitle(context, true)} Command-Line Interface`];
     }
 
-    return result.array;
+    return result.split("\n").filter(line => line.trim().length > 0);
   });
 
   const bannerPadding = computed(

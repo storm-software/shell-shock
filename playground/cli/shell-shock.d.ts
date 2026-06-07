@@ -1175,7 +1175,7 @@ declare module "shell-shock:env" {
      * @alias BUILD_ID
      * @alias SHELL_SHOCK_BUILD_ID
      * @readonly
-     * @defaultValue "0889e7d4-f9b1-4499-8df8-83c74988da68"
+     * @defaultValue "2ae2dd4f-2b37-4034-8201-a9fcc8fd9a4e"
      */
     readonly PLAYGROUND_CLI_BUILD_ID: string;
     /**
@@ -1184,7 +1184,7 @@ declare module "shell-shock:env" {
      * @alias BUILD_TIMESTAMP
      * @alias SHELL_SHOCK_BUILD_TIMESTAMP
      * @readonly
-     * @defaultValue "2026-06-06T12:26:19.283Z"
+     * @defaultValue "2026-06-07T05:30:30.400Z"
      */
     readonly PLAYGROUND_CLI_BUILD_TIMESTAMP: string;
     /**
@@ -1193,7 +1193,7 @@ declare module "shell-shock:env" {
      * @alias BUILD_CHECKSUM
      * @alias SHELL_SHOCK_BUILD_CHECKSUM
      * @readonly
-     * @defaultValue "iJUE502T6VNTG4ZvI6Qv62g1Tv9bxcmL"
+     * @defaultValue "S1OwA3Gj9YEYJKQZS1SqRhSCiKnSkA8D"
      */
     readonly PLAYGROUND_CLI_BUILD_CHECKSUM: string;
     /**
@@ -1202,7 +1202,7 @@ declare module "shell-shock:env" {
      * @alias RELEASE_ID
      * @alias SHELL_SHOCK_RELEASE_ID
      * @readonly
-     * @defaultValue "89e7d4f9-b1b4-494d-b883-c74988da68aa"
+     * @defaultValue "e2dd4f2b-37e0-44c2-81a9-fcc8fd9a4ef9"
      */
     readonly PLAYGROUND_CLI_RELEASE_ID: string;
     /**
@@ -2213,7 +2213,7 @@ declare module "shell-shock:env" {
      * @alias BUILD_ID
      * @alias PLAYGROUND_CLI_BUILD_ID
      * @readonly
-     * @defaultValue "0889e7d4-f9b1-4499-8df8-83c74988da68"
+     * @defaultValue "2ae2dd4f-2b37-4034-8201-a9fcc8fd9a4e"
      */
     readonly SHELL_SHOCK_BUILD_ID: string;
     /**
@@ -2222,7 +2222,7 @@ declare module "shell-shock:env" {
      * @alias BUILD_TIMESTAMP
      * @alias PLAYGROUND_CLI_BUILD_TIMESTAMP
      * @readonly
-     * @defaultValue "2026-06-06T12:26:19.283Z"
+     * @defaultValue "2026-06-07T05:30:30.400Z"
      */
     readonly SHELL_SHOCK_BUILD_TIMESTAMP: string;
     /**
@@ -2231,7 +2231,7 @@ declare module "shell-shock:env" {
      * @alias BUILD_CHECKSUM
      * @alias PLAYGROUND_CLI_BUILD_CHECKSUM
      * @readonly
-     * @defaultValue "iJUE502T6VNTG4ZvI6Qv62g1Tv9bxcmL"
+     * @defaultValue "S1OwA3Gj9YEYJKQZS1SqRhSCiKnSkA8D"
      */
     readonly SHELL_SHOCK_BUILD_CHECKSUM: string;
     /**
@@ -2240,7 +2240,7 @@ declare module "shell-shock:env" {
      * @alias RELEASE_ID
      * @alias PLAYGROUND_CLI_RELEASE_ID
      * @readonly
-     * @defaultValue "89e7d4f9-b1b4-494d-b883-c74988da68aa"
+     * @defaultValue "e2dd4f2b-37e0-44c2-81a9-fcc8fd9a4ef9"
      */
     readonly SHELL_SHOCK_RELEASE_ID: string;
     /**
@@ -8835,13 +8835,13 @@ declare module "shell-shock:banner/completions" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Configuration command.
  *
- * @module shell-shock:banner/completions/bash/config
+ * @module shell-shock:banner/completions/zsh/config
  */
-declare module "shell-shock:banner/completions/bash/config" {
+declare module "shell-shock:banner/completions/zsh/config" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Bash Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Zsh Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -8852,13 +8852,13 @@ declare module "shell-shock:banner/completions/bash/config" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Configuration command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Bash Configuration command.
  *
- * @module shell-shock:banner/completions/zsh/config
+ * @module shell-shock:banner/completions/bash/config
  */
-declare module "shell-shock:banner/completions/zsh/config" {
+declare module "shell-shock:banner/completions/bash/config" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Zsh Configuration command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Bash Configuration command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9090,13 +9090,13 @@ declare module "shell-shock:banner/run" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Script command.
  *
- * @module shell-shock:banner/completions/bash/script
+ * @module shell-shock:banner/completions/zsh/script
  */
-declare module "shell-shock:banner/completions/bash/script" {
+declare module "shell-shock:banner/completions/zsh/script" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Bash Script command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Zsh Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9107,13 +9107,13 @@ declare module "shell-shock:banner/completions/bash/script" {
 }
 
 /**
- * A collection of utility functions that assist in displaying banner information for the Completions - Zsh Script command.
+ * A collection of utility functions that assist in displaying banner information for the Completions - Bash Script command.
  *
- * @module shell-shock:banner/completions/zsh/script
+ * @module shell-shock:banner/completions/bash/script
  */
-declare module "shell-shock:banner/completions/zsh/script" {
+declare module "shell-shock:banner/completions/bash/script" {
   /**
-   * Write the Playground command-line interface application banner for the Completions - Zsh Script command to the console.
+   * Write the Playground command-line interface application banner for the Completions - Bash Script command to the console.
    *
    * @param sleepTimeoutMs - The amount of time in milliseconds to sleep before
    *   displaying the banner. This can be used to create a delay before the banner
@@ -9317,24 +9317,6 @@ declare module "shell-shock:help/completions" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Bash Configuration command.
- *
- * @module shell-shock:help/completions/bash/config
- */
-declare module "shell-shock:help/completions/bash/config" {
-  /**
-   * Utility functions for displaying help information for the Completions - Bash Configuration command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Bash Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Bash Configuration command.
-   */
-  export function showHelp(): void;
-}
-
-/**
  * A collection of utility functions that assist in displaying help information for the Completions - Zsh Configuration command.
  *
  * @module shell-shock:help/completions/zsh/config
@@ -9348,6 +9330,24 @@ declare module "shell-shock:help/completions/zsh/config" {
    */
   /**
    * Display help information for the Completions - Zsh Configuration command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - Bash Configuration command.
+ *
+ * @module shell-shock:help/completions/bash/config
+ */
+declare module "shell-shock:help/completions/bash/config" {
+  /**
+   * Utility functions for displaying help information for the Completions - Bash Configuration command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Bash Configuration command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Bash Configuration command.
    */
   export function showHelp(): void;
 }
@@ -9588,24 +9588,6 @@ declare module "shell-shock:help/run" {
 }
 
 /**
- * A collection of utility functions that assist in displaying help information for the Completions - Bash Script command.
- *
- * @module shell-shock:help/completions/bash/script
- */
-declare module "shell-shock:help/completions/bash/script" {
-  /**
-   * Utility functions for displaying help information for the Completions - Bash Script command.
-   *
-   * @remarks
-   * This module contains utility functions that assist in displaying help information for the Completions - Bash Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
-   */
-  /**
-   * Display help information for the Completions - Bash Script command.
-   */
-  export function showHelp(): void;
-}
-
-/**
  * A collection of utility functions that assist in displaying help information for the Completions - Zsh Script command.
  *
  * @module shell-shock:help/completions/zsh/script
@@ -9619,6 +9601,24 @@ declare module "shell-shock:help/completions/zsh/script" {
    */
   /**
    * Display help information for the Completions - Zsh Script command.
+   */
+  export function showHelp(): void;
+}
+
+/**
+ * A collection of utility functions that assist in displaying help information for the Completions - Bash Script command.
+ *
+ * @module shell-shock:help/completions/bash/script
+ */
+declare module "shell-shock:help/completions/bash/script" {
+  /**
+   * Utility functions for displaying help information for the Completions - Bash Script command.
+   *
+   * @remarks
+   * This module contains utility functions that assist in displaying help information for the Completions - Bash Script command. The main function exported by this module is the `showHelp` function, which can be used to display help information for the specified command or application. This function can be called from within the command's handler or from any other part of the application where help information needs to be displayed.
+   */
+  /**
+   * Display help information for the Completions - Bash Script command.
    */
   export function showHelp(): void;
 }
