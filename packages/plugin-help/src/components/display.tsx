@@ -114,62 +114,6 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
         } }
       );`}
       <hbr />
-      <Show when={command.alias.length > 0}>
-        <For each={command.alias} hardline>
-          {alias => code`writeLine(
-        textColors.body.secondary(\`\${textColors.usage.bin(">_ ${getAppBin(
-          context
-        )}")}${
-          command.segments.length > 1
-            ? ` ${command.segments
-                .slice(0, -1)
-                .map(
-                  segment =>
-                    `\${textColors.usage.${
-                      isDynamicPathSegment(segment) ? "dynamic" : "command"
-                    }("${
-                      isDynamicPathSegment(segment)
-                        ? `[${snakeCase(getDynamicPathSegmentName(segment))}]`
-                        : segment
-                    }")}`
-                )
-                .join(" ")}`
-            : ""
-        } \${textColors.usage.command("${alias}")}${
-          Object.values(command.children).length > 0
-            ? ` \${textColors.usage.dynamic("<command>")}`
-            : ""
-        }${
-          command.args.length > 0
-            ? ` ${command.args
-                .map(
-                  arg =>
-                    `\${textColors.usage.args("<${
-                      (arg.type === "string" || arg.type === "number") &&
-                      arg.choices &&
-                      arg.choices.length > 0
-                        ? arg.choices
-                            .map(choice => snakeCase(String(choice)))
-                            .join("|")
-                        : arg.type === "string" && arg.format
-                          ? snakeCase(arg.format)
-                          : snakeCase(arg.name)
-                    }${
-                      (arg.type === "string" || arg.type === "number") &&
-                      arg.variadic
-                        ? "..."
-                        : ""
-                    }>")}`
-                )
-                .join(" ")}`
-            : ""
-        } \${textColors.usage.options("[options]")}\`), { padding: ${
-          (theme.padding.app ?? 1) * indent
-        } }
-      );`}
-        </For>
-      </Show>
-      <hbr />
       <Show when={command.args.length > 0}>
         <hbr />
         {code`
@@ -221,6 +165,118 @@ export function HelpUsageDisplay(props: HelpUsageDisplayProps) {
       );`}
         <hbr />
       </Show>
+      <Show when={command.alias.length > 0}>
+        <For each={command.alias} hardline>
+          {alias => (
+            <>
+              {code`writeLine(
+        textColors.body.secondary(\`\${textColors.usage.bin(">_ ${getAppBin(
+          context
+        )}")}${
+          command.segments.length > 1
+            ? ` ${command.segments
+                .slice(0, -1)
+                .map(
+                  segment =>
+                    `\${textColors.usage.${
+                      isDynamicPathSegment(segment) ? "dynamic" : "command"
+                    }("${
+                      isDynamicPathSegment(segment)
+                        ? `[${snakeCase(getDynamicPathSegmentName(segment))}]`
+                        : segment
+                    }")}`
+                )
+                .join(" ")}`
+            : ""
+        } \${textColors.usage.command("${alias}")}${
+          Object.values(command.children).length > 0
+            ? ` \${textColors.usage.dynamic("<command>")}`
+            : ""
+        }${
+          command.args.length > 0
+            ? ` ${command.args
+                .map(
+                  arg =>
+                    `\${textColors.usage.args("<${
+                      (arg.type === "string" || arg.type === "number") &&
+                      arg.choices &&
+                      arg.choices.length > 0
+                        ? arg.choices
+                            .map(choice => snakeCase(String(choice)))
+                            .join("|")
+                        : arg.type === "string" && arg.format
+                          ? snakeCase(arg.format)
+                          : snakeCase(arg.name)
+                    }${
+                      (arg.type === "string" || arg.type === "number") &&
+                      arg.variadic
+                        ? "..."
+                        : ""
+                    }>")}`
+                )
+                .join(" ")}`
+            : ""
+        } \${textColors.usage.options("[options]")}\`), { padding: ${
+          (theme.padding.app ?? 1) * indent
+        } }
+      );`}
+              <Show when={command.args.length > 0}>
+                <hbr />
+                {code`
+      writeLine(
+        textColors.body.secondary(\`\${textColors.usage.bin(">_ ${getAppBin(context)}")}${
+          command.segments.length > 1
+            ? ` ${command.segments
+                .slice(0, -1)
+                .map(
+                  segment =>
+                    `\${textColors.usage.${
+                      isDynamicPathSegment(segment) ? "dynamic" : "command"
+                    }("${
+                      isDynamicPathSegment(segment)
+                        ? `[${snakeCase(getDynamicPathSegmentName(segment))}]`
+                        : segment
+                    }")}`
+                )
+                .join(" ")}`
+            : ""
+        } \${textColors.usage.command("${alias}")}${
+          Object.values(command.children).length > 0
+            ? ` \${textColors.usage.dynamic("<command>")}`
+            : ""
+        } \${textColors.usage.options("[options]")}${
+          command.args.length > 0
+            ? ` ${command.args
+                .map(
+                  arg =>
+                    `\${textColors.usage.args("<${
+                      (arg.type === "string" || arg.type === "number") &&
+                      arg.choices &&
+                      arg.choices.length > 0
+                        ? arg.choices
+                            .map(choice => snakeCase(String(choice)))
+                            .join("|")
+                        : arg.type === "string" && arg.format
+                          ? snakeCase(arg.format)
+                          : snakeCase(arg.name)
+                    }${
+                      (arg.type === "string" || arg.type === "number") &&
+                      arg.variadic
+                        ? "..."
+                        : ""
+                    }>")}`
+                )
+                .join(" ")}`
+            : ""
+        }\`), { padding: ${(theme.padding.app ?? 1) * indent} }
+      );`}
+                <hbr />
+              </Show>
+            </>
+          )}
+        </For>
+      </Show>
+      <hbr />
     </>
   );
 }
@@ -244,7 +300,7 @@ export function HelpOptionsDisplay(props: HelpOptionsDisplayProps) {
     <>
       {code`table([ `}
       <hbr />
-      <For each={sortOptions(options)} hardline>
+      <For each={sortOptions(options, false)} hardline>
         {option => {
           const flags = [] as string[];
           const names = [] as string[];

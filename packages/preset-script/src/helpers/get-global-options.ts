@@ -68,6 +68,7 @@ export function getGlobalOptions(): CommandOption[] {
       env: "COLOR",
       alias: ["colors"],
       type: "boolean",
+      default: false,
       required: false,
       variadic: false,
       isNegativeOf: "no-color"
@@ -79,6 +80,7 @@ export function getGlobalOptions(): CommandOption[] {
       env: "NO_COLOR",
       alias: ["no-colors"],
       type: "boolean",
+      default: false,
       required: false,
       variadic: false,
       isNegativeOf: "color"

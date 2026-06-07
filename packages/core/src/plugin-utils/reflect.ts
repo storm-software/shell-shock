@@ -22,15 +22,25 @@ import type { CommandOption } from "../types/command";
  * Sort command options alphabetically by name, placing boolean options with negatives appropriately.
  *
  * @param options - The array of command options to sort.
+ * @param skipNegatives - Whether to skip negative options when sorting (default: true).
  * @returns A new array of sorted command options.
  */
-export function sortOptions(options: CommandOption[]): CommandOption[] {
+export function sortOptions(
+  options: CommandOption[],
+  skipNegatives = true
+): CommandOption[] {
   if (!options || options.length === 0) {
     return [];
   }
 
   return options
-    .filter(arg => arg.type !== "boolean" || arg.variadic || !arg.isNegativeOf)
+    .filter(
+      arg =>
+        arg.type !== "boolean" ||
+        arg.variadic ||
+        !skipNegatives ||
+        !arg.isNegativeOf
+    )
     .sort((a, b) => a.name.localeCompare(b.name))
     .reduce((ret, arg) => {
       ret.push(arg);

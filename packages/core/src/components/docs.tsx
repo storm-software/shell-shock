@@ -24,6 +24,7 @@ import type { MarkdownFileProps } from "@powerlines/plugin-alloy/markdown/compon
 import { MarkdownFile } from "@powerlines/plugin-alloy/markdown/components/markdown-file";
 import { MarkdownTable } from "@powerlines/plugin-alloy/markdown/components/markdown-table";
 import { joinPaths } from "@stryke/path/join";
+import { isUndefined } from "@stryke/type-checks/is-undefined";
 import { defu } from "defu";
 import { CommandContext } from "../contexts/command";
 import { getDocsOutputPath } from "../helpers/docs-helpers";
@@ -51,22 +52,26 @@ export function CommandOptionsDocs(props: CommandOptionsDocsProps) {
 
   return (
     <MarkdownTable
-      data={sortOptions(Object.values(command.options)).map(option => {
-        return {
-          name: option.name.trim(),
-          description: option.description.trim(),
-          defaultValue: option.default
-            ? String(option.default)?.includes('"')
-              ? option.default
-              : `\`${
-                  Array.isArray(option.default)
-                    ? option.default.join(", ")
-                    : option.default
-                }\``
-            : "",
-          required: !option.required || option.default ? "" : "✔"
-        };
-      })}
+      data={sortOptions(Object.values(command.options)).reduce(
+        (ret, option) => {
+          ret.push({
+            name: option.name.trim(),
+            description: option.description.trim(),
+            defaultValue: isUndefined(option.default)
+              ? ""
+              : JSON.stringify(option.default),
+            required: !option.required || option.default ? "" : "✔"
+          });
+
+          return ret;
+        },
+        [] as {
+          name: string;
+          description: string;
+          defaultValue: string;
+          required: string;
+        }[]
+      )}
     />
   );
 }
@@ -86,20 +91,30 @@ export interface CommandDocsUsageExampleProps {
    * The command to generate the usage example for.
    */
   command: CommandTree;
+
+  /**
+   * Whether to add expand/collapse details tags around the usage example. This is useful for hiding long usage examples by default.
+   *
+   * @defaultValue true
+   */
+  expand?: boolean;
 }
 
 /**
  * Generates the markdown documentation for a command.
  */
 export function CommandDocsUsageExample(props: CommandDocsUsageExampleProps) {
-  const { packageManager = "npm", command } = props;
+  const { packageManager = "npm", command, expand = true } = props;
 
   const context = usePowerlines<Context>();
 
   return (
     <>
-      <hbr />
-      {code`\`\`\`bash `}
+      <Show when={expand} fallback={code`\`\`\`bash `}>
+        {code`<details>
+        <summary>Using ${packageManager}</summary>
+        \`\`\`bash `}
+      </Show>
       <hbr />
       <Usage
         command={command}
@@ -107,7 +122,10 @@ export function CommandDocsUsageExample(props: CommandDocsUsageExampleProps) {
         packageManager={packageManager}
       />
       <hbr />
-      {code`\`\`\``}
+      <Show when={expand} fallback={code`\`\`\` `}>
+        {code`\`\`\`
+        </details> `}
+      </Show>
       <hbr />
     </>
   );

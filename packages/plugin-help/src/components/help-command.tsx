@@ -45,8 +45,8 @@ export function TemporaryHelpCommand() {
       {code` // Temporary placeholder file to ensure the help command's entry file is generated. The actual content of this file will be rendered in the \`prepare\` step of this plugin, after the command list has been fully resolved. `}
       <Spacing />
       <TSDoc heading="Display command usage details and other useful information to the user.">
-        <TSDocParam name="segments">
-          {`The command segments for the command to show help for. This is used to determine which command's help information to display. If no segments are provided, general help information about the CLI application will be displayed.`}
+        <TSDocParam name="commands">
+          {`The command segments for the command to show help for. This is used to determine which command's help information to display. If no commands are provided, general help information about the CLI application will be displayed.`}
         </TSDocParam>
       </TSDoc>
       <FunctionDeclaration
@@ -55,7 +55,7 @@ export function TemporaryHelpCommand() {
         async
         name="handler"
         parameters={[
-          { name: "segments", type: "string[]", default: "[]" }
+          { name: "commands", type: "string[]", default: "[]" }
         ]}></FunctionDeclaration>
     </TypescriptFile>
   );
@@ -74,12 +74,12 @@ export function HelpCommand(props: HelpCommandsProps) {
   const helpImports = computed(() =>
     props.commands
       ? props.commands.reduce(
-          (ret, segments) => {
-            ret[joinPaths("help", ...segments)] = [
+          (ret, commands) => {
+            ret[joinPaths("help", ...commands)] = [
               {
                 name: "showHelp",
-                alias: `showHelp${segments
-                  .map(segment => pascalCase(segment.replace(/-/g, "")))
+                alias: `showHelp${commands
+                  .map(command => pascalCase(command.replace(/-/g, "")))
                   .join("")}`
               }
             ];
@@ -116,8 +116,8 @@ export function HelpCommand(props: HelpCommandsProps) {
         ]
       }}>
       <TSDoc heading="Display command usage details and other useful information to the user.">
-        <TSDocParam name="segments">
-          {`The command segments for the command to show help for. This is used to determine which command's help information to display. If no segments are provided, general help information about the CLI application will be displayed.`}
+        <TSDocParam name="commands">
+          {`The command segments for the command to show help for. This is used to determine which command's help information to display. If no commands are provided, general help information about the CLI application will be displayed.`}
         </TSDocParam>
       </TSDoc>
       <FunctionDeclaration
@@ -125,30 +125,30 @@ export function HelpCommand(props: HelpCommandsProps) {
         default
         async
         name="handler"
-        parameters={[{ name: "segments", type: "string[]", default: "[]" }]}>
+        parameters={[{ name: "commands", type: "string[]", default: "[]" }]}>
         <Show
           when={commandSegmentsList.length > 0}
           fallback={code`showHelp(); `}>
           <For each={commandSegmentsList} doubleHardline>
-            {(segments, index) => (
+            {(commands, index) => (
               <Show
                 when={index > 0}
                 fallback={
                   <IfStatement
-                    condition={code`segments.join("/").toLowerCase() === "${segments
+                    condition={code`commands.join("/").toLowerCase() === "${commands
                       .join("/")
                       .toLowerCase()}"`}>
-                    {code` showHelp${segments
-                      .map(segment => pascalCase(segment))
+                    {code` showHelp${commands
+                      .map(command => pascalCase(command))
                       .join("")}(); `}
                   </IfStatement>
                 }>
                 <ElseIfClause
-                  condition={code`segments.join("/").toLowerCase() === "${segments
+                  condition={code`commands.join("/").toLowerCase() === "${commands
                     .join("/")
                     .toLowerCase()}"`}>
-                  {code` showHelp${segments
-                    .map(segment => pascalCase(segment))
+                  {code` showHelp${commands
+                    .map(command => pascalCase(command))
                     .join("")}(); `}
                 </ElseIfClause>
               </Show>
