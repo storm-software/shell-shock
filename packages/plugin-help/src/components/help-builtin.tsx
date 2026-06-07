@@ -155,7 +155,7 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
               : ""
           } <specific command> --help")}) or the help command with the specific command as arguments (via: \${inlineCode("${getAppBin(
             context
-          )} ${
+          )}${
             command.segments && command.segments.length > 0
               ? ` ${command.segments.join(" ")}`
               : ""
