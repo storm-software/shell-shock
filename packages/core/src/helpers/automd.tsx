@@ -129,6 +129,7 @@ export const usage = (context: Context) =>
                       packageManager as CommandDocsUsageExampleProps["packageManager"]
                     }
                     command={context.commands[ctx.args.command]!}
+                    expand={packageManagers && packageManagers.length > 1}
                   />
                 </>
               )}

@@ -131,7 +131,7 @@ export interface CommandDocsUsageExampleProps {
   /**
    * Whether to add expand/collapse details tags around the usage example. This is useful for hiding long usage examples by default.
    *
-   * @defaultValue true
+   * @defaultValue false
    */
   expand?: boolean;
 }
@@ -140,16 +140,17 @@ export interface CommandDocsUsageExampleProps {
  * Generates the markdown documentation for a command.
  */
 export function CommandDocsUsageExample(props: CommandDocsUsageExampleProps) {
-  const { packageManager = "npm", command, expand = true } = props;
+  const { packageManager = "npm", command, expand = false } = props;
 
   const context = usePowerlines<Context>();
 
   return (
     <>
-      <Show when={expand} fallback={code`\`\`\`bash `}>
+      <Show when={expand} fallback={code`\`\`\`sh `}>
         {code`<details>
-        <summary>Using ${packageManager}</summary>
-        \`\`\`bash `}
+        <summary>Using ${packageManager}:</summary>`}
+        <Spacing />
+        {code`\`\`\`sh `}
       </Show>
       <hbr />
       <Usage
@@ -159,10 +160,10 @@ export function CommandDocsUsageExample(props: CommandDocsUsageExampleProps) {
       />
       <hbr />
       <Show when={expand} fallback={code`\`\`\` `}>
-        {code`\`\`\`
-        </details> `}
+        {code`\`\`\``}
+        <Spacing />
+        {code`</details>`}
       </Show>
-      <hbr />
     </>
   );
 }
@@ -233,11 +234,12 @@ export function CommandDocs(props: CommandDocsProps) {
         fallback={
           <CommandDocsUsageExample packageManager="npm" command={command} />
         }>
-        <For each={usageExamples!} hardline>
+        <For each={usageExamples!} doubleHardline>
           {packageManager => (
             <CommandDocsUsageExample
               packageManager={packageManager}
               command={command}
+              expand={usageExamples && usageExamples.length > 1}
             />
           )}
         </For>
