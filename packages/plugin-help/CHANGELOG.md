@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.37](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.37) (06/07/2026)
+
+### Miscellaneous
+
+- **plugin-help:** Resolve issue with spacing in help display ([70ae982](https://github.com/storm-software/shell-shock/commit/70ae982))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.19**
+- Updated **plugin-console** to **v0.2.23**
+- Updated **plugin-theme** to **v0.4.32**
+
 ## [0.2.36](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.36) (06/07/2026)
 
 ### Miscellaneous

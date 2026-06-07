@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.19](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.19) (06/07/2026)
+
+### Miscellaneous
+
+- **core:** Update format of generated shell usage docs ([0815fe2](https://github.com/storm-software/shell-shock/commit/0815fe2))
+- **core:** Clean up `docs` output formatting ([ff863e2](https://github.com/storm-software/shell-shock/commit/ff863e2))
+
+### Features
+
+- **core:** Added AutoMD generators for README files ([9382f30](https://github.com/storm-software/shell-shock/commit/9382f30))
+
 ## [0.17.18](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.18) (06/07/2026)
 
 ### Miscellaneous

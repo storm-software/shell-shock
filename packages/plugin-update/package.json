@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/plugin-update",
-  "version": "0.1.63",
+  "version": "0.1.64",
   "private": false,
   "description": "A package containing a Shell Shock plugin to manage updating the local application's version.",
   "keywords": [
