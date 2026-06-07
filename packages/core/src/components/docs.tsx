@@ -24,6 +24,7 @@ import type { MarkdownFileProps } from "@powerlines/plugin-alloy/markdown/compon
 import { MarkdownFile } from "@powerlines/plugin-alloy/markdown/components/markdown-file";
 import { MarkdownTable } from "@powerlines/plugin-alloy/markdown/components/markdown-table";
 import { joinPaths } from "@stryke/path/join";
+import { list } from "@stryke/string-format/list";
 import { isUndefined } from "@stryke/type-checks/is-undefined";
 import { defu } from "defu";
 import { CommandContext } from "../contexts/command";
@@ -34,7 +35,7 @@ import type { CommandTree } from "../types/command";
 import type { Context } from "../types/context";
 import { Usage } from "./usage";
 
-export interface CommandOptionsDocsProps {
+export interface CommandParametersDocsProps {
   /**
    * The command to generate options documentation for.
    */
@@ -42,9 +43,44 @@ export interface CommandOptionsDocsProps {
 }
 
 /**
+ * Generates the arguments markdown documentation for a command.
+ */
+export function CommandArgumentDocs(props: CommandParametersDocsProps) {
+  const { command } = props;
+  if (Object.keys(command.options).length === 0) {
+    return code`This command does not have any arguments.`;
+  }
+
+  return (
+    <MarkdownTable
+      data={sortOptions(Object.values(command.options)).reduce(
+        (ret, option) => {
+          ret.push({
+            name: option.name.trim(),
+            description: option.description.trim(),
+            defaultValue: isUndefined(option.default)
+              ? ""
+              : JSON.stringify(option.default),
+            required: !option.required || option.default ? "" : "✔"
+          });
+
+          return ret;
+        },
+        [] as {
+          name: string;
+          description: string;
+          defaultValue: string;
+          required: string;
+        }[]
+      )}
+    />
+  );
+}
+
+/**
  * Generates the options markdown documentation for a command.
  */
-export function CommandOptionsDocs(props: CommandOptionsDocsProps) {
+export function CommandOptionsDocs(props: CommandParametersDocsProps) {
   const { command } = props;
   if (Object.keys(command.options).length === 0) {
     return code`This command does not have any options.`;
@@ -163,13 +199,34 @@ export function CommandDocs(props: CommandDocsProps) {
 
   return (
     <>
-      <Heading level={1 + levelOffset}>{command.title}</Heading>
+      <Heading level={1 + levelOffset}>{`${command.title}${
+        command.tags.includes("deprecated")
+          ? " (Deprecated)"
+          : command.tags.includes("beta")
+            ? " (Beta)"
+            : command.tags.includes("alpha")
+              ? " (Alpha)"
+              : command.tags.includes("experimental")
+                ? " (Experimental)"
+                : ""
+      }`}</Heading>
       <Spacing />
       {code`${command.description}`}
+      <Show when={command.alias && command.alias.length > 0}>
+        <Spacing />
+        <Show
+          when={command.alias.length > 1}
+          fallback={code`The \`${command.name}\` command can also be invoked using the alias \`${command.alias[0]}\`.`}>
+          {code`The \`${command.name}\` command can also be invoked using the following aliases: ${list(
+            command.alias.map(alias => `\`${alias}\``),
+            { conjunction: "or" }
+          )}.`}
+        </Show>
+      </Show>
       <Spacing />
       <Heading level={2 + levelOffset}>Usage</Heading>
       <Spacing />
-      {code`The ${command.name} command can be executed using the following syntax: `}
+      {code`The \`${command.name}\` command can be executed using the following syntax: `}
       <Spacing />
       <Show
         when={usageExamples && usageExamples.length > 0}
@@ -186,11 +243,22 @@ export function CommandDocs(props: CommandDocsProps) {
         </For>
       </Show>
       <Spacing />
+      <Show when={command.args.length > 0}>
+        <Spacing />
+        <Heading level={2 + levelOffset}>Positional Arguments</Heading>
+        <Spacing />
+        {code`The following positional arguments are available for the \`${
+          command.name
+        }\` command:`}
+        <Spacing />
+        <CommandArgumentDocs command={command} />
+        <Spacing />
+      </Show>
       <Heading level={2 + levelOffset}>Options</Heading>
       <Spacing />
-      {code`The following options are available for the ${
+      {code`The following options are available for the \`${
         command.name
-      } command:`}
+      }\` command:`}
       <Spacing />
       <CommandOptionsDocs command={command} />
       <Spacing />

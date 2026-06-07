@@ -70,7 +70,7 @@ export function Usage(props: UsageProps) {
           : ""
       }${Object.values(command.children).length > 0 ? " <commands>" : ""}${
         command.args.length > 0
-          ? command.args
+          ? ` ${command.args
               .map(
                 param =>
                   `<${snakeCase(param.name)}${
@@ -80,13 +80,10 @@ export function Usage(props: UsageProps) {
                       : ""
                   }>`
               )
-              .join(" ")
+              .join(" ")}`
           : ""
       } [options]`}
       <Show when={command.args.length > 0}>
-        <hbr />
-        <hbr />
-        {code`# or with options before arguments: `}
         <hbr />
         <Switch>
           <Match when={packageManager === "npm"}>{`npx `}</Match>
