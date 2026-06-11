@@ -82,6 +82,18 @@ yarn add -D @shell-shock/eslint-plugin
 ## Linting Rules
 
 <!-- begin auto-generated rules list -->
+
+💼 Configurations enabled in.\
+⚠️ Configurations set to warn in.\
+📋 Set in the `base` configuration.\
+🌟 Set in the `recommended` configuration.
+
+| Name                                                           | Description                                                                                                                                                | 💼    | ⚠️    |
+| :------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------- | :---- | :---- |
+| [duplicate-command-path](docs/rules/duplicate-command-path.md) | Multiple command files found in the same directory. This can lead to unexpected behavior. Please ensure that there is only one command file per directory. |       | 📋 🌟 |
+| [invalid-command-export](docs/rules/invalid-command-export.md) | A command module must have a handler function as it's default export.                                                                                      | 📋 🌟 |       |
+| [invalid-handler-params](docs/rules/invalid-handler-params.md) | The command handler function must have a valid parameter types.                                                                                            | 📋 🌟 |       |
+
 <!-- end auto-generated rules list -->
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>

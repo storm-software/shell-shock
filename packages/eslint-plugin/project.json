@@ -29,7 +29,8 @@
       "dependsOn": ["build"],
       "options": {
         "cwd": "{projectRoot}",
-        "command": "pnpm exec eslint-doc-generator"
+        "command": "pnpm exec eslint-doc-generator",
+        "forwardAllArgs": false
       }
     },
     "nx-release-publish": {

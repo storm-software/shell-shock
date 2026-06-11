@@ -113,37 +113,6 @@
     }
   },
   "publishConfig": {
-    "access": "public",
-    "exports": {
-      ".": {
-        "require": "./dist/index.cjs",
-        "import": "./dist/index.mjs"
-      },
-      "./configs": {
-        "require": "./dist/configs/index.cjs",
-        "import": "./dist/configs/index.mjs"
-      },
-      "./configs/base": {
-        "require": "./dist/configs/base.cjs",
-        "import": "./dist/configs/base.mjs"
-      },
-      "./plugin": {
-        "require": "./dist/plugin.cjs",
-        "import": "./dist/plugin.mjs"
-      },
-      "./rules/duplicate-command-path": {
-        "require": "./dist/rules/duplicate-command-path.cjs",
-        "import": "./dist/rules/duplicate-command-path.mjs"
-      },
-      "./rules/invalid-command-export": {
-        "require": "./dist/rules/invalid-command-export.cjs",
-        "import": "./dist/rules/invalid-command-export.mjs"
-      },
-      "./rules/invalid-handler-params": {
-        "require": "./dist/rules/invalid-handler-params.cjs",
-        "import": "./dist/rules/invalid-handler-params.mjs"
-      },
-      "./package.json": "./package.json"
-    }
+    "access": "public"
   }
 }

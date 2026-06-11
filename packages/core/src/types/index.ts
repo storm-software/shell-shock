@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                  ⚡ Storm Software - Shell Shock
+                  🗲 Storm Software - Shell Shock
 
  This code was released as part of the Shell Shock project. Shell Shock
  is maintained by Storm Software under the Apache-2.0 license, and is
@@ -19,4 +19,4 @@
 export * from "./command";
 export * from "./config";
 export * from "./context";
-export * from "./options";
+export * from "./env";

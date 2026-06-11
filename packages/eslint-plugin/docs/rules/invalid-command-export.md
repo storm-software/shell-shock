@@ -1,10 +1,8 @@
-# All command files must include a handler function as the default export (`shell-shock/invalid-command-export`)
+# shell-shock/invalid-command-export
 
-💼🚫 This rule is enabled in the 🔒 `strict` config. This rule is _disabled_ in
-the following configs: 📋 `base`, 🌟 `recommended`.
+📝 A command module must have a handler function as it's default export.
 
-🔧 This rule is automatically fixable by the
-[`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+💼 This rule is enabled in the following configs: 📋 `base`, 🌟 `recommended`.
 
 <!-- end auto-generated rule header -->
 
@@ -25,3 +23,5 @@ export default function handler(options) {
 ```
 
 ## Version
+
+This rule was introduced in version 0.0.83 of `@shell-shock/eslint-plugin`.

@@ -1,10 +1,8 @@
-# All command handler functions must have the correct parameter types (`shell-shock/invalid-handler-params`)
+# shell-shock/invalid-handler-params
 
-💼🚫 This rule is enabled in the 🔒 `strict` config. This rule is _disabled_ in
-the following configs: 📋 `base`, 🌟 `recommended`.
+📝 The command handler function must have a valid parameter types.
 
-🔧 This rule is automatically fixable by the
-[`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+💼 This rule is enabled in the following configs: 📋 `base`, 🌟 `recommended`.
 
 <!-- end auto-generated rule header -->
 
@@ -36,3 +34,5 @@ export default function handler(options: CommandOptions, sourceFiles: string[], 
 ```
 
 ## Version
+
+This rule was introduced in version 0.0.83 of `@shell-shock/eslint-plugin`.

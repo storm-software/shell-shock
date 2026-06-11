@@ -25,34 +25,34 @@ catalog:
   "@nx/js": 22.7.5
   "@nx/plugin": 22.7.5
   "@nx/workspace": 22.7.5
-  "@powerlines/core": ^0.48.49
-  "@powerlines/deepkit": ^0.9.81
-  "@powerlines/engine": ^0.49.51
-  "@powerlines/nx": ^0.13.166
-  "@powerlines/plugin-alloy": ^0.26.220
-  "@powerlines/plugin-automd": ^0.1.588
-  "@powerlines/plugin-deepkit": ^0.11.470
-  "@powerlines/plugin-nodejs": ^0.1.532
-  "@powerlines/plugin-plugin": ^0.12.539
-  "@powerlines/plugin-style-dictionary": ^0.3.496
-  "@powerlines/plugin-tsdown": ^0.1.528
-  "@powerlines/plugin-untyped": ^0.2.542
-  "@powerlines/schema": ^0.11.109
-  "@powerlines/tsconfig": ^0.4.176
-  "@powerlines/tsdoc": ^0.2.125
-  "@storm-software/config": ^1.137.72
-  "@storm-software/config-tools": ^1.190.40
-  "@storm-software/cspell": ^0.46.108
-  "@storm-software/eslint": ^0.170.61
-  "@storm-software/git-tools": ^2.131.46
-  "@storm-software/linting-tools": ^1.133.70
-  "@storm-software/markdownlint": ^0.30.196
-  "@storm-software/pnpm-tools": ^0.7.51
-  "@storm-software/prettier": ^0.59.92
-  "@storm-software/testing-tools": ^1.119.193
-  "@storm-software/tsconfig": ^0.48.107
-  "@storm-software/untyped": ^0.24.182
-  "@storm-software/workspace-tools": ^1.296.18
+  "@powerlines/core": ^0.48.56
+  "@powerlines/deepkit": ^0.9.88
+  "@powerlines/engine": ^0.49.58
+  "@powerlines/nx": ^0.13.173
+  "@powerlines/plugin-alloy": ^0.26.227
+  "@powerlines/plugin-automd": ^0.1.595
+  "@powerlines/plugin-deepkit": ^0.11.477
+  "@powerlines/plugin-nodejs": ^0.1.539
+  "@powerlines/plugin-plugin": ^0.12.546
+  "@powerlines/plugin-style-dictionary": ^0.3.503
+  "@powerlines/plugin-tsdown": ^0.1.535
+  "@powerlines/plugin-untyped": ^0.2.549
+  "@powerlines/schema": ^0.11.116
+  "@powerlines/tsconfig": ^0.4.183
+  "@powerlines/tsdoc": ^0.2.131
+  "@storm-software/config": ^1.137.85
+  "@storm-software/config-tools": ^1.190.53
+  "@storm-software/cspell": ^0.46.121
+  "@storm-software/eslint": ^0.170.77
+  "@storm-software/git-tools": ^2.131.60
+  "@storm-software/linting-tools": ^1.133.83
+  "@storm-software/markdownlint": ^0.30.209
+  "@storm-software/pnpm-tools": ^0.7.64
+  "@storm-software/prettier": ^0.59.106
+  "@storm-software/testing-tools": ^1.119.206
+  "@storm-software/tsconfig": ^0.48.120
+  "@storm-software/untyped": ^0.24.195
+  "@storm-software/workspace-tools": ^1.296.32
   "@stryke/cli": ^0.13.57
   "@stryke/convert": ^0.7.15
   "@stryke/fs": ^0.33.85
@@ -64,13 +64,13 @@ catalog:
   "@stryke/type-checks": ^0.6.17
   "@stryke/types": ^0.12.12
   "@swc-node/register": ^1.11.1
-  "@swc/core": ^1.15.40
+  "@swc/core": ^1.15.41
   "@swc/helpers": ^0.5.23
   "@types/eslint": ^9.6.1
   "@types/eslint__js": ^9.14.0
   "@types/jest": ^29.5.14
   "@types/node": ^25.9.2
-  "@typescript-eslint/utils": ^8.60.1
+  "@typescript-eslint/utils": ^8.61.0
   "@typescript/native-preview": 7.0.0-dev.20251218.3
   ajv: ^8.20.0
   ajv-formats: ^3.0.1
@@ -109,10 +109,10 @@ catalog:
   normalize-html-whitespace: ^1.0.0
   nx: 22.7.5
   parse5: ^8.0.1
-  powerlines: ^0.47.127
-  prettier: ^3.8.3
+  powerlines: ^0.47.134
+  prettier: ^3.8.4
   rimraf: ^6.1.3
-  style-dictionary: ^5.4.3
+  style-dictionary: ^5.4.4
   terminal-size: ^4.0.1
   ts-jest: ^29.4.11
   tsdown: ^0.22.2

@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                  ⚡ Storm Software - Shell Shock
+                  🗲 Storm Software - Shell Shock
 
  This code was released as part of the Shell Shock project. Shell Shock
  is maintained by Storm Software under the Apache-2.0 license, and is
@@ -30,7 +30,6 @@ import { resolveSpinner } from "../helpers/spinners";
 import type { ThemePluginContext } from "../types/plugin";
 import type {
   ThemeResolvedConfig,
-  ThemeSpinnerResolvedConfig,
   ThemeSpinnerUserConfig
 } from "../types/theme";
 
@@ -59,14 +58,12 @@ export const spinners = (context: ThemePluginContext): Preprocessor => ({
       | SpinnerPreset;
 
     if (isSetString(spinner)) {
-      resolvedConfig.spinner = resolveSpinner(
-        spinner
-      ) as ThemeSpinnerResolvedConfig;
+      resolvedConfig.spinner = resolveSpinner(spinner);
     } else if (isSetObject(spinner)) {
       resolvedConfig.spinner = {
         interval: 80,
         ...spinner
-      } as ThemeSpinnerResolvedConfig;
+      };
     }
 
     // #endregion Spinners

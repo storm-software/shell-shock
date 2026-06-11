@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                  ⚡ Storm Software - Shell Shock
+                  🗲 Storm Software - Shell Shock
 
  This code was released as part of the Shell Shock project. Shell Shock
  is maintained by Storm Software under the Apache-2.0 license, and is
@@ -107,8 +107,7 @@ export const labels = (context: ThemePluginContext): Preprocessor => ({
       } else if (isSetObject(message)) {
         resolvedConfig.labels.message.header =
           {} as ThemeLabelMessageStateConfig;
-        resolvedConfig.labels.message.footer =
-          {} as ThemeLabelMessageStateConfig;
+        resolvedConfig.labels.message.footer = {};
         const header = message.header;
         const footer = message.footer;
 
@@ -197,8 +196,7 @@ export const labels = (context: ThemePluginContext): Preprocessor => ({
         } else if (isSetObject(banner)) {
           resolvedConfig.labels.banner.header =
             {} as ThemeLabelBannerSubItemConfig;
-          resolvedConfig.labels.banner.footer =
-            {} as ThemeLabelBannerSubItemConfig;
+          resolvedConfig.labels.banner.footer = {};
           const header = banner.header;
           const footer = banner.footer;
 

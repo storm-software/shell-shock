@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                  ⚡ Storm Software - Shell Shock
+                  🗲 Storm Software - Shell Shock
 
  This code was released as part of the Shell Shock project. Shell Shock
  is maintained by Storm Software under the Apache-2.0 license, and is
@@ -93,13 +93,7 @@ function createRuleInfo<
 export const createRule = RuleCreator(
   ruleName =>
     `https://docs.stormsoftware.com/projects/shell-shock/eslint/rules/${ruleName}.md`
-) as any as <TOptions extends readonly unknown[], TMessageIds extends string>({
-  name,
-  meta,
-  ...rule
-}: Readonly<
-  RuleWithMetaAndName<TOptions, TMessageIds>
->) => RuleModule<TOptions>;
+);
 
 const warned = new Set<string>();
 

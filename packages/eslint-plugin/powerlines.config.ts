@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                  ⚡ Storm Software - Shell Shock
+                  🗲 Storm Software - Shell Shock
 
  This code was released as part of the Shell Shock project. Shell Shock
  is maintained by Storm Software under the Apache-2.0 license, and is
@@ -28,13 +28,14 @@ const config: UserConfig = defineConfig({
     "./src/configs/*.ts",
     "./src/rules/*.ts"
   ],
-  plugins: [tsdown()],
-  platform: "node",
-  tsdown: {
-    unbundle: true,
-    target: "es2022",
-    exports: true
-  }
+  plugins: [
+    tsdown({
+      unbundle: true,
+      target: "es2022",
+      exports: true
+    })
+  ],
+  platform: "node"
 });
 
 export default config;

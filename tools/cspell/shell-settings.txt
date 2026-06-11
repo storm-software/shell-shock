@@ -6,3 +6,6 @@ cfonts
 pjson
 linkify
 mdurl
+
+# Ignore in Regex
+ommands

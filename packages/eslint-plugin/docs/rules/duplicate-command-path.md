@@ -1,10 +1,8 @@
-# Require a unique command path for each command file listed for the project (`shell-shock/duplicate-command-path`)
+# shell-shock/duplicate-command-path
 
-💼🚫 This rule is enabled in the 🔒 `strict` config. This rule is _disabled_ in
-the following configs: 📋 `base`, 🌟 `recommended`.
+📝 Multiple command files found in the same directory. This can lead to unexpected behavior. Please ensure that there is only one command file per directory.
 
-🔧 This rule is automatically fixable by the
-[`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
+⚠️ This rule _warns_ in the following configs: 📋 `base`, 🌟 `recommended`.
 
 <!-- end auto-generated rule header -->
 
@@ -25,3 +23,5 @@ the following configs: 📋 `base`, 🌟 `recommended`.
 ```
 
 ## Version
+
+This rule was introduced in version 0.0.83 of `@shell-shock/eslint-plugin`.

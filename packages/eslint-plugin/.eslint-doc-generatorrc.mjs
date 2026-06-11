@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                  ⚡ Storm Software - Shell Shock
+                  🗲 Storm Software - Shell Shock
 
  This code was released as part of the Shell Shock project. Shell Shock
  is maintained by Storm Software under the Apache-2.0 license, and is
@@ -25,10 +25,9 @@ const config = {
     prettier.format(content, { ...prettierConfig, parser: "markdown" }),
   configEmoji: [
     ["base", "📋"],
-    ["recommended", "🌟"],
-    ["strict", "🔒"]
+    ["recommended", "🌟"]
   ],
-  ruleDocSectionInclude: ["Rule Details", "Version"]
+  ruleDocSectionInclude: ["Rule Details", "Version", "Options"]
 };
 
 export default config;

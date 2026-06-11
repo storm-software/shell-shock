@@ -19,7 +19,12 @@
         "verboseOutput": false
       }
     },
-    "@storm-software/workspace-tools/plugins/typescript",
+    {
+      "plugin": "@storm-software/workspace-tools/plugins/typescript",
+      "options": {
+        "enableEslint": false
+      }
+    },
     "@storm-software/workspace-tools/plugins/typescript/untyped",
     {
       "plugin": "@powerlines/nx/plugin",
