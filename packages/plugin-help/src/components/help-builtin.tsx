@@ -153,13 +153,13 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
             command.segments && command.segments.length > 0
               ? ` ${command.segments.join(" ")}`
               : ""
-          } <specific command> --help")}) or the help command with the specific command as arguments (via: \${inlineCode("${getAppBin(
+          } <command> --help")}) or the help command with the specific command as arguments (via: \${inlineCode("${getAppBin(
             context
           )}${
             command.segments && command.segments.length > 0
               ? ` ${command.segments.join(" ")}`
               : ""
-          } help <specific command>")}) will provide additional information that is specific to that command.\`);
+          } help <command>")}) will provide additional information that is specific to that command.\`);
         writeLine("");`}
         </Show>
       </FunctionDeclaration>

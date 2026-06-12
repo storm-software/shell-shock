@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { code, computed, Show, splitProps } from "@alloy-js/core";
+import { VarDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
@@ -33,6 +34,7 @@ import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
 import figlet from "figlet";
+import stripAnsi from "strip-ansi";
 import type { CLIPresetContext } from "../types/plugin";
 
 /**
@@ -66,25 +68,6 @@ export function BannerFunctionBodyDeclaration(
     () => command?.description || getAppDescription(context)
   );
 
-  const titleLines = computed(() => {
-    const result = figlet.textSync(
-      isSetString(context.config.banner)
-        ? context.config.banner
-        : isSetObject(context.config.banner) &&
-            isSetString(context.config.banner.text)
-          ? context.config.banner.text
-          : getAppTitle(context, true),
-      defu(isSetObject(context.config.banner) ? context.config.banner : {}, {
-        font: "ANSI Compact"
-      })
-    );
-    if (!result) {
-      return [`${getAppTitle(context, true)} Command-Line Interface`];
-    }
-
-    return result.split("\n").filter(line => line.trim().length > 0);
-  });
-
   const bannerPadding = computed(
     () =>
       Math.max(theme.padding.app, 0) * 2 +
@@ -103,15 +86,16 @@ export function BannerFunctionBodyDeclaration(
       variant={variant}
       consoleFnName={consoleFnName}
       command={
-        { ...command, title: command?.path ? command.title : "" } as CommandTree
+        {
+          ...command,
+          title: command?.path ? command.title : ""
+        } as CommandTree
       }
       insertNewlineAfterDescription>
-      {code`const titleLines = [${titleLines.value
-        .map(line => JSON.stringify(line.trim()))
-        .join(", ")}];
-      const title = Math.max(...titleLines.map(line => stripAnsi(line).length)) > Math.max(getTerminalSize().columns + ${
+      {code`
+      const title = Math.max(...TITLE_LINES.map(line => stripAnsi(line).length)) > Math.max(getTerminalSize().columns + ${
         totalPadding.value
-      }, 20) ? "${title.value}" : \`\\n\${titleLines.join("\\n")}\\n\`;
+      }, 20) ? "${title.value}" : \`\\n\${TITLE_LINES\.join("\\n")}\\n\`;
 
       splitText(title,
         Math.max(getTerminalSize().columns - ${totalPadding.value}, 20)
@@ -149,8 +133,62 @@ export function BannerBuiltin(props: BannerBuiltinProps) {
     "children"
   ]);
 
+  const context = usePowerlines<CLIPresetContext>();
+
+  const titleLines = computed(() => {
+    const result = figlet.textSync(
+      isSetObject(context.config.banner) &&
+        isSetString(context.config.banner.override)
+        ? context.config.banner.override
+        : isSetString(context.config.banner)
+          ? context.config.banner
+          : isSetObject(context.config.banner) &&
+              isSetString(context.config.banner.text)
+            ? context.config.banner.text
+            : getAppTitle(context, true),
+      defu(isSetObject(context.config.banner) ? context.config.banner : {}, {
+        font: "ANSI Compact"
+      })
+    );
+    if (!result) {
+      return [`${getAppTitle(context, true)} Command-Line Interface`];
+    }
+
+    const lines = result.trim().split("\n");
+    const maxLength = Math.max(...lines.map(line => stripAnsi(line).length));
+    const paddedLines = lines.map(line => {
+      const paddingNeeded = maxLength - stripAnsi(line).length;
+      const leftPadding = Math.floor(paddingNeeded / 2);
+      const rightPadding = Math.ceil(paddingNeeded / 2);
+
+      return " ".repeat(leftPadding) + line + " ".repeat(rightPadding);
+    });
+
+    return paddedLines;
+  });
+
   return (
-    <BaseBannerBuiltin {...rest} command={command}>
+    <BaseBannerBuiltin
+      {...rest}
+      builtinImports={
+        command?.path
+          ? defu(rest.builtinImports ?? {}, {
+              banner: ["TITLE_LINES"]
+            })
+          : rest.builtinImports
+      }
+      command={command}>
+      <Show when={!command?.path}>
+        <VarDeclaration
+          const
+          export
+          name="TITLE_LINES"
+          initializer={code` [${titleLines.value
+            .map(line => JSON.stringify(line))
+            .join(", ")}];`}
+        />
+        <Spacing />
+      </Show>
       <BannerFunctionDeclarationWrapper command={command}>
         <BannerFunctionBodyDeclaration command={command} />
         <Spacing />

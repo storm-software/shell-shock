@@ -151,11 +151,11 @@ export function BannerFunctionBodyDeclaration(
   return (
     <>
       {code`
-        if (useMeta().get("banner") || hasFlag("no-banner") || hasFlag("hide-banner") || isMinimal) {
+        if (useMeta().get("is-banner-displayed") || hasFlag("no-banner") || hasFlag("hide-banner") || isMinimal) {
           return;
         }
 
-        useMeta().set("banner", true); `}
+        useMeta().set("is-banner-displayed", true); `}
       <Spacing />
       <Show when={insertNewlineBeforeBanner}>{code`writeLine(""); `}</Show>
       <Spacing />

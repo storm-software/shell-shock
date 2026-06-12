@@ -101,6 +101,13 @@ export interface CLIPresetBannerOption extends FigletOptions {
   text?: string;
 }
 
+export interface CLIPresetBannerOverrideOption {
+  /**
+   * The text to display in the banner header verbatim, without applying figlet styling. If this option is set, it will take precedence over the `banner` option and any figlet styling will be ignored. This can be useful if you want to display a custom banner that does not conform to the constraints of figlet fonts, or if you want to include special characters or formatting that may not be supported by figlet. When this option is set, the specified text will be displayed exactly as provided in the banner header, without any modifications or styling applied.
+   */
+  override: string;
+}
+
 export type CLIPresetOptions = Omit<ScriptPresetOptions, "globalOptions"> &
   HelpPluginOptions &
   PromptsPluginOptions &
@@ -159,7 +166,7 @@ export type CLIPresetOptions = Omit<ScriptPresetOptions, "globalOptions"> &
      * @remarks
      * This option can be set to a string to specify the banner text directly, or an object with `figlet` options to customize the appearance of the banner. If an object is provided, the `text` property can be used to specify the banner text, and other properties can be used to customize the font, alignment, and other aspects of the banner's appearance.
      */
-    banner?: string | CLIPresetBannerOption;
+    banner?: string | CLIPresetBannerOption | CLIPresetBannerOverrideOption;
 
     /**
      * Configuration options for the `completions` plugin. This field allows you to customize the behavior of the `completions` plugin, which provides commands for generating shell completion scripts for the CLI application. You can specify which shells to generate completions for, and other related settings.

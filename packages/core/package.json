@@ -3,7 +3,11 @@
   "version": "0.17.19",
   "private": false,
   "description": "A package containing the core Shell Shock functionality used to build and manage a command-line application.",
-  "keywords": ["shell-shock", "powerlines", "storm-software"],
+  "keywords": [
+    "shell-shock",
+    "powerlines",
+    "storm-software"
+  ],
   "homepage": "https://stormsoftware.com",
   "bugs": {
     "url": "https://stormsoftware.com/support",
@@ -362,27 +366,15 @@
         "types": "./dist/types/env.d.mts",
         "default": "./dist/types/env.mjs"
       }
-    },
-    "./types/options": {
-      "require": {
-        "types": "./dist/types/options.d.cts",
-        "default": "./dist/types/options.cjs"
-      },
-      "import": {
-        "types": "./dist/types/options.d.mts",
-        "default": "./dist/types/options.mjs"
-      },
-      "default": {
-        "types": "./dist/types/options.d.mts",
-        "default": "./dist/types/options.mjs"
-      }
     }
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/markdown": "catalog:",

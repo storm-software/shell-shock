@@ -55,11 +55,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1780930886,
-        "narHash": "sha256-rppURzHviaQN131F+nLiLdGfcb0uCd9gGP0E5+iw9MI=",
+        "lastModified": 1781141223,
+        "narHash": "sha256-Eye4UQJjC4TLobclolFCMl6MrjgiF6Bk1cOI5x8SH00=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "8c3cede7ddc26bd659d2d383b5610efbd2c7a16e",
+        "rev": "b503dde361500433ca25a32e8f4d218bf58fb659",
         "type": "github"
       },
       "original": {
@@ -81,15 +81,16 @@
     "storm-ops": {
       "flake": false,
       "locked": {
-        "lastModified": 1781181255,
-        "narHash": "sha256-a2LbgoxKL3fmXWtpNZmKqQ75O2L9ucxNbXXNivfrKrw=",
+        "lastModified": 1781200987,
+        "narHash": "sha256-Zj5MmrvZ3kLOubVm/ezGa05xrllwa9JW3HW9qw/7h0U=",
         "owner": "storm-software",
         "repo": "storm-ops",
-        "rev": "af8d3637180172149f50f593cb72bd5865e530a6",
+        "rev": "60e2fdb43a4fdb30ced3c45900c1c2b6dfdab661",
         "type": "github"
       },
       "original": {
         "owner": "storm-software",
+        "ref": "main",
         "repo": "storm-ops",
         "type": "github"
       }

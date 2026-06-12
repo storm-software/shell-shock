@@ -64,7 +64,10 @@ import {
   resolveCommandName,
   resolveCommandPath
 } from "./helpers/paths";
-import { writeCommandsPersistence } from "./helpers/persistence";
+import {
+  readCommandsPersistence,
+  writeCommandsPersistence
+} from "./helpers/persistence";
 import {
   formatBinaryPath,
   updatePackageJsonBinary
@@ -196,9 +199,7 @@ export const plugin = <TContext extends Context = Context>(
               alias: [],
               virtual: false
             })
-          );
-
-          this.globalOptions = this.globalOptions.map(option => ({
+          ).map(option => ({
             ...option,
             name: camelCase(option.name),
             alias: option.alias ?? [],
@@ -498,17 +499,17 @@ export const plugin = <TContext extends Context = Context>(
           }
 
           const env = getProperties(this.env.config);
-          for (const option of Object.values(this.globalOptions)
-            .filter(option => Boolean(option.env))
-            .filter(option => isSetString(option.env) && !env[option.env])) {
-            addProperty(this.env.config, option.env as string, {
-              ...option,
-              name: option.env as string,
-              alias: option.alias
-                .filter(alias => alias.length > 1)
-                .map(alias => constantCase(alias))
+          this.globalOptions
+            .filter(option => isSetString(option.env) && !env[option.env])
+            .forEach(option => {
+              addProperty(this.env.config, option.env as string, {
+                ...option,
+                name: option.env as string,
+                alias: option.alias
+                  .filter(alias => alias.length > 1)
+                  .map(alias => constantCase(alias))
+              });
             });
-          }
 
           await writeEnv(this);
         }
@@ -533,6 +534,7 @@ export const plugin = <TContext extends Context = Context>(
             );
 
             await extractEnv(this);
+            await readCommandsPersistence(this);
           } else {
             for (const input of this.inputs.filter(
               input =>
