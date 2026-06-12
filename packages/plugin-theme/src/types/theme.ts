@@ -249,6 +249,8 @@ export type ThemeStyleBorderBaseIdentifiers =
   | "double"
   | "bold"
   | "round"
+  | "thick"
+  | "extra-thick"
   | "single-double"
   | "double-single"
   | "classic"
@@ -271,6 +273,8 @@ export type ThemeStyleBorderBaseIdentifiers =
  * - `"double"`: Double line border
  * - `"bold"`: Bold line border
  * - `"round"`: Rounded corner border
+ * - `"thick"`: Thick line border
+ * - `"extra-thick"`: Extra thick line border
  * - `"diagonal"`: Diagonal line border
  * - `"diagonal-thick"`: Thick diagonal line border
  * - `"single-double"`: Single line on top and bottom, double line on sides
@@ -287,6 +291,8 @@ export type ThemeStyleBorderBaseIdentifiers =
  * - `"double-corners"`: Double line border with double line corners
  * - `"bold-corners"`: Bold line border with bold line corners
  * - `"round-corners"`: Rounded corner border with rounded corners
+ * - `"thick-corners"`: Thick line border with thick corners
+ * - `"extra-thick-corners"`: Extra thick line border with extra thick corners
  * - `"diagonal-corners"`: Diagonal line border with diagonal corners
  * - `"diagonal-thick-corners"`: Thick diagonal line border with diagonal corners
  * - `"single-double-corners"`: Single line on top and bottom, double line on sides, with corners

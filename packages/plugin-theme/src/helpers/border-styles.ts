@@ -202,6 +202,30 @@ export function resolveBorderStyle(
         right: " "
       };
       break;
+    case "thick":
+      result = {
+        topLeft: "▄",
+        topRight: "▄",
+        bottomLeft: "▀",
+        bottomRight: "▀",
+        top: "▄",
+        bottom: "▀",
+        left: "█",
+        right: "█"
+      };
+      break;
+    case "extra-thick":
+      result = {
+        topLeft: "██",
+        topRight: "██",
+        bottomLeft: "██",
+        bottomRight: "██",
+        top: "██",
+        bottom: "██",
+        left: "██",
+        right: "██"
+      };
+      break;
     case "single":
     default:
       result = {

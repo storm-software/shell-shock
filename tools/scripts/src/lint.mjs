@@ -30,7 +30,7 @@ try {
   }
 
   let proc =
-    $`pnpm exec eslint --fix --quiet --color --config ./eslint.config.mjs --cache --cache-location ./node_modules/.cache/eslint --concurrency auto ${
+    $`pnpm exec eslint --fix --quiet --color --no-error-on-unmatched-pattern --config ./eslint.config.mjs --cache --cache-location ./node_modules/.cache/eslint --concurrency auto ${
       filesList || "packages/**"
     }`.timeout(`${30 * 60}s`);
   proc.stdout.on("data", data => {
