@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.20](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.20) (06/12/2026)
+
+### Miscellaneous
+
+- **monorepo:** Run `eslint` linter fixes on workspace ([a9a2764](https://github.com/storm-software/shell-shock/commit/a9a2764))
+
+### Bug Fixes
+
+- **preset-cli:** Added `banner.override` option to provide custom titles ([307d50e](https://github.com/storm-software/shell-shock/commit/307d50e))
+
 ## [0.17.19](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.19) (06/07/2026)
 
 ### Miscellaneous

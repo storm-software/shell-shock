@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Changelog
 
+## [0.1.23](https://github.com/storm-software/shell-shock/releases/tag/plugin-changelog%400.1.23) (06/12/2026)
+
+### Miscellaneous
+
+- **monorepo:** Run `eslint` linter fixes on workspace ([a9a2764](https://github.com/storm-software/shell-shock/commit/a9a2764))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.20**
+- Updated **unified** to **v0.2.18**
+
 ## [0.1.22](https://github.com/storm-software/shell-shock/releases/tag/plugin-changelog%400.1.22) (06/07/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.4.28](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.28) (06/12/2026)
+
+### Miscellaneous
+
+- **monorepo:** Run `eslint` linter fixes on workspace ([a9a2764](https://github.com/storm-software/shell-shock/commit/a9a2764))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.20**
+
 ## [0.4.27](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.27) (06/07/2026)
 
 ### Updated Dependencies

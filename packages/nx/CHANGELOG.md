@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.93](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.93) (06/12/2026)
+
+### Miscellaneous
+
+- **monorepo:** Run `eslint` linter fixes on workspace ([a9a2764](https://github.com/storm-software/shell-shock/commit/a9a2764))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.20**
+
 ## [0.0.92](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.92) (06/07/2026)
 
 ### Updated Dependencies

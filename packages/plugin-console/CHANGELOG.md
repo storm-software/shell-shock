@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.2.24](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.24) (06/12/2026)
+
+### Miscellaneous
+
+- **monorepo:** Run `eslint` linter fixes on workspace ([a9a2764](https://github.com/storm-software/shell-shock/commit/a9a2764))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.20**
+- Updated **plugin-theme** to **v0.4.33**
+
 ## [0.2.23](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.23) (06/07/2026)
 
 ### Updated Dependencies

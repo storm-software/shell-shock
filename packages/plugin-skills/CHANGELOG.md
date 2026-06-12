@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Skills
 
+## [0.0.11](https://github.com/storm-software/shell-shock/releases/tag/plugin-skills%400.0.11) (06/12/2026)
+
+### Miscellaneous
+
+- **monorepo:** Run `eslint` linter fixes on workspace ([a9a2764](https://github.com/storm-software/shell-shock/commit/a9a2764))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.20**
+
 ## [0.0.10](https://github.com/storm-software/shell-shock/releases/tag/plugin-skills%400.0.10) (06/07/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Unified
 
+## [0.2.18](https://github.com/storm-software/shell-shock/releases/tag/unified%400.2.18) (06/12/2026)
+
+### Miscellaneous
+
+- **monorepo:** Run `eslint` linter fixes on workspace ([a9a2764](https://github.com/storm-software/shell-shock/commit/a9a2764))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.20**
+- Updated **plugin-theme** to **v0.4.33**
+
 ## [0.2.17](https://github.com/storm-software/shell-shock/releases/tag/unified%400.2.17) (06/07/2026)
 
 ### Updated Dependencies

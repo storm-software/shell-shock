@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/preset-cli",
-  "version": "0.9.31",
+  "version": "0.9.32",
   "private": false,
   "description": "A package containing a Shell Shock plugin to generate source code given a list design tokens.",
   "keywords": [
@@ -177,9 +177,7 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/typescript": "catalog:",

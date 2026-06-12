@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.84](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.84) (06/12/2026)
+
+### Miscellaneous
+
+- **monorepo:** Run `eslint` linter fixes on workspace ([a9a2764](https://github.com/storm-software/shell-shock/commit/a9a2764))
+
 ## [0.0.76](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.76) (06/05/2026)
 
 ### Features

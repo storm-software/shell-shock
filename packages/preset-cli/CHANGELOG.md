@@ -2,6 +2,30 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.32](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.32) (06/12/2026)
+
+### Miscellaneous
+
+- **monorepo:** Run `eslint` linter fixes on workspace ([a9a2764](https://github.com/storm-software/shell-shock/commit/a9a2764))
+
+### Bug Fixes
+
+- **preset-cli:** Added `banner.override` option to provide custom titles ([307d50e](https://github.com/storm-software/shell-shock/commit/307d50e))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.20**
+- Updated **plugin-banner** to **v0.1.47**
+- Updated **plugin-changelog** to **v0.1.23**
+- Updated **plugin-completions** to **v0.4.28**
+- Updated **plugin-console** to **v0.2.24**
+- Updated **plugin-help** to **v0.2.38**
+- Updated **plugin-prompts** to **v0.3.61**
+- Updated **plugin-skills** to **v0.0.11**
+- Updated **plugin-theme** to **v0.4.33**
+- Updated **plugin-update** to **v0.1.65**
+- Updated **preset-script** to **v0.6.75**
+
 ## [0.9.31](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.31) (06/07/2026)
 
 ### Updated Dependencies

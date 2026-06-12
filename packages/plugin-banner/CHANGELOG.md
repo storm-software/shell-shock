@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Plugin Banner
 
+## [0.1.47](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.47) (06/12/2026)
+
+### Miscellaneous
+
+- **monorepo:** Run `eslint` linter fixes on workspace ([a9a2764](https://github.com/storm-software/shell-shock/commit/a9a2764))
+
+### Bug Fixes
+
+- **preset-cli:** Added `banner.override` option to provide custom titles ([307d50e](https://github.com/storm-software/shell-shock/commit/307d50e))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.20**
+- Updated **plugin-console** to **v0.2.24**
+- Updated **plugin-theme** to **v0.4.33**
+
 ## [0.1.46](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.46) (06/07/2026)
 
 ### Updated Dependencies
