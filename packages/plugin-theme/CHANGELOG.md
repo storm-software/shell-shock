@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.34](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.34) (06/12/2026)
+
+### Features
+
+- **plugin-theme:** Added `thick` and `extra-thick` border styles ([67379b5](https://github.com/storm-software/shell-shock/commit/67379b5))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.21**
+
 ## [0.4.33](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.33) (06/12/2026)
 
 ### Miscellaneous
