@@ -1,4 +1,4 @@
-![Shell Shock's logo banner](https://public.storm-cdn.com/shell-shock/banner-1280x320-dark.gif)
+![Shell Shock's logo banner](https://public.storm-cdn.com/shell-shock/media/banner-1280x320-dark.gif)
 
 # Changelog for Shell Shock - Plugin Changelog
 

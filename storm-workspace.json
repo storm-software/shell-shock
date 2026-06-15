@@ -9,7 +9,7 @@
   "docs": "https://docs.stormsoftware.com/projects/shell-shock",
   "release": {
     "banner": {
-      "url": "https://public.storm-cdn.com/shell-shock/banner-1280x320-dark.gif",
+      "url": "https://public.storm-cdn.com/shell-shock/media/banner-1280x320-dark.gif",
       "alt": "Shell Shock's logo banner"
     }
   }
