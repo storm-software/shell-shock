@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.22](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.22) (06/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update asset references to the newly created `media` folder ([5fceca6](https://github.com/storm-software/shell-shock/commit/5fceca6))
+
 ## [0.17.20](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.20) (06/12/2026)
 
 ### Miscellaneous

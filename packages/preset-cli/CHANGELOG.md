@@ -2,6 +2,26 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.34](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.34) (06/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update asset references to the newly created `media` folder ([5fceca6](https://github.com/storm-software/shell-shock/commit/5fceca6))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.22**
+- Updated **plugin-banner** to **v0.1.49**
+- Updated **plugin-changelog** to **v0.1.25**
+- Updated **plugin-completions** to **v0.4.30**
+- Updated **plugin-console** to **v0.2.26**
+- Updated **plugin-help** to **v0.2.40**
+- Updated **plugin-prompts** to **v0.3.63**
+- Updated **plugin-skills** to **v0.0.13**
+- Updated **plugin-theme** to **v0.4.35**
+- Updated **plugin-update** to **v0.1.67**
+- Updated **preset-script** to **v0.6.77**
+
 ## [0.9.33](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.33) (06/12/2026)
 
 ### Updated Dependencies

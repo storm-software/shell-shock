@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.86](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.86) (06/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update asset references to the newly created `media` folder ([5fceca6](https://github.com/storm-software/shell-shock/commit/5fceca6))
+
 ## [0.0.84](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.84) (06/12/2026)
 
 ### Miscellaneous

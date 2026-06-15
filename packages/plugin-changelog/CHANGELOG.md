@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Changelog
 
+## [0.1.25](https://github.com/storm-software/shell-shock/releases/tag/plugin-changelog%400.1.25) (06/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update asset references to the newly created `media` folder ([5fceca6](https://github.com/storm-software/shell-shock/commit/5fceca6))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.22**
+- Updated **unified** to **v0.2.20**
+
 ## [0.1.24](https://github.com/storm-software/shell-shock/releases/tag/plugin-changelog%400.1.24) (06/12/2026)
 
 ### Updated Dependencies

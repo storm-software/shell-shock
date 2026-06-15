@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.35](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.35) (06/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update asset references to the newly created `media` folder ([5fceca6](https://github.com/storm-software/shell-shock/commit/5fceca6))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.22**
+
 ## [0.4.34](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.34) (06/12/2026)
 
 ### Features

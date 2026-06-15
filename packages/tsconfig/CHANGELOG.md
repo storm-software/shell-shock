@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.91](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.91) (06/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update asset references to the newly created `media` folder ([5fceca6](https://github.com/storm-software/shell-shock/commit/5fceca6))
+
 ## [0.0.77](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.77) (04/15/2026)
 
 ### Miscellaneous

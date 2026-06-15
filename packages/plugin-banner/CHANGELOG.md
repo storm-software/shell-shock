@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Banner
 
+## [0.1.49](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.49) (06/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update asset references to the newly created `media` folder ([5fceca6](https://github.com/storm-software/shell-shock/commit/5fceca6))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.22**
+- Updated **plugin-console** to **v0.2.26**
+- Updated **plugin-theme** to **v0.4.35**
+
 ## [0.1.48](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.48) (06/12/2026)
 
 ### Updated Dependencies

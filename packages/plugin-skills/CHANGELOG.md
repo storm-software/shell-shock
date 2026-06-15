@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Skills
 
+## [0.0.13](https://github.com/storm-software/shell-shock/releases/tag/plugin-skills%400.0.13) (06/15/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update asset references to the newly created `media` folder ([5fceca6](https://github.com/storm-software/shell-shock/commit/5fceca6))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.22**
+
 ## [0.0.12](https://github.com/storm-software/shell-shock/releases/tag/plugin-skills%400.0.12) (06/12/2026)
 
 ### Updated Dependencies
