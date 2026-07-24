@@ -23,17 +23,17 @@ import {
   IfStatement,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core";
+import { Spacing } from "@power-plant/alloy-js/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import {
   InterfaceDeclaration,
   InterfaceMember,
   TypescriptFile
-} from "@powerlines/plugin-alloy/typescript";
+} from "@power-plant/alloy-js/typescript";
 import {
   TSDoc,
   TSDocDefaultValue
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+} from "@power-plant/alloy-js/typescript/components/tsdoc";
 import { getAppBin, getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
 import { snakeCase } from "@stryke/string-format/snake-case";

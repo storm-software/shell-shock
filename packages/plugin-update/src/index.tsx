@@ -16,14 +16,16 @@
 
  ------------------------------------------------------------------- */
 
-import { render } from "@powerlines/plugin-alloy/render";
+import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
 import type { Plugin } from "powerlines";
-import { UpdateBuiltin, UpdateCommand } from "./components";
+import { updateGenerator } from "./generator";
 import type { UpdatePluginContext, UpdatePluginOptions } from "./types/plugin";
+
+export { updateGenerator } from "./generator";
 
 /**
  * The Update - Shell Shock plugin to add version check functionality and update commands to a Shell Shock application.
@@ -95,16 +97,10 @@ export const plugin = <
     },
     async prepare() {
       this.debug(
-        "Rendering update built-in and command modules for the Shell Shock `update` plugin."
+        "Rendering update built-in and command modules via Power Plant for the Shell Shock `update` plugin."
       );
 
-      return render(
-        this,
-        <>
-          <UpdateBuiltin />
-          <UpdateCommand />
-        </>
-      );
+      return executeCommandGenerator(this, updateGenerator);
     }
   };
 };

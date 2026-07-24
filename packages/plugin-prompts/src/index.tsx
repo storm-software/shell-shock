@@ -16,14 +16,16 @@
 
  ------------------------------------------------------------------- */
 
-import { render } from "@powerlines/plugin-alloy/render";
+import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
 import theme from "@shell-shock/plugin-theme";
 import type { Plugin } from "powerlines";
-import { PromptsBuiltin } from "./components";
+import { promptsGenerator } from "./generator";
 import type {
   PromptsPluginContext,
   PromptsPluginOptions
 } from "./types/plugin";
+
+export { promptsGenerator } from "./generator";
 
 /**
  * A Shell Shock plugin to generate the `prompts` built-in module, which provides a set of commands for interacting with the user through prompts. This plugin is designed to be used in conjunction with the `script` preset, but can also be used independently in any Shell Shock application.
@@ -48,10 +50,10 @@ export const plugin = <
       },
       async prepare() {
         this.debug(
-          "Rendering command handling modules for the Shell Shock `prompts` plugin."
+          "Rendering command handling modules via Power Plant for the Shell Shock `prompts` plugin."
         );
 
-        return render(this, <PromptsBuiltin />);
+        return executeCommandGenerator(this, promptsGenerator);
       }
     }
   ] as Plugin<TContext>[];

@@ -17,7 +17,6 @@
  ------------------------------------------------------------------- */
 
 import { For, Show } from "@alloy-js/core";
-import { render } from "@powerlines/plugin-alloy/render";
 import automd from "@powerlines/plugin-automd";
 import { extractEnv, writeEnv } from "@powerlines/plugin-env/helpers/schema";
 import nodejs from "@powerlines/plugin-nodejs";
@@ -48,9 +47,7 @@ import { isFileReference } from "powerlines";
 import { resolveInputs } from "powerlines/utils";
 import type { BuildContext, RolldownChunk, TsdownHooks } from "tsdown";
 import { CommandDocsFile } from "./components/docs";
-import { ExecBuiltin } from "./components/exec-builtin";
-import { StateBuiltin } from "./components/state-builtin";
-import { UtilsBuiltin } from "./components/utils-builtin";
+import { coreBuiltinsGenerator, coreDocsGenerator } from "./generator";
 import {
   args as argsGenerator,
   commands as commandsGenerator,
@@ -68,6 +65,7 @@ import {
   readCommandsPersistence,
   writeCommandsPersistence
 } from "./helpers/persistence";
+import { executeCommandGenerator } from "./helpers/power-plant";
 import {
   formatBinaryPath,
   updatePackageJsonBinary
@@ -163,13 +161,13 @@ export const plugin = <TContext extends Context = Context>(
             this.config.env.prefix.push(this.config.appSpecificEnvPrefix);
           }
 
-          this.config.bin = (isSetString(this.packageJson.bin)
+          this.config.bin = ((isSetString(this.packageJson.bin)
             ? { [kebabCase(this.config.name)]: this.packageJson.bin }
             : this.packageJson.bin) ?? {
             [kebabCase(this.config.name)]: formatBinaryPath(
               this.config.output.format
             )
-          };
+          }) as Record<string, string>;
 
           if (isSetString(this.config.docs)) {
             const docsWithoutCommandPath = this.config.docs.replace(
@@ -355,17 +353,10 @@ export const plugin = <TContext extends Context = Context>(
       },
       async prepare() {
         this.debug(
-          "Rendering base built-in modules for the Shell Shock application."
+          "Rendering base built-in modules for the Shell Shock application via Power Plant."
         );
 
-        return render(
-          this,
-          <>
-            <StateBuiltin />
-            <UtilsBuiltin />
-            <ExecBuiltin />
-          </>
-        );
+        return executeCommandGenerator(this, coreBuiltinsGenerator);
       }
     },
     {
@@ -664,23 +655,24 @@ export const plugin = <TContext extends Context = Context>(
       },
       async docs() {
         this.debug(
-          "Rendering CLI command reference documentation and writing to the output directory."
+          "Rendering CLI command reference documentation via Power Plant."
         );
 
         const commands = this.inputs
           .map(input => getCommandTree(this, input.segments))
           .filter(Boolean) as CommandTree[];
 
-        return render(
-          this,
-          <For each={Object.values(commands)} doubleHardline>
-            {child => (
-              <Show when={!child.virtual}>
-                <CommandDocsFile command={child} />
-              </Show>
-            )}
-          </For>
-        );
+        return executeCommandGenerator(this, coreDocsGenerator, {
+          template: (
+            <For each={Object.values(commands)} doubleHardline>
+              {child => (
+                <Show when={!child.virtual}>
+                  <CommandDocsFile command={child} />
+                </Show>
+              )}
+            </For>
+          )
+        });
       }
     }
   ];

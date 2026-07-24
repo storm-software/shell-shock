@@ -16,24 +16,11 @@
 
  ------------------------------------------------------------------- */
 
-import { render } from "@powerlines/plugin-alloy/render";
+import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path/join";
 import type { Plugin } from "powerlines";
-import {
-  BashCompletionsShared,
-  BashConfigCompletionsCommand,
-  BashScriptCompletionsCommand,
-  FishCompletionsShared,
-  FishConfigCompletionsCommand,
-  FishScriptCompletionsCommand,
-  PowerShellCompletionsShared,
-  PowerShellConfigCompletionsCommand,
-  PowerShellScriptCompletionsCommand,
-  ZshCompletionsShared,
-  ZshConfigCompletionsCommand,
-  ZshScriptCompletionsCommand
-} from "./components";
+import { completionsGenerator } from "./generator";
 import type {
   CompletionsPluginContext,
   CompletionsPluginOptions
@@ -41,6 +28,7 @@ import type {
 import { SHELL_TYPES } from "./types/shell-type";
 
 export type * from "./types";
+export { completionsGenerator } from "./generator";
 
 /**
  * The Completions - Shell Shock plugin to add completion commands to a Shell Shock application.
@@ -460,26 +448,10 @@ export const plugin = <
       order: "pre",
       async handler() {
         this.debug(
-          "Rendering command handling modules for the Shell Shock `completions` plugin."
+          "Rendering command handling modules via Power Plant for the Shell Shock `completions` plugin."
         );
 
-        return render(
-          this,
-          <>
-            <BashCompletionsShared />
-            <BashScriptCompletionsCommand />
-            <BashConfigCompletionsCommand />
-            <ZshCompletionsShared />
-            <ZshScriptCompletionsCommand />
-            <ZshConfigCompletionsCommand />
-            <PowerShellCompletionsShared />
-            <PowerShellScriptCompletionsCommand />
-            <PowerShellConfigCompletionsCommand />
-            <FishCompletionsShared />
-            <FishScriptCompletionsCommand />
-            <FishConfigCompletionsCommand />
-          </>
-        );
+        return executeCommandGenerator(this, completionsGenerator);
       }
     }
   };

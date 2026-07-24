@@ -4,7 +4,8 @@
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
     "jsx": "preserve",
     "types": ["node"],
-    "outDir": "./out-tsc"
+    "outDir": "./out-tsc",
+    "rootDir": "."
   },
   "references": [
     { "path": "../../packages/preset-script/tsconfig.lib.json" },

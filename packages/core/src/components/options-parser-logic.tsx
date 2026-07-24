@@ -25,7 +25,7 @@ import {
   InterfaceMember,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";

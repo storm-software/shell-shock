@@ -16,21 +16,16 @@
 
  ------------------------------------------------------------------- */
 
-import { code, For, Show } from "@alloy-js/core";
-import { VarDeclaration } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core/components";
-import { render } from "@powerlines/plugin-alloy/render";
-import type { CommandTree } from "@shell-shock/core/types/command";
+import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
 import banner from "@shell-shock/plugin-banner";
 import console from "@shell-shock/plugin-console";
 import help from "@shell-shock/plugin-help";
 import type { Plugin } from "powerlines";
-import { BinEntry } from "./components/bin-entry";
-import { CommandEntry } from "./components/command-entry";
-import { CommandRouter } from "./components/command-router";
-import { VirtualCommandEntry } from "./components/virtual-command-entry";
+import { scriptEntrypointGenerator } from "./generator";
 import { getGlobalOptions } from "./helpers/get-global-options";
 import type { ScriptPresetContext, ScriptPresetOptions } from "./types/plugin";
+
+export { scriptEntrypointGenerator } from "./generator";
 
 /**
  * The Shell Shock base plugin.
@@ -61,57 +56,10 @@ export const plugin = <
         order: "post",
         async handler() {
           this.debug(
-            "Rendering entrypoint modules for the Shell Shock `script` preset."
+            "Rendering entrypoint modules via Power Plant for the Shell Shock `script` preset."
           );
 
-          return render(
-            this,
-            <>
-              <BinEntry
-                builtinImports={{
-                  console: [
-                    "divider",
-                    "stripAnsi",
-                    "writeLine",
-                    "splitText",
-                    "help"
-                  ],
-                  utils: ["isMinimal"],
-                  state: ["useArgs", "hasFlag", "isHelp"]
-                }}>
-                <Show when={Object.keys(this.commands).length > 0}>
-                  <VarDeclaration
-                    const
-                    name="args"
-                    type="string[]"
-                    initializer={code`useArgs();`}
-                  />
-                  <hbr />
-                  <CommandRouter segments={[]} commands={this.commands ?? {}} />
-                  <hbr />
-                </Show>
-                <Spacing />
-                {code`await showBanner();`}
-                <Spacing />
-                {code`return showHelp();`}
-              </BinEntry>
-              <Show when={Object.values(this.commands).length > 0}>
-                <For
-                  each={Object.values(
-                    this.commands as Record<string, CommandTree>
-                  )}
-                  doubleHardline>
-                  {child => (
-                    <Show
-                      when={child.virtual}
-                      fallback={<CommandEntry command={child} />}>
-                      <VirtualCommandEntry command={child} />
-                    </Show>
-                  )}
-                </For>
-              </Show>
-            </>
-          );
+          return executeCommandGenerator(this, scriptEntrypointGenerator);
         }
       }
     }

@@ -23,7 +23,7 @@ import {
   FunctionDeclaration,
   IfStatement
 } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
@@ -32,7 +32,7 @@ import {
   TSDocParam,
   TSDocRemarks,
   TSDocTitle
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+} from "@power-plant/alloy-js/typescript/components/tsdoc";
 import type { CommandTree } from "@shell-shock/core";
 import { CommandValidationLogic } from "@shell-shock/core/components/command-validation-logic";
 import { IsDebug } from "@shell-shock/core/components/helpers";

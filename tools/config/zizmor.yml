@@ -17,6 +17,7 @@ rules:
       - greetings.yml
       - schedule-stale.yml
       - security.yml
+      - dependabot-update.yml
   excessive-permissions:
     ignore:
       - release.yml

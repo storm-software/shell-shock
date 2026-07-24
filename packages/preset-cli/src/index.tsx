@@ -16,12 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import { code, For, Show } from "@alloy-js/core";
-import { VarDeclaration } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core/components";
-import { render } from "@powerlines/plugin-alloy/render";
-import { computeBin, getCommandList } from "@shell-shock/core/plugin-utils";
-import type { CommandTree } from "@shell-shock/core/types/command";
+import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
+import { getCommandList } from "@shell-shock/core/plugin-utils";
 import type { ChangelogPluginOptions } from "@shell-shock/plugin-changelog";
 import changelog from "@shell-shock/plugin-changelog";
 import type { CompletionsPluginOptions } from "@shell-shock/plugin-completions";
@@ -32,19 +28,16 @@ import prompts from "@shell-shock/plugin-prompts";
 import type { SkillsPluginOptions } from "@shell-shock/plugin-skills";
 import skills from "@shell-shock/plugin-skills";
 import update from "@shell-shock/plugin-update";
-import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
 import { joinPaths } from "@stryke/path/join";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { existsSync } from "node:fs";
 import type { Plugin } from "powerlines";
 import { enable } from "powerlines";
-import { BannerBuiltin } from "./components/banner-builtin";
-import { CommandEntry } from "./components/command-entry";
-import { CommandRouter } from "./components/command-router";
-import { UpdateBuiltin } from "./components/update-builtin";
-import { VirtualCommandEntry } from "./components/virtual-command-entry";
+import { cliBuiltinsGenerator, cliEntrypointGenerator } from "./generator";
 import { getGlobalOptions } from "./helpers/get-global-options";
 import type { CLIPresetContext, CLIPresetOptions } from "./types/plugin";
+
+export { cliBuiltinsGenerator, cliEntrypointGenerator } from "./generator";
 
 /**
  * The Shell Shock CLI Preset plugin.
@@ -97,27 +90,16 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
       prepare: {
         order: "post",
         async handler() {
-          this.debug("Rendering built-in modules.");
+          this.debug("Rendering built-in modules via Power Plant.");
 
           const commands = await getCommandList(this);
           this.debug(
-            `Rendering \`banner\` built-ins for each of the ${
+            `Rendering \`banner\` built-ins via Power Plant for each of the ${
               commands.length
             } command modules.`
           );
 
-          return render(
-            this,
-            <>
-              <UpdateBuiltin />
-              <BannerBuiltin command={computeBin(this)} />
-              <For
-                each={commands.sort((a, b) => a.name.localeCompare(b.name))}
-                doubleHardline>
-                {command => <BannerBuiltin command={command} />}
-              </For>
-            </>
-          );
+          return executeCommandGenerator(this, cliBuiltinsGenerator);
         }
       }
     },
@@ -127,72 +109,10 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
         order: "post",
         async handler() {
           this.debug(
-            "Rendering entrypoint modules for the Shell Shock `cli` preset."
+            "Rendering entrypoint modules via Power Plant for the Shell Shock `cli` preset."
           );
 
-          return render(
-            this,
-            <>
-              <BinEntry
-                builtinImports={{
-                  console: [
-                    "info",
-                    "debug",
-                    "warn",
-                    "help",
-                    "error",
-                    "cursor",
-                    "divider",
-                    "stripAnsi",
-                    "writeLine",
-                    "splitText"
-                  ],
-                  utils: ["isMinimal", "isInteractive"],
-                  state: ["useArgs", "isHelp"],
-                  prompts: [
-                    "text",
-                    "numeric",
-                    "toggle",
-                    "select",
-                    "confirm",
-                    "isCancel"
-                  ],
-                  env: ["env", "paths"],
-                  update: ["executeUpdate"]
-                }}>
-                <Show when={Object.keys(this.commands).length > 0}>
-                  <VarDeclaration
-                    let
-                    name="args"
-                    type="string[]"
-                    initializer={code`useArgs();`}
-                  />
-                  <hbr />
-                  <CommandRouter segments={[]} commands={this.commands ?? {}} />
-                  <hbr />
-                </Show>
-                <hbr />
-                {code`await showBanner(0);`}
-                <Spacing />
-                {code`return showHelp(); `}
-              </BinEntry>
-              <Show when={Object.values(this.commands).length > 0}>
-                <For
-                  each={Object.values(
-                    this.commands as Record<string, CommandTree>
-                  )}
-                  doubleHardline>
-                  {child => (
-                    <Show
-                      when={child.virtual}
-                      fallback={<CommandEntry command={child} />}>
-                      <VirtualCommandEntry command={child} />
-                    </Show>
-                  )}
-                </For>
-              </Show>
-            </>
-          );
+          return executeCommandGenerator(this, cliEntrypointGenerator);
         }
       }
     }

@@ -3,7 +3,8 @@
   "compilerOptions": {
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
     "outDir": "./out-tsc",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "rootDir": "."
   },
   "references": [],
   "include": [

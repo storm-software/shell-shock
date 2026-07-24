@@ -264,6 +264,34 @@
         "default": "./dist/engine.mjs"
       }
     },
+    "./generator": {
+      "require": {
+        "types": "./dist/generator.d.cts",
+        "default": "./dist/generator.cjs"
+      },
+      "import": {
+        "types": "./dist/generator.d.mts",
+        "default": "./dist/generator.mjs"
+      },
+      "default": {
+        "types": "./dist/generator.d.mts",
+        "default": "./dist/generator.mjs"
+      }
+    },
+    "./helpers/power-plant": {
+      "require": {
+        "types": "./dist/helpers/power-plant.d.cts",
+        "default": "./dist/helpers/power-plant.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/power-plant.d.mts",
+        "default": "./dist/helpers/power-plant.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/power-plant.d.mts",
+        "default": "./dist/helpers/power-plant.mjs"
+      }
+    },
     "./package.json": "./package.json",
     "./plugin": {
       "require": {
@@ -373,6 +401,8 @@
     "@alloy-js/core": "catalog:",
     "@alloy-js/markdown": "catalog:",
     "@alloy-js/typescript": "catalog:",
+    "@power-plant/alloy-js": "catalog:",
+    "@power-plant/core": "catalog:",
     "@powerlines/core": "catalog:",
     "@powerlines/deepkit": "catalog:",
     "@powerlines/engine": "catalog:",
@@ -382,6 +412,7 @@
     "@powerlines/plugin-nodejs": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
     "@powerlines/schema": "catalog:",
+    "@shell-shock/schema": "workspace:*",
     "@stryke/cli": "catalog:",
     "@stryke/convert": "catalog:",
     "@stryke/fs": "catalog:",

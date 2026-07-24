@@ -30,7 +30,14 @@ const config: UserConfig = defineConfig({
   ],
   plugins: [plugin(), alloy()],
   resolve: {
-    external: ["style-dictionary"]
+    external: [
+      "style-dictionary",
+      "zod",
+      "@shell-shock/schema",
+      "@power-plant/core",
+      "@power-plant/schema",
+      "@power-plant/alloy-js"
+    ]
   }
 });
 

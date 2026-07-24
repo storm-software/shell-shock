@@ -18,7 +18,7 @@
 
 import { code, Show, splitProps } from "@alloy-js/core";
 import { FunctionDeclaration, VarDeclaration } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import {
@@ -26,11 +26,11 @@ import {
   ClassField,
   ClassMethod,
   ClassPropertyGet
-} from "@powerlines/plugin-alloy/typescript/components/class-declaration";
+} from "@power-plant/alloy-js/typescript/components/class-declaration";
 import {
   InterfaceDeclaration,
   InterfaceMember
-} from "@powerlines/plugin-alloy/typescript/components/interface-declaration";
+} from "@power-plant/alloy-js/typescript/components/interface-declaration";
 import {
   TSDoc,
   TSDocDefaultValue,
@@ -38,8 +38,8 @@ import {
   TSDocParam,
   TSDocRemarks,
   TSDocReturns
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
-import { TypeDeclaration } from "@powerlines/plugin-alloy/typescript/components/type-declaration";
+} from "@power-plant/alloy-js/typescript/components/tsdoc";
+import { TypeDeclaration } from "@power-plant/alloy-js/typescript/components/type-declaration";
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import defu from "defu";
 

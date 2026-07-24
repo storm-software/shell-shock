@@ -18,9 +18,9 @@
 
 import { code, Show, splitProps } from "@alloy-js/core";
 import { FunctionDeclaration } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import { TSDoc, TSDocRemarks } from "@powerlines/plugin-alloy/typescript";
+import { TSDoc, TSDocRemarks } from "@power-plant/alloy-js/typescript";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import type { CommandTree } from "@shell-shock/core";

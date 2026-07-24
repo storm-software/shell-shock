@@ -18,9 +18,9 @@
 
 import { code, computed } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core";
+import { Spacing } from "@power-plant/alloy-js/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import { TypescriptFile } from "@powerlines/plugin-alloy/typescript";
+import { TypescriptFile } from "@power-plant/alloy-js/typescript";
 import { getAppBin } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
 import { snakeCase } from "@stryke/string-format/snake-case";

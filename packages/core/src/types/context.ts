@@ -20,11 +20,20 @@ import type { AlloyPluginContext } from "@powerlines/plugin-alloy/types/plugin";
 import type { NodeJsPluginContext } from "@powerlines/plugin-nodejs/types/plugin";
 import type { TsdownPluginContext } from "@powerlines/plugin-tsdown/types/plugin";
 import type {
+  PluginContext,
   ExecutionContext as PowerlinesExecutionContext,
   UnresolvedContext as PowerlinesUnresolvedContext
 } from "powerlines";
 import type { CommandConfig, CommandOption, CommandTree } from "./command";
 import type { ResolvedConfig } from "./config";
+
+/**
+ * Options passed to Shell Shock Power Plant generators.
+ */
+export interface CommandGeneratorOptions {
+  context: PluginContext;
+  template?: unknown;
+}
 
 export type Context<TResolvedConfig extends ResolvedConfig = ResolvedConfig> =
   TsdownPluginContext<TResolvedConfig> &

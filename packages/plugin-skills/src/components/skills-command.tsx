@@ -18,13 +18,13 @@
 
 import { code, For } from "@alloy-js/core";
 import { FunctionDeclaration } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import { TypescriptFile } from "@powerlines/plugin-alloy/typescript";
+import { TypescriptFile } from "@power-plant/alloy-js/typescript";
 import {
   TSDoc,
   TSDocParam
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+} from "@power-plant/alloy-js/typescript/components/tsdoc";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path/join";
 import { AGENT_SKILL_DIRS, AGENT_SKILL_NAMES } from "../helpers/constants";

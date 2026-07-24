@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { render } from "@powerlines/plugin-alloy/render";
+import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { renderMarkdown } from "@shell-shock/unified/markdown";
 import { joinPaths } from "@stryke/path/join";
@@ -25,6 +25,7 @@ import defu from "defu";
 import type { Plugin } from "powerlines";
 import { replacePathTokens } from "powerlines/plugin-utils";
 import { ChangelogCommand } from "./components";
+import { changelogGenerator } from "./generator";
 import { resolveChangelog } from "./helpers/resolve-changelog";
 import type {
   ChangelogPluginContext,
@@ -32,6 +33,7 @@ import type {
 } from "./types/plugin";
 
 export type * from "./types";
+export { changelogGenerator } from "./generator";
 
 /**
  * The Changelog - Shell Shock plugin to add version check functionality and changelog commands to a Shell Shock application.
@@ -120,18 +122,19 @@ export const plugin = <
           });
 
           this.debug(
-            "Rendering changelog command module for the Shell Shock `changelog` plugin."
+            "Rendering changelog command module via Power Plant for the Shell Shock `changelog` plugin."
           );
 
-          await render(
-            this,
-            <ChangelogCommand
-              changelog={`\`${renderMarkdown(content)
-                .split("\n")
-                .map(line => (isSetString(line) ? `\${${line}}` : ""))
-                .join("\n")}\``}
-            />
-          );
+          await executeCommandGenerator(this, changelogGenerator, {
+            template: (
+              <ChangelogCommand
+                changelog={`\`${renderMarkdown(content)
+                  .split("\n")
+                  .map(line => (isSetString(line) ? `\${${line}}` : ""))
+                  .join("\n")}\``}
+              />
+            )
+          });
         } else {
           this.warn(
             `The changelog file at the resolved path: ${

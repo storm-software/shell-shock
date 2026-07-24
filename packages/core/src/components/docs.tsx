@@ -18,11 +18,11 @@
 
 import { code, For, memo, Show } from "@alloy-js/core";
 import { Heading } from "@alloy-js/markdown";
-import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import type { MarkdownFileProps } from "@powerlines/plugin-alloy/markdown/components/markdown-file";
-import { MarkdownFile } from "@powerlines/plugin-alloy/markdown/components/markdown-file";
-import { MarkdownTable } from "@powerlines/plugin-alloy/markdown/components/markdown-table";
+import type { MarkdownFileProps } from "@power-plant/alloy-js/markdown/components/markdown-file";
+import { MarkdownFile } from "@power-plant/alloy-js/markdown/components/markdown-file";
+import { MarkdownTable } from "@power-plant/alloy-js/markdown/components/markdown-table";
 import { joinPaths } from "@stryke/path/join";
 import { list } from "@stryke/string-format/list";
 import { isUndefined } from "@stryke/type-checks/is-undefined";

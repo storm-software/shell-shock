@@ -5,7 +5,8 @@
     "jsx": "preserve",
     "jsxImportSource": "@alloy-js/core",
     "outDir": "./out-tsc",
-    "verbatimModuleSyntax": false
+    "verbatimModuleSyntax": false,
+    "rootDir": "."
   },
   "references": [{ "path": "../core/tsconfig.lib.json" }],
   "include": [

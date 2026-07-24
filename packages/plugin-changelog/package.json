@@ -87,6 +87,34 @@
         "default": "./dist/components/changelog-command.mjs"
       }
     },
+    "./generator": {
+      "require": {
+        "types": "./dist/generator.d.cts",
+        "default": "./dist/generator.cjs"
+      },
+      "import": {
+        "types": "./dist/generator.d.mts",
+        "default": "./dist/generator.mjs"
+      },
+      "default": {
+        "types": "./dist/generator.d.mts",
+        "default": "./dist/generator.mjs"
+      }
+    },
+    "./helpers/resolve-changelog": {
+      "require": {
+        "types": "./dist/helpers/resolve-changelog.d.cts",
+        "default": "./dist/helpers/resolve-changelog.cjs"
+      },
+      "import": {
+        "types": "./dist/helpers/resolve-changelog.d.mts",
+        "default": "./dist/helpers/resolve-changelog.mjs"
+      },
+      "default": {
+        "types": "./dist/helpers/resolve-changelog.d.mts",
+        "default": "./dist/helpers/resolve-changelog.mjs"
+      }
+    },
     "./package.json": "./package.json",
     "./types": {
       "require": {
@@ -125,6 +153,7 @@
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/typescript": "catalog:",
+    "@power-plant/alloy-js": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@shell-shock/unified": "workspace:*",

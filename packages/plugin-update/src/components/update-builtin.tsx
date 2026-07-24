@@ -25,7 +25,7 @@ import {
   InterfaceDeclaration,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import {
   InterfaceMember,
@@ -34,7 +34,7 @@ import {
   TSDocRemarks,
   TSDocReturns,
   TypeDeclaration
-} from "@powerlines/plugin-alloy/typescript";
+} from "@power-plant/alloy-js/typescript";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import defu from "defu";

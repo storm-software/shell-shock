@@ -101,6 +101,20 @@
         "default": "./dist/components/update-command.mjs"
       }
     },
+    "./generator": {
+      "require": {
+        "types": "./dist/generator.d.cts",
+        "default": "./dist/generator.cjs"
+      },
+      "import": {
+        "types": "./dist/generator.d.mts",
+        "default": "./dist/generator.mjs"
+      },
+      "default": {
+        "types": "./dist/generator.d.mts",
+        "default": "./dist/generator.mjs"
+      }
+    },
     "./package.json": "./package.json",
     "./types": {
       "require": {
@@ -168,6 +182,7 @@
     "@alloy-js/core": "catalog:",
     "@alloy-js/typescript": "catalog:",
     "@powerlines/deepkit": "catalog:",
+    "@power-plant/alloy-js": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",

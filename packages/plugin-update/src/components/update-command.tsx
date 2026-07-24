@@ -21,17 +21,17 @@ import {
   FunctionDeclaration,
   InterfaceDeclaration
 } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core";
+import { Spacing } from "@power-plant/alloy-js/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import {
   InterfaceMember,
   TypescriptFile
-} from "@powerlines/plugin-alloy/typescript";
+} from "@power-plant/alloy-js/typescript";
 import {
   TSDoc,
   TSDocDefaultValue,
   TSDocRemarks
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+} from "@power-plant/alloy-js/typescript/components/tsdoc";
 import { joinPaths } from "@stryke/path";
 import type { UpdatePluginContext } from "../types/plugin";
 

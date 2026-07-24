@@ -23,13 +23,13 @@ import {
   FunctionDeclaration,
   IfStatement
 } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core/components";
+import { Spacing } from "@power-plant/alloy-js/core/components";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import { TypescriptFile } from "@powerlines/plugin-alloy/typescript";
+import { TypescriptFile } from "@power-plant/alloy-js/typescript";
 import {
   TSDoc,
   TSDocParam
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+} from "@power-plant/alloy-js/typescript/components/tsdoc";
 import { joinPaths } from "@stryke/path";
 import { pascalCase } from "@stryke/string-format/pascal-case";
 import type { HelpPluginContext } from "../types/plugin";

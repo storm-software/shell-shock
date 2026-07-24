@@ -18,7 +18,7 @@
 
 import { code, For, Show } from "@alloy-js/core";
 import { Heading } from "@alloy-js/markdown";
-import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
 import { renderString } from "@powerlines/plugin-alloy/render";
 import { defineGenerator } from "automd";
 import type { CommandDocsUsageExampleProps } from "../components/docs";

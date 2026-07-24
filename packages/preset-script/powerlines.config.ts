@@ -22,8 +22,18 @@ import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines/config";
 
 const config: UserConfig = defineConfig({
+  resolve: {
+    external: [
+      "zod",
+      "@shell-shock/schema",
+      "@power-plant/core",
+      "@power-plant/schema",
+      "@power-plant/alloy-js"
+    ]
+  },
   input: [
     "./src/index.tsx",
+    "./src/generator.tsx",
     "./src/types/*.ts",
     "./src/helpers/**/*.ts",
     "./src/components/**/*.ts",

@@ -5,7 +5,8 @@
     "jsx": "preserve",
     "jsxImportSource": "@alloy-js/core",
     "outDir": "./out-tsc",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "rootDir": "."
   },
   "references": [
     { "path": "../plugin-console/tsconfig.lib.json" },

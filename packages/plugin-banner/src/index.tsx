@@ -16,16 +16,15 @@
 
  ------------------------------------------------------------------- */
 
-import { For } from "@alloy-js/core";
-import { Spacing } from "@powerlines/plugin-alloy/core/components";
-import { render } from "@powerlines/plugin-alloy/render";
-import { computeBin, getCommandList } from "@shell-shock/core/plugin-utils";
+import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
+import { getCommandList } from "@shell-shock/core/plugin-utils";
 import console from "@shell-shock/plugin-console";
 import theme from "@shell-shock/plugin-theme";
 import type { Plugin } from "powerlines";
-import { BannerBuiltin } from "./components";
+import { bannerGenerator } from "./generator";
 import type { BannerPluginContext, BannerPluginOptions } from "./types/plugin";
 
+export { bannerGenerator } from "./generator";
 export type * from "./types";
 
 /**
@@ -53,23 +52,12 @@ export const plugin = <
         async handler() {
           const commands = await getCommandList(this);
           this.debug(
-            `Rendering \`banner\` built-ins for each of the ${
+            `Rendering \`banner\` built-ins via Power Plant for each of the ${
               commands.length
             } command modules.`
           );
 
-          return render(
-            this,
-            <>
-              <BannerBuiltin command={computeBin(this)} />
-              <Spacing />
-              <For
-                each={commands.sort((a, b) => a.name.localeCompare(b.name))}
-                doubleHardline>
-                {command => <BannerBuiltin command={command} />}
-              </For>
-            </>
-          );
+          return executeCommandGenerator(this, bannerGenerator);
         }
       }
     }

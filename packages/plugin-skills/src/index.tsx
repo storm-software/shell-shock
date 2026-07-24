@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import { render } from "@powerlines/plugin-alloy/render";
+import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";
@@ -24,9 +24,11 @@ import defu from "defu";
 import type { Plugin } from "powerlines";
 import { replacePathTokens } from "powerlines/plugin-utils";
 import { SkillsCommand } from "./components";
+import { skillsGenerator } from "./generator";
 import type { SkillsPluginContext, SkillsPluginOptions } from "./types/plugin";
 
 export type * from "./types";
+export { skillsGenerator } from "./generator";
 
 /**
  * The Skills - Shell Shock plugin to add version check functionality and skills commands to a Shell Shock application.
@@ -94,7 +96,7 @@ export const plugin = <
             segments: [this.config.skills.command.name],
             title: "Skills",
             icon: "🕶",
-            tags: ["Utility"],
+            tags: ["AI"],
             description: `Display the ${getAppTitle(this)} skills.`,
             entry: {
               file: joinPaths(this.entryPath, "skills", "index.ts"),
@@ -107,7 +109,7 @@ export const plugin = <
           });
 
           this.debug(
-            "Rendering skills command module for the Shell Shock `skills` plugin."
+            "Rendering skills command module via Power Plant for the Shell Shock `skills` plugin."
           );
 
           const skills = await Promise.all(
@@ -128,7 +130,9 @@ export const plugin = <
             );
           });
 
-          await render(this, <SkillsCommand skills={skills} />);
+          await executeCommandGenerator(this, skillsGenerator, {
+            template: <SkillsCommand skills={skills} />
+          });
         } else {
           this.warn(
             `The skills directory at the resolved path: ${

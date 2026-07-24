@@ -19,8 +19,8 @@
 import { code, Show } from "@alloy-js/core";
 import { FunctionDeclaration } from "@alloy-js/typescript";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import { TypescriptFile } from "@powerlines/plugin-alloy/typescript";
-import { TSDoc } from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+import { TypescriptFile } from "@power-plant/alloy-js/typescript";
+import { TSDoc } from "@power-plant/alloy-js/typescript/components/tsdoc";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";

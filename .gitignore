@@ -14,6 +14,8 @@ out
 playground/*/powerlines.d.ts
 playground/*/shell-shock.d.ts
 
+.pnpm-store
+
 # dependencies
 node_modules
 

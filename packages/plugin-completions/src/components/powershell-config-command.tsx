@@ -24,14 +24,14 @@ import {
   InterfaceDeclaration,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core";
+import { Spacing } from "@power-plant/alloy-js/core";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import {
   InterfaceMember,
   TSDoc,
   TSDocDefaultValue,
   TypescriptFile
-} from "@powerlines/plugin-alloy/typescript";
+} from "@power-plant/alloy-js/typescript";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
 import type { CompletionsPluginContext } from "../types";

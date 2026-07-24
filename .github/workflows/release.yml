@@ -150,7 +150,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - name: Send notification - Deployment successful
+      - name: Send notification - Deployment failed
         uses: storm-software/action-notify@main
         with:
           title: "Deployment for ${{ github.repository }} has finished (Failure)"

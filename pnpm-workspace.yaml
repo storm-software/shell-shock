@@ -12,65 +12,70 @@ allowBuilds:
   nx: true
   unrs-resolver: true
 catalog:
-  "@alloy-js/core": ^0.23.1
-  "@alloy-js/markdown": ^0.23.0
-  "@alloy-js/typescript": ^0.23.0
+  "@alloy-js/core": ^0.24.1
+  "@alloy-js/markdown": ^0.24.0
+  "@alloy-js/typescript": ^0.24.0
   "@eslint/compat": ^2.1.0
   "@eslint/config-inspector": ^1.5.0
   "@ls-lint/ls-lint": ^2.3.1
   "@mdit/plugin-alert": ^0.23.2
-  "@nx/devkit": 22.7.5
-  "@nx/eslint-plugin": 22.7.5
-  "@nx/jest": 22.7.5
-  "@nx/js": 22.7.5
-  "@nx/plugin": 22.7.5
-  "@nx/workspace": 22.7.5
-  "@powerlines/core": ^0.48.59
-  "@powerlines/deepkit": ^0.9.91
-  "@powerlines/engine": ^0.49.61
-  "@powerlines/nx": ^0.13.176
-  "@powerlines/plugin-alloy": ^0.26.230
-  "@powerlines/plugin-automd": ^0.1.598
-  "@powerlines/plugin-deepkit": ^0.11.480
-  "@powerlines/plugin-nodejs": ^0.1.542
-  "@powerlines/plugin-plugin": ^0.12.549
-  "@powerlines/plugin-style-dictionary": ^0.3.506
-  "@powerlines/plugin-tsdown": ^0.1.538
-  "@powerlines/plugin-untyped": ^0.2.552
-  "@powerlines/schema": ^0.11.119
-  "@powerlines/tsconfig": ^0.4.186
-  "@powerlines/tsdoc": ^0.2.134
-  "@storm-software/config": ^1.138.6
-  "@storm-software/config-tools": ^1.190.69
-  "@storm-software/cspell": ^0.46.137
-  "@storm-software/eslint": ^0.170.102
-  "@storm-software/git-tools": ^2.131.76
-  "@storm-software/linting-tools": ^1.133.99
-  "@storm-software/markdownlint": ^0.30.225
-  "@storm-software/pnpm-tools": ^0.7.80
-  "@storm-software/prettier": ^0.59.122
-  "@storm-software/testing-tools": ^1.119.222
-  "@storm-software/tsconfig": ^0.48.136
-  "@storm-software/untyped": ^0.24.211
-  "@storm-software/workspace-tools": ^1.296.49
-  "@stryke/cli": ^0.13.57
-  "@stryke/convert": ^0.7.15
-  "@stryke/fs": ^0.33.85
-  "@stryke/hash": ^0.13.38
-  "@stryke/helpers": ^0.10.24
-  "@stryke/json": ^0.15.8
-  "@stryke/path": ^0.29.11
-  "@stryke/string-format": ^0.17.26
-  "@stryke/type-checks": ^0.6.17
-  "@stryke/types": ^0.12.12
-  "@swc-node/register": ^1.11.1
-  "@swc/core": ^1.15.41
+  "@nx/devkit": 23.1.0
+  "@nx/eslint-plugin": 23.1.0
+  "@nx/jest": 23.1.0
+  "@nx/js": 23.1.0
+  "@nx/plugin": 23.1.0
+  "@nx/workspace": 23.1.0
+  "@powerlines/core": ^0.48.68
+  "@powerlines/deepkit": ^0.9.100
+  "@powerlines/engine": ^0.49.70
+  "@powerlines/nx": ^0.13.186
+  "@power-plant/alloy-js": ^0.0.21
+  "@power-plant/core": ^0.0.24
+  "@power-plant/schema": ^0.0.23
+  "@powerlines/plugin-alloy": ^0.26.240
+  "@powerlines/plugin-automd": ^0.1.608
+  "@powerlines/plugin-deepkit": ^0.11.490
+  "@powerlines/plugin-nodejs": ^0.1.552
+  "@powerlines/plugin-plugin": ^0.12.559
+  "@powerlines/plugin-power-plant": ^0.1.3
+  "@powerlines/plugin-style-dictionary": ^0.3.516
+  "@powerlines/plugin-tsdown": ^0.1.548
+  "@powerlines/plugin-untyped": ^0.2.562
+  "@powerlines/schema": ^0.11.127
+  "@powerlines/tsconfig": ^0.4.195
+  "@powerlines/tsdoc": ^0.2.143
+  "@storm-software/config": ^1.138.46
+  "@storm-software/config-tools": ^1.190.109
+  "@storm-software/cspell": ^0.46.177
+  "@storm-software/eslint": ^0.170.143
+  "@storm-software/eslint-plugin-tsdoc": ^0.0.72
+  "@storm-software/git-tools": ^2.131.117
+  "@storm-software/linting-tools": ^1.134.39
+  "@storm-software/markdownlint": ^0.30.265
+  "@storm-software/pnpm-tools": ^0.7.120
+  "@storm-software/prettier": ^0.59.162
+  "@storm-software/testing-tools": ^1.119.262
+  "@storm-software/tsconfig": ^0.48.176
+  "@storm-software/untyped": ^0.24.251
+  "@storm-software/workspace-tools": ^1.296.89
+  "@stryke/cli": ^0.13.69
+  "@stryke/convert": ^0.7.27
+  "@stryke/fs": ^0.33.97
+  "@stryke/hash": ^0.13.50
+  "@stryke/helpers": ^0.10.36
+  "@stryke/json": ^0.15.20
+  "@stryke/path": ^0.29.23
+  "@stryke/string-format": ^0.17.38
+  "@stryke/type-checks": ^0.6.29
+  "@stryke/types": ^0.12.24
+  "@swc-node/register": ^1.12.1
+  "@swc/core": ^1.15.46
   "@swc/helpers": ^0.5.23
   "@types/eslint": ^9.6.1
   "@types/eslint__js": ^9.14.0
   "@types/jest": ^29.5.14
-  "@types/node": ^25.9.3
-  "@typescript-eslint/utils": ^8.61.0
+  "@types/node": ^25.9.5
+  "@typescript-eslint/utils": ^8.65.0
   "@typescript/native-preview": 7.0.0-dev.20251218.3
   ajv: ^8.20.0
   ajv-formats: ^3.0.1
@@ -80,14 +85,14 @@ catalog:
   copyfiles: ^2.4.1
   defu: ^6.1.7
   esbuild: ^0.24.2
-  eslint: ^10.5.0
-  eslint-doc-generator: ^3.6.0
+  eslint: ^10.7.0
+  eslint-doc-generator: ^3.7.0
   eslint-flat-config-utils: ^2.1.4
-  eslint-plugin-eslint-plugin: ^7.4.0
+  eslint-plugin-eslint-plugin: ^7.5.0
   eslint-plugin-i18n-text: ^1.0.1
   eslint-rule-documentation: ^1.0.23
   eslint-typegen: ^2.3.1
-  figlet: ^1.11.0
+  figlet: ^1.11.3
   he: ^1.2.0
   jest: ^30.4.2
   jest-environment-jsdom: ^30.4.1
@@ -96,7 +101,7 @@ catalog:
   jsonc-eslint-parser: ^2.4.2
   lefthook: ^1.13.6
   log4brains: ^1.1.0
-  markdown-it: ^14.2.0
+  markdown-it: ^14.3.0
   markdown-it-abbr: ^2.0.0
   markdown-it-container: ^4.0.0
   markdown-it-deflist: ^3.0.1
@@ -106,17 +111,18 @@ catalog:
   markdown-it-sub: ^2.0.0
   markdown-it-sup: ^2.0.0
   markdown-it-task-lists: ^2.1.1
+  "@modelcontextprotocol/server": 2.0.0-alpha.2
   normalize-html-whitespace: ^1.0.0
-  nx: 22.7.5
+  nx: 23.1.0
   parse5: ^8.0.1
-  powerlines: ^0.47.137
-  prettier: ^3.8.4
+  powerlines: ^0.47.147
+  prettier: ^3.9.6
   rimraf: ^6.1.3
   strip-ansi: ^7.2.0
-  style-dictionary: ^5.4.4
+  style-dictionary: ^5.5.0
   terminal-size: ^4.0.1
-  ts-jest: ^29.4.11
-  tsdown: ^0.22.2
+  ts-jest: ^29.4.12
+  tsdown: ^0.22.13
   typescript: ^6.0.3
   untyped: ^1.5.2
   verdaccio: 6.5.0
@@ -147,6 +153,7 @@ overrides:
   "@shell-shock-playground/nx": workspace:*
   "@shell-shock-playground/powerlines": workspace:*
   "@shell-shock-playground/script": workspace:*
+  "@shell-shock/schema": workspace:*
   "@shell-shock/core": workspace:*
   "@shell-shock/eslint-plugin": workspace:*
   "@shell-shock/nx": workspace:*
@@ -156,6 +163,7 @@ overrides:
   "@shell-shock/plugin-completions": workspace:*
   "@shell-shock/plugin-console": workspace:*
   "@shell-shock/plugin-help": workspace:*
+  "@shell-shock/plugin-mcp": workspace:*
   "@shell-shock/plugin-prompts": workspace:*
   "@shell-shock/plugin-theme": workspace:*
   "@shell-shock/plugin-update": workspace:*

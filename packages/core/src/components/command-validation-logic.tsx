@@ -22,7 +22,7 @@ import {
   IfStatement,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { list } from "@stryke/string-format/list";
 import type {

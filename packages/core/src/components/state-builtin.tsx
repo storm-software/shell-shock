@@ -24,7 +24,7 @@ import {
   TypeDeclaration,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
@@ -35,7 +35,7 @@ import {
   TSDocParam,
   TSDocRemarks,
   TSDocReturns
-} from "@powerlines/plugin-alloy/typescript/components/tsdoc";
+} from "@power-plant/alloy-js/typescript/components/tsdoc";
 import defu from "defu";
 import { computedOptions } from "../contexts/options";
 import { getAppBin } from "../plugin-utils";

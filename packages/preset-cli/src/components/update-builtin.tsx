@@ -24,7 +24,7 @@ import {
   IfStatement,
   VarDeclaration
 } from "@alloy-js/typescript";
-import { Spacing } from "@powerlines/plugin-alloy/core/components/spacing";
+import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
 import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { getAppBin, getAppTitle } from "@shell-shock/core/plugin-utils";
 import type { UpdateBuiltinProps } from "@shell-shock/plugin-update/components/update-builtin";

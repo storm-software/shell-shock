@@ -16,26 +16,24 @@
 
  ------------------------------------------------------------------- */
 
-import { computed, For, Show } from "@alloy-js/core";
-import { Spacing } from "@powerlines/plugin-alloy/core/components";
-import { render } from "@powerlines/plugin-alloy/render";
 import {
-  computeBin,
-  getCommandList,
-  isDynamicPathSegment
-} from "@shell-shock/core/plugin-utils";
+  executeCommandGenerator,
+  renderCommandTemplate
+} from "@shell-shock/core/helpers/power-plant";
+import { getCommandList } from "@shell-shock/core/plugin-utils";
 import type { CommandConfig } from "@shell-shock/core/types/command";
 import console from "@shell-shock/plugin-console";
 import theme from "@shell-shock/plugin-theme";
-import { getUniqueBy } from "@stryke/helpers/get-unique";
 import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
 import type { Plugin } from "powerlines";
-import { HelpBuiltin, HelpCommand, TemporaryHelpCommand } from "./components";
+import { TemporaryHelpCommand } from "./components";
+import { helpGenerator } from "./generator";
 import type { HelpPluginContext, HelpPluginOptions } from "./types/plugin";
 
 export type * from "./types";
+export { helpGenerator } from "./generator";
 
 /**
  * The Help - Shell Shock plugin to add a help command to the application.
@@ -105,7 +103,10 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
             });
           }
 
-          await render(this, <TemporaryHelpCommand />);
+          await renderCommandTemplate(
+            { context: this },
+            <TemporaryHelpCommand />
+          );
         }
       },
       prepare: {
@@ -114,39 +115,12 @@ export const plugin = <TContext extends HelpPluginContext = HelpPluginContext>(
           const commands = await getCommandList(this);
 
           this.debug(
-            `Rendering \`help\` built-ins for each of the ${
+            `Rendering \`help\` built-ins via Power Plant for each of the ${
               commands.length
             } command modules.`
           );
 
-          const segments = computed(() =>
-            getUniqueBy(
-              commands.map(command =>
-                command.segments
-                  .filter(segment => !isDynamicPathSegment(segment))
-                  .filter(segment => segment.length > 0)
-              ),
-              segments => segments.join("/")
-            )
-              .filter(segments => segments.length > 0)
-              .sort((a, b) => a.join("/").localeCompare(b.join("/")))
-          );
-
-          return render(
-            this,
-            <>
-              <Show when={this.config.help.builtins !== false}>
-                <HelpBuiltin command={computeBin(this)} />
-                <Spacing />
-                <For
-                  each={commands.sort((a, b) => a.name.localeCompare(b.name))}
-                  doubleHardline>
-                  {command => <HelpBuiltin command={command} />}
-                </For>
-                <HelpCommand commands={segments.value} />
-              </Show>
-            </>
-          );
+          return executeCommandGenerator(this, helpGenerator);
         }
       }
     }

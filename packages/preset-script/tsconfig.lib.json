@@ -6,7 +6,8 @@
     "jsxImportSource": "@alloy-js/core",
     "types": ["node"],
     "outDir": "./out-tsc",
-    "sourceMap": true
+    "sourceMap": true,
+    "rootDir": "."
   },
   "references": [
     { "path": "../plugin-help/tsconfig.lib.json" },

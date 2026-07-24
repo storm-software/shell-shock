@@ -53,6 +53,7 @@
     "@alloy-js/core": "catalog:",
     "@alloy-js/typescript": "catalog:",
     "@powerlines/deepkit": "catalog:",
+    "@power-plant/alloy-js": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
@@ -125,6 +126,20 @@
       "default": {
         "types": "./dist/components/banner-function-declaration.d.mts",
         "default": "./dist/components/banner-function-declaration.mjs"
+      }
+    },
+    "./generator": {
+      "require": {
+        "types": "./dist/generator.d.cts",
+        "default": "./dist/generator.cjs"
+      },
+      "import": {
+        "types": "./dist/generator.d.mts",
+        "default": "./dist/generator.mjs"
+      },
+      "default": {
+        "types": "./dist/generator.d.mts",
+        "default": "./dist/generator.mjs"
       }
     },
     "./package.json": "./package.json",
