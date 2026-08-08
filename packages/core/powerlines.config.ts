@@ -17,21 +17,11 @@
  ------------------------------------------------------------------- */
 
 import alloy from "@powerlines/plugin-alloy";
-import deepkit from "@powerlines/plugin-deepkit";
 import plugin from "@powerlines/plugin-plugin";
 import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines/config";
 
 const config: UserConfig = defineConfig({
-  resolve: {
-    external: [
-      "zod",
-      "@shell-shock/schema",
-      "@power-plant/core",
-      "@power-plant/schema",
-      "@power-plant/alloy-js"
-    ]
-  },
   input: [
     "src/*.{ts,tsx}",
     "src/config.ts",
@@ -39,22 +29,16 @@ const config: UserConfig = defineConfig({
     "src/generator.tsx",
     "src/plugin.tsx",
     "src/types/*.ts",
+    "src/schemas/*.ts",
     "src/components/*.{ts,tsx}",
     "src/contexts/*.{ts,tsx}",
     "src/helpers/power-plant.ts",
     "src/plugin-utils/index.ts"
   ],
-  output: {
-    sourceMap: true
+  resolve: {
+    skipNodeModulesBundle: true
   },
-  plugins: [
-    plugin(),
-    deepkit({
-      reflection: "default",
-      level: "all"
-    }),
-    alloy()
-  ],
+  plugins: [plugin(), alloy()],
   tsdown: {
     minify: false
   }

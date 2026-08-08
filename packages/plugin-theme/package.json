@@ -223,16 +223,18 @@
   "files": ["dist"],
   "dependencies": {
     "@alloy-js/core": "catalog:",
-    "@powerlines/plugin-alloy": "catalog:",
-    "@powerlines/plugin-plugin": "catalog:",
-    "@powerlines/plugin-style-dictionary": "catalog:",
+    "@power-plant/noop-output": "catalog:",
+    "@powerlines/plugin-alloy": "0.26.285",
+    "@powerlines/plugin-plugin": "0.12.601",
+    "@powerlines/plugin-style-dictionary": "0.3.558",
+    "@shell-shock/core": "workspace:*",
     "@stryke/helpers": "catalog:",
     "@stryke/json": "catalog:",
     "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",
     "@stryke/types": "catalog:",
     "defu": "catalog:",
-    "powerlines": "catalog:",
+    "powerlines": "0.47.189",
     "style-dictionary": "catalog:"
   },
   "devDependencies": {

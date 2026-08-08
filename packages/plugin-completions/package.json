@@ -339,7 +339,7 @@
   },
   "types": "./dist/index.d.cts",
   "typings": "dist/index.d.mts",
-  "files": ["dist/**/*"],
+  "files": ["dist"],
   "keywords": [
     "shell-shock",
     "shell-shock-plugin",
@@ -349,7 +349,6 @@
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/typescript": "catalog:",
-    "@powerlines/deepkit": "catalog:",
     "@power-plant/alloy-js": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",

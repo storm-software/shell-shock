@@ -20,9 +20,6 @@ import type { Children } from "@alloy-js/core";
 import { code, computed, For, Show } from "@alloy-js/core";
 import { FunctionDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@power-plant/alloy-js/core/components";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import type { TypescriptFileImports } from "@power-plant/alloy-js/typescript/types/components";
-import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import {
   TSDoc,
   TSDocParam,
@@ -30,6 +27,9 @@ import {
   TSDocTitle
 } from "@power-plant/alloy-js/typescript/components/tsdoc";
 import { TypescriptFile } from "@power-plant/alloy-js/typescript/components/typescript-file";
+import type { TypescriptFileImports } from "@power-plant/alloy-js/typescript/types/components";
+import type { EntryFileProps } from "@shell-shock/core/contexts/power-plant";
+import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import {
   getAppBin,
   getDynamicPathSegmentName,

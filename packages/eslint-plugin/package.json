@@ -80,17 +80,17 @@
   "typings": "dist/index.d.mts",
   "files": ["dist/**/*"],
   "dependencies": {
+    "@storm-software/testing-tools": "catalog:",
     "@stryke/fs": "catalog:",
     "@stryke/path": "catalog:",
     "@typescript-eslint/utils": "catalog:",
     "defu": "catalog:",
-    "@storm-software/testing-tools": "catalog:",
-    "powerlines": "catalog:"
+    "powerlines": "0.47.189"
   },
   "devDependencies": {
     "@eslint/compat": "catalog:",
     "@eslint/config-inspector": "catalog:",
-    "@powerlines/plugin-tsdown": "catalog:",
+    "@powerlines/plugin-tsdown": "0.1.590",
     "@storm-software/testing-tools": "catalog:",
     "@types/eslint": "catalog:",
     "@types/eslint__js": "catalog:",

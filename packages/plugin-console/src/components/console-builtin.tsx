@@ -37,8 +37,6 @@ import {
   ClassPropertyGet,
   ClassPropertySet
 } from "@power-plant/alloy-js/typescript";
-import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
-import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import {
   TSDoc,
   TSDocDefaultValue,
@@ -48,6 +46,8 @@ import {
   TSDocReturns
 } from "@power-plant/alloy-js/typescript/components/tsdoc";
 import { IsNotDebug, IsNotVerbose } from "@shell-shock/core/components/helpers";
+import type { BuiltinFileProps } from "@shell-shock/core/contexts/power-plant";
+import { BuiltinFile } from "@shell-shock/core/contexts/power-plant";
 import type {
   ThemeMessageVariant,
   ThemeResolvedConfig

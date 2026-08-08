@@ -19,8 +19,6 @@
 import { code, Show, splitProps } from "@alloy-js/core";
 import { FunctionDeclaration, VarDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
-import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import {
   ClassDeclaration,
   ClassField,
@@ -40,6 +38,8 @@ import {
   TSDocReturns
 } from "@power-plant/alloy-js/typescript/components/tsdoc";
 import { TypeDeclaration } from "@power-plant/alloy-js/typescript/components/type-declaration";
+import type { BuiltinFileProps } from "@shell-shock/core/contexts/power-plant";
+import { BuiltinFile } from "@shell-shock/core/contexts/power-plant";
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import defu from "defu";
 

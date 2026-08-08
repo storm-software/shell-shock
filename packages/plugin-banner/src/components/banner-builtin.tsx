@@ -17,10 +17,12 @@
  ------------------------------------------------------------------- */
 
 import { Show, splitProps } from "@alloy-js/core";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
-import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import type { CommandTree } from "@shell-shock/core";
+import type { BuiltinFileProps } from "@shell-shock/core/contexts/power-plant";
+import {
+  BuiltinFile,
+  usePowerlines
+} from "@shell-shock/core/contexts/power-plant";
 import {
   getAppTitle,
   isDynamicPathSegment

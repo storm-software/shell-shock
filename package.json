@@ -53,6 +53,7 @@
   "devDependencies": {
     "@ls-lint/ls-lint": "catalog:",
     "@nx/devkit": "catalog:",
+    "@nx/eslint": "catalog:",
     "@nx/eslint-plugin": "catalog:",
     "@nx/jest": "catalog:",
     "@nx/js": "catalog:",
@@ -65,6 +66,7 @@
     "@storm-software/config-tools": "catalog:",
     "@storm-software/cspell": "catalog:",
     "@storm-software/eslint": "catalog:",
+    "@storm-software/eslint-plugin-pnpm": "catalog:",
     "@storm-software/eslint-plugin-tsdoc": "catalog:",
     "@storm-software/git-tools": "catalog:",
     "@storm-software/linting-tools": "catalog:",

@@ -17,16 +17,15 @@
  ------------------------------------------------------------------- */
 
 import { For, Show } from "@alloy-js/core";
+import {
+  addProperty,
+  getProperties,
+  isJsonSchemaObject
+} from "@power-plant/schema";
 import automd from "@powerlines/plugin-automd";
 import { extractEnv, writeEnv } from "@powerlines/plugin-env/helpers/schema";
 import nodejs from "@powerlines/plugin-nodejs";
 import tsdown from "@powerlines/plugin-tsdown";
-import {
-  addProperty,
-  getCacheFilePath,
-  getProperties,
-  isJsonSchemaObject
-} from "@powerlines/schema";
 import { toArray } from "@stryke/convert/to-array";
 import { chmodX } from "@stryke/fs/chmod-x";
 import { appendPath } from "@stryke/path/append";
@@ -124,7 +123,7 @@ export const plugin = <TContext extends Context = Context>(
               ? ["src/**/command.ts", "src/**/command.tsx"]
               : undefined,
           resolve: {
-            external: ["@powerlines/deepkit"],
+            external: ["@power-plant/schema"],
             skipNodeModulesBundle: true
           },
           tsdown: {
@@ -161,13 +160,13 @@ export const plugin = <TContext extends Context = Context>(
             this.config.env.prefix.push(this.config.appSpecificEnvPrefix);
           }
 
-          this.config.bin = ((isSetString(this.packageJson.bin)
+          this.config.bin = (isSetString(this.packageJson.bin)
             ? { [kebabCase(this.config.name)]: this.packageJson.bin }
             : this.packageJson.bin) ?? {
             [kebabCase(this.config.name)]: formatBinaryPath(
               this.config.output.format
             )
-          }) as Record<string, string>;
+          };
 
           if (isSetString(this.config.docs)) {
             const docsWithoutCommandPath = this.config.docs.replace(
@@ -209,7 +208,7 @@ export const plugin = <TContext extends Context = Context>(
     ...nodejs<TContext>(
       defu(options ?? {}, {
         env: {
-          config: "@shell-shock/core/types/env#ShellShockEnv",
+          config: "@shell-shock/core/schemas/env#envSchema",
           validate: false
         }
       })
@@ -517,8 +516,7 @@ export const plugin = <TContext extends Context = Context>(
           if (
             this.config.command !== "prepare" &&
             this.config.skipCache !== true &&
-            this.persistedMeta?.checksum === this.meta.checksum &&
-            this.fs.existsSync(getCacheFilePath(this, this.env.config))
+            this.persistedMeta?.checksum === this.meta.checksum
           ) {
             this.debug(
               `Skipping command resolution as the meta checksum has not changed.`
@@ -600,9 +598,9 @@ export const plugin = <TContext extends Context = Context>(
           }
         ) => {
           await Promise.all(
-            Object.values(this.config.bin).map(async bin => {
+            Object.values(this.config.bin ?? {}).map(async bin => {
               const path = appendPath(
-                bin,
+                bin ?? "",
                 joinPaths(this.config.cwd, this.config.root)
               );
               if (this.fs.existsSync(path)) {

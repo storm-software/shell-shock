@@ -46,7 +46,7 @@ export const mcpGenerator = defineCommandGenerator({
 
     const context = options.context as McpPluginContext;
     const commands = (await getCommandList(context)).sort((a, b) =>
-      a.path.localeCompare(b.path)
+      (a.path ?? a.name).localeCompare(b.path ?? b.name)
     );
 
     await renderCommandTemplate(

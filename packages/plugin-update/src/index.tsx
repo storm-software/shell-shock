@@ -56,7 +56,7 @@ export const plugin = <
           }
         ),
         env: {
-          config: "@shell-shock/plugin-update/types/env#ShellShockUpdateEnv",
+          config: "@shell-shock/plugin-update/schemas/env#envSchema",
           validate: false
         }
       };

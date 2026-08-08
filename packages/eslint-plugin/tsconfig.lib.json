@@ -6,7 +6,7 @@
     "isolatedModules": true,
     "rootDir": "."
   },
-  "references": [],
+  "references": [{ "path": "../../tools/config" }],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",

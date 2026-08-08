@@ -16,13 +16,14 @@
 
  ------------------------------------------------------------------- */
 
+import packageJson from "../package.json";
+import { ExecBuiltin } from "./components/exec-builtin";
+import { StateBuiltin } from "./components/state-builtin";
+import { UtilsBuiltin } from "./components/utils-builtin";
 import {
   defineCommandGenerator,
   renderCommandTemplate
 } from "./helpers/power-plant";
-import { ExecBuiltin } from "./components/exec-builtin";
-import { StateBuiltin } from "./components/state-builtin";
-import { UtilsBuiltin } from "./components/utils-builtin";
 
 /**
  * Power Plant generator for Shell Shock core built-in modules.
@@ -35,7 +36,7 @@ export const coreBuiltinsGenerator = defineCommandGenerator({
     title: "Shell Shock Core Builtins",
     description:
       "Generates the base Shell Shock built-in modules (state, utils, exec) from the command tree specification.",
-    version: "1.0",
+    version: packageJson.version,
     tags: ["shell-shock", "core", "alloy-js", "builtins"],
     links: [
       {
@@ -69,7 +70,7 @@ export const coreDocsGenerator = defineCommandGenerator({
     title: "Shell Shock Command Docs",
     description:
       "Generates CLI command reference documentation from the command tree specification.",
-    version: "1.0",
+    version: packageJson.version,
     tags: ["shell-shock", "core", "alloy-js", "docs"]
   },
   generator: async (_commands, options) => {

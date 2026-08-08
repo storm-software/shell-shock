@@ -1,12 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0"
+  },
   "references": [
     {
       "path": "./tsconfig.lib.json"
     }
   ],
-  "files": [],
-  "compilerOptions": {
-    "ignoreDeprecations": "6.0"
-  }
+  "files": []
 }

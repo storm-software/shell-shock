@@ -209,7 +209,6 @@
   "dependencies": {
     "@alloy-js/core": "catalog:",
     "@alloy-js/typescript": "catalog:",
-    "@powerlines/deepkit": "catalog:",
     "@power-plant/alloy-js": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",

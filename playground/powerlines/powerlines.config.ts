@@ -1,6 +1,6 @@
 /* -------------------------------------------------------------------
 
-                  ⚡ Storm Software - Shell Shock
+                  🗲 Storm Software - Shell Shock
 
  This code was released as part of the Shell Shock project. Shell Shock
  is maintained by Storm Software under the Apache-2.0 license, and is
@@ -18,10 +18,9 @@
 
 import core from "@shell-shock/core/plugin";
 import script from "@shell-shock/preset-script";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines/config";
+import { defineConfig } from "@shell-shock/tools-config/powerlines.shared";
 
-const config: UserConfig = defineConfig({
+const config = defineConfig({
   name: "playground-powerlines",
   skipCache: true,
   output: {

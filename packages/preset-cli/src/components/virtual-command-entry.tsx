@@ -18,11 +18,11 @@
 
 import { computed, For, Show } from "@alloy-js/core";
 import { Spacing } from "@power-plant/alloy-js/core/components";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import type { TypescriptFileImports } from "@power-plant/alloy-js/typescript/types/components";
-import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import { TypescriptFile } from "@power-plant/alloy-js/typescript/components/typescript-file";
+import type { TypescriptFileImports } from "@power-plant/alloy-js/typescript/types/components";
 import type { CommandTree } from "@shell-shock/core";
+import type { EntryFileProps } from "@shell-shock/core/contexts/power-plant";
+import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import { isDynamicPathSegment } from "@shell-shock/core/plugin-utils";
 import { VirtualCommandHandlerDeclaration } from "@shell-shock/preset-script/components/virtual-command-entry";
 import { joinPaths } from "@stryke/path/join";

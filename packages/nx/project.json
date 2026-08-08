@@ -34,11 +34,11 @@
       "dependsOn": ["build-base", "build-plugin"],
       "options": {
         "commands": [
-          "pnpm copyfiles LICENSE dist/packages/nx",
-          "pnpm copyfiles --up=2 \"packages/nx/*.md\" packages/nx/executors.json packages/nx/generators.json packages/nx/package.json dist/packages/nx",
-          "pnpm copyfiles --up=3 \"packages/nx/src/executors/*/schema.json\" \"packages/nx/src/executors/*/schema.d.ts\" \"packages/nx/src/generators/*/schema.json\" \"packages/nx/src/generators/*/schema.d.ts\" packages/nx/dist",
-          "pnpm copyfiles --up=3 \"packages/nx/src/base/*.schema.json\" \"packages/nx/src/base/*.schema.d.ts\" dist/packages/nx/dist",
-          "pnpm copyfiles --up=4 \"packages/nx/src/**/*.md\" dist/packages/nx/docs/api"
+          "mkdir -p dist/packages/nx && cp LICENSE dist/packages/nx/",
+          "mkdir -p dist/packages/nx && cp packages/nx/*.md packages/nx/executors.json packages/nx/package.json dist/packages/nx/",
+          "mkdir -p packages/nx/dist && for d in executors generators; do find \"packages/nx/src/$d\" \\( -name 'schema.json' -o -name 'schema.d.ts' \\) 2>/dev/null | while read -r f; do rel=\"${f#packages/nx/src/}\"; mkdir -p \"packages/nx/dist/$(dirname \"$rel\")\"; cp \"$f\" \"packages/nx/dist/$rel\"; done; done",
+          "mkdir -p dist/packages/nx/dist/base && cp packages/nx/src/base/*.schema.json packages/nx/src/base/*.schema.d.ts dist/packages/nx/dist/base/",
+          "mkdir -p dist/packages/nx/docs/api && find packages/nx/src -name '*.md' | while read -r f; do rel=\"${f#packages/nx/src/}\"; mkdir -p \"dist/packages/nx/docs/api/$(dirname \"$rel\")\"; cp \"$f\" \"dist/packages/nx/docs/api/$rel\"; done"
         ],
         "parallel": false
       }

@@ -1,25 +1,10 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
-    "types": ["node"],
-    "outDir": "./out-tsc",
-    "rootDir": "."
-  },
   "references": [{ "path": "../core/tsconfig.lib.json" }],
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "powerlines.base.ts",
-    "powerlines.plugin.ts",
-    "executors.json",
-    "src/executors/**/schema.json",
-    "powerlines.d.ts"
-  ],
-  "exclude": [
-    "jest.config.ts",
-    "src/generators/**/files/**/*",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts"
-  ]
+  "compilerOptions": {
+    "lib": ["esnext"],
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "types": ["node"]
+  },
+  "include": ["powerlines.d.ts"]
 }

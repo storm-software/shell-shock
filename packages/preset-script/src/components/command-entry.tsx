@@ -24,9 +24,6 @@ import {
   IfStatement
 } from "@alloy-js/typescript";
 import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
-import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import {
   TSDoc,
   TSDocParam,
@@ -40,6 +37,11 @@ import {
   CommandParserLogic,
   OptionsInterfaceDeclaration
 } from "@shell-shock/core/components/options-parser-logic";
+import type { EntryFileProps } from "@shell-shock/core/contexts/power-plant";
+import {
+  EntryFile,
+  usePowerlines
+} from "@shell-shock/core/contexts/power-plant";
 import {
   getAppBin,
   getDynamicPathSegmentName,

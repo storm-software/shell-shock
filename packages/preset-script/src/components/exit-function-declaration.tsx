@@ -23,8 +23,8 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { code } from "@power-plant/alloy-js/core/helpers/code";
+import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import type { ScriptPresetContext } from "../types/plugin";
 

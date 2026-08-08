@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import type { JsonSchemaStringFormat, SchemaInput } from "@powerlines/schema";
+import type { JsonSchemaStringFormat, SchemaConfig } from "@power-plant/schema";
 import type { AnyFunction, RequiredKeys } from "@stryke/types/base";
 import type { ResolvedEntryFileReference } from "powerlines";
 
@@ -140,8 +140,7 @@ export interface VariadicStringCommandParameter extends BaseStringCommandParamet
 }
 
 export type StringCommandParameter =
-  | SingleStringCommandParameter
-  | VariadicStringCommandParameter;
+  SingleStringCommandParameter | VariadicStringCommandParameter;
 
 export interface BaseNumberCommandParameter extends BaseCommandParameter {
   /**
@@ -185,8 +184,7 @@ export interface VariadicNumberCommandParameter extends BaseNumberCommandParamet
 }
 
 export type NumberCommandParameter =
-  | SingleNumberCommandParameter
-  | VariadicNumberCommandParameter;
+  SingleNumberCommandParameter | VariadicNumberCommandParameter;
 
 export interface BaseBooleanCommandParameter extends BaseCommandParameter {
   /**
@@ -225,13 +223,10 @@ export interface VariadicBooleanCommandParameter extends BaseBooleanCommandParam
 }
 
 export type BooleanCommandParameter =
-  | SingleBooleanCommandParameter
-  | VariadicBooleanCommandParameter;
+  SingleBooleanCommandParameter | VariadicBooleanCommandParameter;
 
 export type CommandParameter =
-  | StringCommandParameter
-  | NumberCommandParameter
-  | BooleanCommandParameter;
+  StringCommandParameter | NumberCommandParameter | BooleanCommandParameter;
 
 export type AsCommandParameterConfig<T extends BaseCommandParameter> = Pick<
   T,
@@ -273,9 +268,7 @@ export type CommandOption =
 export type CommandOptionConfig = AsCommandParameterConfig<CommandOption>;
 
 export type CommandArgument =
-  | StringCommandParameter
-  | NumberCommandParameter
-  | BooleanCommandParameter;
+  StringCommandParameter | NumberCommandParameter | BooleanCommandParameter;
 export type CommandArgumentConfig = AsCommandParameterConfig<CommandArgument>;
 
 export interface CommandMetadata {
@@ -413,7 +406,7 @@ export type SerializedCommandTree = Omit<CommandTree, "parent" | "children"> & {
 
 export interface CommandModule {
   metadata?: CommandMetadata;
-  options?: Record<string, CommandOptionConfig> | SchemaInput;
-  args?: (CommandArgumentConfig | SchemaInput)[];
+  options?: Record<string, CommandOptionConfig> | SchemaConfig;
+  args?: (CommandArgumentConfig | SchemaConfig)[];
   default?: AnyFunction;
 }

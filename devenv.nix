@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   name = "storm-software/shell-shock";
 

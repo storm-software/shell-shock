@@ -19,7 +19,6 @@
 import { code, For, memo, Show } from "@alloy-js/core";
 import { Heading } from "@alloy-js/markdown";
 import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { MarkdownFileProps } from "@power-plant/alloy-js/markdown/components/markdown-file";
 import { MarkdownFile } from "@power-plant/alloy-js/markdown/components/markdown-file";
 import { MarkdownTable } from "@power-plant/alloy-js/markdown/components/markdown-table";
@@ -28,6 +27,7 @@ import { list } from "@stryke/string-format/list";
 import { isUndefined } from "@stryke/type-checks/is-undefined";
 import { defu } from "defu";
 import { CommandContext } from "../contexts/command";
+import { usePowerlines } from "../contexts/power-plant";
 import { getDocsOutputPath } from "../helpers/docs-helpers";
 import { getAppBin } from "../plugin-utils/context-helpers";
 import { sortOptions } from "../plugin-utils/reflect";

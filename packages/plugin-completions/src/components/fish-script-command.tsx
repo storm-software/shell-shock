@@ -25,7 +25,6 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { Spacing } from "@power-plant/alloy-js/core";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import {
   InterfaceMember,
   TypescriptFile
@@ -34,6 +33,7 @@ import {
   TSDoc,
   TSDocDefaultValue
 } from "@power-plant/alloy-js/typescript/components/tsdoc";
+import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import { getAppBin, getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
 import type { CompletionsPluginContext } from "../types/plugin";

@@ -24,8 +24,6 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
-import { BuiltinFile } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import {
   TSDoc,
   TSDocDefaultValue,
@@ -33,6 +31,8 @@ import {
   TSDocReturns
 } from "@power-plant/alloy-js/typescript/components/tsdoc";
 import defu from "defu";
+import type { BuiltinFileProps } from "../contexts/power-plant";
+import { BuiltinFile } from "../contexts/power-plant";
 
 export interface ExecBuiltinProps extends Omit<
   BuiltinFileProps,

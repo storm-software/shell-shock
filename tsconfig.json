@@ -74,6 +74,9 @@
     },
     {
       "path": "./playground/custom-commands-directory"
+    },
+    {
+      "path": "./tools/config"
     }
   ],
   "files": [],

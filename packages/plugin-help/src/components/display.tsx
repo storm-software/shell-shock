@@ -18,8 +18,8 @@
 
 import { code, computed, For, Show } from "@alloy-js/core";
 import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { CommandOption, CommandTree } from "@shell-shock/core";
+import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import {
   formatDescription,
   formatShortDescription,

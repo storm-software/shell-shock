@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import type { Type } from "@powerlines/deepkit/vendor/type";
-import { ReflectionKind } from "@powerlines/deepkit/vendor/type";
+import type { Type } from "@deepkit/type";
+import { ReflectionKind } from "@deepkit/type";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import type {
   BaseCommandParameter,

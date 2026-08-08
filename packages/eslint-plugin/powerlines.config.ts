@@ -17,10 +17,9 @@
  ------------------------------------------------------------------- */
 
 import tsdown from "@powerlines/plugin-tsdown";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines/config";
+import { defineConfig } from "@shell-shock/tools-config/powerlines.shared";
 
-const config: UserConfig = defineConfig({
+const config = defineConfig({
   skipCache: true,
   input: [
     "./src/index.ts",

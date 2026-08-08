@@ -250,6 +250,20 @@
         "default": "./dist/contexts/options.mjs"
       }
     },
+    "./contexts/power-plant": {
+      "require": {
+        "types": "./dist/contexts/power-plant.d.cts",
+        "default": "./dist/contexts/power-plant.cjs"
+      },
+      "import": {
+        "types": "./dist/contexts/power-plant.d.mts",
+        "default": "./dist/contexts/power-plant.mjs"
+      },
+      "default": {
+        "types": "./dist/contexts/power-plant.d.mts",
+        "default": "./dist/contexts/power-plant.mjs"
+      }
+    },
     "./engine": {
       "require": {
         "types": "./dist/engine.d.cts",
@@ -321,6 +335,34 @@
         "default": "./dist/plugin-utils/index.mjs"
       }
     },
+    "./schemas": {
+      "require": {
+        "types": "./dist/schemas/index.d.cts",
+        "default": "./dist/schemas/index.cjs"
+      },
+      "import": {
+        "types": "./dist/schemas/index.d.mts",
+        "default": "./dist/schemas/index.mjs"
+      },
+      "default": {
+        "types": "./dist/schemas/index.d.mts",
+        "default": "./dist/schemas/index.mjs"
+      }
+    },
+    "./schemas/env": {
+      "require": {
+        "types": "./dist/schemas/env.d.cts",
+        "default": "./dist/schemas/env.cjs"
+      },
+      "import": {
+        "types": "./dist/schemas/env.d.mts",
+        "default": "./dist/schemas/env.mjs"
+      },
+      "default": {
+        "types": "./dist/schemas/env.d.mts",
+        "default": "./dist/schemas/env.mjs"
+      }
+    },
     "./types": {
       "require": {
         "types": "./dist/types/index.d.cts",
@@ -376,20 +418,6 @@
         "types": "./dist/types/context.d.mts",
         "default": "./dist/types/context.mjs"
       }
-    },
-    "./types/env": {
-      "require": {
-        "types": "./dist/types/env.d.cts",
-        "default": "./dist/types/env.cjs"
-      },
-      "import": {
-        "types": "./dist/types/env.d.mts",
-        "default": "./dist/types/env.mjs"
-      },
-      "default": {
-        "types": "./dist/types/env.d.mts",
-        "default": "./dist/types/env.mjs"
-      }
     }
   },
   "main": "./dist/index.cjs",
@@ -403,15 +431,16 @@
     "@alloy-js/typescript": "catalog:",
     "@power-plant/alloy-js": "catalog:",
     "@power-plant/core": "catalog:",
+    "@power-plant/schema": "catalog:",
     "@powerlines/core": "catalog:",
-    "@powerlines/deepkit": "catalog:",
     "@powerlines/engine": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-automd": "catalog:",
-    "@powerlines/plugin-deepkit": "catalog:",
+    "@powerlines/plugin-env": "catalog:",
     "@powerlines/plugin-nodejs": "catalog:",
+    "@powerlines/plugin-power-plant": "catalog:",
     "@powerlines/plugin-tsdown": "catalog:",
-    "@powerlines/schema": "catalog:",
+    "@powerlines/unplugin": "catalog:",
     "@shell-shock/schema": "workspace:*",
     "@stryke/cli": "catalog:",
     "@stryke/convert": "catalog:",
@@ -419,18 +448,21 @@
     "@stryke/helpers": "catalog:",
     "@stryke/json": "catalog:",
     "@stryke/path": "catalog:",
+    "@stryke/resolve": "catalog:",
     "@stryke/string-format": "catalog:",
     "@stryke/type-checks": "catalog:",
     "@stryke/types": "catalog:",
     "automd": "catalog:",
     "defu": "catalog:",
     "powerlines": "catalog:",
-    "tsdown": "catalog:"
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "unplugin": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@powerlines/plugin-plugin": "catalog:",
-    "@types/node": "catalog:",
-    "typescript": "catalog:"
+    "@types/node": "catalog:"
   },
   "publishConfig": {
     "access": "public"

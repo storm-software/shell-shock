@@ -154,6 +154,7 @@
     "@alloy-js/core": "catalog:",
     "@alloy-js/typescript": "catalog:",
     "@power-plant/alloy-js": "catalog:",
+    "@power-plant/core": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@shell-shock/unified": "workspace:*",

@@ -4,16 +4,17 @@
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
     "jsx": "preserve",
     "jsxImportSource": "@alloy-js/core",
+    "rootDir": ".",
     "types": ["node"],
     "outDir": "./out-tsc",
-    "sourceMap": true,
-    "rootDir": "."
+    "sourceMap": true
   },
   "references": [
-    { "path": "../plugin-help/tsconfig.lib.json" },
-    { "path": "../plugin-banner/tsconfig.lib.json" },
+    { "path": "../../tools/config" },
     { "path": "../plugin-theme/tsconfig.lib.json" },
+    { "path": "../plugin-help/tsconfig.lib.json" },
     { "path": "../plugin-console/tsconfig.lib.json" },
+    { "path": "../plugin-banner/tsconfig.lib.json" },
     { "path": "../core/tsconfig.lib.json" }
   ],
   "include": [

@@ -4,9 +4,9 @@
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
     "jsx": "preserve",
     "jsxImportSource": "@alloy-js/core",
+    "rootDir": ".",
     "outDir": "./out-tsc",
-    "verbatimModuleSyntax": false,
-    "rootDir": "."
+    "verbatimModuleSyntax": false
   },
   "references": [{ "path": "../schema/tsconfig.lib.json" }],
   "include": [

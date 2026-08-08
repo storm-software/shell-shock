@@ -2,11 +2,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
+    "rootDir": ".",
     "types": ["node"],
-    "outDir": "./out-tsc",
-    "rootDir": "."
+    "outDir": "./out-tsc"
   },
   "references": [
+    { "path": "../../tools/config" },
     { "path": "../plugin-theme/tsconfig.lib.json" },
     { "path": "../core/tsconfig.lib.json" }
   ],

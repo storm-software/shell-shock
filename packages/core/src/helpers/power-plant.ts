@@ -20,9 +20,14 @@ import type { Children } from "@alloy-js/core";
 import type {
   GeneratorConfigObject,
   GeneratorFunctionResult,
-  InferEngineOptions
+  InferExecuteOptions
 } from "@power-plant/core";
-import { defineGenerator, defineSchema, execute } from "@power-plant/core";
+import {
+  defineGenerator,
+  defineOutput,
+  defineSchema,
+  execute
+} from "@power-plant/core";
 import { render } from "@powerlines/plugin-alloy/render";
 import type {
   SerializedCommands,
@@ -34,6 +39,19 @@ import type {
   CommandGeneratorOptions as BaseCommandGeneratorOptions,
   Context
 } from "../types/context";
+
+// /**
+//  * Re-export Powerlines Alloy context hooks from the same `@powerlines/plugin-alloy`
+//  * instance that {@link renderCommandTemplate} uses.
+//  *
+//  * @remarks
+//  * pnpm may install multiple peer-resolved copies of `@powerlines/plugin-alloy`.
+//  * Alloy `createNamedContext` uses a per-module Symbol, so a Provider from one
+//  * copy is invisible to `usePowerlines` from another. Always import these hooks
+//  * from `@shell-shock/core/helpers/power-plant` in components rendered via
+//  * `renderCommandTemplate`.
+//  */
+// export { usePowerlines, usePowerlinesSafe };
 
 /**
  * Options passed to Shell Shock Alloy-js generators.
@@ -60,7 +78,7 @@ function serializeCommand(command: CommandTree): SerializedCommandTree {
         serializeCommand(child)
       ])
     )
-  };
+  } as SerializedCommandTree;
 }
 
 /**
@@ -118,6 +136,9 @@ export function defineCommandGenerator<
   return defineGenerator<SerializedCommands, TOptions, void>({
     ...config,
     schema: serializedCommandSchema,
+    // Emit via Alloy/`renderCommandTemplate` — no unstorage sink needed.
+    // Default `@power-plant/unstorage-output` is not a workspace dependency.
+    output: defineOutput(() => undefined),
     generator: async (commands, options) => {
       const result = await config.generator(commands, options);
 
@@ -161,7 +182,7 @@ export async function executeCommandGenerator<
       },
       context,
       ...(options as Omit<TOptions, "context">)
-    } as InferEngineOptions<
+    } as InferExecuteOptions<
       GeneratorConfigObject<SerializedCommands, TOptions, void>
     > &
       TOptions
@@ -179,5 +200,5 @@ export async function renderCommandTemplate(
   options: CommandGeneratorOptions,
   template: Children
 ): Promise<void> {
-  await render(options.context, options.template ?? template);
+  await render(options.context, options.template ?? template, {});
 }

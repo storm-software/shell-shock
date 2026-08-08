@@ -17,37 +17,20 @@
  ------------------------------------------------------------------- */
 
 import alloy from "@powerlines/plugin-alloy";
-import deepkit from "@powerlines/plugin-deepkit";
 import plugin from "@powerlines/plugin-plugin";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines/config";
+import { defineConfig } from "@shell-shock/tools-config/powerlines.shared";
 
-const config: UserConfig = defineConfig({
-  resolve: {
-    external: [
-      "zod",
-      "@shell-shock/schema",
-      "@power-plant/core",
-      "@power-plant/schema",
-      "@power-plant/alloy-js"
-    ]
-  },
+const config = defineConfig({
   skipCache: true,
   input: [
     "./src/index.tsx",
     "./src/generator.tsx",
     "./src/types/*.ts",
+    "./src/schemas/*.ts",
     "./src/components/**/*.tsx",
     "./src/components/**/*.ts"
   ],
-  plugins: [
-    plugin(),
-    deepkit({
-      reflection: "default",
-      level: "all"
-    }),
-    alloy()
-  ]
+  plugins: [plugin(), alloy()]
 });
 
 export default config;

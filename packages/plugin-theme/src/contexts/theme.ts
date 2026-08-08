@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { computed } from "@alloy-js/core";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
+import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import type { AnsiStyles } from "../helpers/ansi-utils";
 import { getAnsiStyles } from "../helpers/ansi-utils";
 import type { ThemePluginContext } from "../types/plugin";

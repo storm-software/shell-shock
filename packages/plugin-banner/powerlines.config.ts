@@ -18,19 +18,9 @@
 
 import alloy from "@powerlines/plugin-alloy";
 import plugin from "@powerlines/plugin-plugin";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines/config";
+import { defineConfig } from "@shell-shock/tools-config/powerlines.shared";
 
-const config: UserConfig = defineConfig({
-  resolve: {
-    external: [
-      "zod",
-      "@shell-shock/schema",
-      "@power-plant/core",
-      "@power-plant/schema",
-      "@power-plant/alloy-js"
-    ]
-  },
+const config = defineConfig({
   skipCache: true,
   input: [
     "./src/index.tsx",

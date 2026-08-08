@@ -16,12 +16,32 @@
 
  ------------------------------------------------------------------- */
 
-// eslint-disable-next-line ts/consistent-type-imports
-import { ShellShockEnv } from "@shell-shock/core/types/env";
+import { envSchema as baseEnvSchema } from "@shell-shock/core/schemas/env";
+import { z } from "zod";
 
-export interface ShellShockUpdateEnv extends ShellShockEnv {
+/**
+ * Zod schema for the Shell Shock update plugin environment configuration.
+ *
+ * @remarks
+ * Extends the core Shell Shock `envSchema` with update-check skip controls.
+ */
+export const envSchema = baseEnvSchema.extend({
   /**
    * An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`, indicating that a check for updates is not required. This can be useful in CI environments or other non-interactive contexts where you want to avoid performing a version check, which may involve file system operations or network requests. By setting this environment variable, you can ensure that the update process proceeds without checking for updates, which can help speed up the process in certain scenarios.
    */
-  SKIP_UPDATE_CHECK?: boolean;
-}
+  SKIP_UPDATE_CHECK: z.boolean().optional().meta({
+    description:
+      "An environment variable that can be set to skip the version check when determining if a check for updates is required. If this variable is set to any value, the `isCheckForUpdatesRequired` function will return `false`.",
+    category: "neutral"
+  })
+});
+
+/**
+ * Inferred Shell Shock update environment configuration type from {@link envSchema}.
+ */
+export type ShellShockUpdateEnv = z.infer<typeof envSchema>;
+
+/**
+ * Input type for {@link envSchema} before defaults applied.
+ */
+export type ShellShockUpdateEnvInput = z.input<typeof envSchema>;

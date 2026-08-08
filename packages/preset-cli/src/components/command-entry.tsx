@@ -19,15 +19,17 @@
 import { code, computed, For, Match, Show, Switch } from "@alloy-js/core";
 import { ElseIfClause, IfStatement } from "@alloy-js/typescript";
 import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
-import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import type {
   CommandTree,
   NumberCommandParameter,
   StringCommandParameter
 } from "@shell-shock/core";
 import { CommandValidationLogic } from "@shell-shock/core/components/command-validation-logic";
+import type { EntryFileProps } from "@shell-shock/core/contexts/power-plant";
+import {
+  EntryFile,
+  usePowerlines
+} from "@shell-shock/core/contexts/power-plant";
 import {
   formatDescription,
   formatShortDescription,

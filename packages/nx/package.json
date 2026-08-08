@@ -7,7 +7,7 @@
     "url": "https://github.com/storm-software/shell-shock.git",
     "directory": "packages/nx"
   },
-  "type": "commonjs",
+  "type": "module",
   "exports": {
     "./package.json": "./package.json",
     "./docs/*": "./docs/*",

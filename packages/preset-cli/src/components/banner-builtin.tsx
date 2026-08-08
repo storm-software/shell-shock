@@ -19,9 +19,9 @@
 import { code, computed, Show, splitProps } from "@alloy-js/core";
 import { VarDeclaration } from "@alloy-js/typescript";
 import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import type { BuiltinFileProps } from "@powerlines/plugin-alloy/typescript/components/builtin-file";
 import type { CommandTree } from "@shell-shock/core";
+import type { BuiltinFileProps } from "@shell-shock/core/contexts/power-plant";
+import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import { getAppDescription, getAppTitle } from "@shell-shock/core/plugin-utils";
 import { BannerBuiltin as BaseBannerBuiltin } from "@shell-shock/plugin-banner/components/banner-builtin";
 import type { BannerFunctionBodyDeclarationProps } from "@shell-shock/plugin-banner/components/banner-function-declaration";
@@ -35,7 +35,10 @@ import { isSetString } from "@stryke/type-checks/is-set-string";
 import defu from "defu";
 import figlet from "figlet";
 import stripAnsi from "strip-ansi";
-import type { CLIPresetContext } from "../types/plugin";
+import type {
+  CLIPresetBannerOverrideOption,
+  CLIPresetContext
+} from "../types/plugin";
 
 /**
  * A component to generate the `banner` function in the `shell-shock:console` builtin module.
@@ -138,14 +141,13 @@ export function BannerBuiltin(props: BannerBuiltinProps) {
   const titleLines = computed(() => {
     const result = figlet.textSync(
       isSetObject(context.config.banner) &&
-        isSetString(context.config.banner.override)
-        ? context.config.banner.override
+        isSetString(
+          (context.config.banner as CLIPresetBannerOverrideOption).override
+        )
+        ? (context.config.banner as CLIPresetBannerOverrideOption).override
         : isSetString(context.config.banner)
           ? context.config.banner
-          : isSetObject(context.config.banner) &&
-              isSetString(context.config.banner.text)
-            ? context.config.banner.text
-            : getAppTitle(context, true),
+          : getAppTitle(context, true),
       defu(isSetObject(context.config.banner) ? context.config.banner : {}, {
         font: "ANSI Compact"
       })

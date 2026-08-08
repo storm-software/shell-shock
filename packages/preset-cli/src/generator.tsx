@@ -24,7 +24,6 @@ import {
   renderCommandTemplate
 } from "@shell-shock/core/helpers/power-plant";
 import { computeBin, getCommandList } from "@shell-shock/core/plugin-utils";
-import type { CommandTree } from "@shell-shock/core/types/command";
 import { BinEntry } from "@shell-shock/preset-script/components/bin-entry";
 import { BannerBuiltin } from "./components/banner-builtin";
 import { CommandEntry } from "./components/command-entry";
@@ -128,9 +127,7 @@ export const cliEntrypointGenerator = defineCommandGenerator({
           {code`return showHelp(); `}
         </BinEntry>
         <Show when={Object.values(context.commands).length > 0}>
-          <For
-            each={Object.values(context.commands as Record<string, CommandTree>)}
-            doubleHardline>
+          <For each={Object.values(context.commands)} doubleHardline>
             {child => (
               <Show
                 when={child.virtual}

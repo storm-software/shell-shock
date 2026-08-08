@@ -20,79 +20,79 @@ catalog:
   "@ls-lint/ls-lint": ^2.3.1
   "@mdit/plugin-alert": ^0.23.2
   "@nx/devkit": 23.1.0
+  "@nx/eslint": 23.1.0
   "@nx/eslint-plugin": 23.1.0
   "@nx/jest": 23.1.0
   "@nx/js": 23.1.0
   "@nx/plugin": 23.1.0
   "@nx/workspace": 23.1.0
-  "@powerlines/core": ^0.48.68
-  "@powerlines/deepkit": ^0.9.100
-  "@powerlines/engine": ^0.49.70
-  "@powerlines/nx": ^0.13.186
-  "@power-plant/alloy-js": ^0.0.21
-  "@power-plant/core": ^0.0.24
-  "@power-plant/schema": ^0.0.23
-  "@powerlines/plugin-alloy": ^0.26.240
-  "@powerlines/plugin-automd": ^0.1.608
-  "@powerlines/plugin-deepkit": ^0.11.490
-  "@powerlines/plugin-nodejs": ^0.1.552
-  "@powerlines/plugin-plugin": ^0.12.559
-  "@powerlines/plugin-power-plant": ^0.1.3
-  "@powerlines/plugin-style-dictionary": ^0.3.516
-  "@powerlines/plugin-tsdown": ^0.1.548
-  "@powerlines/plugin-untyped": ^0.2.562
-  "@powerlines/schema": ^0.11.127
-  "@powerlines/tsconfig": ^0.4.195
-  "@powerlines/tsdoc": ^0.2.143
-  "@storm-software/config": ^1.138.46
-  "@storm-software/config-tools": ^1.190.109
-  "@storm-software/cspell": ^0.46.177
-  "@storm-software/eslint": ^0.170.143
-  "@storm-software/eslint-plugin-tsdoc": ^0.0.72
-  "@storm-software/git-tools": ^2.131.117
-  "@storm-software/linting-tools": ^1.134.39
-  "@storm-software/markdownlint": ^0.30.265
-  "@storm-software/pnpm-tools": ^0.7.120
-  "@storm-software/prettier": ^0.59.162
-  "@storm-software/testing-tools": ^1.119.262
-  "@storm-software/tsconfig": ^0.48.176
-  "@storm-software/untyped": ^0.24.251
-  "@storm-software/workspace-tools": ^1.296.89
-  "@stryke/cli": ^0.13.69
-  "@stryke/convert": ^0.7.27
-  "@stryke/fs": ^0.33.97
-  "@stryke/hash": ^0.13.50
-  "@stryke/helpers": ^0.10.36
-  "@stryke/json": ^0.15.20
-  "@stryke/path": ^0.29.23
-  "@stryke/string-format": ^0.17.38
-  "@stryke/type-checks": ^0.6.29
-  "@stryke/types": ^0.12.24
+  "@power-plant/alloy-js": ^0.0.80
+  "@power-plant/core": ^0.0.83
+  "@power-plant/noop-output": ^0.0.62
+  "@power-plant/schema": ^0.0.81
+  "@powerlines/core": ^0.48.110
+  "@powerlines/engine": ^0.49.112
+  "@powerlines/nx": ^0.13.228
+  "@powerlines/plugin-alloy": ^0.26.285
+  "@powerlines/plugin-automd": ^0.1.650
+  "@powerlines/plugin-deepkit": ^0.11.532
+  "@powerlines/plugin-env": ^0.16.396
+  "@powerlines/plugin-nodejs": ^0.1.597
+  "@powerlines/plugin-plugin": ^0.12.601
+  "@powerlines/plugin-power-plant": ^0.1.45
+  "@powerlines/plugin-tsdown": ^0.1.590
+  "@powerlines/plugin-untyped": ^0.2.604
+  "@powerlines/tsconfig": ^0.4.239
+  "@powerlines/tsdoc": ^0.2.187
+  "@powerlines/unplugin": ^0.0.158
+  "@storm-software/config": ^1.138.64
+  "@storm-software/config-tools": ^1.190.127
+  "@storm-software/cspell": ^0.46.195
+  "@storm-software/eslint": ^0.170.161
+  "@storm-software/eslint-plugin-pnpm": ^0.0.77
+  "@storm-software/eslint-plugin-tsdoc": ^0.0.90
+  "@storm-software/git-tools": ^2.131.135
+  "@storm-software/linting-tools": ^1.134.57
+  "@storm-software/markdownlint": ^0.30.283
+  "@storm-software/pnpm-tools": ^0.7.138
+  "@storm-software/prettier": ^0.59.180
+  "@storm-software/testing-tools": ^1.119.280
+  "@storm-software/tsconfig": ^0.48.194
+  "@storm-software/untyped": ^0.24.269
+  "@storm-software/workspace-tools": ^1.296.108
+  "@stryke/cli": ^0.13.77
+  "@stryke/convert": ^0.7.34
+  "@stryke/fs": ^0.33.105
+  "@stryke/hash": ^0.13.58
+  "@stryke/helpers": ^0.10.43
+  "@stryke/json": ^0.15.27
+  "@stryke/path": ^0.29.30
+  "@stryke/resolve": ^0.0.20
+  "@stryke/string-format": ^0.17.45
+  "@stryke/type-checks": ^0.6.36
+  "@stryke/types": ^0.12.31
   "@swc-node/register": ^1.12.1
-  "@swc/core": ^1.15.46
+  "@swc/core": ^1.15.47
   "@swc/helpers": ^0.5.23
   "@types/eslint": ^9.6.1
   "@types/eslint__js": ^9.14.0
   "@types/jest": ^29.5.14
   "@types/node": ^25.9.5
-  "@typescript-eslint/utils": ^8.65.0
+  "@typescript-eslint/utils": ^8.66.0
   "@typescript/native-preview": 7.0.0-dev.20251218.3
-  ajv: ^8.20.0
-  ajv-formats: ^3.0.1
   automd: ^0.4.3
-  cfonts: ^0.0.0
   chalk-string: ^4.0.0
   copyfiles: ^2.4.1
   defu: ^6.1.7
   esbuild: ^0.24.2
-  eslint: ^10.7.0
+  eslint: ^10.8.1
   eslint-doc-generator: ^3.7.0
   eslint-flat-config-utils: ^2.1.4
-  eslint-plugin-eslint-plugin: ^7.5.0
+  eslint-plugin-eslint-plugin: ^7.6.1
   eslint-plugin-i18n-text: ^1.0.1
   eslint-rule-documentation: ^1.0.23
   eslint-typegen: ^2.3.1
-  figlet: ^1.11.3
+  figlet: ^1.11.4
   he: ^1.2.0
   jest: ^30.4.2
   jest-environment-jsdom: ^30.4.1
@@ -115,22 +115,26 @@ catalog:
   normalize-html-whitespace: ^1.0.0
   nx: 23.1.0
   parse5: ^8.0.1
-  powerlines: ^0.47.147
+  powerlines: ^0.47.189
   prettier: ^3.9.6
   rimraf: ^6.1.3
   strip-ansi: ^7.2.0
-  style-dictionary: ^5.5.0
+  style-dictionary: ^5.5.1
   terminal-size: ^4.0.1
   ts-jest: ^29.4.12
-  tsdown: ^0.22.13
+  tsdown: ^0.22.14
   typescript: ^6.0.3
+  unplugin: ^3.3.0
   untyped: ^1.5.2
   verdaccio: 6.5.0
   wrap-ansi: ^10.0.0
   zod: ^4.4.3
   zx: ^8.8.5
 dedupeDirectDeps: true
+dedupePeers: true
 dedupePeerDependents: true
+cleanupUnusedCatalogs: true
+shamefullyHoist: true
 fetchTimeout: 1000000
 minimumReleaseAgeExclude:
   - "@storm-software/*"
@@ -146,7 +150,24 @@ onlyBuiltDependencies:
   - nx
   - unrs-resolver
 overrides:
-  "@babel/preset-typescript": 8.0.0-rc.6
+  "@babel/preset-typescript": ">=8.0.0"
+  "@emnapi/core": 1.11.3
+  "@emnapi/runtime": 1.11.3
+  "@powerlines/core": 0.48.110
+  "@powerlines/engine": 0.49.112
+  "@powerlines/nx": 0.13.228
+  "@powerlines/plugin-alloy": 0.26.285
+  "@powerlines/plugin-automd": 0.1.650
+  "@powerlines/plugin-babel": 0.13.186
+  "@powerlines/plugin-deepkit": 0.11.532
+  "@powerlines/plugin-env": 0.16.396
+  "@powerlines/plugin-nodejs": 0.1.597
+  "@powerlines/plugin-plugin": 0.12.601
+  "@powerlines/plugin-power-plant": 0.1.45
+  "@powerlines/plugin-style-dictionary": 0.3.558
+  "@powerlines/plugin-tsdown": 0.1.590
+  "@powerlines/plugin-untyped": 0.2.604
+  "@powerlines/unplugin": 0.0.158
   "@shell-shock-playground/cli": workspace:*
   "@shell-shock-playground/custom-commands-directory": workspace:*
   "@shell-shock-playground/minimal": workspace:*
@@ -183,7 +204,7 @@ overrides:
   parse-url: ">=9.2.0"
   path-to-regexp: ">=0.1.12"
   postcss: ">=8.5.1"
+  powerlines: 0.47.189
   shell-quote: ">=1.8.2"
   simple-git: ">=3.27.0"
-shamefullyHoist: true
 useNodeVersion: 26.3.0

@@ -16,13 +16,13 @@
 
  ------------------------------------------------------------------- */
 
-import type { ReflectionFunction } from "@powerlines/deepkit/vendor/type";
 import type {
   CommandConfig,
   CommandModule,
   CommandTree,
   Context
 } from "../types";
+import type { CommandSignature } from "./signature";
 
 export interface ResolverInput<TContext extends Context = Context> {
   context: TContext;
@@ -33,6 +33,6 @@ export interface ResolverInput<TContext extends Context = Context> {
 export interface ResolverContext<TContext extends Context = Context> {
   input: ResolverInput<TContext>;
   module?: CommandModule;
-  reflection?: ReflectionFunction;
+  signature?: CommandSignature;
   output: CommandTree;
 }

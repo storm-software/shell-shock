@@ -17,11 +17,9 @@
  ------------------------------------------------------------------- */
 
 import { code } from "@alloy-js/core";
-import { VarDeclaration } from "@alloy-js/typescript";
-import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { TypescriptFile } from "@power-plant/alloy-js/typescript";
 import type { CommandTree } from "@shell-shock/core";
+import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import { joinPaths } from "@stryke/path/join";
 import type { McpPluginContext } from "../types/plugin";
 
@@ -34,7 +32,7 @@ export interface McpCommandModuleProps {
 function toFlagName(input: string): string {
   return input
     .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
-    .replace(/[^a-zA-Z0-9-]/g, "-")
+    .replace(/[^a-z0-9-]/gi, "-")
     .replace(/-{2,}/g, "-")
     .replace(/^-+|-+$/g, "")
     .toLowerCase();
@@ -42,88 +40,46 @@ function toFlagName(input: string): string {
 
 function toToolName(path: string): string {
   return path
-    .replace(/[\/:\s]+/g, "_")
-    .replace(/[^a-zA-Z0-9_-]/g, "_")
+    .replace(/[/:\s]+/g, "_")
+    .replace(/[^\w-]/g, "_")
     .replace(/_{2,}/g, "_")
     .replace(/^_+|_+$/g, "")
     .toLowerCase();
-}
-
-function toCliArgs(optionsMap: Record<string, unknown>): string[] {
-  const args: string[] = [];
-
-  for (const [rawName, rawValue] of Object.entries(optionsMap ?? {})) {
-    if (!/^[a-zA-Z0-9_\-]+$/.test(rawName)) {
-      continue;
-    }
-
-    const flag = toFlagName(rawName);
-    if (!flag) {
-      continue;
-    }
-
-    if (rawValue === undefined || rawValue === null) {
-      continue;
-    }
-
-    if (typeof rawValue === "boolean") {
-      args.push(rawValue ? "--" + flag : "--no-" + flag);
-      continue;
-    }
-
-    if (Array.isArray(rawValue)) {
-      for (const item of rawValue) {
-        if (item === undefined || item === null) {
-          continue;
-        }
-
-        args.push("--" + flag, String(item));
-      }
-      continue;
-    }
-
-    args.push("--" + flag, String(rawValue));
-  }
-
-  return args;
 }
 
 function serializeCommand(command: CommandTree): string {
   const optionList = Object.values(command.options ?? {})
     .map(
       option =>
-        "--" +
-        toFlagName(option.name) +
-        " (" +
-        option.type +
-        (option.required ? ", required" : "") +
-        ")"
+        `--${toFlagName(option.name)} (${option.type}${
+          option.required ? ", required" : ""
+        })`
     )
     .join(", ");
 
   const argList = command.args
     .map(
       arg =>
-        arg.name +
-        ":" +
-        arg.type +
-        (arg.required ? " (required)" : "") +
-        (arg.variadic ? "[]" : "")
+        `${arg.name}:${arg.type}${
+          arg.required ? " (required)" : ""
+        }${arg.variadic ? "[]" : ""}`
     )
     .join(", ");
+
+  const commandPath = command.path ?? command.name;
 
   return `{
     id: ${JSON.stringify(command.id)},
     name: ${JSON.stringify(command.name)},
-    path: ${JSON.stringify(command.path)},
+    path: ${JSON.stringify(commandPath)},
     segments: ${JSON.stringify(command.segments)},
     title: ${JSON.stringify(command.title)},
     description: ${JSON.stringify(
       command.description +
-        (optionList ? "\nOptions: " + optionList : "") +
-        (argList ? "\nArgs: " + argList : "")
+        (optionList ? `\nOptions: ${optionList}` : "") +
+        (argList ? `\nArgs: ${argList}` : "")
     )},
-    toolName: ${JSON.stringify(toToolName(command.path) || command.name)},
+    toolName: ${JSON.stringify(toToolName(commandPath) || command.name)},
     options: ${JSON.stringify(
       Object.values(command.options ?? {}).map(option => ({
         name: option.name,

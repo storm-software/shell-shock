@@ -20,17 +20,18 @@ import type { Children } from "@alloy-js/core";
 import { code, computed, For, Show } from "@alloy-js/core";
 import { FunctionDeclaration, IfStatement } from "@alloy-js/typescript";
 import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
-import type { TypescriptFileImports } from "@power-plant/alloy-js/typescript/types/components";
-import type { EntryFileProps } from "@powerlines/plugin-alloy/typescript/components/entry-file";
-import { EntryFile } from "@powerlines/plugin-alloy/typescript/components/entry-file";
 import {
   TSDoc,
   TSDocRemarks,
   TSDocReturns
 } from "@power-plant/alloy-js/typescript/components/tsdoc";
+import type { TypescriptFileImports } from "@power-plant/alloy-js/typescript/types/components";
+import type { EntryFileProps } from "@shell-shock/core/contexts/power-plant";
+import {
+  EntryFile,
+  usePowerlines
+} from "@shell-shock/core/contexts/power-plant";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
-import type { CommandTree } from "@shell-shock/core/types/command";
 import { getUnique } from "@stryke/helpers/get-unique";
 import { findFileName } from "@stryke/path/file-path-fns";
 import { replaceExtension } from "@stryke/path/replace";
@@ -120,7 +121,7 @@ export function RunApplication() {
 
 export interface BinEntryProps extends Omit<
   EntryFileProps,
-  "path" | "hashbang"
+  "path" | "hashbang" | "prefix" | "postfix"
 > {
   prefix?: Children;
   postfix?: Children;
@@ -134,9 +135,22 @@ export function BinEntry(props: BinEntryProps) {
   const { prefix, postfix, builtinImports, imports, children, ...rest } = props;
 
   const context = usePowerlines<ScriptPresetContext>();
-  const bins = computed<string[]>(() =>
-    getUnique(Object.values(context.config.bin))
-  );
+  const bins = computed<string[]>(() => {
+    const binConfig = context.config.bin;
+    if (!binConfig) {
+      return [];
+    }
+
+    const values = Array.isArray(binConfig)
+      ? binConfig
+      : typeof binConfig === "string"
+        ? [binConfig]
+        : Object.values(binConfig);
+
+    return getUnique(
+      values.filter((value): value is string => typeof value === "string")
+    );
+  });
 
   return (
     <For each={bins.value}>
@@ -153,7 +167,7 @@ export function BinEntry(props: BinEntryProps) {
           }}
           imports={defu(
             imports ?? {},
-            Object.entries(context.commands as Record<string, CommandTree>)
+            Object.entries(context.commands)
               .filter(([, command]) => command.virtual)
               .reduce((ret, [name, command]) => {
                 ret[`./${command.name}`] = [

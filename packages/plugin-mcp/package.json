@@ -128,6 +128,7 @@
     "@alloy-js/typescript": "catalog:",
     "@modelcontextprotocol/server": "catalog:",
     "@power-plant/alloy-js": "catalog:",
+    "@power-plant/core": "catalog:",
     "@powerlines/plugin-alloy": "catalog:",
     "@powerlines/plugin-plugin": "catalog:",
     "@shell-shock/core": "workspace:*",
@@ -142,8 +143,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "inlinedDependencies": {
-    "@stryke/types": "0.12.24"
   }
 }

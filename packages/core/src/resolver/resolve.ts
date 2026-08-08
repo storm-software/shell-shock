@@ -16,306 +16,48 @@
 
  ------------------------------------------------------------------- */
 
-import { esbuildPlugin } from "@powerlines/deepkit/esbuild-plugin";
-import {
-  reflect,
-  ReflectionClass,
-  ReflectionFunction,
-  ReflectionKind
-} from "@powerlines/deepkit/vendor/type";
-import type { JsonSchemaLike, SchemaInput } from "@powerlines/schema";
+import type {
+  JsonSchemaLike,
+  SchemaConfig,
+  SchemaEnvelope
+} from "@power-plant/schema";
 import {
   addProperty,
   extract,
   getPropertiesList,
   isJsonSchemaArray,
-  resolveModule
-} from "@powerlines/schema";
+  mapStorageToFileSystem
+} from "@power-plant/schema";
+import { createStorageAdapter } from "@powerlines/plugin-power-plant/helpers";
+import { resolveOptions } from "@powerlines/unplugin/esbuild";
 import { toArray } from "@stryke/convert/to-array";
 import { getUnique } from "@stryke/helpers/get-unique";
 import { isJsonSchemaObjectType, isJsonSchemaTupleType } from "@stryke/json";
 import { replacePath } from "@stryke/path/replace";
+import { load } from "@stryke/resolve";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { titleCase } from "@stryke/string-format/title-case";
-import { isBoolean } from "@stryke/type-checks/is-boolean";
 import { isFunction } from "@stryke/type-checks/is-function";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
+import type { AnyFunction } from "@stryke/types/base";
+import { createUnplugin } from "powerlines";
+import { createEsbuildPlugin } from "unplugin";
 import { getGlobalOptions } from "../helpers/utilities";
 import {
   getDynamicPathSegmentName,
   isDynamicPathSegment
 } from "../plugin-utils/context-helpers";
-import type {
-  CommandArgument,
-  CommandModule,
-  CommandOption,
-  CommandTree,
-  Context
-} from "../types";
-import { resolveCommandArgument, resolveCommandOption } from "./deepkit";
+import type { CommandOption, CommandTree, Context } from "../types";
 import {
   applyArgsDefaults,
   applyDefaults,
   applyOptionsDefaults,
   resolveVirtualCommand
 } from "./helpers";
+import { applySignatureParameters, resolveCommandParameter } from "./schema";
+import { parseCommandSignature } from "./signature";
 import type { ResolverContext, ResolverInput } from "./types";
-
-function isFiniteNumber(value: unknown): value is number {
-  return typeof value === "number" && Number.isFinite(value);
-}
-
-function asRecord(value: unknown): Record<string, unknown> {
-  return isSetObject(value) ? (value as Record<string, unknown>) : {};
-}
-
-function toAliasList(value: unknown): string[] {
-  if (Array.isArray(value)) {
-    return getUnique(value.filter(isSetString));
-  }
-
-  return isSetString(value) ? [value] : [];
-}
-
-function inferParameterType(
-  input: Record<string, unknown>
-): CommandOption["type"] {
-  const schemaType = input.type;
-
-  if (Array.isArray(schemaType)) {
-    const first = schemaType.find(type => type !== "null");
-    if (first === "integer" || first === "number") {
-      return "number";
-    }
-    if (first === "boolean") {
-      return "boolean";
-    }
-    if (first === "array") {
-      const nested = asRecord(input.items);
-      const nestedType = nested.type;
-      if (nestedType === "integer" || nestedType === "number") {
-        return "number";
-      }
-      if (nestedType === "boolean") {
-        return "boolean";
-      }
-
-      return "string";
-    }
-
-    return "string";
-  }
-
-  if (schemaType === "integer" || schemaType === "number") {
-    return "number";
-  }
-  if (schemaType === "boolean") {
-    return "boolean";
-  }
-  if (schemaType === "array") {
-    const nested = asRecord(input.items);
-    const nestedType = nested.type;
-    if (nestedType === "integer" || nestedType === "number") {
-      return "number";
-    }
-    if (nestedType === "boolean") {
-      return "boolean";
-    }
-
-    return "string";
-  }
-
-  if (Array.isArray(input.enum) && input.enum.length > 0) {
-    const first = input.enum.find(value => value !== null);
-    if (isFiniteNumber(first)) {
-      return "number";
-    }
-    if (isBoolean(first)) {
-      return "boolean";
-    }
-  }
-
-  if (isFiniteNumber(input.default)) {
-    return "number";
-  }
-  if (isBoolean(input.default)) {
-    return "boolean";
-  }
-
-  return "string";
-}
-
-function inferVariadic(input: Record<string, unknown>): boolean {
-  if (isBoolean(input.variadic)) {
-    return input.variadic;
-  }
-
-  return input.type === "array";
-}
-
-function normalizeDefault(
-  input: Record<string, unknown>,
-  type: CommandOption["type"],
-  variadic: boolean
-) {
-  const defaultValue = input.default;
-  if (defaultValue === undefined) {
-    return undefined;
-  }
-
-  if (type === "boolean") {
-    if (variadic) {
-      if (Array.isArray(defaultValue)) {
-        return defaultValue.filter(isBoolean);
-      }
-
-      return isBoolean(defaultValue) ? [defaultValue] : undefined;
-    }
-
-    if (Array.isArray(defaultValue)) {
-      return defaultValue.find(isBoolean);
-    }
-
-    return isBoolean(defaultValue) ? defaultValue : undefined;
-  }
-
-  if (type === "number") {
-    if (variadic) {
-      if (Array.isArray(defaultValue)) {
-        return defaultValue
-          .map(item =>
-            typeof item === "bigint" ? Number(item) : (item as unknown)
-          )
-          .filter(isFiniteNumber);
-      }
-
-      const normalized =
-        typeof defaultValue === "bigint" ? Number(defaultValue) : defaultValue;
-
-      return isFiniteNumber(normalized) ? [normalized] : undefined;
-    }
-
-    if (Array.isArray(defaultValue)) {
-      const first = defaultValue
-        .map(item =>
-          typeof item === "bigint" ? Number(item) : (item as unknown)
-        )
-        .find(isFiniteNumber);
-
-      return first;
-    }
-
-    const normalized =
-      typeof defaultValue === "bigint" ? Number(defaultValue) : defaultValue;
-
-    return isFiniteNumber(normalized) ? normalized : undefined;
-  }
-
-  if (variadic) {
-    if (Array.isArray(defaultValue)) {
-      return defaultValue.filter(isSetString);
-    }
-
-    return isSetString(defaultValue) ? [defaultValue] : undefined;
-  }
-
-  if (Array.isArray(defaultValue)) {
-    return defaultValue.find(isSetString);
-  }
-
-  return isSetString(defaultValue) ? defaultValue : undefined;
-}
-
-function normalizeStringChoices(input: Record<string, unknown>) {
-  const source = Array.isArray(input.choices) ? input.choices : input.enum;
-  if (!Array.isArray(source)) {
-    return undefined;
-  }
-
-  return source.filter(isSetString);
-}
-
-function normalizeNumberChoices(input: Record<string, unknown>) {
-  const source = Array.isArray(input.choices) ? input.choices : input.enum;
-  if (!Array.isArray(source)) {
-    return undefined;
-  }
-
-  return source
-    .map(item => (typeof item === "bigint" ? Number(item) : (item as unknown)))
-    .filter(isFiniteNumber);
-}
-
-function resolveCommandParameter(
-  schema: unknown,
-  defaults: {
-    fallbackRequired: boolean;
-    includeBooleanOptionFields: boolean;
-  }
-): CommandOption | CommandArgument {
-  const input = asRecord(schema);
-  const type = inferParameterType(input);
-  const variadic = inferVariadic(input);
-  const defaultValue = normalizeDefault(input, type, variadic);
-
-  const required = isBoolean(input.required)
-    ? input.required
-    : defaultValue === undefined
-      ? defaults.fallbackRequired
-      : false;
-
-  const env = isSetString(input.env) ? input.env : false;
-
-  const result = {
-    name: isSetString(input.name) ? input.name : "",
-    type,
-    title: isSetString(input.title) ? input.title : "",
-    description: isSetString(input.description) ? input.description : "",
-    alias: toAliasList(input.alias),
-    default: defaultValue,
-    env,
-    required,
-    variadic
-  } as unknown as CommandOption | CommandArgument;
-
-  if (type === "string") {
-    const stringChoices = normalizeStringChoices(input);
-    if (Array.isArray(stringChoices)) {
-      (result as Extract<CommandOption, { type: "string" }>).choices =
-        stringChoices;
-    }
-
-    if (isSetString(input.format)) {
-      (result as Extract<CommandOption, { type: "string" }>).format =
-        input.format;
-    }
-  }
-
-  if (type === "number") {
-    const numberChoices = normalizeNumberChoices(input);
-    if (Array.isArray(numberChoices)) {
-      (result as Extract<CommandOption, { type: "number" }>).choices =
-        numberChoices;
-    }
-  }
-
-  if (defaults.includeBooleanOptionFields && type === "boolean" && !variadic) {
-    const optionResult = result as Extract<
-      CommandOption,
-      { type: "boolean"; variadic: false }
-    >;
-
-    if (isSetString(input.isNegativeOf)) {
-      optionResult.isNegativeOf = input.isNegativeOf;
-    }
-    if (isBoolean(input.skipAddingNegative)) {
-      optionResult.skipAddingNegative = input.skipAddingNegative;
-    }
-  }
-
-  return result;
-}
 
 async function preprocess<TContext extends Context>(
   input: ResolverInput<TContext>
@@ -364,28 +106,41 @@ async function preprocess<TContext extends Context>(
     }
 
     context.debug(
-      `Adding reflection for CLI command: ${command.id} (file: ${replacePath(
+      `Resolving CLI command schema: ${command.id} (file: ${replacePath(
         command.entry.input.file,
         context.config.cwd
       )})`
     );
 
-    result.module = await resolveModule<CommandModule>(
-      context,
-      command.entry.input,
-      {
-        name: `${command.title || titleCase(command.name)} Command Bundler`,
-        plugins: [
-          esbuildPlugin(context, {
-            reflection: "default",
-            level: "all"
+    const options = resolveOptions(context);
+    result.module = await load(command.entry.input, {
+      fs: mapStorageToFileSystem(createStorageAdapter(context.fs)),
+      cwd: context.config.cwd,
+      ...options,
+      plugins: [
+        createEsbuildPlugin(
+          createUnplugin(context, {
+            silenceHookLogging: true,
+            name: "esbuild"
           })
-        ],
-        resolve: {
-          skipNodeModulesBundle: true
-        }
-      }
-    );
+        )()
+      ]
+    });
+    if (!result.module) {
+      throw new Error(
+        `Failed to resolve command module at path "${
+          command.entry.input.file
+        }". Please ensure the file exists and is a valid module.`
+      );
+    }
+
+    if (isFunction(result.module)) {
+      result.module = {
+        default: result.module as AnyFunction
+      };
+    }
+
+    result.signature = await parseCommandSignature(command.entry.input.file);
   }
 
   if (!command.virtual) {
@@ -397,16 +152,13 @@ async function preprocess<TContext extends Context>(
       );
     }
 
-    const type = reflect(result.module.default);
-    if (type.kind !== ReflectionKind.function) {
+    if (!isFunction(result.module.default)) {
       throw new Error(
         `The command entry file "${
           input.command.entry.input?.file || input.command.path
         }" does not have a valid function as its default export - this is required for command resolution and execution.`
       );
     }
-
-    result.reflection = new ReflectionFunction(type);
   }
 
   return result;
@@ -563,16 +315,13 @@ export async function resolve<TContext extends Context = Context>(
       );
     }
 
-    ctx.output.description ??= (
-      ctx.input.command.description ||
-      // eslint-disable-next-line ts/unbound-method
-      isFunction(ctx.reflection?.getDescription)
-        ? ctx.reflection?.getDescription()
-        : ctx.reflection?.description
-    ) as string;
+    ctx.output.description ??= (ctx.input.command.description ||
+      ctx.signature?.description) as string;
 
     if (ctx.module.options) {
-      const options = await extract(ctx.input.context, ctx.module.options);
+      const options = await extract(ctx.module.options, {
+        cwd: ctx.input.context.config.cwd
+      });
       if (!isSetObject(options) || !isJsonSchemaObjectType(options.schema)) {
         throw new TypeError(
           `Command options for command at path "${
@@ -581,7 +330,9 @@ export async function resolve<TContext extends Context = Context>(
         );
       }
 
-      ctx.output.options = getPropertiesList(options).reduce(
+      ctx.output.options = getPropertiesList(
+        options as SchemaEnvelope<object>
+      ).reduce(
         (ret, property) => {
           ret[property.name] = resolveCommandParameter(property, {
             fallbackRequired: false,
@@ -595,10 +346,9 @@ export async function resolve<TContext extends Context = Context>(
     }
 
     if (ctx.module.args) {
-      const args = await extract(
-        ctx.input.context,
-        ctx.module.args as SchemaInput
-      );
+      const args = await extract(ctx.module.args as SchemaConfig, {
+        cwd: ctx.input.context.config.cwd
+      });
       if (isSetObject(args)) {
         if (
           !isJsonSchemaTupleType(args.schema) &&
@@ -626,27 +376,16 @@ export async function resolve<TContext extends Context = Context>(
       }
     }
 
-    const parameters = ctx.reflection?.getParameters() ?? [];
-    if (parameters.length > 0) {
-      const hasOptions =
-        parameters[0] &&
-        (parameters[0].type.kind === ReflectionKind.objectLiteral ||
-          parameters[0].type.kind === ReflectionKind.class);
-      if (hasOptions && !ctx.module.options) {
-        const optionsReflection = ReflectionClass.from(parameters[0]?.type);
-        for (const property of optionsReflection.getProperties()) {
-          ctx.output.options[property.getNameAsString()] = resolveCommandOption(
-            ctx,
-            property
-          );
-        }
-      }
-
-      if (!ctx.module.args) {
-        ctx.output.args = (hasOptions ? parameters.slice(1) : parameters).map(
-          (arg, index) => resolveCommandArgument(ctx, index, arg)
-        );
-      }
+    if (
+      ctx.signature &&
+      ctx.input.command.entry.input?.file &&
+      (!ctx.module.options || !ctx.module.args)
+    ) {
+      await applySignatureParameters(
+        ctx,
+        ctx.input.command.entry.input.file,
+        ctx.signature
+      );
     }
   } else {
     resolveVirtualCommand(ctx);

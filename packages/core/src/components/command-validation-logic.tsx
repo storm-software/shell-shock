@@ -120,8 +120,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                             : `.${camelCase(option.name)}`
                         }.every(value => [${(
                           option as
-                            | StringCommandParameter
-                            | NumberCommandParameter
+                            StringCommandParameter | NumberCommandParameter
                         ).choices
                           ?.map(choice =>
                             option.type === "string" ? `"${choice}"` : choice
@@ -132,8 +131,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                         }\\" option - valid values include: ${list(
                           (
                             option as
-                              | StringCommandParameter
-                              | NumberCommandParameter
+                              StringCommandParameter | NumberCommandParameter
                           )?.choices?.map(choice => String(choice)) ?? []
                         )}; provided: \${options${
                           option.name.includes("?")
@@ -149,8 +147,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                           : `.${camelCase(option.name)}`
                       }.every(value => [${(
                         option as
-                          | StringCommandParameter
-                          | NumberCommandParameter
+                          StringCommandParameter | NumberCommandParameter
                       ).choices
                         ?.map(choice =>
                           option.type === "string" ? `"${choice}"` : choice
@@ -161,8 +158,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                       }\\" option - valid values include: ${list(
                         (
                           option as
-                            | StringCommandParameter
-                            | NumberCommandParameter
+                            StringCommandParameter | NumberCommandParameter
                         )?.choices?.map(choice => String(choice)) ?? []
                       )}; provided: \${options${
                         option.name.includes("?")
@@ -178,8 +174,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                     <IfStatement
                       condition={code`![${(
                         option as
-                          | StringCommandParameter
-                          | NumberCommandParameter
+                          StringCommandParameter | NumberCommandParameter
                       ).choices
                         ?.map(choice =>
                           option.type === "string" ? `"${choice}"` : choice
@@ -194,8 +189,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                       }\\" option - valid values include: ${list(
                         (
                           option as
-                            | StringCommandParameter
-                            | NumberCommandParameter
+                            StringCommandParameter | NumberCommandParameter
                         )?.choices?.map(choice => String(choice)) ?? []
                       )}; provided: \${options${
                         option.name.includes("?")
@@ -221,8 +215,7 @@ export function CommandValidationLogic(props: CommandValidationLogicProps) {
                     }\\" option - valid values include: ${list(
                       (
                         option as
-                          | StringCommandParameter
-                          | NumberCommandParameter
+                          StringCommandParameter | NumberCommandParameter
                       )?.choices?.map(choice => String(choice)) ?? []
                     )}; provided: \${options${
                       option.name.includes("?")

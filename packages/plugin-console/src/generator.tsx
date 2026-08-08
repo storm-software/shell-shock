@@ -20,6 +20,7 @@ import {
   defineCommandGenerator,
   renderCommandTemplate
 } from "@shell-shock/core/helpers/power-plant";
+import packageJson from "../package.json";
 import { ConsoleBuiltin } from "./components";
 
 /**
@@ -33,7 +34,7 @@ export const consoleGenerator = defineCommandGenerator({
     title: "Shell Shock Console Generator",
     description:
       "Generates the console built-in module from the Shell Shock command tree specification.",
-    version: "1.0",
+    version: packageJson.version,
     tags: ["shell-shock", "console", "alloy-js"]
   },
   generator: async (_commands, options) => {

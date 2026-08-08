@@ -25,7 +25,7 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
+import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import { getAppBin, getAppTitle } from "@shell-shock/core/plugin-utils";
 import type { UpdateBuiltinProps } from "@shell-shock/plugin-update/components/update-builtin";
 import { UpdateBuiltin as BaseUpdateBuiltin } from "@shell-shock/plugin-update/components/update-builtin";

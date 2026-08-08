@@ -19,8 +19,8 @@
 import { code, For } from "@alloy-js/core";
 import { IfStatement } from "@alloy-js/typescript";
 import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import type { CommandTree } from "@shell-shock/core";
+import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import { getAppBin } from "@shell-shock/core/plugin-utils";
 import type { CommandRouterProps } from "@shell-shock/preset-script/components";
 import {

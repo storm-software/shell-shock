@@ -27,8 +27,8 @@ import type {
 } from "./types/plugin";
 import { SHELL_TYPES } from "./types/shell-type";
 
-export type * from "./types";
 export { completionsGenerator } from "./generator";
+export type * from "./types";
 
 /**
  * The Completions - Shell Shock plugin to add completion commands to a Shell Shock application.

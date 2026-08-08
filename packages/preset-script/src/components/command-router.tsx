@@ -24,9 +24,9 @@ import {
   VarDeclaration
 } from "@alloy-js/typescript";
 import { Spacing } from "@power-plant/alloy-js/core/components/spacing";
-import { usePowerlines } from "@powerlines/plugin-alloy/core/contexts/context";
 import { DynamicImportStatement } from "@power-plant/alloy-js/typescript/components/dynamic-import-statement";
 import { CommandContext, useCommand } from "@shell-shock/core/contexts/command";
+import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import { isDynamicPathSegment } from "@shell-shock/core/plugin-utils";
 import type { CommandTree } from "@shell-shock/core/types/command";
 import { pascalCase } from "@stryke/string-format/pascal-case";

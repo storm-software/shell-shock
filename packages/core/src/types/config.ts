@@ -24,6 +24,7 @@ import type {
 } from "@powerlines/plugin-nodejs/types/plugin";
 import type { TsdownPluginResolvedConfig } from "@powerlines/plugin-tsdown/types/plugin";
 import type { RequiredKeys } from "@stryke/types/base";
+import type { PackageJson } from "@stryke/types/package-json";
 import type {
   ConfigParams,
   OutputConfig as PowerlinesOutputConfig,
@@ -189,7 +190,7 @@ export type ResolvedConfig = TsdownPluginResolvedConfig &
      * @see https://yarnpkg.com/cli/bin
      * @see https://pnpm.io/package_json#bin
      */
-    bin: Record<string, string>;
+    bin: PackageJson["bin"];
 
     /**
      * The URL(s) to the command-line interface application's reference documentation.

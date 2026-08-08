@@ -82,12 +82,12 @@
     "markdown-it-task-lists": "catalog:",
     "normalize-html-whitespace": "catalog:",
     "parse5": "catalog:",
-    "powerlines": "catalog:",
+    "powerlines": "0.47.189",
     "terminal-size": "catalog:",
     "wrap-ansi": "catalog:"
   },
   "devDependencies": {
-    "@powerlines/plugin-tsdown": "catalog:",
+    "@powerlines/plugin-tsdown": "0.1.590",
     "@types/node": "catalog:"
   },
   "publishConfig": {

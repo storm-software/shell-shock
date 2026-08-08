@@ -16,9 +16,9 @@
 
  ------------------------------------------------------------------- */
 
-import type { AlloyPluginContext } from "@powerlines/plugin-alloy/types/plugin";
-import type { NodeJsPluginContext } from "@powerlines/plugin-nodejs/types/plugin";
-import type { TsdownPluginContext } from "@powerlines/plugin-tsdown/types/plugin";
+import type { AlloyPluginContext } from "@powerlines/plugin-alloy";
+import type { NodeJsPluginContext } from "@powerlines/plugin-nodejs/types";
+import type { TsdownPluginContext } from "@powerlines/plugin-tsdown";
 import type {
   PluginContext,
   ExecutionContext as PowerlinesExecutionContext,

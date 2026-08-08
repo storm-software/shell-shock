@@ -18,3 +18,4 @@
 
 export * from "./command";
 export * from "./options";
+export * from "./power-plant";

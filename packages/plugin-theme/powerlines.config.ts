@@ -18,27 +18,16 @@
 
 import alloy from "@powerlines/plugin-alloy";
 import plugin from "@powerlines/plugin-plugin";
-import type { UserConfig } from "powerlines";
-import { defineConfig } from "powerlines/config";
+import { defineConfig } from "@shell-shock/tools-config/powerlines.shared";
 
-const config: UserConfig = defineConfig({
+const config = defineConfig({
   input: [
     "./src/index.ts",
     "./src/types/*.ts",
     "./src/helpers/*.ts",
     "./src/contexts/*.ts"
   ],
-  plugins: [plugin(), alloy()],
-  resolve: {
-    external: [
-      "style-dictionary",
-      "zod",
-      "@shell-shock/schema",
-      "@power-plant/core",
-      "@power-plant/schema",
-      "@power-plant/alloy-js"
-    ]
-  }
+  plugins: [plugin(), alloy()]
 });
 
 export default config;

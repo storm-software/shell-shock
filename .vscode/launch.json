@@ -5,7 +5,7 @@
       "name": "Core - Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q5a7ifamw5c6c9llfdj8h487qz4rasr9-pnpm-11.1.2/bin/pnpm",
+      "program": "/nix/store/yry427vnf882yg7n3gj128ahrnvn7p0d-pnpm-11.15.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -20,7 +20,7 @@
       "name": "Nx - Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q5a7ifamw5c6c9llfdj8h487qz4rasr9-pnpm-11.1.2/bin/pnpm",
+      "program": "/nix/store/yry427vnf882yg7n3gj128ahrnvn7p0d-pnpm-11.15.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -34,7 +34,7 @@
       "name": "Preset Script - Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q5a7ifamw5c6c9llfdj8h487qz4rasr9-pnpm-11.1.2/bin/pnpm",
+      "program": "/nix/store/yry427vnf882yg7n3gj128ahrnvn7p0d-pnpm-11.15.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -48,7 +48,7 @@
       "name": "Playground CLI - Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q5a7ifamw5c6c9llfdj8h487qz4rasr9-pnpm-11.1.2/bin/pnpm",
+      "program": "/nix/store/yry427vnf882yg7n3gj128ahrnvn7p0d-pnpm-11.15.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -80,7 +80,7 @@
       "name": "Playground Custom Commands Directory - Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q5a7ifamw5c6c9llfdj8h487qz4rasr9-pnpm-11.1.2/bin/pnpm",
+      "program": "/nix/store/yry427vnf882yg7n3gj128ahrnvn7p0d-pnpm-11.15.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -94,7 +94,7 @@
       "name": "Playground Script - Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q5a7ifamw5c6c9llfdj8h487qz4rasr9-pnpm-11.1.2/bin/pnpm",
+      "program": "/nix/store/yry427vnf882yg7n3gj128ahrnvn7p0d-pnpm-11.15.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -116,7 +116,7 @@
       "name": "Playground Script - Docs",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q5a7ifamw5c6c9llfdj8h487qz4rasr9-pnpm-11.1.2/bin/pnpm",
+      "program": "/nix/store/yry427vnf882yg7n3gj128ahrnvn7p0d-pnpm-11.15.0/bin/pnpm",
       "args": [
         "nx",
         "run",
@@ -130,7 +130,7 @@
       "name": "Playground Powerlines - Build",
       "type": "node",
       "request": "launch",
-      "program": "/nix/store/q5a7ifamw5c6c9llfdj8h487qz4rasr9-pnpm-11.1.2/bin/pnpm",
+      "program": "/nix/store/yry427vnf882yg7n3gj128ahrnvn7p0d-pnpm-11.15.0/bin/pnpm",
       "args": [
         "nx",
         "run",

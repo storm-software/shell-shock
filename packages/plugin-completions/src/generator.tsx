@@ -20,6 +20,7 @@ import {
   defineCommandGenerator,
   renderCommandTemplate
 } from "@shell-shock/core/helpers/power-plant";
+import packageJson from "../package.json";
 import {
   BashCompletionsShared,
   BashConfigCompletionsCommand,
@@ -46,7 +47,7 @@ export const completionsGenerator = defineCommandGenerator({
     title: "Shell Shock Completions Generator",
     description:
       "Generates shell completion shared modules and commands from the Shell Shock command tree specification.",
-    version: "1.0",
+    version: packageJson.version,
     tags: ["shell-shock", "completions", "alloy-js"]
   },
   generator: async (_commands, options) => {

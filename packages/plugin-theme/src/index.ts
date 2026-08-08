@@ -16,6 +16,7 @@
 
  ------------------------------------------------------------------- */
 
+import noopOutput from "@power-plant/noop-output";
 import styleDictionary from "@powerlines/plugin-style-dictionary";
 import { omit } from "@stryke/helpers/omit";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
@@ -94,6 +95,29 @@ export const plugin = <
               }
             }
           } as Config);
+        }
+      }
+    },
+    {
+      // Style Dictionary's Power Plant generator has no `output`. Power Plant
+      // then defaults to package id `@power-plant/unstorage-output`, but
+      // `@stryke/resolve` `load()` cannot jiti-eval bare package ids (needs an
+      // absolute path). Failed load is swallowed → string left as `output` →
+      // `output.output is not a function`. Inject a concrete output object.
+      name: "shell-shock/theme:power-plant-output",
+      configResolved: {
+        order: "post",
+        async handler() {
+          const powerplant = this.config.powerplant as
+            | (NonNullable<typeof this.config.powerplant> & {
+                output?: unknown;
+              })
+            | undefined;
+          if (!powerplant || powerplant.output) {
+            return;
+          }
+
+          powerplant.output = noopOutput;
         }
       }
     }
