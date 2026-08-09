@@ -1480,6 +1480,242 @@ export function InlineCodeFunctionDeclaration() {
 }
 
 /**
+ * A component to generate the `shine` text animation in the `shell-shock:console` builtin module.
+ *
+ * Mirrors chalk-animation's `rainbow` frame loop, but paints a gray↔white shine instead of a hue spectrum.
+ *
+ * @see https://github.com/bokub/chalk-animation/blob/master/index.js
+ */
+export function ShineFunctionDeclaration() {
+  return (
+    <>
+      <InterfaceDeclaration
+        export
+        name="TextAnimation"
+        doc="A console text animation controller returned by functions like `shine`.">
+        <InterfaceMember
+          name="replace"
+          type="(str: string) => TextAnimation"
+          doc="Replace the animated text while the animation is running."
+        />
+        <hbr />
+        <InterfaceMember
+          name="stop"
+          type="() => TextAnimation"
+          doc="Stop the animation."
+        />
+        <hbr />
+        <InterfaceMember
+          name="start"
+          type="() => TextAnimation"
+          doc="Start or resume the animation."
+        />
+        <hbr />
+        <InterfaceMember
+          name="frame"
+          type="() => string"
+          doc="Advance one frame and return the ANSI-colored output for the current text."
+        />
+      </InterfaceDeclaration>
+      <Spacing />
+      <VarDeclaration
+        let
+        name="currentTextAnimation"
+        type="TextAnimation | null"
+        initializer="null"
+      />
+      <Spacing />
+      <FunctionDeclaration
+        name="stopLastTextAnimation"
+        doc="Stop the currently running text animation, if any.">
+        {code`if (currentTextAnimation) {
+          currentTextAnimation.stop();
+        } `}
+      </FunctionDeclaration>
+      <Spacing />
+      <TSDoc heading="Apply one frame of the gray/white shine effect to a string.">
+        <TSDocRemarks>
+          {`Uses the same phase advance as chalk-animation's rainbow effect (\`5 * frame\`), but maps the traveling wave to grayscale channels between gray and white instead of HSV hues.`}
+        </TSDocRemarks>
+        <TSDocParam name="str">{`The text to colorize for the given frame.`}</TSDocParam>
+        <TSDocParam name="frame">{`The current animation frame index.`}</TSDocParam>
+        <TSDocReturns>{`The input string with ANSI gray/white shine coloring applied for the frame.`}</TSDocReturns>
+      </TSDoc>
+      <FunctionDeclaration
+        name="applyShineEffect"
+        parameters={[
+          { name: "str", type: "string" },
+          { name: "frame", type: "number" }
+        ]}>
+        {code`if (!isColorSupported) {
+          return str;
+        }
+
+        const chars = Array.from(str);
+        const length = chars.length;
+        if (length === 0) {
+          return str;
+        }
+
+        // Same phase advance as chalk-animation rainbow: hue = 5 * frame
+        const phase = (5 * frame) % 360;
+        const support = colorSupportLevels.stdout;
+        const level =
+          typeof support === "object" && support !== null && "level" in support
+            ? (support as { level: number }).level
+            : typeof support === "number"
+              ? support
+              : 3;
+
+        return chars
+          .map((char, index) => {
+            if (char === "\\n" || char === "\\r") {
+              return char;
+            }
+
+            // Traveling gray↔white wave across the string (rainbow-style shift)
+            const angle =
+              ((index / Math.max(length - 1, 1)) * 360 + phase) % 360;
+            const t = (Math.cos((angle * Math.PI) / 180) + 1) / 2;
+            const channel = Math.round(128 + t * 127);
+
+            if (level >= 3) {
+              return \`\\x1b[38;2;\${channel};\${channel};\${channel}m\${char}\\x1b[39m\`;
+            }
+
+            if (level >= 2) {
+              const ansi256 =
+                channel < 8
+                  ? 16
+                  : channel > 248
+                    ? 231
+                    : Math.round(((channel - 8) / 247) * 24) + 232;
+              return \`\\x1b[38;5;\${ansi256}m\${char}\\x1b[39m\`;
+            }
+
+            return t > 0.6
+              ? \`\\x1b[37m\${char}\\x1b[39m\`
+              : \`\\x1b[90m\${char}\\x1b[39m\`;
+          })
+          .join(""); `}
+      </FunctionDeclaration>
+      <Spacing />
+      <FunctionDeclaration
+        name="animateText"
+        parameters={[
+          { name: "str", type: "string" },
+          {
+            name: "effect",
+            type: "(str: string, frame: number) => string"
+          },
+          { name: "delay", type: "number" },
+          { name: "speed", type: "number | undefined" }
+        ]}>
+        {code`stopLastTextAnimation();
+
+        const resolvedSpeed = speed === undefined ? 1 : Number.parseFloat(String(speed));
+        if (!resolvedSpeed || resolvedSpeed <= 0) {
+          throw new Error("Expected \`speed\` to be a number greater than 0");
+        }
+
+        const log = console.log.bind(console);
+        const animation: TextAnimation & {
+          text: string[];
+          lines: number;
+          stopped: boolean;
+          init: boolean;
+          f: number;
+          render: () => void;
+        } = {
+          text: str.split(/\\r\\n|\\r|\\n/),
+          lines: str.split(/\\r\\n|\\r|\\n/).length,
+          stopped: false,
+          init: false,
+          f: 0,
+          render() {
+            if (!this.init) {
+              log("\\n".repeat(Math.max(this.lines - 1, 0)));
+              this.init = true;
+            }
+
+            log(this.frame());
+            setTimeout(() => {
+              if (!this.stopped) {
+                this.render();
+              }
+            }, delay / resolvedSpeed);
+          },
+          frame() {
+            this.f++;
+            return (
+              \`\\u001B[\${this.lines}F\\u001B[G\\u001B[2K\` +
+              this.text.map(line => effect(line, this.f)).join("\\n")
+            );
+          },
+          replace(next: string) {
+            this.text = next.split(/\\r\\n|\\r|\\n/);
+            this.lines = this.text.length;
+            return this;
+          },
+          stop() {
+            this.stopped = true;
+            return this;
+          },
+          start() {
+            this.stopped = false;
+            this.render();
+            return this;
+          }
+        };
+
+        currentTextAnimation = animation;
+
+        if (!isInteractive) {
+          log(effect(str, 0));
+          animation.stopped = true;
+          return animation;
+        }
+
+        setTimeout(() => {
+          if (!animation.stopped) {
+            animation.start();
+          }
+        }, delay / resolvedSpeed);
+
+        return animation; `}
+      </FunctionDeclaration>
+      <Spacing />
+      <TSDoc heading="Animate text with a gray/white shine effect.">
+        <TSDocRemarks>
+          {`Animates console text the same way chalk-animation's \`rainbow\` effect does — rewriting in-place on a frame timer — but uses a traveling gray-to-white highlight instead of a multi-hue spectrum.`}
+        </TSDocRemarks>
+        <TSDocParam name="text">{`The text to animate.`}</TSDocParam>
+        <TSDocParam name="speed">
+          {`Animation speed multiplier. Must be greater than \`0\`. Defaults to \`1\`.`}
+        </TSDocParam>
+        <TSDocReturns>
+          {`A \`TextAnimation\` controller with \`start\`, \`stop\`, \`replace\`, and \`frame\` methods.`}
+        </TSDocReturns>
+        <TSDocExample>
+          {`const animation = shine("Shell Shock");
+// later...
+animation.stop();`}
+        </TSDocExample>
+      </TSDoc>
+      <FunctionDeclaration
+        export
+        name="shine"
+        parameters={[
+          { name: "text", type: "string" },
+          { name: "speed", type: "number", optional: true }
+        ]}>
+        {code`return animateText(text, applyShineEffect, 15, speed);`}
+      </FunctionDeclaration>
+    </>
+  );
+}
+
+/**
  * A component to generate the `spinner` function in the `shell-shock:console` builtin module.
  */
 export function SpinnerFunctionDeclaration() {
@@ -2708,6 +2944,8 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
       <LinkFunctionDeclaration />
       <Spacing />
       <DividerFunctionDeclaration />
+      <Spacing />
+      <ShineFunctionDeclaration />
       <Spacing />
       <SpinnerFunctionDeclaration />
       <Spacing />
