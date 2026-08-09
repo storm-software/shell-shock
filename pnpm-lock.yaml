@@ -366,7 +366,7 @@ overrides:
   parse-path: '>=7.0.0'
   parse-url: '>=9.2.0'
   path-to-regexp: '>=0.1.12'
-  postcss: '>=8.5.1'
+  postcss: '>=8.5.18'
   shell-quote: '>=1.8.2'
   simple-git: '>=3.27.0'
 
@@ -3903,6 +3903,7 @@ packages:
   '@opentelemetry/context-base@0.14.0':
     resolution: {integrity: sha512-sDOAZcYwynHFTbLo6n8kIbLiVF3a3BLkrmehJUyEbT9F+Smbi47kLGS2gG2g0fjBLR/Lr1InPD7kXL7FaTqEkw==}
     engines: {node: '>=8.0.0'}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@oxc-parser/binding-android-arm-eabi@0.126.0':
     resolution: {integrity: sha512-svyoHt25J4741QJ5aa4R+h0iiBeSRt63Lr3aAZcxy2c/NeSE1IfDeMnSij6rIg7EjxkdlXzz613wUjeCeilBNA==}
@@ -6904,12 +6905,12 @@ packages:
   cssnano-preset-simple@2.0.0:
     resolution: {integrity: sha512-HkufSLkaBJbKBFx/7aj5HmCK9Ni/JedRQm0mT2qBzMG/dEuJOLnMt2lK6K1rwOOyV4j9aSY+knbW9WoS7BYpzg==}
     peerDependencies:
-      postcss: '>=8.5.1'
+      postcss: '>=8.5.18'
 
   cssnano-simple@2.0.0:
     resolution: {integrity: sha512-0G3TXaFxlh/szPEG/o3VcmCwl0N3E60XNb9YZZijew5eIs6fLjJuOPxQd9yEBaX2p/YfJtt49i4vYi38iH6/6w==}
     peerDependencies:
-      postcss: '>=8.5.1'
+      postcss: '>=8.5.18'
 
   cssstyle@4.6.0:
     resolution: {integrity: sha512-2z+rWdzbbSZv6/rhtvzvqeZQHrBaqgogqt85sqFNbabZOuFbCVFb8kPeEtZjiKkbrm395irpNKiYeFeLiQnFPg==}
@@ -9817,8 +9818,8 @@ packages:
   nanoclone@1.0.2:
     resolution: {integrity: sha512-rgGQL9k7pkQX4mxw59vDBhUQs8eMDa68YdnI+tHJCBDaORGlXJy1b1cLwnGUBarDT+gk0TGQDXIdl/WGTwtmyQ==}
 
-  nanoid@3.3.12:
-    resolution: {integrity: sha512-ZB9RH/39qpq5Vu6Y+NmUaFhQR6pp+M2Xt76XBnEwDaGcVAqhlvxrl3B2bKS5D3NH3QR76v3aSrKaF/Kiy7lEtQ==}
+  nanoid@3.3.18:
+    resolution: {integrity: sha512-DTg4MJbGMWkfi6VZFdNt2/caMbQy4Ou+Op/hJQvGEWcnVfoA1QA+xzRKAzw9jD6+GVOOeYr/mIcuDSdug6F6+w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -10347,8 +10348,8 @@ packages:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
     engines: {node: '>= 0.4'}
 
-  postcss@8.5.15:
-    resolution: {integrity: sha512-FfR8sjd4em2T6fb3I2MwAJU7HWVMr9zba+enmQeeWFfCbm+UOC/0X4DS8XtpUTMwWMGbjKYP7xjfNekzyGmB3A==}
+  postcss@8.5.26:
+    resolution: {integrity: sha512-u82N74LFzG8ca+dD8puPnplTXoGH4fTPpVGuIbt36G3qvNlkvfD0lEAZSxaly3KX8TS/L1A1gsCEmvKmBcVbkQ==}
     engines: {node: ^10 || ^12 || >=14}
 
   powerlines@0.47.137:
@@ -20049,15 +20050,15 @@ snapshots:
 
   css.escape@1.5.1: {}
 
-  cssnano-preset-simple@2.0.0(postcss@8.5.15):
+  cssnano-preset-simple@2.0.0(postcss@8.5.26):
     dependencies:
       caniuse-lite: 1.0.30001799
-      postcss: 8.5.15
+      postcss: 8.5.26
 
-  cssnano-simple@2.0.0(postcss@8.5.15):
+  cssnano-simple@2.0.0(postcss@8.5.26):
     dependencies:
-      cssnano-preset-simple: 2.0.0(postcss@8.5.15)
-      postcss: 8.5.15
+      cssnano-preset-simple: 2.0.0(postcss@8.5.26)
+      postcss: 8.5.26
 
   cssstyle@4.6.0:
     dependencies:
@@ -23793,7 +23794,7 @@ snapshots:
 
   nanoclone@1.0.2: {}
 
-  nanoid@3.3.12: {}
+  nanoid@3.3.18: {}
 
   nanoid@5.1.11: {}
 
@@ -23842,7 +23843,7 @@ snapshots:
       chokidar: 3.5.1
       constants-browserify: 1.0.0
       crypto-browserify: 3.12.0
-      cssnano-simple: 2.0.0(postcss@8.5.15)
+      cssnano-simple: 2.0.0(postcss@8.5.26)
       domain-browser: 4.19.0
       encoding: 0.1.13
       etag: 1.8.1
@@ -23858,7 +23859,7 @@ snapshots:
       p-limit: 3.1.0
       path-browserify: 1.0.1
       pnp-webpack-plugin: 1.6.4(typescript@4.9.5)
-      postcss: 8.5.15
+      postcss: 8.5.26
       process: 0.11.10
       prop-types: 15.7.2
       querystring-es3: 0.2.1
@@ -24598,9 +24599,9 @@ snapshots:
 
   possible-typed-array-names@1.1.0: {}
 
-  postcss@8.5.15:
+  postcss@8.5.26:
     dependencies:
-      nanoid: 3.3.12
+      nanoid: 3.3.18
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
