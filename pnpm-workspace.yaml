@@ -30,22 +30,22 @@ catalog:
   "@power-plant/core": ^0.0.90
   "@power-plant/noop-output": ^0.0.69
   "@power-plant/schema": ^0.0.88
-  "@powerlines/core": ^0.48.129
-  "@powerlines/engine": ^0.49.131
-  "@powerlines/nx": ^0.13.250
-  "@powerlines/plugin-alloy": ^0.26.308
-  "@powerlines/plugin-automd": ^0.1.672
+  "@powerlines/core": ^0.48.130
+  "@powerlines/engine": ^0.49.132
+  "@powerlines/nx": ^0.13.251
+  "@powerlines/plugin-alloy": ^0.26.309
+  "@powerlines/plugin-automd": ^0.1.673
   "@powerlines/plugin-deepkit": ^0.11.554
-  "@powerlines/plugin-env": ^0.16.419
+  "@powerlines/plugin-env": ^0.16.420
   "@powerlines/plugin-nodejs": ^0.1.620
-  "@powerlines/plugin-plugin": ^0.12.623
-  "@powerlines/plugin-power-plant": ^0.1.67
+  "@powerlines/plugin-plugin": ^0.12.624
+  "@powerlines/plugin-power-plant": ^0.1.68
   "@powerlines/plugin-style-dictionary": ^0.3.580
-  "@powerlines/plugin-tsdown": ^0.1.611
+  "@powerlines/plugin-tsdown": ^0.1.612
   "@powerlines/plugin-untyped": ^0.2.626
-  "@powerlines/tsconfig": ^0.4.254
-  "@powerlines/tsdoc": ^0.2.202
-  "@powerlines/unplugin": ^0.0.177
+  "@powerlines/tsconfig": ^0.4.255
+  "@powerlines/tsdoc": ^0.2.203
+  "@powerlines/unplugin": ^0.0.178
   "@storm-software/config": ^1.138.69
   "@storm-software/config-tools": ^1.190.133
   "@storm-software/cspell": ^0.46.200
@@ -116,7 +116,7 @@ catalog:
   normalize-html-whitespace: ^1.0.0
   nx: 23.1.0
   parse5: ^8.0.1
-  powerlines: ^0.47.210
+  powerlines: ^0.47.211
   prettier: ^3.9.6
   rimraf: ^6.1.3
   strip-ansi: ^7.2.0
