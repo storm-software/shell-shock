@@ -2,6 +2,31 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.35](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.35) (08/13/2026)
+
+### Miscellaneous
+
+- **monorepo:** Various formatting and linting clean ups ([f75fecd](https://github.com/storm-software/shell-shock/commit/f75fecd))
+- **core:** Update framework to use Power Plant generators for codegen ([295bcc8](https://github.com/storm-software/shell-shock/commit/295bcc8))
+
+### Bug Fixes
+
+- **monorepo:** Update packages to use latest Powerlines plugin structure ([5aed994](https://github.com/storm-software/shell-shock/commit/5aed994))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.23**
+- Updated **plugin-banner** to **v0.1.50**
+- Updated **plugin-changelog** to **v0.1.26**
+- Updated **plugin-completions** to **v0.4.31**
+- Updated **plugin-console** to **v0.2.27**
+- Updated **plugin-help** to **v0.2.41**
+- Updated **plugin-prompts** to **v0.3.64**
+- Updated **plugin-skills** to **v0.0.14**
+- Updated **plugin-theme** to **v0.4.36**
+- Updated **plugin-update** to **v0.1.68**
+- Updated **preset-script** to **v0.6.78**
+
 ## [0.9.34](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.34) (06/15/2026)
 
 ### Miscellaneous

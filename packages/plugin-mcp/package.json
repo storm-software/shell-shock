@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/plugin-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "A package containing a Shell Shock plugin to expose CLI commands through an MCP server.",
   "keywords": [

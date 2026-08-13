@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.87](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.87) (08/13/2026)
+
+### Miscellaneous
+
+- **monorepo:** Various formatting and linting clean ups ([f75fecd](https://github.com/storm-software/shell-shock/commit/f75fecd))
+- **core:** Update framework to use Power Plant generators for codegen ([295bcc8](https://github.com/storm-software/shell-shock/commit/295bcc8))
+
+### Bug Fixes
+
+- **monorepo:** Update packages to use latest Powerlines plugin structure ([5aed994](https://github.com/storm-software/shell-shock/commit/5aed994))
+
 ## [0.0.86](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.86) (06/15/2026)
 
 ### Miscellaneous

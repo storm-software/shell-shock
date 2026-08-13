@@ -2,6 +2,21 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.36](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.36) (08/13/2026)
+
+### Miscellaneous
+
+- **monorepo:** Various formatting and linting clean ups ([f75fecd](https://github.com/storm-software/shell-shock/commit/f75fecd))
+- **core:** Update framework to use Power Plant generators for codegen ([295bcc8](https://github.com/storm-software/shell-shock/commit/295bcc8))
+
+### Bug Fixes
+
+- **monorepo:** Update packages to use latest Powerlines plugin structure ([5aed994](https://github.com/storm-software/shell-shock/commit/5aed994))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.23**
+
 ## [0.4.35](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.35) (06/15/2026)
 
 ### Miscellaneous

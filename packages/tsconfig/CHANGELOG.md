@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.92](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.92) (08/13/2026)
+
+### Miscellaneous
+
+- **core:** Update framework to use Power Plant generators for codegen ([295bcc8](https://github.com/storm-software/shell-shock/commit/295bcc8))
+
 ## [0.0.91](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.91) (06/15/2026)
 
 ### Miscellaneous

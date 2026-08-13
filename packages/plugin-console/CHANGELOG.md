@@ -2,6 +2,26 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.2.27](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.27) (08/13/2026)
+
+### Miscellaneous
+
+- **monorepo:** Various formatting and linting clean ups ([f75fecd](https://github.com/storm-software/shell-shock/commit/f75fecd))
+- **core:** Update framework to use Power Plant generators for codegen ([295bcc8](https://github.com/storm-software/shell-shock/commit/295bcc8))
+
+### Bug Fixes
+
+- **monorepo:** Update packages to use latest Powerlines plugin structure ([5aed994](https://github.com/storm-software/shell-shock/commit/5aed994))
+
+### Features
+
+- **plugin-console:** Added `shine` text animation to `shell-shock:console` module ([0c8facf](https://github.com/storm-software/shell-shock/commit/0c8facf))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.23**
+- Updated **plugin-theme** to **v0.4.36**
+
 ## [0.2.26](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.26) (06/15/2026)
 
 ### Miscellaneous
