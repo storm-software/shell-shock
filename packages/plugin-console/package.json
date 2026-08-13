@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/plugin-console",
-  "version": "0.2.27",
+  "version": "0.2.28",
   "private": false,
   "description": "A package containing a Shell Shock plugin to generate the `console` built-in module.",
   "keywords": [

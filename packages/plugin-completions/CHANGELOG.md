@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Completions
 
+## [0.4.32](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.32) (08/13/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.24**
+
 ## [0.4.31](https://github.com/storm-software/shell-shock/releases/tag/plugin-completions%400.4.31) (08/13/2026)
 
 ### Miscellaneous

@@ -1,6 +1,6 @@
 {
   "name": "@shell-shock/plugin-skills",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "private": false,
   "description": "A package containing a Shell Shock plugin to manage adding agent skills in a Shell Shock application.",
   "keywords": [
