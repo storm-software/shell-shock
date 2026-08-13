@@ -146,34 +146,6 @@ overrides:
   "@babel/preset-typescript": ">=8.0.0"
   "@emnapi/core": 1.11.3
   "@emnapi/runtime": 1.11.3
-  "@power-plant/alloy-js": "0.0.87"
-  "@power-plant/core": "0.0.90"
-  "@power-plant/noop-output": "0.0.69"
-  "@power-plant/schema": "0.0.88"
-  "@shell-shock-playground/cli": workspace:*
-  "@shell-shock-playground/custom-commands-directory": workspace:*
-  "@shell-shock-playground/minimal": workspace:*
-  "@shell-shock-playground/nx": workspace:*
-  "@shell-shock-playground/powerlines": workspace:*
-  "@shell-shock-playground/script": workspace:*
-  "@shell-shock/schema": workspace:*
-  "@shell-shock/core": workspace:*
-  "@shell-shock/eslint-plugin": workspace:*
-  "@shell-shock/nx": workspace:*
-  "@shell-shock/plugin-banner": workspace:*
-  "@shell-shock/plugin-changelog": workspace:*
-  "@shell-shock/plugin-skills": workspace:*
-  "@shell-shock/plugin-completions": workspace:*
-  "@shell-shock/plugin-console": workspace:*
-  "@shell-shock/plugin-help": workspace:*
-  "@shell-shock/plugin-mcp": workspace:*
-  "@shell-shock/plugin-prompts": workspace:*
-  "@shell-shock/plugin-theme": workspace:*
-  "@shell-shock/plugin-update": workspace:*
-  "@shell-shock/preset-cli": workspace:*
-  "@shell-shock/preset-script": workspace:*
-  "@shell-shock/tsconfig": workspace:*
-  "@shell-shock/unified": workspace:*
   micromatch: ">=4.0.8"
   node-fetch: ">=3.3.2"
 useNodeVersion: 26.3.0
