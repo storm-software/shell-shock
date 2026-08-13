@@ -23,7 +23,7 @@ export const RULE_NAME = "invalid-command-export";
 export type MessageIds = "invalidExport";
 export type Options = [];
 
-export default createRule<Options, MessageIds>({
+export const rule = createRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: "problem",
@@ -83,3 +83,5 @@ export default createRule<Options, MessageIds>({
     };
   }
 });
+
+export default rule;

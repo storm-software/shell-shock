@@ -22,10 +22,11 @@ import {
   getProperties,
   isJsonSchemaObject
 } from "@power-plant/schema";
-import automd from "@powerlines/plugin-automd";
+import { plugin as automd } from "@powerlines/plugin-automd";
 import { extractEnv, writeEnv } from "@powerlines/plugin-env/helpers/schema";
-import nodejs from "@powerlines/plugin-nodejs";
-import tsdown from "@powerlines/plugin-tsdown";
+import { plugin as nodejs } from "@powerlines/plugin-nodejs";
+import { plugin as tsdown } from "@powerlines/plugin-tsdown";
+import { extractFileReference } from "@stryke/convert/extract-file-reference";
 import { toArray } from "@stryke/convert/to-array";
 import { chmodX } from "@stryke/fs/chmod-x";
 import { appendPath } from "@stryke/path/append";
@@ -139,6 +140,21 @@ export const plugin = <TContext extends Context = Context>(
         order: "pre",
         async handler() {
           this.debug("Shell Shock configuration has been resolved.");
+
+          const envConfigReference = isSetString(this.config.env.config)
+            ? extractFileReference(this.config.env.config)
+            : undefined;
+          if (envConfigReference) {
+            const envConfigFile = await this.fs.resolve(
+              envConfigReference.file
+            );
+            if (envConfigFile) {
+              this.config.env.config = {
+                ...envConfigReference,
+                file: envConfigFile
+              };
+            }
+          }
 
           await updatePackageJsonBinary(this);
 

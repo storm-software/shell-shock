@@ -41,7 +41,7 @@ import { joinPaths } from "@stryke/path/join";
 import { replaceExtension } from "@stryke/path/replace";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
-import defu from "defu";
+import { defu } from "defu";
 import type { CLIPresetContext } from "../types/plugin";
 import { VirtualCommandEntry } from "./virtual-command-entry";
 

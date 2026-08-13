@@ -21,7 +21,7 @@ import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { renderMarkdown } from "@shell-shock/unified/markdown";
 import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import defu from "defu";
+import { defu } from "defu";
 import type { Plugin } from "powerlines";
 import { replacePathTokens } from "powerlines/plugin-utils";
 import { ChangelogCommand } from "./components";

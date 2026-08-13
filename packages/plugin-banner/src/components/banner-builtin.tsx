@@ -28,7 +28,7 @@ import {
   isDynamicPathSegment
 } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path";
-import defu from "defu";
+import { defu } from "defu";
 import type { BannerPluginContext } from "../types";
 import { BannerFunctionDeclaration } from "./banner-function-declaration";
 

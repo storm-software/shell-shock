@@ -35,7 +35,7 @@ import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import { joinPaths } from "@stryke/path";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import defu from "defu";
+import { defu } from "defu";
 import type { HelpPluginContext } from "../types";
 import { CommandHelpDisplay, VirtualCommandHelpDisplay } from "./display";
 

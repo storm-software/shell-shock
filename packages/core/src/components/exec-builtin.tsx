@@ -30,7 +30,7 @@ import {
   TSDocParam,
   TSDocReturns
 } from "@power-plant/alloy-js/typescript/components/tsdoc";
-import defu from "defu";
+import { defu } from "defu";
 import type { BuiltinFileProps } from "../contexts/power-plant";
 import { BuiltinFile } from "../contexts/power-plant";
 

@@ -6,8 +6,10 @@
   "private": true,
   "bin": { "nx-playground": "./dist/bin.mjs" },
   "devDependencies": {
+    "@powerlines/plugin-env": "catalog:",
     "@shell-shock/core": "workspace:*",
     "@shell-shock/nx": "workspace:*",
+    "@shell-shock/preset-script": "workspace:*",
     "nx": "catalog:"
   },
   "exports": {

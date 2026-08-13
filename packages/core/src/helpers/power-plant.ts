@@ -34,6 +34,7 @@ import type {
   SerializedCommandTree
 } from "@shell-shock/schema";
 import { serializedCommandsSchema } from "@shell-shock/schema";
+import { z } from "zod";
 import type { CommandTree } from "../types/command";
 import type {
   CommandGeneratorOptions as BaseCommandGeneratorOptions,
@@ -104,7 +105,7 @@ const serializedCommandSchema = defineSchema<SerializedCommands>({
       "JSON-safe Shell Shock command tree specification used as Power Plant generator input.",
     tags: ["shell-shock", "command-tree", "cli"]
   },
-  schema: serializedCommandsSchema
+  schema: z.toJSONSchema(serializedCommandsSchema)
 });
 
 /**

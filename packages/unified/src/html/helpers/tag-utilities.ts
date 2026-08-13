@@ -18,7 +18,7 @@
 
 import he from "he";
 import normalizeWhitespace from "normalize-html-whitespace";
-import tags from "../tags";
+import { tags } from "../tags";
 import { concatTwoBlockTags, concatTwoInlineTags } from "./concat";
 import { getAttribute } from "./get-attribute";
 import { renderTag } from "./render";

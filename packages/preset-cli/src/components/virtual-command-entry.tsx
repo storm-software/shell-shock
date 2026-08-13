@@ -27,7 +27,7 @@ import { isDynamicPathSegment } from "@shell-shock/core/plugin-utils";
 import { VirtualCommandHandlerDeclaration } from "@shell-shock/preset-script/components/virtual-command-entry";
 import { joinPaths } from "@stryke/path/join";
 import { pascalCase } from "@stryke/string-format/pascal-case";
-import defu from "defu";
+import { defu } from "defu";
 import type { CLIPresetContext } from "../types/plugin";
 import { CommandEntry } from "./command-entry";
 import { CommandRouter } from "./command-router";

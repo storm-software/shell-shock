@@ -253,7 +253,7 @@ function checkArgsParam(
   }
 }
 
-export default createRule<Options, MessageIds>({
+export const rule = createRule<Options, MessageIds>({
   name: RULE_NAME,
   meta: {
     type: "problem",
@@ -327,3 +327,5 @@ export default createRule<Options, MessageIds>({
     };
   }
 });
+
+export default rule;

@@ -17,10 +17,10 @@
  ------------------------------------------------------------------- */
 
 import noopOutput from "@power-plant/noop-output";
-import styleDictionary from "@powerlines/plugin-style-dictionary";
+import { plugin as styleDictionary } from "@powerlines/plugin-style-dictionary";
 import { omit } from "@stryke/helpers/omit";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
-import defu from "defu";
+import { defu } from "defu";
 import type { Plugin } from "powerlines";
 import type { Config } from "style-dictionary/types";
 import { borderStyles } from "./style-dictionary/border-styles";
@@ -44,7 +44,7 @@ export const plugin = <
   options: ThemePluginOptions = {}
 ): Plugin<TContext>[] => {
   return [
-    styleDictionary(defu({ skipBuild: false }, omit(options, ["theme"]))),
+    ...styleDictionary(defu({ skipBuild: false }, omit(options, ["theme"]))),
     {
       name: "shell-shock/theme",
       config() {

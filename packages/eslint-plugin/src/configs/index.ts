@@ -17,8 +17,8 @@
  ------------------------------------------------------------------- */
 
 import type { Linter } from "eslint";
-import base from "./base";
-import recommended from "./recommended";
+import { config as base } from "./base";
+import { config as recommended } from "./recommended";
 
 export const configs: Record<string, Linter.Config> = {
   base,

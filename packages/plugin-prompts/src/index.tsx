@@ -17,7 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
-import theme from "@shell-shock/plugin-theme";
+import { plugin as theme } from "@shell-shock/plugin-theme";
 import type { Plugin } from "powerlines";
 import { promptsGenerator } from "./generator";
 import type {

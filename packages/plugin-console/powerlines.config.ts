@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import alloy from "@powerlines/plugin-alloy";
-import plugin from "@powerlines/plugin-plugin";
+import { plugin as alloy } from "@powerlines/plugin-alloy";
+import { plugin } from "@powerlines/plugin-plugin";
 import { defineConfig } from "@shell-shock/tools-config/powerlines.shared";
 
 const config = defineConfig({

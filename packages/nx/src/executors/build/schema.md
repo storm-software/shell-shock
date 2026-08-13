@@ -89,7 +89,7 @@ Minify the output
 
 ## `format`
 - **Type**: `array`
-- **Default**: `["cjs","esm"]`
+- **Default**: `undefined`
 
 > Format
 
@@ -108,7 +108,7 @@ The platform to build
 
 ## `external`
 - **Type**: `array`
-- **Default**: `[]`
+- **Default**: `undefined`
 
 > External
 
@@ -118,7 +118,7 @@ The external dependencies
 
 ## `noExternal`
 - **Type**: `array`
-- **Default**: `[]`
+- **Default**: `undefined`
 
 > No External
 

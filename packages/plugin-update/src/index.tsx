@@ -20,10 +20,13 @@ import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import defu from "defu";
+import { defu } from "defu";
+import { createRequire } from "node:module";
 import type { Plugin } from "powerlines";
 import { updateGenerator } from "./generator";
 import type { UpdatePluginContext, UpdatePluginOptions } from "./types/plugin";
+
+const require = createRequire(import.meta.url);
 
 export { updateGenerator } from "./generator";
 
@@ -56,7 +59,10 @@ export const plugin = <
           }
         ),
         env: {
-          config: "@shell-shock/plugin-update/schemas/env#envSchema",
+          config: {
+            file: require.resolve("@shell-shock/plugin-update/schemas/env"),
+            export: "envSchema"
+          },
           validate: false
         }
       };

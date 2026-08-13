@@ -17,9 +17,9 @@
  ------------------------------------------------------------------- */
 
 import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
-import banner from "@shell-shock/plugin-banner";
-import console from "@shell-shock/plugin-console";
-import help from "@shell-shock/plugin-help";
+import { plugin as banner } from "@shell-shock/plugin-banner";
+import { plugin as console } from "@shell-shock/plugin-console";
+import { plugin as help } from "@shell-shock/plugin-help";
 import type { Plugin } from "powerlines";
 import { scriptEntrypointGenerator } from "./generator";
 import { getGlobalOptions } from "./helpers/get-global-options";

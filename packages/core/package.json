@@ -454,6 +454,7 @@
     "@stryke/types": "catalog:",
     "automd": "catalog:",
     "defu": "catalog:",
+    "jiti": "catalog:",
     "powerlines": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",

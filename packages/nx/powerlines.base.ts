@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import tsdown from "@powerlines/plugin-tsdown";
-import untyped from "@powerlines/plugin-untyped";
+import { plugin as tsdown } from "@powerlines/plugin-tsdown";
+import { plugin as untyped } from "@powerlines/plugin-untyped";
 import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines/config";
 
@@ -32,7 +32,7 @@ const config: UserConfig = defineConfig({
   },
   tsdown: {
     minify: false,
-    unbundle: false,
+    unbundle: true,
     exports: false,
     fixedExtension: false
   }

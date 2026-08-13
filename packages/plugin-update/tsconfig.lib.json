@@ -8,10 +8,7 @@
     "outDir": "./out-tsc",
     "verbatimModuleSyntax": false
   },
-  "references": [
-    { "path": "../../tools/config" },
-    { "path": "../core/tsconfig.lib.json" }
-  ],
+  "references": [{ "path": "../core/tsconfig.lib.json" }],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",

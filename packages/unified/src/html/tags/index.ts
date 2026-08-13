@@ -140,7 +140,7 @@ import {
   xmp
 } from "./void";
 
-export default {
+export const tags = {
   "#document": document,
   "#text": textNode,
   a,
@@ -283,3 +283,5 @@ export default {
   wbr,
   xmp
 };
+
+export default tags;

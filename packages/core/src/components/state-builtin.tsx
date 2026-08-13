@@ -33,7 +33,7 @@ import {
   TSDocRemarks,
   TSDocReturns
 } from "@power-plant/alloy-js/typescript/components/tsdoc";
-import defu from "defu";
+import { defu } from "defu";
 import { computedOptions } from "../contexts/options";
 import type { BuiltinFileProps } from "../contexts/power-plant";
 import { BuiltinFile, usePowerlines } from "../contexts/power-plant";

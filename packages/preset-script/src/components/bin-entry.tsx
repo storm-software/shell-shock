@@ -36,7 +36,7 @@ import { getUnique } from "@stryke/helpers/get-unique";
 import { findFileName } from "@stryke/path/file-path-fns";
 import { replaceExtension } from "@stryke/path/replace";
 import { pascalCase } from "@stryke/string-format/pascal-case";
-import defu from "defu";
+import { defu } from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
 import { ExitFunctionDeclaration } from "./exit-function-declaration";
 

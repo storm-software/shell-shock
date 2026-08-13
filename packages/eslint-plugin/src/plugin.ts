@@ -18,9 +18,9 @@
 
 import type { ESLint } from "eslint";
 import packageJson from "../package.json" with { type: "json" };
-import duplicateCommandPath from "./rules/duplicate-command-path";
-import invalidCommandExport from "./rules/invalid-command-export";
-import invalidHandlerParams from "./rules/invalid-handler-params";
+import { rule as duplicateCommandPath } from "./rules/duplicate-command-path";
+import { rule as invalidCommandExport } from "./rules/invalid-command-export";
+import { rule as invalidHandlerParams } from "./rules/invalid-handler-params";
 
 export const plugin = {
   meta: {

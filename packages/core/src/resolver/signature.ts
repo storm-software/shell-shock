@@ -18,7 +18,7 @@
 
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { readFile } from "node:fs/promises";
-import ts from "typescript";
+import * as ts from "typescript";
 
 export interface CommandParameterSignature {
   name: string;
@@ -291,12 +291,12 @@ function getParamDescriptions(functionNode: ts.Node): Record<string, string> {
  * @returns The parsed command signature, or `undefined` when no default export function is found.
  */
 export async function parseCommandSignature(
-  filePath: string
+  filePath: string,
+  sourceText?: string
 ): Promise<CommandSignature | undefined> {
-  const sourceText = await readFile(filePath, "utf8");
   const sourceFile = ts.createSourceFile(
     filePath,
-    sourceText,
+    sourceText ?? (await readFile(filePath, "utf8")),
     ts.ScriptTarget.Latest,
     true,
     ts.ScriptKind.TS

@@ -25,30 +25,33 @@ import {
   addProperty,
   extract,
   getPropertiesList,
-  isJsonSchemaArray,
-  mapStorageToFileSystem
+  isJsonSchemaArray
 } from "@power-plant/schema";
-import { createStorageAdapter } from "@powerlines/plugin-power-plant/helpers";
-import { resolveOptions } from "@powerlines/unplugin/esbuild";
 import { toArray } from "@stryke/convert/to-array";
 import { getUnique } from "@stryke/helpers/get-unique";
 import { isJsonSchemaObjectType, isJsonSchemaTupleType } from "@stryke/json";
 import { replacePath } from "@stryke/path/replace";
-import { load } from "@stryke/resolve";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { titleCase } from "@stryke/string-format/title-case";
 import { isFunction } from "@stryke/type-checks/is-function";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import type { AnyFunction } from "@stryke/types/base";
-import { createUnplugin } from "powerlines";
-import { createEsbuildPlugin } from "unplugin";
+import { createJiti } from "jiti";
+import { existsSync, readdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { z } from "zod";
 import { getGlobalOptions } from "../helpers/utilities";
 import {
   getDynamicPathSegmentName,
   isDynamicPathSegment
 } from "../plugin-utils/context-helpers";
-import type { CommandOption, CommandTree, Context } from "../types";
+import type {
+  CommandModule,
+  CommandOption,
+  CommandTree,
+  Context
+} from "../types";
 import {
   applyArgsDefaults,
   applyDefaults,
@@ -58,6 +61,146 @@ import {
 import { applySignatureParameters, resolveCommandParameter } from "./schema";
 import { parseCommandSignature } from "./signature";
 import type { ResolverContext, ResolverInput } from "./types";
+
+function toExtractableSchema(input: unknown) {
+  if (isSetObject(input) && "_zod" in input) {
+    return z.toJSONSchema(input as Parameters<typeof z.toJSONSchema>[0]);
+  }
+
+  return input;
+}
+
+const CONSOLE_STUB_EXPORTS = [
+  "banner",
+  "blockquote",
+  "bold",
+  "code",
+  "cyan",
+  "debug",
+  "dim",
+  "divider",
+  "error",
+  "fatal",
+  "gray",
+  "green",
+  "help",
+  "info",
+  "inlineCode",
+  "italic",
+  "link",
+  "log",
+  "red",
+  "reset",
+  "shine",
+  "spinner",
+  "stripAnsi",
+  "success",
+  "table",
+  "trace",
+  "underline",
+  "warn",
+  "wrapAnsi",
+  "write",
+  "writeLine",
+  "yellow"
+] as const;
+
+function stubExport(...args: unknown[]) {
+  return args[0] == null ? "" : args[0];
+}
+
+function createColorGroup() {
+  return {
+    primary: stubExport,
+    secondary: stubExport,
+    tertiary: stubExport
+  };
+}
+
+function createVirtualModuleStub(
+  exportNames: Iterable<string> = CONSOLE_STUB_EXPORTS
+): Record<string, unknown> {
+  const stub: Record<string, unknown> = {
+    textColors: {
+      heading: createColorGroup(),
+      body: createColorGroup(),
+      message: createColorGroup()
+    }
+  };
+  for (const name of exportNames) {
+    stub[name] = stubExport;
+  }
+  stub.default = stub;
+
+  return stub;
+}
+
+function resolveBuiltinAliases(context: Context): Record<string, string> {
+  const builtinsDir = context.entryPath
+    ? join(dirname(context.entryPath), "builtins")
+    : join(context.config.cwd, ".shell-shock", "builtins");
+
+  if (!existsSync(builtinsDir)) {
+    return {};
+  }
+
+  const aliases: Record<string, string> = {};
+  for (const file of readdirSync(builtinsDir)) {
+    if (!/\.(c|m)?tsx?$/.test(file)) {
+      continue;
+    }
+
+    const name = file.replace(/\.(c|m)?tsx?$/, "");
+    const absolutePath = join(builtinsDir, file);
+    aliases[name] = absolutePath;
+    aliases[`shell-shock:${name}`] = absolutePath;
+  }
+
+  return aliases;
+}
+
+function collectVirtualModules(
+  source: string
+): Record<string, Record<string, unknown>> {
+  const consoleStub = createVirtualModuleStub();
+  const modules = new Map<string, Record<string, unknown>>([
+    ["console", consoleStub],
+    ["shell-shock:console", consoleStub],
+    ["shell-shock:utils", createVirtualModuleStub()],
+    [
+      "shell-shock:env",
+      createVirtualModuleStub(["env", "isDevelopment", "isDebug"])
+    ],
+    ["shell-shock:state", createVirtualModuleStub(["hasFlag"])]
+  ]);
+
+  for (const match of source.matchAll(/["'](shell-shock:[^"']+)["']/g)) {
+    const id = match[1];
+    if (id && !modules.has(id)) {
+      modules.set(id, createVirtualModuleStub());
+    }
+  }
+
+  for (const match of source.matchAll(
+    /import\s+\{([^}]+)\}\s+from\s+["']((?:shell-shock:)?[^"']+)["']/g
+  )) {
+    const id = match[2];
+    if (!id || (!id.startsWith("shell-shock:") && id !== "console")) {
+      continue;
+    }
+
+    const stub = modules.get(id) ?? createVirtualModuleStub();
+    for (const specifier of match[1]?.split(",") ?? []) {
+      const exportName = specifier.trim().split(/\s+as\s+/)[0]?.trim();
+      if (exportName && !(exportName in stub)) {
+        stub[exportName] = stubExport;
+      }
+    }
+    modules.set(id, stub);
+  }
+
+  return Object.fromEntries(modules);
+}
 
 async function preprocess<TContext extends Context>(
   input: ResolverInput<TContext>
@@ -112,20 +255,35 @@ async function preprocess<TContext extends Context>(
       )})`
     );
 
-    const options = resolveOptions(context);
-    result.module = await load(command.entry.input, {
-      fs: mapStorageToFileSystem(createStorageAdapter(context.fs)),
-      cwd: context.config.cwd,
-      ...options,
-      plugins: [
-        createEsbuildPlugin(
-          createUnplugin(context, {
-            silenceHookLogging: true,
-            name: "esbuild"
-          })
-        )()
-      ]
-    });
+    const rawSource = await context.fs.read(command.entry.input.file);
+    const sourceText =
+      typeof rawSource === "string"
+        ? rawSource
+        : Buffer.from(rawSource as Uint8Array).toString("utf8");
+    result.sourceText = sourceText;
+
+    let loaded: unknown;
+    try {
+      const jiti = createJiti(import.meta.url, {
+        jsx: true,
+        interopDefault: false,
+        alias: resolveBuiltinAliases(context),
+        virtualModules: collectVirtualModules(sourceText)
+      });
+      loaded = await jiti.evalModule(sourceText, {
+        filename: command.entry.input.file
+      });
+    } catch (error) {
+      context.debug(
+        `Command module evaluation failed for "${command.id}", falling back to signature extraction: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
+      loaded = { default: () => undefined };
+    }
+    result.module = isFunction(loaded)
+      ? { default: loaded as AnyFunction }
+      : (loaded as CommandModule);
     if (!result.module) {
       throw new Error(
         `Failed to resolve command module at path "${
@@ -140,7 +298,10 @@ async function preprocess<TContext extends Context>(
       };
     }
 
-    result.signature = await parseCommandSignature(command.entry.input.file);
+    result.signature = await parseCommandSignature(
+      command.entry.input.file,
+      sourceText
+    );
   }
 
   if (!command.virtual) {
@@ -319,7 +480,7 @@ export async function resolve<TContext extends Context = Context>(
       ctx.signature?.description) as string;
 
     if (ctx.module.options) {
-      const options = await extract(ctx.module.options, {
+      const options = await extract(toExtractableSchema(ctx.module.options), {
         cwd: ctx.input.context.config.cwd
       });
       if (!isSetObject(options) || !isJsonSchemaObjectType(options.schema)) {
@@ -346,9 +507,12 @@ export async function resolve<TContext extends Context = Context>(
     }
 
     if (ctx.module.args) {
-      const args = await extract(ctx.module.args as SchemaConfig, {
-        cwd: ctx.input.context.config.cwd
-      });
+      const args = await extract(
+        toExtractableSchema(ctx.module.args) as SchemaConfig,
+        {
+          cwd: ctx.input.context.config.cwd
+        }
+      );
       if (isSetObject(args)) {
         if (
           !isJsonSchemaTupleType(args.schema) &&

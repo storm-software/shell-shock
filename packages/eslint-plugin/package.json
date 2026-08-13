@@ -85,12 +85,12 @@
     "@stryke/path": "catalog:",
     "@typescript-eslint/utils": "catalog:",
     "defu": "catalog:",
-    "powerlines": "0.47.189"
+    "powerlines": "catalog:"
   },
   "devDependencies": {
     "@eslint/compat": "catalog:",
     "@eslint/config-inspector": "catalog:",
-    "@powerlines/plugin-tsdown": "0.1.590",
+    "@powerlines/plugin-tsdown": "catalog:",
     "@storm-software/testing-tools": "catalog:",
     "@types/eslint": "catalog:",
     "@types/eslint__js": "catalog:",

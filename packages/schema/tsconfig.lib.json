@@ -5,7 +5,7 @@
     "rootDir": ".",
     "outDir": "./out-tsc"
   },
-  "references": [{ "path": "../../tools/config" }],
+  "references": [],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",

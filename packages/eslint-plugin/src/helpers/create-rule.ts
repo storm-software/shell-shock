@@ -22,7 +22,7 @@ import type {
   RuleWithMetaAndName
 } from "@typescript-eslint/utils/eslint-utils";
 import type { RuleContext } from "@typescript-eslint/utils/ts-eslint";
-import defu from "defu";
+import { defu } from "defu";
 import type { Rule } from "eslint";
 
 export type RuleModule<T extends readonly unknown[]> = Rule.RuleModule & {

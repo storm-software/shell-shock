@@ -22,7 +22,7 @@ import type {
   PowerlinesExecutorContext
 } from "@powerlines/nx";
 import type { BaseExecutorResult } from "@storm-software/workspace-tools/types";
-import defu from "defu";
+import { defu } from "defu";
 import type { InlineConfig } from "powerlines";
 import { withExecutor } from "../../base/base-executor";
 import type { PrepareExecutorSchema } from "./schema";

@@ -7,7 +7,6 @@
     "outDir": "./out-tsc"
   },
   "references": [
-    { "path": "../../tools/config" },
     { "path": "../plugin-theme/tsconfig.lib.json" },
     { "path": "../core/tsconfig.lib.json" }
   ],

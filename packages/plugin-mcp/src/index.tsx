@@ -20,7 +20,7 @@ import type { CommandConfig } from "@shell-shock/core";
 import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
 import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import defu from "defu";
+import { defu } from "defu";
 import type { Plugin } from "powerlines";
 import { McpCommandModule } from "./components/mcp-command";
 import { mcpGenerator } from "./generator";

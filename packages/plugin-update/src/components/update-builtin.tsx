@@ -39,7 +39,7 @@ import {
   BuiltinFile,
   usePowerlines
 } from "@shell-shock/core/contexts/power-plant";
-import defu from "defu";
+import { defu } from "defu";
 import type { UpdatePluginContext } from "../types/plugin";
 
 /**

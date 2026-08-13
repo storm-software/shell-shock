@@ -17,71 +17,256 @@
  ------------------------------------------------------------------- */
 
 import type { JsonSchema } from "@power-plant/schema";
-import {
-  extractTSType,
-  getPropertiesList,
-  isJsonSchemaObject
-} from "@power-plant/schema";
+import { getPropertiesList, isJsonSchemaObject } from "@power-plant/schema";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import { readFileSync } from "node:fs";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import ts from "typescript";
+import * as ts from "typescript";
 import type { CommandArgument, CommandOption } from "../types";
 import { mergeCommandParameter } from "./helpers";
 import type { CommandParameterSignature, CommandSignature } from "./signature";
 import type { ResolverContext } from "./types";
 
-async function extractFromTempType(
-  typeSource: string,
-  generatorOptions: { tsconfig?: string }
-): Promise<JsonSchema> {
-  const directory = await mkdtemp(join(tmpdir(), "shell-shock-"));
-  const tempFile = join(directory, "type.ts");
+function getTypeNodeDescription(node: ts.Node): string | undefined {
+  const docs = ts.getJSDocCommentsAndTags(node).filter(ts.isJSDoc);
+  for (const doc of docs) {
+    const comment = doc.comment;
+    if (!comment) {
+      continue;
+    }
 
-  try {
-    await writeFile(tempFile, typeSource, "utf8");
-    const schema = await extractTSType(
-      { file: tempFile, export: "__ShellShockType" },
-      generatorOptions
-    );
-
-    return dereferenceSchema(schema);
-  } finally {
-    await rm(directory, { recursive: true, force: true });
+    const text =
+      typeof comment === "string"
+        ? comment.trim()
+        : comment
+            .map(part => ("text" in part ? part.text : ""))
+            .join("")
+            .trim();
+    if (text) {
+      return text;
+    }
   }
+
+  return undefined;
 }
 
-/**
- * Pulls a file-local interface/type-alias declaration so schema extraction can
- * avoid evaluating the full command module (imports, side effects, etc.).
- */
-function getLocalTypeDeclarationSource(
-  filePath: string,
+function findTypeDeclaration(
+  sourceFile: ts.SourceFile,
   typeName: string
-): string | undefined {
-  const sourceText = readFileSync(filePath, "utf8");
-  const sourceFile = ts.createSourceFile(
-    filePath,
-    sourceText,
-    ts.ScriptTarget.Latest,
-    true,
-    ts.ScriptKind.TS
-  );
-
+): ts.InterfaceDeclaration | ts.TypeAliasDeclaration | undefined {
   for (const statement of sourceFile.statements) {
     if (
       (ts.isInterfaceDeclaration(statement) ||
         ts.isTypeAliasDeclaration(statement)) &&
       statement.name.text === typeName
     ) {
-      return statement.getText(sourceFile);
+      return statement;
     }
   }
 
   return undefined;
+}
+
+function parseTypeNodeFromText(typeText: string): ts.TypeNode | undefined {
+  const sourceFile = ts.createSourceFile(
+    "__shell-shock-type.ts",
+    `type __ShellShockType = ${typeText};`,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS
+  );
+  const statement = sourceFile.statements[0];
+  if (statement && ts.isTypeAliasDeclaration(statement)) {
+    return statement.type;
+  }
+
+  return undefined;
+}
+
+function membersToObjectSchema(
+  members: ts.NodeArray<ts.TypeElement>,
+  lookupFile: ts.SourceFile
+): JsonSchema {
+  const properties: Record<string, JsonSchema> = {};
+  const required: string[] = [];
+
+  for (const member of members) {
+    if (!ts.isPropertySignature(member) || !member.name || !member.type) {
+      continue;
+    }
+
+    const name = member.name.getText();
+    const schema = typeNodeToJsonSchema(member.type, lookupFile);
+    const description = getTypeNodeDescription(member);
+    properties[name] = description
+      ? ({ ...schema, description } as JsonSchema)
+      : schema;
+
+    if (!member.questionToken) {
+      required.push(name);
+    }
+  }
+
+  return {
+    type: "object",
+    properties,
+    ...(required.length > 0 ? { required } : {})
+  } as JsonSchema;
+}
+
+function typeNodeToJsonSchema(
+  typeNode: ts.TypeNode,
+  lookupFile: ts.SourceFile
+): JsonSchema {
+  if (ts.isParenthesizedTypeNode(typeNode)) {
+    return typeNodeToJsonSchema(typeNode.type, lookupFile);
+  }
+
+  if (typeNode.kind === ts.SyntaxKind.StringKeyword) {
+    return { type: "string" } as JsonSchema;
+  }
+  if (
+    typeNode.kind === ts.SyntaxKind.NumberKeyword ||
+    typeNode.kind === ts.SyntaxKind.BigIntKeyword
+  ) {
+    return { type: "number" } as JsonSchema;
+  }
+  if (typeNode.kind === ts.SyntaxKind.BooleanKeyword) {
+    return { type: "boolean" } as JsonSchema;
+  }
+
+  if (ts.isLiteralTypeNode(typeNode)) {
+    const literal = typeNode.literal;
+    if (ts.isStringLiteral(literal)) {
+      return { type: "string", enum: [literal.text] } as JsonSchema;
+    }
+    if (ts.isNumericLiteral(literal)) {
+      return { type: "number", enum: [Number(literal.text)] } as JsonSchema;
+    }
+    if (literal.kind === ts.SyntaxKind.TrueKeyword) {
+      return { type: "boolean", enum: [true] } as JsonSchema;
+    }
+    if (literal.kind === ts.SyntaxKind.FalseKeyword) {
+      return { type: "boolean", enum: [false] } as JsonSchema;
+    }
+  }
+
+  if (ts.isArrayTypeNode(typeNode)) {
+    return {
+      type: "array",
+      items: typeNodeToJsonSchema(typeNode.elementType, lookupFile)
+    } as JsonSchema;
+  }
+
+  if (
+    ts.isTypeOperatorNode(typeNode) &&
+    typeNode.operator === ts.SyntaxKind.ReadonlyKeyword
+  ) {
+    return typeNodeToJsonSchema(typeNode.type, lookupFile);
+  }
+
+  if (ts.isUnionTypeNode(typeNode)) {
+    const members = typeNode.types.filter(
+      member =>
+        member.kind !== ts.SyntaxKind.UndefinedKeyword &&
+        member.kind !== ts.SyntaxKind.NullKeyword
+    );
+    if (members.length === 1 && members[0]) {
+      return typeNodeToJsonSchema(members[0], lookupFile);
+    }
+
+    const stringLiterals = members.map(member =>
+      ts.isLiteralTypeNode(member) && ts.isStringLiteral(member.literal)
+        ? member.literal.text
+        : undefined
+    );
+    if (stringLiterals.every(isSetString)) {
+      return { type: "string", enum: stringLiterals } as JsonSchema;
+    }
+
+    const numberLiterals = members.map(member =>
+      ts.isLiteralTypeNode(member) && ts.isNumericLiteral(member.literal)
+        ? Number(member.literal.text)
+        : undefined
+    );
+    if (numberLiterals.every(isFiniteNumber)) {
+      return { type: "number", enum: numberLiterals } as JsonSchema;
+    }
+
+    return {
+      anyOf: members.map(member => typeNodeToJsonSchema(member, lookupFile))
+    } as JsonSchema;
+  }
+
+  if (ts.isTypeLiteralNode(typeNode)) {
+    return membersToObjectSchema(typeNode.members, lookupFile);
+  }
+
+  if (ts.isTypeReferenceNode(typeNode)) {
+    const name = typeNode.typeName.getText();
+    if (
+      (name === "Array" || name === "ReadonlyArray") &&
+      typeNode.typeArguments?.[0]
+    ) {
+      return {
+        type: "array",
+        items: typeNodeToJsonSchema(typeNode.typeArguments[0], lookupFile)
+      } as JsonSchema;
+    }
+
+    const declaration = findTypeDeclaration(lookupFile, name);
+    if (declaration) {
+      if (ts.isInterfaceDeclaration(declaration)) {
+        return membersToObjectSchema(declaration.members, lookupFile);
+      }
+
+      return typeNodeToJsonSchema(declaration.type, lookupFile);
+    }
+  }
+
+  throw new Error(
+    `Unsupported TypeScript type "${typeNode.getText()}" for command schema extraction.`
+  );
+}
+
+/**
+ * Generates a JSON Schema for a TypeScript type from the command source AST.
+ *
+ * @param filePath - Path to the TypeScript file containing the type.
+ * @param typeName - Named type to extract when available.
+ * @param typeText - Inline type text used when no named type exists.
+ */
+export async function extractTypeSchema(
+  filePath: string,
+  typeName: string | undefined,
+  typeText: string,
+  sourceText?: string
+): Promise<JsonSchema> {
+  const sourceFile = ts.createSourceFile(
+    filePath,
+    sourceText ?? readFileSync(filePath, "utf8"),
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS
+  );
+
+  if (typeName && /^[A-Z_][\w.]*$/i.test(typeName) && !typeName.includes(".")) {
+    const declaration = findTypeDeclaration(sourceFile, typeName);
+    if (declaration) {
+      if (ts.isInterfaceDeclaration(declaration)) {
+        return membersToObjectSchema(declaration.members, sourceFile);
+      }
+
+      return typeNodeToJsonSchema(declaration.type, sourceFile);
+    }
+  }
+
+  const typeNode = parseTypeNodeFromText(typeText);
+  if (!typeNode) {
+    throw new Error(`Unable to parse TypeScript type "${typeText}".`);
+  }
+
+  return typeNodeToJsonSchema(typeNode, sourceFile);
 }
 
 function asRecord(value: unknown): Record<string, unknown> {
@@ -143,7 +328,7 @@ function parseTagDefault(value: unknown): unknown {
 }
 
 /**
- * Resolves the root schema definition when `ts-json-schema-generator` returns a `$ref`.
+ * Resolves the root schema definition when a generator returns a `$ref`.
  */
 export function dereferenceSchema(schema: JsonSchema): JsonSchema {
   const record = asRecord(schema);
@@ -186,51 +371,6 @@ function isObjectLikeSchema(schema: JsonSchema): boolean {
     Array.isArray(record.allOf) ||
     Array.isArray(record.anyOf) ||
     Array.isArray(record.oneOf)
-  );
-}
-
-/**
- * Generates a JSON Schema for a TypeScript type using `ts-json-schema-generator`
- * via `@power-plant/schema`'s {@link extractTSType}.
- *
- * @param filePath - Path to the TypeScript file containing the type.
- * @param typeName - Named type to extract when available.
- * @param typeText - Inline type text used when no named type exists.
- */
-export async function extractTypeSchema(
-  filePath: string,
-  typeName: string | undefined,
-  typeText: string
-): Promise<JsonSchema> {
-  // `skipTypeCheck` is forwarded to ts-json-schema-generator's config.
-  const generatorOptions = { skipTypeCheck: true } as {
-    tsconfig?: string;
-  };
-
-  if (typeName && /^[A-Z_][\w.]*$/i.test(typeName) && !typeName.includes(".")) {
-    try {
-      const schema = await extractTSType(
-        { file: filePath, export: typeName },
-        generatorOptions
-      );
-
-      return dereferenceSchema(schema);
-    } catch {
-      // File-local interfaces are not module exports. Isolate the declaration
-      // so extraction does not evaluate command-file imports/side effects.
-      const declaration = getLocalTypeDeclarationSource(filePath, typeName);
-      if (declaration) {
-        return extractFromTempType(
-          `${declaration}\nexport type __ShellShockType = ${typeName};\n`,
-          generatorOptions
-        );
-      }
-    }
-  }
-
-  return extractFromTempType(
-    `export type __ShellShockType = ${typeText};\n`,
-    generatorOptions
   );
 }
 
@@ -547,7 +687,7 @@ function resolveArgumentFromSchema(
 
 /**
  * Resolves command options and arguments from a parsed TypeScript handler signature
- * using `ts-json-schema-generator` (via {@link extractTypeSchema}).
+ * using {@link extractTypeSchema}.
  */
 export async function applySignatureParameters(
   ctx: ResolverContext,
@@ -567,7 +707,8 @@ export async function applySignatureParameters(
     optionsSchema = await extractTypeSchema(
       filePath,
       first.typeName,
-      first.typeText
+      first.typeText,
+      ctx.sourceText
     );
     hasOptions = isObjectLikeSchema(optionsSchema);
   }
@@ -615,7 +756,8 @@ export async function applySignatureParameters(
         const schema = await extractTypeSchema(
           filePath,
           parameter.typeName,
-          parameter.typeText
+          parameter.typeText,
+          ctx.sourceText
         );
 
         if (

@@ -17,6 +17,7 @@
  ------------------------------------------------------------------- */
 
 import { defineSchema } from "@power-plant/core";
+import { z } from "zod";
 import type { Commands } from "./schema";
 import { commandsSchema } from "./schema";
 
@@ -33,7 +34,7 @@ export * from "./schema";
  *
  * @see https://github.com/storm-software/power-plant/tree/main/packages/schemas
  */
-export default defineSchema<Commands>({
+export const schema = defineSchema<Commands>({
   meta: {
     name: "command-schema",
     title: "Shell Shock Command Tree Schema",
@@ -53,5 +54,7 @@ export default defineSchema<Commands>({
       }
     ]
   },
-  schema: commandsSchema
+  schema: z.toJSONSchema(commandsSchema)
 });
+
+export default schema;

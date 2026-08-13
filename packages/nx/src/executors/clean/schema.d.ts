@@ -93,7 +93,6 @@ export interface CleanExecutorSchema {
   * 
   * The format to build
   * 
-  * @default ["cjs","esm"]
  */
  format?: Array<string>,
 
@@ -113,7 +112,7 @@ export interface CleanExecutorSchema {
   * The external dependencies
   * 
  */
- external?: Array<any>,
+ external?: Array<string>,
 
  /**
   * No External
@@ -121,7 +120,7 @@ export interface CleanExecutorSchema {
   * The dependencies that should not be treated as external
   * 
  */
- noExternal?: Array<any>,
+ noExternal?: Array<string>,
 
  /**
   * Skip Node Modules Bundle

@@ -39,7 +39,7 @@ import type { CommandTree } from "@shell-shock/core/types/command";
 import { joinPaths } from "@stryke/path/join";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
-import defu from "defu";
+import { defu } from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
 import { CommandEntry } from "./command-entry";
 import { CommandRouter } from "./command-router";

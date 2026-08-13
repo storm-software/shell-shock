@@ -18,8 +18,8 @@
 
 import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
 import { getCommandList } from "@shell-shock/core/plugin-utils";
-import console from "@shell-shock/plugin-console";
-import theme from "@shell-shock/plugin-theme";
+import { plugin as console } from "@shell-shock/plugin-console";
+import { plugin as theme } from "@shell-shock/plugin-theme";
 import type { Plugin } from "powerlines";
 import { bannerGenerator } from "./generator";
 import type { BannerPluginContext, BannerPluginOptions } from "./types/plugin";

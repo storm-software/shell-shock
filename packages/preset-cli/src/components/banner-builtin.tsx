@@ -32,7 +32,7 @@ import {
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import defu from "defu";
+import { defu } from "defu";
 import figlet from "figlet";
 import stripAnsi from "strip-ansi";
 import type {

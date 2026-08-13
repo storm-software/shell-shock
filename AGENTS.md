@@ -1,3 +1,9 @@
+# Patching Dependencies
+
+When patching dependencies, follow these guidelines:
+
+If issue is found to be in a `powerlines` or `power-plant` package (i.e., any package under the `@powerlines` or `@power-plant` scope), do not patch the package locally - instead just create a plan to update the external package.
+
 <!-- nx configuration start-->
 <!-- Leave the start & end comments to automatically receive updates. -->
 

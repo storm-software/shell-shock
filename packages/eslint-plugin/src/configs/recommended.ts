@@ -19,7 +19,7 @@
 import type { Linter } from "eslint";
 import { plugin } from "../plugin";
 
-const config: Linter.Config = {
+export const config: Linter.Config = {
   files: ["**/*.{,c,m}{j,t}s{,x}"],
   name: "shell-shock:recommended",
   plugins: {

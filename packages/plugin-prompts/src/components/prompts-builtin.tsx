@@ -41,7 +41,7 @@ import { TypeDeclaration } from "@power-plant/alloy-js/typescript/components/typ
 import type { BuiltinFileProps } from "@shell-shock/core/contexts/power-plant";
 import { BuiltinFile } from "@shell-shock/core/contexts/power-plant";
 import { useTheme } from "@shell-shock/plugin-theme/contexts/theme";
-import defu from "defu";
+import { defu } from "defu";
 
 export interface PromptsBuiltinProps extends Omit<
   BuiltinFileProps,

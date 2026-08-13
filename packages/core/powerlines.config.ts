@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import alloy from "@powerlines/plugin-alloy";
-import plugin from "@powerlines/plugin-plugin";
+import { plugin as alloy } from "@powerlines/plugin-alloy";
+import { plugin } from "@powerlines/plugin-plugin";
 import type { UserConfig } from "powerlines";
 import { defineConfig } from "powerlines/config";
 

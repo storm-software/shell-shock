@@ -16,8 +16,8 @@
 
  ------------------------------------------------------------------- */
 
-import core from "@shell-shock/core/plugin";
-import script from "@shell-shock/preset-script";
+import { plugin as core } from "@shell-shock/core/plugin";
+import { plugin as script } from "@shell-shock/preset-script";
 import { defineConfig } from "@shell-shock/tools-config/powerlines.shared";
 
 const config = defineConfig({

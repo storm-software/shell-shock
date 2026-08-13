@@ -20,15 +20,15 @@ import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
 import { getAppTitle } from "@shell-shock/core/plugin-utils";
 import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import defu from "defu";
+import { defu } from "defu";
 import type { Plugin } from "powerlines";
 import { replacePathTokens } from "powerlines/plugin-utils";
 import { SkillsCommand } from "./components";
 import { skillsGenerator } from "./generator";
 import type { SkillsPluginContext, SkillsPluginOptions } from "./types/plugin";
 
-export type * from "./types";
 export { skillsGenerator } from "./generator";
+export type * from "./types";
 
 /**
  * The Skills - Shell Shock plugin to add version check functionality and skills commands to a Shell Shock application.

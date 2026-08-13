@@ -19,15 +19,15 @@
 import { executeCommandGenerator } from "@shell-shock/core/helpers/power-plant";
 import { getCommandList } from "@shell-shock/core/plugin-utils";
 import type { ChangelogPluginOptions } from "@shell-shock/plugin-changelog";
-import changelog from "@shell-shock/plugin-changelog";
+import { plugin as changelog } from "@shell-shock/plugin-changelog";
 import type { CompletionsPluginOptions } from "@shell-shock/plugin-completions";
-import completions from "@shell-shock/plugin-completions";
-import console from "@shell-shock/plugin-console";
-import help from "@shell-shock/plugin-help";
-import prompts from "@shell-shock/plugin-prompts";
+import { plugin as completions } from "@shell-shock/plugin-completions";
+import { plugin as console } from "@shell-shock/plugin-console";
+import { plugin as help } from "@shell-shock/plugin-help";
+import { plugin as prompts } from "@shell-shock/plugin-prompts";
 import type { SkillsPluginOptions } from "@shell-shock/plugin-skills";
-import skills from "@shell-shock/plugin-skills";
-import update from "@shell-shock/plugin-update";
+import { plugin as skills } from "@shell-shock/plugin-skills";
+import { plugin as update } from "@shell-shock/plugin-update";
 import { joinPaths } from "@stryke/path/join";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { existsSync } from "node:fs";
@@ -82,8 +82,8 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
           isCaseSensitive: false,
           ...options,
           env: {
-            config: "@shell-shock/plugin-update/schemas/env#envSchema",
-            validate: false
+            validate: false,
+            ...options.env
           }
         };
       },

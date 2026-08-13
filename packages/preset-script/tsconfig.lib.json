@@ -10,7 +10,6 @@
     "sourceMap": true
   },
   "references": [
-    { "path": "../../tools/config" },
     { "path": "../plugin-theme/tsconfig.lib.json" },
     { "path": "../plugin-help/tsconfig.lib.json" },
     { "path": "../plugin-console/tsconfig.lib.json" },

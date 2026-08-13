@@ -16,7 +16,7 @@
 
  ------------------------------------------------------------------- */
 
-import tags from "../tags";
+import { tags } from "../tags";
 import type { RenderContext } from "./tag-utilities";
 
 interface HtmlNode {

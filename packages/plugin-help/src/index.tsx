@@ -22,11 +22,11 @@ import {
 } from "@shell-shock/core/helpers/power-plant";
 import { getCommandList } from "@shell-shock/core/plugin-utils";
 import type { CommandConfig } from "@shell-shock/core/types/command";
-import console from "@shell-shock/plugin-console";
-import theme from "@shell-shock/plugin-theme";
+import { plugin as console } from "@shell-shock/plugin-console";
+import { plugin as theme } from "@shell-shock/plugin-theme";
 import { joinPaths } from "@stryke/path/join";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import defu from "defu";
+import { defu } from "defu";
 import type { Plugin } from "powerlines";
 import { TemporaryHelpCommand } from "./components";
 import { helpGenerator } from "./generator";

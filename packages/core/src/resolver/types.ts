@@ -34,5 +34,6 @@ export interface ResolverContext<TContext extends Context = Context> {
   input: ResolverInput<TContext>;
   module?: CommandModule;
   signature?: CommandSignature;
+  sourceText?: string;
   output: CommandTree;
 }

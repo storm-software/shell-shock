@@ -53,7 +53,7 @@ import { replaceExtension } from "@stryke/path/replace";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { pascalCase } from "@stryke/string-format/pascal-case";
-import defu from "defu";
+import { defu } from "defu";
 import type { ScriptPresetContext } from "../types/plugin";
 import { VirtualCommandEntry } from "./virtual-command-entry";
 

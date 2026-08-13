@@ -20,7 +20,7 @@ import type { ComponentContext } from "@alloy-js/core";
 import { createNamedContext, useContext } from "@alloy-js/core";
 import { camelCase } from "@stryke/string-format/camel-case";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import defu from "defu";
+import { defu } from "defu";
 import type { BooleanCommandOption, CommandOption } from "../types/command";
 
 /**

@@ -11,6 +11,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@powerlines/plugin-env": "catalog:",
     "@shell-shock/nx": "workspace:*",
     "@shell-shock/preset-cli": "workspace:*",
     "@types/node": "catalog:"

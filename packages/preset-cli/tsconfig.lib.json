@@ -8,7 +8,6 @@
     "rootDir": "."
   },
   "references": [
-    { "path": "../../tools/config" },
     { "path": "../preset-script/tsconfig.lib.json" },
     { "path": "../plugin-update/tsconfig.lib.json" },
     { "path": "../plugin-theme/tsconfig.lib.json" },
