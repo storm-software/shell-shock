@@ -15,7 +15,7 @@ catalog:
   "@alloy-js/core": ^0.24.1
   "@alloy-js/markdown": ^0.24.0
   "@alloy-js/typescript": ^0.24.0
-  "@eslint/compat": ^2.1.0
+  "@eslint/compat": ^2.1.1
   "@eslint/config-inspector": ^1.5.0
   "@ls-lint/ls-lint": ^2.3.1
   "@mdit/plugin-alert": ^0.23.2
@@ -26,83 +26,83 @@ catalog:
   "@nx/js": 23.1.0
   "@nx/plugin": 23.1.0
   "@nx/workspace": 23.1.0
-  "@power-plant/alloy-js": ^0.0.87
-  "@power-plant/core": ^0.0.90
-  "@power-plant/noop-output": ^0.0.69
-  "@power-plant/schema": ^0.0.88
-  "@powerlines/core": ^0.48.130
-  "@powerlines/engine": ^0.49.132
-  "@powerlines/nx": ^0.13.251
-  "@powerlines/plugin-alloy": ^0.26.309
-  "@powerlines/plugin-automd": ^0.1.673
-  "@powerlines/plugin-deepkit": ^0.11.554
-  "@powerlines/plugin-env": ^0.16.420
-  "@powerlines/plugin-nodejs": ^0.1.620
-  "@powerlines/plugin-plugin": ^0.12.624
-  "@powerlines/plugin-power-plant": ^0.1.68
-  "@powerlines/plugin-style-dictionary": ^0.3.580
-  "@powerlines/plugin-tsdown": ^0.1.612
-  "@powerlines/plugin-untyped": ^0.2.626
-  "@powerlines/tsconfig": ^0.4.255
-  "@powerlines/tsdoc": ^0.2.203
-  "@powerlines/unplugin": ^0.0.178
-  "@storm-software/config": ^1.138.69
-  "@storm-software/config-tools": ^1.190.133
-  "@storm-software/cspell": ^0.46.200
-  "@storm-software/eslint": ^0.170.168
-  "@storm-software/eslint-plugin-pnpm": ^0.0.96
-  "@storm-software/eslint-plugin-tsdoc": ^0.0.96
-  "@storm-software/git-tools": ^2.131.141
-  "@storm-software/linting-tools": ^1.134.63
-  "@storm-software/markdownlint": ^0.30.288
-  "@storm-software/pnpm-tools": ^0.7.147
-  "@storm-software/prettier": ^0.59.186
-  "@storm-software/testing-tools": ^1.119.285
-  "@storm-software/tsconfig": ^0.48.199
-  "@storm-software/untyped": ^0.24.275
-  "@storm-software/workspace-tools": ^1.297.2
-  "@stryke/cli": ^0.13.82
-  "@stryke/convert": ^0.7.39
-  "@stryke/fs": ^0.33.110
-  "@stryke/hash": ^0.13.63
-  "@stryke/helpers": ^0.10.48
-  "@stryke/json": ^0.15.32
-  "@stryke/path": ^0.29.35
-  "@stryke/resolve": ^0.0.25
-  "@stryke/string-format": ^0.17.50
-  "@stryke/type-checks": ^0.6.41
-  "@stryke/types": ^0.12.36
+  "@power-plant/alloy-js": ^0.0.89
+  "@power-plant/core": ^0.0.92
+  "@power-plant/noop-output": ^0.0.71
+  "@power-plant/schema": ^0.0.90
+  "@powerlines/core": ^0.48.131
+  "@powerlines/engine": ^0.49.133
+  "@powerlines/nx": ^0.13.252
+  "@powerlines/plugin-alloy": ^0.26.310
+  "@powerlines/plugin-automd": ^0.1.674
+  "@powerlines/plugin-deepkit": ^0.11.556
+  "@powerlines/plugin-env": ^0.16.421
+  "@powerlines/plugin-nodejs": ^0.1.622
+  "@powerlines/plugin-plugin": ^0.12.625
+  "@powerlines/plugin-power-plant": ^0.1.69
+  "@powerlines/plugin-style-dictionary": ^0.3.582
+  "@powerlines/plugin-tsdown": ^0.1.613
+  "@powerlines/plugin-untyped": ^0.2.628
+  "@powerlines/tsconfig": ^0.4.256
+  "@powerlines/tsdoc": ^0.2.204
+  "@powerlines/unplugin": ^0.0.179
+  "@storm-software/config": ^1.138.71
+  "@storm-software/config-tools": ^1.190.135
+  "@storm-software/cspell": ^0.46.202
+  "@storm-software/eslint": ^0.170.170
+  "@storm-software/eslint-plugin-pnpm": ^0.0.98
+  "@storm-software/eslint-plugin-tsdoc": ^0.0.98
+  "@storm-software/git-tools": ^2.131.143
+  "@storm-software/linting-tools": ^1.134.65
+  "@storm-software/markdownlint": ^0.30.290
+  "@storm-software/pnpm-tools": ^0.7.149
+  "@storm-software/prettier": ^0.59.188
+  "@storm-software/testing-tools": ^1.119.287
+  "@storm-software/tsconfig": ^0.48.201
+  "@storm-software/untyped": ^0.24.277
+  "@storm-software/workspace-tools": ^1.297.4
+  "@stryke/cli": ^0.13.88
+  "@stryke/convert": ^0.7.45
+  "@stryke/fs": ^0.33.116
+  "@stryke/hash": ^0.13.69
+  "@stryke/helpers": ^0.10.54
+  "@stryke/json": ^0.15.38
+  "@stryke/path": ^0.29.41
+  "@stryke/resolve": ^0.0.31
+  "@stryke/string-format": ^0.17.56
+  "@stryke/type-checks": ^0.6.47
+  "@stryke/types": ^0.12.42
   "@swc-node/register": ^1.12.1
-  "@swc/core": ^1.15.47
+  "@swc/core": ^1.16.2
   "@swc/helpers": ^0.5.23
   "@types/eslint": ^9.6.1
   "@types/eslint__js": ^9.14.0
   "@types/jest": ^29.5.14
   "@types/node": ^25.9.5
-  "@typescript-eslint/utils": ^8.67.0
+  "@typescript-eslint/utils": ^8.69.0
   "@typescript/native-preview": 7.0.0-dev.20251218.3
   automd: ^0.4.3
   chalk-string: ^4.0.0
   copyfiles: ^2.4.1
   defu: ^6.1.7
   esbuild: ^0.28.2
-  eslint: ^10.8.1
-  eslint-doc-generator: ^3.7.0
+  eslint: ^10.10.0
+  eslint-doc-generator: ^3.7.1
   eslint-flat-config-utils: ^2.1.4
-  eslint-plugin-eslint-plugin: ^7.6.1
+  eslint-plugin-eslint-plugin: ^7.6.2
   eslint-plugin-i18n-text: ^1.0.1
   eslint-rule-documentation: ^1.0.23
   eslint-typegen: ^2.3.1
   figlet: ^1.11.4
   he: ^1.2.0
-  jest: ^30.4.2
-  jest-environment-jsdom: ^30.4.1
-  jest-environment-node: ^30.4.1
+  jest: ^30.5.1
+  jest-environment-jsdom: ^30.5.1
+  jest-environment-node: ^30.5.1
   jiti: ^2.7.0
   jsonc-eslint-parser: ^2.4.2
   lefthook: ^1.13.6
   log4brains: ^1.1.0
-  markdown-it: ^14.3.0
+  markdown-it: ^14.3.1
   markdown-it-abbr: ^2.0.0
   markdown-it-container: ^4.0.0
   markdown-it-deflist: ^3.0.1
@@ -116,11 +116,11 @@ catalog:
   normalize-html-whitespace: ^1.0.0
   nx: 23.1.0
   parse5: ^8.0.1
-  powerlines: ^0.47.211
+  powerlines: ^0.47.212
   prettier: ^3.9.6
   rimraf: ^6.1.3
   strip-ansi: ^7.2.0
-  style-dictionary: ^5.5.1
+  style-dictionary: ^5.5.2
   terminal-size: ^4.0.1
   ts-jest: ^29.4.12
   tsdown: ^0.22.14
@@ -128,8 +128,8 @@ catalog:
   unplugin: ^3.3.0
   untyped: ^1.5.2
   verdaccio: 6.5.0
-  wrap-ansi: ^10.0.0
-  zod: ^4.4.3
+  wrap-ansi: ^10.0.1
+  zod: ^4.5.4
   zx: ^8.8.5
 dedupeDirectDeps: true
 dedupePeers: true
@@ -148,4 +148,4 @@ overrides:
   "@emnapi/runtime": 1.11.3
   micromatch: ">=4.0.8"
   node-fetch: ">=3.3.2"
-useNodeVersion: 26.3.0
+nodeVersion: 26.3.0

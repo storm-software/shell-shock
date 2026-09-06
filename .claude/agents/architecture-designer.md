@@ -1,1 +1,1 @@
-/nix/store/3zv9sawcvn7zj6my8knv8znkn3yz53sp-claude-agents-architecture-designer.md
+/nix/store/clzx5ac8dhqxz6g8snl4l1rzn8j83d20-claude-agents-architecture-designer.md

@@ -15,6 +15,7 @@ playground/*/powerlines.d.ts
 playground/*/shell-shock.d.ts
 
 .pnpm-store
+_tmp_*
 
 # dependencies
 node_modules
