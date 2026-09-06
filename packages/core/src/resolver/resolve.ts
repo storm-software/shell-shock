@@ -29,7 +29,7 @@ import {
 } from "@power-plant/schema";
 import { toArray } from "@stryke/convert/to-array";
 import { getUnique } from "@stryke/helpers/get-unique";
-import { isJsonSchemaObjectType, isJsonSchemaTupleType } from "@stryke/json";
+import { isJsonSchemaObjectType } from "@stryke/json";
 import { replacePath } from "@stryke/path/replace";
 import { constantCase } from "@stryke/string-format/constant-case";
 import { titleCase } from "@stryke/string-format/title-case";
@@ -514,10 +514,13 @@ export async function resolve<TContext extends Context = Context>(
         }
       );
       if (isSetObject(args)) {
-        if (
-          !isJsonSchemaTupleType(args.schema) &&
-          !isJsonSchemaArray(args.schema)
-        ) {
+        const tupleItems = Array.isArray(args.schema.items)
+          ? args.schema.items
+          : Array.isArray(args.schema.prefixItems)
+            ? args.schema.prefixItems
+            : undefined;
+
+        if (!tupleItems && !isJsonSchemaArray(args.schema)) {
           throw new TypeError(
             `Command arguments for command at path "${
               ctx.input.command.path
@@ -529,8 +532,8 @@ export async function resolve<TContext extends Context = Context>(
           );
         }
 
-        if (Array.isArray(args.schema.items)) {
-          ctx.output.args = args.schema.items.map(item =>
+        if (tupleItems) {
+          ctx.output.args = tupleItems.map(item =>
             resolveCommandParameter(item, {
               fallbackRequired: true,
               includeBooleanOptionFields: false
