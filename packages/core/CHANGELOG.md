@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.25](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.25) (09/06/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue where tuple was incorrectly validated as array ([2bf28f2](https://github.com/storm-software/shell-shock/commit/2bf28f2))
+
+### Updated Dependencies
+
+- Updated **schema** to **v0.0.4**
+
 ## [0.17.24](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.24) (08/13/2026)
 
 ### Updated Dependencies

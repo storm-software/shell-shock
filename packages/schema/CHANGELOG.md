@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Schema
 
+## [0.0.4](https://github.com/storm-software/shell-shock/releases/tag/schema%400.0.4) (09/06/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update `pnpm-lock.yaml` file and package.json version ([4fa34bc](https://github.com/storm-software/shell-shock/commit/4fa34bc))
+
 ## [0.0.2](https://github.com/storm-software/shell-shock/releases/tag/schema%400.0.2) (08/13/2026)
 
 ### Miscellaneous
