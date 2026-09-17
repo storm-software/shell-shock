@@ -11,6 +11,8 @@ out
 .nx
 .rolldown
 
+graphify-out
+
 playground/*/powerlines.d.ts
 playground/*/shell-shock.d.ts
 

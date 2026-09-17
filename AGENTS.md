@@ -27,3 +27,6 @@ If issue is found to be in a `powerlines` or `power-plant` package (i.e., any pa
 - The `nx-generate` skill handles generator discovery internally - don't call nx_docs just to look up generator syntax
 
 <!-- nx configuration end-->
+<!-- nx configuration end-->
+<!-- storm configuration start-->
+<!-- storm configuration end-->
