@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.26](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.26) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Updated Dependencies
+
+- Updated **schema** to **v0.0.5**
+
 ## [0.17.25](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.25) (09/06/2026)
 
 ### Bug Fixes

@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Tsconfig
 
+## [0.0.95](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.95) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
 ## [0.0.92](https://github.com/storm-software/shell-shock/releases/tag/tsconfig%400.0.92) (08/13/2026)
 
 ### Miscellaneous

@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.99](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.99) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.26**
+
 ## [0.0.98](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.98) (09/06/2026)
 
 ### Updated Dependencies

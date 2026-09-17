@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Plugin Skills
 
+## [0.0.17](https://github.com/storm-software/shell-shock/releases/tag/plugin-skills%400.0.17) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.26**
+
 ## [0.0.16](https://github.com/storm-software/shell-shock/releases/tag/plugin-skills%400.0.16) (09/06/2026)
 
 ### Updated Dependencies

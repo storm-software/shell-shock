@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.81](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.81) (09/17/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.26**
+- Updated **plugin-banner** to **v0.1.53**
+- Updated **plugin-console** to **v0.2.30**
+- Updated **plugin-help** to **v0.2.44**
+- Updated **plugin-theme** to **v0.4.39**
+
 ## [0.6.80](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.80) (09/06/2026)
 
 ### Updated Dependencies
