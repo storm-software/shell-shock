@@ -79,6 +79,50 @@ yarn add -D @shell-shock/plugin-mcp
 
 </details>
 
+## Configuring the MCP command
+
+Install `@modelcontextprotocol/server` and `zod` in the CLI project as runtime
+dependencies. The generated `mcp/command.ts` imports both packages from that
+project (including `@modelcontextprotocol/server/stdio` and `zod/v4`).
+
+```bash
+pnpm add @modelcontextprotocol/server zod
+```
+
+Add the plugin alongside the CLI preset in `shell-shock.config.ts`:
+
+```ts
+import { plugin as mcp } from "@shell-shock/plugin-mcp"
+import { plugin as cli } from "@shell-shock/preset-cli"
+
+export default {
+  plugins: [
+    cli(),
+    mcp({
+      excludeTags: ["Utility"]
+    })
+  ]
+}
+```
+
+The generated `mcp` command starts a stdio MCP server. Each selected
+non-virtual CLI command becomes a tool. `command` changes the generated command
+name or supplies command configuration:
+
+```ts
+mcp({ command: "serve-mcp" })
+```
+
+By default, all non-virtual commands are selected. `include` and `exclude`
+match command IDs; `includeTags` and `excludeTags` match command tags. If either
+include list is set, a command must match an included ID or tag. Exclusions
+always win. For example, `excludeTags: ["Utility"]` removes help, update, and
+completion commands. When selected, the MCP command itself is hidden at runtime
+unless the generated command is run with `--include-self`.
+
+Tool names are lowercased: path separators, colons, and spaces become `_`;
+hyphens are retained. Duplicate names receive `_2`, `_3`, and so on.
+
 ## Building
 
 Run `nx build plugin-mcp` to build the library.

@@ -79,6 +79,49 @@ yarn add -D @shell-shock/plugin-theme
 
 </details>
 
+## Configuring a theme
+
+The plugin accepts `ThemePluginOptions`, including a `theme` object. Supply it
+alongside the core Shell Shock plugin or a preset:
+
+```ts
+import { plugin as theme } from "@shell-shock/plugin-theme"
+
+export default {
+  plugins: [
+    ...theme({
+      theme: {
+        colors: {
+          text: {
+            heading: { primary: "#ffffff" }
+          }
+        },
+        padding: 2
+      }
+    })
+  ]
+}
+```
+
+`theme` accepts these top-level fields:
+
+| Field          | Value                                                   |
+| -------------- | ------------------------------------------------------- |
+| `$theme`       | Theme name.                                             |
+| `colors`       | Text and border color tokens, or a single color string. |
+| `borderStyles` | Border style tokens or a `ThemeStyleBorderType`.        |
+| `padding`      | Padding tokens or one number.                           |
+| `icons`        | Icon tokens or one string.                              |
+| `labels`       | Label tokens or one string.                             |
+| `spinner`      | Spinner tokens or a preset.                             |
+| `settings`     | Additional named settings.                              |
+
+All fields are optional. The plugin merges supplied tokens with the built-in
+theme in `src/themes/default.ts`; the full shape is exported as
+`ThemeUserConfig` from `@shell-shock/plugin-theme/types`. Other
+`ThemePluginOptions` fields pass through to the underlying Style Dictionary and
+Alloy plugins.
+
 ## Building
 
 Run `nx build plugin-theme` to build the library.

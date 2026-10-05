@@ -141,6 +141,10 @@
   "devDependencies": {
     "@types/node": "catalog:"
   },
+  "peerDependencies": {
+    "@modelcontextprotocol/server": "^2.3.0",
+    "zod": "^4.6.5"
+  },
   "publishConfig": {
     "access": "public"
   }

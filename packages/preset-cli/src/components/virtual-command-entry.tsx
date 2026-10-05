@@ -20,6 +20,7 @@ import { computed, For, Show } from "@alloy-js/core";
 import { Spacing } from "@power-plant/alloy-js/core/components";
 import { TypescriptFile } from "@power-plant/alloy-js/typescript/components/typescript-file";
 import type { TypescriptFileImports } from "@power-plant/alloy-js/typescript/types/components";
+import { getPrefix } from "@powerlines/plugin-alloy/helpers/prefix";
 import type { CommandTree } from "@shell-shock/core";
 import type { EntryFileProps } from "@shell-shock/core/contexts/power-plant";
 import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
@@ -61,6 +62,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
       <TypescriptFile
         {...rest}
         path={filePath.value}
+        prefix={getPrefix(context)}
         imports={defu(
           imports ?? {},
           Object.entries(command.children)

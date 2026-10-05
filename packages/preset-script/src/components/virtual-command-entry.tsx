@@ -28,6 +28,7 @@ import {
 } from "@power-plant/alloy-js/typescript/components/tsdoc";
 import { TypescriptFile } from "@power-plant/alloy-js/typescript/components/typescript-file";
 import type { TypescriptFileImports } from "@power-plant/alloy-js/typescript/types/components";
+import { getPrefix } from "@powerlines/plugin-alloy/helpers/prefix";
 import type { EntryFileProps } from "@shell-shock/core/contexts/power-plant";
 import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import {
@@ -120,6 +121,7 @@ export function VirtualCommandEntry(props: VirtualCommandEntryProps) {
       <TypescriptFile
         {...rest}
         path={filePath.value}
+        prefix={getPrefix(context)}
         imports={defu(
           imports ?? {},
           Object.entries(command.children)

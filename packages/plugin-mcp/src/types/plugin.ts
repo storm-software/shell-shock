@@ -24,7 +24,18 @@ import type {
 } from "@shell-shock/core";
 import type { RequiredKeys } from "@stryke/types/base";
 
-export interface McpPluginOptions {
+export interface McpToolFilterOptions {
+  /** Command IDs to include. Combined with includeTags using OR. */
+  include?: string[];
+  /** Command IDs to exclude. Exclusions take precedence. */
+  exclude?: string[];
+  /** Include commands with any of these tags. */
+  includeTags?: string[];
+  /** Exclude commands with any of these tags. Exclusions take precedence. */
+  excludeTags?: string[];
+}
+
+export interface McpPluginOptions extends McpToolFilterOptions {
   /**
    * The command name used to expose the MCP server.
    */
@@ -36,7 +47,7 @@ export type McpPluginUserConfig = UserConfig & {
 };
 
 export type McpPluginResolvedConfig = ResolvedConfig & {
-  mcp: {
+  mcp: McpToolFilterOptions & {
     command: RequiredKeys<Partial<CommandConfig>, "name">;
   };
 };

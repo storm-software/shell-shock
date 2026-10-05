@@ -55,6 +55,7 @@ export const mcpGenerator = defineCommandGenerator({
         appName={context.config.name}
         commandName={context.config.mcp.command.name}
         commands={commands}
+        filters={context.config.mcp}
       />
     );
   }

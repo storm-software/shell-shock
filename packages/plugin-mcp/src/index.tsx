@@ -26,8 +26,8 @@ import { McpCommandModule } from "./components/mcp-command";
 import { mcpGenerator } from "./generator";
 import type { McpPluginContext, McpPluginOptions } from "./types/plugin";
 
-export type * from "./types";
 export { mcpGenerator } from "./generator";
+export type * from "./types";
 
 /**
  * A Shell Shock plugin that generates an MCP server command from the resolved command tree.
@@ -108,7 +108,8 @@ export const plugin = <TContext extends McpPluginContext = McpPluginContext>(
           <McpCommandModule
             appName={this.config.name}
             commandName={this.config.mcp.command.name}
-            commands={Object.values(this.commands)}
+            commands={[]}
+            filters={this.config.mcp}
           />
         )
       });

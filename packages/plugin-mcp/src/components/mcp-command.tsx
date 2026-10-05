@@ -21,12 +21,14 @@ import { TypescriptFile } from "@power-plant/alloy-js/typescript";
 import type { CommandTree } from "@shell-shock/core";
 import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import { joinPaths } from "@stryke/path/join";
-import type { McpPluginContext } from "../types/plugin";
+import { selectCommands } from "../helpers/select-commands";
+import type { McpPluginContext, McpToolFilterOptions } from "../types/plugin";
 
 export interface McpCommandModuleProps {
   appName: string;
   commandName: string;
   commands: CommandTree[];
+  filters?: McpToolFilterOptions;
 }
 
 function toFlagName(input: string): string {
@@ -114,8 +116,7 @@ export function McpCommandModule(props: McpCommandModuleProps) {
   const context = usePowerlines<McpPluginContext>();
   const resolvedPath = joinPaths(context.entryPath, "mcp", "command.ts");
 
-  const commands = props.commands
-    .filter(command => !command.virtual && command.path !== props.commandName)
+  const commands = selectCommands(props.commands, props.filters)
     .map(command => serializeCommand(command))
     .join(",\n");
 
@@ -127,7 +128,7 @@ export function McpCommandModule(props: McpCommandModuleProps) {
         "@modelcontextprotocol/server": ["McpServer"],
         "@modelcontextprotocol/server/stdio": ["StdioServerTransport"],
         "shell-shock:exec": ["spawn"],
-        "zod/v4": ["* as z"]
+        "zod/v4": ["z"]
       }}>
       {code`
 const COMMAND_NAME = ${JSON.stringify(props.commandName)};
@@ -156,6 +157,15 @@ export const options = defineOptions({
     variadic: false
   }
 });
+
+function toFlagName(input: string): string {
+  return input
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/[^a-z0-9-]/gi, "-")
+    .replace(/-{2,}/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase();
+}
 
 function toCliArgs(optionsMap: Record<string, unknown>): string[] {
   const args: string[] = [];
@@ -257,7 +267,7 @@ export default async function handler(options: { includeSelf?: boolean }) {
 
         const output = [result.stdout, result.stderr]
           .filter(Boolean)
-          .join("\n")
+          .join("\\n")
           .trim();
 
         const isError = (result.code ?? 0) !== 0;
