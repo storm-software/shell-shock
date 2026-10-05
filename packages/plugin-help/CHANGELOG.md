@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.50](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.50) (10/05/2026)
+
+### Bug Fixes
+
+- **plugin-help:** Resolve syntax error in tag display generated code ([6fea287](https://github.com/storm-software/shell-shock/commit/6fea287))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.32**
+- Updated **plugin-console** to **v0.2.36**
+- Updated **plugin-theme** to **v0.4.45**
+
 ## [0.2.49](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.49) (10/05/2026)
 
 ### Updated Dependencies

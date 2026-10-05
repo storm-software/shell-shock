@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Mcp
 
+## [0.1.10](https://github.com/storm-software/shell-shock/releases/tag/plugin-mcp%400.1.10) (10/05/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.32**
+
 ## [0.1.9](https://github.com/storm-software/shell-shock/releases/tag/plugin-mcp%400.1.9) (10/05/2026)
 
 ### Updated Dependencies
