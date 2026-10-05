@@ -2973,7 +2973,7 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
       <MessageFunctionDeclaration
         type="debug"
         variant="debug"
-        consoleFnName="debug"
+        consoleFnName="error"
         description="debug"
         timestamp
         prefix={
@@ -2985,7 +2985,7 @@ export function ConsoleBuiltin(props: ConsoleBuiltinProps) {
         type="verbose"
         variant="info"
         color="debug"
-        consoleFnName="debug"
+        consoleFnName="error"
         description="verbose"
         timestamp
         prefix={

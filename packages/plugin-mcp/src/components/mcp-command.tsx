@@ -252,6 +252,8 @@ export default async function handler(options: { includeSelf?: boolean }) {
         const commandArgv = [
           ...command.segments,
           ...toCliArgs((input.options ?? {}) as Record<string, unknown>),
+          "--no-banner",
+          "--quiet",
           ...((input.args ?? []) as string[])
         ];
 
@@ -265,12 +267,11 @@ export default async function handler(options: { includeSelf?: boolean }) {
           timeoutMs: input.timeoutMs ?? 300_000
         });
 
-        const output = [result.stdout, result.stderr]
+        const isError = (result.code ?? 0) !== 0;
+        const output = [result.stdout, isError ? result.stderr : ""]
           .filter(Boolean)
           .join("\\n")
           .trim();
-
-        const isError = (result.code ?? 0) !== 0;
 
         return {
           isError,

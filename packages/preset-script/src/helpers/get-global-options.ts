@@ -62,6 +62,18 @@ export function getGlobalOptions(): CommandOption[] {
       skipAddingNegative: true
     },
     {
+      name: "quiet",
+      title: "Quiet",
+      description: "Suppress command decorations and diagnostic messages.",
+      env: false,
+      alias: [],
+      type: "boolean",
+      required: false,
+      default: false,
+      variadic: false,
+      skipAddingNegative: true
+    },
+    {
       name: "color",
       title: "Color",
       description: "Force colored terminal output.",

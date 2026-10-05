@@ -108,7 +108,6 @@ export function RunApplication() {
             }
           });
 
-          exit({ startDate });
         } catch (err) {
           exit({ startDate, exception: err as Error });
         }

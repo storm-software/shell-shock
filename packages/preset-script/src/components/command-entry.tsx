@@ -126,14 +126,20 @@ export function CommandHandlerDeclaration(
           isCaseSensitive={context.config.isCaseSensitive}
         />
         <Spacing />
-        <Show when={Boolean(banner)}>{banner}</Show>
-        <Spacing />
-        <IfStatement condition={code`!isHelp()`}>
-          {code`writeLine("");`}
-          <IfStatement condition={<IsDebug />}>
-            {code`writeLine(textColors.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console.")); `}
+        <Show when={Boolean(banner) && !command.stdioOnly}>
+          <IfStatement condition={code`!hasFlag("quiet")`}>
+            {banner}
           </IfStatement>
-        </IfStatement>
+        </Show>
+        <Spacing />
+        <Show when={!command.stdioOnly}>
+          <IfStatement condition={code`!isHelp() && !hasFlag("quiet")`}>
+            {code`writeLine("");`}
+            <IfStatement condition={<IsDebug />}>
+              {code`writeLine(textColors.body.tertiary("Debug mode is enabled. Additional debug information may be logged to the console.")); `}
+            </IfStatement>
+          </IfStatement>
+        </Show>
         <Spacing />
         {children}
         <Spacing />

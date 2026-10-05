@@ -132,7 +132,7 @@ export function ExitFunctionDeclaration() {
             const terminate = (force = false) => { `}
         <hbr />
         {code`
-              verbose(\`The ${getAppTitle(
+              if (!hasFlag("quiet")) verbose(\`The ${getAppTitle(
                 context,
                 true
               )} application exited \${options.exception ? \`early due to an exception\` : "successfully"}\${options.startDate ? \`. Total run time is \${Date.now() - options.startDate.getTime() > 5000 ? Math.floor((Date.now() - options.startDate.getTime()) / 1000) : Date.now() - options.startDate.getTime()} \${Date.now() - options.startDate.getTime() > 5000 ? "seconds" : "milliseconds"}\` : ""}...\`);

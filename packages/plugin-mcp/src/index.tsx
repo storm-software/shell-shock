@@ -97,7 +97,8 @@ export const plugin = <TContext extends McpPluginContext = McpPluginContext>(
           },
           ...(commandEntry ?? {})
         },
-        virtual: false
+        virtual: false,
+        stdioOnly: true
       };
 
       this.inputs.push(mcpCommand);

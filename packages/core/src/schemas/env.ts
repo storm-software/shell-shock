@@ -27,6 +27,32 @@ import { z } from "zod";
  * environment variables used for executable resolution and npm script detection.
  */
 export const envSchema = baseEnvSchema.extend({
+  // Powerlines currently requires these flags even when they are absent from
+  // the host environment. Keep the defaults local to Shell Shock until the
+  // shared schema supplies them.
+  MINIMAL: baseEnvSchema.shape.MINIMAL.default(false).meta({
+    ...baseEnvSchema.shape.MINIMAL.meta(),
+    defaultValue: false
+  }),
+  NO_COLOR: baseEnvSchema.shape.NO_COLOR.default(false).meta({
+    ...baseEnvSchema.shape.NO_COLOR.meta(),
+    defaultValue: false
+  }),
+  FORCE_HYPERLINK: baseEnvSchema.shape.FORCE_HYPERLINK.default(false).meta({
+    ...baseEnvSchema.shape.FORCE_HYPERLINK.meta(),
+    defaultValue: false
+  }),
+  INCLUDE_ERROR_DATA: baseEnvSchema.shape.INCLUDE_ERROR_DATA.default(
+    false
+  ).meta({
+    ...baseEnvSchema.shape.INCLUDE_ERROR_DATA.meta(),
+    defaultValue: false
+  }),
+  CI: baseEnvSchema.shape.CI.default(false).meta({
+    ...baseEnvSchema.shape.CI.meta(),
+    defaultValue: false
+  }),
+
   /**
    * The system PATHEXT variable, used to determine which file extensions are considered executable on Windows.
    *

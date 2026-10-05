@@ -351,6 +351,9 @@ export interface CommandBase extends CommandMetadata {
    * Virtual commands are considered forks in the command tree and are not directly executable. They are used to group related subcommands together without having an actual command handler or entry point.
    */
   virtual: boolean;
+
+  /** Reserve stdout for machine-readable protocol messages. */
+  stdioOnly?: boolean;
 }
 
 export interface CommandConfig extends CommandBase {
