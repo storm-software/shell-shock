@@ -2,6 +2,21 @@
 
 # Changelog for Shell Shock - Plugin Console
 
+## [0.2.34](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.34) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Bug Fixes
+
+- **plugin-mcp:** Resolve issue with mcp server output ([b04e6bf](https://github.com/storm-software/shell-shock/commit/b04e6bf))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.30**
+- Updated **plugin-theme** to **v0.4.43**
+
 ## [0.2.33](https://github.com/storm-software/shell-shock/releases/tag/plugin-console%400.2.33) (10/05/2026)
 
 ### Miscellaneous

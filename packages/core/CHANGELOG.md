@@ -2,6 +2,22 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.30](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.30) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Bug Fixes
+
+- **plugin-mcp:** Resolve issue with mcp server output ([b04e6bf](https://github.com/storm-software/shell-shock/commit/b04e6bf))
+- **plugin-help:** Resolve issues with env usage and added project agent skills ([b33cbbb](https://github.com/storm-software/shell-shock/commit/b33cbbb))
+- **core:** Resolve issue parsing parameter options ([2170469](https://github.com/storm-software/shell-shock/commit/2170469))
+
+### Updated Dependencies
+
+- Updated **schema** to **v0.0.9**
+
 ## [0.17.29](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.29) (10/05/2026)
 
 ### Miscellaneous

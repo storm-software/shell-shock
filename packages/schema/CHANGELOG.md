@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Schema
 
+## [0.0.9](https://github.com/storm-software/shell-shock/releases/tag/schema%400.0.9) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
 ## [0.0.8](https://github.com/storm-software/shell-shock/releases/tag/schema%400.0.8) (10/05/2026)
 
 ### Miscellaneous
