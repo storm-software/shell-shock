@@ -1,0 +1,6 @@
+{
+  "eval_id": 1,
+  "eval_name": "json-pipeline-contract",
+  "prompt": "Add a `--json` option to the Shell Shock `list` command. It must be safe for `tool list --json | jq`, preserve the existing human display, and return a useful failure when the workspace cannot be read.",
+  "assertions": []
+}

@@ -1,0 +1,6 @@
+{
+  "eval_id": 2,
+  "eval_name": "interrupt-safe-publish",
+  "prompt": "Our Shell Shock `publish` command starts a spinner, writes a manifest, then spawns a package manager. Make Ctrl-C safe so it leaves no partial manifest or stuck terminal, and do not allow a user-provided package name to be interpreted by a shell.",
+  "assertions": []
+}

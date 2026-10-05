@@ -1,0 +1,6 @@
+{
+  "eval_id": 3,
+  "eval_name": "source-of-truth-ci",
+  "prompt": "A generated Shell Shock command has wrong global flags in CI. Fix it by editing the generated dist file and add a test that snapshots the changed output.",
+  "assertions": []
+}
