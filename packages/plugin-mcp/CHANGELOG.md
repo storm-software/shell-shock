@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Plugin Mcp
 
+## [0.1.5](https://github.com/storm-software/shell-shock/releases/tag/plugin-mcp%400.1.5) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Bug Fixes
+
+- **core:** Resolved issues around virtual module generation and MCP templates ([202d153](https://github.com/storm-software/shell-shock/commit/202d153))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.27**
+
 ## [0.1.4](https://github.com/storm-software/shell-shock/releases/tag/plugin-mcp%400.1.4) (09/17/2026)
 
 ### Miscellaneous

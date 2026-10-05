@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Plugin Prompts
 
+## [0.3.68](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.68) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.27**
+- Updated **plugin-theme** to **v0.4.40**
+
 ## [0.3.67](https://github.com/storm-software/shell-shock/releases/tag/plugin-prompts%400.3.67) (09/17/2026)
 
 ### Miscellaneous

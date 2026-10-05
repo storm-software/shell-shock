@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.40](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.40) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Bug Fixes
+
+- **core:** Resolved issues around virtual module generation and MCP templates ([202d153](https://github.com/storm-software/shell-shock/commit/202d153))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.27**
+
 ## [0.4.39](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.39) (09/17/2026)
 
 ### Miscellaneous
