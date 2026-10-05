@@ -62,9 +62,29 @@ import { applySignatureParameters, resolveCommandParameter } from "./schema";
 import { parseCommandSignature } from "./signature";
 import type { ResolverContext, ResolverInput } from "./types";
 
+function isCommandParameterRecord(input: unknown): input is Record<string, object> {
+  return (
+    isSetObject(input) &&
+    !("_zod" in input) &&
+    !("~standard" in input) &&
+    !("type" in input) &&
+    !("properties" in input) &&
+    Object.values(input).every(
+      value =>
+        isSetObject(value) &&
+        ["string", "number", "boolean"].includes(
+          (value as { type?: unknown }).type as string
+        )
+    )
+  );
+}
+
 function toExtractableSchema(input: unknown) {
   if (isSetObject(input) && "_zod" in input) {
     return z.toJSONSchema(input as Parameters<typeof z.toJSONSchema>[0]);
+  }
+  if (isCommandParameterRecord(input)) {
+    return { type: "object", properties: input };
   }
 
   return input;
