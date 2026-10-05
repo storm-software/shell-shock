@@ -123,7 +123,7 @@ export function HelpBuiltin(props: HelpBuiltinProps) {
                   tag
                 )} ? textColors.tags.${camelCase(
                   tag
-                )}(inverse(" ${tag} ")) : textColors.tags.$default(inverse(" ${tag} "))}`
+                )}(inverse(" ${tag} ")) : textColors.tags.default(inverse(" ${tag} "))}`
             )
             .join(" ")}\`, { padding: ${(theme.padding.app ?? 1) * 2} }); `}
         </Show>

@@ -501,7 +501,10 @@ export async function resolve<TContext extends Context = Context>(
     if (isSetString(metadata.icon)) {
       ctx.output.icon = metadata.icon;
     }
-    if (isSetString(metadata.tags)) {
+    if (
+      isSetString(metadata.tags) ||
+      (Array.isArray(metadata.tags) && metadata.tags.length > 0)
+    ) {
       ctx.output.tags = getUnique(
         ctx.output.tags.concat(toArray(metadata.tags))
       );

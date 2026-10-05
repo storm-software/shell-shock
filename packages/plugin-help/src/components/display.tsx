@@ -605,7 +605,7 @@ export function VirtualCommandHelpDisplay(
                     ? ` - ${child.tags
                         .map(
                           tag =>
-                            `\${textColors.tags.${camelCase(tag)} ? textColors.tags.${camelCase(tag)}(inverse(" ${tag} ")) : textColors.tags.$default(inverse(" ${tag} "))}`
+                            `\${textColors.tags.${camelCase(tag)} ? textColors.tags.${camelCase(tag)}(inverse(" ${tag} ")) : textColors.tags.default(inverse(" ${tag} "))}`
                         )
                         .join(" ")}`
                     : ""
@@ -670,7 +670,7 @@ export function CommandHelpDisplay(props: CommandHelpDisplayProps) {
                     ? ` - ${child.tags
                         .map(
                           tag =>
-                            `\${textColors.tags.${camelCase(tag)} ? textColors.tags.${camelCase(tag)}(inverse(" ${tag} ")) : textColors.tags.$default(inverse(" ${tag} "))}`
+                            `\${textColors.tags.${camelCase(tag)} ? textColors.tags.${camelCase(tag)}(inverse(" ${tag} ")) : textColors.tags.default(inverse(" ${tag} "))}`
                         )
                         .join(" ")}`
                     : ""
