@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Banner
 
+## [0.1.55](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.55) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.28**
+- Updated **plugin-console** to **v0.2.32**
+- Updated **plugin-theme** to **v0.4.41**
+
 ## [0.1.54](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.54) (10/05/2026)
 
 ### Miscellaneous

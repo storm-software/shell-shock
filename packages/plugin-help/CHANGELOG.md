@@ -2,6 +2,18 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.46](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.46) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.28**
+- Updated **plugin-console** to **v0.2.32**
+- Updated **plugin-theme** to **v0.4.41**
+
 ## [0.2.45](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.45) (10/05/2026)
 
 ### Miscellaneous

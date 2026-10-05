@@ -2,6 +2,30 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.40](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.40) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Bug Fixes
+
+- **core:** Resolved issues around virtual module generation and MCP templates ([202d153](https://github.com/storm-software/shell-shock/commit/202d153))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.28**
+- Updated **plugin-banner** to **v0.1.55**
+- Updated **plugin-changelog** to **v0.1.31**
+- Updated **plugin-completions** to **v0.4.36**
+- Updated **plugin-console** to **v0.2.32**
+- Updated **plugin-help** to **v0.2.46**
+- Updated **plugin-prompts** to **v0.3.69**
+- Updated **plugin-skills** to **v0.0.19**
+- Updated **plugin-theme** to **v0.4.41**
+- Updated **plugin-update** to **v0.1.73**
+- Updated **preset-script** to **v0.6.83**
+
 ## [0.9.39](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.39) (10/05/2026)
 
 ### Miscellaneous
