@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.31](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.31) (10/05/2026)
+
+### Updated Dependencies
+
+- Updated **schema** to **v0.0.10**
+
 ## [0.17.30](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.30) (10/05/2026)
 
 ### Miscellaneous
