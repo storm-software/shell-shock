@@ -38,6 +38,7 @@ import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
 import type { AnyFunction } from "@stryke/types/base";
 import { createJiti } from "jiti";
+import { Buffer } from "node:buffer";
 import { existsSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { z } from "zod";
@@ -62,7 +63,9 @@ import { applySignatureParameters, resolveCommandParameter } from "./schema";
 import { parseCommandSignature } from "./signature";
 import type { ResolverContext, ResolverInput } from "./types";
 
-function isCommandParameterRecord(input: unknown): input is Record<string, object> {
+function isCommandParameterRecord(
+  input: unknown
+): input is Record<string, object> {
   return (
     isSetObject(input) &&
     !("_zod" in input) &&
@@ -81,8 +84,9 @@ function isCommandParameterRecord(input: unknown): input is Record<string, objec
 
 function toExtractableSchema(input: unknown) {
   if (isSetObject(input) && "_zod" in input) {
-    return z.toJSONSchema(input as Parameters<typeof z.toJSONSchema>[0]);
+    return z.toJSONSchema(input as z.ZodType);
   }
+
   if (isCommandParameterRecord(input)) {
     return { type: "object", properties: input };
   }
@@ -126,7 +130,7 @@ const CONSOLE_STUB_EXPORTS = [
 ] as const;
 
 function stubExport(...args: unknown[]) {
-  return args[0] == null ? "" : args[0];
+  return args[0] ?? "";
 }
 
 function createColorGroup() {
@@ -166,11 +170,11 @@ function resolveBuiltinAliases(context: Context): Record<string, string> {
 
   const aliases: Record<string, string> = {};
   for (const file of readdirSync(builtinsDir)) {
-    if (!/\.(c|m)?tsx?$/.test(file)) {
+    if (!/\.(?:c|m)?tsx?$/.test(file)) {
       continue;
     }
 
-    const name = file.replace(/\.(c|m)?tsx?$/, "");
+    const name = file.replace(/\.(?:c|m)?tsx?$/, "");
     const absolutePath = join(builtinsDir, file);
     aliases[name] = absolutePath;
     aliases[`shell-shock:${name}`] = absolutePath;
@@ -202,7 +206,7 @@ function collectVirtualModules(
   }
 
   for (const match of source.matchAll(
-    /import\s+\{([^}]+)\}\s+from\s+["']((?:shell-shock:)?[^"']+)["']/g
+    /import\s+\{([^}]+)\}\s+from\s+["']([^"']+)["']/g
   )) {
     const id = match[2];
     if (!id || (!id.startsWith("shell-shock:") && id !== "console")) {
@@ -211,7 +215,10 @@ function collectVirtualModules(
 
     const stub = modules.get(id) ?? createVirtualModuleStub();
     for (const specifier of match[1]?.split(",") ?? []) {
-      const exportName = specifier.trim().split(/\s+as\s+/)[0]?.trim();
+      const exportName = specifier
+        .trim()
+        .split(/\s+as\s+/)[0]
+        ?.trim();
       if (exportName && !(exportName in stub)) {
         stub[exportName] = stubExport;
       }
@@ -279,7 +286,9 @@ async function preprocess<TContext extends Context>(
     const sourceText =
       typeof rawSource === "string"
         ? rawSource
-        : Buffer.from(rawSource as Uint8Array).toString("utf8");
+        : rawSource
+          ? Buffer.from(rawSource).toString("utf8")
+          : String(rawSource);
     result.sourceText = sourceText;
 
     let loaded: unknown;
@@ -290,6 +299,7 @@ async function preprocess<TContext extends Context>(
         alias: resolveBuiltinAliases(context),
         virtualModules: collectVirtualModules(sourceText)
       });
+
       loaded = await jiti.evalModule(sourceText, {
         filename: command.entry.input.file
       });
@@ -301,8 +311,9 @@ async function preprocess<TContext extends Context>(
       );
       loaded = { default: () => undefined };
     }
+
     result.module = isFunction(loaded)
-      ? { default: loaded as AnyFunction }
+      ? { default: loaded }
       : (loaded as CommandModule);
     if (!result.module) {
       throw new Error(
@@ -500,9 +511,12 @@ export async function resolve<TContext extends Context = Context>(
       ctx.signature?.description) as string;
 
     if (ctx.module.options) {
-      const options = await extract(toExtractableSchema(ctx.module.options), {
-        cwd: ctx.input.context.config.cwd
-      });
+      const options = await extract(
+        toExtractableSchema(ctx.module.options) as any,
+        {
+          cwd: ctx.input.context.config.cwd
+        }
+      );
       if (!isSetObject(options) || !isJsonSchemaObjectType(options.schema)) {
         throw new TypeError(
           `Command options for command at path "${
@@ -534,10 +548,10 @@ export async function resolve<TContext extends Context = Context>(
         }
       );
       if (isSetObject(args)) {
-        const tupleItems = Array.isArray(args.schema.items)
-          ? args.schema.items
-          : Array.isArray(args.schema.prefixItems)
-            ? args.schema.prefixItems
+        const tupleItems = Array.isArray((args.schema as JsonSchemaLike).items)
+          ? (args.schema as JsonSchemaLike).items
+          : Array.isArray((args.schema as JsonSchemaLike).prefixItems)
+            ? (args.schema as JsonSchemaLike).prefixItems
             : undefined;
 
         if (!tupleItems && !isJsonSchemaArray(args.schema)) {
@@ -553,7 +567,7 @@ export async function resolve<TContext extends Context = Context>(
         }
 
         if (tupleItems) {
-          ctx.output.args = tupleItems.map(item =>
+          ctx.output.args = (tupleItems as JsonSchemaLike[]).map(item =>
             resolveCommandParameter(item, {
               fallbackRequired: true,
               includeBooleanOptionFields: false

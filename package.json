@@ -24,7 +24,11 @@
   "license": "Apache-2.0",
   "private": true,
   "packageManager": "pnpm@11.1.2",
-  "keywords": ["storm-software", "storm", "sullivanpj"],
+  "keywords": [
+    "storm-software",
+    "storm",
+    "sullivanpj"
+  ],
   "scripts": {
     "adr": "pnpm log4brains adr new",
     "adr-preview": "pnpm log4brains preview",
@@ -75,6 +79,7 @@
     "@storm-software/prettier": "catalog:",
     "@storm-software/testing-tools": "catalog:",
     "@storm-software/tsconfig": "catalog:",
+    "@storm-software/tsdoc": "^0.13.299",
     "@storm-software/untyped": "catalog:",
     "@storm-software/workspace-tools": "catalog:",
     "@swc-node/register": "catalog:",

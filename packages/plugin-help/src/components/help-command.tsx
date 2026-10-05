@@ -29,6 +29,7 @@ import {
   TSDoc,
   TSDocParam
 } from "@power-plant/alloy-js/typescript/components/tsdoc";
+import { getPrefix } from "@powerlines/plugin-alloy/helpers/prefix";
 import { usePowerlines } from "@shell-shock/core/contexts/power-plant";
 import { joinPaths } from "@stryke/path";
 import { pascalCase } from "@stryke/string-format/pascal-case";
@@ -65,6 +66,9 @@ export interface HelpCommandsProps {
   commands: string[][];
 }
 
+const helpFnName = (commands: string[]) =>
+  `showHelp${commands.map(command => pascalCase(command)).join("")}`;
+
 /**
  * The Help command's handler wrapper for the Shell Shock project.
  */
@@ -78,9 +82,7 @@ export function HelpCommand(props: HelpCommandsProps) {
             ret[joinPaths("help", ...commands)] = [
               {
                 name: "showHelp",
-                alias: `showHelp${commands
-                  .map(command => pascalCase(command.replace(/-/g, "")))
-                  .join("")}`
+                alias: helpFnName(commands)
               }
             ];
             return ret;
@@ -95,6 +97,7 @@ export function HelpCommand(props: HelpCommandsProps) {
   return (
     <TypescriptFile
       path={joinPaths(context.entryPath, "help", "command.ts")}
+      prefix={getPrefix(context)}
       imports={{
         "node:os": "os",
         "node:fs/promises": ["readFile", "writeFile"]
@@ -138,18 +141,14 @@ export function HelpCommand(props: HelpCommandsProps) {
                     condition={code`commands.join("/").toLowerCase() === "${commands
                       .join("/")
                       .toLowerCase()}"`}>
-                    {code` showHelp${commands
-                      .map(command => pascalCase(command))
-                      .join("")}(); `}
+                    {code` ${helpFnName(commands)}(); `}
                   </IfStatement>
                 }>
                 <ElseIfClause
                   condition={code`commands.join("/").toLowerCase() === "${commands
                     .join("/")
                     .toLowerCase()}"`}>
-                  {code` showHelp${commands
-                    .map(command => pascalCase(command))
-                    .join("")}(); `}
+                  {code` ${helpFnName(commands)}(); `}
                 </ElseIfClause>
               </Show>
             )}
