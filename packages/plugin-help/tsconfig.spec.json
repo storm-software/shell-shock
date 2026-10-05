@@ -1,11 +1,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "types": ["jest", "node"],
     "jsx": "react-jsx",
     "jsxImportSource": "@alloy-js/core",
-    "outDir": "../../dist/out-tsc",
-    "rootDir": "."
+    "rootDir": ".",
+    "types": ["jest", "node"],
+    "outDir": "../../dist/out-tsc"
   },
   "references": [
     {
@@ -14,8 +14,8 @@
   ],
   "include": [
     "jest.config.ts",
-    "src/**/*.test.ts",
-    "src/**/*.spec.ts",
+    "tests/**/*.test.ts",
+    "tests/**/*.spec.ts",
     "src/**/*.d.ts"
   ]
 }

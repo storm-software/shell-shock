@@ -59,6 +59,7 @@ catalog:
   "@storm-software/prettier": ^0.59.200
   "@storm-software/testing-tools": ^1.119.299
   "@storm-software/tsconfig": ^0.48.213
+  "@storm-software/tsdoc": ^0.13.299
   "@storm-software/untyped": ^0.24.289
   "@storm-software/workspace-tools": ^1.297.16
   "@stryke/cli": ^0.13.90

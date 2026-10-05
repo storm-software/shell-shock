@@ -5,7 +5,7 @@ import { MetaContext } from "@power-plant/alloy-js/core/contexts/meta";
 import { PowerlinesContext } from "@powerlines/plugin-alloy/core/contexts/context";
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { HelpCommand } from "./help-command";
+import { HelpCommand } from "../../src/components/help-command";
 
 test("HelpCommand imports prefixed builtins and calls the matching aliases", () => {
   const output = render(
