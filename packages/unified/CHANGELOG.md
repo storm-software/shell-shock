@@ -2,6 +2,17 @@
 
 # Changelog for Shell Shock - Unified
 
+## [0.2.27](https://github.com/storm-software/shell-shock/releases/tag/unified%400.2.27) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.29**
+- Updated **plugin-theme** to **v0.4.42**
+
 ## [0.2.26](https://github.com/storm-software/shell-shock/releases/tag/unified%400.2.26) (10/05/2026)
 
 ### Miscellaneous

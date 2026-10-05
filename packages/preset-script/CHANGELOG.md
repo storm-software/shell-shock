@@ -2,6 +2,24 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.84](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.84) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Bug Fixes
+
+- **core:** Resolved issues around virtual module generation and MCP templates ([202d153](https://github.com/storm-software/shell-shock/commit/202d153))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.29**
+- Updated **plugin-banner** to **v0.1.56**
+- Updated **plugin-console** to **v0.2.33**
+- Updated **plugin-help** to **v0.2.47**
+- Updated **plugin-theme** to **v0.4.42**
+
 ## [0.6.83](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.83) (10/05/2026)
 
 ### Miscellaneous

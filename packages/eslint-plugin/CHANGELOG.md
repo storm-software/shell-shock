@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - ESLint Plugin
 
+## [0.0.93](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.93) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
 ## [0.0.92](https://github.com/storm-software/shell-shock/releases/tag/eslint-plugin%400.0.92) (10/05/2026)
 
 ### Miscellaneous

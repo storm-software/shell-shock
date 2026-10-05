@@ -2,6 +2,23 @@
 
 # Changelog for Shell Shock - Plugin Help
 
+## [0.2.47](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.47) (10/05/2026)
+
+### Miscellaneous
+
+- **monorepo:** Update workspace packages' dependencies and devenv modules ([0d9ccce](https://github.com/storm-software/shell-shock/commit/0d9ccce))
+
+### Bug Fixes
+
+- **plugin-help:** Resolve issue with unit test file ([dcfabc0](https://github.com/storm-software/shell-shock/commit/dcfabc0))
+- **plugin-help:** Resolve issues with env usage and added project agent skills ([b33cbbb](https://github.com/storm-software/shell-shock/commit/b33cbbb))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.29**
+- Updated **plugin-console** to **v0.2.33**
+- Updated **plugin-theme** to **v0.4.42**
+
 ## [0.2.46](https://github.com/storm-software/shell-shock/releases/tag/plugin-help%400.2.46) (10/05/2026)
 
 ### Miscellaneous
