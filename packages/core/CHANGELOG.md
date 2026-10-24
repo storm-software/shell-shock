@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.33](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.33) (10/23/2026)
+
+### Bug Fixes
+
+- **core:** Ensure we're using the latest version of Power Plant packages ([d8aa702](https://github.com/storm-software/shell-shock/commit/d8aa702))
+
+### Updated Dependencies
+
+- Updated **schema** to **v0.0.12**
+
 ## [0.17.32](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.32) (10/05/2026)
 
 ### Bug Fixes
