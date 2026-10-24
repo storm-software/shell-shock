@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 **Shell Shock** is a framework built to support the rapid development of fully-featured command-line interface applications.
 
+## Quick Features
+
+- Executors `clean`, `prepare`, `lint`, `build`, and `docs`.
+- `createNodesV2` infers projects when the package is registered in `nx.json`.
+- Requires `nx` `>=22.7.0`.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,21 @@ yarn add -D @shell-shock/nx
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+```json
+{
+  "build": {
+    "executor": "@shell-shock/nx:build"
+  }
+}
+```
+
+`playground/cli/project.json` is a full target list. Run `pnpm exec nx build playground-cli`.
+
 
 ## Building
 

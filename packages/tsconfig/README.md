@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 **Shell Shock** is a framework built to support the rapid development of fully-featured command-line interface applications.
 
+## Quick Features
+
+- `base.json` extends `@powerlines/tsconfig/recommended.json`.
+- `recommended.json` adds composite project flags.
+- `strict.json` turns on `strict` and `verbatimModuleSyntax`.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,18 @@ yarn add -D @shell-shock/tsconfig
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+```json
+{
+  "extends": "@shell-shock/tsconfig/recommended.json",
+  "include": ["src"]
+}
+```
+
 
 ## Building
 

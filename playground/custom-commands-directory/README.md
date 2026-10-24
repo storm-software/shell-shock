@@ -53,6 +53,21 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A playground package containing a command-line application with a custom commands directory.
 
+## Quick Features
+
+- Script preset with `input` set to `src/commands`.
+- Private workspace application.
+- Build with `pnpm exec nx build playground-custom-commands-directory`.
+
+## Installation
+
+Run `pnpm install` from the repository root. This playground is not a published package.
+
+## Usage
+
+Run `pnpm exec nx build playground-custom-commands-directory` after `pnpm install`. The application config is `shell-shock.config.ts` in this directory.
+
+
 <!-- START footer -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->

@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A **Shell Shock** plugin that adds a `help` command and various built-in modules at `shell-shock:help/<command path>` to provide commands with utilities that render usage information back to the user through the console.
 
+## Quick Features
+
+- Adds a `help` command. The default name is `help`.
+- `command: false` skips that command.
+- `builtins` defaults to `true`.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,29 @@ yarn add -D @shell-shock/plugin-help
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+Register the plugin in `shell-shock.config.ts`.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+import { plugin as help } from "@shell-shock/plugin-help";
+
+export default defineConfig({
+  name: "my-app",
+  plugins: [
+    help({
+      command: "help"
+    })
+  ]
+});
+```
+
+The default command name is `help`. Set `command` to `false` to skip the help command.
+
 
 ## Building
 

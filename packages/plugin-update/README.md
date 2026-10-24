@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A **Shell Shock** plugin that checks if the current installed command-line application is the latest version, and if not, provides the option to install the it.
 
+## Quick Features
+
+- Adds an `update` command.
+- Default `staleTime` in `plugin()` is 36 hours.
+- `SKIP_UPDATE_CHECK` skips the version check.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,29 @@ yarn add -D @shell-shock/plugin-update
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+Register the plugin in `shell-shock.config.ts`.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+import { plugin as update } from "@shell-shock/plugin-update";
+
+export default defineConfig({
+  name: "my-app",
+  plugins: [
+    update({
+      staleTime: 36 * 60 * 60 * 1000
+    })
+  ]
+});
+```
+
+The plugin sets `staleTime` to 36 hours when that option is omitted. Set `staleTime` to `-1` to check only when the command runs.
+
 
 ## Building
 

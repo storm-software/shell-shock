@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A **Shell Shock** package that generates source code for displaying HTML elements and markdown content in the terminal.
 
+## Quick Features
+
+- `renderMarkdown` turns Markdown into terminal source.
+- `renderHtml` renders an HTML string.
+- Options include `lineWidth`, `asciiMode`, and `fontAttrs`.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,17 @@ yarn add -D @shell-shock/unified
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+```ts
+import { renderMarkdown } from "@shell-shock/unified";
+
+const output = renderMarkdown("# Title");
+```
+
 
 ## Building
 

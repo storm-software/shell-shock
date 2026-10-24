@@ -53,6 +53,21 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A playground package containing a minimal command-line application.
 
+## Quick Features
+
+- Smallest config: a name, filesystem output, and `skipCache`. This directory has no `project.json`.
+- Private workspace application.
+- Build another playground, such as `pnpm exec nx build playground-cli`, when you want an Nx target.
+
+## Installation
+
+Run `pnpm install` from the repository root. This playground is not a published package.
+
+## Usage
+
+Open `shell-shock.config.ts`. It sets `name` to `playground-minimal`. This directory has no `project.json`, so an Nx project name is not declared here.
+
+
 <!-- START footer -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->

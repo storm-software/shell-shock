@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A **Shell Shock** plugin that adds a `mcp` command that generates an MCP stdio server exposing your CLI commands as MCP tools.
 
+## Quick Features
+
+- Exposes CLI commands through an `mcp` command.
+- `include`, `exclude`, `includeTags`, and `excludeTags` filter commands.
+- Peers are `@modelcontextprotocol/server` and `zod`.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,30 @@ yarn add -D @shell-shock/plugin-mcp
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+Register the plugin in `shell-shock.config.ts`.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+import { plugin as mcp } from "@shell-shock/plugin-mcp";
+
+export default defineConfig({
+  name: "my-app",
+  plugins: [
+    mcp({
+      command: "mcp",
+      includeTags: ["public"]
+    })
+  ]
+});
+```
+
+Exclusions take precedence over include lists. Filter details are in [Configuring the MCP command](#configuring-the-mcp-command).
+
 
 ## Configuring the MCP command
 

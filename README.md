@@ -75,11 +75,14 @@
 
 This section contains a quick overview of the features and functionality of the repository.
 
+- Command files under `src` become CLI commands. `@shell-shock/core` is the build core.
+- `@shell-shock/preset-cli` and `@shell-shock/preset-script` register the common plugins.
+- `@shell-shock/nx` runs clean, prepare, lint, build, and docs targets.
+- `@shell-shock/eslint-plugin` lints command files.
+
 ## Visual Studio Code Extension
 
-Acidic has it's own Visual Studio Code extension to support the language model
-in the IDE. The extension can be found in the
-[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=storm-software.acidic).
+This repository does not publish a Visual Studio Code extension. `.vscode/settings.json` associates the `acidic` language with `.acid` and `.acidic` files. That association is editor configuration in this workspace.
 
 ## Environment Configuration Help
 
@@ -92,24 +95,43 @@ information.
 Once the code is pulled locally, open a command prompt and run `pnpm install` in
 the root repo directory (/shell-shock).
 
-More information can be found in the
-[Shell Shock documentation](https://storm-software.github.io/shell-shock/docs/getting-started/installation).
+The notice at the top of this file says a public package registry release is still pending. Inside this workspace, packages use the `workspace:*` protocol.
+
+# Usage
+
+Create `shell-shock.config.ts` and a command file. This is the same shape as `playground/minimal` and `playground/cli/src/start/command.ts`.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+
+export default defineConfig({
+  name: "my-app"
+});
+```
+
+```ts
+function start() {
+  console.log("start");
+}
+
+export default start;
+```
+
+Put the handler in `src/start/command.ts`. Build a playground with `pnpm exec nx build playground-cli`. Package pages under `packages/*/docs` describe each library.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 ## Build
 
-Run `pnpm build` to build the project. The build artifacts will be stored in the
-`dist/` directory. Use the `--prod` flag for a production build.
+Run `pnpm build` to build the workspace. That script runs `tools/scripts/src/build.mjs --prod`. Run `pnpm build-dev` for the script with `--dev`.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 ## Development Server
 
-Run `pnpm serve` for a dev server. Navigate to <http://localhost:4200/>. The app
-will automatically reload if you change any of the source files.
+Run `pnpm start` to execute `nx serve`. The root `package.json` does not define a web server on port 4200. Playground applications are command-line projects. Build one with `pnpm exec nx build <project>`.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
@@ -125,77 +147,51 @@ information.
 
 ## Plug-Ins
 
-Some of the plug-ins used by this repository are:
-
-- [@nx/next](https://nx.dev/packages/next)
-- [@nx/react](https://nx.dev/packages/react)
-- [@nx/lint](https://nx.dev/linter/overview)
-- [@nx/js](https://nx.dev/js/overview)
-- [@nx/node](https://nodejs.org)
-- [@nx/web](https://nx.dev/web/overview)
-- [@nx/storybook](https://nx.dev/storybook/overview-react)
-- [@nx/cypress](https://nx.dev/packages/cypress)
-- [@nx/jest](https://nx.dev/packages/jest)
-- And more...
+Nx packages in the root `package.json` include `@nx/js`, `@nx/jest`, `@nx/eslint`, `@nx/plugin`, and `@nx/workspace`. Shell Shock libraries live under `packages/`. The CLI presets are `@shell-shock/preset-cli` and `@shell-shock/preset-script`.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 ## Generate an Application
 
-Run `nx g @storm-software/workspace:app my-app` to generate an application.
+This repository does not register `@storm-software/workspace:app`. Add a command file under a playground, or copy `playground/minimal`. `shell-shock.config.ts` in that directory sets `name` to `playground-minimal`.
 
-> You can use any of the plugins above to generate applications as well.
-
-When using Nx, you can create multiple applications and libraries in the same
-workspace.
+The workspace holds the playground applications and the libraries under `packages/`.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 ## Generate a Library
 
-Run `nx g @storm-software/workspace:lib my-lib` to generate a library.
-
-> You can also use any of the plugins above to generate libraries as well.
-
-Libraries are shareable across libraries and applications. They can be imported
-from `@shell-shock/my-lib`.
+This repository does not register `@storm-software/workspace:lib`. Libraries in this workspace are the packages under `packages/`. Their import names use the `@shell-shock` scope, for example `@shell-shock/core`.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 ## Code Scaffolding
 
-Run `nx g @nx/react:component my-component --project=shell-shock` to generate a new
-component.
+Add a command by creating `command.ts` in a folder under the commands root. `src/start/command.ts` is the `start` command. This repository does not register `@nx/react:component`.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 # Testing
 
-Open System uses [Jest](https://jestjs.io/) for unit testing and
-[Cypress](https://www.cypress.io/) for end-to-end testing.
+Package tests use [Jest](https://jestjs.io/). Run `pnpm exec nx test <project>`. The root `e2e` script is `nx e2e`.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 ## Running Unit Tests
 
-Run `pnpm test` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `pnpm affected:test` to execute the unit tests affected by a change.
+Run `pnpm exec nx test <project>` to execute the unit tests via [Jest](https://jestjs.io). The root `package.json` has no `test` script.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
 
 ## Running End-to-End Tests
 
-Run `pnpm e2e` to execute the end-to-end tests via
-[Cypress](https://www.cypress.io).
-
-Run `pnpm affected:e2e` to execute the end-to-end tests affected by a change.
+Run `pnpm e2e` to execute `nx e2e`.
 
 <div align="right">[ <a href="#table-of-contents">Back to top ▲</a> ]</div>
 <br />
@@ -267,6 +263,8 @@ Please try to create bug reports that are:
 - _Scoped to a Single Bug._ One bug per report.
 
 Please adhere to this project's [code of conduct](.github/CODE_OF_CONDUCT.md).
+
+From a checkout, run `pnpm install`. Run `pnpm build` to build the workspace. Run `pnpm lint` to lint. Run `pnpm exec nx test <project>` for a package test. Package names match `project.json`, such as `core` and `plugin-mcp`.
 
 You can use
 [markdownlint-cli](https://github.com/storm-software/shell-shock/markdownlint-cli) to

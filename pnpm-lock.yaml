@@ -112,6 +112,9 @@ catalogs:
     '@powerlines/unplugin':
       specifier: ^0.0.184
       version: 0.0.184
+    '@sourcebook/config':
+      specifier: ^0.0.12
+      version: 0.0.12
     '@storm-software/config':
       specifier: ^1.138.90
       version: 1.138.90
@@ -412,6 +415,9 @@ importers:
       '@powerlines/tsdoc':
         specifier: 'catalog:'
         version: 0.2.208(@storm-software/tsdoc@0.13.306)
+      '@sourcebook/config':
+        specifier: 'catalog:'
+        version: 0.0.12
       '@storm-software/config':
         specifier: 'catalog:'
         version: 1.138.90(zod@4.6.7)
@@ -5550,6 +5556,9 @@ packages:
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       size-limit: 11.2.0
+
+  '@sourcebook/config@0.0.12':
+    resolution: {integrity: sha512-Pll6glbGWlc/e2wprAj3qsNNGpUUYfNFdqzq9KoKw0jHGqnMNnW03V5huCVhWg+zluV1UtmzCCSTffgWi9IoSw==}
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
@@ -22631,6 +22640,8 @@ snapshots:
   '@size-limit/file@11.2.0(size-limit@11.2.0)':
     dependencies:
       size-limit: 11.2.0
+
+  '@sourcebook/config@0.0.12': {}
 
   '@standard-schema/spec@1.1.0': {}
 

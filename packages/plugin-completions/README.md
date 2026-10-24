@@ -49,9 +49,17 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 <!-- END header -->
 
-# Shell Shock - Theme Plugin
+# Shell Shock - Completions Plugin
 
-**Shell Shock** is a framework built to support the rapid development of fully-featured command-line interface applications.
+`@shell-shock/plugin-completions` adds shell completion commands for bash, fish, zsh, and PowerShell.
+
+## Quick Features
+
+- Completion commands for bash, fish, zsh, and PowerShell.
+- `shells` limits the generated scripts.
+- The CLI preset can disable this plugin with `completions: false`.
+
+
 
 ## Installing
 
@@ -78,6 +86,29 @@ yarn add -D @shell-shock/plugin-completions
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+Register the plugin in `shell-shock.config.ts`.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+import { plugin as completions } from "@shell-shock/plugin-completions";
+
+export default defineConfig({
+  name: "my-app",
+  plugins: [
+    completions({
+      shells: ["bash", "zsh"]
+    })
+  ]
+});
+```
+
+Omit `shells` to generate every supported shell: `bash`, `fish`, `zsh`, and `powershell`.
+
 
 ## Building
 

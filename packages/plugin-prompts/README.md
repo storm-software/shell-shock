@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A **Shell Shock** plugin to generate the `prompts` built-in module with a custom theme.
 
+## Quick Features
+
+- Generates the `prompts` built-in module.
+- Forwards `theme` to the theme plugin.
+- The CLI preset registers this plugin.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,23 @@ yarn add -D @shell-shock/plugin-prompts
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+Register the plugin in `shell-shock.config.ts`.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+import { plugin as prompts } from "@shell-shock/plugin-prompts";
+
+export default defineConfig({
+  name: "my-app",
+  plugins: [prompts()]
+});
+```
+
 
 ## Building
 

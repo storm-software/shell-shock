@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 **Shell Shock** is a framework built to support the rapid development of fully-featured command-line interface applications.
 
+## Quick Features
+
+- Registers console, help, prompts, changelog, completions, skills, and update.
+- `changelog: false` and `completions: false` skip those plugins.
+- Skills register only when the skills directory exists.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,35 @@ yarn add -D @shell-shock/preset-cli
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+`playground/cli/shell-shock.config.ts` registers the preset.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+import { plugin as cli } from "@shell-shock/preset-cli";
+
+export default defineConfig({
+  name: "playground-cli",
+  docs: "https://docs.stormsoftware.com/projects/shell-shock/reference/cli/{command}",
+  plugins: [
+    cli({
+      theme: {
+        labels: {
+          banner: {
+            header: "Shell Shock Playground",
+            footer: "https://stormsoftware.com"
+          }
+        }
+      }
+    })
+  ]
+});
+```
+
 
 ## Building
 

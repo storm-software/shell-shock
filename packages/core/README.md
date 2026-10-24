@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 **Shell Shock** is a framework built to support the rapid development of fully-featured command-line interface applications.
 
+## Quick Features
+
+- `defineConfig` returns the object you export from `shell-shock.config.ts`.
+- Command files named `command.ts` become commands.
+- `createEngine` runs prepare, build, and the other phases.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,21 @@ yarn add -D @shell-shock/core
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+
+export default defineConfig({
+  name: "my-app"
+});
+```
+
+Put a handler in `src/start/command.ts` and default-export a function. See `packages/core/docs/quick-start.md`.
+
 
 ## Building
 

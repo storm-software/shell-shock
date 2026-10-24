@@ -53,6 +53,21 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A playground package containing a cli command-line application and project setup.
 
+## Quick Features
+
+- Interactive CLI sample. `shell-shock.config.ts` uses `@shell-shock/preset-cli`.
+- Private workspace application.
+- Build with `pnpm exec nx build playground-cli`.
+
+## Installation
+
+Run `pnpm install` from the repository root. This playground is not a published package.
+
+## Usage
+
+Command syntax is listed under Commands.
+
+
 <!-- shell-shock:commands -->
 
 ## Commands

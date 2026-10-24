@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A **Shell Shock** plugin that generates banner built-in modules that display information about the application.
 
+## Quick Features
+
+- Generates a banner built-in for each command.
+- Accepts `title`, `theme`, and `console` options.
+- Loads the theme and console plugins.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,29 @@ yarn add -D @shell-shock/plugin-banner
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+Register the plugin in `shell-shock.config.ts`.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+import { plugin as banner } from "@shell-shock/plugin-banner";
+
+export default defineConfig({
+  name: "my-app",
+  plugins: [
+    banner({
+      title: "My App"
+    })
+  ]
+});
+```
+
+`title` is the banner title. When `title` is omitted, the plugin uses the application title from the theme plugin.
+
 
 ## Building
 

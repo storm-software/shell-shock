@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A **Shell Shock** plugin to generate the `console` built-in module with a custom theme.
 
+## Quick Features
+
+- Generates the `console` built-in module.
+- Forwards theme options to `@shell-shock/plugin-theme`.
+- Renders during the prepare phase.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,23 @@ yarn add -D @shell-shock/plugin-console
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+Register the plugin in `shell-shock.config.ts`.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+import { plugin as consolePlugin } from "@shell-shock/plugin-console";
+
+export default defineConfig({
+  name: "my-app",
+  plugins: [consolePlugin()]
+});
+```
+
 
 ## Building
 

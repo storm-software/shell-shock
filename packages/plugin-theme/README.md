@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 **Shell Shock** is a framework built to support the rapid development of fully-featured command-line interface applications.
 
+## Quick Features
+
+- Resolves terminal theme tokens.
+- Merges a partial `theme` object over the default theme.
+- Token groups include colors, borders, padding, icons, labels, and the spinner.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,36 @@ yarn add -D @shell-shock/plugin-theme
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+Pass a theme through the plugin in `shell-shock.config.ts`.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+import { plugin as theme } from "@shell-shock/plugin-theme";
+
+export default defineConfig({
+  name: "my-app",
+  plugins: [
+    theme({
+      theme: {
+        labels: {
+          banner: {
+            header: "My App",
+            footer: "https://example.com"
+          }
+        }
+      }
+    })
+  ]
+});
+```
+
+More fields are in [Configuring a theme](#configuring-a-theme).
+
 
 ## Configuring a theme
 

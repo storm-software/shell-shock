@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 **Shell Shock** is a framework built to support the rapid development of fully-featured command-line interface applications.
 
+## Quick Features
+
+- Registers console, help, and banner.
+- Default flags are help, version, and verbose.
+- `banner.title` sets the banner title.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,26 @@ yarn add -D @shell-shock/preset-script
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+`playground/custom-commands-directory/shell-shock.config.ts` registers the preset and points `input` at the command directory.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+import { plugin as script } from "@shell-shock/preset-script";
+
+export default defineConfig({
+  name: "playground-custom-commands-directory",
+  input: "src/commands",
+  plugins: [script()]
+});
+```
+
+`src/commands/start/command.ts` is the `start` command.
+
 
 ## Building
 

@@ -53,6 +53,21 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A playground package that uses the Powerlines plugin.
 
+## Quick Features
+
+- Playground wired through a Powerlines config.
+- Private workspace application.
+- Build with `pnpm exec nx build playground-powerlines`.
+
+## Installation
+
+Run `pnpm install` from the repository root. This playground is not a published package.
+
+## Usage
+
+Run `pnpm exec nx build playground-powerlines` after `pnpm install`. The application config is `shell-shock.config.ts` in this directory.
+
+
 <!-- START footer -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->

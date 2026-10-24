@@ -53,6 +53,21 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A playground package that uses Nx for build orchestration.
 
+## Quick Features
+
+- Nx targets that call `@shell-shock/nx` executors.
+- Private workspace application.
+- Build with `pnpm exec nx build playground-nx`.
+
+## Installation
+
+Run `pnpm install` from the repository root. This playground is not a published package.
+
+## Usage
+
+Run `pnpm exec nx build playground-nx` after `pnpm install`. The application config is `shell-shock.config.ts` in this directory.
+
+
 <!-- START footer -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->

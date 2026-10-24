@@ -46,6 +46,7 @@ catalog:
   "@powerlines/tsconfig": ^0.4.260
   "@powerlines/tsdoc": ^0.2.208
   "@powerlines/unplugin": ^0.0.184
+  "@sourcebook/config": ^0.0.12
   "@storm-software/config": ^1.138.90
   "@storm-software/config-tools": ^1.190.154
   "@storm-software/cspell": ^0.46.221

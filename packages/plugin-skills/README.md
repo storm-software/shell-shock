@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A **Shell Shock** plugin that adds the skills command which allows users to view and manage their project related skills.
 
+## Quick Features
+
+- Adds a `skills` command when `path` exists and contains files.
+- The command name defaults to `skills`.
+- The CLI preset skips this plugin when the skills directory is missing.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,29 @@ yarn add -D @shell-shock/plugin-skills
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+Create a `skills` directory, or set `path`. Register the plugin in `shell-shock.config.ts`.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+import { plugin as skills } from "@shell-shock/plugin-skills";
+
+export default defineConfig({
+  name: "my-app",
+  plugins: [
+    skills({
+      path: "skills"
+    })
+  ]
+});
+```
+
+The command is added only when `path` exists and contains skill files.
+
 
 ## Building
 

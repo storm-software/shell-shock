@@ -53,6 +53,14 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 A **Shell Shock** plugin that displays version changelog details to the user through the console.
 
+## Quick Features
+
+- Adds a `changelog` command when a changelog file exists.
+- Looks for `CHANGELOG`, `RELEASE-NOTES`, `RELEASES`, and `HISTORY` files.
+- `file` overrides the lookup.
+
+
+
 ## Installing
 
 Using [pnpm](http://pnpm.io):
@@ -78,6 +86,25 @@ yarn add -D @shell-shock/plugin-changelog
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+Register the plugin in `shell-shock.config.ts`.
+
+```ts
+import { defineConfig } from "@shell-shock/core/config";
+import { plugin as changelog } from "@shell-shock/plugin-changelog";
+
+export default defineConfig({
+  name: "my-app",
+  plugins: [changelog()]
+});
+```
+
+The default command name is `changelog`. The default file is `{root}/CHANGELOG.md`.
+
 
 ## Building
 

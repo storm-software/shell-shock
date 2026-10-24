@@ -51,7 +51,15 @@ This package is part of the ⚡<b>Shell Shock</b> monorepo. The Shell Shock pack
 
 # Shell Shock - ESLint Plugin
 
-An ESLint plugin to
+An ESLint plugin that checks Shell Shock command files for one handler, one command path, and allowed parameter types.
+
+## Quick Features
+
+- Rules `invalid-command-export`, `invalid-handler-params`, and `duplicate-command-path`.
+- Flat configs `base` and `recommended`.
+- Requires `eslint` `>=9.39.3`.
+
+
 
 ## Installing
 
@@ -78,6 +86,19 @@ yarn add -D @shell-shock/eslint-plugin
 ```
 
 </details>
+
+## Usage
+
+The repository README says a public registry release is still pending. In this workspace, depend on the package with `workspace:*`.
+
+```js
+import shellShock from "@shell-shock/eslint-plugin";
+
+export default [shellShock.configs.recommended];
+```
+
+The rule table is in [Linting Rules](#linting-rules).
+
 
 ## Linting Rules
 
