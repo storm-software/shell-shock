@@ -20,7 +20,8 @@ import type { JsonSchema } from "@power-plant/schema";
 import { getPropertiesList, isJsonSchemaObject } from "@power-plant/schema";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import * as ts from "typescript";
 import type { CommandArgument, CommandOption } from "../types";
 import { mergeCommandParameter } from "./helpers";
@@ -67,6 +68,126 @@ function findTypeDeclaration(
   return undefined;
 }
 
+interface ResolvedTypeDeclaration {
+  declaration: ts.InterfaceDeclaration | ts.TypeAliasDeclaration;
+  sourceFile: ts.SourceFile;
+}
+
+function readSourceFile(filePath: string): ts.SourceFile {
+  return ts.createSourceFile(
+    filePath,
+    readFileSync(filePath, "utf8"),
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TS
+  );
+}
+
+function resolveImportPath(
+  fromFile: string,
+  specifier: string
+): string | undefined {
+  const base = resolve(dirname(fromFile), specifier.replace(/\.[cm]?js$/, ""));
+
+  return [
+    base,
+    `${base}.ts`,
+    `${base}.tsx`,
+    `${base}.mts`,
+    `${base}.cts`,
+    `${base}/index.ts`,
+    `${base}/index.tsx`
+  ].find(candidate => /\.[cm]?tsx?$/.test(candidate) && existsSync(candidate));
+}
+
+/**
+ * Find a named type declared in `sourceFile`, or imported into it from a relative module.
+ */
+function resolveTypeDeclaration(
+  sourceFile: ts.SourceFile,
+  typeName: string
+): ResolvedTypeDeclaration | undefined {
+  const declaration = findTypeDeclaration(sourceFile, typeName);
+  if (declaration) {
+    return { declaration, sourceFile };
+  }
+
+  for (const statement of sourceFile.statements) {
+    if (
+      !ts.isImportDeclaration(statement) ||
+      !ts.isStringLiteral(statement.moduleSpecifier) ||
+      !statement.moduleSpecifier.text.startsWith(".")
+    ) {
+      continue;
+    }
+
+    const bindings = statement.importClause?.namedBindings;
+    if (!bindings || !ts.isNamedImports(bindings)) {
+      continue;
+    }
+
+    const binding = bindings.elements.find(
+      element => element.name.text === typeName
+    );
+    if (!binding) {
+      continue;
+    }
+
+    const filePath = resolveImportPath(
+      sourceFile.fileName,
+      statement.moduleSpecifier.text
+    );
+    if (!filePath) {
+      return undefined;
+    }
+
+    return resolveTypeDeclaration(
+      readSourceFile(filePath),
+      (binding.propertyName ?? binding.name).text
+    );
+  }
+
+  return undefined;
+}
+
+function declarationToJsonSchema({
+  declaration,
+  sourceFile
+}: ResolvedTypeDeclaration): JsonSchema {
+  if (!ts.isInterfaceDeclaration(declaration)) {
+    return typeNodeToJsonSchema(declaration.type, sourceFile);
+  }
+
+  const schema = membersToObjectSchema(declaration.members, sourceFile) as {
+    properties: Record<string, JsonSchema>;
+    required?: string[];
+  };
+
+  // Members declared on the interface itself take precedence over inherited ones.
+  for (const clause of declaration.heritageClauses ?? []) {
+    for (const heritage of clause.types) {
+      const name = heritage.expression.getText();
+      const base = resolveTypeDeclaration(sourceFile, name);
+      if (!base) {
+        throw new Error(
+          `Unable to resolve base type "${name}" of "${declaration.name.text}" for command schema extraction.`
+        );
+      }
+
+      const baseSchema = declarationToJsonSchema(base) as typeof schema;
+      const required = (baseSchema.required ?? []).filter(
+        key => !(key in schema.properties)
+      );
+      schema.properties = { ...baseSchema.properties, ...schema.properties };
+      if (required.length > 0) {
+        schema.required = [...(schema.required ?? []), ...required];
+      }
+    }
+  }
+
+  return schema as JsonSchema;
+}
+
 function parseTypeNodeFromText(typeText: string): ts.TypeNode | undefined {
   const sourceFile = ts.createSourceFile(
     "__shell-shock-type.ts",
@@ -98,9 +219,7 @@ function membersToObjectSchema(
     const name = member.name.getText();
     const schema = typeNodeToJsonSchema(member.type, lookupFile);
     const description = getTypeNodeDescription(member);
-    properties[name] = description
-      ? ({ ...schema, description } as JsonSchema)
-      : schema;
+    properties[name] = description ? { ...schema, description } : schema;
 
     if (!member.questionToken) {
       required.push(name);
@@ -111,7 +230,7 @@ function membersToObjectSchema(
     type: "object",
     properties,
     ...(required.length > 0 ? { required } : {})
-  } as JsonSchema;
+  };
 }
 
 function typeNodeToJsonSchema(
@@ -123,31 +242,31 @@ function typeNodeToJsonSchema(
   }
 
   if (typeNode.kind === ts.SyntaxKind.StringKeyword) {
-    return { type: "string" } as JsonSchema;
+    return { type: "string" };
   }
   if (
     typeNode.kind === ts.SyntaxKind.NumberKeyword ||
     typeNode.kind === ts.SyntaxKind.BigIntKeyword
   ) {
-    return { type: "number" } as JsonSchema;
+    return { type: "number" };
   }
   if (typeNode.kind === ts.SyntaxKind.BooleanKeyword) {
-    return { type: "boolean" } as JsonSchema;
+    return { type: "boolean" };
   }
 
   if (ts.isLiteralTypeNode(typeNode)) {
     const literal = typeNode.literal;
     if (ts.isStringLiteral(literal)) {
-      return { type: "string", enum: [literal.text] } as JsonSchema;
+      return { type: "string", enum: [literal.text] };
     }
     if (ts.isNumericLiteral(literal)) {
-      return { type: "number", enum: [Number(literal.text)] } as JsonSchema;
+      return { type: "number", enum: [Number(literal.text)] };
     }
     if (literal.kind === ts.SyntaxKind.TrueKeyword) {
-      return { type: "boolean", enum: [true] } as JsonSchema;
+      return { type: "boolean", enum: [true] };
     }
     if (literal.kind === ts.SyntaxKind.FalseKeyword) {
-      return { type: "boolean", enum: [false] } as JsonSchema;
+      return { type: "boolean", enum: [false] };
     }
   }
 
@@ -155,7 +274,7 @@ function typeNodeToJsonSchema(
     return {
       type: "array",
       items: typeNodeToJsonSchema(typeNode.elementType, lookupFile)
-    } as JsonSchema;
+    };
   }
 
   if (
@@ -181,7 +300,7 @@ function typeNodeToJsonSchema(
         : undefined
     );
     if (stringLiterals.every(isSetString)) {
-      return { type: "string", enum: stringLiterals } as JsonSchema;
+      return { type: "string", enum: stringLiterals };
     }
 
     const numberLiterals = members.map(member =>
@@ -190,12 +309,12 @@ function typeNodeToJsonSchema(
         : undefined
     );
     if (numberLiterals.every(isFiniteNumber)) {
-      return { type: "number", enum: numberLiterals } as JsonSchema;
+      return { type: "number", enum: numberLiterals };
     }
 
     return {
       anyOf: members.map(member => typeNodeToJsonSchema(member, lookupFile))
-    } as JsonSchema;
+    };
   }
 
   if (ts.isTypeLiteralNode(typeNode)) {
@@ -211,16 +330,12 @@ function typeNodeToJsonSchema(
       return {
         type: "array",
         items: typeNodeToJsonSchema(typeNode.typeArguments[0], lookupFile)
-      } as JsonSchema;
+      };
     }
 
-    const declaration = findTypeDeclaration(lookupFile, name);
-    if (declaration) {
-      if (ts.isInterfaceDeclaration(declaration)) {
-        return membersToObjectSchema(declaration.members, lookupFile);
-      }
-
-      return typeNodeToJsonSchema(declaration.type, lookupFile);
+    const resolved = resolveTypeDeclaration(lookupFile, name);
+    if (resolved) {
+      return declarationToJsonSchema(resolved);
     }
   }
 
@@ -251,13 +366,9 @@ export async function extractTypeSchema(
   );
 
   if (typeName && /^[A-Z_][\w.]*$/i.test(typeName) && !typeName.includes(".")) {
-    const declaration = findTypeDeclaration(sourceFile, typeName);
-    if (declaration) {
-      if (ts.isInterfaceDeclaration(declaration)) {
-        return membersToObjectSchema(declaration.members, sourceFile);
-      }
-
-      return typeNodeToJsonSchema(declaration.type, sourceFile);
+    const resolved = resolveTypeDeclaration(sourceFile, typeName);
+    if (resolved) {
+      return declarationToJsonSchema(resolved);
     }
   }
 

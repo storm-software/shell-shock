@@ -23,8 +23,7 @@ export const metadata = defineMetadata({
   title: "Project Build",
   description: "A build command for the project.",
   alias: "rebuild",
-  icon: "🏗",
-  tags: ["Custom", "Experimental"]
+  icon: "🏗"
 });
 
 interface BuildOptions {

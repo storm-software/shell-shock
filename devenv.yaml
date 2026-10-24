@@ -9,4 +9,5 @@ imports:
   - storm-ops/devenv-modules/pnpm
   - storm-ops/devenv-modules/graphify
   - storm-ops/devenv-modules/agents
+  - storm-ops/devenv-modules/sourcebook
   - storm-ops/devenv-modules/vhs
