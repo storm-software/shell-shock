@@ -36,9 +36,27 @@ import { defu } from "defu";
 import figlet from "figlet";
 import stripAnsi from "strip-ansi";
 import type {
+  CLIPresetBannerOption,
   CLIPresetBannerOverrideOption,
   CLIPresetContext
 } from "../types/plugin";
+
+function getBannerText(context: CLIPresetContext): string {
+  const banner = context.config.banner;
+  if (isSetString(banner)) {
+    return banner;
+  }
+  if (isSetObject(banner)) {
+    if (isSetString((banner as CLIPresetBannerOverrideOption).override)) {
+      return (banner as CLIPresetBannerOverrideOption).override;
+    }
+    if (isSetString((banner as CLIPresetBannerOption).text)) {
+      return (banner as CLIPresetBannerOption).text!;
+    }
+  }
+
+  return getAppTitle(context, true);
+}
 
 /**
  * A component to generate the `banner` function in the `shell-shock:console` builtin module.
@@ -62,7 +80,7 @@ export function BannerFunctionBodyDeclaration(
   );
   const footer = computed(() => theme.labels.banner.footer[variant]);
   const title = computed(() =>
-    getAppTitle(context, true).replace(
+    getBannerText(context).replace(
       `v${context.packageJson.version || "1.0.0"}`,
       ""
     )
@@ -140,14 +158,7 @@ export function BannerBuiltin(props: BannerBuiltinProps) {
 
   const titleLines = computed(() => {
     const result = figlet.textSync(
-      isSetObject(context.config.banner) &&
-        isSetString(
-          (context.config.banner as CLIPresetBannerOverrideOption).override
-        )
-        ? (context.config.banner as CLIPresetBannerOverrideOption).override
-        : isSetString(context.config.banner)
-          ? context.config.banner
-          : getAppTitle(context, true),
+      getBannerText(context),
       defu(isSetObject(context.config.banner) ? context.config.banner : {}, {
         font: "ANSI Compact"
       })
