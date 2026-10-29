@@ -104,90 +104,50 @@ export interface ArgumentsParserLogicProps {
   isCaseSensitive: boolean;
 }
 
+/**
+ * Builds a regex alternation of the names and aliases of options that consume a value (string or number), normalized the same way the options parser normalizes command-line arguments.
+ */
+function valueOptionsPattern(
+  options: CommandTree["options"],
+  isCaseSensitive: boolean
+): string {
+  return Object.values(options ?? {})
+    .filter(option => option.type === "string" || option.type === "number")
+    .flatMap(option => [option.name, ...(option.alias ?? [])])
+    .map(name =>
+      isCaseSensitive || name.length === 1
+        ? name
+        : name.toLowerCase().replaceAll("-", "").replaceAll("_", "")
+    )
+    .map(name => name.replaceAll("?", "\\?"))
+    .join("|");
+}
+
 export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
   const { command, appSpecificEnvPrefix, isCaseSensitive } = props;
+
+  const valueOptions = valueOptionsPattern(command.options, isCaseSensitive);
 
   return (
     <Show when={command.args && command.args.length > 0}>
       <VarDeclaration
-        let
-        name="optionsIndex"
-        type="number"
-        initializer={code`Math.max(0, args.slice(${
-          command.segments.length + 1
-        }).findIndex(arg => arg.startsWith("-") && /^(${Object.values(
-          command.options ?? {}
-        )
-          .map(
-            option =>
-              `${
-                isCaseSensitive || option.name.length === 1
-                  ? option.name
-                  : option.name
-                      .toLowerCase()
-                      .replaceAll("-", "")
-                      .replaceAll("_", "")
-              }${option.alias && option.alias.length > 0 ? "|" : ""}${option.alias
-                ?.map(a =>
-                  (isCaseSensitive || option.name.length === 1
-                    ? a
-                    : a
-                        .toLowerCase()
-                        .replaceAll("-", "")
-                        .replaceAll("_", "")) === "?"
-                    ? "\\?"
-                    : isCaseSensitive || option.name.length === 1
-                      ? a
-                      : a.toLowerCase().replaceAll("-", "").replaceAll("_", "")
-                )
-                .join("|")}`
-          )
-          .join("|")})=?.*$/.test(arg${
-          isCaseSensitive
-            ? ""
-            : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
-        }))) + ${command.segments.length + 1};`}
+        const
+        name="positionals"
+        type="string[]"
+        initializer={code`[]`}
       />
-      <Spacing />
-      <VarDeclaration
-        let
-        name="argsIndex"
-        type="number"
-        initializer={code`optionsIndex > ${
-          command.segments.length + 1
-        } ? ${command.segments.length + 1} : (Math.max(0, args.slice(optionsIndex).findLastIndex(arg => arg.startsWith("-") && /^(${Object.values(
-          command.options ?? {}
-        )
-          .map(
-            option =>
-              `${
-                isCaseSensitive || option.name.length === 1
-                  ? option.name
-                  : option.name
-                      .toLowerCase()
-                      .replaceAll("-", "")
-                      .replaceAll("_", "")
-              }${option.alias && option.alias.length > 0 ? "|" : ""}${option.alias
-                ?.map(a =>
-                  (isCaseSensitive || option.name.length === 1
-                    ? a
-                    : a
-                        .toLowerCase()
-                        .replaceAll("-", "")
-                        .replaceAll("_", "")) === "?"
-                    ? "\\?"
-                    : isCaseSensitive || option.name.length === 1
-                      ? a
-                      : a.toLowerCase().replaceAll("-", "").replaceAll("_", "")
-                )
-                .join("|")}`
-          )
-          .join("|")})=?.*$/.test(arg${
-          isCaseSensitive
-            ? ""
-            : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
-        }))) + ${command.segments.length + 1});`}
-      />
+      <hbr />
+      {code`for (let i = ${
+        command.segments.length + 2
+      }; i < args.length; i++) { if (args[i].length > 1 && args[i].startsWith("-")) { ${
+        valueOptions
+          ? `if (!args[i].includes("=") && /^(${valueOptions})$/.test(args[i].startsWith("--") ? args[i].slice(2)${
+              isCaseSensitive
+                ? ""
+                : '.toLowerCase().replaceAll("-", "").replaceAll("_", "")'
+            } : args[i].slice(1))) { i++; } `
+          : ""
+      }continue; } positionals.push(args[i]); }`}
       <Spacing />
       <For each={command.args ?? []} hardline>
         {(arg, index) => (
@@ -249,30 +209,28 @@ export function ArgumentsParserLogic(props: ArgumentsParserLogicProps) {
               />
             </Show>
             <Spacing />
-            <IfStatement
-              condition={code`argsIndex + ${index} < args.length && argsIndex + ${index} !== optionsIndex`}>
+            <IfStatement condition={code`positionals.length > ${index}`}>
               {code`${camelCase(arg.name)} = `}
               <Show
                 when={arg.type === "string" || arg.type === "number"}
                 fallback={
-                  <BooleanInputParserLogic
-                    name={`args[argsIndex + ${index}] `}
-                  />
+                  <BooleanInputParserLogic name={`positionals[${index}] `} />
                 }>
                 <Show
                   when={arg.variadic}
                   fallback={
                     <Show
                       when={arg.type === "number"}
-                      fallback={code`args[argsIndex + ${index}] `}>
-                      {code`Number(args[argsIndex + ${index}]) `}
+                      fallback={code`positionals[${index}] `}>
+                      {code`Number(positionals[${index}]) `}
                     </Show>
                   }>
-                  {code`args.slice(argsIndex + ${
-                    index
-                  }, (optionsIndex > argsIndex ? optionsIndex : args.length) - ${
-                    command.args.length - index
-                  }).join(" ").split(",").map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean)`}
+                  {code`positionals.slice(${index}, positionals.length - ${
+                    command.args.length - index - 1
+                  }).flatMap(item => item.split(",")).map(item => item.trim().replace(/^("|')/, "").replace(/("|')$/, "")).filter(Boolean)`}
+                  <Show when={arg.type === "number"}>
+                    {code`.map(Number).filter(value => !Number.isNaN(value))`}
+                  </Show>
                 </Show>
               </Show>
               {code` as `}
