@@ -28,7 +28,7 @@
     {
       "plugin": "@powerlines/nx/plugin",
       "options": {
-        "verboseOutput": true
+        "verboseOutput": false
       }
     }
   ],

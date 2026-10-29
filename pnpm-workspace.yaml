@@ -138,6 +138,7 @@ dedupePeers: true
 dedupePeerDependents: true
 cleanupUnusedCatalogs: true
 shamefullyHoist: false
+verifyDepsBeforeRun: false
 fetchTimeout: 1000000
 minimumReleaseAgeExclude:
   - "@storm-software/*"
