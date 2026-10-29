@@ -2,6 +2,26 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.47](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.47) (10/29/2026)
+
+### Bug Fixes
+
+- **preset-cli:** Resolve issue when specifying `banner` options to preset ([2f226e2](https://github.com/storm-software/shell-shock/commit/2f226e2))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.35**
+- Updated **plugin-banner** to **v0.1.62**
+- Updated **plugin-changelog** to **v0.1.38**
+- Updated **plugin-completions** to **v0.4.43**
+- Updated **plugin-console** to **v0.2.39**
+- Updated **plugin-help** to **v0.2.53**
+- Updated **plugin-prompts** to **v0.3.76**
+- Updated **plugin-skills** to **v0.0.26**
+- Updated **plugin-theme** to **v0.4.48**
+- Updated **plugin-update** to **v0.1.80**
+- Updated **preset-script** to **v0.6.90**
+
 ## [0.9.46](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.46) (10/29/2026)
 
 ### Updated Dependencies

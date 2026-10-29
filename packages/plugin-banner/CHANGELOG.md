@@ -2,6 +2,14 @@
 
 # Changelog for Shell Shock - Plugin Banner
 
+## [0.1.62](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.62) (10/29/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.35**
+- Updated **plugin-console** to **v0.2.39**
+- Updated **plugin-theme** to **v0.4.48**
+
 ## [0.1.61](https://github.com/storm-software/shell-shock/releases/tag/plugin-banner%400.1.61) (10/29/2026)
 
 ### Updated Dependencies
