@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.34](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.34) (10/29/2026)
+
+### Bug Fixes
+
+- **core:** Resolve issue in parser logic when determining parameter values ([29baba5](https://github.com/storm-software/shell-shock/commit/29baba5))
+
+### Updated Dependencies
+
+- Updated **schema** to **v0.0.13**
+
 ## [0.17.33](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.33) (10/23/2026)
 
 ### Bug Fixes
