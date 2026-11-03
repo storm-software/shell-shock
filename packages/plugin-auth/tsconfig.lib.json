@@ -8,11 +8,7 @@
     "outDir": "./out-tsc",
     "isolatedModules": true
   },
-  "references": [
-    {
-      "path": "../core/tsconfig.lib.json"
-    }
-  ],
+  "references": [{ "path": "../core/tsconfig.lib.json" }],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",

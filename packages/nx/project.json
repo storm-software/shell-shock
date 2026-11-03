@@ -20,7 +20,7 @@
       "inputs": ["typescript", "^production"],
       "outputs": ["{options.outputPath}"],
       "executor": "@powerlines/nx:build",
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "build-base"],
       "options": {
         "configFile": "packages/nx/powerlines.plugin.ts",
         "outputPath": "packages/nx/dist"
