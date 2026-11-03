@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Nx
 
+## [0.0.109](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.109) (11/03/2026)
+
+### Bug Fixes
+
+- **nx:** Resolve build issue with configuration ([bccb7a4](https://github.com/storm-software/shell-shock/commit/bccb7a4))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.36**
+
 ## [0.0.108](https://github.com/storm-software/shell-shock/releases/tag/nx%400.0.108) (10/29/2026)
 
 ### Updated Dependencies

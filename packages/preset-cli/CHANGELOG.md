@@ -2,6 +2,26 @@
 
 # Changelog for Shell Shock - Preset CLI
 
+## [0.9.48](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.48) (11/03/2026)
+
+### Features
+
+- **plugin-auth:** Initial check-in of the Auth plugin package ([bc001fb](https://github.com/storm-software/shell-shock/commit/bc001fb))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.36**
+- Updated **plugin-banner** to **v0.1.63**
+- Updated **plugin-changelog** to **v0.1.39**
+- Updated **plugin-completions** to **v0.4.44**
+- Updated **plugin-console** to **v0.2.40**
+- Updated **plugin-help** to **v0.2.54**
+- Updated **plugin-prompts** to **v0.3.77**
+- Updated **plugin-skills** to **v0.0.27**
+- Updated **plugin-theme** to **v0.4.49**
+- Updated **plugin-update** to **v0.1.81**
+- Updated **preset-script** to **v0.6.91**
+
 ## [0.9.47](https://github.com/storm-software/shell-shock/releases/tag/preset-cli%400.9.47) (10/29/2026)
 
 ### Bug Fixes

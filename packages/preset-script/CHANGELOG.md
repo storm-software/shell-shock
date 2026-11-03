@@ -2,6 +2,20 @@
 
 # Changelog for Shell Shock - Preset Script
 
+## [0.6.91](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.91) (11/03/2026)
+
+### Features
+
+- **plugin-auth:** Initial check-in of the Auth plugin package ([bc001fb](https://github.com/storm-software/shell-shock/commit/bc001fb))
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.36**
+- Updated **plugin-banner** to **v0.1.63**
+- Updated **plugin-console** to **v0.2.40**
+- Updated **plugin-help** to **v0.2.54**
+- Updated **plugin-theme** to **v0.4.49**
+
 ## [0.6.90](https://github.com/storm-software/shell-shock/releases/tag/preset-script%400.6.90) (10/29/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Plugin Theme
 
+## [0.4.49](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.49) (11/03/2026)
+
+### Updated Dependencies
+
+- Updated **core** to **v0.17.36**
+
 ## [0.4.48](https://github.com/storm-software/shell-shock/releases/tag/plugin-theme%400.4.48) (10/29/2026)
 
 ### Updated Dependencies

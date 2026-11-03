@@ -2,6 +2,16 @@
 
 # Changelog for Shell Shock - Core
 
+## [0.17.36](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.36) (11/03/2026)
+
+### Features
+
+- **plugin-auth:** Initial check-in of the Auth plugin package ([bc001fb](https://github.com/storm-software/shell-shock/commit/bc001fb))
+
+### Updated Dependencies
+
+- Updated **schema** to **v0.0.15**
+
 ## [0.17.35](https://github.com/storm-software/shell-shock/releases/tag/core%400.17.35) (10/29/2026)
 
 ### Updated Dependencies

@@ -2,6 +2,12 @@
 
 # Changelog for Shell Shock - Schema
 
+## [0.0.15](https://github.com/storm-software/shell-shock/releases/tag/schema%400.0.15) (11/03/2026)
+
+### Features
+
+- **plugin-auth:** Initial check-in of the Auth plugin package ([bc001fb](https://github.com/storm-software/shell-shock/commit/bc001fb))
+
 ## [0.0.9](https://github.com/storm-software/shell-shock/releases/tag/schema%400.0.9) (10/05/2026)
 
 ### Miscellaneous
