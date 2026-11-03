@@ -365,13 +365,6 @@ export const plugin = <TContext extends Context = Context>(
             )
             .join("\n")}`
         );
-      },
-      async prepare() {
-        this.debug(
-          "Rendering base built-in modules for the Shell Shock application via Power Plant."
-        );
-
-        return executeCommandGenerator(this, coreBuiltinsGenerator);
       }
     },
     {
@@ -595,6 +588,10 @@ export const plugin = <TContext extends Context = Context>(
               `One or more commands in the command tree are invalid. Please review the errors above and correct them before proceeding.`
             );
           }
+
+          // The state builtin embeds protection from the final resolved tree.
+          // Rendering it before resolution would silently omit command guards.
+          await executeCommandGenerator(this, coreBuiltinsGenerator);
 
           this.info(
             `\nCreating an application with the following command tree: \n${formatCommandTree(

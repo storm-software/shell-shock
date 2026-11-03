@@ -1,0 +1,34 @@
+{
+  "name": "plugin-auth",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "packages/plugin-auth/src",
+  "targets": {
+    "nx-release-publish": {
+      "executor": "@storm-software/workspace-tools:npm-publish"
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/plugin-auth",
+        "command": "node --experimental-vm-modules ../../node_modules/jest/bin/jest.js --config jest.config.mjs --runInBand"
+      }
+    },
+    "test-generated": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/plugin-auth",
+        "command": "node --test tests/generated.test.mjs"
+      },
+      "dependsOn": ["build"]
+    },
+    "typecheck-source": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/plugin-auth",
+        "command": "pnpm exec tsgo --ignoreConfig --noEmit --strict --skipLibCheck --target esnext --module esnext --moduleResolution bundler --jsx preserve --jsxImportSource @alloy-js/core --types node src/index.tsx src/runtime/index.ts"
+      }
+    }
+  },
+  "tags": ["platform:node"]
+}

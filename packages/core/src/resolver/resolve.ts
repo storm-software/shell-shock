@@ -41,6 +41,7 @@ import { createJiti } from "jiti";
 import { Buffer } from "node:buffer";
 import { existsSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
+import ts from "typescript";
 import { z } from "zod";
 import { getGlobalOptions } from "../helpers/utilities";
 import {
@@ -62,6 +63,25 @@ import {
 import { applySignatureParameters, resolveCommandParameter } from "./schema";
 import { parseCommandSignature } from "./signature";
 import type { ResolverContext, ResolverInput } from "./types";
+
+function mayExportMetadata(source: string, filename: string): boolean {
+  const file = ts.createSourceFile(
+    filename,
+    source,
+    ts.ScriptTarget.Latest,
+    true
+  );
+  const visit = (node: ts.Node): boolean => {
+    if (
+      (ts.isIdentifier(node) || ts.isStringLiteral(node)) &&
+      node.text === "metadata"
+    )
+      return true;
+    if (ts.isExportDeclaration(node) && !node.exportClause) return true;
+    return ts.forEachChild(node, child => visit(child) || undefined) ?? false;
+  };
+  return visit(file);
+}
 
 function isCommandParameterRecord(
   input: unknown
@@ -304,6 +324,11 @@ async function preprocess<TContext extends Context>(
         filename: command.entry.input.file
       });
     } catch (error) {
+      if (mayExportMetadata(sourceText, command.entry.input.file)) {
+        throw new Error(
+          `Unable to resolve command metadata for "${command.id}". Refusing to discard potential command protection after module evaluation failed.`
+        );
+      }
       context.debug(
         `Command module evaluation failed for "${command.id}", falling back to signature extraction: ${
           error instanceof Error ? error.message : String(error)
@@ -486,6 +511,14 @@ export async function resolve<TContext extends Context = Context>(
     }
 
     const metadata = ctx.module.metadata ?? {};
+    if (metadata.protected !== undefined) {
+      if (typeof metadata.protected !== "boolean") {
+        throw new TypeError(
+          `The protected metadata for command "${ctx.input.command.path}" must be a boolean.`
+        );
+      }
+      ctx.output.protected = metadata.protected;
+    }
     if (isSetString(metadata.title)) {
       ctx.output.title = metadata.title;
     }

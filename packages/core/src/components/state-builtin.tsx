@@ -37,8 +37,11 @@ import { defu } from "defu";
 import { computedOptions } from "../contexts/options";
 import type { BuiltinFileProps } from "../contexts/power-plant";
 import { BuiltinFile, usePowerlines } from "../contexts/power-plant";
-import { getAppBin } from "../plugin-utils";
-import { getAppTitle } from "../plugin-utils/context-helpers";
+import {
+  getAppBin,
+  getAppTitle,
+  getCommandAuthGuard
+} from "../plugin-utils/context-helpers";
 import type { Context } from "../types";
 import { OptionsMember, OptionsParserLogic } from "./options-parser-logic";
 
@@ -461,6 +464,8 @@ return result;`}
         returnType="Promise<{ error: string | Error | null }>">
         {code`setState({ status: "preparing", isError: false });
 
+        ${getCommandAuthGuard(context)}
+
         const ctx = { path, segments, params } as CommandContext<THandler>;
         const result = await Promise.resolve(unstable_commandStore.run(ctx, () => Reflect.apply(handler, ctx, params)));
         if (result instanceof Error || (typeof result === "object" && ((result as { error: unknown }).error instanceof Error || typeof (result as { error: unknown }).error === "string"))) {
@@ -485,6 +490,7 @@ export interface StateBuiltinProps extends Omit<
  */
 export function StateBuiltin(props: StateBuiltinProps) {
   const [{ children }, rest] = splitProps(props, ["children"]);
+  const context = usePowerlines<Context>();
 
   return (
     <BuiltinFile
@@ -496,7 +502,10 @@ export function StateBuiltin(props: StateBuiltinProps) {
         "node:crypto": ["randomUUID"]
       })}
       builtinImports={defu(rest.builtinImports ?? {}, {
-        env: ["isCI", "env"]
+        env: ["isCI", "env"],
+        ...((context.config as { auth?: unknown }).auth
+          ? { auth: ["requireAuth"] }
+          : {})
       })}>
       <GlobalTypeDefinitions />
       <Spacing />

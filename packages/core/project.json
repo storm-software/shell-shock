@@ -4,6 +4,12 @@
   "projectType": "library",
   "sourceRoot": "packages/core/src",
   "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config packages/core/jest.config.cjs --runInBand"
+      }
+    },
     // "build-case": {
     //   "cache": false,
     //   "inputs": ["typescript", "^production"],

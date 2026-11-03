@@ -78,6 +78,7 @@ export const plugin = <TContext extends CLIPresetContext = CLIPresetContext>(
         );
 
         return {
+          commandExecution: "withCommand",
           globalOptions: getGlobalOptions,
           isCaseSensitive: false,
           ...options,

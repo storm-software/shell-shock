@@ -20,7 +20,7 @@ import { kebabCase } from "@stryke/string-format/kebab-case";
 import { titleCase } from "@stryke/string-format/title-case";
 import { isSetObject } from "@stryke/type-checks/is-set-object";
 import { isSetString } from "@stryke/type-checks/is-set-string";
-import type { Context, UnresolvedContext } from "../types";
+import type { CommandTree, Context, UnresolvedContext } from "../types";
 
 /**
  * Sorts command argument aliases, placing single-character aliases first, followed by multi-character aliases, and then sorting them alphabetically.
@@ -203,4 +203,54 @@ export function getPathSegmentGroupName(path: string): string {
  */
 export function getPathSegmentName(path: string): string {
   return getPathSegmentGroupName(getDynamicPathSegmentName(path));
+}
+
+/** Whether a command or any ancestor requires authentication. */
+export function isProtectedCommand(command: CommandTree): boolean {
+  const seen = new Set<CommandTree>();
+  let current: CommandTree | null = command;
+  while (current) {
+    if (seen.has(current)) {
+      throw new Error("A cycle was found in the command ancestry.");
+    }
+    seen.add(current);
+    if (current.protected === true) return true;
+    current = current.parent;
+  }
+  return false;
+}
+
+/** Generate the authentication guard used by the shared command boundary. */
+export function getCommandAuthGuard(context: Context): string {
+  if (!context.commands) {
+    throw new Error(
+      "Commands must be resolved before generating the authentication guard."
+    );
+  }
+  const hasAuth = Boolean((context.config as { auth?: unknown }).auth);
+  const paths = new Set<string>();
+  const visit = (command: CommandTree, inherited = false) => {
+    const protectedCommand = inherited || isProtectedCommand(command);
+    if (protectedCommand) {
+      if (hasAuth && (command.path === "login" || command.path === "logout")) {
+        throw new Error(
+          `The ${command.path} command cannot be protected, including through ancestry.`
+        );
+      }
+      paths.add(String(command.path));
+    }
+    for (const child of Object.values(command.children ?? {})) {
+      visit(child, protectedCommand);
+    }
+  };
+  for (const command of Object.values(context.commands ?? {})) visit(command);
+  if (!paths.size) return "";
+  if (context.config.commandExecution !== "withCommand") {
+    throw new Error(
+      "The configured preset does not declare the guarded withCommand execution boundary. Use a compatible CLI or script preset for protected commands."
+    );
+  }
+  return `if (${JSON.stringify([...paths])}.includes(path)) {
+    ${hasAuth ? "await requireAuth();" : 'throw new Error("Protected commands require @shell-shock/plugin-auth. Configure the plugin and log in before retrying.");'}
+  }`;
 }

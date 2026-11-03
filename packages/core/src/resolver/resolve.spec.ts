@@ -13,7 +13,8 @@ describe("resolve command options", () => {
     try {
       await writeFile(
         file,
-        `export const options = {
+        `export const metadata = { protected: true };
+        export const options = {
           includeSelf: {
             type: "boolean",
             title: "Include MCP Command",
@@ -44,6 +45,7 @@ describe("resolve command options", () => {
 
       const result = await resolve({ context, command, parent });
 
+      expect(result.protected).toBe(true);
       expect(result.options.includeSelf).toMatchObject({
         name: "includeSelf",
         type: "boolean",
@@ -114,5 +116,87 @@ describe("resolve command options", () => {
     } finally {
       await rm(cwd, { recursive: true, force: true });
     }
+  });
+});
+
+describe("resolve command protection metadata", () => {
+  async function resolveSource(
+    source: string,
+    config: Partial<CommandConfig> = {}
+  ) {
+    const cwd = await mkdtemp(join(tmpdir(), "shell-shock-protection-"));
+    const file = join(cwd, "command.ts");
+    try {
+      await writeFile(file, source);
+      const command = {
+        id: "private",
+        name: "private",
+        path: "private",
+        segments: ["private"],
+        virtual: false,
+        entry: { input: { file } },
+        ...config
+      } as CommandConfig;
+      const context = {
+        config: { cwd, autoAssignEnv: false },
+        fs: { existsSync, read: readFile },
+        debug: () => undefined,
+        inputs: []
+      } as unknown as Context;
+      return await resolve({
+        context,
+        command,
+        parent: { title: "CLI", tags: [] } as unknown as CommandTree
+      });
+    } finally {
+      await rm(cwd, { recursive: true, force: true });
+    }
+  }
+
+  it("preserves explicit public metadata", async () => {
+    const result = await resolveSource(
+      "export const metadata = { protected: false }; export default function command() {}",
+      { protected: true }
+    );
+    expect(result.protected).toBe(false);
+  });
+
+  it("retains input protection when metadata omits it", async () => {
+    const result = await resolveSource("export default function command() {}", {
+      protected: true
+    });
+    expect(result.protected).toBe(true);
+  });
+
+  it("rejects non-boolean protection metadata", async () => {
+    await expect(
+      resolveSource(
+        'export const metadata = { protected: "false" }; export default function command() {}'
+      )
+    ).rejects.toThrow("must be a boolean");
+  });
+
+  it("never drops metadata after module evaluation fails", async () => {
+    await expect(
+      resolveSource(
+        'export const metadata = { protected: true }; throw new Error("Cannot load"); export default function command() {}'
+      )
+    ).rejects.toThrow("metadata");
+  });
+
+  it("never drops destructured metadata after module evaluation fails", async () => {
+    await expect(
+      resolveSource(
+        'export const { metadata } = { metadata: { protected: true } }; throw new Error("Cannot load"); export default function command() {}'
+      )
+    ).rejects.toThrow("metadata");
+  });
+
+  it("never drops re-exported metadata after module evaluation fails", async () => {
+    await expect(
+      resolveSource(
+        'export * from "./missing-module"; export default function command() {}'
+      )
+    ).rejects.toThrow("metadata");
   });
 });

@@ -80,6 +80,9 @@
     },
     {
       "path": "./tools/config"
+    },
+    {
+      "path": "./packages/plugin-auth"
     }
   ],
   "files": []

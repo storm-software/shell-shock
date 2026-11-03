@@ -47,6 +47,7 @@ export const plugin = <
         );
 
         return {
+          commandExecution: "withCommand",
           globalOptions: getGlobalOptions,
           isCaseSensitive: false,
           ...options

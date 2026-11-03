@@ -190,6 +190,9 @@ export type ResolvedConfig = TsdownPluginResolvedConfig &
      * @see https://yarnpkg.com/cli/bin
      * @see https://pnpm.io/package_json#bin
      */
+    /** Preset contract: all generated handlers pass through the guarded shared boundary. */
+    commandExecution?: "withCommand";
+
     bin: PackageJson["bin"];
 
     /**

@@ -1,0 +1,42 @@
+/* -------------------------------------------------------------------
+
+                  🗲 Storm Software - Shell Shock
+
+ This code was released as part of the Shell Shock project. Shell Shock
+ is maintained by Storm Software under the Apache-2.0 license, and is
+ free for commercial and private use. For more information, please visit
+ our licensing page at https://stormsoftware.com/licenses/projects/shell-shock.
+
+ Website:                  https://stormsoftware.com
+ Repository:               https://github.com/storm-software/shell-shock
+ Documentation:            https://docs.stormsoftware.com/projects/shell-shock
+ Contact:                  https://stormsoftware.com/contact
+
+ SPDX-License-Identifier:  Apache-2.0
+
+ ------------------------------------------------------------------- */
+
+import type { Context, ResolvedConfig } from "@shell-shock/core";
+import type { AuthOptions } from "../runtime/types";
+
+/** Public build-time options. Secret-bearing adapters belong in the runtime module. */
+export interface AuthPluginOptions extends Pick<
+  AuthOptions,
+  | "issuer"
+  | "clientId"
+  | "namespace"
+  | "scopes"
+  | "loginUrl"
+  | "tokenEnv"
+  | "audience"
+  | "loginTimeoutMs"
+  | "requestTimeoutSeconds"
+> {
+  /** Application-owned module exporting AuthRuntimeOverrides. Never serialized. */
+  runtime?: { file: string; export?: string };
+}
+
+export type AuthPluginResolvedConfig = ResolvedConfig & {
+  auth: AuthPluginOptions;
+};
+export type AuthPluginContext = Context<AuthPluginResolvedConfig>;

@@ -1,0 +1,178 @@
+{
+  "name": "@shell-shock/plugin-auth",
+  "version": "0.0.1",
+  "private": false,
+  "description": "Protected commands and secure browser authentication for Shell Shock applications.",
+  "keywords": [
+    "shell-shock",
+    "shell-shock-plugin",
+    "authentication",
+    "powerlines",
+    "storm-software"
+  ],
+  "homepage": "https://stormsoftware.com",
+  "bugs": {
+    "url": "https://stormsoftware.com/support",
+    "email": "support@stormsoftware.com"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/storm-software/shell-shock.git",
+    "directory": "packages/plugin-auth"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/storm-software"
+  },
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Storm Software",
+    "email": "contact@stormsoftware.com",
+    "url": "https://stormsoftware.com"
+  },
+  "maintainers": [
+    {
+      "name": "Storm Software",
+      "email": "contact@stormsoftware.com",
+      "url": "https://stormsoftware.com"
+    }
+  ],
+  "contributors": [
+    {
+      "name": "Storm Software",
+      "email": "contact@stormsoftware.com",
+      "url": "https://stormsoftware.com"
+    }
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      },
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "default": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./components/auth": {
+      "require": {
+        "types": "./dist/components/auth.d.cts",
+        "default": "./dist/components/auth.cjs"
+      },
+      "import": {
+        "types": "./dist/components/auth.d.mts",
+        "default": "./dist/components/auth.mjs"
+      },
+      "default": {
+        "types": "./dist/components/auth.d.mts",
+        "default": "./dist/components/auth.mjs"
+      }
+    },
+    "./generator": {
+      "require": {
+        "types": "./dist/generator.d.cts",
+        "default": "./dist/generator.cjs"
+      },
+      "import": {
+        "types": "./dist/generator.d.mts",
+        "default": "./dist/generator.mjs"
+      },
+      "default": {
+        "types": "./dist/generator.d.mts",
+        "default": "./dist/generator.mjs"
+      }
+    },
+    "./package.json": "./package.json",
+    "./runtime": {
+      "require": {
+        "types": "./dist/runtime/index.d.cts",
+        "default": "./dist/runtime/index.cjs"
+      },
+      "import": {
+        "types": "./dist/runtime/index.d.mts",
+        "default": "./dist/runtime/index.mjs"
+      },
+      "default": {
+        "types": "./dist/runtime/index.d.mts",
+        "default": "./dist/runtime/index.mjs"
+      }
+    },
+    "./runtime/types": {
+      "require": {
+        "types": "./dist/runtime/types.d.cts",
+        "default": "./dist/runtime/types.cjs"
+      },
+      "import": {
+        "types": "./dist/runtime/types.d.mts",
+        "default": "./dist/runtime/types.mjs"
+      },
+      "default": {
+        "types": "./dist/runtime/types.d.mts",
+        "default": "./dist/runtime/types.mjs"
+      }
+    },
+    "./types": {
+      "require": {
+        "types": "./dist/types/index.d.cts",
+        "default": "./dist/types/index.cjs"
+      },
+      "import": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/types/index.mjs"
+      },
+      "default": {
+        "types": "./dist/types/index.d.mts",
+        "default": "./dist/types/index.mjs"
+      }
+    },
+    "./types/plugin": {
+      "require": {
+        "types": "./dist/types/plugin.d.cts",
+        "default": "./dist/types/plugin.cjs"
+      },
+      "import": {
+        "types": "./dist/types/plugin.d.mts",
+        "default": "./dist/types/plugin.mjs"
+      },
+      "default": {
+        "types": "./dist/types/plugin.d.mts",
+        "default": "./dist/types/plugin.mjs"
+      }
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "typings": "dist/index.d.mts",
+  "files": ["dist"],
+  "dependencies": {
+    "@alloy-js/core": "catalog:",
+    "@alloy-js/typescript": "catalog:",
+    "@power-plant/alloy-js": "catalog:",
+    "@powerlines/plugin-alloy": "catalog:",
+    "@powerlines/plugin-plugin": "catalog:",
+    "@shell-shock/core": "workspace:*",
+    "@stryke/path": "catalog:",
+    "powerlines": "catalog:",
+    "openid-client": "^6.8.4",
+    "@napi-rs/keyring": "^2.1.2",
+    "proper-lockfile": "^4.1.2",
+    "open": "^10.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/proper-lockfile": "^4.1.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}

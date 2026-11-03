@@ -273,6 +273,12 @@ export type CommandArgumentConfig = AsCommandParameterConfig<CommandArgument>;
 
 export interface CommandMetadata {
   /**
+   * Require an authenticated environment before executing this command.
+   * Protected ancestors also protect their descendants. Omission means public.
+   */
+  protected?: boolean;
+
+  /**
    * The display name of the command.
    *
    * @remarks

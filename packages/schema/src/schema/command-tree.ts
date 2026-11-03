@@ -107,6 +107,7 @@ export const commandTreeBaseSchema = z.object({
   icon: z.string().optional(),
   docs: z.string().optional(),
   virtual: z.boolean(),
+  protected: z.boolean().optional(),
   entry: resolvedEntryFileReferenceSchema,
   options: z.record(z.string(), commandOptionSchema),
   args: z.array(commandArgumentSchema)
